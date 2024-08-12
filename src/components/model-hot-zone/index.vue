@@ -39,7 +39,7 @@ watch(
         img_width.value = new_content?.hot.img_width || 1;
         img_height.value = new_content?.hot.img_height || 1;
         style_container.value = common_styles_computer(new_style.common_style);
-        nextTick(() => {
+        setTimeout(() => {
             if (containerRef.value && hotRef.value) {
                 // 原图片的宽和高和实际展示的图片宽和高的比例
                 w_scale1.value = containerRef.value?.clientWidth / img_width.value;
@@ -48,8 +48,9 @@ watch(
                 // 坐标缩小比例  containerRef的宽高除以hotRef的宽高
                 w_scale2.value = hotRef.value?.clientWidth / containerRef.value?.clientWidth;
                 h_scale2.value = hotRef.value?.clientHeight / containerRef.value?.clientHeight;
+                console.log(containerRef.value?.clientHeight);
             }
-        });
+        }, 50);
     },
     { immediate: true, deep: true }
 );

@@ -16,9 +16,9 @@
                                     <el-image :src="hot_list.img" class="w img" @selectstart.prevent @contextmenu.prevent @dragstart.prevent></el-image>
                                 </div>
                                 <div ref="areaRef" class="area" :style="init_drag_style"></div>
-                                <div v-for="(item, index) in hot_list.data" :key="index" class="area-box" :style="rect_style(item.drag_start, item.drag_end)" @mousedown.prevent="start_drag_area_box(index, $event)" @dblclick="dbl_drag_event(item, index)">
+                                <div v-for="(item, index) in hot_list.data" :key="index" class="area-box" :style="rect_style(item.drag_start, item.drag_end)" @mousedown.stop="start_drag_area_box(index, $event)" @dblclick="dbl_drag_event(item, index)">
                                     <div class="del-btn" @click.stop="del_area_event(index)"><icon name="close"></icon></div>
-                                    <div class="drag-btn" :data-index="index" @mousedown.prevent="start_drag_btn(index, $event)"></div>
+                                    <div class="drag-btn" :data-index="index" @mousedown.stop="start_drag_btn(index, $event)"></div>
                                     <div class="text">
                                         <div class="name">{{ item.name }}</div>
                                         <div class="status" :class="!is_obj_empty(item.link) ? 'cr-primary' : 'cr-error'">{{ !is_obj_empty(item.link) ? '已设置' : '未设置' }}</div>
@@ -160,7 +160,7 @@ const start_drag_area_box = (index: number, event: MouseEvent) => {
 
     // 当子元素拖拽方法触发后父元素方法不触发
     document.onmousemove = (areaBoxEvent) => {
-        areaBoxEvent.stopPropagation();
+        // areaBoxEvent.stopPropagation();
         if (drag_box_bool.value) {
             if (!imgBoxRef.value) return;
             const new_coordinate = {
@@ -186,7 +186,7 @@ const start_drag_area_box = (index: number, event: MouseEvent) => {
         }
     };
     document.onmouseup = (areaBoxEvent) => {
-        areaBoxEvent.stopPropagation();
+        // areaBoxEvent.stopPropagation();
         drag_box_bool.value = false;
     };
 };
@@ -198,7 +198,7 @@ const start_drag_btn = (index: number, event: MouseEvent) => {
     let clone_drag_start = hot_list.value.data[hot_list_index.value].drag_start;
     let clone_drag_end = hot_list.value.data[hot_list_index.value].drag_end;
     document.onmousemove = (dragBtnEvent) => {
-        dragBtnEvent.stopPropagation();
+        // dragBtnEvent.stopPropagation();
         //用鼠标的位置减去鼠标相对元素的位置，得到元素的位置
         if (drag_box_scale_bool.value) {
             if (!imgBoxRef.value) return;
@@ -213,7 +213,7 @@ const start_drag_btn = (index: number, event: MouseEvent) => {
         }
     };
     document.onmouseup = (dragBtnEvent2) => {
-        dragBtnEvent2.stopPropagation();
+        // dragBtnEvent2.stopPropagation();
         drag_box_scale_bool.value = false;
     };
 };
