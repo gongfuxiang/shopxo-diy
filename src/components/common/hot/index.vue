@@ -85,6 +85,7 @@ const app = getCurrentInstance();
 const props = defineProps({});
 const modelValue = defineModel({ type: Object as PropType<hotData>, default: {} });
 const dialog_visible = defineModel('visibleDialog', { type: Boolean, default: false });
+
 const hot_list = ref<hotData>({
     img: '',
     img_height: 1,
@@ -254,7 +255,6 @@ const open_hot_event = () => {
     if (modelValue.value.img.length > 0) {
         dialog_visible.value = true;
         hot_list.value = cloneDeep(modelValue.value);
-        console.log(1);
     } else {
         ElMessage({
             type: 'warning',
