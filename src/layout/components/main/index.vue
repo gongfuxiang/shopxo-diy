@@ -429,6 +429,7 @@ const set_show_tabs = (index: number) => {
         if (for_index == index) {
             emits('rightUpdate', item, diy_data.value, page_data.value, footer_nav.value);
             item.show_tabs = true;
+            scroll();
         }
     });
 };
