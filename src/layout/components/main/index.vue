@@ -33,8 +33,8 @@
                     <div class="model-wall" :style="content_style">
                         <div :style="'padding-bottom:' + footer_nav_counter_store.padding_footer + 'px;'">
                             <VueDraggable v-model="diy_data" :animation="500" :touch-start-threshold="2" group="people" class="drag-area re" ghost-class="ghost" :on-sort="on_sort" :on-start="on_start" :on-end="on_end">
-                                <div v-for="(item, index) in diy_data" ref="scrollTop" :key="item.id" :class="model_class(item)" :style="model_style(item)" @click="on_choose(index, item.show_tabs)">
-                                    <div v-if="item.show_tabs" class="plug-in-right" :style="{ top: scroll_top + 'px' }" chosenClass="close">
+                                <div v-for="(item, index) in diy_data" :key="item.id" :class="model_class(item)" :style="model_style(item)" @click="on_choose(index, item.show_tabs)">
+                                    <div v-if="item.show_tabs" class="plug-in-right" chosenClass="close">
                                         <el-icon :class="`iconfont ${item.is_enable ? 'icon-eye' : 'icon-eye-close'}`" @click.stop="set_enable(index)" />
                                         <el-icon class="iconfont icon-del" @click.stop="del(index)" />
                                         <el-icon class="iconfont icon-copy" @click.stop="copy(index)" />
@@ -419,8 +419,6 @@ const get_diy_index_data = (index: number) => {
     return (<arrayIndex>diy_data.value)[index.toString()];
 };
 // 设置复制 删除 移动几个按钮的显示位置，
-const scroll_top = ref(0);
-const scrollTop = ref(null);
 // 设置当前选中的是那个
 const set_show_tabs = (index: number) => {
     page_data.value.show_tabs = false;
