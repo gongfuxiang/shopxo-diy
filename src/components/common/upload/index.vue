@@ -1,6 +1,6 @@
 <!-- 上传组件 -->
 <template>
-    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" append-to-body>
+    <el-dialog v-model="dialog_visible" class="radius-lg" width="1168" append-to-body>
         <template #header>
             <div class="title re">
                 <el-radio-group v-model="upload_type" is-button @change="upload_type_change">
@@ -13,11 +13,14 @@
         </template>
         <div class="upload-content pa-20 flex-row">
             <div class="left-content">
-                <el-input v-model="search_filter" class="mb-10" placeholder="请输入分类名称">
-                    <template #suffix>
-                        <icon name="search" size="18"></icon>
-                    </template>
-                </el-input>
+                <div class="flex-row align-c gap-10 mb-10">
+                    <el-input v-model="search_filter" placeholder="请输入分类名称">
+                        <template #suffix>
+                            <icon name="search" size="18"></icon>
+                        </template>
+                    </el-input>
+                    <icon name="add" size="18" @click="add_type"></icon>
+                </div>
                 <el-scrollbar height="490px">
                     <el-tree ref="treeRef" class="filter-tree" :data="type_data" node-key="id" highlight-current :expand-on-click-node="false" :props="defaultProps" empty-text="无数据" default-expand-all :filter-node-method="filter_node" @node-click="tree_node_event" />
                 </el-scrollbar>
@@ -110,7 +113,7 @@
         </div>
         <template v-if="isCheckConfirm" #footer>
             <span class="dialog-footer">
-                <el-button class="plr-28 ptb-10" @click="dialogVisible = false">取消</el-button>
+                <el-button class="plr-28 ptb-10" @click="dialog_visible = false">取消</el-button>
                 <el-button class="plr-28 ptb-10" type="primary" @click="confirm_event">确定</el-button>
             </span>
         </template>
@@ -146,7 +149,7 @@
                         <div class="upload-btn-bottom-text">替换</div>
                     </template>
                 </div>
-                <div v-if="limit !== modelValue.length" :class="'upload-btn upload-btn-style-' + styles" :style="'height:' + upload_size + ';width:' + upload_size + ';'" @click="dialogVisible = true">
+                <div v-if="limit !== modelValue.length" :class="'upload-btn upload-btn-style-' + styles" :style="'height:' + upload_size + ';width:' + upload_size + ';'" @click="dialog_visible = true">
                     <icon name="add" :size="Number(size) / 2 + ''" color="c"></icon>
                 </div>
             </div>
@@ -156,6 +159,7 @@
     <!-- 图片预览 -->
     <el-image-viewer v-if="preview_switch_img && upload_type == 'img'" :z-index="999999" :url-list="[preview_url]" :hide-on-click-modal="true" @close="preview_close"></el-image-viewer>
     <upload-model v-model="upload_model_visible" :type="upload_type" :exts="props.type == 'img' ? ext_img_name_list : props.type == 'video' ? ext_video_name_list : ext_file_name_list" @close="close_upload_model"></upload-model>
+    <!-- <el-dialog v-model="dialog_visible_" class="radius-lg" width="1168" append-to-body> </el-dialog> -->
 </template>
 <script lang="ts" setup>
 const app = getCurrentInstance();
@@ -212,8 +216,8 @@ const modelValue = defineModel({ type: Array as PropType<uploadList[]>, default:
 
 const view_list_value = ref<uploadList[]>([]);
 // 弹窗显示
-// const dialogVisible = ref(props.visibleDialog);
-const dialogVisible = defineModel('visibleDialog', { type: Boolean, default: false });
+// const dialog_visible = ref(props.visibleDialog);
+const dialog_visible = defineModel('visibleDialog', { type: Boolean, default: false });
 
 // 文件后缀分类
 const ext_img_name_list = ref(['.png', '.jpg', '.jpeg', '.bmp', '.webp', '.gif']);
@@ -321,7 +325,6 @@ const type_data: Tree[] = [
             {
                 id: 2,
                 label: '金刚区 1-1',
-                children: [{ id: 3, label: '金刚区 1-1-1' }],
             },
         ],
     },
@@ -456,14 +459,16 @@ const search_data = ref({
 const get_list = () => {
     console.log('查询接口', search_data);
 };
+// 添加一级分类
+const add_type = () => {};
 // 左侧分类树结构节点点击事件
 const tree_node_event = (data: any) => {
-    search_filter.value = data.id;
+    // search_filter.value = data.id;
     get_list();
 };
 // 确认
 const confirm_event = () => {
-    dialogVisible.value = false;
+    dialog_visible.value = false;
     if (props.limit == 1) {
         modelValue.value = view_list_value.value;
     } else {
@@ -493,7 +498,7 @@ const is_replace = ref(false);
 const replace_index = ref(-1);
 // 上传回显替换文件事件
 const replace_file_event = (index: number) => {
-    dialogVisible.value = true;
+    dialog_visible.value = true;
     is_replace.value = true;
     replace_index.value = index;
 };
@@ -512,7 +517,7 @@ const handle_error = (index: number) => {
 // 关闭上传弹窗回调
 const close_upload_model = (data: any) => {
     if (props.isCheckConfirm) {
-        dialogVisible.value = false;
+        dialog_visible.value = false;
         if (data.web_image.length > 0) {
             const new_web_file = {
                 url: data.web_image,
