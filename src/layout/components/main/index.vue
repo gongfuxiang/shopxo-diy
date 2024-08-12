@@ -28,7 +28,7 @@
                 <!-- 页面设置 -->
                 <page-settings :show-page="page_data.show_tabs" :page-data="page_data" @page_settings="page_settings"></page-settings>
                 <!-- 拖拽区 -->
-                <div class="model-drag">
+                <div class="model-drag" ref="scrollTop">
                     <div class="seat" style="background: #fff"></div>
                     <div class="model-wall" :style="content_style">
                         <div :style="'padding-bottom:' + footer_nav_counter_store.padding_footer + 'px;'">
@@ -431,6 +431,23 @@ const set_show_tabs = (index: number) => {
         if (for_index == index) {
             emits('rightUpdate', item, diy_data.value, page_data.value, footer_nav.value);
             item.show_tabs = true;
+        }
+    });
+};
+const scrollTop = ref<HTMLElement | null>(null);
+const activeCard = ref<HTMLElement | null>(null);
+// 滚动到指定位置
+const scroll = () => {
+    nextTick(() => {
+        // 获取当前选中的内容
+        activeCard.value = document.querySelector(".plug-in-table.plug-in-border");
+        if (activeCard.value) {
+            // 获取选中内容的位置
+            const scrollY = activeCard.value.offsetTop;
+            if (scrollTop.value) {
+                // 选中的滚动到指定位置
+                scrollTop.value.scrollTo({ top: scrollY - 200, behavior: 'smooth' });
+            }
         }
     });
 };

@@ -14,7 +14,7 @@
         </el-form>
         <Dialog ref="dialog" @accomplish="accomplish">
             <div class="flex-row h w">
-                <DragIndex :key="dragkey" v-model:height="center_height" :list="custom_list" @right-update="right_update"></DragIndex>
+                <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" :list="custom_list" @right-update="right_update"></DragIndex>
                 <div class="settings">
                     <template v-if="diy_data.key === 'img'">
                         <model-image-style :key="key" v-model:height="center_height" :value="diy_data"></model-image-style>
@@ -42,7 +42,7 @@ const props = defineProps({
 });
 
 const dialog = ref<expose | null>(null);
-
+const draglist = ref<diy_data | null>(null);
 const form = reactive(props.value);
 // 弹出框里的内容
 let custom_list = reactive([]);
@@ -82,7 +82,11 @@ const custom_edit = () => {
 };
 
 const accomplish = () => {
-    form.custom_list = custom_list;
+    if (!draglist.value) {
+        return;
+    } else {
+        form.custom_list = draglist.value.diy_data;
+    }
     form.height = center_height.value;
 };
 </script>

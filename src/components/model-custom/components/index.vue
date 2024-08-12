@@ -5,9 +5,9 @@
             <el-collapse v-model="activeNames">
                 <el-collapse-item v-for="(com, i) in components" :key="i" :title="com.title" :name="com.key">
                     <div class="component flex-row flex-wrap">
-                        <div v-for="item in com.item" :key="item.key" class="draggable item" draggable="true" @dragstart="dragStart(item, $event)" @dragend="dragEnd">
-                            <div class="siderbar-item flex-col jc-c align-c gap-4">
-                                <img class="img radius-xs" :src="`/src/assets/images/custom/${item.key}.png`" />
+                        <div v-for="item in com.item" :key="item.key" class="item">
+                            <div class="siderbar-item flex-col jc-c align-c gap-4 draggable" draggable="true" @dragstart="dragStart(item, $event)" @dragend="dragEnd">
+                                <img class="img radius-xs" :src="url_computer(item.key)" />
                                 <div>{{ item.name }}</div>
                             </div>
                         </div>
@@ -169,6 +169,10 @@ const components = reactive([
         ],
     },
 ]);
+const url_computer = (name: string) => {
+    const new_url = ref(new URL(`../../../assets/images/custom/${name}.png`, import.meta.url).href).value;
+    return new_url;
+};
 //#endregion
 //#region 中间区域的处理逻辑
 const diy_data = toRef(props.list);
@@ -359,6 +363,9 @@ const resizingHandle = (new_location: any, key: string, index: number) => {
     }
 };
 //#endregion
+defineExpose({
+    diy_data,
+});
 </script>
 
 <style lang="scss" scoped>
