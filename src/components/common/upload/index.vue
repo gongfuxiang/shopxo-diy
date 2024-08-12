@@ -159,7 +159,13 @@
     <!-- 图片预览 -->
     <el-image-viewer v-if="preview_switch_img && upload_type == 'img'" :z-index="999999" :url-list="[preview_url]" :hide-on-click-modal="true" @close="preview_close"></el-image-viewer>
     <upload-model v-model="upload_model_visible" :type="upload_type" :exts="props.type == 'img' ? ext_img_name_list : props.type == 'video' ? ext_video_name_list : ext_file_name_list" @close="close_upload_model"></upload-model>
-    <!-- <el-dialog v-model="dialog_visible_" class="radius-lg" width="1168" append-to-body> </el-dialog> -->
+    <el-dialog v-model="dialog_visible_type_oprate" class="radius-lg" width="1168" append-to-body>
+        <template #header>
+            <div class="title center re">
+                <div class="tc size-16 fw">添加分类</div>
+            </div>
+        </template>
+    </el-dialog>
 </template>
 <script lang="ts" setup>
 const app = getCurrentInstance();
@@ -459,6 +465,8 @@ const search_data = ref({
 const get_list = () => {
     console.log('查询接口', search_data);
 };
+// 分类弹窗开关
+const dialog_visible_type_oprate = ref(false);
 // 添加一级分类
 const add_type = () => {};
 // 左侧分类树结构节点点击事件

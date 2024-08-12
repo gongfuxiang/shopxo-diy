@@ -57,6 +57,7 @@ declare module 'vue' {
     FooterNavContent: typeof import('./../components/footer-nav/footer-nav-content.vue')['default']
     FooterNavSetting: typeof import('./../components/footer-nav/footer-nav-setting.vue')['default']
     FooterNavStyles: typeof import('./../components/footer-nav/footer-nav-styles.vue')['default']
+    Form: typeof import('./../components/common/upload/form.vue')['default']
     GdMap: typeof import('./../components/base/maps/gd-map.vue')['default']
     Hot: typeof import('./../components/common/hot/index.vue')['default']
     Icon: typeof import('./../components/base/icon/index.vue')['default']
