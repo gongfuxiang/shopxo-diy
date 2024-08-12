@@ -1,0 +1,71 @@
+:root {
+    /* 基础 */
+    --html-body-size: 10px;
+    --body-bg-color: #ffffff;
+
+    /* 主色 */
+    --color-main: #2a94ff;
+    --color-main-dark: #1f8ee5;
+    --color-main-light: #edf4ff;
+    --color-main-hover: #1677ff;
+    --color-main-disabled: #af6963;
+
+    --color-primary: #2a94ff;
+    --color-primary-dark: #1f8ee5;
+    --color-primary-light: #e6f7ff;
+
+    --color-warning: #faad14;
+    --color-warning-dark: #d0a50f;
+    --color-warning-light: #fffbe6;
+
+    --color-success: #5eb95e;
+    --color-success-dark: #4c9b4c;
+    --color-success-light: #f6ffed;
+
+    --color-error: #e22c08;
+    --color-error-dark: #c02c08;
+    --color-error-light: #fff1f0;
+
+    /* 温馨提示 */
+    --color-tips-primary-bg: #f6f6f6;
+    --color-tips-warning-bg: #f1fcff;
+    --color-tips-success-bg: #f0f9eb;
+    --color-tips-error-bg: #fef0f0;
+    --color-tips-info-bg: #f6f6f6;
+}
+
+/* 已改2024.07.05 */
+$html-font-size: var(--html-body-size);
+$cr-page: var(--body-bg-color);
+
+$cr-main: var(--color-main);
+$cr-main-dark: var(--color-main-dark);
+$cr-main-light: var(--color-main-light);
+$cr-main-hover: var(--color-main-hover);
+$cr-main-disabled: var(--color-main-disabled);
+
+$cr-primary: var(--color-primary);
+$cr-primary-dark: var(--color-primary-dark);
+$cr-primary-light: var(--color-primary-light);
+// 主色提示类型的背景色
+$cr-primary-tips: var(--color-tips-primary-bg);
+
+$cr-warning: var(--color-warning);
+$cr-warning-dark: var(--color-warning-dark);
+$cr-warning-light: var(--color-warning-light);
+$cr-warning-tips: var(--color-tips-warning-bg);
+
+$cr-success: var(--color-success);
+$cr-success-dark: var(--color-success-dark);
+$cr-success-light: var(--color-success-light);
+$cr-success-tips: var(--color-tips-success-bg);
+
+$cr-error: var(--color-error);
+$cr-error-dark: var(--color-error-dark);
+$cr-error-light: var(--color-error-light);
+$cr-error-tips: var(--color-tips-error-bg);
+
+$cr-info: #666666;
+$cr-info-dark: #cccccc;
+$cr-info-light: #fafafa;
+$cr-info-tips: var(--color-tips-info-bg);

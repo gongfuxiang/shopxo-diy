@@ -1,0 +1,161 @@
+<template>
+    <div :style="style_container">
+        <template v-if="form.notice_style == 'inherit'">
+            <div class="flex-row align-c news-box gap-y-8">
+                <template v-if="form.title_type == 'img'">
+                    <div v-if="!isEmpty(form.img_src)" :style="img_style">
+                        <el-image :src="form.img_src[0]?.url || ''"></el-image>
+                    </div>
+                </template>
+                <template v-else>
+                    <div :style="topic_style" class="pl-6 pr-6 radius-sm">{{ form.title || '公告' }}</div>
+                </template>
+                <el-carousel :key="carouselKey" class="flex-1" indicator-position="none" :interval="interval_time" arrow="never" :direction="direction_type"  :autoplay="true">
+                    <el-carousel-item v-for="(item, index) in notice_list" :key="index" :style="`${ news_style } color: ${ new_style.news_color }`">{{ item.notice_title }}</el-carousel-item>
+                </el-carousel>
+                <div v-if="form.is_right_button == 'show'" class="size-12"><el-icon class="iconfont icon-arrow-right" :color="new_style.button_color || '#999'"></el-icon></div>
+            </div>
+        </template>
+        <template v-else>
+            <div class="news-card flex-col gap-10">
+                <div class="flex-row w jc-sb">
+                    <template v-if="form.title_type == 'img'">
+                        <div v-if="!isEmpty(form.img_src)" :style="img_style">
+                            <el-image :src="form.img_src[0]?.url || ''" ></el-image>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <div :style="topic_style" class="pl-6 pr-6 radius-sm">{{ form.title || '公告' }}</div>
+                    </template>
+                    <div v-if="form.is_right_button == 'show'" class="size-12" :style="`color: ${ new_style.button_color || '#999'}`">更多<el-icon class="iconfont icon-arrow-right" :color="new_style.button_color || '#999'"></el-icon></div>
+                </div>
+                <div v-for="(item, index) in notice_list" :key="index" class="flex" :style="news_style"><span :class="`num one${ index + 1 }`">{{ index + 1 }}</span><div class="break" :style="`color: ${ new_style.news_color }`">{{ item.notice_title }}</div></div>
+            </div>
+        </template>
+    </div>
+</template>
+<script setup lang="ts">
+import { common_styles_computer, get_math, gradient_handle } from '@/utils';
+import { isEmpty, cloneDeep } from 'lodash';
+
+const props = defineProps({
+    value: {
+        type: Object,
+        default: () => {
+            return {};
+        },
+    },
+});
+// 用于页面判断显示
+const state = reactive({
+    form: props.value?.content || {},
+    new_style: props.value?.style || {},
+});
+// 如果需要解构，确保使用toRefs
+const { form, new_style } = toRefs(state);
+
+// 用于样式显示
+const style_container = computed(() => common_styles_computer(new_style.value.common_style));
+// 图片设置
+const img_style = ref('');
+// 标题的设置
+const topic_style = computed(() => {
+    // 标题渐变色处理
+    const color_list = new_style.value.topic_color_list.map((item: { color: string }) => item.color) || [];
+    const gradient = gradient_handle(color_list, '90deg');
+    // 标题设置
+    return `color:${ new_style.value.topic_color }; font-size: ${ new_style.value.topic_size }px; font-weight: ${ new_style.value.topic_typeface }; ${ gradient }`;
+});
+// 内容标题设置
+const news_style = computed(() => `font-size: ${ new_style.value.news_size }px; font-weight: ${ new_style.value.news_typeface };`);
+// 指示器的样式
+// 轮播图定时显示
+const interval_time = ref(2000);
+// 轮播图是否滚动
+const direction_type = ref<'vertical' | 'horizontal'>('vertical');
+// 轮播图key值
+const carouselKey = ref('0');
+// 记录当前显示的轮播图的数据
+const interval_list = ref({
+    time: 2000,
+    direction: 'vertical',
+    notice_length: 1
+})
+
+const notice_list = computed(() => {
+    // 深拷贝一下，确保不会出现问题
+    const arry_list = cloneDeep(form.value.notice_list);
+    return arry_list.filter((item: { is_show: boolean; }) => item.is_show);
+})
+
+// 内容参数的集合
+watchEffect(() => {
+    //#region 标题设置
+    if (!isEmpty(form.value.img_src)) {
+        img_style.value = `height: ${ new_style.value.topic_height }px; width: ${ new_style.value.topic_width }px`;
+    }
+    //#endregion
+
+    //#region 轮播图设置
+    const time = (new_style.value?.interval_time || 2) * 1000;
+    const direction = form.value.direction;
+    // 判断长度是否相等
+    const notice_length = notice_list.value.length;
+    // 判断跟历史的是否相等，不相等更新组件时间
+    if (interval_list.value.time != time || interval_list.value.direction != direction || notice_length != interval_list.value.notice_length) {
+        // 滚动时间
+        interval_time.value = time;
+        // 滚动方向
+        direction_type.value = direction;
+        // 记录历史保存的时间
+        interval_list.value = {
+            time: time,
+            direction: direction,
+            notice_length: notice_length
+        };
+        // 更新轮播图的key，确保更换时能重新更新轮播图
+        carouselKey.value = get_math();
+    }
+    //#endregion
+});
+</script>
+<style lang="scss" scoped>
+.news-box {
+    height: 4.4rem;
+    padding: 0 1rem;
+    background: #fff;
+}
+.news-card {
+    padding: 1.5rem;
+    background: #fff;
+}
+.num {
+    padding-right: 0.7rem;
+    color: #999;
+}
+.one1 {
+    color: #EA3323;
+}
+.one2 {
+    color: #FF7303;
+}
+.one3 {
+    color: #FFC300;
+}
+.break {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
+:deep(.el-carousel) {
+    .el-carousel__container {
+        height: 4.4rem;
+        .el-carousel__item {
+            line-height: 4.4rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+}
+</style>

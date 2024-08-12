@@ -1,0 +1,48 @@
+<template>
+    <div class="w">
+        <el-form :model="form" label-width="74">
+            <card-container class="mb-8">
+                <div class="mb-12">选项卡样式</div>
+                <el-form-item label="选中装饰">
+                    <mult-color-picker :value="form.tabs_checked" :type="form.tabs_direction" @update:value="tabs_checked_event"></mult-color-picker>
+                </el-form-item>
+                <el-form-item label="选中文字">
+                    <text-size-type v-model:typeface="form.tabs_weight_checked" v-model:size="form.tabs_size_checked"></text-size-type>
+                </el-form-item>
+                <el-form-item label="文字色值">
+                    <color-picker v-model="form.tabs_color_checked" default-color="#000000"></color-picker>
+                </el-form-item>
+                <el-form-item label="未选文字">
+                    <text-size-type v-model:typeface="form.tabs_weight" v-model:size="form.tabs_size"></text-size-type>
+                </el-form-item>
+                <el-form-item label="文字色值">
+                    <color-picker v-model="form.tabs_color" default-color="#000000"></color-picker>
+                </el-form-item>
+            </card-container>
+        </el-form>
+        <common-styles :value="form.common_style" @update:value="common_styles_update" />
+    </div>
+</template>
+<script setup lang="ts">
+const props = defineProps({
+    value: {
+        type: Object,
+        default: () => {},
+    }
+});
+
+const state = reactive({
+    form: props.value
+});
+// 如果需要解构，确保使用toRefs
+const { form } = toRefs(state);
+const common_styles_update = (val: Object) => {
+    form.value.common_style = val;
+};
+const tabs_checked_event = (arry: string[], type: number) => {
+    form.value.tabs_checked = arry;
+    form.value.tabs_direction = type.toString();
+};
+</script>
+<style lang="scss" scoped>
+</style>

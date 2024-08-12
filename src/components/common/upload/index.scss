@@ -1,0 +1,157 @@
+.upload-content {
+    height: 57.4rem;
+    gap: 4.5rem;
+    .left-content {
+        width: 22.5rem;
+        .el-tree {
+            --el-tree-node-content-height: 40px;
+        }
+    }
+    .right-content {
+        position: relative;
+        .el-button--primary.is-plain {
+            --el-button-bg-color: transparent;
+        }
+        .right-classify {
+            width: 21.9rem;
+        }
+        .right-search {
+            width: 22.5rem;
+        }
+        .img-content {
+            width: calc(100% + 2rem);
+            margin: 0 -1rem;
+            .item {
+                width: calc(100% / 7 - 1.286rem);
+                .badge {
+                    :deep(.el-badge__content.is-fixed) {
+                        min-width: 1.8rem;
+                        height: 1.8rem;
+                        line-height: 1.8rem;
+                        text-align: center;
+                        padding: 0;
+                    }
+                    .item-content {
+                        width: 100%;
+                        height: 10rem;
+                        .check-icon {
+                            background: rgba(0, 0, 0, 0.5);
+                            border-radius: 0.4rem;
+                            opacity: 0;
+                            transition: all 0.3s linear;
+                            &.active {
+                                opacity: 1;
+                            }
+                        }
+                        .oprate {
+                            position: absolute;
+                            bottom: 0rem;
+                            left: 0;
+                            right: 0;
+                            z-index: 1;
+                            height: 2.4rem;
+                            overflow: hidden;
+                            .oprate-content {
+                                opacity: 0;
+                                transition: all 0.5s linear;
+                                position: absolute;
+                                bottom: -2.4rem;
+                                left: 0;
+                                right: 0;
+                                z-index: 1;
+                                background-color: #ccc;
+                                border-bottom-left-radius: 0.4rem;
+                                border-bottom-right-radius: 0.4rem;
+                                height: 2.4rem;
+                            }
+                            .oprate-icon {
+                                position: relative;
+                                &::before {
+                                    content: '';
+                                    width: 0.1rem;
+                                    height: 40%;
+                                    position: absolute;
+                                    top: 50%;
+                                    left: 0;
+                                    transform: translateY(-50%);
+                                    background-color: #bbb;
+                                }
+                                &::after {
+                                    content: '';
+                                    width: 0.1rem;
+                                    height: 40%;
+                                    position: absolute;
+                                    top: 50%;
+                                    right: 0;
+                                    transform: translateY(-50%);
+                                    background-color: #bbb;
+                                }
+                            }
+                        }
+                    }
+                }
+                .name {
+                    font-size: 1.2rem;
+                    height: 2.8rem;
+                    line-height: 2.8rem;
+                }
+                &:hover {
+                    .oprate-content {
+                        opacity: 1 !important;
+                        bottom: 0 !important;
+                    }
+                }
+            }
+        }
+    }
+}
+.upload-btn {
+    cursor: pointer;
+    &-style-0 {
+        position: relative;
+        background: #fafcff;
+        border-radius: 0.2rem;
+        border: 0.1rem dashed #d7eeff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    &-style-1 {
+        position: relative;
+        background: transparent;
+        border: 1px solid #dddddd;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .upload-btn-bottom-text {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1.8rem;
+            font-size: 1.2rem;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.59);
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+    &-style-2 {
+        position: relative;
+        background: transparent;
+        border-radius: 0.2rem;
+        border: 1px solid #dddddd;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .upload-del-icon {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        z-index: 1;
+        line-height: normal;
+    }
+}

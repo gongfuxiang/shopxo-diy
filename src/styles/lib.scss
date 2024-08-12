@@ -1,0 +1,315 @@
+/* flex布局 gap 间距 */
+$gap: 40;
+@for $i from 1 through $gap {
+    .gap-#{$i} {
+        gap: #{$i}px;
+    }
+    .gap-x-#{$i} {
+        row-gap: #{$i}px;
+    }
+    .gap-y-#{$i} {
+        column-gap: #{$i}px;
+    }
+}
+/* flex平均布局 间距 */
+$space: 12;
+@for $i from 0 through $space {
+    @if $i == 0 {
+        .row {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        }
+        .g {
+            margin-top: -12px;
+            margin-right: -6px;
+            margin-left: -6px;
+            box-sizing: border-box;
+        }
+        .col {
+            flex-shrink: 0;
+            width: 100%;
+            flex: 1;
+        }
+    } @else {
+        .g-#{$i} {
+            margin-top: -#{$i * 6}px;
+            margin-right: -#{$i * 3}px;
+            margin-left: -#{$i * 3}px;
+            @for $j from 0 through $space {
+                @if $j == 0 {
+                    .col {
+                        margin-top: #{$i * 6}px;
+                        padding-right: #{$i * 3}px;
+                        padding-left: #{$i * 3}px;
+                        box-sizing: border-box;
+                    }
+                } @else {
+                    .col-#{$j} {
+                        margin-top: #{$i * 6}px;
+                        padding-right: #{$i * 3}px;
+                        padding-left: #{$i * 3}px;
+                        box-sizing: border-box;
+                    }
+                }
+            }
+        }
+        .gx-#{$i} {
+            margin-right: -#{$i * 3}px;
+            margin-left: -#{$i * 3}px;
+            @for $j from 0 through $space {
+                @if $j == 0 {
+                    .col {
+                        padding-right: #{$i * 3}px;
+                        padding-left: #{$i * 3}px;
+                        box-sizing: border-box;
+                    }
+                } @else {
+                    .col-#{$j} {
+                        padding-right: #{$i * 3}px;
+                        padding-left: #{$i * 3}px;
+                        box-sizing: border-box;
+                    }
+                }
+            }
+        }
+
+        .gy-#{$i} {
+            margin-top: -#{$i * 6}px;
+            @for $j from 0 through $space {
+                @if $j == 0 {
+                    .col {
+                        margin-top: #{$i * 6}px;
+                    }
+                } @else {
+                    .col-#{$j} {
+                        margin-top: #{$i * 6}px;
+                    }
+                }
+            }
+        }
+
+        .col-#{$i} {
+            flex-shrink: 0;
+            @if $i ==1 {
+                flex: 1;
+                width: 100%;
+            } @else {
+                flex: 0 0 auto;
+                @if $i == 2 {
+                    width: 50%;
+                } @else if $i == 3 {
+                    width: 33.333%;
+                } @else if $i == 4 {
+                    width: 25%;
+                } @else if $i == 5 {
+                    width: 20%;
+                } @else if $i == 6 {
+                    width: 16.666%;
+                } @else if $i == 7 {
+                    width: 14.285%;
+                } @else if $i == 8 {
+                    width: 12.5%;
+                } @else if $i == 9 {
+                    width: 11.111%;
+                } @else if $i == 10 {
+                    width: 10%;
+                } @else if $i == 11 {
+                    width: 9.09%;
+                } @else {
+                    width: 8.333%;
+                }
+            }
+        }
+    }
+}
+
+/* 字体大小 */
+$size: 50;
+@for $i from 1 through $size {
+    .size-#{$i} {
+        font-size: #{$i}px;
+    }
+    .lh-#{$i} {
+        line-height: #{$i}px;
+    }
+}
+
+/* 常用颜色1 */
+@each $color in c, d, e, f, 0, 3, 5, 6, 8, 9 {
+    .cr-#{$color} {
+        color: ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+    }
+    .bg-#{$color} {
+        background-color: ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+    }
+    .br-#{$color} {
+        border: 1px solid ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+    }
+    .br-t-#{$color} {
+        border-top: 1px solid ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+    }
+    .br-l-#{$color} {
+        border-left: 1px solid ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+    }
+    .br-r-#{$color} {
+        border-right: 1px solid ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+    }
+    .br-b-#{$color} {
+        border-bottom: 1px solid ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+    }
+    .br-#{$color}-dashed {
+        border: 1px dashed ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+    }
+    .br-t-#{$color}-dashed {
+        border-top: 1px dashed ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+    }
+    .br-l-#{$color}-dashed {
+        border-left: 1px dashed ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+    }
+    .br-r-#{$color}-dashed {
+        border-right: 1px dashed ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+    }
+    .br-b-#{$color}-dashed {
+        border-bottom: 1px dashed ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+    }
+}
+
+/* 常用颜色2 */
+@each $color in f5, f8, f7, e9, 80 {
+    .cr-#{$color} {
+        color: ##{$color}#{$color}#{$color};
+    }
+    .bg-#{$color} {
+        background-color: ##{$color}#{$color}#{$color};
+    }
+    .br-#{$color} {
+        border: 1px solid ##{$color}#{$color}#{$color};
+    }
+    .br-t-#{$color} {
+        border-top: 1px solid ##{$color}#{$color}#{$color};
+    }
+    .br-l-#{$color} {
+        border-left: 1px solid ##{$color}#{$color}#{$color};
+    }
+    .br-r-#{$color} {
+        border-right: 1px solid ##{$color}#{$color}#{$color};
+    }
+    .br-b-#{$color} {
+        border-bottom: 1px solid ##{$color}#{$color}#{$color};
+    }
+
+    .br-#{$color}-dashed {
+        border: 1px dashed ##{$color}#{$color}#{$color};
+    }
+    .br-t-#{$color}-dashed {
+        border-top: 1px dashed ##{$color}#{$color}#{$color};
+    }
+    .br-l-#{$color}-dashed {
+        border-left: 1px dashed ##{$color}#{$color}#{$color};
+    }
+    .br-r-#{$color}-dashed {
+        border-right: 1px dashed ##{$color}#{$color}#{$color};
+    }
+    .br-b-#{$color}-dashed {
+        border-bottom: 1px dashed ##{$color}#{$color}#{$color};
+    }
+}
+
+/* 定位 */
+$position: 20;
+@for $i from 0 through $position {
+    .top-#{$i} {
+        top: #{$i}px;
+    }
+    .bottom-#{$i} {
+        bottom: #{$i}px;
+    }
+    .left-#{$i} {
+        left: #{$i}px;
+    }
+    .right-#{$i} {
+        right: #{$i}px;
+    }
+    .top-de-#{$i} {
+        top: -#{$i}px;
+    }
+    .bottom-de-#{$i} {
+        bottom: -#{$i}px;
+    }
+    .left-de-#{$i} {
+        left: -#{$i}px;
+    }
+    .right-de-#{$i} {
+        right: -#{$i}px;
+    }
+}
+
+/* margin间距 */
+$margin: 40;
+@for $i from 0 through $margin {
+    .ma-#{$i} {
+        margin: #{$i}px;
+    }
+    .mtb-#{$i} {
+        margin-top: #{$i}px;
+        margin-bottom: #{$i}px;
+    }
+    .mlr-#{$i} {
+        margin-left: #{$i}px;
+        margin-right: #{$i}px;
+    }
+    .mt-#{$i} {
+        margin-top: #{$i}px;
+    }
+    .mb-#{$i} {
+        margin-bottom: #{$i}px;
+    }
+    .ml-#{$i} {
+        margin-left: #{$i}px;
+    }
+    .mr-#{$i} {
+        margin-right: #{$i}px;
+    }
+}
+
+/* padding间距 */
+$padding: 40;
+@for $i from 0 through $padding {
+    .pa-#{$i} {
+        padding: #{$i}px;
+    }
+    .ptb-#{$i} {
+        padding-top: #{$i}px;
+        padding-bottom: #{$i}px;
+    }
+    .plr-#{$i} {
+        padding-left: #{$i}px;
+        padding-right: #{$i}px;
+    }
+    .pt-#{$i} {
+        padding-top: #{$i}px;
+    }
+    .pb-#{$i} {
+        padding-bottom: #{$i}px;
+    }
+    .pl-#{$i} {
+        padding-left: #{$i}px;
+    }
+    .pr-#{$i} {
+        padding-right: #{$i}px;
+    }
+}
+
+/* 文本规定行数超出... */
+$line: 5;
+@for $i from 1 through $line {
+    .text-line-#{$i} {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: #{$i};
+        line-clamp: #{$i}; // 添加标准属性以增加兼容性
+        -webkit-box-orient: vertical;
+    }
+}

@@ -1,0 +1,69 @@
+<template>
+    <div class="styles">
+        <el-form :model="form" label-width="70">
+            <card-container class="mb-8">
+                <div class="mb-12">列表样式</div>
+                <el-form-item label="文章名称">
+                    <el-radio-group v-model="form.name_weight">
+                        <el-radio v-for="item in font_weight" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="字号">
+                    <slider v-model="form.name_size"></slider>
+                </el-form-item>
+                <el-form-item label="名称色值">
+                    <color-picker v-model="form.name_color"></color-picker>
+                </el-form-item>
+                <el-form-item label="日期时间">
+                    <el-radio-group v-model="form.time_weight">
+                        <el-radio v-for="item in font_weight" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="字号">
+                    <slider v-model="form.time_size"></slider>
+                </el-form-item>
+                <el-form-item label="日期颜色">
+                    <color-picker v-model="form.time_color"></color-picker>
+                </el-form-item>
+                <el-form-item label="浏览量">
+                    <el-radio-group v-model="form.page_view_weight">
+                        <el-radio v-for="item in font_weight" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="字号">
+                    <slider v-model="form.page_view_size"></slider>
+                </el-form-item>
+                <el-form-item label="浏览色值">
+                    <color-picker v-model="form.page_view_color"></color-picker>
+                </el-form-item>
+                <el-form-item label="内容圆角">
+                    <radius :value="form"></radius>
+                </el-form-item>
+            </card-container>
+        </el-form>
+        <common-styles :value="form.common_style" @update:value="common_style_update" />
+    </div>
+</template>
+<script setup lang="ts">
+const props = defineProps({
+    value: {
+        type: Object,
+        default: () => ({}),
+    },
+});
+const emit = defineEmits(['update:value']);
+const font_weight = reactive([
+    { name: '加粗', value: '500' },
+    { name: '正常', value: '400' },
+]);
+// 默认值
+const form = ref(props.value);
+const common_style_update = (value: any) => {
+    form.value.common_style = value;
+};
+</script>
+<style lang="scss" scoped>
+.styles {
+    width: 100%;
+}
+</style>
