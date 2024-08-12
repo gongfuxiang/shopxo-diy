@@ -1,0 +1,16 @@
+dist
+node_modules
+public
+types/auto-imports.d.ts
+types/components.d.ts
+.husky
+.vscode
+.idea
+*.sh
+*.md
+
+src/assets
+
+.eslintrc.cjs
+.prettierrc.cjs
+.stylelintrc.cjs
