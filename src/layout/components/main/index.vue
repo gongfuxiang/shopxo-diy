@@ -186,7 +186,6 @@ watch(
 // 父组件调用的方法
 const emits = defineEmits(['rightUpdate']);
 const activeNames = reactive(['1', '2']);
-console.log(import.meta.url);
 const components = reactive([
     {
         title: '基础组件',
@@ -602,11 +601,11 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
             }
 
             .model-drag {
+                overflow-y: auto;
+                max-height: 75.5rem;
                 &::-webkit-scrollbar {
                     display: none;
                 }
-                overflow-y: auto;
-                max-height: 75.5rem;
                 .model-wall {
                     width: 39rem;
                     background: #f5f5f5;

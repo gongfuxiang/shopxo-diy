@@ -15,8 +15,10 @@ const defaultHotZone: DefaultHotZone = {
         img: [],
         hot: {
             // /src/assets/images/components/model-user-info/avatar.png
+            img_height: 1,
+            img_width: 1,
             img: '',
-            hot: [],
+            data: [],
         },
     },
     style: {

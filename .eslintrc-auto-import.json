@@ -4,8 +4,6 @@
     "ComponentPublicInstance": true,
     "ComputedRef": true,
     "EffectScope": true,
-    "ElMessage": true,
-    "ElMessageBox": true,
     "ExtractDefaultPropTypes": true,
     "ExtractPropTypes": true,
     "ExtractPublicPropTypes": true,
@@ -285,6 +283,12 @@
     "watchThrottled": true,
     "watchTriggerable": true,
     "watchWithFilter": true,
+<<<<<<< HEAD
     "whenever": true
+=======
+    "whenever": true,
+    "ElMessageBox": true,
+    "ElMessage": true
+>>>>>>> master
   }
 }
