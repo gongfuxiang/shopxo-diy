@@ -186,7 +186,6 @@ watch(
 // 父组件调用的方法
 const emits = defineEmits(['rightUpdate']);
 const activeNames = reactive(['1', '2']);
-console.log(import.meta.url);
 const components = reactive([
     {
         title: '基础组件',

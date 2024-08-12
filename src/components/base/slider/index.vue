@@ -1,7 +1,7 @@
 <template>
     <div class="slider w">
-        <el-slider v-model="internal_value" :min="min" :max="max" :step="step" />
-        <input-number v-model="internal_value" class="slider-input" :min="min" :max="max"></input-number>
+        <el-slider v-model="modelValue" :min="min" :max="max" :step="step" />
+        <input-number v-model="modelValue" class="slider-input" :min="min" :max="max"></input-number>
     </div>
 </template>
 
@@ -20,7 +20,7 @@ const props = defineProps({
         default: 1,
     },
 });
-const internal_value = defineModel({ type: Number, default: 0 });
+const modelValue = defineModel({ type: Number, default: 0 });
 </script>
 <style lang="scss" scoped>
 .slider {
