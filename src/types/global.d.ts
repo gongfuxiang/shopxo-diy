@@ -102,6 +102,8 @@ declare global {
      */
     type hotData = {
         img: string;
+        img_width: number;
+        img_height: number;
         hot: hotListData[];
     };
     type rectCoords = {

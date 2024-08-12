@@ -13,9 +13,9 @@ const props = defineProps({
     },
 });
 // 默认值
-let form = reactive(props.value);
+let form = ref(props.value);
 const common_styles_update = (val: Object) => {
-    form.common_style = val;
+    form.value.common_style = val;
 };
 </script>
 <style lang="scss" scoped>

@@ -11,8 +11,10 @@
                 <div class="left-content flex-1 pa-20">
                     <el-scrollbar class="img-scrollbar">
                         <div class="img-container">
-                            <div ref="imgBoxRef" @mousedown.prevent="start_drag" @mousemove.prevent="move_drag" @mouseup.prevent="end_drag">
-                                <el-image :src="hot_list.img" class="w img" @selectstart.prevent @contextmenu.prevent @dragstart.prevent></el-image>
+                            <div ref="imgBoxRef" class="oh" @mousedown.prevent="start_drag" @mousemove.prevent="move_drag" @mouseup.prevent="end_drag">
+                                <div ref="imgRef">
+                                    <el-image :src="hot_list.img" class="w img" @selectstart.prevent @contextmenu.prevent @dragstart.prevent></el-image>
+                                </div>
                                 <div ref="areaRef" class="area" :style="init_drag_style"></div>
                                 <div v-for="(item, index) in hot_list.hot" :key="index" class="area-box" :style="rect_style(item.drag_start, item.drag_end)" @mousedown.prevent="start_drag_area_box(index, $event)" @dblclick="dbl_drag_event(item, index)">
                                     <div class="del-btn" @click.stop="del_area_event(index)"><icon name="close"></icon></div>
@@ -85,6 +87,8 @@ const modelValue = defineModel({ type: Object as PropType<hotData>, default: {} 
 const dialog_visible = defineModel('visibleDialog', { type: Boolean, default: false });
 const hot_list = ref<hotData>({
     img: '',
+    img_height: 1,
+    img_width: 1,
     hot: [],
 });
 const hot_list_index = ref(0);
@@ -98,6 +102,7 @@ watch(
 
 //#region 左侧画布-----------------------------------------------start
 const imgBoxRef = ref<HTMLElement | null>(null);
+const imgRef = ref<HTMLElement | null>(null);
 const rect_start = ref<rectCoords>({ x: 0, y: 0, width: 0, height: 0 });
 const rect_end = ref<rectCoords>({ x: 0, y: 0, width: 0, height: 0 });
 const areaRef = ref<HTMLElement | null>(null);
@@ -254,6 +259,7 @@ const hot_confirm_event = () => {
 const open_hot_event = () => {
     if (modelValue.value.img.length > 0) {
         dialog_visible.value = true;
+        hot_list.value = cloneDeep(modelValue.value);
     } else {
         ElMessage({
             type: 'warning',
@@ -268,8 +274,30 @@ const close_event = () => {
 };
 // 确认回调
 const confirm_event = () => {
-    modelValue.value = hot_list.value;
-    close_event();
+    if (hot_list.value.hot.length > 0) {
+        // 筛选数组hot中所有的link是否有空值，如果有则提示出来
+        if (is_obj_empty(hot_list.value.hot)) {
+            ElMessage({
+                type: 'warning',
+                message: '请先设置热区',
+            });
+            return;
+        }
+        const no_link_list = hot_list.value.hot.filter((item) => {
+            return is_obj_empty(item.link);
+        });
+        if (no_link_list.length > 0) {
+            ElMessage.error('请设置热区链接!');
+            return;
+        } else {
+            hot_list.value.img_height = imgRef.value?.clientHeight || 0;
+            hot_list.value.img_width = imgRef.value?.clientWidth || 0;
+            modelValue.value = hot_list.value;
+            close_event();
+        }
+    } else {
+        ElMessage.error('至少选择一个热区!');
+    }
 };
 //#endregion 热区开启关闭确认取消回调 -----------------------------------------------end
 </script>

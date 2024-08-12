@@ -126,7 +126,6 @@ const background_img_url_change = (arry: uploadList[]) => {
 };
 
 const margin_event = (val: number | undefined) => {
-    form.margin = Number(val);
     form.margin_top = Number(val);
     form.margin_bottom = Number(val);
     form.margin_left = Number(val);

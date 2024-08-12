@@ -29,6 +29,7 @@ const update_hot_data = (val: any) => {
     } else {
         form.value.hot.img = '';
     }
+    form.value.hot.hot = [];
 };
 </script>
 <style lang="scss" scoped>
