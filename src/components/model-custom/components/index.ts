@@ -21,3 +21,7 @@ interface diy_content extends diy{
 interface expose {
     dialogVisible: boolean,
 }
+
+interface diy_data {
+    diy_data: diy_content[]
+}
