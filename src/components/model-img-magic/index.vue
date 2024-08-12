@@ -34,7 +34,7 @@ const props = defineProps({
         default: () => {
             return {};
         },
-    }
+    },
 });
 // 用于页面判断显示
 const state = reactive({
@@ -44,9 +44,9 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form, new_style } = toRefs(state);
 const outer_spacing = computed(() => new_style.value.image_spacing + 'px');
-const outer_sx = computed(() => - (new_style.value.image_spacing / 2) + 'px');
+const outer_sx = computed(() => -(new_style.value.image_spacing / 2) + 'px');
 // 图片间距设置
-const spacing = computed(() => (new_style.value.image_spacing / 2) + 'px');
+const spacing = computed(() => new_style.value.image_spacing / 2 + 'px');
 // 图片圆角设置
 const content_img_radius = computed(() => radius_computer(new_style.value));
 //#region 容器大小计算
@@ -55,7 +55,7 @@ const container_size = computed(() => div_width.value + 'px');
 const container = ref<HTMLElement | null>(null);
 onMounted(() => {
     if (container.value) {
-        div_width.value = container.value.offsetWidth;
+        div_width.value = container.value.clientWidth;
     }
 });
 //#endregion
@@ -94,13 +94,13 @@ const getSelectedLeft = (item: CubeItem) => {
 };
 // 根据当前页面大小计算成百分比
 const selected_style = (item: CubeItem) => {
-    return `width: ${ percentage(getSelectedWidth(item)) }; height: ${ percentage(getSelectedHeight(item)) }; top: ${ percentage(getSelectedTop(item)) }; left: ${ percentage(getSelectedLeft(item)) };`;
+    return `width: ${percentage(getSelectedWidth(item))}; height: ${percentage(getSelectedHeight(item))}; top: ${percentage(getSelectedTop(item))}; left: ${percentage(getSelectedLeft(item))};`;
 };
 // 计算成百分比
 const percentage = (num: number) => {
-    const marks = num / div_width.value * 100;
-    return marks.toFixed(4)+ '%';
-}
+    const marks = (num / div_width.value) * 100;
+    return marks.toFixed(4) + '%';
+};
 //#endregion
 // 公共样式
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));
@@ -108,8 +108,8 @@ const style_container = computed(() => common_styles_computer(new_style.value.co
 <style lang="scss" scoped>
 // 图片魔方是一个正方形，根据宽度计算高度
 .img-magic {
-    width: v-bind(container_size);
     height: v-bind(container_size);
+    width: 100%;
     overflow: hidden;
 }
 .cube-selected {

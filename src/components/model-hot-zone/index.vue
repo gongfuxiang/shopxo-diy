@@ -48,7 +48,6 @@ watch(
                 // 坐标缩小比例  containerRef的宽高除以hotRef的宽高
                 w_scale2.value = hotRef.value?.clientWidth / containerRef.value?.clientWidth;
                 h_scale2.value = hotRef.value?.clientHeight / containerRef.value?.clientHeight;
-                console.log(containerRef.value?.clientHeight);
             }
         }, 50);
     },
