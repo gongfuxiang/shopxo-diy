@@ -1,6 +1,6 @@
 <!-- 上传组件 -->
 <template>
-    <el-dialog v-model="dialog_visible" append-to-body fullscreen @close="close_event">
+    <el-dialog v-model="dialog_visible" fullscreen @close="close_event">
         <template #header>
             <div class="title re">
                 <div class="tc size-16 fw">编辑热区</div>
