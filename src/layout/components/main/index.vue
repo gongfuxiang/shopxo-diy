@@ -586,11 +586,11 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
             }
 
             .model-drag {
+                overflow-y: auto;
+                max-height: 75.5rem;
                 &::-webkit-scrollbar {
                     display: none;
                 }
-                overflow-y: auto;
-                max-height: 75.5rem;
                 .model-wall {
                     width: 39rem;
                     background: #f5f5f5;
