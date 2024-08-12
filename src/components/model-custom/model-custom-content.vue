@@ -25,6 +25,9 @@
                     <template v-else-if="diy_data.key == 'auxiliary-line'">
                         <model-lines-style :key="key" v-model:height="center_height" :value="diy_data"></model-lines-style>
                     </template>
+                    <template v-else>
+                        <NoData :imgWidth="20"></NoData>
+                    </template>
                 </div>
             </div>
         </Dialog>

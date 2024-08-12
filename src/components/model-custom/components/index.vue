@@ -19,12 +19,13 @@
             <div class="mb-12">内容设置</div>
             <slider v-model="center_height" :max="10000">组件高度</slider>
         </card-container>
-        <card-container class="h selected mb-8">
+        <card-container class="h selected">
             <div class="mb-12">已选组件</div>
             <div class="assembly">
-                <div class="flex-row flex-wrap gap-10">
+                <div v-if="!isEmpty(diy_data)" class="flex-row flex-wrap gap-10">
                     <div v-for="(item, index) in diy_data" :key="index" class="item flex jc-sb align-c size-14 cr-3" :class="{ 'item-active': item.show_tabs }" @click="on_choose(index, item.show_tabs)">{{ item.name }}<icon name="close" color="3" size="10" class="c-pointer" @click="del(index)"></icon></div>
                 </div>
+                <NoData v-else :imgWidth="10"></NoData>
             </div>
         </card-container>
     </div>
@@ -210,6 +211,8 @@ const del = (index: number) => {
                 new_index = new_index - 1;
             }
             set_show_tabs(new_index);
+        } else {
+            emits('rightUpdate', {});
         }
     });
 };

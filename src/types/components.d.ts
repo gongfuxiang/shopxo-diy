@@ -155,6 +155,7 @@ declare module 'vue' {
     ModelVideoStyles: typeof import('./../components/model-video/model-video-styles.vue')['default']
     MultColorPicker: typeof import('./../components/common/mult-color-picker/index.vue')['default']
     Navbar: typeof import('./../layout/components/navbar/index.vue')['default']
+    NoData: typeof import('./../components/base/noData/index.vue')['default']
     Padding: typeof import('./../components/base/padding/index.vue')['default']
     PageContent: typeof import('./../components/page-settings/page-content.vue')['default']
     PageSettings: typeof import('./../components/page-settings/index.vue')['default']
