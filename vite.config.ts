@@ -88,7 +88,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
             // 指定输出路径（相对于项目根目录)，默认dist
             outDir: 'dist',
             // 指定生成静态资源的存放路径，默认assets
-            assetsDir: 'assets',
+            assetsDir: 'diy',
             // chunk大小警告限制，默认500kbs
             chunkSizeWarningLimit: 1500,
             // 是否禁用css拆分(默认true)，设置false时所有CSS将被提取到一个CSS文件中
@@ -112,11 +112,11 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
             rollupOptions: {
                 output: {
                     // 自定义 chunk 文件的输出路径和文件名格式
-                    chunkFileNames: 'assets/js/chunk/[name]-[hash].js',
+                    chunkFileNames: 'static/admin/default/diy/js/chunk/[name]-[hash].js',
                     // 自定义 entry chunk 的输出路径和文件名格式
-                    entryFileNames: 'assets/js/entry/[name]-[hash].js',
+                    entryFileNames: 'static/admin/default/diy/js/entry/[name]-[hash].js',
                     //非js文件夹，按照文件类型分类css,png,jpg
-                    assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
+                    assetFileNames: 'static/admin/default/diy/[ext]/[name]-[hash].[ext]',
                 },
             },
         },

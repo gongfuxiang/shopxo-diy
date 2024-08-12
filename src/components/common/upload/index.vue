@@ -159,13 +159,6 @@
     <!-- 图片预览 -->
     <el-image-viewer v-if="preview_switch_img && upload_type == 'img'" :z-index="999999" :url-list="[preview_url]" :hide-on-click-modal="true" @close="preview_close"></el-image-viewer>
     <upload-model v-model="upload_model_visible" :type="upload_type" :exts="props.type == 'img' ? ext_img_name_list : props.type == 'video' ? ext_video_name_list : ext_file_name_list" @close="close_upload_model"></upload-model>
-    <el-dialog v-model="dialog_visible_type_oprate" class="radius-lg" width="1168" append-to-body>
-        <template #header>
-            <div class="title center re">
-                <div class="tc size-16 fw">添加分类</div>
-            </div>
-        </template>
-    </el-dialog>
 </template>
 <script lang="ts" setup>
 const app = getCurrentInstance();
