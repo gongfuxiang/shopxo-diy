@@ -9,7 +9,7 @@ interface defaultSearch {
     content: {
         style_radio: string;
         style_type: string;
-        logo: string;
+        logo: uploadList[];
         search_title: string;
         search_link: object;
         location: string;
@@ -31,7 +31,7 @@ const defaultSearch: defaultSearch = {
     content: {
         style_radio: 'search',
         style_type: 'title',
-        logo: '',
+        logo: [],
         search_title: '',
         search_link: {},
         location: 'store',
@@ -54,6 +54,7 @@ const defaultSearch: defaultSearch = {
         text_size: 15,
         common_style: {
             ...defaultCommon,
+            color_list: ['#ffffff'],
             padding_top: 9,
             padding_bottom: 9,
             padding_left: 15,

@@ -35,7 +35,7 @@
                 </template>
                 <template v-if="form.style_radio == 'search' && form.style_type == 'logo'">
                     <el-form-item label="logo图">
-                        <upload></upload>
+                        <upload v-model="form.logo" :limit="1" size="60"></upload>
                     </el-form-item>
                 </template>
             </card-container>

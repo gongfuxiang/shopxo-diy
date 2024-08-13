@@ -28,7 +28,7 @@
                                 </el-form-item>
                                 <template v-if="active_index == index">
                                     <el-form-item label="上传图片">
-                                        <upload></upload>
+                                        <upload v-model="row.img" :limit="1" size="40" styles="2"></upload>
                                     </el-form-item>
                                     <el-form-item label="简介配置">
                                         <el-input v-model="row.desc" placeholder="请输入简介" clearable />
@@ -43,14 +43,14 @@
                                             <drag :data="row.product_list" :space-col="20" @remove="product_list_remove($event, index)" @on-sort="product_list_sort($event, index)">
                                                 <template #default="scoped">
                                                     <upload v-model="scoped.row.new_src" :limit="1" size="40" styles="2"></upload>
-                                                        <el-image :src="scoped.row.url" fit="contain" class="img">
-                                                            <template #error>
-                                                                <div class="bg-f5 flex-row jc-c align-c radius h w">
-                                                                    <icon name="error-img" size="16" color="9"></icon>
-                                                                </div>
-                                                            </template>
-                                                        </el-image>
-                                                        <url-value v-model="scoped.row.href"></url-value>
+                                                    <el-image :src="scoped.row.url" fit="contain" class="img">
+                                                        <template #error>
+                                                            <div class="bg-f5 flex-row jc-c align-c radius h w">
+                                                                <icon name="error-img" size="16" color="9"></icon>
+                                                            </div>
+                                                        </template>
+                                                    </el-image>
+                                                    <url-value v-model="scoped.row.href"></url-value>
                                                 </template>
                                             </drag>
                                             <el-button class="mtb-20 w" @click="product_add(index)">+添加</el-button>
