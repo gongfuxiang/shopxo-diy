@@ -8,10 +8,10 @@
         </el-form-item>
         <template v-if="form.data_type === 'commodity'">
             <el-form-item label="主标题">
-                <el-input placeholder="请输入主标题"></el-input>
+                <el-input v-model="form.heading_title" placeholder="请输入主标题"></el-input>
             </el-form-item>
             <el-form-item label="副标题">
-                <el-input placeholder="请输入副标题"></el-input>
+                <el-input v-model="form.subtitle" placeholder="请输入副标题"></el-input>
             </el-form-item>
         </template>
     </card-container>

@@ -1,6 +1,6 @@
 <template>
     <div class="auxiliary-line common-content-height">
-        <el-form :model="form" label-width="60">
+        <el-form :model="form" label-width="80">
             <card-container class="mb-8">
                 <div class="mb-12">展示风格</div>
                 <el-form-item label="选择风格">
@@ -18,15 +18,10 @@
                     <template v-if="form.style_actived == 7">
                         <div class="flex-row align-c jc-c gap-2 style-size flex-wrap">
                             <div v-for="(item, index) in form.data_magic_list" :key="index" :class="['bg-f5', {'cube-selected-active': selected_active == index, 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index)}]" @click="selected_click(index)">
-                                <template v-if="!isEmpty(item.img[0])">
-                                    <image-empty v-model="item.img[0]"></image-empty>
-                                </template>
-                                <template v-else>
-                                    <div class="cube-selected-text">
-                                        <template v-if="[0, 1].includes(index)">375 x 375 像素</template> 
-                                        <template v-else>250 x 375 像素</template> 
-                                    </div>
-                                </template>
+                                <div class="cube-selected-text">
+                                    <template v-if="[0, 1].includes(index)">375 x 375 像素</template> 
+                                    <template v-else>250 x 375 像素</template> 
+                                </div>
                             </div>
                         </div>
                     </template>
@@ -36,7 +31,6 @@
                 </el-form-item>
             </card-container>
             <el-tabs v-model="tabs_name" class="content-tabs">
-                {{ form.data_magic_list[selected_active] }}
                 <el-tab-pane label="内容设置" name="content">
                     <tabs-content :value="form.data_magic_list[selected_active].data_content"></tabs-content>
                 </el-tab-pane>
@@ -88,6 +82,8 @@ const data_style = {
 
 const data_content = {
     data_type: 'commodity',
+    heading_title: '',
+    subtitle: '',
     product_list:[],
     img_list:[]
 }
@@ -141,7 +137,7 @@ onUnmounted(() => {
 const selected_active = ref(0);
 
 const style_click = (index: number) => {
-    form.value.data_magic_list = cloneDeep(style_show_list[index]);
+    form.value.data_magic_list = magic_list(index);
 
     form.value.style_actived = index;
     selected_active.value = 0;

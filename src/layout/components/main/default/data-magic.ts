@@ -4,7 +4,6 @@ import { tr } from "element-plus/es/locale";
 interface data_magic {
     start: object;
     end: object;
-    img: uploadList[];
     data_content: object;
     data_style: object;
 }

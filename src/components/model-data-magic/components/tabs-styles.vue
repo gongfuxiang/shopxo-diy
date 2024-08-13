@@ -51,6 +51,20 @@
     </card-container>
 </template>
 <script setup lang="ts">
+interface from {
+    color_list: string[];
+    background_img_url: string;
+    background_img_style: string;
+    is_roll: boolean;
+    rotation_direction: string;
+    interval_time: number;
+    heading_color: string;
+    heading_typeface: string;
+    heading_size: number;
+    subtitle_color: string;
+    subtitle_typeface: string;
+    subtitle_size: number;
+}
 const props = defineProps({
     value: {
         type: Object,
