@@ -197,16 +197,11 @@ const rules = ref<FormRules>({
     key: [{ required: true, trigger: 'change', message: '关键词不能为空' }],
 });
 const ruleFormRef = ref<FormInstance>();
-interface formType {
-    id?: number;
-    name: string;
-    link: string;
-}
 const on_submit = () => {
     if (!ruleFormRef.value) return;
     ruleFormRef.value.validate((valid: boolean) => {
         if (valid) {
-            let new_value: formType = {
+            let new_value: linkData = {
                 name: form.key,
                 link: form.key,
             };

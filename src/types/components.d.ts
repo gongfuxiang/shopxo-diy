@@ -13,6 +13,7 @@ declare module 'vue' {
     ColorPicker: typeof import('./../components/base/color-picker/index.vue')['default']
     CommonStyles: typeof import('./../components/common/common-styles/index.vue')['default']
     Components: typeof import('./../components/model-custom/components/index.vue')['default']
+    copy: typeof import('./../components/common/hot/index copy.vue')['default']
     Dialog: typeof import('./../components/model-custom/components/dialog.vue')['default']
     Drag: typeof import('./../components/base/drag/index.vue')['default']
     ElBadge: typeof import('element-plus/es')['ElBadge']

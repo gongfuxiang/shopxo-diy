@@ -11,17 +11,26 @@
                 <div class="left-content flex-1 pa-20">
                     <el-scrollbar class="img-scrollbar">
                         <div class="img-container">
-                            <div ref="imgBoxRef" class="oh" @mousedown.prevent="start_drag" @mousemove.prevent="move_drag" @mouseup.prevent="end_drag">
-                                <div ref="imgRef">
-                                    <el-image :src="hot_list.img" class="w img" @selectstart.prevent @contextmenu.prevent @dragstart.prevent></el-image>
-                                </div>
-                                <div ref="areaRef" class="area" :style="init_drag_style"></div>
-                                <div v-for="(item, index) in hot_list.data" :key="index" class="area-box" :style="rect_style(item.drag_start, item.drag_end)" @mousedown.stop="start_drag_area_box(index, $event)" @dblclick="dbl_drag_event(item, index)">
-                                    <div class="del-btn" @click.stop="del_area_event(index)"><icon name="close"></icon></div>
-                                    <div class="drag-btn" :data-index="index" @mousedown.stop="start_drag_btn(index, $event)"></div>
-                                    <div class="text">
-                                        <div class="name">{{ item.name }}</div>
-                                        <div class="status" :class="!is_obj_empty(item.link) ? 'cr-primary' : 'cr-error'">{{ !is_obj_empty(item.link) ? '已设置' : '未设置' }}</div>
+                            <div class="re">
+                                <div ref="imgBoxRef" class="oh" @mousedown.prevent="start_drag" @mousemove.prevent="move_drag" @mouseup.prevent="end_drag">
+                                    <div ref="imgRef">
+                                        <el-image :src="hot_list.img" class="w img block" @selectstart.prevent @contextmenu.prevent @dragstart.prevent></el-image>
+                                    </div>
+                                    <div ref="areaRef" class="area" :style="init_drag_style"></div>
+                                    <div v-for="(item, index) in hot_list.data" :key="index" class="area-box" :style="rect_style(item.drag_start, item.drag_end)" @mousedown.stop="start_drag_area_box(index, $event)" @dblclick="dbl_drag_event(item, index)">
+                                        <div class="del-btn" @click.stop="del_area_event(index)"><icon name="close"></icon></div>
+                                        <div class="drag-btn drag-tl" :data-index="index" @mousedown.stop="start_drag_btn_tl(index, $event)"></div>
+                                        <div class="drag-btn drag-tc" :data-index="index" @mousedown.stop="start_drag_btn_tc(index, $event)"></div>
+                                        <div class="drag-btn drag-lc" :data-index="index" @mousedown.stop="start_drag_btn_lc(index, $event)"></div>
+                                        <div class="drag-btn drag-bl" :data-index="index" @mousedown.stop="start_drag_btn_bl(index, $event)"></div>
+                                        <div class="drag-btn drag-bc" :data-index="index" @mousedown.stop="start_drag_btn_bc(index, $event)"></div>
+                                        <!-- 已完成 -->
+                                        <div class="drag-btn drag-br" :data-index="index" @mousedown.stop="start_drag_btn_br(index, $event)"></div>
+                                        <div class="drag-btn drag-rc" :data-index="index" @mousedown.stop="start_drag_btn_rc(index, $event)"></div>
+                                        <div class="text">
+                                            <div class="name">{{ item.name }}</div>
+                                            <div class="status" :class="!is_obj_empty(item.link) ? 'cr-primary' : 'cr-error'">{{ !is_obj_empty(item.link) ? (item.link?.name ?? '未设置') : '未设置' }}</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -101,8 +110,11 @@ const rect_start = ref<rectCoords>({ x: 0, y: 0, width: 0, height: 0 });
 const rect_end = ref<rectCoords>({ x: 0, y: 0, width: 0, height: 0 });
 const areaRef = ref<HTMLElement | null>(null);
 const init_drag_style = ref('');
+// 拖拽生成盒子的开关
 const drag_bool = ref(false);
+// 拖拽盒子的开关
 const drag_box_bool = ref(false);
+// 拖拽放大缩小盒子的开关
 const drag_box_scale_bool = ref(false);
 const start_drag = (event: MouseEvent) => {
     drag_bool.value = true;
@@ -130,7 +142,7 @@ const end_drag = (event: MouseEvent) => {
     if (rect_end.value.width > 16 && rect_end.value.height > 16) {
         hot_list.value.data.push({
             name: '热区' + (hot_list.value.data.length + 1),
-            link: {},
+            link: { name: '', link: '' },
             drag_start: cloneDeep(rect_start.value),
             drag_end: cloneDeep(rect_end.value),
         });
@@ -176,13 +188,15 @@ const start_drag_area_box = (index: number, event: MouseEvent) => {
             }
             // 右下边界判断
             if (new_coordinate.x + Math.max(clone_drag_end.width, 1) > imgBoxRef.value.getBoundingClientRect().width) {
-                new_coordinate.x = imgBoxRef.value.getBoundingClientRect().width - Math.max(clone_drag_end.width, 1) - 4;
+                new_coordinate.x = imgBoxRef.value.getBoundingClientRect().width - Math.max(clone_drag_end.width, 1);
             }
             if (new_coordinate.y + Math.max(clone_drag_end.height, 1) > imgBoxRef.value.getBoundingClientRect().height) {
-                new_coordinate.y = imgBoxRef.value.getBoundingClientRect().height - Math.max(clone_drag_end.height, 1) - 7;
+                new_coordinate.y = imgBoxRef.value.getBoundingClientRect().height - Math.max(clone_drag_end.height, 1);
             }
             hot_list.value.data[hot_list_index.value].drag_start.x = new_coordinate.x;
             hot_list.value.data[hot_list_index.value].drag_start.y = new_coordinate.y;
+            hot_list.value.data[hot_list_index.value].drag_end.x = new_coordinate.x + Math.max(clone_drag_end.width, 1);
+            hot_list.value.data[hot_list_index.value].drag_end.y = new_coordinate.y + Math.max(clone_drag_end.height, 1);
         }
     };
     document.onmouseup = (areaBoxEvent) => {
@@ -191,7 +205,29 @@ const start_drag_area_box = (index: number, event: MouseEvent) => {
     };
 };
 // drag-btn
-const start_drag_btn = (index: number, event: MouseEvent) => {
+const start_drag_btn_br = (index: number, event: MouseEvent) => {
+    start_drag_btn(index, event, 'br');
+};
+const start_drag_btn_bl = (index: number, event: MouseEvent) => {
+    start_drag_btn(index, event, 'bl');
+};
+const start_drag_btn_bc = (index: number, event: MouseEvent) => {
+    start_drag_btn(index, event, 'bc');
+};
+const start_drag_btn_tl = (index: number, event: MouseEvent) => {
+    start_drag_btn(index, event, 'tl');
+};
+const start_drag_btn_tc = (index: number, event: MouseEvent) => {
+    start_drag_btn(index, event, 'tc');
+};
+const start_drag_btn_lc = (index: number, event: MouseEvent) => {
+    start_drag_btn(index, event, 'lc');
+};
+const start_drag_btn_rc = (index: number, event: MouseEvent) => {
+    start_drag_btn(index, event, 'rc');
+};
+// 画布拖拽公用方法
+const start_drag_btn = (index: number, event: MouseEvent, type: string) => {
     hot_list_index.value = index;
     event.stopPropagation();
     drag_box_scale_bool.value = true;
@@ -202,14 +238,55 @@ const start_drag_btn = (index: number, event: MouseEvent) => {
         //用鼠标的位置减去鼠标相对元素的位置，得到元素的位置
         if (drag_box_scale_bool.value) {
             if (!imgBoxRef.value) return;
-            clone_drag_end.x = dragBtnEvent.clientX - imgBoxRef.value.getBoundingClientRect().left;
-            clone_drag_end.y = dragBtnEvent.clientY - imgBoxRef.value.getBoundingClientRect().top;
-            hot_list.value.data[hot_list_index.value].drag_end = {
-                x: clone_drag_end.x,
-                y: clone_drag_end.y,
-                width: clone_drag_end.x - clone_drag_start.x > 0 ? clone_drag_end.x - clone_drag_start.x : 0,
-                height: clone_drag_end.y - clone_drag_start.y > 0 ? clone_drag_end.y - clone_drag_start.y : 0,
-            };
+
+            switch (type) {
+                case 'br':
+                    // 下右
+                    clone_drag_end.x = handleBoundary(dragBtnEvent.clientX - imgBoxRef.value.getBoundingClientRect().left, 0, imgBoxRef.value.getBoundingClientRect().width);
+                    clone_drag_end.y = handleBoundary(dragBtnEvent.clientY - imgBoxRef.value.getBoundingClientRect().top, 0, imgBoxRef.value.getBoundingClientRect().height);
+                    hot_list.value.data[hot_list_index.value].drag_end = updateDragEnd(clone_drag_start, clone_drag_end, clone_drag_end);
+                    break;
+                case 'bl':
+                    // 下左
+                    clone_drag_start.x = handleBoundary(dragBtnEvent.clientX - imgBoxRef.value.getBoundingClientRect().left, 0, clone_drag_end.x);
+                    clone_drag_end.y = handleBoundary(dragBtnEvent.clientY - imgBoxRef.value.getBoundingClientRect().top, 0, imgBoxRef.value.getBoundingClientRect().height);
+                    hot_list.value.data[hot_list_index.value].drag_start.x = clone_drag_start.x;
+                    hot_list.value.data[hot_list_index.value].drag_end.y = clone_drag_end.y;
+                    hot_list.value.data[hot_list_index.value].drag_end = updateDragEnd(clone_drag_start, clone_drag_end, { y: clone_drag_end.y });
+                    break;
+                case 'bc':
+                    // 下中
+                    clone_drag_end.y = handleBoundary(dragBtnEvent.clientY - imgBoxRef.value.getBoundingClientRect().top, 0, imgBoxRef.value.getBoundingClientRect().height);
+                    hot_list.value.data[hot_list_index.value].drag_end.y = clone_drag_end.y;
+                    hot_list.value.data[hot_list_index.value].drag_end = updateDragEnd(clone_drag_start, clone_drag_end, { y: clone_drag_end.y });
+                    break;
+                case 'tl':
+                    // 上左
+                    clone_drag_start.x = handleBoundary(dragBtnEvent.clientX - imgBoxRef.value.getBoundingClientRect().left, 0, clone_drag_end.x);
+                    clone_drag_start.y = handleBoundary(dragBtnEvent.clientY - imgBoxRef.value.getBoundingClientRect().top, 0, clone_drag_end.y);
+                    hot_list.value.data[hot_list_index.value].drag_start.x = clone_drag_start.x;
+                    hot_list.value.data[hot_list_index.value].drag_start.y = clone_drag_start.y;
+                    hot_list.value.data[hot_list_index.value].drag_end = updateDragEnd(clone_drag_start, clone_drag_end, {});
+                    break;
+                case 'tc':
+                    // 上中
+                    clone_drag_start.y = handleBoundary(dragBtnEvent.clientY - imgBoxRef.value.getBoundingClientRect().top, 0, clone_drag_end.y);
+                    hot_list.value.data[hot_list_index.value].drag_start.y = clone_drag_start.y;
+                    hot_list.value.data[hot_list_index.value].drag_end = updateDragEnd(clone_drag_start, clone_drag_end, { y: clone_drag_end.y });
+                    break;
+                case 'lc':
+                    // 左中
+                    clone_drag_start.x = handleBoundary(dragBtnEvent.clientX - imgBoxRef.value.getBoundingClientRect().left, 0, clone_drag_end.x);
+                    hot_list.value.data[hot_list_index.value].drag_start.x = clone_drag_start.x;
+                    hot_list.value.data[hot_list_index.value].drag_end = updateDragEnd(clone_drag_start, clone_drag_end, {});
+                    break;
+                case 'rc':
+                    // 右中
+                    clone_drag_end.x = handleBoundary(dragBtnEvent.clientX - imgBoxRef.value.getBoundingClientRect().left, 0, imgBoxRef.value.getBoundingClientRect().width);
+                    hot_list.value.data[hot_list_index.value].drag_end.x = clone_drag_end.x;
+                    hot_list.value.data[hot_list_index.value].drag_end = updateDragEnd(clone_drag_start, clone_drag_end, { x: clone_drag_end.x });
+                    break;
+            }
         }
     };
     document.onmouseup = (dragBtnEvent2) => {
@@ -217,6 +294,29 @@ const start_drag_btn = (index: number, event: MouseEvent) => {
         drag_box_scale_bool.value = false;
     };
 };
+
+// 辅助函数用于更新drag_end
+const updateDragEnd = (dragStart: { x: number; y: number }, dragEnd: { x: number; y: number }, newDragEnd: { x?: number; y?: number }) => {
+    const newX = newDragEnd.x !== undefined ? newDragEnd.x : dragEnd.x;
+    const newY = newDragEnd.y !== undefined ? newDragEnd.y : dragEnd.y;
+    return {
+        x: newX,
+        y: newY,
+        width: newX - dragStart.x > 0 ? newX - dragStart.x : 0,
+        height: newY - dragStart.y > 0 ? newY - dragStart.y : 0,
+    };
+};
+
+// 辅助函数用于更新drag_start
+const updateDragStart = (dragStart: { x: number; y: number }, newDragStart: { x?: number; y?: number }) => {
+    const newX = newDragStart.x !== undefined ? newDragStart.x : dragStart.x;
+    const newY = newDragStart.y !== undefined ? newDragStart.y : dragStart.y;
+    return { x: newX, y: newY };
+};
+
+// 辅助函数用于处理边界
+const handleBoundary = (value: number, min: number, max: number) => Math.max(min, Math.min(value, max));
+
 const del_area_event = (index: number) => {
     hot_list.value.data.splice(index, 1);
 };
@@ -225,6 +325,7 @@ const rect_style = computed(() => {
         return `left: ${start.x}px;top: ${start.y}px;width: ${Math.max(end.width, 1)}px;height: ${Math.max(end.height, 1)}px;display: flex;`;
     };
 });
+
 //#endregion 左侧画布-----------------------------------------------end
 
 //#region 右侧热区编辑-----------------------------------------------start
@@ -235,16 +336,24 @@ const del_event = (index: number) => {
 
 //#region 设置热区弹窗-----------------------------------------------start
 const hot_dialog_visible = ref(false);
-const form = ref({
-    link: {},
+interface formData {
+    link: linkData;
+    name: string;
+}
+const form = ref<formData>({
+    link: {
+        name: '',
+    },
     name: '',
 });
 const hot_close_event = () => {
     hot_dialog_visible.value = false;
 };
 const hot_confirm_event = () => {
-    hot_list.value.data[hot_list_index.value].link = form.value.link;
     hot_list.value.data[hot_list_index.value].name = form.value.name;
+    if (hot_list.value.data[hot_list_index.value].link) {
+        hot_list.value.data[hot_list_index.value].link = form.value.link;
+    }
     hot_close_event();
 };
 //#endregion 设置热区弹窗-----------------------------------------------end
@@ -254,7 +363,26 @@ const hot_confirm_event = () => {
 const open_hot_event = () => {
     if (modelValue.value.img.length > 0) {
         dialog_visible.value = true;
-        hot_list.value = cloneDeep(modelValue.value);
+        hot_list.value.img = modelValue.value.img;
+        setTimeout(() => {
+            // 创建临时变量储存传过来的数据
+            let temp_data = cloneDeep(modelValue.value);
+            // 获取最新的图片高度和宽度
+            temp_data.img_height = imgBoxRef.value?.clientHeight || 0;
+            temp_data.img_width = imgBoxRef.value?.clientWidth || 0;
+            // 根据原始数据的宽高和更新后的宽高的比例，计算出事实的坐标比例
+            const scale = temp_data.img_width / modelValue.value.img_width;
+            console.log(scale);
+            temp_data.data.forEach((item) => {
+                item.drag_start.x = item.drag_start.x * scale;
+                item.drag_start.y = item.drag_start.y * scale;
+                item.drag_end.x = item.drag_end.x * scale;
+                item.drag_end.y = item.drag_end.y * scale;
+                item.drag_end.width = item.drag_end.width * scale;
+                item.drag_end.height = item.drag_end.height * scale;
+            });
+            hot_list.value = temp_data;
+        }, 100);
     } else {
         ElMessage({
             type: 'warning',
@@ -285,8 +413,6 @@ const confirm_event = () => {
             ElMessage.error('请设置热区链接!');
             return;
         } else {
-            hot_list.value.img_height = imgRef.value?.clientHeight || 0;
-            hot_list.value.img_width = imgRef.value?.clientWidth || 0;
             modelValue.value = cloneDeep(hot_list.value);
             close_event();
         }
@@ -297,106 +423,5 @@ const confirm_event = () => {
 //#endregion 热区开启关闭确认取消回调 -----------------------------------------------end
 </script>
 <style lang="scss" scoped>
-.content-scrollbar {
-    height: calc(100vh - 13.8rem);
-    margin: 0 -1.6rem;
-    .left-content {
-        .img-scrollbar {
-            display: flex;
-            justify-content: center;
-            .img-container {
-                max-width: 60rem;
-                min-width: 30rem;
-                height: calc(100vh - 25.8rem);
-                position: relative;
-                .img {
-                    user-select: none;
-                    cursor: crosshair;
-                    padding: 0 0.4rem 0.4rem 0;
-                }
-                .area {
-                    position: absolute;
-                    background: rgba(41, 128, 185, 0.3);
-                    border: 1px dashed #34495e;
-                    width: 0px;
-                    height: 0px;
-                    left: 0px;
-                    top: 0px;
-                    display: none;
-                }
-                .area-box {
-                    position: absolute;
-                    background: rgba(42, 148, 255, 0.25);
-                    border: 1px dashed #8ec6ff;
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    color: #1989fa;
-                    font-size: 1.2rem;
-                    cursor: move;
-                    transition: transform 0.1s;
-                    .del-btn {
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        background: #1890ff;
-                        color: #fff;
-                        text-align: center;
-                        border-radius: 0 0 0 0.3rem;
-                        position: absolute;
-                        right: 0.7rem;
-                        top: 0.7rem;
-                        transform: translate3d(50%, -50%, 0);
-                        cursor: default;
-                        width: 1.6rem;
-                        height: 1.6rem;
-                        line-height: 1.6rem;
-                        z-index: 1;
-                        i {
-                            font-size: 0.9rem;
-                        }
-                    }
-                    .drag-btn {
-                        position: absolute;
-                        width: 7px;
-                        height: 7px;
-                        background: #f0f0f0;
-                        border: 1px solid #333;
-                        right: -0.4rem;
-                        bottom: -0.4rem;
-                        cursor: nwse-resize;
-                        z-index: 1;
-                    }
-                    .text {
-                        overflow: hidden;
-                        display: flex;
-                        flex-wrap: wrap;
-                        justify-content: center;
-                        max-width: 100%;
-                        max-height: 100%;
-                        text-align: center;
-                        align-items: center;
-                        color: #fff;
-                        font-size: 1.2rem;
-                        .name {
-                            color: #fff;
-                            margin: 0 0.2rem;
-                        }
-                        .status {
-                            margin: 0 0.2rem;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    .right-content {
-        .item {
-            max-width: 47.8rem;
-            .name {
-                width: 9.8rem;
-            }
-        }
-    }
-}
+@import 'index.scss';
 </style>

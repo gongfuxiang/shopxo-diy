@@ -40,13 +40,7 @@ watch(
 );
 const modelValue = defineModel({ type: Object, default: {} });
 const search_value = ref('');
-interface Data {
-    id: number;
-    name: string;
-    link?: String;
-    data?: Data[];
-}
-const base_data = ref<Data[]>([
+const base_data = ref<linkData[]>([
     {
         id: 0,
         name: '基础链接',
@@ -101,7 +95,7 @@ const handle_search = () => {
 };
 const menu_active = ref('');
 const emit = defineEmits(['update:link']);
-const menu_link_event = (item: Data, parent_id: number) => {
+const menu_link_event = (item: linkData, parent_id: number | undefined) => {
     if (`${parent_id}-${item.id}` == menu_active.value) {
         menu_active.value = '';
         modelValue.value = {};
