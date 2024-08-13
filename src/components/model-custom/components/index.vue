@@ -17,7 +17,7 @@
         </card-container>
         <card-container class="mb-8">
             <div class="mb-12">内容设置</div>
-            <slider v-model="center_height" :max="10000">组件高度</slider>
+            <slider v-model="center_height" :max="3000">组件高度</slider>
         </card-container>
         <card-container class="h selected">
             <div class="mb-12">已选组件</div>
@@ -25,7 +25,7 @@
                 <div v-if="!isEmpty(diy_data)" class="flex-row flex-wrap gap-10">
                     <div v-for="(item, index) in diy_data" :key="index" class="item flex jc-sb align-c size-14 cr-3" :class="{ 'item-active': item.show_tabs }" @click="on_choose(index, item.show_tabs)">{{ item.name }}<icon name="close" color="3" size="10" class="c-pointer" @click="del(index)"></icon></div>
                 </div>
-                <NoData v-else :imgWidth="10"></NoData>
+                <NoData v-else :img-width="10"></NoData>
             </div>
         </card-container>
     </div>
@@ -85,6 +85,9 @@ const components = reactive([
                 key: 'text',
                 name: '文本',
                 com_data: {
+                    com_width: 150,
+                    com_height: 17,
+                    staging_height: 17,
                     text_title: '文本',
                     data_source_id: '',
                     data_source_list: {},
@@ -113,8 +116,6 @@ const components = reactive([
                         radius_bottom_right: 0,
                     },
                     border_size: 1,
-                    com_width: 150,
-                    com_height: 17,
                     com_bg: '',
                     bottom_up: true,
                 },
@@ -123,8 +124,9 @@ const components = reactive([
                 key: 'img',
                 name: '图片',
                 com_data: {
-                    com_width: 52,
-                    com_height: 52,
+                    com_width: 50,
+                    com_height: 50,
+                    staging_height: 50,
                     img_src: [],
                     data_source_id: '',
                     data_source_list: {},
@@ -139,7 +141,7 @@ const components = reactive([
                     img_width: 50,
                     img_height: 50,
                     img_rotate: 0,
-                    border_show: true,
+                    border_show: false,
                     border_color: '#FF3F3F',
                     border_style: 'dashed',
                     border_radius: {
@@ -159,6 +161,7 @@ const components = reactive([
                 com_data: {
                     com_width: 306,
                     com_height: 11,
+                    staging_height: 11,
                     line_settings: 'horizontal',
                     line_style: 'solid',
                     line_width: 306,
@@ -260,6 +263,10 @@ watch(() => center_height.value, () => {
                 y: item.location.staging_y,
                 staging_y: item.location.staging_y,
             },
+            com_data: {
+                ...item.com_data,
+                com_height: item.com_data.staging_height,
+            }
         }));
     });
 },{ immediate: true, deep: true });

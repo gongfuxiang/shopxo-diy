@@ -1,3 +1,4 @@
+import { de } from "element-plus/es/locale";
 import defaultCommon from "./index";
 
 interface defaultSearch {
@@ -17,7 +18,10 @@ const defaultSearch: defaultSearch = {
         custom_list: []
     },
     style: {
-        common_style: defaultCommon
+        common_style: {
+            ...defaultCommon,
+            color_list: ['rgb(244, 252, 255)'],
+        }
     },
 };
 
