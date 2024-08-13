@@ -39,7 +39,7 @@ interface CubeItem {
         x: number;
         y: number;
     };
-    img: uploadList[];
+    img: uploadList[]
 }
 
 interface Props {

@@ -92,6 +92,10 @@
                                         <template v-else-if="item.key == 'img-magic'">
                                             <model-img-magic :key="item.com_data" :value="item.com_data" :show-tabs="item.show_tabs"></model-img-magic>
                                         </template>
+                                        <!-- 数据魔方 -->
+                                        <template v-else-if="item.key == 'data-magic'">
+                                            <model-data-magic :key="item.com_data" :value="item.com_data" :show-tabs="item.show_tabs"></model-data-magic>
+                                        </template>
                                         <!-- 热区 -->
                                         <template v-else-if="item.key == 'hot-zone'">
                                             <model-hot-zone :key="item.com_data" :value="item.com_data"></model-hot-zone>
@@ -100,7 +104,6 @@
                                         <template v-else-if="item.key == 'custom'">
                                             <model-custom :key="item.com_data" :value="item.com_data" :show-tabs="item.show_tabs"></model-custom>
                                         </template>
-
                                         <!-- 工具组件 -->
                                         <!-- 辅助线 -->
                                         <template v-else-if="item.key == 'row-line'">
@@ -205,6 +208,7 @@ const components = reactive([
             { key: 'article-tabs', name: '文章选项卡' },
             { key: 'hot-zone', name: '热区' },
             { key: 'custom', name: '自定义' },
+            { key: 'data-magic', name: '数据魔方' },
         ],
     },
     {

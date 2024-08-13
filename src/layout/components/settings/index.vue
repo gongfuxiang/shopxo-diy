@@ -63,6 +63,10 @@
             <template v-else-if="value.key == 'img-magic'">
                 <model-img-magic-setting :type="radio" :value="value.com_data"></model-img-magic-setting>
             </template>
+            <!-- 图片魔方 -->
+            <template v-else-if="value.key == 'data-magic'">
+                <model-data-magic-setting :type="radio" :value="value.com_data"></model-data-magic-setting>
+            </template>
             <!-- 热区 -->
             <template v-else-if="value.key == 'hot-zone'">
                 <model-hot-zone-setting :type="radio" :value="value.com_data"></model-hot-zone-setting>

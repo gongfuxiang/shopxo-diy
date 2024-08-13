@@ -70,22 +70,19 @@ const props = defineProps({
         default: () => {},
     },
 });
-const style_list = ['heng2', 'shu2', 'shu3', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2', 'a-1ge', 'a-4x4'];
+const style_list = ['heng2', 'shu2', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2'];
 
 // 风格
 const style_show_list = [
     [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, img: [], img_link: {} }, { start: {x: 1, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}], // 风格1
     [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, img: [], img_link: {} }, { start: {x: 3, y: 1},end: {x: 4, y: 4},img: [], img_link: {}}], // 风格2
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, img: [], img_link: {} }, { start: {x: 3, y: 1},end: {x: 4, y: 4},img: [], img_link: {}}, { start: {x: 3, y: 1},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格3
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, img: [], img_link: {} }, { start: {x: 3, y: 1},end: {x: 4, y: 2},img: [], img_link: {}}, { start: {x: 1, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格4
-    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, img: [], img_link: {} }, { start: {x: 1, y: 3},end: {x: 2, y: 4},img: [], img_link: {}}, { start: {x: 3, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格5
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, img: [], img_link: {} }, { start: {x: 3, y: 1},end: {x: 4, y: 2},img: [], img_link: {}}, { start: {x: 3, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格6
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, img: [], img_link: {} }, { start: {x: 1, y: 3},end: {x: 2, y: 4},img: [], img_link: {}}, { start: {x: 3, y: 1},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格7
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, img: [], img_link: {} }, { start: {x: 3, y: 1},end: {x: 4, y: 2},img: [], img_link: {}}, { start: {x: 1, y: 3},end: {x: 2, y: 4},img: [], img_link: {}}, { start: {x: 3, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格8
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, img: [], img_link: {} }, { start: {x: 3, y: 1},end: {x: 4, y: 2},img: [], img_link: {}}, { start: {x: 3, y: 3},end: {x: 3, y: 4},img: [], img_link: {}}, { start: {x: 4, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}, { start: {x: 4, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格9
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, img: [], img_link: {} }, { start: {x: 3, y: 1},end: {x: 4, y: 2},img: [], img_link: {}}, { start: {x: 3, y: 3},end: {x: 3, y: 4},img: [], img_link: {}}, { start: {x: 4, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格10
-    [{ start: {x: 1, y: 1}, end: {x: 4, y: 4}, img: [], img_link: {} }],// 风格11
-    []// 风格12
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, img: [], img_link: {} }, { start: {x: 3, y: 1},end: {x: 4, y: 2},img: [], img_link: {}}, { start: {x: 1, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格3
+    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, img: [], img_link: {} }, { start: {x: 1, y: 3},end: {x: 2, y: 4},img: [], img_link: {}}, { start: {x: 3, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格4
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, img: [], img_link: {} }, { start: {x: 3, y: 1},end: {x: 4, y: 2},img: [], img_link: {}}, { start: {x: 3, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格5
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, img: [], img_link: {} }, { start: {x: 1, y: 3},end: {x: 2, y: 4},img: [], img_link: {}}, { start: {x: 3, y: 1},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格6
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, img: [], img_link: {} }, { start: {x: 3, y: 1},end: {x: 4, y: 2},img: [], img_link: {}}, { start: {x: 1, y: 3},end: {x: 2, y: 4},img: [], img_link: {}}, { start: {x: 3, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格7
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, img: [], img_link: {} }, { start: {x: 3, y: 1},end: {x: 4, y: 2},img: [], img_link: {}}, { start: {x: 3, y: 3},end: {x: 3, y: 4},img: [], img_link: {}}, { start: {x: 4, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}, { start: {x: 4, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格8
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, img: [], img_link: {} }, { start: {x: 3, y: 1},end: {x: 4, y: 2},img: [], img_link: {}}, { start: {x: 3, y: 3},end: {x: 3, y: 4},img: [], img_link: {}}, { start: {x: 4, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格9
 ]
 //#region 容器大小变更
 const cubeWidth = ref(400);

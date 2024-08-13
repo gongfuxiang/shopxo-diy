@@ -19,6 +19,8 @@ import defaultShopTabs from './default/shop-tabs';
 import defaultImgMagic from './default/img-magic';
 import defaultHotZone from './default/hot-zone';
 import defaultCustom from './default/custom';
+import defaultDataMagic from './default/data-magic';
+import { de } from 'element-plus/es/locale';
 // 系统设置
 interface DefaultSettings {
     header_nav: object;
@@ -40,6 +42,7 @@ interface DefaultSettings {
     shop_list: object;
     shop_tabs: object;
     img_magic: object;
+    data_magic: object;
     hot_zone: object;
     custom: object;
 }
@@ -64,6 +67,7 @@ const defaultSettings: DefaultSettings = {
     shop_list: defaultProductList,
     shop_tabs: defaultShopTabs,
     img_magic: defaultImgMagic,
+    data_magic: defaultDataMagic,
     hot_zone: defaultHotZone,
     custom: defaultCustom,
 };
