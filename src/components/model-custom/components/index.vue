@@ -442,9 +442,6 @@ defineExpose({
                 }
             }
         }
-        :deep(.vdr-container.active) {
-            border: 0;
-        }
         :deep(.plug-in-show-tabs.vdr-container) {
             .vdr-handle.vdr-handle-tl,
             .vdr-handle.vdr-handle-tr,
