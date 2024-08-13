@@ -384,10 +384,7 @@ defineExpose({
     overflow: hidden;
     :deep(.el-collapse) {
         border: 0;
-        .el-collapse-item__wrap {
-            border: 0;
-        }
-        .el-collapse-item__header {
+        .el-collapse-item__wrap, .el-collapse-item__header {
             border: 0;
         }
         .el-collapse-item__content {
