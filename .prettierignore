@@ -8,5 +8,3 @@ types/components.d.ts
 .idea
 *.sh
 *.md
-
-src/assets
