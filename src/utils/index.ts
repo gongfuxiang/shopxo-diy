@@ -41,7 +41,7 @@ export function gradient_handle(color_list: string[], direction: string) {
         reverse_color.forEach((item: any, index: number) => {
             container_common_styles += `${item ? item : 'rgb(255 255 255 / 0%)'}`;
             if (color_list.length == 1) {
-                container_common_styles += `0%, ${item} 100%`;
+                container_common_styles += ` 0%, ${item} 100%`;
             } else {
                 if (index == color_list.length - 1) {
                     container_common_styles += ` 100%`;

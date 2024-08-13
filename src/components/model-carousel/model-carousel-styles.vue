@@ -8,6 +8,15 @@
                 </el-form-item>
             </card-container>
             <card-container class="mb-8">
+                <div class="mb-12">轮播设置</div>
+                <el-form-item label="自动轮播">
+                    <el-switch v-model="form.is_roll" size="large" />
+                </el-form-item>
+                <el-form-item label="间隔时间">
+                    <slider v-model="form.interval_time" :max="100"></slider>
+                </el-form-item>
+            </card-container>
+            <card-container class="mb-8">
                 <carousel-indicator :value="form"></carousel-indicator>
             </card-container>
         </el-form>
@@ -49,7 +58,9 @@ const common_styles_update = (val: Object) => {
 };
 </script>
 <style lang="scss" scoped>
-.auxiliary-line {
-    width: 100%;
+.card.mb-8 {
+    .el-form-item:last-child {
+        margin-bottom: 0;
+    }
 }
 </style>

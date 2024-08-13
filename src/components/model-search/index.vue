@@ -14,6 +14,9 @@
                     </template>
                 </div>
             </template>
+            <template v-else-if="form.style_radio == 'search' && form.style_type == 'logo' && form.logo.length > 0">
+                <image-empty v-model="form.logo[0]" class="search-image mr-10"></image-empty>
+            </template>
             <el-input :placeholder="get_placeholder()" :style="{ borderColor: 'red' }" :readonly="true">
                 <template v-if="text_location == 'right'" #suffix>
                     <el-icon class="iconfont icon-search" />
@@ -57,7 +60,7 @@ const style = computed(() => {
 });
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));
 // 输入框颜色
-const border_color = computed(() => new_style.value.search_border);
+const search_border = computed(() => new_style.value.search_border);
 // 提示语颜色
 const placeholder_color = computed(() => new_style.value.tips_color || '#CCCCCC');
 // 定位位置
@@ -78,7 +81,9 @@ const get_placeholder = () => {
 :deep(.el-input) {
     & .el-input__wrapper {
         border-radius: 16px !important;
-        border: 1px solid v-bind(border_color);
+        border: 0;
+        box-shadow: none;
+        background: v-bind(search_border);
     }
     & .el-input__inner::placeholder, 
     & .el-input__prefix-inner {
@@ -89,7 +94,10 @@ const get_placeholder = () => {
 .set-text-size {
     font-size: v-bind(text_size);
 }
-
+.search-image {
+    width: 5rem;
+    height: 3rem;
+}
 .nowrap {
     text-wrap: nowrap;
 }

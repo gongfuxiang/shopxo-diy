@@ -3,12 +3,6 @@
     <el-form-item label="是否显示">
         <el-switch v-model="form.is_show" size="large" />
     </el-form-item>
-    <el-form-item label="是否滚动">
-        <el-switch v-model="form.is_roll" size="large" />
-    </el-form-item>
-    <el-form-item label="间隔时间">
-        <slider v-model="form.interval_time" :max="100"></slider>
-    </el-form-item>
     <template v-if="form.is_show">
         <el-form-item label="指示器样式">
             <el-radio-group v-model="form.indicator_style" is-button>
@@ -41,8 +35,8 @@
         </el-form-item>
         <el-form-item label="指示器色值">
             <div class="flex-col gap-20">
-                <color-picker v-model="form.actived_color" default-color="#2A94FF" @update:value="color_picker_change($event, 'actived_color')"></color-picker>
-                <color-picker v-model="form.color" default-color="#DDDDDD" @update:value="color_picker_change($event, 'color')"></color-picker>
+                <div class="flex-row gap-20"><span class="size-12 cr-9">选中样式</span><color-picker v-model="form.actived_color" default-color="#2A94FF" @update:value="color_picker_change($event, 'actived_color')"></color-picker></div>
+                <div class="flex-row gap-20"><span class="size-12 cr-9">常规样式</span><color-picker v-model="form.color" default-color="#DDDDDD" @update:value="color_picker_change($event, 'color')"></color-picker></div>
             </div>
         </el-form-item>
         <el-form-item v-if="form.indicator_style != 'num'" label="指示器圆角">
@@ -54,8 +48,6 @@
 import { pick } from 'lodash';
 // interface indicator {
 //     is_show: boolean;
-//     is_roll: boolean;
-//     interval_time: number;
 //     indicator_style: string;
 //     indicator_location: string;
 //     indicator_size: number;

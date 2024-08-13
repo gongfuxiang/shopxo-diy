@@ -14,21 +14,8 @@
             <card-container class="mb-8">
                 <div class="mb-12">展示设置</div>
                 <el-form-item label-width="0" class="show-config">
-                    <!-- 风格3 -->
-                    <template v-if="form.style_actived == 2">
-                        <div class="flex-row align-c jc-c gap-2 style-size">
-                            <div v-for="(item, index) in form.img_magic_list" :key="index" :class="['three bg-f5', {'cube-selected-active': selected_active == index}]" @click="selected_click(index)">
-                                <template v-if="!isEmpty(item.img[0])">
-                                    <image-empty v-model="item.img[0]"></image-empty>
-                                </template>
-                                <template v-else>
-                                    <div class="cube-selected-text">250 x 750 像素</div>
-                                </template>
-                            </div>
-                        </div>
-                    </template>
                     <!-- 风格9 -->
-                    <template v-else-if="form.style_actived == 8">
+                    <template v-if="form.style_actived == 8">
                         <div class="flex-row align-c jc-c gap-2 style-size flex-wrap">
                             <div v-for="(item, index) in form.img_magic_list" :key="index" :class="['bg-f5', {'cube-selected-active': selected_active == index, 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index)}]" @click="selected_click(index)">
                                 <template v-if="!isEmpty(item.img[0])">
@@ -44,21 +31,18 @@
                         </div>
                     </template>
                     <template v-else>
-                        <magic-cube :key="form.style_actived" :list="form.img_magic_list" :flag="form.style_actived == 11" :cube-width="cubeWidth" :cube-height="cubeHeight" @selected_click="selected_click"></magic-cube>
+                        <magic-cube :key="form.style_actived" :list="form.img_magic_list" :flag="false" :cube-width="cubeWidth" type="data" :cube-height="cubeHeight" @selected_click="selected_click"></magic-cube>
                     </template>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
-                <div class="mb-12">内容设置</div>
-                <template v-if="!isEmpty(form.img_magic_list[selected_active])">
-                    <el-form-item label="上传图片">
-                        <upload v-model="form.img_magic_list[selected_active].img" :limit="1" size="40"></upload>
-                    </el-form-item>
-                    <el-form-item label="链接">
-                        <url-value v-model="form.img_magic_list[selected_active].img_link"></url-value>
-                    </el-form-item>
-                </template>
-            </card-container>
+            <el-tabs v-model="tabs_name" class="content-tabs">
+                <el-tab-pane label="内容设置" name="content">
+                    <tabs-content :value="form[selected_active]"></tabs-content>
+                </el-tab-pane>
+                <el-tab-pane label="样式设置" name="styles">
+                    <tabs-styles :value="form[selected_active].style"></tabs-styles>
+                </el-tab-pane>
+            </el-tabs>
         </el-form>
     </div>
 </template>
@@ -70,23 +54,50 @@ const props = defineProps({
         default: () => {},
     },
 });
-const style_list = ['heng2', 'shu2', 'shu3', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2', 'a-1ge', 'a-4x4'];
+const style_list = ['heng2', 'shu2', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2'];
+
+const data_style = {
+    color_list: ['#FFD9C3', '#FFECE2', '#FFFFFF'],
+    direction: '90deg',
+    background_img_style: 2,
+    background_img_url: [],
+    is_roll: true,
+    rotation_direction: 'horizontal',
+    interval_time: 2,
+    heading_color: '#000',
+    heading_typeface: 'normal',
+    heading_size: 12,
+    subtitle_color: '#000',
+    subtitle_typeface: 'normal',
+    subtitle_size: 12,
+    is_show: true,
+    indicator_style: 'dot',
+    indicator_location: 'center',
+    indicator_size: 5,
+    indicator_radius: {
+        radius: 0,
+        radius_top_left: 0,
+        radius_top_right: 0,
+        radius_bottom_left: 0,
+        radius_bottom_right: 0,
+    },
+    actived_color: '#2A94FF',
+    color: '#DDDDDD',
+}
 
 // 风格
 const style_show_list = [
-    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, img: [], img_link: {} }, { start: {x: 1, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}], // 风格1
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, img: [], img_link: {} }, { start: {x: 3, y: 1},end: {x: 4, y: 4},img: [], img_link: {}}], // 风格2
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, img: [], img_link: {} }, { start: {x: 3, y: 1},end: {x: 4, y: 4},img: [], img_link: {}}, { start: {x: 3, y: 1},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格3
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, img: [], img_link: {} }, { start: {x: 3, y: 1},end: {x: 4, y: 2},img: [], img_link: {}}, { start: {x: 1, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格4
-    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, img: [], img_link: {} }, { start: {x: 1, y: 3},end: {x: 2, y: 4},img: [], img_link: {}}, { start: {x: 3, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格5
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, img: [], img_link: {} }, { start: {x: 3, y: 1},end: {x: 4, y: 2},img: [], img_link: {}}, { start: {x: 3, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格6
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, img: [], img_link: {} }, { start: {x: 1, y: 3},end: {x: 2, y: 4},img: [], img_link: {}}, { start: {x: 3, y: 1},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格7
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, img: [], img_link: {} }, { start: {x: 3, y: 1},end: {x: 4, y: 2},img: [], img_link: {}}, { start: {x: 1, y: 3},end: {x: 2, y: 4},img: [], img_link: {}}, { start: {x: 3, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格8
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, img: [], img_link: {} }, { start: {x: 3, y: 1},end: {x: 4, y: 2},img: [], img_link: {}}, { start: {x: 3, y: 3},end: {x: 3, y: 4},img: [], img_link: {}}, { start: {x: 4, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}, { start: {x: 4, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格9
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, img: [], img_link: {} }, { start: {x: 3, y: 1},end: {x: 4, y: 2},img: [], img_link: {}}, { start: {x: 3, y: 3},end: {x: 3, y: 4},img: [], img_link: {}}, { start: {x: 4, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}],// 风格10
-    [{ start: {x: 1, y: 1}, end: {x: 4, y: 4}, img: [], img_link: {} }],// 风格11
-    []// 风格12
+    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 1, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }], // 风格1
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }], // 风格2
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 1, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格3
+    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 1, y: 3},end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格4
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格5
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 1, y: 3},end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格6
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 1, y: 3},end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格7
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 3},end: {x: 3, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 4, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 4, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格8
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 3},end: {x: 3, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 4, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格9
 ]
+const tabs_name = ref('content');
 //#region 容器大小变更
 const cubeWidth = ref(400);
 const cubeHeight = ref(400);
@@ -157,11 +168,6 @@ const selected_click = (index: number) => {
 .style-size {
     width: v-bind(style_width);
     height: v-bind(style_height);
-    .three {
-        width: 33%;
-        height: 100%;
-        position: relative;
-    }
     .style9-top {
         width: calc(50% - 0.2rem);
         height: 50%;
@@ -186,15 +192,20 @@ const selected_click = (index: number) => {
     text-align: center;
     color: $cr-primary;
 }
-:deep(.el-image) {
-    height: 100%;
-    width: 100%;
-    background-color: #fff;
-    .el-image__inner {
-        object-fit: cover;
+:deep(.el-tabs.content-tabs) {
+    .el-tabs__header.is-top {
+        background: #fff;
+        margin: 0;
+        padding-top: 2rem;
     }
-    .image-slot img {
-        width: 6rem;
+    .el-tabs__item.is-top {
+        padding: 0;
+        align-items: center;
+        width: 10rem;
+        font-size: 1.4rem;
+    }
+    .el-tabs__active-bar{
+        width: 100%;
     }
 }
 </style>
