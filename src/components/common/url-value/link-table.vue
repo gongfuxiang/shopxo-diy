@@ -40,12 +40,7 @@ watch(
     }
 );
 const modelValue = defineModel({ type: Object, default: {} });
-interface User {
-    id: number;
-    name: string;
-    link: string;
-}
-const tableData: User[] = [
+const tableData: linkData[] = [
     {
         id: 1,
         name: '一级分类',
@@ -76,7 +71,7 @@ const template_selection = ref('');
 
 const row_click = (row: any) => {
     const new_table_data = JSON.parse(JSON.stringify(tableData));
-    template_selection.value = new_table_data.findIndex((item: User) => item.id == row.id).toString();
+    template_selection.value = new_table_data.findIndex((item: linkData) => item.id == row.id).toString();
     modelValue.value = row;
 };
 //#region 分页 -----------------------------------------------start

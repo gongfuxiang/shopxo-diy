@@ -129,18 +129,11 @@ const address = computed(() => {
 });
 const ruleFormRef = ref<FormInstance>();
 const emit = defineEmits(['update:link', 'required']);
-interface formType {
-    id?: number;
-    name: string;
-    link: string;
-    lng?: number;
-    lat?: number;
-}
 const on_submit = () => {
     if (!ruleFormRef.value) return;
     ruleFormRef.value.validate((valid: boolean) => {
         if (valid) {
-            let new_value: formType = {
+            let new_value: linkData = {
                 name: '',
                 link: '',
             };

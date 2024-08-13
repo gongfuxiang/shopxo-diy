@@ -50,15 +50,7 @@ watch(
     }
 );
 const modelValue = defineModel({ type: Object, default: {} });
-interface User {
-    id: number;
-    name: string;
-    icon: string;
-    link: string;
-    hasChildren?: boolean;
-    children?: User[];
-}
-const tableData: User[] = [
+const tableData: linkData[] = [
     {
         id: 1,
         name: '一级分类',
@@ -106,9 +98,9 @@ const options = ref([
 const template_selection = ref('');
 
 const row_click = (row: any) => {
-    let new_data: User[] = [];
+    let new_data: linkData[] = [];
     // 多级数组转换一级数组
-    const array_conversion = (item: User[]) => {
+    const array_conversion = (item: linkData[]) => {
         item.forEach((item) => {
             new_data.push(item);
             if (item.children) {
@@ -118,7 +110,7 @@ const row_click = (row: any) => {
         return new_data;
     };
     const new_table_data = array_conversion(JSON.parse(JSON.stringify(tableData)));
-    template_selection.value = new_table_data.findIndex((item: User) => item.id == row.id).toString();
+    template_selection.value = new_table_data.findIndex((item: linkData) => item.id == row.id).toString();
     modelValue.value = row;
 };
 //#region 分页 -----------------------------------------------start

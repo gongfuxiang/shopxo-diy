@@ -19,10 +19,21 @@
                             <icon name="search" size="18"></icon>
                         </template>
                     </el-input>
-                    <icon name="add" size="18" @click="add_type"></icon>
+                    <icon name="add" size="18" class="c-pointer" @click="add_type"></icon>
                 </div>
                 <el-scrollbar height="490px">
-                    <el-tree ref="treeRef" class="filter-tree" :data="type_data" node-key="id" highlight-current :expand-on-click-node="false" :props="defaultProps" empty-text="无数据" default-expand-all :filter-node-method="filter_node" @node-click="tree_node_event" />
+                    <el-tree ref="treeRef" class="filter-tree" :data="type_data" node-key="id" highlight-current :expand-on-click-node="false" :props="defaultProps" empty-text="无数据" default-expand-all :filter-node-method="filter_node" @node-click="tree_node_event">
+                        <template #default="{ node, data }">
+                            <span class="custom-tree-node flex-row jc-sb align-c w pr-10">
+                                <span>{{ data.name }}</span>
+                                <span class="flex-row gap-10">
+                                    <icon name="add" size="12" color="primary" @click="append_type_event(data)"></icon>
+                                    <icon name="edit" size="12" color="primary" @click="edit_type_event(data)"></icon>
+                                    <icon name="del" size="12" color="primary" @click="remove_type_event(node, data)"></icon>
+                                </span>
+                            </span>
+                        </template>
+                    </el-tree>
                 </el-scrollbar>
             </div>
             <div class="right-content flex-1 flex-width">
@@ -159,8 +170,10 @@
     <!-- 图片预览 -->
     <el-image-viewer v-if="preview_switch_img && upload_type == 'img'" :z-index="999999" :url-list="[preview_url]" :hide-on-click-modal="true" @close="preview_close"></el-image-viewer>
     <upload-model v-model="upload_model_visible" :type="upload_type" :exts="props.type == 'img' ? ext_img_name_list : props.type == 'video' ? ext_video_name_list : ext_file_name_list" @close="close_upload_model"></upload-model>
+    <form-upload-category v-model="upload_category_model_visible" :value="upload_category_model" :type="upload_category_type" :category-id="upload_category_id" @confirm="upload_category_confirm"></form-upload-category>
 </template>
 <script lang="ts" setup>
+import { get_math } from '@/utils/index';
 const app = getCurrentInstance();
 /**
  * @description: 图片上传
@@ -288,7 +301,7 @@ const upload_type_change = (type: any) => {
 const treeRef = ref();
 const defaultProps = {
     children: 'children',
-    label: 'label',
+    label: 'name',
 };
 // 分类查询
 const search_filter = ref('');
@@ -303,31 +316,36 @@ const search_name = ref('');
 const page = ref(1);
 // 总数量
 const data_total = ref(0);
-interface Tree {
-    id: number;
-    label: string;
-    children?: Tree[];
-}
 const filter_node = (value: string, data: any): boolean => {
     if (!value) return true;
-    return data.label.indexOf(value) !== -1;
+    return data.name.indexOf(value) !== -1;
 };
-const type_data: Tree[] = [
+const type_data = ref<Tree[]>([
     {
         id: 0,
-        label: '全部图片',
+        name: '全部图片',
+        path: '全部',
+        is_enable: true,
+        sort: 1,
+        children: [],
     },
     {
         id: 1,
-        label: '金刚区',
-        children: [
-            {
-                id: 2,
-                label: '金刚区 1-1',
-            },
-        ],
+        name: '全部视频',
+        path: '全部',
+        is_enable: true,
+        sort: 2,
+        children: [],
     },
-];
+    {
+        id: 2,
+        name: '全部文件',
+        path: '全部',
+        is_enable: true,
+        sort: 3,
+        children: [],
+    },
+]);
 // 图片/视频/文件移动至
 const category_list = [
     {
@@ -458,14 +476,81 @@ const search_data = ref({
 const get_list = () => {
     console.log('查询接口', search_data);
 };
+// 分类弹窗表单数据
+const upload_category_model = ref<Tree>({
+    id: '',
+    name: '',
+    path: '',
+    sort: 0,
+    is_enable: false,
+    children: [],
+});
+// 分类弹窗操作类型
+const upload_category_type = ref('add');
 // 分类弹窗开关
-const dialog_visible_type_oprate = ref(false);
+const upload_category_model_visible = ref(false);
 // 添加一级分类
-const add_type = () => {};
+const add_type = () => {
+    upload_category_type.value = 'add';
+    upload_category_model_visible.value = true;
+    upload_category_id.value = '';
+};
+// 分类操作确认回调
+const upload_category_confirm = (data: any) => {
+    if (upload_category_type.value == 'add') {
+        // 添加分类
+        // 判断是添加一级分类还是子级分类
+        if (upload_category_id.value == '') {
+            // 添加子级分类
+            console.log('添加子级分类');
+            // type_data.value = type_data.value.map((item: any) => {
+            //     if (item.id == upload_category_id.value) {
+            //         item.children.push(data);
+            //     }
+            //     return item;
+            // });
+        } else {
+            // 添加一级分类
+            console.log('添加一级分类');
+            // type_data.value = [...type_data.value, data];
+        }
+    } else if (upload_category_type.value == 'edit') {
+        // 编辑分类
+        console.log('编辑分类');
+        // type_data.value = type_data.value.map((item: any) => {
+        //     if (item.id == data.id) {
+        //         item = data;
+        //     }
+        //     return item;
+        // });
+    }
+};
 // 左侧分类树结构节点点击事件
 const tree_node_event = (data: any) => {
     // search_filter.value = data.id;
     get_list();
+};
+const upload_category_id = ref<number | string>('');
+// 添加子分类
+const append_type_event = (data: Tree) => {
+    upload_category_type.value = 'add';
+    upload_category_id.value = data.id;
+    upload_category_model_visible.value = true;
+};
+// 编辑子分类
+const edit_type_event = (data: Tree) => {
+    upload_category_type.value = 'edit';
+    upload_category_id.value = data.id;
+    upload_category_model_visible.value = true;
+    upload_category_model.value = data;
+};
+// 删除分类（Node报错，node使用any）
+const remove_type_event = (node: any, data: Tree) => {
+    const parent = node.parent;
+    const children: Tree[] = parent.data.children || parent.data;
+    const index = children.findIndex((d) => d.id === data.id);
+    children.splice(index, 1);
+    // type_data.value = [...type_data.value];
 };
 // 确认
 const confirm_event = () => {

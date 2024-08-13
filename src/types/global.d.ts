@@ -98,6 +98,21 @@ declare global {
     };
 
     /**
+     * 链接参数
+     */
+    type linkData = {
+        id?: number;
+        name: string;
+        link?: String;
+        data?: Data[];
+        icon?: string;
+        lng?: number;
+        lat?: number;
+        hasChildren?: boolean;
+        children?: linkData[];
+    };
+
+    /**
      * 热区参数
      */
     type hotData = {
@@ -116,7 +131,7 @@ declare global {
         drag_start: rectCoords;
         drag_end: rectCoords;
         name: string;
-        link: object;
+        link: linkData;
     };
 }
 export {};
