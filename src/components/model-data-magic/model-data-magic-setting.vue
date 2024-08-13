@@ -1,5 +1,5 @@
 <template>
-    <div class="auxiliary-line-setting">
+    <div class="w">
         <template v-if="type == '1'">
             <model-data-magic-content :value="value.content"></model-data-magic-content>
         </template>
@@ -20,8 +20,4 @@ const props = defineProps({
     },
 });
 </script>
-<style lang="scss" scoped>
-.auxiliary-line-setting {
-    width: 100%;
-}
-</style>
+<style lang="scss" scoped></style>

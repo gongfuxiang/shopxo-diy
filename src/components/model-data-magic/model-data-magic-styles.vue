@@ -7,10 +7,10 @@
                     <slider v-model="form.image_spacing" :max="100"></slider>
                 </el-form-item>
                 <el-form-item label="数据圆角">
-                    <radius :value="form.data" @update:value="radius_change"></radius>
+                    <radius :value="form.data_radius" @update:value="data_radius_change"></radius>
                 </el-form-item>
                 <el-form-item label="图片圆角">
-                    <radius :value="form" @update:value="radius_change"></radius>
+                    <radius :value="form.img_radius" @update:value="img_radius_change"></radius>
                 </el-form-item>
             </card-container>
         </el-form>
@@ -37,8 +37,18 @@ const common_style_update = (value: any) => {
     form.value.common_style = value;
 };
 // 内容圆角
-const radius_change = (radius: any) => {
-    form.value = Object.assign(form.value, pick(radius, [
+const img_radius_change = (radius: any) => {
+    form.value.img_radius = Object.assign(form.value.img_radius, pick(radius, [
+        'radius',
+        'radius_top_left',
+        'radius_top_right',
+        'radius_bottom_left',
+        'radius_bottom_right',
+    ]));
+}
+// 内容圆角
+const data_radius_change = (radius: any) => {
+    form.value.data_radius = Object.assign(form.value.data_radius, pick(radius, [
         'radius',
         'radius_top_left',
         'radius_top_right',

@@ -12,7 +12,7 @@
                 <div v-if="selected_active == index && props.flag" class="cube-del" @click.stop="on_selected_del(index)">
                     <icon name="close" color="f" size="8"></icon>
                 </div>
-                <template v-if="!isEmpty(item.img[0])">
+                <template v-if="!isEmpty(item.img[0]) && props.type == 'img'">
                     <image-empty v-model="item.img[0]"></image-empty>
                 </template>
                 <template v-else>
@@ -21,6 +21,9 @@
                         x
                         {{ Math.round((750 / densityNum) * (item.end.x - item.start.x + 1)) }}
                         像素
+                        <template v-if="props.type == 'data'">
+                            <div class="mt-12">共有3个商品</div>
+                        </template>
                     </div>
                 </template>
             </div>
@@ -39,18 +42,22 @@ interface CubeItem {
         x: number;
         y: number;
     };
-    img: uploadList[]
+    img: uploadList[],
+    img_list?: any,
+    data_list?: any
 }
 
 interface Props {
     flag: boolean;
     list: CubeItem[];
+    type: string;
     cubeWidth: number;
     cubeHeight: number;
 }
 const props = withDefaults(defineProps<Props>(), {
     list: () => [],
     flag: false,
+    type: 'img',
     cubeWidth: 390,
     cubeHeight: 390,
 });
@@ -202,6 +209,10 @@ const selected_style = (item: CubeItem) => {
 const selected_click = (index: number) => {
     selected_active.value = index;
     emits('selected_click', index);
+};
+const tips = () => {
+    console.log(selectedList.value[selected_active.value].img_list);
+    console.log(selectedList.value[selected_active.value].data_list);
 };
 </script>
 <style lang="scss" scoped>

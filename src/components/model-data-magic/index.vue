@@ -1,16 +1,8 @@
 <template>
     <div ref="container" class="img-magic" :style="style_container">
         <div class="w h re outer-style">
-            <!-- 风格3 -->
-            <template v-if="form.style_actived == 2">
-                <div class="flex-row align-c jc-c style-size">
-                    <div v-for="(item, index) in form.img_magic_list" :key="index" class="three img-spacing-border">
-                        <image-empty v-model="item.img[0]" :style="content_img_radius"></image-empty>
-                    </div>
-                </div>
-            </template>
             <!-- 风格9 -->
-            <template v-else-if="form.style_actived == 8">
+            <template v-if="form.style_actived == 8">
                 <div class="flex-row align-c jc-c style-size flex-wrap">
                     <div v-for="(item, index) in form.img_magic_list" :key="index" :class="['img-spacing-border', { 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index) }]">
                         <image-empty v-model="item.img[0]" :style="content_img_radius"></image-empty>

@@ -29,7 +29,9 @@
                                             </div>
                                         </template>
                                     </el-image>
-                                    <url-value v-model="row.href"></url-value>
+                                    <div class="flex-1 flex-width">
+                                        <url-value v-model="row.href"></url-value>
+                                    </div>
                                 </template>
                             </drag>
                             <el-button class="mtb-20 w" @click="add">+添加</el-button>
