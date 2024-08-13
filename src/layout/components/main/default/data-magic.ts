@@ -4,9 +4,8 @@ import { tr } from "element-plus/es/locale";
 interface data_magic {
     start: object;
     end: object;
-    data_type: string;
-    commodity_list: Array<string>,
-    img_list: Array<string>;
+    img: uploadList[];
+    data_content: object;
     data_style: object;
 }
 interface defaultSearch {

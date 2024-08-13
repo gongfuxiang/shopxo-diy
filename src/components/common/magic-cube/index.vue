@@ -12,7 +12,7 @@
                 <div v-if="selected_active == index && props.flag" class="cube-del" @click.stop="on_selected_del(index)">
                     <icon name="close" color="f" size="8"></icon>
                 </div>
-                <template v-if="!isEmpty(item.img[0]) && props.type == 'img'">
+                <template v-if="item.img && !isEmpty(item.img[0] || '') && props.type == 'img'">
                     <image-empty v-model="item.img[0]"></image-empty>
                 </template>
                 <template v-else>
@@ -42,7 +42,7 @@ interface CubeItem {
         x: number;
         y: number;
     };
-    img: uploadList[],
+    img?: uploadList[],
     img_list?: any,
     data_list?: any
 }

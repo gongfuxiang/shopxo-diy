@@ -15,9 +15,9 @@
                 <div class="mb-12">展示设置</div>
                 <el-form-item label-width="0" class="show-config">
                     <!-- 风格9 -->
-                    <template v-if="form.style_actived == 8">
+                    <template v-if="form.style_actived == 7">
                         <div class="flex-row align-c jc-c gap-2 style-size flex-wrap">
-                            <div v-for="(item, index) in form.img_magic_list" :key="index" :class="['bg-f5', {'cube-selected-active': selected_active == index, 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index)}]" @click="selected_click(index)">
+                            <div v-for="(item, index) in form.data_magic_list" :key="index" :class="['bg-f5', {'cube-selected-active': selected_active == index, 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index)}]" @click="selected_click(index)">
                                 <template v-if="!isEmpty(item.img[0])">
                                     <image-empty v-model="item.img[0]"></image-empty>
                                 </template>
@@ -31,16 +31,17 @@
                         </div>
                     </template>
                     <template v-else>
-                        <magic-cube :key="form.style_actived" :list="form.img_magic_list" :flag="false" :cube-width="cubeWidth" type="data" :cube-height="cubeHeight" @selected_click="selected_click"></magic-cube>
+                        <magic-cube :key="form.style_actived" :list="form.data_magic_list" :flag="false" :cube-width="cubeWidth" type="data" :cube-height="cubeHeight" @selected_click="selected_click"></magic-cube>
                     </template>
                 </el-form-item>
             </card-container>
             <el-tabs v-model="tabs_name" class="content-tabs">
+                {{ form.data_magic_list[selected_active] }}
                 <el-tab-pane label="内容设置" name="content">
-                    <tabs-content :value="form[selected_active]"></tabs-content>
+                    <tabs-content :value="form.data_magic_list[selected_active].data_content"></tabs-content>
                 </el-tab-pane>
                 <el-tab-pane label="样式设置" name="styles">
-                    <tabs-styles :value="form[selected_active].style"></tabs-styles>
+                    <tabs-styles :value="form.data_magic_list[selected_active].data_style"></tabs-styles>
                 </el-tab-pane>
             </el-tabs>
         </el-form>
@@ -85,19 +86,29 @@ const data_style = {
     color: '#DDDDDD',
 }
 
+const data_content = {
+    data_type: 'commodity',
+    product_list:[],
+    img_list:[]
+}
+
 // 风格
 const style_show_list = [
-    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 1, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }], // 风格1
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }], // 风格2
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 1, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格3
-    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 1, y: 3},end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格4
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格5
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 1, y: 3},end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格6
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 1, y: 3},end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格7
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 3},end: {x: 3, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 4, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 4, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格8
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 3},end: {x: 3, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 4, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格9
+    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2} }, { start: {x: 1, y: 3},end: {x: 4, y: 4} }], // 风格1
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1},end: {x: 4, y: 4} }], // 风格2
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2} }, { start: {x: 3, y: 1},end: {x: 4, y: 2} }, { start: {x: 1, y: 3},end: {x: 4, y: 4} }],// 风格3
+    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2} }, { start: {x: 1, y: 3},end: {x: 2, y: 4} }, { start: {x: 3, y: 3},end: {x: 4, y: 4} }],// 风格4
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1},end: {x: 4, y: 2} }, { start: {x: 3, y: 3},end: {x: 4, y: 4} }],// 风格5
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2} }, { start: {x: 1, y: 3},end: {x: 2, y: 4} }, { start: {x: 3, y: 1},end: {x: 4, y: 4} }],// 风格6
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2} }, { start: {x: 3, y: 1},end: {x: 4, y: 2} }, { start: {x: 1, y: 3},end: {x: 2, y: 4} }, { start: {x: 3, y: 3},end: {x: 4, y: 4} }],// 风格7
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1},end: {x: 4, y: 2} }, { start: {x: 3, y: 3},end: {x: 3, y: 4} }, { start: {x: 4, y: 3},end: {x: 4, y: 4} }, { start: {x: 4, y: 3},end: {x: 4, y: 4} }],// 风格8
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1},end: {x: 4, y: 2} }, { start: {x: 3, y: 3},end: {x: 3, y: 4} }, { start: {x: 4, y: 3},end: {x: 4, y: 4} }],// 风格9
 ]
 const tabs_name = ref('content');
+const state = reactive({
+    form: props.value
+});
+const { form } = toRefs(state);
 //#region 容器大小变更
 const cubeWidth = ref(400);
 const cubeHeight = ref(400);
@@ -113,26 +124,36 @@ function handleResize() {
         cubeHeight.value = 390;
     }
 }
-
+onBeforeMount(() => {
+    if (isEmpty(form.value.data_magic_list)) {
+        form.value.data_magic_list = magic_list(0);
+    }
+})
 onMounted(() => {
     handleResize();
     window.addEventListener('resize', handleResize);
 });
- 
+
 onUnmounted(() => {
     window.removeEventListener('resize', handleResize);
 });
 //#endregion
 const selected_active = ref(0);
-const state = reactive({
-    form: props.value
-});
-const { form } = toRefs(state);
+
 const style_click = (index: number) => {
-    form.value.img_magic_list = cloneDeep(style_show_list[index]);
+    form.value.data_magic_list = cloneDeep(style_show_list[index]);
+
     form.value.style_actived = index;
     selected_active.value = 0;
 }
+const magic_list = (index: number) => {
+    return cloneDeep(style_show_list[index]).map((item) => ({
+        ...item,
+        data_content: cloneDeep(data_content),
+        data_style: cloneDeep(data_style)
+    }));
+}
+
 // 选中的点击事件
 const selected_click = (index: number) => {
     selected_active.value = index;

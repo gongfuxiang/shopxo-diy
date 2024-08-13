@@ -18,7 +18,7 @@
     <card-container v-if="form.data_type == 'img'" class="mb-8">
         <div class="mb-12">图片设置</div>
         <div class="flex-col gap-20">
-            <div v-for="(item, index) in form.carousel_list" :key="index" class="card-background box-shadow-sm re">
+            <div v-for="(item, index) in form.img_list" :key="index" class="card-background box-shadow-sm re">
                 <div class="flex-col align-c jc-c gap-20 w">
                     <div class="upload_style">
                         <upload v-model="item.carousel_img" :limit="1" size="100%"></upload>
@@ -67,14 +67,16 @@ const state = reactive({
     form: props.value
 });
 const { form } = toRefs(state);
+console.log(form.value);
+
 const img_add = () => {
-    form.value.carousel_list.push({
+    form.value.img_list.push({
         carousel_img: [],
         carousel_link: {},
     });
 }
 const img_remove = (index: number) => {
-    form.value.carousel_list.splice(index, 1);
+    form.value.img_list.splice(index, 1);
 }
 const product_list_remove = (index: number) => {
     form.value.product_list.splice(index, 1);
