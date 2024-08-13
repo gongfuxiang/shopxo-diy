@@ -10,8 +10,8 @@ lerna-debug.log*
 node_modules
 .DS_Store
 dist
-types/auto-imports.d.ts
-types/components.d.ts
+src/types/auto-imports.d.ts
+src/types/components.d.ts
 dist-ssr
 coverage
 *.local
@@ -28,4 +28,4 @@ coverage
 *.njsproj
 *.sln
 *.sw?
-types/components.d.ts
+
