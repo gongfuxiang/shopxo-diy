@@ -37,10 +37,10 @@
             </card-container>
             <el-tabs v-model="tabs_name" class="content-tabs">
                 <el-tab-pane label="内容设置" name="content">
-                    <tabs-content :value="form"></tabs-content>
+                    <tabs-content :value="form[selected_active]"></tabs-content>
                 </el-tab-pane>
                 <el-tab-pane label="样式设置" name="styles">
-                    <tabs-styles :value="form"></tabs-styles>
+                    <tabs-styles :value="form[selected_active].style"></tabs-styles>
                 </el-tab-pane>
             </el-tabs>
         </el-form>
@@ -56,17 +56,46 @@ const props = defineProps({
 });
 const style_list = ['heng2', 'shu2', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2'];
 
+const data_style = {
+    color_list: ['#FFD9C3', '#FFECE2', '#FFFFFF'],
+    direction: '90deg',
+    background_img_style: 2,
+    background_img_url: [],
+    is_roll: true,
+    rotation_direction: 'horizontal',
+    interval_time: 2,
+    heading_color: '#000',
+    heading_typeface: 'normal',
+    heading_size: 12,
+    subtitle_color: '#000',
+    subtitle_typeface: 'normal',
+    subtitle_size: 12,
+    is_show: true,
+    indicator_style: 'dot',
+    indicator_location: 'center',
+    indicator_size: 5,
+    indicator_radius: {
+        radius: 0,
+        radius_top_left: 0,
+        radius_top_right: 0,
+        radius_bottom_left: 0,
+        radius_bottom_right: 0,
+    },
+    actived_color: '#2A94FF',
+    color: '#DDDDDD',
+}
+
 // 风格
 const style_show_list = [
-    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 1, y: 3},end: {x: 4, y: 4},commodity_list:[], img_list:[] }], // 风格1
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 4},commodity_list:[], img_list:[] }], // 风格2
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 2},commodity_list:[], img_list:[] }, { start: {x: 1, y: 3},end: {x: 4, y: 4},commodity_list:[], img_list:[] }],// 风格3
-    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 1, y: 3},end: {x: 2, y: 4},commodity_list:[], img_list:[] }, { start: {x: 3, y: 3},end: {x: 4, y: 4},commodity_list:[], img_list:[] }],// 风格4
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 2},commodity_list:[], img_list:[] }, { start: {x: 3, y: 3},end: {x: 4, y: 4},commodity_list:[], img_list:[] }],// 风格5
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 1, y: 3},end: {x: 2, y: 4},commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 4},commodity_list:[], img_list:[] }],// 风格6
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 2},commodity_list:[], img_list:[] }, { start: {x: 1, y: 3},end: {x: 2, y: 4},commodity_list:[], img_list:[] }, { start: {x: 3, y: 3},end: {x: 4, y: 4},commodity_list:[], img_list:[] }],// 风格7
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 2},commodity_list:[], img_list:[] }, { start: {x: 3, y: 3},end: {x: 3, y: 4},commodity_list:[], img_list:[] }, { start: {x: 4, y: 3},end: {x: 4, y: 4},commodity_list:[], img_list:[] }, { start: {x: 4, y: 3},end: {x: 4, y: 4},commodity_list:[], img_list:[] }],// 风格8
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 2},commodity_list:[], img_list:[] }, { start: {x: 3, y: 3},end: {x: 3, y: 4},commodity_list:[], img_list:[] }, { start: {x: 4, y: 3},end: {x: 4, y: 4},commodity_list:[], img_list:[] }],// 风格9
+    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 1, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }], // 风格1
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }], // 风格2
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 1, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格3
+    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 1, y: 3},end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格4
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格5
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 1, y: 3},end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格6
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 1, y: 3},end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格7
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 3},end: {x: 3, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 4, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 4, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格8
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 1},end: {x: 4, y: 2}, commodity_list:[], img_list:[] }, { start: {x: 3, y: 3},end: {x: 3, y: 4}, commodity_list:[], img_list:[] }, { start: {x: 4, y: 3},end: {x: 4, y: 4}, commodity_list:[], img_list:[] }],// 风格9
 ]
 const tabs_name = ref('content');
 //#region 容器大小变更

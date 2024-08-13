@@ -4,13 +4,13 @@
             <!-- 风格9 -->
             <template v-if="form.style_actived == 8">
                 <div class="flex-row align-c jc-c style-size flex-wrap">
-                    <div v-for="(item, index) in form.img_magic_list" :key="index" :class="['img-spacing-border', { 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index) }]">
+                    <div v-for="(item, index) in form.data_magic_list" :key="index" :class="['img-spacing-border', { 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index) }]">
                         <image-empty v-model="item.img[0]" :style="content_img_radius"></image-empty>
                     </div>
                 </div>
             </template>
             <template v-else>
-                <div v-for="(item, index) in form.img_magic_list" :key="index" class="cube-selected img-spacing-border" :style="selected_style(item)">
+                <div v-for="(item, index) in form.data_magic_list" :key="index" class="cube-selected img-spacing-border" :style="selected_style(item)">
                     <image-empty v-model="item.img[0]" :style="content_img_radius"></image-empty>
                 </div>
             </template>

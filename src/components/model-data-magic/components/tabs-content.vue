@@ -1,19 +1,21 @@
 <template>
     <card-container class="mb-8">
         <el-form-item label="数据类型">
-            <el-radio-group v-model="form.display_location" class="ml-4">
-                <el-radio value="img">图片</el-radio>
+            <el-radio-group v-model="form.data_type" class="ml-4">
                 <el-radio value="commodity">商品</el-radio>
+                <el-radio value="img">图片</el-radio>
             </el-radio-group>
         </el-form-item>
-        <el-form-item label="主标题">
-            <el-input placeholder="请输入主标题"></el-input>
-        </el-form-item>
-        <el-form-item label="副标题">
-            <el-input placeholder="请输入副标题"></el-input>
-        </el-form-item>
+        <template v-if="form.data_type === 'commodity'">
+            <el-form-item label="主标题">
+                <el-input placeholder="请输入主标题"></el-input>
+            </el-form-item>
+            <el-form-item label="副标题">
+                <el-input placeholder="请输入副标题"></el-input>
+            </el-form-item>
+        </template>
     </card-container>
-    <card-container v-if="form.display_location == 'img'" class="mb-8">
+    <card-container v-if="form.data_type == 'img'" class="mb-8">
         <div class="mb-12">图片设置</div>
         <div class="flex-col gap-20">
             <div v-for="(item, index) in form.carousel_list" :key="index" class="card-background box-shadow-sm re">
@@ -48,7 +50,7 @@
             </template>
         </drag>
         <el-button class="mtb-20 w" @click="product_list_add">+添加</el-button>
-        
+
     </card-container>
 </template>
 <script setup lang="ts">

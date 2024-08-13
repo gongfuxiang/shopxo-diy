@@ -1,15 +1,18 @@
 import { get_math } from "@/utils";
 import defaultCommon from "./index";
-interface img_magic {
+import { tr } from "element-plus/es/locale";
+interface data_magic {
     start: object;
     end: object;
-    img: uploadList[],
-    img_link: object;
+    data_type: string;
+    commodity_list: Array<string>,
+    img_list: Array<string>;
+    data_style: object;
 }
 interface defaultSearch {
     content: {
         style_actived: number;
-        img_magic_list: img_magic[];
+        data_magic_list: data_magic[];
     };
     style: {
         img_radius: object
@@ -22,20 +25,7 @@ interface defaultSearch {
 const defaultSearch: defaultSearch = {
     content: {
         style_actived: 0,
-        img_magic_list: [
-            {
-                start: {x: 1, y: 1},
-                end: {x: 4, y: 2},
-                img: [],
-                img_link: {}
-            },
-            {
-                start: {x: 1, y: 3},
-                end: {x: 4, y: 4},
-                img: [],
-                img_link: {}
-            }
-        ],
+        data_magic_list: [],
     },
     style: {
         img_radius: {

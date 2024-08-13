@@ -48,8 +48,6 @@
 import { pick } from 'lodash';
 // interface indicator {
 //     is_show: boolean;
-//     is_roll: boolean;
-//     interval_time: number;
 //     indicator_style: string;
 //     indicator_location: string;
 //     indicator_size: number;
