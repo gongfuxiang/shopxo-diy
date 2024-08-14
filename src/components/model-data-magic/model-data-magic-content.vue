@@ -49,8 +49,9 @@ const props = defineProps({
         default: () => {},
     },
 });
+// 风格数组
 const style_list = ['heng2', 'shu2', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2'];
-
+// 每个小模块独立的样式
 const data_style = {
     color_list: ['#FFD9C3', '#FFECE2', '#FFFFFF'],
     direction: '90deg',
@@ -79,7 +80,7 @@ const data_style = {
     actived_color: '#2A94FF',
     color: '#DDDDDD',
 }
-
+// 每个小模块独立的内容
 const data_content = {
     data_type: 'commodity',
     heading_title: '',
@@ -88,7 +89,7 @@ const data_content = {
     img_list:[]
 }
 
-// 风格
+// 不同风格的数据
 const style_show_list = [
     [{ start: {x: 1, y: 1}, end: {x: 4, y: 2} }, { start: {x: 1, y: 3},end: {x: 4, y: 4} }], // 风格1
     [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1},end: {x: 4, y: 4} }], // 风格2
@@ -111,15 +112,6 @@ const cubeHeight = ref(400);
 const style_width = computed(() => cubeWidth.value + 'px');
 const style_height = computed(() => cubeHeight.value + 'px');
 
-function handleResize() {
-    if (window.innerWidth <= 1540) {
-        cubeWidth.value = 330;
-        cubeHeight.value = 330;
-    } else {
-        cubeWidth.value = 390;
-        cubeHeight.value = 390;
-    }
-}
 onBeforeMount(() => {
     if (isEmpty(form.value.data_magic_list)) {
         form.value.data_magic_list = magic_list(0);
@@ -133,6 +125,16 @@ onMounted(() => {
 onUnmounted(() => {
     window.removeEventListener('resize', handleResize);
 });
+
+const handleResize = () => {
+    if (window.innerWidth <= 1540) {
+        cubeWidth.value = 330;
+        cubeHeight.value = 330;
+    } else {
+        cubeWidth.value = 390;
+        cubeHeight.value = 390;
+    }
+}
 //#endregion
 const selected_active = ref(0);
 
@@ -141,6 +143,7 @@ const style_click = (index: number) => {
 
     form.value.style_actived = index;
     selected_active.value = 0;
+    tabs_name.value = 'content';
 }
 const magic_list = (index: number) => {
     return cloneDeep(style_show_list[index]).map((item) => ({
@@ -153,6 +156,7 @@ const magic_list = (index: number) => {
 // 选中的点击事件
 const selected_click = (index: number) => {
     selected_active.value = index;
+    tabs_name.value = 'content';
 }
 </script>
 <style lang="scss" scoped>

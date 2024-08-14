@@ -23,7 +23,7 @@
                     <div class="upload_style">
                         <upload v-model="item.carousel_img" :limit="1" size="100%"></upload>
                     </div>
-                    <el-form-item label="图片链接" class="w mb-16">
+                    <el-form-item label="图片链接" class="w mb-16" label-width="60">
                         <url-value v-model="item.carousel_link"></url-value>
                     </el-form-item>
                 </div>
@@ -63,11 +63,7 @@ const props = defineProps({
     },
 });
 
-const state = reactive({
-    form: props.value
-});
-const { form } = toRefs(state);
-console.log(form.value);
+const form = ref(props.value);
 
 const img_add = () => {
     form.value.img_list.push({
@@ -93,11 +89,26 @@ const product_list_add = () => {
 const product_list_sort = (new_list: any) => {
     form.value.product_list = new_list;
 }
+
+watchEffect(() => {
+    form.value = props.value;
+})
 </script>
 <style lang="scss" scoped>
 .card.mb-8 {
     .el-form-item:last-child {
         margin-bottom: 0;
     }
+}
+.card-background {
+    background: #fff;
+    padding-left: 1.6rem;
+    padding-right: 2rem;
+    padding-top: 4.6rem;
+    padding-bottom: 1.6rem;
+}
+.upload_style {
+    width: 100%;
+    height: 12.4rem;
 }
 </style>

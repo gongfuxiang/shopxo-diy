@@ -51,20 +51,6 @@
     </card-container>
 </template>
 <script setup lang="ts">
-interface from {
-    color_list: string[];
-    background_img_url: string;
-    background_img_style: string;
-    is_roll: boolean;
-    rotation_direction: string;
-    interval_time: number;
-    heading_color: string;
-    heading_typeface: string;
-    heading_size: number;
-    subtitle_color: string;
-    subtitle_typeface: string;
-    subtitle_size: number;
-}
 const props = defineProps({
     value: {
         type: Object,
@@ -72,17 +58,16 @@ const props = defineProps({
     }
 });
 
-// 默认值
-const state = reactive({
-    form: props.value
-});
-// 如果需要解构，确保使用toRefs
-const { form } = toRefs(state);
+const form = ref(props.value);
 
 const mult_color_picker_event = (arry: string[], type: number) => {
     form.value.user_id_color_list = arry;
     form.value.user_id_direction = type.toString();
 };
+
+watchEffect(() => {
+    form.value = props.value;
+})
 </script>
 <style lang="scss" scoped>
 .card.mb-8 {
