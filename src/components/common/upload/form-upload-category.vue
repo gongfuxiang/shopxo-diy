@@ -17,7 +17,7 @@
                     <el-input v-model="form.sort" placeholder="请输入排序"></el-input>
                 </el-form-item>
                 <el-form-item label="是否启用">
-                    <el-switch v-model="form.is_enable"></el-switch>
+                    <!-- <el-switch v-model="form.is_enable"></el-switch> -->
                 </el-form-item>
             </el-form>
         </div>
@@ -67,7 +67,7 @@ const form = ref<Tree>({
     name: '',
     path: '',
     sort: 0,
-    is_enable: true,
+    is_enable: 1,
     items: [],
 });
 watch(
@@ -82,7 +82,7 @@ watch(
                 name: '',
                 path: '',
                 sort: 0,
-                is_enable: true,
+                is_enable: 1,
                 items: [],
             };
         }

@@ -471,7 +471,7 @@ const upload_category_model = ref<Tree>({
     name: '',
     path: '',
     sort: 0,
-    is_enable: true,
+    is_enable: 1,
     items: [],
 });
 // 分类弹窗操作类型

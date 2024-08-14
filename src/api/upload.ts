@@ -47,7 +47,7 @@ export interface Tree {
     /** 路径 */
     path: string;
     /** 是否开启 */
-    is_enable: boolean;
+    is_enable: Number;
     /** 排序 */
     sort: number;
     /** 下级 */
