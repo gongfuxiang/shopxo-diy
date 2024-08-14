@@ -15,7 +15,7 @@
 </template>
 <script setup lang="ts">
 import { common_styles_computer } from '@/utils';
-import { footerNavCounterStore } from '@/store/modules/footer-nav-content';
+import { footerNavCounterStore } from '@/store';
 const footer_nav_counter_store = footerNavCounterStore();
 const props = defineProps({
     showFooter: {

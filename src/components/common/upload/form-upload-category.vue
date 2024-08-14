@@ -32,11 +32,14 @@
 <script setup lang="ts">
 import { FormInstance, FormRules } from 'element-plus';
 import { cloneDeep } from 'lodash';
+import UploadAPI, { Tree } from '@/api/upload';
 /**
  * @description: 分类操作
  * @param modelValue{uploadList[]} 默认值
  * @param visibleDialog{Boolean} 弹窗开启关闭
  * @param type{String} 新增add编辑edit
+ * @param categoryId{String} 分类id
+ * @param categoryPid{String} 分类父id
  * @return {*} update:modelValue confirm
  */
 const props = defineProps({
@@ -52,21 +55,36 @@ const props = defineProps({
         type: [String, Number],
         default: '',
     },
+    categoryPid: {
+        type: [String, Number],
+        default: '',
+    },
 });
 const dialog_visible_category_oprate = defineModel({ type: Boolean, default: false });
 const form = ref<Tree>({
     id: '',
+    pid: '',
     name: '',
     path: '',
     sort: 0,
     is_enable: true,
-    children: [],
+    items: [],
 });
 watch(
     () => dialog_visible_category_oprate.value,
     (newValue) => {
         if (newValue && props.type !== 'add') {
             form.value = cloneDeep(props.value);
+        } else {
+            form.value = {
+                id: '',
+                pid: '',
+                name: '',
+                path: '',
+                sort: 0,
+                is_enable: true,
+                items: [],
+            };
         }
     }
 );
@@ -97,7 +115,20 @@ const confirm_event = async (formEl: FormInstance | undefined) => {
     if (!formEl) return;
     await formEl.validate((valid, fields) => {
         if (valid) {
-            emit('confirm', form.value, props.categoryId);
+            const new_data = {
+                ...form.value,
+                pid: props.categoryPid,
+            };
+            UploadAPI.saveTree(new_data).then((res) => {
+                if (props.type == 'add') {
+                    ElMessage.success('添加成功');
+                } else if (props.type == 'edit') {
+                    ElMessage.success('编辑成功');
+                } else {
+                    ElMessage.success('操作成功');
+                }
+                emit('confirm');
+            });
             cancel_event(formEl);
         } else {
             console.log('error submit!', fields);

@@ -106,7 +106,7 @@ declare global {
      */
     type linkData = {
         id?: number;
-        name: string;
+        name?: string;
         link?: String;
         data?: Data[];
         icon?: string;

@@ -39,13 +39,14 @@
                 </div>
                 <div class="right-content flex-1 pa-20">
                     <div class="size-16 fw mb-10">图片热区</div>
-                    <div class="size-12 cr-9 mb-20">框选热区范围，双击设置热区信息</div>
                     <div class="flex-col gap-20 item">
                         <div v-for="(item, index) in hot_list.data" :key="index" class="flex-row align-c gap-10">
                             <el-input v-model="item.name" class="name" placeholder="名称"></el-input>
                             <url-value v-model="item.link"></url-value>
                             <icon name="del" size="20" @click="del_event(index)"></icon>
                         </div>
+                        <el-button type="primary" class="add_hot" @click="add_event">添加选区</el-button>
+                        <div class="size-12 cr-9">框选热区范围，双击设置热区信息</div>
                     </div>
                 </div>
             </div>
@@ -142,7 +143,7 @@ const end_drag = (event: MouseEvent) => {
     if (rect_end.value.width > 16 && rect_end.value.height > 16) {
         hot_list.value.data.push({
             name: '热区' + (hot_list.value.data.length + 1),
-            link: { name: '', link: '' },
+            link: {},
             drag_start: cloneDeep(rect_start.value),
             drag_end: cloneDeep(rect_end.value),
         });
@@ -331,6 +332,24 @@ const rect_style = computed(() => {
 //#region 右侧热区编辑-----------------------------------------------start
 const del_event = (index: number) => {
     hot_list.value.data.splice(index, 1);
+};
+const add_event = () => {
+    hot_list.value.data.push({
+        name: '热区' + (hot_list.value.data.length + 1),
+        link: {},
+        drag_start: {
+            x: 0,
+            y: 0,
+            width: 0,
+            height: 0,
+        },
+        drag_end: {
+            x: 100,
+            y: 100,
+            width: 100,
+            height: 100,
+        },
+    });
 };
 //#endregion 右侧热区编辑-----------------------------------------------end
 
