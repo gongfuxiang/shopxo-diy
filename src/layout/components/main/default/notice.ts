@@ -7,9 +7,6 @@ interface carousel_list {
     notice_link: object;
     is_show: boolean;
 }
-interface color_list {
-    color: string;
-}
 interface defaultSearch {
     content: {
         notice_style: string;
@@ -61,10 +58,12 @@ const defaultSearch: defaultSearch = {
         news_size: 15,
         topic_color_list: [
             {
-                color: ''
+                color: '',
+                color_percentage: ''
             },
             {
-                color: ''
+                color: '',
+                color_percentage: ''
             }
         ],
         topic_color: '#000',

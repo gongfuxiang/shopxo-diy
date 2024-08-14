@@ -61,8 +61,7 @@ const img_style = ref('');
 // 标题的设置
 const topic_style = computed(() => {
     // 标题渐变色处理
-    const color_list = new_style.value.topic_color_list.map((item: { color: string }) => item.color) || [];
-    const gradient = gradient_handle(color_list, '90deg');
+    const gradient = gradient_handle(new_style.value.topic_color_list, '90deg');
     // 标题设置
     return `color:${ new_style.value.topic_color }; font-size: ${ new_style.value.topic_size }px; font-weight: ${ new_style.value.topic_typeface }; ${ gradient }`;
 });

@@ -8,22 +8,22 @@
         </el-form-item>
         <template v-if="form.data_type === 'commodity'">
             <el-form-item label="主标题">
-                <el-input placeholder="请输入主标题"></el-input>
+                <el-input v-model="form.heading_title" placeholder="请输入主标题"></el-input>
             </el-form-item>
             <el-form-item label="副标题">
-                <el-input placeholder="请输入副标题"></el-input>
+                <el-input v-model="form.subtitle" placeholder="请输入副标题"></el-input>
             </el-form-item>
         </template>
     </card-container>
     <card-container v-if="form.data_type == 'img'" class="mb-8">
         <div class="mb-12">图片设置</div>
         <div class="flex-col gap-20">
-            <div v-for="(item, index) in form.carousel_list" :key="index" class="card-background box-shadow-sm re">
+            <div v-for="(item, index) in form.img_list" :key="index" class="card-background box-shadow-sm re">
                 <div class="flex-col align-c jc-c gap-20 w">
                     <div class="upload_style">
                         <upload v-model="item.carousel_img" :limit="1" size="100%"></upload>
                     </div>
-                    <el-form-item label="图片链接" class="w mb-16">
+                    <el-form-item label="图片链接" class="w mb-16" label-width="60">
                         <url-value v-model="item.carousel_link"></url-value>
                     </el-form-item>
                 </div>
@@ -34,7 +34,7 @@
     </card-container>
     <card-container v-else class="mb-8">
         <div class="mb-12">商品设置</div>
-        <drag :data="form.product_list" :space-col="20" @remove="product_list_remove" @on-sort="product_list_sort">
+        <drag :key="form.product_list" :data="form.product_list" :space-col="20" @remove="product_list_remove" @on-sort="product_list_sort">
             <template #default="{ row }">
                 <upload v-model="row.new_src" :limit="1" size="40" styles="2"></upload>
                 <el-image :src="row.url" fit="contain" class="img">
@@ -50,7 +50,6 @@
             </template>
         </drag>
         <el-button class="mtb-20 w" @click="product_list_add">+添加</el-button>
-
     </card-container>
 </template>
 <script setup lang="ts">
@@ -63,18 +62,16 @@ const props = defineProps({
     },
 });
 
-const state = reactive({
-    form: props.value
-});
-const { form } = toRefs(state);
+const form = ref(props.value);
+
 const img_add = () => {
-    form.value.carousel_list.push({
+    form.value.img_list.push({
         carousel_img: [],
         carousel_link: {},
     });
 }
 const img_remove = (index: number) => {
-    form.value.carousel_list.splice(index, 1);
+    form.value.img_list.splice(index, 1);
 }
 const product_list_remove = (index: number) => {
     form.value.product_list.splice(index, 1);
@@ -91,11 +88,26 @@ const product_list_add = () => {
 const product_list_sort = (new_list: any) => {
     form.value.product_list = new_list;
 }
+
+watchEffect(() => {
+    form.value = props.value;
+})
 </script>
 <style lang="scss" scoped>
 .card.mb-8 {
     .el-form-item:last-child {
         margin-bottom: 0;
     }
+}
+.card-background {
+    background: #fff;
+    padding-left: 1.6rem;
+    padding-right: 2rem;
+    padding-top: 4.6rem;
+    padding-bottom: 1.6rem;
+}
+.upload_style {
+    width: 100%;
+    height: 12.4rem;
 }
 </style>

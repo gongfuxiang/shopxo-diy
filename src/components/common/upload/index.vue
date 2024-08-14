@@ -24,14 +24,14 @@
                 <el-scrollbar height="490px">
                     <el-tree ref="treeRef" class="filter-tree" :data="type_data" node-key="id" highlight-current :expand-on-click-node="false" :props="defaultProps" empty-text="无数据" default-expand-all :filter-node-method="filter_node" @node-click="tree_node_event">
                         <template #default="{ node, data }">
-                            <span class="custom-tree-node flex-row jc-sb align-c w pr-10">
-                                <span>{{ data.name }}</span>
-                                <span class="flex-row gap-10">
-                                    <icon name="add" size="12" color="primary" @click="append_type_event(data)"></icon>
+                            <div class="custom-tree-node flex-row jc-sb gap-10 align-c w pr-10">
+                                <div class="flex-1 flex-width text-line-1 block">{{ data.name }}</div>
+                                <div class="flex-row gap-10">
+                                    <icon v-if="data.pid == 0" name="add" size="12" color="primary" @click="append_type_event(data)"></icon>
                                     <icon name="edit" size="12" color="primary" @click="edit_type_event(data)"></icon>
                                     <icon name="del" size="12" color="primary" @click="remove_type_event(node, data)"></icon>
-                                </span>
-                            </span>
+                                </div>
+                            </div>
                         </template>
                     </el-tree>
                 </el-scrollbar>
@@ -41,7 +41,10 @@
                     <div class="right-oprate flex-row">
                         <el-button type="primary" plain @click="upload_model_open">上传{{ upload_type_name }}</el-button>
                         <el-button @click="mult_del_event">删除{{ upload_type_name }}</el-button>
-                        <el-cascader class="right-classify ml-12" :options="category_list" :placeholder="upload_type_name + '移动至'" :show-all-levels="false"></el-cascader>
+                        <!-- <el-cascader :show-all-levels="false" clearable></el-cascader> -->
+                        <div class="right-classify ml-12">
+                            <transform-category :data="type_data" :check-img-ids="check_img_ids" :placeholder="upload_type_name + '移动至'"></transform-category>
+                        </div>
                     </div>
                     <div class="right-search">
                         <el-input v-model="search_name" :placeholder="'请输入' + upload_type_name + '名称'" @input="get_list">
@@ -170,10 +173,13 @@
     <!-- 图片预览 -->
     <el-image-viewer v-if="preview_switch_img && upload_type == 'img'" :z-index="999999" :url-list="[preview_url]" :hide-on-click-modal="true" @close="preview_close"></el-image-viewer>
     <upload-model v-model="upload_model_visible" :type="upload_type" :exts="props.type == 'img' ? ext_img_name_list : props.type == 'video' ? ext_video_name_list : ext_file_name_list" @close="close_upload_model"></upload-model>
-    <form-upload-category v-model="upload_category_model_visible" :value="upload_category_model" :type="upload_category_type" :category-id="upload_category_id" @confirm="upload_category_confirm"></form-upload-category>
+    <form-upload-category v-model="upload_category_model_visible" :value="upload_category_model" :type="upload_category_type" :category-id="upload_category_id" :category-pid="upload_category_pid" @confirm="upload_category_confirm"></form-upload-category>
 </template>
 <script lang="ts" setup>
 import { get_math } from '@/utils/index';
+import UploadAPI, { Tree } from '@/api/upload';
+import { uploadrStore } from '@/store';
+const upload_store = uploadrStore();
 const app = getCurrentInstance();
 /**
  * @description: 图片上传
@@ -230,6 +236,14 @@ const view_list_value = ref<uploadList[]>([]);
 // 弹窗显示
 // const dialog_visible = ref(props.visibleDialog);
 const dialog_visible = defineModel('visibleDialog', { type: Boolean, default: false });
+watch(
+    () => dialog_visible.value,
+    (val) => {
+        if (val) {
+            type_data.value = upload_store.category;
+        }
+    }
+);
 
 // 文件后缀分类
 const ext_img_name_list = ref(['.png', '.jpg', '.jpeg', '.bmp', '.webp', '.gif']);
@@ -297,17 +311,6 @@ const upload_type_name = computed(() => {
 const upload_type_change = (type: any) => {
     view_list_value.value = [];
 };
-
-const treeRef = ref();
-const defaultProps = {
-    children: 'children',
-    label: 'name',
-};
-// 分类查询
-const search_filter = ref('');
-watch(search_filter, (val) => {
-    treeRef.value!.filter(val);
-});
 // 名称查询
 const search_name = ref('');
 // 总页数
@@ -316,55 +319,6 @@ const search_name = ref('');
 const page = ref(1);
 // 总数量
 const data_total = ref(0);
-const filter_node = (value: string, data: any): boolean => {
-    if (!value) return true;
-    return data.name.indexOf(value) !== -1;
-};
-const type_data = ref<Tree[]>([
-    {
-        id: 0,
-        name: '全部图片',
-        path: '全部',
-        is_enable: true,
-        sort: 1,
-        children: [],
-    },
-    {
-        id: 1,
-        name: '全部视频',
-        path: '全部',
-        is_enable: true,
-        sort: 2,
-        children: [],
-    },
-    {
-        id: 2,
-        name: '全部文件',
-        path: '全部',
-        is_enable: true,
-        sort: 3,
-        children: [],
-    },
-]);
-// 图片/视频/文件移动至
-const category_list = [
-    {
-        value: 'component',
-        label: 'Component',
-        children: [
-            {
-                value: 'basic',
-                label: 'Basic',
-                children: [
-                    {
-                        value: 'layout',
-                        label: 'Layout',
-                    },
-                ],
-            },
-        ],
-    },
-];
 
 // 已上传数据的列表
 const upload_list = ref<uploadList[]>([
@@ -375,6 +329,7 @@ const upload_list = ref<uploadList[]>([
     { id: 5, url: '/src/assets/movie.mp4', original: '头像5', title: '头像5', ext: '.mp4', type: 'video' },
     { id: 6, url: '/src/assets/movie.mp4', original: '头像6', title: '头像6', ext: '.docx', type: '.docx' },
 ]);
+const check_img_ids = ref('');
 // 选择图片
 const check_img_event = (item: any) => {
     const item_id = item.id;
@@ -392,6 +347,7 @@ const check_img_event = (item: any) => {
             }
         }
     }
+    check_img_ids.value = view_list_value.value.map((item: any) => item.id).join(',');
 };
 // 预览开关
 const preview_switch_img = ref(false);
@@ -476,14 +432,47 @@ const search_data = ref({
 const get_list = () => {
     console.log('查询接口', search_data);
 };
+//#region 分类 ----------------------------------------------------------start
+const treeRef = ref();
+const defaultProps = {
+    children: 'items',
+    label: 'name',
+};
+// 分类查询
+const search_filter = ref('');
+watch(search_filter, (val) => {
+    treeRef.value!.filter(val);
+});
+const filter_node = (value: string, data: any): boolean => {
+    if (!value) return true;
+    return data.name.indexOf(value) !== -1;
+};
+const type_data = ref<Tree[]>([]);
+onMounted(() => {
+    if (!upload_store.is_category) {
+        upload_store.set_is_category(true);
+        get_tree();
+    } else {
+        type_data.value = upload_store.category;
+    }
+});
+// 查询分类列表
+const get_tree = () => {
+    UploadAPI.getTree().then((res) => {
+        type_data.value = res.data.category_list;
+        upload_store.set_category(type_data.value);
+    });
+};
+
 // 分类弹窗表单数据
 const upload_category_model = ref<Tree>({
     id: '',
+    pid: '',
     name: '',
     path: '',
     sort: 0,
-    is_enable: false,
-    children: [],
+    is_enable: 1,
+    items: [],
 });
 // 分类弹窗操作类型
 const upload_category_type = ref('add');
@@ -494,36 +483,11 @@ const add_type = () => {
     upload_category_type.value = 'add';
     upload_category_model_visible.value = true;
     upload_category_id.value = '';
+    upload_category_pid.value = '';
 };
 // 分类操作确认回调
-const upload_category_confirm = (data: any) => {
-    if (upload_category_type.value == 'add') {
-        // 添加分类
-        // 判断是添加一级分类还是子级分类
-        if (upload_category_id.value == '') {
-            // 添加子级分类
-            console.log('添加子级分类');
-            // type_data.value = type_data.value.map((item: any) => {
-            //     if (item.id == upload_category_id.value) {
-            //         item.children.push(data);
-            //     }
-            //     return item;
-            // });
-        } else {
-            // 添加一级分类
-            console.log('添加一级分类');
-            // type_data.value = [...type_data.value, data];
-        }
-    } else if (upload_category_type.value == 'edit') {
-        // 编辑分类
-        console.log('编辑分类');
-        // type_data.value = type_data.value.map((item: any) => {
-        //     if (item.id == data.id) {
-        //         item = data;
-        //     }
-        //     return item;
-        // });
-    }
+const upload_category_confirm = () => {
+    get_tree();
 };
 // 左侧分类树结构节点点击事件
 const tree_node_event = (data: any) => {
@@ -531,27 +495,39 @@ const tree_node_event = (data: any) => {
     get_list();
 };
 const upload_category_id = ref<number | string>('');
+const upload_category_pid = ref<number | string>('');
 // 添加子分类
 const append_type_event = (data: Tree) => {
     upload_category_type.value = 'add';
-    upload_category_id.value = data.id;
+    upload_category_id.value = '';
+    upload_category_pid.value = data.id;
     upload_category_model_visible.value = true;
 };
 // 编辑子分类
 const edit_type_event = (data: Tree) => {
     upload_category_type.value = 'edit';
     upload_category_id.value = data.id;
+    upload_category_pid.value = data.pid;
     upload_category_model_visible.value = true;
     upload_category_model.value = data;
 };
 // 删除分类（Node报错，node使用any）
 const remove_type_event = (node: any, data: Tree) => {
-    const parent = node.parent;
-    const children: Tree[] = parent.data.children || parent.data;
-    const index = children.findIndex((d) => d.id === data.id);
-    children.splice(index, 1);
-    // type_data.value = [...type_data.value];
+    app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
+        UploadAPI.delTree({ id: data.id }).then((res) => {
+            const parent = node.parent;
+            const children: Tree[] = parent.data.items || parent.data;
+            const index = children.findIndex((d) => d.id === data.id);
+            children.splice(index, 1);
+            ElMessage({
+                type: 'success',
+                message: '删除成功!',
+            });
+        });
+    });
 };
+//#endregion 分类 ----------------------------------------------------------end
+
 // 确认
 const confirm_event = () => {
     dialog_visible.value = false;

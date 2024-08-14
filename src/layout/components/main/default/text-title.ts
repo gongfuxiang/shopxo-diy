@@ -60,7 +60,6 @@ const defaultSearch: defaultSearch = {
             padding_bottom: 15,
             padding_left: 15,
             padding_right: 15,
-            color_list: ['']
         }
     },
 };

@@ -9,11 +9,15 @@ declare global {
         name: string;
         key: string;
     }
+    interface color_list {
+        color: string;
+        color_percentage: string;
+    }
     /**
      * 渐变色参数集合
      */
     interface gradientStyle {
-        color_list: string[];
+        color_list: color_list[];
         direction: string;
     }
     /**
@@ -71,7 +75,7 @@ declare global {
      * 通用样式参数
      */
     type componentsCommonCommonStyle = {
-        color_list: string[];
+        color_list: color_list[];
         direction: string;
         background_img_style: number;
         padding: number;

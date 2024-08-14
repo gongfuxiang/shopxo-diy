@@ -1,15 +1,20 @@
 <template>
     <div class="mult-color-picker">
         <el-radio-group v-model="direction_type" @change="direction_type_change">
-            <el-radio value="0deg">横向</el-radio>
+            <el-radio value="180deg">横向</el-radio>
             <el-radio value="90deg">纵向</el-radio>
-            <el-radio value="315deg">左斜</el-radio>
-            <el-radio value="45deg">右斜</el-radio>
+            <el-radio value="45deg">左斜</el-radio>
+            <el-radio value="315deg">右斜</el-radio>
         </el-radio-group>
         <div class="flex-col">
             <div v-for="(item, index) in color_list" :key="index" class="flex-row align-s gap-12">
                 <div class="flex-col">
-                    <el-color-picker v-model="item.color" show-alpha :predefine="predefine_colors" @change="change_color(index, $event)" />
+                    <div class="flex-row align-s gap-12">
+                        <el-color-picker v-model="item.color" show-alpha :predefine="predefine_colors" @change="change_color(index, $event)" />
+                        <el-input v-model="item.color_percentage" :maxlength="3" placeholder="请输入百分比" @change="change_color_percentage(index, $event)">
+                            <template #append>%</template>
+                        </el-input>
+                    </div>
                     <div v-if="index + 1 !== color_list.length" class="connect-line"></div>
                 </div>
                 <template v-if="index == 0">
@@ -46,7 +51,8 @@ let color_list = reactive(
     //将数组['#fff']改为对象数组
     props.value.map((item: any) => {
         return {
-            color: item,
+            color: item.color,
+            color_percentage: item.color_percentage,
         };
     })
 );
@@ -56,7 +62,7 @@ const direction_type_change = (type: any) => {
     update_value();
 };
 const reset_event = () => {
-    color_list = [{ color: '' }];
+    color_list = [{ color: '', color_percentage: '' }];
     update_value();
 };
 const del_event = (index: number) => {
@@ -64,16 +70,19 @@ const del_event = (index: number) => {
     update_value();
 };
 const add_event = () => {
-    color_list.push({ color: '' });
+    color_list.push({ color: '', color_percentage: '' });
     update_value();
 };
 const change_color = (index: number, color: string | null) => {
     color_list[index].color = color;
     update_value();
 };
+const change_color_percentage = (index: number, percentage: string | null) => {
+    color_list[index].color_percentage = percentage;
+    update_value();
+};
 const update_value = () => {
-    let new_color_list = color_list.map((item) => item.color) || [];
-    emit('update:value', new_color_list, direction_type.value);
+    emit('update:value', color_list, direction_type.value);
 };
 </script>
 <style lang="scss" scoped>

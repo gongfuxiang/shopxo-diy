@@ -10,7 +10,7 @@ interface DefaultUserInfo {
         user_name_color: string;
         user_name_weight: string;
         user_name_size: number;
-        user_id_color_list: string[];
+        user_id_color_list: color_list[];
         user_id_color: string;
         user_id_direction: string;
         user_id_weight: string;
@@ -39,7 +39,7 @@ const defaultUserInfo: DefaultUserInfo = {
         user_name_color: 'rgba(0, 0, 0, 1)',
         user_name_weight: '500',
         user_name_size: 16,
-        user_id_color_list: ['rgba(254, 184, 143, 1)', 'rgba(255, 227, 220, 1)'],
+        user_id_color_list: [{color: 'rgba(254, 184, 143, 1)', color_percentage: ''}, {color: 'rgba(255, 227, 220, 1)', color_percentage: ''}],
         user_id_color: 'rgba(0, 0, 0, 1)',
         user_id_direction: '90deg',
         user_id_weight: '400',

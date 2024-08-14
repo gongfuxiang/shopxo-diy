@@ -93,16 +93,6 @@ const cubeHeight = ref(400);
 const style_width = computed(() => cubeWidth.value + 'px');
 const style_height = computed(() => cubeHeight.value + 'px');
 
-function handleResize() {
-    if (window.innerWidth <= 1540) {
-        cubeWidth.value = 330;
-        cubeHeight.value = 330;
-    } else {
-        cubeWidth.value = 390;
-        cubeHeight.value = 390;
-    }
-}
-
 onMounted(() => {
     handleResize();
     window.addEventListener('resize', handleResize);
@@ -111,6 +101,16 @@ onMounted(() => {
 onUnmounted(() => {
     window.removeEventListener('resize', handleResize);
 });
+
+const handleResize = () => {
+    if (window.innerWidth <= 1540) {
+        cubeWidth.value = 330;
+        cubeHeight.value = 330;
+    } else {
+        cubeWidth.value = 390;
+        cubeHeight.value = 390;
+    }
+}
 //#endregion
 const selected_active = ref(0);
 const state = reactive({

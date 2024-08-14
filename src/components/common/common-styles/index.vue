@@ -83,9 +83,9 @@ const props = defineProps({
 });
 // 初始化表单数据
 const init_form = reactive({
-    direction: '0deg',
+    direction: '180deg',
     background_img_url: [] as uploadList[],
-    color_list: [''],
+    color_list: [{ color: '', color_percentage: '' }],
     background_img_style: 2,
     padding: 0,
     padding_top: 0,
@@ -111,7 +111,11 @@ const init_form = reactive({
 // value 和初始化数据合并数据
 let form = reactive(Object.assign({}, init_form, props.value));
 const emit = defineEmits(['update:value']);
-const mult_color_picker_event = (arry: string[], type: number) => {
+interface color_form {
+    color: string;
+    color_percentage: string;
+}
+const mult_color_picker_event = (arry: color_form[], type: number) => {
     form.color_list = arry;
     form.direction = type.toString();
     emit('update:value', form);
