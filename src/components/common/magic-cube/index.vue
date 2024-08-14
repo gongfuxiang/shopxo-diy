@@ -22,7 +22,7 @@
                         {{ Math.round((750 / densityNum) * (item.end.x - item.start.x + 1)) }}
                         像素
                         <template v-if="props.type == 'data'">
-                            <div class="mt-12">共有3个商品</div>
+                            <div>{{ data_title(item) }}</div>
                         </template>
                     </div>
                 </template>
@@ -33,6 +33,11 @@
 
 <script setup lang="ts">
 import { isEmpty } from 'lodash';
+interface content {
+    data_type: string;
+    product_list: Array<string>;
+    img_list: Array<string>;
+}
 interface CubeItem {
     start: {
         x: number;
@@ -42,9 +47,8 @@ interface CubeItem {
         x: number;
         y: number;
     };
-    img?: uploadList[],
-    img_list?: any,
-    data_list?: any
+    img?: uploadList[];
+    data_content?: content
 }
 
 interface Props {
@@ -210,9 +214,16 @@ const selected_click = (index: number) => {
     selected_active.value = index;
     emits('selected_click', index);
 };
-const tips = () => {
-    console.log(selectedList.value[selected_active.value].img_list);
-    console.log(selectedList.value[selected_active.value].data_list);
+const data_title = (item: CubeItem) => {
+    let title = `共有`;
+    if (item.data_content) {
+        if (item.data_content.data_type == 'commodity') {
+            title += `${ item.data_content.product_list.length }个商品`;
+        } else {
+            title += `${ item.data_content.img_list.length }个图片`;
+        }
+    }
+    return title;
 };
 </script>
 <style lang="scss" scoped>

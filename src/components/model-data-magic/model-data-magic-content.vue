@@ -20,7 +20,7 @@
                             <div v-for="(item, index) in form.data_magic_list" :key="index" :class="['bg-f5', {'cube-selected-active': selected_active == index, 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index)}]" @click="selected_click(index)">
                                 <div class="cube-selected-text">
                                     <template v-if="[0, 1].includes(index)">375 x 375 像素</template> 
-                                    <template v-else>250 x 375 像素</template> 
+                                    <template v-else>250 x 375 像素</template>
                                 </div>
                             </div>
                         </div>
@@ -42,6 +42,7 @@
     </div>
 </template>
 <script setup lang="ts">
+import { get_math } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 const props = defineProps({
     value: {
@@ -53,8 +54,8 @@ const props = defineProps({
 const style_list = ['heng2', 'shu2', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2'];
 // 每个小模块独立的样式
 const data_style = {
-    color_list: ['#FFD9C3', '#FFECE2', '#FFFFFF'],
-    direction: '90deg',
+    color_list: [{ color: '#FFD9C3', color_percentage: '' }, { color: '#FFECE2', color_percentage: '' }, { color: '#FFFFFF', color_percentage: '' }, { color: '#FFFFFF', color_percentage: '' }, { color: '#FFFFFF', color_percentage: '' }],
+    direction: '180deg',
     background_img_style: 2,
     background_img_url: [],
     is_roll: true,
@@ -86,20 +87,25 @@ const data_content = {
     heading_title: '',
     subtitle: '',
     product_list:[],
-    img_list:[]
+    img_list:[
+        {
+            carousel_img: [],
+            carousel_link: {},
+        }
+    ]
 }
 
 // 不同风格的数据
 const style_show_list = [
-    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2} }, { start: {x: 1, y: 3},end: {x: 4, y: 4} }], // 风格1
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1},end: {x: 4, y: 4} }], // 风格2
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2} }, { start: {x: 3, y: 1},end: {x: 4, y: 2} }, { start: {x: 1, y: 3},end: {x: 4, y: 4} }],// 风格3
-    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2} }, { start: {x: 1, y: 3},end: {x: 2, y: 4} }, { start: {x: 3, y: 3},end: {x: 4, y: 4} }],// 风格4
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1},end: {x: 4, y: 2} }, { start: {x: 3, y: 3},end: {x: 4, y: 4} }],// 风格5
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2} }, { start: {x: 1, y: 3},end: {x: 2, y: 4} }, { start: {x: 3, y: 1},end: {x: 4, y: 4} }],// 风格6
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2} }, { start: {x: 3, y: 1},end: {x: 4, y: 2} }, { start: {x: 1, y: 3},end: {x: 2, y: 4} }, { start: {x: 3, y: 3},end: {x: 4, y: 4} }],// 风格7
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1},end: {x: 4, y: 2} }, { start: {x: 3, y: 3},end: {x: 3, y: 4} }, { start: {x: 4, y: 3},end: {x: 4, y: 4} }, { start: {x: 4, y: 3},end: {x: 4, y: 4} }],// 风格8
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1},end: {x: 4, y: 2} }, { start: {x: 3, y: 3},end: {x: 3, y: 4} }, { start: {x: 4, y: 3},end: {x: 4, y: 4} }],// 风格9
+    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2} }, { start: {x: 1, y: 3}, end: {x: 4, y: 4} }], // 风格1
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1}, end: {x: 4, y: 4} }], // 风格2
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2} }, { start: {x: 3, y: 1}, end: {x: 4, y: 2} }, { start: {x: 1, y: 3}, end: {x: 4, y: 4} }],// 风格3
+    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2} }, { start: {x: 1, y: 3}, end: {x: 2, y: 4} }, { start: {x: 3, y: 3}, end: {x: 4, y: 4} }],// 风格4
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1}, end: {x: 4, y: 2} }, { start: {x: 3, y: 3}, end: {x: 4, y: 4} }],// 风格5
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2} }, { start: {x: 1, y: 3}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1}, end: {x: 4, y: 4} }],// 风格6
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2} }, { start: {x: 3, y: 1}, end: {x: 4, y: 2} }, { start: {x: 1, y: 3}, end: {x: 2, y: 4} }, { start: {x: 3, y: 3}, end: {x: 4, y: 4} }],// 风格7
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1}, end: {x: 4, y: 2} }, { start: {x: 3, y: 3}, end: {x: 3, y: 4} }, { start: {x: 4, y: 3}, end: {x: 4, y: 4} }, { start: {x: 4, y: 3}, end: {x: 4, y: 4} }],// 风格8
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1}, end: {x: 4, y: 2} }, { start: {x: 3, y: 3}, end: {x: 3, y: 4} }, { start: {x: 4, y: 3}, end: {x: 4, y: 4} }],// 风格9
 ]
 const tabs_name = ref('content');
 const state = reactive({
@@ -148,8 +154,12 @@ const style_click = (index: number) => {
 const magic_list = (index: number) => {
     return cloneDeep(style_show_list[index]).map((item) => ({
         ...item,
+        actived_index: 0,
         data_content: cloneDeep(data_content),
-        data_style: cloneDeep(data_style)
+        data_style: {
+            ...cloneDeep(data_style),
+            carouselKey: get_math(),
+        }
     }));
 }
 

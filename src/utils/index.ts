@@ -1,3 +1,4 @@
+import { isEmpty } from "lodash";
 /**
  * 判断一个对象是否为空。
  *
@@ -31,29 +32,40 @@ export function gradient_computer(new_style: gradientStyle) {
  * @param direction 渐变的方向，可以是角度或其他CSS支持的渐变方向。
  * @returns 返回一个字符串，包含生成的线性渐变样式。
  */
-export function gradient_handle(color_list: string[], direction: string) {
+export function gradient_handle(color_list: color_list[], direction: string) {
+    console.log(color_list, direction);
     let container_common_styles = ``;
     if (color_list && color_list.length > 0) {
-        container_common_styles += `background: linear-gradient(${direction || '0deg'},`;
-        // 颜色反转
+        container_common_styles += `background: linear-gradient(${direction || '180deg'},`;
+
         const new_color_list = JSON.parse(JSON.stringify(color_list));
-        const reverse_color = new_color_list.reverse();
-        reverse_color.forEach((item: any, index: number) => {
-            container_common_styles += `${item ? item : 'rgb(255 255 255 / 0%)'}`;
+        new_color_list.forEach((item: any, index: number) => {
+            container_common_styles += `${item.color ? item.color : 'rgb(255 255 255 / 0%)'}`;
             if (color_list.length == 1) {
-                container_common_styles += ` 0%, ${item} 100%`;
+                container_common_styles += ` ${ item.color_percentage || 0 }%, ${ item.color } 100%`;
             } else {
-                if (index == color_list.length - 1) {
-                    container_common_styles += ` 100%`;
-                } else if (index == 0) {
-                    container_common_styles += ` 0%,`;
+                if (!isEmpty(item.color_percentage)) {
+                    if (index == color_list.length - 1) {
+                        container_common_styles += ` ${ item.color_percentage }%`;
+                    } else {
+                        container_common_styles += ` ${ item.color_percentage }%,`;
+                    }
                 } else {
-                    container_common_styles += ` ${(100 / color_list.length) * index}%,`;
+                    if (index == color_list.length - 1) {
+                        container_common_styles += ` 100%`;
+                    } else if (index == 0) {
+                        container_common_styles += ` 0%,`;
+                    } else {
+                        container_common_styles += ` ${(100 / color_list.length) * index}%,`;
+                    }
                 }
+                
             }
         });
         container_common_styles += `);`;
     }
+    console.log(container_common_styles);
+
     return container_common_styles;
 }
 

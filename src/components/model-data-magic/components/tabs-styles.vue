@@ -61,8 +61,8 @@ const props = defineProps({
 const form = ref(props.value);
 
 const mult_color_picker_event = (arry: string[], type: number) => {
-    form.value.user_id_color_list = arry;
-    form.value.user_id_direction = type.toString();
+    form.value.color_list = arry;
+    form.value.direction = type.toString();
 };
 
 watchEffect(() => {

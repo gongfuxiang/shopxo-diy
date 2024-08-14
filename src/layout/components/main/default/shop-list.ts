@@ -1,7 +1,4 @@
 import defaultCommon from './index';
-interface color_list {
-    color: string;
-}
 interface DefaultProductList {
     content: {
         product_style: string;
@@ -100,10 +97,12 @@ const defaultProductList: DefaultProductList = {
         shop_button_size: 12,
         shop_button_color: [
             {
-                color: '#2a94ff'
+                color: '#2a94ff',
+                color_percentage: ''
             },
             {
-                color: '#2a94ff'
+                color: '#2a94ff',
+                color_percentage: ''
             }
         ],
         common_style: { ...defaultCommon, padding: 10, padding_top: 10, padding_bottom: 10, padding_left: 10, padding_right: 10 },

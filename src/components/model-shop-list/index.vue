@@ -221,8 +221,7 @@ const style_config = (typeface: string, size: number, color: string | object, ty
 } 
 // 按钮渐变色处理
 const button_gradient = () => {
-    const color_list = new_style.value.shop_button_color.map((item: { color: string }) => item.color) || [];
-    return gradient_handle(color_list, '90deg');
+    return gradient_handle(new_style.value.shop_button_color, '90deg');
 }
 // 公共样式
 const style_container = computed(() => {

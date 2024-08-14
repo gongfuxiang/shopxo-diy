@@ -37,7 +37,7 @@ interface Props {
 const props = defineProps<Props>();
 
 const form = reactive(props.value);
-const mult_color_picker_event = (arry: string[], type: number) => {
+const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.color_list = arry;
     form.direction = type.toString();
 };

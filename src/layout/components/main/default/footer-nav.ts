@@ -25,7 +25,7 @@ const defaultFooterNav: DefaultFooterNav = {
     style: {
         text_color_checked: 'rgba(204, 204, 204, 1)',
         default_text_color: 'rgba(0, 0, 0, 1)',
-        common_style: { ...defaultCommon, color_list: ['rgba(255,255,255,1)'] },
+        common_style: { ...defaultCommon, color_list: [{ color: 'rgba(255,255,255,1)', color_percentage: '' }]},
     },
 };
 

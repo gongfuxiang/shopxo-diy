@@ -102,7 +102,7 @@ const props = defineProps({
                 user_name_color: 'rgba(0, 0, 0, 1)',
                 user_name_weight: '500',
                 user_name_size: 16,
-                user_id_color_list: ['rgba(254, 184, 143, 1)', 'rgba(255, 227, 220, 1)'],
+                user_id_color_list: [{ color: 'rgba(254, 184, 143, 1)', color_percentage: ''}, { color: 'rgba(255, 227, 220, 1)', color_percentage: '' }],
                 user_id_color: 'rgba(0, 0, 0, 1)',
                 user_id_direction: '90deg',
                 user_id_weight: '400',

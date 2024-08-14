@@ -34,7 +34,7 @@
     </card-container>
     <card-container v-else class="mb-8">
         <div class="mb-12">商品设置</div>
-        <drag :data="form.product_list" :space-col="20" @remove="product_list_remove" @on-sort="product_list_sort">
+        <drag :key="form.product_list" :data="form.product_list" :space-col="20" @remove="product_list_remove" @on-sort="product_list_sort">
             <template #default="{ row }">
                 <upload v-model="row.new_src" :limit="1" size="40" styles="2"></upload>
                 <el-image :src="row.url" fit="contain" class="img">
@@ -50,7 +50,6 @@
             </template>
         </drag>
         <el-button class="mtb-20 w" @click="product_list_add">+添加</el-button>
-
     </card-container>
 </template>
 <script setup lang="ts">
