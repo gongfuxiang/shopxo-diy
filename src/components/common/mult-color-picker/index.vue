@@ -11,7 +11,9 @@
                 <div class="flex-col">
                     <div class="flex-row align-s gap-12">
                         <el-color-picker v-model="item.color" show-alpha :predefine="predefine_colors" @change="change_color(index, $event)" />
-                        <el-input v-model="item.color_percentage" :maxlength="3" placeholder="请输入百分比" @change="change_color_percentage(index, $event)"></el-input>
+                        <el-input v-model="item.color_percentage" :maxlength="3" placeholder="请输入百分比" @change="change_color_percentage(index, $event)">
+                            <template #append>%</template>
+                        </el-input>
                     </div>
                     <div v-if="index + 1 !== color_list.length" class="connect-line"></div>
                 </div>

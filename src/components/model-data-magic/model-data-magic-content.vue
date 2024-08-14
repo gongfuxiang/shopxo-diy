@@ -54,7 +54,7 @@ const props = defineProps({
 const style_list = ['heng2', 'shu2', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2'];
 // 每个小模块独立的样式
 const data_style = {
-    color_list: [{ color: '#FFD9C3', color_percentage: '' }, { color: '#FFECE2', color_percentage: '' }, { color: '#FFFFFF', color_percentage: '' }, { color: '#FFFFFF', color_percentage: '' }, { color: '#FFFFFF', color_percentage: '' }],
+    color_list: [{ color: '#FFD9C3', color_percentage: '0' }, { color: '#FFECE2', color_percentage: '12' }, { color: '#FFFFFF', color_percentage: '30' }],
     direction: '180deg',
     background_img_style: 2,
     background_img_url: [],

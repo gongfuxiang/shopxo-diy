@@ -3,7 +3,7 @@
         <el-form-item label="底部背景">
             <div class="flex-col gap-10 w">
                 <div class="size-12">背景色</div>
-                <mult-color-picker :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
+                <mult-color-picker :key="form.carouselKey" :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
                 <div class="flex-row jc-sb align-c">
                     <div class="size-12">背景图</div>
                     <el-radio-group v-model="form.background_img_style" is-button>
@@ -47,7 +47,7 @@
         </el-form-item>
     </card-container>
     <card-container class="mb-8">
-        <carousel-indicator :value="form"></carousel-indicator>
+        <carousel-indicator :key="form.carouselKey" :value="form"></carousel-indicator>
     </card-container>
 </template>
 <script setup lang="ts">

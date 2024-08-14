@@ -20,7 +20,7 @@
                     <div v-if="item.data_style.is_show" :class="{'dot-center': item.data_style?.indicator_location == 'center', 'dot-right': item.data_style?.indicator_location == 'flex-end' }" class="dot flex abs">
                         <template v-if="item.data_style.indicator_style == 'num'">
                             <div :style="item.data_style.indicator_styles" class="dot-item">
-                                <span class="num-active" :style="`color: ${ item.data_style.actived_color }`">{{ item.actived_index + 1 }}</span><span>/{{ item.data_content.product_list }}</span>
+                                <span class="num-active" :style="`color: ${ item.data_style.actived_color }`">{{ item.actived_index + 1 }}</span><span>/{{ item.data_content.product_list.length }}</span>
                             </div>
                         </template>
                         <template v-else>
