@@ -51,7 +51,16 @@
                             <div class="w h">
                                 <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
                                     <el-carousel-item v-for="(item1, index1) in item.data_content.list" :key="index1">
-                                        <product-list-show :outerflex="item.outerflex" :flex="item.flex" :value="item1.split_list" :content-img-radius="content_img_radius"></product-list-show>
+                                        <template v-if="item.outerflex == 'row'">
+                                            <div class="flex-row gap-10 align-c">
+                                                <product-list-show :flex="item.flex" :value="item1.split_list" :content-img-radius="content_img_radius"></product-list-show>
+                                            </div>
+                                        </template>
+                                        <template v-else>
+                                            <div class="flex-col gap-20 align-c">
+                                                <product-list-show :flex="item.flex" :value="item1.split_list" :content-img-radius="content_img_radius"></product-list-show>
+                                            </div>
+                                        </template>
                                     </el-carousel-item>
                                 </el-carousel>
                             </div>
