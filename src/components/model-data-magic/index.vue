@@ -4,18 +4,20 @@
             <!-- 风格9 -->
             <template v-if="form.style_actived == 7">
                 <div class="flex-row align-c jc-c style-size flex-wrap">
-                    <div v-for="(item, index) in form.data_magic_list" :key="index" :class="['img-spacing-border', { 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index) }]">
+                    <div v-for="(item, index) in data_magic_list" :key="index" :class="['img-spacing-border', { 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index) }]">
                         <!-- <image-empty v-model="item.img[0]" :style="content_img_radius"></image-empty> -->
                         <div></div>
                     </div>
                 </div>
             </template>
             <template v-else>
-                <div v-for="(item, index) in form.data_magic_list" :key="index" class="cube-selected img-spacing-border" :style="`${selected_style(item)} ${ item.data_style.background_style }`">
+                <div v-for="(item, index) in data_magic_list" :key="index" class="cube-selected img-spacing-border" :style="`${ selected_style(item) } ${ item.data_style.background_style }`">
                     <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
-                        <el-carousel-item v-for="(item2, index) in item.data_content.list" :key="index">
-                            <template>
-
+                        <el-carousel-item v-for="(item1, index1) in item.data_content.list" :key="index1">
+                            <template v-if="item.data_content.data_type == 'commodity'">
+                            </template>
+                            <template v-else>
+                                <image-empty v-model="item1.carousel_img[0]" :style="content_img_radius"></image-empty>
                             </template>
                         </el-carousel-item>
                     </el-carousel>
@@ -26,7 +28,7 @@
                             </div>
                         </template>
                         <template v-else>
-                            <div v-for="(item3, index2) in item.data_content.product_list" :key="index2" :style="`${ item.data_style.indicator_styles }; ${ style_actived_color(item, index2)}`" class="dot-item" />
+                            <div v-for="(item2, index2) in item.data_content.list" :key="index2" :style="`${ item.data_style.indicator_styles }; ${ style_actived_color(item, index2)}`" class="dot-item" />
                         </template>
                     </div>
                 </div>
@@ -36,7 +38,7 @@
 </template>
 <script setup lang="ts">
 import { background_computer, common_styles_computer, get_math, gradient_computer, percentage_count, radius_computer } from '@/utils';
-import { isEmpty } from 'lodash';
+import { isEmpty, cloneDeep } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
@@ -71,7 +73,7 @@ onMounted(() => {
 //#endregion
 //#region 图片位置计算
 //计算选中层的宽度。
-interface CubeItem {
+interface data_magic {
     start: {
         x: number;
         y: number;
@@ -80,29 +82,32 @@ interface CubeItem {
         x: number;
         y: number;
     };
+    actived_index: number;
+    data_content: any;
+    data_style: any;
 }
 const density = ref('4');
 //单元魔方宽度。
 const cubeCellWidth = computed(() => div_width.value / parseInt(density.value));
 //单元魔方高度。
 const cubeCellHeight = computed(() => div_width.value / parseInt(density.value));
-const getSelectedWidth = (item: CubeItem) => {
+const getSelectedWidth = (item: data_magic) => {
     return (item.end.x - item.start.x + 1) * cubeCellWidth.value;
 };
 //计算选中层的高度。
-const getSelectedHeight = (item: CubeItem) => {
+const getSelectedHeight = (item: data_magic) => {
     return (item.end.y - item.start.y + 1) * cubeCellHeight.value;
 };
 //计算选中层的右边距离。
-const getSelectedTop = (item: CubeItem) => {
+const getSelectedTop = (item: data_magic) => {
     return (item.start.y - 1) * cubeCellHeight.value;
 };
 //计算选中层的左边距离。
-const getSelectedLeft = (item: CubeItem) => {
+const getSelectedLeft = (item: data_magic) => {
     return (item.start.x - 1) * cubeCellWidth.value;
 };
 // 根据当前页面大小计算成百分比
-const selected_style = (item: CubeItem, ) => {
+const selected_style = (item: data_magic) => {
     return `width: calc(${percentage(getSelectedWidth(item))} - ${ outer_spacing.value } ); height: calc(${percentage(getSelectedHeight(item))} - ${ outer_spacing.value } ); top: ${percentage(getSelectedTop(item))}; left: ${percentage(getSelectedLeft(item))};`;
 };
 // 计算成百分比
@@ -111,17 +116,10 @@ const percentage = (num: number) => {
 };
 //#endregion
 //#region 组装页面显示的数据
-interface data_magic {
-    start: object;
-    end: object;
-    actived_index: number;
-    data_content: any;
-    data_style: any;
-}
 const old_list = ref<any>({});
 const data_magic_list = ref<data_magic[]>([]);
 watch(props.value.content, (val) => {
-    const data = val.data_magic_list;
+    const data = cloneDeep(val.data_magic_list);
     data.actived_index = 0;
     data.forEach((item: data_magic) => {
         const data_content = item.data_content;
@@ -135,28 +133,28 @@ watch(props.value.content, (val) => {
         const { product_list, img_list } = data_content;
         data_content.list = data_content.data_type == 'commodity' ? data_content.product_list : data_content.img_list;
         const new_data = {
+            data_type: data_content.data_type,
             interval_time: interval_time,
             is_roll: is_roll,
             rotation_direction: rotation_direction,
             product_list: [...product_list], // 确保深拷贝
             img_list: [...img_list] // 确保深拷贝
         };
-        let old_data = old_list.value[key];
+        // let old_data = old_list.value[key];
         // 获取旧数据
-        if (!isEmpty(old_data)) {
+        if (!isEmpty(old_list.value[key])) {
             // 旧数据
-            const oldDataStringified = JSON.stringify(old_data);
+            const oldDataStringified = JSON.stringify(old_list.value[key]);
             // 新数据
             const newDataStringified = JSON.stringify(new_data);
-
             if (oldDataStringified !== newDataStringified) {
                 // 更新旧数据
-                old_data = JSON.parse(newDataStringified);
+                old_list.value[key] = JSON.parse(newDataStringified);
                 // 更新轮播图的key，确保更换时能重新更新轮播图
                 data_style.carouselKey = get_math();
             }
         } else {
-            old_data = new_data;
+            old_list.value[key] = new_data;
         }
     });
     data_magic_list.value = data;
