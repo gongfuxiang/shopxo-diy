@@ -26,7 +26,7 @@
                         <model-lines-style :key="key" v-model:height="center_height" :value="diy_data"></model-lines-style>
                     </template>
                     <template v-else>
-                        <NoData :img-width="10"></NoData>
+                        <no-data></no-data>
                     </template>
                 </div>
             </div>

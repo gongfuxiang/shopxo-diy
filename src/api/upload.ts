@@ -32,6 +32,39 @@ class UploadAPI {
             data,
         });
     }
+
+    // 附件列表
+    static getAttachmentList(data: any) {
+        return request({
+            url: `diyapi/attachmentlist`,
+            method: 'post',
+            data,
+        });
+    }
+    // 附件名称修改
+    static saveAttachmentName(data: any) {
+        return request({
+            url: `diyapi/attachmentsave`,
+            method: 'post',
+            data,
+        });
+    }
+    // 附件删除
+    static delAttachment(data: any) {
+        return request({
+            url: `diyapi/attachmentdelete`,
+            method: 'post',
+            data,
+        });
+    }
+    // 附件上传
+    static uploadAttachment(data: any) {
+        return request({
+            url: `diyapi/attachmentupload`,
+            method: 'post',
+            data,
+        });
+    }
 }
 
 export default UploadAPI;

@@ -11,6 +11,11 @@
                 color: $cr-primary;
             }
         }
+        .disabled {
+            position: relative;
+            cursor: not-allowed;
+            height: 100%;
+        }
     }
     .right-content {
         position: relative;

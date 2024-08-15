@@ -17,7 +17,7 @@
                     <el-input v-model="form.sort" placeholder="请输入排序"></el-input>
                 </el-form-item>
                 <el-form-item label="是否启用">
-                    <!-- <el-switch v-model="form.is_enable"></el-switch> -->
+                    <el-switch v-model="form.is_enable" :active-value="typeof form.is_enable == 'string' ? '1' : 1" :inactive-value="typeof form.is_enable == 'string' ? '0' : 0"></el-switch>
                 </el-form-item>
             </el-form>
         </div>

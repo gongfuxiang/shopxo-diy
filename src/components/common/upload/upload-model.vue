@@ -17,7 +17,7 @@
                 </el-form-item>
                 <el-form-item label="上传至分组" prop="group">
                     <div class="form-item-width">
-                        <el-cascader v-model="form.group" class="w" :options="classify" placeholder="请选择" :show-all-levels="false" @change="group_change"></el-cascader>
+                        <el-cascader v-model="form.group" class="w" :options="cascader_data" placeholder="请选择" :show-all-levels="false" @change="group_change"></el-cascader>
                     </div>
                 </el-form-item>
                 <template v-if="form.type == 'loc'">
@@ -125,8 +125,11 @@
     </el-dialog>
 </template>
 <script lang="ts" setup>
+import UploadAPI, { Tree } from '@/api/upload';
+import { uploadrStore } from '@/store';
+const upload_store = uploadrStore();
 import type { UploadFile, UploadFiles, UploadUserFile } from 'element-plus';
-import { annex_size_to_unit, ext_name, get_math } from '@/utils';
+import { annex_size_to_unit, ext_name } from '@/utils';
 /**
  * @description: 图片执行上传弹窗
  * @param close{String} 默认值
@@ -151,8 +154,6 @@ const props = defineProps({
     },
 });
 const dialogVisible = defineModel({ type: Boolean, default: false });
-// const v_model = defineModel({ type: Array, default: [] });
-// const dialogVisible = ref(false);
 // 上传类型
 const upload_type = ref(props.type);
 // 上传类型转换成name
@@ -206,49 +207,17 @@ const group_change = (val: any) => {
     }
 };
 
-// 图片/视频/文件移动至
-const classify = [
-    {
-        value: 'resource',
-        label: 'Resource',
-    },
-    {
-        value: 'resource',
-        label: 'Resource',
-        children: [
-            {
-                value: 'axure',
-                label: 'Axure Components',
-            },
-        ],
-    },
-    {
-        value: 'guide',
-        label: 'Guide',
-        children: [
-            {
-                value: 'disciplines',
-                label: 'Disciplines',
-                children: [
-                    {
-                        value: 'consistency',
-                        label: 'Consistency',
-                    },
-                ],
-            },
-            {
-                value: 'navigation',
-                label: 'Navigation',
-                children: [
-                    {
-                        value: 'side nav',
-                        label: 'Side Navigation',
-                    },
-                ],
-            },
-        ],
-    },
-];
+// 使用计算属性获取级联数据 // 图片/视频/文件移动至
+const cascader_data = computed(() => {
+    return upload_store.category.map((tree: Tree) => ({
+        value: tree.id,
+        label: tree.name,
+        children: tree.items?.map((item: Tree) => ({
+            value: item.id,
+            label: item.name,
+        })),
+    }));
+});
 
 //#region 本地上传 -----------------------------------------------start
 
