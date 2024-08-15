@@ -6,22 +6,22 @@
                 <div class="flex-row align-c jc-c style-size flex-wrap">
                     <div v-for="(item, index) in data_magic_list" :key="index" :style="`${ item.data_style.background_style }`" :class="['img-spacing-border', { 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index) }]">
                         <template v-if="item.data_content.data_type == 'commodity'">
-                            <div class="ptb-20 plr-15 w h">
-                                <div class="flex-col gap-5 tl">
+                            <div :class="['w h flex-col gap-20', {'ptb-20 plr-15': [0, 1].includes(index) }]">
+                                <div v-if="(!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)) && [0, 1].includes(index)" class="flex-col gap-5 tl">
                                     <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
                                     <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
                                 </div>
-                                <div class="mt-20 w h">
-                                    <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
+                                <div class="w h">
+                                    <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :direction="item.data_style.rotation_direction" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
                                         <el-carousel-item v-for="(item1, index1) in item.data_content.list" :key="index1">
-                                            <a>item1</a>
+                                            <product-list-show :outerflex="item.outerflex" :flex="item.flex" :num="item.num" :actived="form.style_actived" :value="item1.split_list" :content-img-radius="content_img_radius"></product-list-show>
                                         </el-carousel-item>
                                     </el-carousel>
                                 </div>
                             </div>
                         </template>
                         <template v-else>
-                            <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
+                            <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :direction="item.data_style.rotation_direction" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
                                 <el-carousel-item v-for="(item1, index1) in item.data_content.list" :key="index1">
                                     <image-empty v-model="item1.carousel_img[0]" :style="content_img_radius"></image-empty>
                                 </el-carousel-item>
@@ -44,30 +44,21 @@
                 <div v-for="(item, index) in data_magic_list" :key="index" class="cube-selected img-spacing-border" :style="`${ selected_style(item) } ${ item.data_style.background_style }`">
                     <template v-if="item.data_content.data_type == 'commodity'">
                         <div class="ptb-20 plr-15 w h flex-col gap-20">
-                            <div class="flex-col gap-5 tl">
+                            <div v-if="!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)" class="flex-col gap-5 tl">
                                 <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
                                 <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
                             </div>
                             <div class="w h">
-                                <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
+                                <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :direction="item.data_style.rotation_direction" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
                                     <el-carousel-item v-for="(item1, index1) in item.data_content.list" :key="index1">
-                                        <template v-if="item.outerflex == 'row'">
-                                            <div class="flex-row gap-10 align-c">
-                                                <product-list-show :flex="item.flex" :value="item1.split_list" :content-img-radius="content_img_radius"></product-list-show>
-                                            </div>
-                                        </template>
-                                        <template v-else>
-                                            <div class="flex-col gap-20 align-c">
-                                                <product-list-show :flex="item.flex" :value="item1.split_list" :content-img-radius="content_img_radius"></product-list-show>
-                                            </div>
-                                        </template>
+                                        <product-list-show :outerflex="item.outerflex" :flex="item.flex" :num="item.num" :actived="form.style_actived" :value="item1.split_list" :content-img-radius="content_img_radius"></product-list-show>
                                     </el-carousel-item>
                                 </el-carousel>
                             </div>
                         </div>
                     </template>
                     <template v-else>
-                        <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
+                        <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :direction="item.data_style.rotation_direction" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
                             <el-carousel-item v-for="(item1, index1) in item.data_content.list" :key="index1">
                                 <image-empty v-model="item1.carousel_img[0]" :style="content_img_radius"></image-empty>
                             </el-carousel-item>
@@ -319,13 +310,13 @@ const style_container = computed(() => common_styles_computer(new_style.value.co
         position: relative;
     }
     .style9-top {
-        width: calc(50% - 0.2rem);
-        height: 50%;
+        width: calc(50% - v-bind(outer_spacing));
+        height: calc(50% - v-bind(outer_spacing));
         position: relative;
     }
     .style9-bottom {
-        width: calc(33% - 0.1rem);
-        height: 50%;
+        width: calc(33% - v-bind(outer_spacing));
+        height: calc(50% - v-bind(outer_spacing));
         position: relative;
     }
 }

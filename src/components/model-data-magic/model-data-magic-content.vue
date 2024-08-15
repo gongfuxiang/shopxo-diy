@@ -85,8 +85,8 @@ const data_style = {
 // 每个小模块独立的内容
 const data_content = {
     data_type: 'commodity',
-    heading_title: '',
-    subtitle: '',
+    heading_title: '主标题',
+    subtitle: '副标题',
     product_list:[],
     img_list:[
         {
