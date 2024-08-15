@@ -22,7 +22,7 @@
             </div>
         </el-form-item>
         <el-form-item label="自动轮播">
-            <el-switch v-model="form.is_roll" size="large" />
+            <el-switch v-model="form.is_roll" />
         </el-form-item>
         <el-form-item label="轮播方向">
             <el-radio-group v-model="form.rotation_direction" class="ml-4">

@@ -10,7 +10,7 @@
             <card-container class="mb-8">
                 <div class="mb-12">轮播设置</div>
                 <el-form-item label="自动轮播">
-                    <el-switch v-model="form.is_roll" size="large" />
+                    <el-switch v-model="form.is_roll" />
                 </el-form-item>
                 <el-form-item label="间隔时间">
                     <slider v-model="form.interval_time" :max="100"></slider>

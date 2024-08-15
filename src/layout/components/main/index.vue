@@ -166,6 +166,7 @@ const props = defineProps({
 const diy_data = ref(props.diyData);
 const page_data = ref(props.header);
 const footer_nav = ref(props.footer);
+const content_style = ref('');
 // 监听
 watch(
     () => props.diyData,
@@ -173,12 +174,21 @@ watch(
         diy_data.value = newValue;
     }
 );
+// 监听
 watch(
     () => props.header,
     (newValue) => {
         page_data.value = newValue;
+        page_settings();
     }
 );
+
+watchEffect(() => {
+    const content =  props.header.com_data?.content || {};
+    const container_common_styles = gradient_computer(content) + background_computer(content);
+
+    content_style.value = container_common_styles;
+})
 watch(
     () => props.footer,
     (newValue) => {
@@ -455,13 +465,6 @@ const scroll = () => {
 };
 //#endregion
 //#region 页面设置 导出 导入
-const content_style = ref('');
-watch(page_data.value.com_data, (val) => {
-    const content = val?.content || {};
-    const container_common_styles = gradient_computer(content) + background_computer(content);
-
-    content_style.value = container_common_styles;
-});
 // 在组件挂载时默认执行
 onMounted(() => {
     page_settings();
@@ -477,6 +480,7 @@ const page_settings = () => {
             item.show_tabs = false;
         });
     }
+    
     emits('rightUpdate', page_data.value, diy_data.value, page_data.value, footer_nav.value);
 };
 //导出

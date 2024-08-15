@@ -2,19 +2,21 @@
     <div ref="container" class="img-magic" :style="style_container">
         <div class="w h re outer-style">
             <!-- 风格9 -->
-            <template v-if="form.style_actived == 8">
+            <template v-if="form.style_actived == 7">
                 <div class="flex-row align-c jc-c style-size flex-wrap">
                     <div v-for="(item, index) in form.data_magic_list" :key="index" :class="['img-spacing-border', { 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index) }]">
                         <!-- <image-empty v-model="item.img[0]" :style="content_img_radius"></image-empty> -->
+                        <div></div>
                     </div>
                 </div>
             </template>
             <template v-else>
                 <div v-for="(item, index) in form.data_magic_list" :key="index" class="cube-selected img-spacing-border" :style="`${selected_style(item)} ${ item.data_style.background_style }`">
-                    <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :height="`${ getSelectedHeight(item) }px`" :interval="item.data_style.interval_time * 1000" arrow="never" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
-                        <el-carousel-item v-for="(item2, index) in item.data_content.product_list" :key="index">
-                            {{ item2 }}
-                            {{ item.actived_index }}
+                    <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
+                        <el-carousel-item v-for="(item2, index) in item.data_content.list" :key="index">
+                            <template>
+
+                            </template>
                         </el-carousel-item>
                     </el-carousel>
                     <div v-if="item.data_style.is_show" :class="{'dot-center': item.data_style?.indicator_location == 'center', 'dot-right': item.data_style?.indicator_location == 'flex-end' }" class="dot flex abs">
@@ -100,8 +102,8 @@ const getSelectedLeft = (item: CubeItem) => {
     return (item.start.x - 1) * cubeCellWidth.value;
 };
 // 根据当前页面大小计算成百分比
-const selected_style = (item: CubeItem) => {
-    return `width: ${percentage(getSelectedWidth(item))}; height: ${percentage(getSelectedHeight(item))}; top: ${percentage(getSelectedTop(item))}; left: ${percentage(getSelectedLeft(item))};`;
+const selected_style = (item: CubeItem, ) => {
+    return `width: calc(${percentage(getSelectedWidth(item))} - ${ outer_spacing.value } ); height: calc(${percentage(getSelectedHeight(item))} - ${ outer_spacing.value } ); top: ${percentage(getSelectedTop(item))}; left: ${percentage(getSelectedLeft(item))};`;
 };
 // 计算成百分比
 const percentage = (num: number) => {
@@ -128,21 +130,33 @@ watch(props.value.content, (val) => {
         // 指示器样式
         data_style.indicator_styles = indicator_style(data_style);
         data_style.background_style = background_style(data_style);
+
+        const { is_roll, rotation_direction, interval_time } = data_style;
+        const { product_list, img_list } = data_content;
+        data_content.list = data_content.data_type == 'commodity' ? data_content.product_list : data_content.img_list;
+        const new_data = {
+            interval_time: interval_time,
+            is_roll: is_roll,
+            rotation_direction: rotation_direction,
+            product_list: [...product_list], // 确保深拷贝
+            img_list: [...img_list] // 确保深拷贝
+        };
+        let old_data = old_list.value[key];
         // 获取旧数据
-        if (!isEmpty(old_list.value[key])) {
-            let old_data = old_list.value[key];
-            const { is_roll, rotation_direction, interval_time } = data_style;
-            // 判断跟历史的是否相等，不相等更新组件时间
-            if (old_data.interval_time != interval_time || old_data.is_roll != is_roll || old_data.rotation_direction != rotation_direction) {
-                // 记录历史保存的时间
-                old_data = {
-                    interval_time: interval_time,
-                    is_roll: is_roll,
-                    rotation_direction: rotation_direction
-                };
+        if (!isEmpty(old_data)) {
+            // 旧数据
+            const oldDataStringified = JSON.stringify(old_data);
+            // 新数据
+            const newDataStringified = JSON.stringify(new_data);
+
+            if (oldDataStringified !== newDataStringified) {
+                // 更新旧数据
+                old_data = JSON.parse(newDataStringified);
                 // 更新轮播图的key，确保更换时能重新更新轮播图
                 data_style.carouselKey = get_math();
             }
+        } else {
+            old_data = new_data;
         }
     });
     data_magic_list.value = data;
@@ -204,7 +218,7 @@ const style_container = computed(() => common_styles_computer(new_style.value.co
 }
 
 .img-spacing-border {
-    padding: v-bind(spacing);
+    margin: v-bind(spacing);
 }
 
 .style-size {
@@ -238,6 +252,13 @@ const style_container = computed(() => common_styles_computer(new_style.value.co
     bottom: 6px;
     .dot-item {
         margin: 0 0.3rem;
+    }
+}
+// 轮播高度自适应
+:deep(.el-carousel) {
+    height: 100%;
+    .el-carousel__container {
+        height: 100%;
     }
 }
 

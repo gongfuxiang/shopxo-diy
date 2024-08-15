@@ -58,7 +58,7 @@ const data_style = {
     direction: '180deg',
     background_img_style: 2,
     background_img_url: [],
-    is_roll: true,
+    is_roll: false,
     rotation_direction: 'horizontal',
     interval_time: 2,
     heading_color: '#000',

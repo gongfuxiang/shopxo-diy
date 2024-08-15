@@ -33,7 +33,6 @@ export function gradient_computer(new_style: gradientStyle) {
  * @returns 返回一个字符串，包含生成的线性渐变样式。
  */
 export function gradient_handle(color_list: color_list[], direction: string) {
-    console.log(color_list, direction);
     let container_common_styles = ``;
     if (color_list && color_list.length > 0) {
         container_common_styles += `background: linear-gradient(${direction || '180deg'},`;
@@ -64,7 +63,6 @@ export function gradient_handle(color_list: color_list[], direction: string) {
         });
         container_common_styles += `);`;
     }
-    console.log(container_common_styles);
 
     return container_common_styles;
 }
