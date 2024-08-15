@@ -33,9 +33,9 @@
     <template v-else>
         <div class="flex-col gap-20 align-c w h">
             <template v-if="props.flex === 'row'">
-                <div v-for="(item2, index2) in split_list" :key="index2" class="flex-row gap-10 align-c w">
+                <div v-for="(item2, index2) in split_list" :key="index2" class="flex-row gap-10 align-c w h">
                     <image-empty v-model="item2.new_src[0]" :style="contentImgRadius"></image-empty>
-                    <div v-if="!isEmpty(isShow)" class="flex-col jc-sb w h tl gap-10">
+                    <div v-if="!isEmpty(isShow)" class="flex-col w h tl gap-10">
                         <div v-if="isShow.includes('0')" class="text-line-2 size-14">华为荣耀畅享平大幅度发过板华为荣耀畅享平大幅度发过板</div>
                         <div v-if="isShow.includes('1')" class="identifying"><span class="num">￥</span><span>{{'51' }}</span></div>
                     </div>
