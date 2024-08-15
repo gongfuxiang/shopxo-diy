@@ -33,18 +33,20 @@
         <el-form-item label="间隔时间">
             <slider v-model="form.interval_time" :max="100"></slider>
         </el-form-item>
-        <el-form-item label="主标题">
-            <div class="flex-col gap-10 w">
-                <color-picker v-model="form.heading_color" default-color="#000000"></color-picker>
-                <text-size-type v-model:typeface="form.heading_typeface" v-model:size="form.heading_size"></text-size-type>
-            </div>
-        </el-form-item>
-        <el-form-item label="副标题">
-            <div class="flex-col gap-10 w">
-                <color-picker v-model="form.subtitle_color" default-color="#000000"></color-picker>
-                <text-size-type v-model:typeface="form.subtitle_typeface" v-model:size="form.subtitle_size"></text-size-type>
-            </div>
-        </el-form-item>
+        <template v-if="tabs_content.data_type === 'commodity' && isShowTitle">
+            <el-form-item label="主标题">
+                <div class="flex-col gap-10 w">
+                    <color-picker v-model="form.heading_color" default-color="#000000"></color-picker>
+                    <text-size-type v-model:typeface="form.heading_typeface" v-model:size="form.heading_size"></text-size-type>
+                </div>
+            </el-form-item>
+            <el-form-item label="副标题">
+                <div class="flex-col gap-10 w">
+                    <color-picker v-model="form.subtitle_color" default-color="#000000"></color-picker>
+                    <text-size-type v-model:typeface="form.subtitle_typeface" v-model:size="form.subtitle_size"></text-size-type>
+                </div>
+            </el-form-item>
+        </template>
     </card-container>
     <card-container class="mb-8">
         <carousel-indicator :key="form.carouselKey" :value="form"></carousel-indicator>
@@ -55,10 +57,19 @@ const props = defineProps({
     value: {
         type: Object,
         default: () => ({}),
+    },
+    content: {
+        type: Object,
+        default: () => ({}),
+    },
+    isShowTitle: {
+        type: Boolean,
+        default: true,
     }
 });
 
 const form = ref(props.value);
+const tabs_content = ref(props.content);
 
 const mult_color_picker_event = (arry: string[], type: number) => {
     form.value.color_list = arry;
@@ -67,6 +78,7 @@ const mult_color_picker_event = (arry: string[], type: number) => {
 
 watchEffect(() => {
     form.value = props.value;
+    tabs_content.value = props.content;
 })
 </script>
 <style lang="scss" scoped>

@@ -14,7 +14,7 @@
                                 <div class="mt-20 w h">
                                     <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
                                         <el-carousel-item v-for="(item1, index1) in item.data_content.list" :key="index1">
-                                            <a>13666</a>
+                                            <a>item1</a>
                                         </el-carousel-item>
                                     </el-carousel>
                                 </div>
@@ -34,7 +34,7 @@
                                 </div>
                             </template>
                             <template v-else>
-                                <div v-for="(item2, index2) in item.data_content.list" :key="index2" :style="`${ item.data_style.indicator_styles }; ${ style_actived_color(item, index2)}`" class="dot-item" />
+                                <div v-for="(item3, index3) in item.data_content.list" :key="index3" :style="`${ item.data_style.indicator_styles }; ${ style_actived_color(item, index3)}`" class="dot-item" />
                             </template>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                             <div class="w h">
                                 <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
                                     <el-carousel-item v-for="(item1, index1) in item.data_content.list" :key="index1">
-                                        <a>13666</a>
+                                        <product-list-show :outerflex="item.outerflex" :flex="item.flex" :value="item1.split_list" :content-img-radius="content_img_radius"></product-list-show>
                                     </el-carousel-item>
                                 </el-carousel>
                             </div>
@@ -71,7 +71,7 @@
                             </div>
                         </template>
                         <template v-else>
-                            <div v-for="(item2, index2) in item.data_content.list" :key="index2" :style="`${ item.data_style.indicator_styles }; ${ style_actived_color(item, index2)}`" class="dot-item" />
+                            <div v-for="(item3, index3) in item.data_content.list" :key="index3" :style="`${ item.data_style.indicator_styles }; ${ style_actived_color(item, index3)}`" class="dot-item" />
                         </template>
                     </div>
                 </div>
@@ -125,6 +125,9 @@ interface data_magic {
         x: number;
         y: number;
     };
+    num: number;
+    flex: string;
+    outerflex: string;
     heading_title?: string;
     subtitle?: string;
     actived_index: number;
@@ -176,7 +179,11 @@ watch(props.value.content, (val) => {
 
         const { is_roll, rotation_direction, interval_time } = data_style;
         const { product_list, img_list } = data_content;
-        data_content.list = data_content.data_type == 'commodity' ? data_content.product_list : data_content.img_list;
+        if (data_content.data_type == 'commodity') {
+            data_content.list = commodity_list(data_content.product_list, item.num);
+        } else {
+            data_content.list = data_content.img_list;
+        }
         const new_data = {
             data_type: data_content.data_type,
             interval_time: interval_time,
@@ -242,6 +249,28 @@ const trends_config = (style: any, key: string) => {
 }
 const text_style = (typeface: string, size: number, color: string) => {
     return `font-weight:${ typeface }; font-size: ${ size }px; color: ${ color };`;
+} 
+/*
+** 组装产品的数据
+** @param {Array} list 商品列表
+** @param {Number} num 显示数量
+** @return {Array}
+*/
+const commodity_list = (list: any[], num: number) => {
+    if (list.length > 0) {
+        // 深拷贝一下，确保不会出现问题
+        const commodity_list = cloneDeep(list);
+        // 存储数据显示
+        let nav_list = [];
+        // 拆分的数量
+        const split_num = Math.ceil(commodity_list.length / num);
+        for (let i = 0; i < split_num; i++) {
+            nav_list.push({ split_list: commodity_list.slice(i * num, (i + 1) * num) });
+        }
+        return nav_list;
+    } else {
+        return [];
+    }
 }
 // 公共样式
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));

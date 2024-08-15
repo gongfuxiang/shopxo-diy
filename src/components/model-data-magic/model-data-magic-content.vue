@@ -3,7 +3,7 @@
         <el-form :model="form" label-width="80">
             <card-container class="mb-8">
                 <div class="mb-12">展示风格</div>
-                <el-form-item label="选择风格">
+                <el-form-item label="选择风格" label-width="60">
                     <div class="flex align-c flex-wrap gap-10">
                         <div v-for="(item, index) in style_list" :key="index" :class="['flex-item', {'flex-item-actived': form.style_actived === index }]" @click="style_click(index)">
                             <icon :name="item" :color="`${ form.style_actived === index ? '#E1EEF9' : '#EDEDED'}`" size="48"></icon>
@@ -33,10 +33,10 @@
             </card-container>
             <el-tabs v-model="tabs_name" class="content-tabs">
                 <el-tab-pane label="内容设置" name="content">
-                    <tabs-content :value="form.data_magic_list[selected_active].data_content"></tabs-content>
+                    <tabs-content :value="form.data_magic_list[selected_active].data_content" :isShowTitle="is_show_title"></tabs-content>
                 </el-tab-pane>
                 <el-tab-pane label="样式设置" name="styles">
-                    <tabs-styles :value="form.data_magic_list[selected_active].data_style"></tabs-styles>
+                    <tabs-styles :value="form.data_magic_list[selected_active].data_style" :content="form.data_magic_list[selected_active].data_content" :isShowTitle="is_show_title"></tabs-styles>
                 </el-tab-pane>
             </el-tabs>
         </el-form>
@@ -98,15 +98,15 @@ const data_content = {
 
 // 不同风格的数据
 const style_show_list = [
-    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2} }, { start: {x: 1, y: 3}, end: {x: 4, y: 4} }], // 风格1
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1}, end: {x: 4, y: 4} }], // 风格2
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2} }, { start: {x: 3, y: 1}, end: {x: 4, y: 2} }, { start: {x: 1, y: 3}, end: {x: 4, y: 4} }],// 风格3
-    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2} }, { start: {x: 1, y: 3}, end: {x: 2, y: 4} }, { start: {x: 3, y: 3}, end: {x: 4, y: 4} }],// 风格4
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1}, end: {x: 4, y: 2} }, { start: {x: 3, y: 3}, end: {x: 4, y: 4} }],// 风格5
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2} }, { start: {x: 1, y: 3}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1}, end: {x: 4, y: 4} }],// 风格6
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2} }, { start: {x: 3, y: 1}, end: {x: 4, y: 2} }, { start: {x: 1, y: 3}, end: {x: 2, y: 4} }, { start: {x: 3, y: 3}, end: {x: 4, y: 4} }],// 风格7
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1}, end: {x: 4, y: 2} }, { start: {x: 3, y: 3}, end: {x: 3, y: 4} }, { start: {x: 4, y: 3}, end: {x: 4, y: 4} }, { start: {x: 4, y: 3}, end: {x: 4, y: 4} }],// 风格8
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1}, end: {x: 4, y: 2} }, { start: {x: 3, y: 3}, end: {x: 3, y: 4} }, { start: {x: 4, y: 3}, end: {x: 4, y: 4} }],// 风格9
+    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'row', outerflex: 'row' }, { start: {x: 1, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'row', outerflex: 'row'}], // 风格1
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 3, flex: 'row', outerflex: 'col' }, { start: {x: 3, y: 1}, end: {x: 4, y: 4}, num: 3, flex: 'row', outerflex: 'col' }], // 风格2
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 1, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'row', outerflex: 'row' }],// 风格3
+    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'row', outerflex: 'row' }, { start: {x: 1, y: 3}, end: {x: 2, y: 4}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'col', outerflex: 'row' }],// 风格4
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 3, flex: 'row', outerflex: 'col' }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'col', outerflex: 'row' }],// 风格5
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 1, y: 3}, end: {x: 2, y: 4}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 1}, end: {x: 4, y: 4}, num: 3, flex: 'row', outerflex: 'col' }],// 风格6
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 1, y: 3}, end: {x: 2, y: 4}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'col', outerflex: 'row' }],// 风格7
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 3}, end: {x: 3, y: 4}, num: 1, flex: 'col', outerflex: 'row' }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col', outerflex: 'row' }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col', outerflex: 'row' }],// 风格8
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 3, flex: 'row', outerflex: 'col' }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 3}, end: {x: 3, y: 4}, num: 1, flex: 'col', outerflex: 'row' }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col', outerflex: 'row' }],// 风格9
 ]
 const tabs_name = ref('content');
 const state = reactive({
@@ -183,6 +183,8 @@ const data_title = (item: any) => {
     }
     return title;
 };
+// 除了第8个风格下的后3个不显示标题，其他的都显示
+const is_show_title = computed(() => !(form.value.style_actived == 7 && ![0, 1].includes(selected_active.value)));
 </script>
 <style lang="scss" scoped>
 .card.mb-8 {

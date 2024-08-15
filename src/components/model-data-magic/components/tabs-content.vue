@@ -6,7 +6,7 @@
                 <el-radio value="img">图片</el-radio>
             </el-radio-group>
         </el-form-item>
-        <template v-if="form.data_type === 'commodity'">
+        <template v-if="form.data_type === 'commodity' && isShowTitle">
             <el-form-item label="主标题">
                 <el-input v-model="form.heading_title" placeholder="请输入主标题"></el-input>
             </el-form-item>
@@ -60,6 +60,10 @@ const props = defineProps({
         type: Object,
         default: () => {},
     },
+    isShowTitle: {
+        type: Boolean,
+        default: true,
+    }
 });
 
 const form = ref(props.value);
