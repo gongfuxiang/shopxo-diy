@@ -22,7 +22,7 @@
             <template v-else>
                 <div v-for="(item2, index2) in split_list" :key="index2" class="flex-col w h">
                     <image-empty v-model="item2.new_src[0]" :style="contentImgRadius"></image-empty>
-                    <div v-if="!isEmpty(isShow)" class="flex-col w tl gap-10 pa-10">
+                    <div v-if="!isEmpty(isShow)" class="flex-col w tl gap-10" :style="`${ padding_computer(props.chunkPadding) }`">
                         <div v-if="isShow.includes('0')" class="text-line-2 size-14">华为荣耀畅享平大幅度发过板华为荣耀畅享平大幅度发过板</div>
                         <div v-if="isShow.includes('1')" class="identifying"><span class="num">¥</span><span>{{'51' }}</span></div>
                     </div>
@@ -47,6 +47,7 @@
 
 <script setup lang="ts">
 import { isEmpty } from 'lodash';
+import { padding_computer } from '@/utils';
 
 interface Props {
     value: Array<any>;
@@ -56,6 +57,7 @@ interface Props {
     num: number;
     actived: number;
     isShow: Array<string>;
+    chunkPadding: internalStyle;
 }
 
 const props = withDefaults(defineProps<Props>(), {

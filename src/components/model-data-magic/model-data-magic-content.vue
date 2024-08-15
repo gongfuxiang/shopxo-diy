@@ -68,6 +68,13 @@ const data_style = {
     subtitle_color: '#FF852A',
     subtitle_typeface: 'normal',
     subtitle_size: 14,
+    chunk_padding: {
+        padding: 0,
+        padding_top: 20, 
+        padding_bottom: 20, 
+        padding_left: 15,
+        padding_right: 15,
+    },
     is_show: true,
     indicator_style: 'dot',
     indicator_location: 'center',
@@ -156,12 +163,19 @@ const style_click = (index: number) => {
 }
 // 规整复制的数据
 const magic_list = (index: number) => {
-    return cloneDeep(style_show_list[index]).map((item) => ({
+    return cloneDeep(style_show_list[index]).map((item, map_index) => ({
         ...item,
         actived_index: 0,
         data_content: cloneDeep(data_content),
         data_style: {
             ...cloneDeep(data_style),
+            chunk_padding: {
+                padding: show_padding(index, map_index) ? 10 : 0,
+                padding_top: show_padding(index, map_index) ? 10 : 20,
+                padding_bottom: show_padding(index, map_index) ? 10 : 20,
+                padding_left: show_padding(index, map_index) ? 10 : 15,
+                padding_right: show_padding(index, map_index) ? 10 : 15,
+            },
             carouselKey: get_math(),
         }
     }));
@@ -171,6 +185,9 @@ const magic_list = (index: number) => {
 const selected_click = (index: number) => {
     selected_active.value = index;
     tabs_name.value = 'content';
+}
+const show_padding = (index:number, map_index:number) => {
+    return index == 7 && ![0, 1].includes(map_index)
 }
 //#endregion
 const data_title = (item: any) => {

@@ -6,7 +6,7 @@
                 <div class="flex-row align-c jc-c style-size flex-wrap">
                     <div v-for="(item, index) in data_magic_list" :key="index" :style="`${ item.data_style.background_style } ${ content_radius }`" :class="['img-spacing-border', { 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index) }]">
                         <template v-if="item.data_content.data_type == 'commodity'">
-                            <div :class="['w h flex-col gap-20', {'ptb-20 plr-15': [0, 1].includes(index) }]">
+                            <div class="w h flex-col gap-20" :style="`${ [0, 1].includes(index) ? padding_computer(item.data_style.chunk_padding) : '' }`">
                                 <div v-if="(!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)) && [0, 1].includes(index)" class="flex-col gap-5 tl">
                                     <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
                                     <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
@@ -35,7 +35,7 @@
             <template v-else>
                 <div v-for="(item, index) in data_magic_list" :key="index" class="cube-selected img-spacing-border" :style="`${ selected_style(item) } ${ item.data_style.background_style } ${ content_radius }`">
                     <template v-if="item.data_content.data_type == 'commodity'">
-                        <div class="ptb-20 plr-15 w h flex-col gap-20">
+                        <div class="w h flex-col gap-20" :style="`${ padding_computer(item.data_style.chunk_padding) }`">
                             <div v-if="!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)" class="flex-col gap-5 tl">
                                 <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
                                 <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
@@ -64,7 +64,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, common_styles_computer, get_math, gradient_computer, percentage_count, radius_computer } from '@/utils';
+import { background_computer, common_styles_computer, get_math, gradient_computer, percentage_count, radius_computer, padding_computer } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 const props = defineProps({
     value: {
@@ -81,7 +81,6 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, new_style } = toRefs(state);
-// const data_list = computed(() => form.value.data_magic_list);
 const outer_spacing = computed(() => new_style.value.image_spacing + 'px');
 const outer_sx = computed(() => -(new_style.value.image_spacing / 2) + 'px');
 // 图片间距设置

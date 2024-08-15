@@ -5,7 +5,7 @@
                 <image-empty v-model="item1.carousel_img[0]" :style="contentImgRadius"></image-empty>
             </template>
             <template v-else>
-                <product-list-show :outerflex="form.outerflex" :flex="form.flex" :num="form.num" :actived="props.actived" :is-show="form.data_content.is_show" :value="item1.split_list" :content-img-radius="contentImgRadius"></product-list-show>
+                <product-list-show :outerflex="form.outerflex" :flex="form.flex" :num="form.num" :actived="props.actived" :is-show="form.data_content.is_show" :chunk-padding="form.data_style.chunk_padding" :value="item1.split_list" :content-img-radius="contentImgRadius"></product-list-show>
             </template>
         </el-carousel-item>
     </el-carousel>
