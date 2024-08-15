@@ -4,7 +4,7 @@
             <!-- 风格9 -->
             <template v-if="form.style_actived == 7">
                 <div class="flex-row align-c jc-c style-size flex-wrap">
-                    <div v-for="(item, index) in data_magic_list" :key="index" :style="`${ item.data_style.background_style }`" :class="['img-spacing-border', { 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index) }]">
+                    <div v-for="(item, index) in data_magic_list" :key="index" :style="`${ item.data_style.background_style } ${ content_radius }`" :class="['img-spacing-border', { 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index) }]">
                         <template v-if="item.data_content.data_type == 'commodity'">
                             <div :class="['w h flex-col gap-20', {'ptb-20 plr-15': [0, 1].includes(index) }]">
                                 <div v-if="(!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)) && [0, 1].includes(index)" class="flex-col gap-5 tl">
@@ -33,7 +33,7 @@
                 </div>
             </template>
             <template v-else>
-                <div v-for="(item, index) in data_magic_list" :key="index" class="cube-selected img-spacing-border" :style="`${ selected_style(item) } ${ item.data_style.background_style }`">
+                <div v-for="(item, index) in data_magic_list" :key="index" class="cube-selected img-spacing-border" :style="`${ selected_style(item) } ${ item.data_style.background_style } ${ content_radius }`">
                     <template v-if="item.data_content.data_type == 'commodity'">
                         <div class="ptb-20 plr-15 w h flex-col gap-20">
                             <div v-if="!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)" class="flex-col gap-5 tl">
@@ -86,8 +86,10 @@ const outer_spacing = computed(() => new_style.value.image_spacing + 'px');
 const outer_sx = computed(() => -(new_style.value.image_spacing / 2) + 'px');
 // 图片间距设置
 const spacing = computed(() => new_style.value.image_spacing / 2 + 'px');
+// 内容圆角设置
+const content_radius = computed(() => radius_computer(new_style.value.data_radius));
 // 图片圆角设置
-const content_img_radius = computed(() => radius_computer(new_style.value));
+const content_img_radius = computed(() => radius_computer(new_style.value.img_radius));
 //#region 容器大小计算
 const div_width = ref(0);
 const container_size = computed(() => div_width.value + 'px');
