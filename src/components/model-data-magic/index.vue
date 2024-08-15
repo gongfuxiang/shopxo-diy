@@ -4,23 +4,66 @@
             <!-- 风格9 -->
             <template v-if="form.style_actived == 7">
                 <div class="flex-row align-c jc-c style-size flex-wrap">
-                    <div v-for="(item, index) in data_magic_list" :key="index" :class="['img-spacing-border', { 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index) }]">
-                        <!-- <image-empty v-model="item.img[0]" :style="content_img_radius"></image-empty> -->
-                        <div></div>
+                    <div v-for="(item, index) in data_magic_list" :key="index" :style="`${ item.data_style.background_style }`" :class="['img-spacing-border', { 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index) }]">
+                        <template v-if="item.data_content.data_type == 'commodity'">
+                            <div class="ptb-20 plr-15 w h">
+                                <div class="flex-col gap-5 tl">
+                                    <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
+                                    <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
+                                </div>
+                                <div class="mt-20 w h">
+                                    <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
+                                        <el-carousel-item v-for="(item1, index1) in item.data_content.list" :key="index1">
+                                            <a>13666</a>
+                                        </el-carousel-item>
+                                    </el-carousel>
+                                </div>
+                            </div>
+                        </template>
+                        <template v-else>
+                            <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
+                                <el-carousel-item v-for="(item1, index1) in item.data_content.list" :key="index1">
+                                    <image-empty v-model="item1.carousel_img[0]" :style="content_img_radius"></image-empty>
+                                </el-carousel-item>
+                            </el-carousel>
+                        </template>
+                        <div v-if="item.data_style.is_show" :class="{'dot-center': item.data_style?.indicator_location == 'center', 'dot-right': item.data_style?.indicator_location == 'flex-end' }" class="dot flex abs">
+                            <template v-if="item.data_style.indicator_style == 'num'">
+                                <div :style="item.data_style.indicator_styles" class="dot-item">
+                                    <span class="num-active" :style="`color: ${ item.data_style.actived_color }`">{{ item.actived_index + 1 }}</span><span>/{{ item.data_content.product_list.length }}</span>
+                                </div>
+                            </template>
+                            <template v-else>
+                                <div v-for="(item2, index2) in item.data_content.list" :key="index2" :style="`${ item.data_style.indicator_styles }; ${ style_actived_color(item, index2)}`" class="dot-item" />
+                            </template>
+                        </div>
                     </div>
                 </div>
             </template>
             <template v-else>
                 <div v-for="(item, index) in data_magic_list" :key="index" class="cube-selected img-spacing-border" :style="`${ selected_style(item) } ${ item.data_style.background_style }`">
-                    <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
-                        <el-carousel-item v-for="(item1, index1) in item.data_content.list" :key="index1">
-                            <template v-if="item.data_content.data_type == 'commodity'">
-                            </template>
-                            <template v-else>
+                    <template v-if="item.data_content.data_type == 'commodity'">
+                        <div class="ptb-20 plr-15 w h flex-col gap-20">
+                            <div class="flex-col gap-5 tl">
+                                <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
+                                <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
+                            </div>
+                            <div class="w h">
+                                <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
+                                    <el-carousel-item v-for="(item1, index1) in item.data_content.list" :key="index1">
+                                        <a>13666</a>
+                                    </el-carousel-item>
+                                </el-carousel>
+                            </div>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
+                            <el-carousel-item v-for="(item1, index1) in item.data_content.list" :key="index1">
                                 <image-empty v-model="item1.carousel_img[0]" :style="content_img_radius"></image-empty>
-                            </template>
-                        </el-carousel-item>
-                    </el-carousel>
+                            </el-carousel-item>
+                        </el-carousel>
+                    </template>
                     <div v-if="item.data_style.is_show" :class="{'dot-center': item.data_style?.indicator_location == 'center', 'dot-right': item.data_style?.indicator_location == 'flex-end' }" class="dot flex abs">
                         <template v-if="item.data_style.indicator_style == 'num'">
                             <div :style="item.data_style.indicator_styles" class="dot-item">
@@ -82,6 +125,8 @@ interface data_magic {
         x: number;
         y: number;
     };
+    heading_title?: string;
+    subtitle?: string;
     actived_index: number;
     data_content: any;
     data_style: any;
@@ -191,6 +236,13 @@ const carousel_change = (index: number, key: number) => {
         data_magic_list.value[key].actived_index = index;
     }
 }
+// 根据传递的参数，从对象中取值
+const trends_config = (style: any, key: string) => {
+    return text_style(style[`${key}_typeface`], style[`${key}_size`], style[`${key}_color`]);
+}
+const text_style = (typeface: string, size: number, color: string) => {
+    return `font-weight:${ typeface }; font-size: ${ size }px; color: ${ color };`;
+}
 // 公共样式
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));
 </script>
@@ -201,24 +253,25 @@ const style_container = computed(() => common_styles_computer(new_style.value.co
     width: 100%;
     overflow: hidden;
 }
-
 .cube-selected {
     position: absolute;
     text-align: center;
     color: $cr-main;
     box-sizing: border-box;
 }
-
 .outer-style {
     width: calc(100% + v-bind(outer_spacing));
     height: calc(100% + v-bind(outer_spacing));
     margin: v-bind(outer_sx);
 }
-
 .img-spacing-border {
     margin: v-bind(spacing);
 }
-
+.text-line-1 {
+    word-break: break-word;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}
 .style-size {
     height: 100%;
     width: 100%;
@@ -263,11 +316,9 @@ const style_container = computed(() => common_styles_computer(new_style.value.co
 :deep(.el-image) {
     height: 100%;
     width: 100%;
-
     .el-image__inner {
         object-fit: cover;
     }
-
     .image-slot img {
         width: 6rem;
     }

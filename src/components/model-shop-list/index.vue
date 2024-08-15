@@ -176,7 +176,7 @@ const text_line = computed(() => {
     let line = '';
     if (['1', '6'].includes(product_style.value)) {
         line = 'text-line-1'
-    } else if (['3', '4', '5'].includes(product_style.value)) {
+    } else if (['0', '2', '3', '4', '5'].includes(product_style.value)) {
         line = 'text-line-2'
     }
     return line;

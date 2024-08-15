@@ -21,6 +21,7 @@
                                 <div class="cube-selected-text">
                                     <template v-if="[0, 1].includes(index)">375 x 375 像素</template> 
                                     <template v-else>250 x 375 像素</template>
+                                    <div>{{ data_title(item) }}</div>
                                 </div>
                             </div>
                         </div>
@@ -63,10 +64,10 @@ const data_style = {
     interval_time: 2,
     heading_color: '#000',
     heading_typeface: 'normal',
-    heading_size: 12,
-    subtitle_color: '#000',
+    heading_size: 20,
+    subtitle_color: '#FF852A',
     subtitle_typeface: 'normal',
-    subtitle_size: 12,
+    subtitle_size: 14,
     is_show: true,
     indicator_style: 'dot',
     indicator_location: 'center',
@@ -142,8 +143,9 @@ const handleResize = () => {
     }
 }
 //#endregion
+//#region 选中切换数据
 const selected_active = ref(0);
-
+// 切换风格
 const style_click = (index: number) => {
     form.value.data_magic_list = magic_list(index);
 
@@ -151,6 +153,7 @@ const style_click = (index: number) => {
     selected_active.value = 0;
     tabs_name.value = 'content';
 }
+// 规整复制的数据
 const magic_list = (index: number) => {
     return cloneDeep(style_show_list[index]).map((item) => ({
         ...item,
@@ -163,11 +166,23 @@ const magic_list = (index: number) => {
     }));
 }
 
-// 选中的点击事件
+// 选中风格内不同的块
 const selected_click = (index: number) => {
     selected_active.value = index;
     tabs_name.value = 'content';
 }
+//#endregion
+const data_title = (item: any) => {
+    let title = `共有`;
+    if (item.data_content) {
+        if (item.data_content.data_type == 'commodity') {
+            title += `${ item.data_content.product_list.length }个商品`;
+        } else {
+            title += `${ item.data_content.img_list.length }个图片`;
+        }
+    }
+    return title;
+};
 </script>
 <style lang="scss" scoped>
 .card.mb-8 {
