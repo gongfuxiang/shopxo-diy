@@ -33,10 +33,10 @@
             </card-container>
             <el-tabs v-model="tabs_name" class="content-tabs">
                 <el-tab-pane label="内容设置" name="content">
-                    <tabs-content :value="form.data_magic_list[selected_active].data_content" :isShowTitle="is_show_title"></tabs-content>
+                    <tabs-content :value="form.data_magic_list[selected_active].data_content" :is-show-title="is_show_title"></tabs-content>
                 </el-tab-pane>
                 <el-tab-pane label="样式设置" name="styles">
-                    <tabs-styles :value="form.data_magic_list[selected_active].data_style" :content="form.data_magic_list[selected_active].data_content" :isShowTitle="is_show_title"></tabs-styles>
+                    <tabs-styles :value="form.data_magic_list[selected_active].data_style" :content="form.data_magic_list[selected_active].data_content" :is-show-title="is_show_title"></tabs-styles>
                 </el-tab-pane>
             </el-tabs>
         </el-form>

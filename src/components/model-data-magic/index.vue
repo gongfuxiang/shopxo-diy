@@ -12,20 +12,12 @@
                                     <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
                                 </div>
                                 <div class="w h">
-                                    <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :direction="item.data_style.rotation_direction" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
-                                        <el-carousel-item v-for="(item1, index1) in item.data_content.list" :key="index1">
-                                            <product-list-show :outerflex="item.outerflex" :flex="item.flex" :num="item.num" :actived="form.style_actived" :value="item1.split_list" :content-img-radius="content_img_radius"></product-list-show>
-                                        </el-carousel-item>
-                                    </el-carousel>
+                                    <magic-carousel :value="item" :content-img-radius="content_img_radius" :actived="form.style_actived" type="product" @carousel_change="carousel_change($event, index)"></magic-carousel>
                                 </div>
                             </div>
                         </template>
                         <template v-else>
-                            <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :direction="item.data_style.rotation_direction" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
-                                <el-carousel-item v-for="(item1, index1) in item.data_content.list" :key="index1">
-                                    <image-empty v-model="item1.carousel_img[0]" :style="content_img_radius"></image-empty>
-                                </el-carousel-item>
-                            </el-carousel>
+                            <magic-carousel :value="item" :content-img-radius="content_img_radius" type="img" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
                         </template>
                         <div v-if="item.data_style.is_show" :class="{'dot-center': item.data_style?.indicator_location == 'center', 'dot-right': item.data_style?.indicator_location == 'flex-end' }" class="dot flex abs">
                             <template v-if="item.data_style.indicator_style == 'num'">
@@ -49,20 +41,12 @@
                                 <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
                             </div>
                             <div class="w h">
-                                <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :direction="item.data_style.rotation_direction" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
-                                    <el-carousel-item v-for="(item1, index1) in item.data_content.list" :key="index1">
-                                        <product-list-show :outerflex="item.outerflex" :flex="item.flex" :num="item.num" :actived="form.style_actived" :value="item1.split_list" :content-img-radius="content_img_radius"></product-list-show>
-                                    </el-carousel-item>
-                                </el-carousel>
+                                <magic-carousel :value="item" :content-img-radius="content_img_radius" type="product" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
                             </div>
                         </div>
                     </template>
                     <template v-else>
-                        <el-carousel :key="item.data_style.carouselKey" indicator-position="none" :interval="item.data_style.interval_time * 1000" arrow="never" :direction="item.data_style.rotation_direction" :autoplay="item.data_style.is_roll" @change="carousel_change($event, index)">
-                            <el-carousel-item v-for="(item1, index1) in item.data_content.list" :key="index1">
-                                <image-empty v-model="item1.carousel_img[0]" :style="content_img_radius"></image-empty>
-                            </el-carousel-item>
-                        </el-carousel>
+                        <magic-carousel :value="item" :content-img-radius="content_img_radius" type="img" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
                     </template>
                     <div v-if="item.data_style.is_show" :class="{'dot-center': item.data_style?.indicator_location == 'center', 'dot-right': item.data_style?.indicator_location == 'flex-end' }" class="dot flex abs">
                         <template v-if="item.data_style.indicator_style == 'num'">
@@ -156,7 +140,7 @@ const getSelectedLeft = (item: data_magic) => {
 };
 // 根据当前页面大小计算成百分比
 const selected_style = (item: data_magic) => {
-    return `width: calc(${percentage(getSelectedWidth(item))} - ${ outer_spacing.value } ); height: calc(${percentage(getSelectedHeight(item))} - ${ outer_spacing.value } ); top: ${percentage(getSelectedTop(item))}; left: ${percentage(getSelectedLeft(item))};`;
+    return `overflow: hidden;width: calc(${percentage(getSelectedWidth(item))} - ${ outer_spacing.value } ); height: calc(${percentage(getSelectedHeight(item))} - ${ outer_spacing.value } ); top: ${percentage(getSelectedTop(item))}; left: ${percentage(getSelectedLeft(item))};`;
 };
 // 计算成百分比
 const percentage = (num: number) => {
@@ -304,20 +288,17 @@ const style_container = computed(() => common_styles_computer(new_style.value.co
 .style-size {
     height: 100%;
     width: 100%;
-    .three {
-        width: 33%;
-        height: 100%;
-        position: relative;
-    }
     .style9-top {
         width: calc(50% - v-bind(outer_spacing));
         height: calc(50% - v-bind(outer_spacing));
         position: relative;
+        overflow: hidden;
     }
     .style9-bottom {
         width: calc(33% - v-bind(outer_spacing));
         height: calc(50% - v-bind(outer_spacing));
         position: relative;
+        overflow: hidden;
     }
 }
 .dot-center {
