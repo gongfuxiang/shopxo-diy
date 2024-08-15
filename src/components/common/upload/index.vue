@@ -26,10 +26,10 @@
                         <template #default="{ node, data }">
                             <div class="custom-tree-node flex-row jc-sb gap-10 align-c w pr-10">
                                 <div class="flex-1 flex-width text-line-1 block">{{ data.name }}</div>
-                                <div class="flex-row gap-10">
-                                    <icon v-if="data.pid == 0" name="add" size="12" color="primary" @click="append_type_event(data)"></icon>
-                                    <icon name="edit" size="12" color="primary" @click="edit_type_event(data)"></icon>
-                                    <icon name="del" size="12" color="primary" @click="remove_type_event(node, data)"></icon>
+                                <div class="flex-row gap-10 cr-9 category-oprate">
+                                    <icon v-if="data.pid == 0" class="icon" name="add" size="12" @click="append_type_event(data)"></icon>
+                                    <icon class="icon" name="edit" size="12" @click="edit_type_event(data)"></icon>
+                                    <icon class="icon" name="del" size="12" @click="remove_type_event(node, data)"></icon>
                                 </div>
                             </div>
                         </template>

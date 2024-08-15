@@ -6,6 +6,11 @@
         .el-tree {
             --el-tree-node-content-height: 40px;
         }
+        .category-oprate {
+            .icon:hover {
+                color: $cr-primary;
+            }
+        }
     }
     .right-content {
         position: relative;

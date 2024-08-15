@@ -1,5 +1,5 @@
 <template>
-    <i class="iconfont hover" :class="className" :style="'font-size:' + size + 'px;' + (props.color.indexOf('#') !== -1 ? 'color:' + props.color : '') + styles" @click="onClick">
+    <i class="iconfont" :class="className" :style="'font-size:' + size + 'px;' + (props.color.indexOf('#') !== -1 ? 'color:' + props.color : '') + styles" @click="onClick">
         <slot></slot>
     </i>
 </template>
@@ -12,10 +12,6 @@ const props = defineProps({
         default: '',
     },
     color: {
-        type: String,
-        default: '',
-    },
-    hoverColor: {
         type: String,
         default: '',
     },
@@ -49,9 +45,6 @@ i.iconfont {
     gap: 0.5rem;
     &:hover {
         opacity: 0.8;
-    }
-    &.hover:hover {
-        color: inherit;
     }
 }
 </style>
