@@ -1,4 +1,5 @@
 import request from '@/utils/request';
+import { AxiosRequestConfig } from 'axios';
 
 class UploadAPI {
     /**  分类查询接口*/
@@ -58,11 +59,15 @@ class UploadAPI {
         });
     }
     // 附件上传
-    static uploadAttachment(data: any) {
+    static uploadAttachment(data: any, progress: any) {
         return request({
             url: `diyapi/attachmentupload`,
             method: 'post',
             data,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+            onUploadProgress: progress,
         });
     }
 }

@@ -7,7 +7,6 @@
             </div>
         </template>
         <div class="upload-content pa-20" @paste="handle_paste">
-            {{ exts }}
             <el-form ref="ruleFormRef" :model="form" :rules="rules" label-width="85" status-icon>
                 <el-form-item label="上传方式">
                     <el-radio-group v-model="form.type" @change="upload_type_change">
@@ -24,7 +23,8 @@
                 <template v-if="form.type == 'loc'">
                     <div class="flex-row jc-sb align-c mt-30">
                         <div class="flex-row">
-                            <el-upload ref="fileUpload1" v-model:file-list="file_list" multiple action="#" :accept="exts_text" :auto-upload="false" :show-file-list="false" :on-change="upload_change" :before-upload="before_upload" :limit="limit" :on-exceed="handle_exceed">
+                            <!-- base_url + 'diyapi/attachmentupload?token=b84c6cac0dacd1bc624393cd522dec37' -->
+                            <el-upload ref="fileUpload1" v-model:file-list="file_list" multiple action="#" :accept="exts_text" :auto-upload="false" :show-file-list="false" :on-change="upload_change" :before-upload="before_upload" :limit="limit" :on-exceed="handle_exceed" :on-progress="handle_progress" :http-request="handle_request">
                                 <template #trigger>
                                     <el-button @click="folder_mode(false)"> 上传{{ upload_type_name }} </el-button>
                                     <el-button @click="folder_mode(true)"> 上传文件夹 </el-button>
@@ -45,23 +45,20 @@
                         <div id="dropzone" @dragover.prevent="handle_drag_in" @dragenter="handle_drag_in" @dragleave="handle_drag_leave" @drop.prevent="handle_drop">
                             <el-scrollbar v-if="!is_dragging && form.file.length > 0" height="341px">
                                 <div class="table-body">
-                                    <div v-for="(item, index) in form.file" :key="item.file.name + item.file.size" class="re">
-                                        <div class="progress" :style="'width:' + item.progress + '%'"></div>
-                                        <div class="table-row">
-                                            <div class="table-cell">
-                                                <el-image :src="file_to_base64(item.file)" class="preview-img radius-sm" fit="contain">
-                                                    <template #error>
-                                                        <div class="bg-f5 img flex-row jc-c align-c radius h w">
-                                                            <icon name="error-img" size="12"></icon>
-                                                        </div>
-                                                    </template>
-                                                </el-image>
-                                                <div class="desc">{{ item.file.name }}</div>
-                                            </div>
-                                            <div class="table-cell">{{ annex_size_to_unit(item.file.size) }}</div>
-                                            <div class="table-cell">{{ item.status }}{{ item.progress + '%' }}</div>
-                                            <div class="table-cell-oprate" @click="del_upload(index)">移除</div>
+                                    <div v-for="(item, index) in form.file" :key="item.file.name + item.file.size" class="table-row">
+                                        <div class="table-cell">
+                                            <el-image :src="file_to_base64(item.file)" class="preview-img radius-sm" fit="contain">
+                                                <template #error>
+                                                    <div class="bg-f5 img flex-row jc-c align-c radius h w">
+                                                        <icon name="error-img" size="12"></icon>
+                                                    </div>
+                                                </template>
+                                            </el-image>
+                                            <div class="desc">{{ item.file.name }}</div>
                                         </div>
+                                        <div class="table-cell">{{ annex_size_to_unit(item.file.size) }}</div>
+                                        <div class="table-cell">{{ item.status }}</div>
+                                        <div class="table-cell-oprate" @click="del_upload(index)">移除</div>
                                     </div>
                                 </div>
                             </el-scrollbar>
@@ -132,7 +129,7 @@
 import UploadAPI, { Tree } from '@/api/upload';
 import { uploadrStore } from '@/store';
 const upload_store = uploadrStore();
-import type { UploadFile, UploadFiles, UploadUserFile, FormRules, FormInstance } from 'element-plus';
+import type { UploadFile, UploadFiles, UploadUserFile, FormRules, FormInstance, UploadInstance, UploadProgressEvent, UploadRequestOptions, UploadRequestHandler } from 'element-plus';
 import { annex_size_to_unit, ext_name } from '@/utils';
 /**
  * @description: 图片执行上传弹窗
@@ -166,11 +163,13 @@ const upload_type_name = computed(() => {
 });
 // 格式限制
 const exts_text = ref(props.exts.join(','));
+const fileUpload1 = ref<UploadInstance>();
+const fileUpload2 = ref<UploadInstance>();
+const base_url = import.meta.env.VITE_APP_BASE_API;
 const file_list = ref<UploadUserFile[]>([]);
 interface fileData {
     file: File;
     status: string;
-    progress: number;
 }
 interface formData {
     type: string;
@@ -260,7 +259,6 @@ const upload_change = async (uploadFile: UploadFile, uploadFiles: UploadFiles) =
         // item.status = 'ready';
         const new_file_obj = {
             status: '等待上传',
-            progress: 0,
             file: item.raw as File,
         };
         form.value.file.push(new_file_obj);
@@ -283,6 +281,28 @@ const before_upload = (file: any) => {
 // 超出限制时的钩子
 const handle_exceed = (files: any, fileList: any) => {
     ElMessageBox.alert(`最多上传 ${props.limit} 个文件!`);
+};
+const handle_progress = (event: UploadProgressEvent) => {
+    console.log(event.percent);
+};
+// 上传中
+const handle_request = (options: UploadRequestOptions): Promise<any> => {
+    let formdata = new FormData();
+    console.log(options);
+    formdata.append('upfile', options.file);
+    formdata.append('type', props.type == 'img' ? 'image' : props.type == 'video' ? 'video' : props.type == 'file' ? 'file' : '');
+    formdata.append('category_id', form.value.category_id);
+    form.value.file.forEach((item: any) => {
+        formdata.append('upfile', item.file);
+        item.status = '上传中';
+    });
+    let number = 0;
+    return UploadAPI.uploadAttachment(formdata, number).then((res) => {
+        ElMessage.success('上传成功');
+        form.value.file.forEach((item: any) => {
+            item.status = '上传完成';
+        });
+    });
 };
 // 清空列表
 const clear_list_event = () => {
@@ -337,7 +357,6 @@ const handle_drop = async (event: any) => {
             if (!form.value.file.some((item: any) => item.file.name === file.name && item.file.size === file.size)) {
                 const new_file_obj = {
                     status: '等待上传',
-                    progress: 0,
                     file: file,
                 };
                 const new_file_obj_upload = {
@@ -397,7 +416,6 @@ const handle_paste = (event: any) => {
             if (!form.value.file.some((item: any) => item.file.name === file.name && item.file.size === file.size)) {
                 const new_file_obj = {
                     status: '等待上传',
-                    progress: 0,
                     file: file,
                 };
                 const new_file_obj_upload = {
@@ -421,28 +439,16 @@ const submit_event = async (formEl: FormInstance | undefined) => {
     if (!formEl) return;
     await formEl.validate((valid, fields) => {
         if (valid) {
-            form.value.file.forEach((item: any) => {
-                const formData = new FormData();
-                formData.append('type', props.type == 'img' ? 'image' : props.type == 'video' ? 'video' : props.type == 'file' ? 'file' : '');
-                formData.append('category_id', form.value.category_id);
-                formData.append('upfile', item.file);
-                if (item.status == '等待上传') {
-                    item.status = '上传中';
-                    const on_upload_progress = (progressEvent: any) => {
-                        console.log('progressEvent', progressEvent);
-                        item.progress = Number(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2));
-                        console.log('1', item.progress);
-                    };
-                    UploadAPI.uploadAttachment(formData, on_upload_progress).then((res) => {
-                        ElMessage.success('上传成功');
-                        item.status = '上传成功';
-                    });
-                }
-            });
+            fileUpload1.value?.submit();
         } else {
             console.log('error submit!', fields);
         }
     });
+};
+// 进度条
+const onProgress = (p: number) => {
+    console.log(p);
+    ElMessage.success(`上传进度：${p}%`);
 };
 
 //#endregion 本地上传 -----------------------------------------------end
@@ -517,17 +523,7 @@ const close_dialog = () => {
         height: 30rem;
         .table-header,
         .table-body {
-            .progress {
-                position: absolute;
-                inset: 0;
-                width: 0;
-                height: 100%;
-                background: #f3f9ff;
-                transition: width 0.5s linear;
-            }
             .table-row {
-                position: relative;
-                z-index: 1;
                 display: flex;
                 width: 100%;
                 border-bottom: 0.1rem solid #eee;

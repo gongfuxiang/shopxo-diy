@@ -49,7 +49,7 @@
                         <el-button @click="mult_del_event">删除{{ upload_type_name }}</el-button>
                         <!-- <el-cascader :show-all-levels="false" clearable></el-cascader> -->
                         <div class="right-classify ml-12">
-                            <transform-category :data="type_data" :check-img-ids="check_img_ids" :placeholder="upload_type_name + '移动至'"></transform-category>
+                            <transform-category :data="type_data_list" :check-img-ids="check_img_ids" :placeholder="upload_type_name + '移动至'"></transform-category>
                         </div>
                     </div>
                     <div class="right-search">
@@ -248,7 +248,8 @@ watch(
     () => dialog_visible.value,
     (val) => {
         if (val) {
-            type_data.value = upload_store.category;
+            type_data_list.value = upload_store.category;
+            type_data.value = [all_tree, ...upload_store.category];
             get_attachment_list();
         }
     }
@@ -257,14 +258,14 @@ watch(
 // 文件后缀分类
 const ext_img_name_list = ref(['.png', '.jpg', '.jpeg', '.bmp', '.webp', '.gif']);
 const ext_video_name_list = ref(['.flv', '.swf', '.mkv', '.avi', '.rm', '.rmvb', '.mpeg', '.mpg', '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.webm']);
-const ext_file_name_list = ref(['.png', 'jpg', 'jpeg', 'bmp', 'webp', 'gif', '.flv', '.swf', '.mkv', '.avi', '.rm', '.rmvb', '.mpeg', '.mpg', '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.webm', '.mp3', '.csv', '.wav', '.mid', '.cab', '.iso', '.ofd', '.xml', '.rar', '.zip', '.tar', '.gz', '.7z', '.bz2', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.pdf', '.txt', '.md', '.vsd']);
+const ext_file_name_list = ref(['.png', '.jpg', '.jpeg', '.bmp', '.webp', '.gif', '.flv', '.swf', '.mkv', '.avi', '.rm', '.rmvb', '.mpeg', '.mpg', '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.webm', '.mp3', '.csv', '.wav', '.mid', '.cab', '.iso', '.ofd', '.xml', '.rar', '.zip', '.tar', '.gz', '.7z', '.bz2', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.pdf', '.txt', '.md', '.vsd','.sql']);
 const ext_file_name_list_map = ref([
     { type: '.png', icon: 'error-img' },
-    { type: 'jpg', icon: 'error-img' },
-    { type: 'jpeg', icon: 'error-img' },
-    { type: 'bmp', icon: 'error-img' },
-    { type: 'webp', icon: 'error-img' },
-    { type: 'gif', icon: 'error-img' },
+    { type: '.jpg', icon: 'error-img' },
+    { type: '.jpeg', icon: 'error-img' },
+    { type: '.bmp', icon: 'error-img' },
+    { type: '.webp', icon: 'error-img' },
+    { type: '.gif', icon: 'error-img' },
     { type: '.flv', icon: 'video' },
     { type: '.swf', icon: 'video' },
     { type: '.mkv', icon: 'video' },
@@ -287,6 +288,7 @@ const ext_file_name_list_map = ref([
     { type: '.iso', icon: 'file' },
     { type: '.ofd', icon: 'file' },
     { type: '.xml', icon: 'file' },
+    { type: '.sql', icon: 'file' },
     { type: '.rar', icon: 'zip' },
     { type: '.zip', icon: 'zip' },
     { type: '.tar', icon: 'zip' },
@@ -341,21 +343,22 @@ const filter_node = (value: string, data: any): boolean => {
     return data.name.indexOf(value) !== -1;
 };
 const type_data = ref<Tree[]>([]);
+const all_tree = {
+    id: '',
+    pid: '',
+    name: '全部',
+    path: '',
+    is_enable: 1,
+    sort: '',
+};
+const type_data_list = ref<Tree[]>([]);
 // 查询分类列表
 const get_tree = () => {
     UploadAPI.getTree().then((res) => {
-        const all_tree = {
-            id: '',
-            pid: '',
-            name: '全部',
-            path: '',
-            is_enable: 1,
-            sort: '',
-        };
         // 将all_tree和res.data.category_list全部插入到type_data.value,all_tree放在数组最前面
         type_data.value = [all_tree, ...res.data.category_list];
-
-        upload_store.set_category(type_data.value);
+        type_data_list.value = res.data.category_list;
+        upload_store.set_category(type_data_list.value);
     });
 };
 

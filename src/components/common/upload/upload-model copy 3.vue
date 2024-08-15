@@ -7,7 +7,6 @@
             </div>
         </template>
         <div class="upload-content pa-20" @paste="handle_paste">
-            {{ exts }}
             <el-form ref="ruleFormRef" :model="form" :rules="rules" label-width="85" status-icon>
                 <el-form-item label="上传方式">
                     <el-radio-group v-model="form.type" @change="upload_type_change">
@@ -45,23 +44,20 @@
                         <div id="dropzone" @dragover.prevent="handle_drag_in" @dragenter="handle_drag_in" @dragleave="handle_drag_leave" @drop.prevent="handle_drop">
                             <el-scrollbar v-if="!is_dragging && form.file.length > 0" height="341px">
                                 <div class="table-body">
-                                    <div v-for="(item, index) in form.file" :key="item.file.name + item.file.size" class="re">
-                                        <div class="progress" :style="'width:' + item.progress + '%'"></div>
-                                        <div class="table-row">
-                                            <div class="table-cell">
-                                                <el-image :src="file_to_base64(item.file)" class="preview-img radius-sm" fit="contain">
-                                                    <template #error>
-                                                        <div class="bg-f5 img flex-row jc-c align-c radius h w">
-                                                            <icon name="error-img" size="12"></icon>
-                                                        </div>
-                                                    </template>
-                                                </el-image>
-                                                <div class="desc">{{ item.file.name }}</div>
-                                            </div>
-                                            <div class="table-cell">{{ annex_size_to_unit(item.file.size) }}</div>
-                                            <div class="table-cell">{{ item.status }}{{ item.progress + '%' }}</div>
-                                            <div class="table-cell-oprate" @click="del_upload(index)">移除</div>
+                                    <div v-for="(item, index) in form.file" :key="item.file.name + item.file.size" class="table-row">
+                                        <div class="table-cell">
+                                            <el-image :src="file_to_base64(item.file)" class="preview-img radius-sm" fit="contain">
+                                                <template #error>
+                                                    <div class="bg-f5 img flex-row jc-c align-c radius h w">
+                                                        <icon name="error-img" size="12"></icon>
+                                                    </div>
+                                                </template>
+                                            </el-image>
+                                            <div class="desc">{{ item.file.name }}</div>
                                         </div>
+                                        <div class="table-cell">{{ annex_size_to_unit(item.file.size) }}</div>
+                                        <div class="table-cell">{{ item.status }}</div>
+                                        <div class="table-cell-oprate" @click="del_upload(index)">移除</div>
                                     </div>
                                 </div>
                             </el-scrollbar>
@@ -428,12 +424,17 @@ const submit_event = async (formEl: FormInstance | undefined) => {
                 formData.append('upfile', item.file);
                 if (item.status == '等待上传') {
                     item.status = '上传中';
-                    const on_upload_progress = (progressEvent: any) => {
-                        console.log('progressEvent', progressEvent);
-                        item.progress = Number(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2));
-                        console.log('1', item.progress);
+                    // const on_upload_progress = (progressEvent: any) => {
+                    //     item.progress = Number(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2));
+                    //     console.log('1', item.progress);
+                    // };
+                    const config = {
+                        onUploadProgress: (progressEvent: any) => {
+                            item.progress = Number(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2));
+                            console.log('1', item.progress);
+                        },
                     };
-                    UploadAPI.uploadAttachment(formData, on_upload_progress).then((res) => {
+                    UploadAPI.uploadAttachment(formData, config).then((res) => {
                         ElMessage.success('上传成功');
                         item.status = '上传成功';
                     });
@@ -517,17 +518,7 @@ const close_dialog = () => {
         height: 30rem;
         .table-header,
         .table-body {
-            .progress {
-                position: absolute;
-                inset: 0;
-                width: 0;
-                height: 100%;
-                background: #f3f9ff;
-                transition: width 0.5s linear;
-            }
             .table-row {
-                position: relative;
-                z-index: 1;
                 display: flex;
                 width: 100%;
                 border-bottom: 0.1rem solid #eee;
