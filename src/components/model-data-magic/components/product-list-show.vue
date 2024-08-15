@@ -4,27 +4,27 @@
             <template v-if="props.flex === 'row'">
                 <div v-for="(item2, index2) in split_list" :key="index2" class="flex-row gap-10 half-width h">
                     <image-empty v-model="item2.new_src[0]" :style="contentImgRadius"></image-empty>
-                    <div class="flex-col w h tl gap-10">
-                        <div class="text-line-2 size-14">华为荣耀畅享平大幅度发过板华为荣耀畅享平大幅度发过板</div>
-                        <div class="identifying"><span class="num">¥</span><span>{{'51' }}</span></div>
+                    <div v-if="!isEmpty(isShow)" class="flex-col w h tl gap-10">
+                        <div v-if="isShow.includes('0')" class="text-line-2 size-14">华为荣耀畅享平大幅度发过板华为荣耀畅享平大幅度发过板</div>
+                        <div v-if="isShow.includes('1')" class="identifying"><span class="num">¥</span><span>{{'51' }}</span></div>
                     </div>
                 </div>
             </template>
             <template v-else-if="actived != 7 || props.num !== 1">
-                <div v-for="(item2, index2) in split_list" :key="index2" :class="['flex-col gap-10 h', { 'half-width': props.num !== 1}]">
+                <div v-for="(item2, index2) in split_list" :key="index2" :class="['flex-col gap-10 h', { 'half-width': props.num !== 1, 'w': props.num == 1 }]">
                     <div class="w h re">
                         <image-empty v-model="item2.new_src[0]" :style="contentImgRadius"></image-empty>
-                        <div class="price-suspension">¥{{ '51' }}</div>
+                        <div v-if="isShow.includes('1')" class="price-suspension">¥{{ '51' }}</div>
                     </div>
-                    <div class="text-line-1 size-14 tl w" style="overflow: inherit;">华为荣耀畅享平大幅度发过板华为荣耀畅享平大幅度发过板</div>
+                    <div v-if="isShow.includes('0')" class="text-line-1 size-14 tl w" style="overflow: inherit;">华为荣耀畅享平大幅度发过板华为荣耀畅享平大幅度发过板</div>
                 </div>
             </template>
             <template v-else>
-                <div v-for="(item2, index2) in split_list" :key="index2" class="flex-col h">
+                <div v-for="(item2, index2) in split_list" :key="index2" class="flex-col w h">
                     <image-empty v-model="item2.new_src[0]" :style="contentImgRadius"></image-empty>
-                    <div class="flex-col w tl gap-10 pa-10">
-                        <div class="text-line-2 size-14">华为荣耀畅享平大幅度发过板华为荣耀畅享平大幅度发过板</div>
-                        <div class="identifying"><span class="num">¥</span><span>{{'51' }}</span></div>
+                    <div v-if="!isEmpty(isShow)" class="flex-col w tl gap-10 pa-10">
+                        <div v-if="isShow.includes('0')" class="text-line-2 size-14">华为荣耀畅享平大幅度发过板华为荣耀畅享平大幅度发过板</div>
+                        <div v-if="isShow.includes('1')" class="identifying"><span class="num">¥</span><span>{{'51' }}</span></div>
                     </div>
                 </div>
             </template>
@@ -33,20 +33,21 @@
     <template v-else>
         <div class="flex-col gap-20 align-c w h">
             <template v-if="props.flex === 'row'">
-                <div v-for="(item2, index2) in split_list" :key="index2" class="flex-row gap-10 align-c">
+                <div v-for="(item2, index2) in split_list" :key="index2" class="flex-row gap-10 align-c w">
                     <image-empty v-model="item2.new_src[0]" :style="contentImgRadius"></image-empty>
-                    <div class="flex-col jc-sb w h tl gap-10">
-                        <div class="text-line-2 size-14">华为荣耀畅享平大幅度发过板华为荣耀畅享平大幅度发过板</div>
-                        <div class="identifying"><span class="num">￥</span><span>{{'51' }}</span></div>
+                    <div v-if="!isEmpty(isShow)" class="flex-col jc-sb w h tl gap-10">
+                        <div v-if="isShow.includes('0')" class="text-line-2 size-14">华为荣耀畅享平大幅度发过板华为荣耀畅享平大幅度发过板</div>
+                        <div v-if="isShow.includes('1')" class="identifying"><span class="num">￥</span><span>{{'51' }}</span></div>
                     </div>
                 </div>
             </template>
         </div>
     </template>
-    
 </template>
 
 <script setup lang="ts">
+import { isEmpty } from 'lodash';
+
 interface Props {
     value: Array<any>;
     outerflex: string;
@@ -54,6 +55,7 @@ interface Props {
     contentImgRadius: string;
     num: number;
     actived: number;
+    isShow: Array<string>;
 }
 
 const props = withDefaults(defineProps<Props>(), {

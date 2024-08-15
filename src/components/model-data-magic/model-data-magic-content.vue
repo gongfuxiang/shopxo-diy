@@ -88,6 +88,7 @@ const data_content = {
     heading_title: '主标题',
     subtitle: '副标题',
     product_list:[],
+    is_show: ['0', '1'],
     img_list:[
         {
             carousel_img: [],

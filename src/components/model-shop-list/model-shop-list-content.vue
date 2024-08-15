@@ -71,7 +71,6 @@
 </template>
 <script setup lang="ts">
 import { get_math } from '@/utils';
-import { ElButton } from 'element-plus';
 const props = defineProps({
     value: {
         type: Object,
