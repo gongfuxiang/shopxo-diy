@@ -22,14 +22,20 @@
                     <icon name="add" size="18" class="c-pointer" @click="add_type"></icon>
                 </div>
                 <el-scrollbar height="490px">
-                    <el-tree ref="treeRef" class="filter-tree" :data="type_data" node-key="id" highlight-current :expand-on-click-node="false" :props="defaultProps" empty-text="无数据" default-expand-all :filter-node-method="filter_node" @node-click="tree_node_event">
+                    <el-tree ref="treeRef" class="filter-tree" :data="type_data" node-key="id" highlight-current :props="defaultProps" empty-text="无数据" default-expand-all :filter-node-method="filter_node" @node-click="tree_node_event">
                         <template #default="{ node, data }">
-                            <div class="custom-tree-node flex-row jc-sb gap-10 align-c w pr-10">
+                            <div class="custom-tree-node flex-row jc-sb gap-10 align-c w pr-10" :class="data.is_enable == 0 || node.parent.data.is_enable == 0 ? 'disabled bg-red' : ''">
                                 <div class="flex-1 flex-width text-line-1 block">{{ data.name }}</div>
-                                <div class="flex-row gap-10">
-                                    <icon v-if="data.pid == 0" name="add" size="12" color="primary" @click="append_type_event(data)"></icon>
-                                    <icon name="edit" size="12" color="primary" @click="edit_type_event(data)"></icon>
-                                    <icon name="del" size="12" color="primary" @click="remove_type_event(node, data)"></icon>
+                                <div v-if="data.id" class="flex-row gap-10 cr-9 category-oprate c-pointer">
+                                    <div v-if="data.pid == 0" @click.stop="append_type_event(data)">
+                                        <icon class="icon" name="add" size="12"></icon>
+                                    </div>
+                                    <div @click.stop="edit_type_event(data)">
+                                        <icon class="icon" name="edit" size="12"></icon>
+                                    </div>
+                                    <div @click.stop="remove_type_event(node, data)">
+                                        <icon class="icon" name="del" size="12"></icon>
+                                    </div>
                                 </div>
                             </div>
                         </template>
@@ -47,7 +53,7 @@
                         </div>
                     </div>
                     <div class="right-search">
-                        <el-input v-model="search_name" :placeholder="'请输入' + upload_type_name + '名称'" @input="get_list">
+                        <el-input v-model="search_name" :placeholder="'请输入' + upload_type_name + '名称'" @input="get_attachment_list('1')">
                             <template #suffix>
                                 <icon name="search" size="18"></icon>
                             </template>
@@ -57,7 +63,7 @@
                 <div class="img-content pr">
                     <!-- 574px -->
                     <el-scrollbar height="440px">
-                        <div class="flex-row flex-wrap align-c gap-y-15 gap-x-10 pa-10">
+                        <div v-if="upload_list.length > 0" class="flex-row flex-wrap align-c gap-y-15 gap-x-10 pa-10">
                             <div v-for="(item, index) in upload_list" :key="index" class="item" @click="check_img_event(item)">
                                 <el-badge :value="view_list_value.findIndex((i) => i.id === item.id) == -1 ? '' : view_list_value.findIndex((i) => i.id === item.id) + 1" class="badge flex-col gap-5 w" :hidden="view_list_value.findIndex((i) => i.id === item.id) == -1">
                                     <div class="item-content re br-f5 radius">
@@ -100,7 +106,7 @@
                                     </div>
                                     <div class="text-line-1 name">
                                         <template v-if="edit_index !== -1 && edit_index === index">
-                                            <el-input v-model="item.original" type="text" placeholder="请输入内容" size="small" @change="edit_input_change" @blur="edit_input_blur" />
+                                            <el-input v-model="item.original" type="text" placeholder="请输入内容" size="small" @change="edit_input_change" />
                                         </template>
                                         <template v-else>
                                             <div class="ptb-1 plr-7">
@@ -111,6 +117,9 @@
                                 </el-badge>
                             </div>
                         </div>
+                        <div v-else>
+                            <no-data height="440"></no-data>
+                        </div>
                     </el-scrollbar>
                     <div v-if="preview_switch_video && upload_type == 'video'">
                         <div class="middle clickable-area" :class="preview_url ? '' : 'hide'">
@@ -120,7 +129,7 @@
                         </div>
                     </div>
                     <div class="mt-10 flex-row jc-e">
-                        <el-pagination :current-page="page" :page-size="21" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="get_list" />
+                        <el-pagination :current-page="page" :page-size="21" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="current_page_change" />
                     </div>
                 </div>
             </div>
@@ -176,7 +185,6 @@
     <form-upload-category v-model="upload_category_model_visible" :value="upload_category_model" :type="upload_category_type" :category-id="upload_category_id" :category-pid="upload_category_pid" @confirm="upload_category_confirm"></form-upload-category>
 </template>
 <script lang="ts" setup>
-import { get_math } from '@/utils/index';
 import UploadAPI, { Tree } from '@/api/upload';
 import { uploadrStore } from '@/store';
 const upload_store = uploadrStore();
@@ -241,6 +249,7 @@ watch(
     (val) => {
         if (val) {
             type_data.value = upload_store.category;
+            get_attachment_list();
         }
     }
 );
@@ -311,126 +320,10 @@ const upload_type_name = computed(() => {
 const upload_type_change = (type: any) => {
     view_list_value.value = [];
 };
-// 名称查询
-const search_name = ref('');
-// 总页数
-// const page_total = ref(0);
-// 当前页
-const page = ref(1);
-// 总数量
-const data_total = ref(0);
 
-// 已上传数据的列表
-const upload_list = ref<uploadList[]>([
-    { id: 1, url: '/src/assets/images/layout/main/phone.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' },
-    { id: 2, url: '/src/assets/images/components/model-user-info/avatar.png', original: '头像2', ext: '.jpeg', type: 'img' },
-    { id: 3, url: '/src/assets/images/components/model-hot/test-1.png', original: '头像3', title: '头像3', ext: '.png', type: 'img' },
-    { id: 4, url: '/src/assets/images/components/model-hot/test-2.png', original: '头像4', ext: '.jpeg', type: 'img' },
-    { id: 5, url: '/src/assets/movie.mp4', original: '头像5', title: '头像5', ext: '.mp4', type: 'video' },
-    { id: 6, url: '/src/assets/movie.mp4', original: '头像6', title: '头像6', ext: '.docx', type: '.docx' },
-]);
-const check_img_ids = ref('');
-// 选择图片
-const check_img_event = (item: any) => {
-    const item_id = item.id;
-    const index = view_list_value.value.findIndex((item: any) => item.id === item_id);
-    if (index !== -1) {
-        view_list_value.value.splice(index, 1);
-    } else {
-        if (is_replace.value) {
-            view_list_value.value = [item];
-        } else {
-            if (props.limit == 1) {
-                view_list_value.value = [item];
-            } else {
-                view_list_value.value.push(item);
-            }
-        }
-    }
-    check_img_ids.value = view_list_value.value.map((item: any) => item.id).join(',');
-};
-// 预览开关
-const preview_switch_img = ref(false);
-const preview_switch_video = ref(false);
-// 视频预览的路径
-const preview_url = ref('');
-const edit_index = ref(-1);
-// 监听点击事件
-onMounted(() => {
-    document.addEventListener('click', video_show);
-});
-// 移除监听事件
-onUnmounted(() => {
-    document.removeEventListener('click', video_show);
-});
-// 预览视频
-const video_show = (event: any) => {
-    if (!preview_switch_video.value) return;
-
-    if (!event.target.closest('.clickable-area')) {
-        preview_switch_video.value = false;
-        preview_url.value = '';
-    }
-};
-// 编辑图片/视频/文件名称
-const edit_event = (item: any, index: number) => {
-    edit_index.value = index;
-};
-// 输入框 输入完成
-const edit_input_change = (val: string) => {
-    edit_index.value = -1;
-};
-// 输入框失去焦点
-const edit_input_blur = () => {
-    edit_index.value = -1;
-};
-// 预览图片/视频
-const preview_event = (item: any, index: number) => {
-    preview_url.value = item.url;
-    if (upload_type.value == 'img') {
-        preview_switch_img.value = true;
-    } else if (upload_type.value == 'video') {
-        preview_switch_video.value = true;
-    }
-};
-// 预览关闭
-const preview_close = () => {
-    preview_switch_img.value = false;
-};
-// 删除图片/视频/文件
-const del_event = (item: uploadList) => {
-    app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
-        ElMessage({
-            type: 'success',
-            message: '删除成功!',
-        });
-        // 调用删除接口，然后，更新数据
-    });
-};
 // 打开上传弹窗
 const upload_model_open = () => {
     upload_model_visible.value = true;
-};
-// 批量删除
-const mult_del_event = () => {
-    app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
-        ElMessage({
-            type: 'success',
-            message: '删除成功!',
-        });
-        // console.log('选中的数据 = ', view_list_value.value);
-        // 调用删除接口，然后，更新数据
-    });
-};
-// 查询文件
-const search_data = ref({
-    page: page.value,
-    type: '',
-    name: search_name.value,
-});
-// 查询文件
-const get_list = () => {
-    console.log('查询接口', search_data);
 };
 //#region 分类 ----------------------------------------------------------start
 const treeRef = ref();
@@ -448,18 +341,20 @@ const filter_node = (value: string, data: any): boolean => {
     return data.name.indexOf(value) !== -1;
 };
 const type_data = ref<Tree[]>([]);
-onMounted(() => {
-    if (!upload_store.is_category) {
-        upload_store.set_is_category(true);
-        get_tree();
-    } else {
-        type_data.value = upload_store.category;
-    }
-});
 // 查询分类列表
 const get_tree = () => {
     UploadAPI.getTree().then((res) => {
-        type_data.value = res.data.category_list;
+        const all_tree = {
+            id: '',
+            pid: '',
+            name: '全部',
+            path: '',
+            is_enable: 1,
+            sort: '',
+        };
+        // 将all_tree和res.data.category_list全部插入到type_data.value,all_tree放在数组最前面
+        type_data.value = [all_tree, ...res.data.category_list];
+
         upload_store.set_category(type_data.value);
     });
 };
@@ -471,7 +366,7 @@ const upload_category_model = ref<Tree>({
     name: '',
     path: '',
     sort: 0,
-    is_enable: true,
+    is_enable: 1,
     items: [],
 });
 // 分类弹窗操作类型
@@ -489,10 +384,13 @@ const add_type = () => {
 const upload_category_confirm = () => {
     get_tree();
 };
+const category_id = ref('');
 // 左侧分类树结构节点点击事件
 const tree_node_event = (data: any) => {
-    // search_filter.value = data.id;
-    get_list();
+    // 判断是否开启状态，如果关闭则不可操作
+    // if (data.is_enable == 0) return;
+    category_id.value = data.id;
+    get_attachment_list();
 };
 const upload_category_id = ref<number | string>('');
 const upload_category_pid = ref<number | string>('');
@@ -527,6 +425,130 @@ const remove_type_event = (node: any, data: Tree) => {
     });
 };
 //#endregion 分类 ----------------------------------------------------------end
+
+//#region 附件 ----------------------------------------------------------start
+// 总页数
+// const page_total = ref(0);
+// 当前页
+const page = ref(1);
+// 总数量
+const data_total = ref(0);
+// 名称查询
+const search_name = ref('');
+// 已上传数据的列表
+const upload_list = ref<uploadList[]>([]);
+// 附件列表
+const get_attachment_list = (type?: string) => {
+    const new_data = {
+        page: type ? 1 : page.value,
+        type: upload_type.value == 'img' ? 'image' : upload_type.value == 'video' ? 'video' : upload_type.value == 'file' ? 'file' : '',
+        keywords: search_name.value,
+        category_id: category_id.value,
+    };
+    UploadAPI.getAttachmentList(new_data).then((res) => {
+        const data = res.data;
+        data_total.value = data.data_total;
+        upload_list.value = data.data_list;
+    });
+};
+// 分页查询
+const current_page_change = (val: number) => {
+    page.value = val;
+    get_attachment_list();
+};
+
+const check_img_ids = ref('');
+// 选择图片
+const check_img_event = (item: any) => {
+    const item_id = item.id;
+    const index = view_list_value.value.findIndex((item: any) => item.id === item_id);
+    if (index !== -1) {
+        view_list_value.value.splice(index, 1);
+    } else {
+        if (is_replace.value) {
+            view_list_value.value = [item];
+        } else {
+            if (props.limit == 1) {
+                view_list_value.value = [item];
+            } else {
+                view_list_value.value.push(item);
+            }
+        }
+    }
+    check_img_ids.value = view_list_value.value.map((item: any) => item.id).join(',');
+};
+// 预览开关
+const preview_switch_img = ref(false);
+const preview_switch_video = ref(false);
+// 视频预览的路径
+const preview_url = ref('');
+// 预览视频
+const video_show = (event: any) => {
+    if (!preview_switch_video.value) return;
+
+    if (!event.target.closest('.clickable-area')) {
+        preview_switch_video.value = false;
+        preview_url.value = '';
+    }
+};
+// 预览图片/视频
+const preview_event = (item: any, index: number) => {
+    preview_url.value = item.url;
+    if (upload_type.value == 'img') {
+        preview_switch_img.value = true;
+    } else if (upload_type.value == 'video') {
+        preview_switch_video.value = true;
+    }
+};
+// 预览关闭
+const preview_close = () => {
+    preview_switch_img.value = false;
+};
+
+const edit_index = ref(-1);
+const edit_id = ref('');
+// 编辑图片/视频/文件名称
+const edit_event = (item: any, index: number) => {
+    edit_index.value = index;
+    edit_id.value = item.id;
+};
+// 输入框 输入完成
+const edit_input_change = (val: string) => {
+    edit_index.value = -1;
+    UploadAPI.saveAttachmentName({ id: edit_id.value, original: val }).then((res) => {
+        ElMessage.success('修改成功!');
+    });
+};
+
+// 删除图片/视频/文件
+const del_event = (item: uploadList) => {
+    app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
+        // 调用删除接口，然后，更新数据
+        UploadAPI.delAttachment({ ids: item.id }).then((res) => {
+            ElMessage.success('删除成功!');
+            // 调用查询接口
+            get_attachment_list();
+        });
+    });
+};
+
+// 附件批量删除
+const mult_del_event = () => {
+    if (check_img_ids.value) {
+        app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
+            // 调用删除接口，然后，更新数据
+            UploadAPI.delAttachment({ ids: check_img_ids.value }).then((res) => {
+                ElMessage.success('删除成功!');
+                // 调用查询接口
+                get_attachment_list();
+            });
+        });
+    } else {
+        ElMessage.warning('请先选择图片!');
+    }
+};
+
+//#endregion 附件 ----------------------------------------------------------end
 
 // 确认
 const confirm_event = () => {
@@ -603,6 +625,20 @@ const close_upload_model = (data: any) => {
     }
 };
 //#endregion 上传组件回调 -----------------------------------------------end
+onMounted(() => {
+    // 监听点击事件
+    document.addEventListener('click', video_show);
+    if (!upload_store.is_upload_api) {
+        upload_store.set_is_upload_api(true);
+        get_tree();
+    } else {
+        type_data.value = upload_store.category;
+    }
+});
+onUnmounted(() => {
+    // 移除监听事件
+    document.removeEventListener('click', video_show);
+});
 </script>
 <style lang="scss" scoped>
 @import 'index.scss';

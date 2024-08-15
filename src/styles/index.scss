@@ -73,8 +73,6 @@ div:focus {
 // 全局form表单样式
 :root {
     --el-font-size-base: 12px;
-    // input numberbox 颜色值整
-    --el-fill-color-light: #fff;
 }
 .el-form {
     --el-form-label-font-size: var(--el-font-size-base);
@@ -102,10 +100,12 @@ div:focus {
 // numberbox 数字输入框样式调整
 .el-input-number {
     &__decrease {
+        background-color: #fff;
         transition: all 0.3s ease-in-out;
         opacity: 0;
     }
     &__increase {
+        background-color: #fff;
         transition: all 0.3s ease-in-out;
         opacity: 0;
     }

@@ -25,7 +25,7 @@
                 <div v-if="!isEmpty(diy_data)" class="flex-row flex-wrap gap-10">
                     <div v-for="(item, index) in diy_data" :key="index" class="item flex jc-sb align-c size-14 cr-3" :class="{ 'item-active': item.show_tabs }" @click="on_choose(index, item.show_tabs)">{{ item.name }}<icon name="close" color="3" size="10" class="c-pointer" @click="del(index)"></icon></div>
                 </div>
-                <NoData v-else :img-width="10"></NoData>
+                <no-data v-else></no-data>
             </div>
         </card-container>
     </div>
@@ -249,27 +249,31 @@ const drag_area_height = computed(() => center_height.value + 'px');
 const draggable_container = ref(true);
 let data = reactive<diy_content[]>([]);
 
-watch(() => center_height.value, () => {
-    data = diy_data.value;
-    // 从 DOM 中删除组件
-    draggable_container.value = false;
-    nextTick(() => {
-        // 在 DOM 中添加组件
-        draggable_container.value = true;
-        diy_data.value = data.map((item) => ({
-            ...item,
-            location: {
-                x: item.location.x,
-                y: item.location.staging_y,
-                staging_y: item.location.staging_y,
-            },
-            com_data: {
-                ...item.com_data,
-                com_height: item.com_data.staging_height,
-            }
-        }));
-    });
-},{ immediate: true, deep: true });
+watch(
+    () => center_height.value,
+    () => {
+        data = diy_data.value;
+        // 从 DOM 中删除组件
+        draggable_container.value = false;
+        nextTick(() => {
+            // 在 DOM 中添加组件
+            draggable_container.value = true;
+            diy_data.value = data.map((item) => ({
+                ...item,
+                location: {
+                    x: item.location.x,
+                    y: item.location.staging_y,
+                    staging_y: item.location.staging_y,
+                },
+                com_data: {
+                    ...item.com_data,
+                    com_height: item.com_data.staging_height,
+                },
+            }));
+        });
+    },
+    { immediate: true, deep: true }
+);
 //#endregion
 //#region 左侧拖拽过来的处理
 let draggedItem = ref<any>({});
@@ -384,7 +388,8 @@ defineExpose({
     overflow: hidden;
     :deep(.el-collapse) {
         border: 0;
-        .el-collapse-item__wrap, .el-collapse-item__header {
+        .el-collapse-item__wrap,
+        .el-collapse-item__header {
             border: 0;
         }
         .el-collapse-item__content {

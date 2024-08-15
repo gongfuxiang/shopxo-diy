@@ -23,7 +23,7 @@
                 <el-cascader-panel v-model="cascader_val" :options="cascader_data" @change="cascader_change"></el-cascader-panel>
             </div>
             <div class="flex-row jc-e">
-                <el-button type="primary" @click="visible_dialog = false">取消</el-button>
+                <el-button @click="visible_dialog = false">取消</el-button>
                 <el-button type="primary" @click="confirm">确定</el-button>
             </div>
         </div>
@@ -84,7 +84,21 @@ const category_id = ref('');
 const cascader_change = (val: any) => {
     // 根据获取的val从data中获取label
     category_id.value = val[val.length - 1];
-    temp_label.value = cascader_data.value.find((item: any) => item.value == category_id.value)?.label || '';
+    get_label(cascader_data.value, category_id.value);
+};
+// 遍历cascader_data数据value获取label,如果没有则递归到每一项的items下
+const get_label = (item: any, val: any) => {
+    if (!item) return;
+    item.forEach((item: any) => {
+        console.log(item.value + '-' + val);
+        if (item.value == val) {
+            temp_label.value = item.label;
+        } else {
+            if (item.children && item.children.length > 0) {
+                get_label(item.children, val);
+            }
+        }
+    });
 };
 // 确定提交事件
 const confirm = () => {
