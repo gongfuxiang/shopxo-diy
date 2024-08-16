@@ -70,6 +70,22 @@ class UploadAPI {
             onUploadProgress: progress,
         });
     }
+    // 扫码上传
+    static uploadQrcode(data: any) {
+        return request({
+            url: `diyapi/attachmentscanuploaddata`,
+            method: 'post',
+            data,
+        });
+    }
+    // 提取链接 --------附件远程下载
+    static getAttachmentCatch(data: any) {
+        return request({
+            url: `diyapi/attachmentcatch`,
+            method: 'post',
+            data,
+        });
+    }
 }
 
 export default UploadAPI;

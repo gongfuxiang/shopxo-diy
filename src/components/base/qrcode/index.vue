@@ -51,10 +51,17 @@ const generateQRCode = async (text: string, margin: number) => {
 const clipboard_event = async () => {
     try {
         await navigator.clipboard.writeText(props.src);
+        ElMessage.success('复制成功');
     } catch (error) {
         console.error('复制失败', error);
     }
 };
+watch(
+    () => props.src,
+    (newValue) => {
+        generateQRCode(newValue.trim(), 2);
+    }
+);
 
 // 在组件挂载后自动调用生成二维码方法
 onMounted(() => {

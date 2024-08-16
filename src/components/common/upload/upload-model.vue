@@ -1,6 +1,6 @@
 <!-- 上传组件 -->
 <template>
-    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" append-to-body>
+    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" append-to-body @close="close_dialog">
         <template #header>
             <div class="title center re">
                 <div class="tc size-16 fw">{{ upload_type_name }}上传</div>
@@ -46,7 +46,7 @@
                                 <div class="table-body">
                                     <div v-for="(item, index) in form.file" :key="item.file.name + item.file.size" class="re">
                                         <div class="progress" :style="'width:' + item.progress + '%'"></div>
-                                        <div class="table-row">
+                                        <div class="table-row" :class="item.status == '上传失败' ? 'bg-table-rwo-error' : ''">
                                             <div class="table-cell">
                                                 <template v-if="type == 'video'">
                                                     <div class="preview-img radius-sm">
@@ -72,7 +72,7 @@
                                                 <div class="desc">{{ item.file.name }}</div>
                                             </div>
                                             <div class="table-cell">{{ annex_size_to_unit(item.file.size) }}</div>
-                                            <div class="table-cell">{{ item.status }}{{ item.progress + '%' }}</div>
+                                            <div class="table-cell" :class="item.status">{{ item.status == 'loading' ? '上传中' : item.status == 'success' ? '上传成功' : item.status == 'error' ? '上传失败' : '等待上传' }}{{ item.status == 'loading' ? '(' + item.progress + '%)' : '' }}</div>
                                             <div class="table-cell-oprate" @click="del_upload(index)">移除</div>
                                         </div>
                                     </div>
@@ -103,7 +103,7 @@
                         </div>
                         <el-scrollbar height="224px">
                             <div class="table-body">
-                                <div v-for="(item, index) in scan_file_list" :key="item.name + item.size" class="table-row">
+                                <div v-for="(item, index) in scan_file_list" :key="index" class="table-row">
                                     <div class="table-cell">
                                         <el-image :src="item.url" class="preview-img radius-sm" fit="contain">
                                             <template #error>
@@ -112,10 +112,10 @@
                                                 </div>
                                             </template>
                                         </el-image>
-                                        <div class="desc">{{ item.name }}</div>
+                                        <div class="desc">{{ item.title }}</div>
                                     </div>
                                     <div class="table-cell">{{ annex_size_to_unit(item.size) }}</div>
-                                    <div class="table-cell-oprate" @click="del_already_upload(index)">删除</div>
+                                    <div class="table-cell-oprate" @click="del_already_upload(item.id, index)">删除</div>
                                 </div>
                             </div>
                         </el-scrollbar>
@@ -125,7 +125,7 @@
                     <el-form-item label="网络图片">
                         <div class="flex-row align-c gap-10">
                             <el-input v-model="form.web_image" class="form-item-width" placeholder="请输入网络图片地址" />
-                            <div class="c-pointer cr-primary size-12" @click="extract_images">提取图片</div>
+                            <div class="c-pointer cr-primary size-12" @click="extract_images(ruleFormRef)">提取图片</div>
                         </div>
                     </el-form-item>
                 </template>
@@ -146,8 +146,9 @@ import UploadAPI, { Tree } from '@/api/upload';
 import { uploadrStore } from '@/store';
 const upload_store = uploadrStore();
 import type { UploadFile, UploadFiles, UploadUserFile, FormRules, FormInstance } from 'element-plus';
-import { annex_size_to_unit, ext_name } from '@/utils';
+import { annex_size_to_unit, ext_name, get_math } from '@/utils';
 import { ext_img_name_list, ext_video_name_list, ext_file_name_list, ext_file_name_list_map } from './index';
+const app = getCurrentInstance();
 /**
  * @description: 图片执行上传弹窗
  * @param close{String} 默认值
@@ -188,7 +189,7 @@ interface fileData {
 }
 interface formData {
     type: string;
-    category_id: string;
+    category_id: string[];
     file: fileData[];
     qrcode: string;
     web_image: string;
@@ -196,9 +197,9 @@ interface formData {
 const ruleFormRef = ref<FormInstance>();
 const form = ref<formData>({
     type: 'loc',
-    category_id: '',
+    category_id: [],
     file: [],
-    qrcode: '11223344',
+    qrcode: '******',
     web_image: '',
 });
 const rules = reactive<FormRules>({
@@ -210,24 +211,34 @@ const timer = ref<number | null>(null);
 // 上传方式
 const upload_type_change = (type: any) => {
     // 清除之前的定时器（如果存在）
-    if (timer.value) {
+    if (timer.value && type !== 'scan') {
         // 直接检查 timer.value 是否存在（不是 null 或 undefined）
         clearTimeout(timer.value);
         timer.value = null; // 清除引用，防止内存泄漏
     }
-    // 如果需要设置新的定时器
-    if (type === 'scan') {
-        timer.value = setInterval(() => {
-            console.log('timer-----定时调用');
-            // 此处写定时调用接口，获取文件列表
+    if (type == 'scan') {
+        timer.value = setInterval(async () => {
+            if (scan_uuid.value.toString().length > 0) {
+                const { data } = await UploadAPI.uploadQrcode({ key: scan_uuid.value });
+                scan_file_list.value = data;
+            }
         }, 3000);
     }
 };
+const scan_uuid = ref('');
 // 选择分组
 const category_id_change = (val: any) => {
-    console.log(val);
     if (val && val.length > 0) {
+        scan_file_list.value = [];
         is_mask.value = false;
+        scan_uuid.value = get_math();
+        let new_url = '';
+        if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
+            new_url = get_before_string(import.meta.env.VITE_APP_BASE_API_URL);
+        } else {
+            new_url = window.location.origin + '/';
+        }
+        form.value.qrcode = new_url + '?s=ueditor/scanupload/key/' + scan_uuid.value + '/cid/' + val[val.length - 1] + '/type/upload' + (props.type == 'file' ? 'file' : props.type == 'video' ? 'video' : 'image');
     }
 };
 
@@ -249,6 +260,12 @@ const get_after_string = (str: string) => {
     str = str.substring(index, str.length);
     return str;
 };
+// 获取字符串中‘/’迁民所有字符
+const get_before_string = (str: string) => {
+    let index = str.lastIndexOf('admin.php');
+    str = str.substring(0, index);
+    return str;
+};
 
 //#region 本地上传 -----------------------------------------------start
 
@@ -268,7 +285,7 @@ const folder_mode = (type: boolean) => {
 };
 // 文件状态改变时的钩子，添加文件、上传成功和上传失败时都会被调用
 const upload_change = async (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
-    console.log('文件状态改变时的钩子', uploadFile, uploadFiles);
+    // console.log('文件状态改变时的钩子', uploadFile, uploadFiles);
     // // 过滤已上传的文件和重复的文件
     const results = uploadFiles.flat(Infinity).filter((f: any) => validExt(f.name) && validSize(f.size));
     const new_upload_files = results.filter((item: UploadFile) => {
@@ -280,7 +297,7 @@ const upload_change = async (uploadFile: UploadFile, uploadFiles: UploadFiles) =
     new_upload_files.forEach((item: UploadFile) => {
         // item.status = 'ready';
         const new_file_obj = {
-            status: '等待上传',
+            status: 'ready',
             progress: 0,
             file: item.raw as File,
         };
@@ -357,7 +374,7 @@ const handle_drop = async (event: any) => {
         results.forEach((file: any) => {
             if (!form.value.file.some((item: any) => item.file.name === file.name && item.file.size === file.size)) {
                 const new_file_obj = {
-                    status: '等待上传',
+                    status: 'ready',
                     progress: 0,
                     file: file,
                 };
@@ -417,7 +434,7 @@ const handle_paste = (event: any) => {
             // 如果上传列表中没有与当前文件相同的文件，则添加到上传列表中
             if (!form.value.file.some((item: any) => item.file.name === file.name && item.file.size === file.size)) {
                 const new_file_obj = {
-                    status: '等待上传',
+                    status: 'ready',
                     progress: 0,
                     file: file,
                 };
@@ -445,19 +462,24 @@ const submit_event = async (formEl: FormInstance | undefined) => {
             form.value.file.forEach((item: any) => {
                 const formData = new FormData();
                 formData.append('type', props.type == 'img' ? 'image' : props.type == 'video' ? 'video' : props.type == 'file' ? 'file' : '');
-                formData.append('category_id', form.value.category_id);
+                formData.append('category_id', form.value.category_id[form.value.category_id.length - 1]);
                 formData.append('upfile', item.file);
-                if (item.status == '等待上传') {
-                    item.status = '上传中';
+                if (item.status == 'ready') {
+                    item.status = 'loading';
                     const on_upload_progress = (progressEvent: any) => {
                         console.log('progressEvent', progressEvent);
                         item.progress = Number(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2));
                         console.log('1', item.progress);
                     };
-                    UploadAPI.uploadAttachment(formData, on_upload_progress).then((res) => {
-                        ElMessage.success('上传成功');
-                        item.status = '上传成功';
-                    });
+                    UploadAPI.uploadAttachment(formData, on_upload_progress)
+                        .then((res) => {
+                            ElMessage.success('上传成功');
+                            item.status = 'success';
+                        })
+                        .catch((err) => {
+                            item.status = 'error';
+                            item.progress = 0;
+                        });
                 }
             });
         } else {
@@ -469,33 +491,49 @@ const submit_event = async (formEl: FormInstance | undefined) => {
 //#endregion 本地上传 -----------------------------------------------end
 
 //#region 扫码上传 -----------------------------------------------start
-interface scanFile {
-    name: string;
-    url: string;
-    size: number;
-}
-const scan_file_list = ref<scanFile[]>([
-    { name: '1', url: '1', size: 0 },
-    { name: '2', url: '2', size: 0 },
-    { name: '3', url: '3', size: 0 },
-    { name: '4', url: '4', size: 0 },
-    { name: '5', url: '5', size: 0 },
-]);
+const scan_file_list = ref<uploadList[]>([]);
 // 删除已上传的文件
-const del_already_upload = (index: number) => {
+const del_already_upload = (id: number | undefined, index: number) => {
     // 根据下标删除文件
-    scan_file_list.value.splice(index, 1);
+    // scan_file_list.value.splice(index, 1);
     // 调接口真实删除
+    if (id !== undefined) {
+        app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
+            // 调用删除接口，然后，更新数据
+            UploadAPI.delAttachment({ ids: id }).then((res) => {
+                ElMessage.success('删除成功!');
+                scan_file_list.value.splice(index, 1);
+            });
+        });
+    } else {
+        ElMessage.warning('请先选择图片!');
+    }
 };
 //#endregion 扫码上传 -----------------------------------------------end
 
 //#region 网络上传 -----------------------------------------------start
 // 提取图片
-const extract_images = () => {
-    // 此处调用接口获取提取后的图片更新输入框的地址，改为在线地址
-    ElMessage({
-        type: 'success',
-        message: '提取成功!',
+const extract_images = async (formEl: FormInstance | undefined) => {
+    if (!formEl) return;
+    await formEl.validate((valid, fields) => {
+        if (valid) {
+            // 此处调用接口获取提取后的图片更新输入框的地址，改为在线地址
+            if (form.value.web_image) {
+                const new_data = {
+                    type: props.type == 'img' ? 'image' : props.type == 'video' ? 'video' : props.type == 'file' ? 'file' : '',
+                    category_id: form.value.category_id[form.value.category_id.length - 1],
+                    source: form.value.web_image,
+                };
+                UploadAPI.getAttachmentCatch(new_data).then((res) => {
+                    form.value.web_image = res.data[0].url;
+                    ElMessage.success('提取成功!');
+                });
+            } else {
+                ElMessage.warning('请输入地址后再提取!');
+            }
+        } else {
+            console.log('error submit!', fields);
+        }
     });
 };
 const emit = defineEmits(['close']);
@@ -516,12 +554,13 @@ const close_dialog = () => {
     dialogVisible.value = false;
     form.value = {
         type: 'loc',
-        category_id: '',
+        category_id: [],
         file: [],
         qrcode: '',
         web_image: '',
     };
     scan_file_list.value = [];
+    scan_uuid.value = '';
     // 直接检查 timer.value 是否存在（不是 null 或 undefined）
     if (timer.value !== null) {
         clearTimeout(timer.value);
@@ -554,6 +593,9 @@ const close_dialog = () => {
                 border-bottom: 0.1rem solid #eee;
                 color: #999;
                 font-size: 1.4rem;
+                &.bg-table-rwo-error {
+                    background: #f3f9ff;
+                }
                 .table-cell {
                     flex: 1;
                     padding: 1rem;
@@ -562,6 +604,15 @@ const close_dialog = () => {
                     align-items: center;
                     word-break: break-all;
                     gap: 1rem;
+                    &.loading {
+                        color: $cr-primary;
+                    }
+                    &.success {
+                        color: $cr-success;
+                    }
+                    &.error {
+                        color: $cr-error;
+                    }
                     .preview-img {
                         width: 2.8rem;
                         height: 2.8rem;
