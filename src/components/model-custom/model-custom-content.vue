@@ -26,7 +26,9 @@
                         <model-lines-style :key="key" v-model:height="center_height" :value="diy_data"></model-lines-style>
                     </template>
                     <template v-else>
-                        <no-data></no-data>
+                        <div class="w h flex align-c bg-f">
+                            <no-data></no-data>
+                        </div>
                     </template>
                 </div>
             </div>
@@ -63,6 +65,8 @@ const diy_data = ref<diy>({
     location: {
         x: 0,
         y: 0,
+        record_x: 0,
+        record_y: 0,
         staging_y: 0,
     },
     com_data: {},
@@ -71,6 +75,8 @@ const key = ref('');
 const dragkey = ref('');
 
 const right_update = (item: any) => {
+    console.log(item, '122545');
+    
     diy_data.value = item;
     // 生成随机id
     key.value = Math.random().toString(36).substring(2);
