@@ -75,8 +75,6 @@ const key = ref('');
 const dragkey = ref('');
 
 const right_update = (item: any) => {
-    console.log(item, '122545');
-    
     diy_data.value = item;
     // 生成随机id
     key.value = Math.random().toString(36).substring(2);

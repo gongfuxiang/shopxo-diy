@@ -80,7 +80,8 @@
 </template>
 <script setup lang="ts">
 import { cloneDeep, isEmpty } from 'lodash';
-import { get_math, isRectangleIntersecting } from '@/utils';
+import { get_math } from '@/utils';
+import { text_com_data, img_com_data, line_com_data, isRectangleIntersecting } from "./index-default";
 // 删除
 const app = getCurrentInstance();
 //#region 传递参数和传出数据的处理

@@ -233,20 +233,3 @@ export const location_compute = (size: number, location: number, container_size:
         return location;
     }
 }
-// 判断两个矩形是否有交集或者被包裹
-export const isRectangleIntersecting = (rect1: react1, rect2: react1) => {
-    // 矩形的格式为 { x, y, width, height }
-    const { x: x1, y: y1, width: w1, height: h1 } = rect1;
-    const { x: x2, y: y2, width: w2, height: h2 } = rect2;
-
-    // 检查是否有交集
-    if ((x1 < x2 + w2 && x1 + w1 > x2) && (y1 < y2 + h2 && y1 + h1 > y2)) {
-        return true; // 有交集
-    }
-
-    // 检查是否一个包含另一个
-    if (x1 >= x2 && y1 >= y2 && x1 + w1 <= x2 + w2 && y1 + h1 <= y2 + h2) {
-        return true; // rect1完全包含rect2
-    }
-    return false; // 无交集
-}
