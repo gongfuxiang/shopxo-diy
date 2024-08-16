@@ -377,9 +377,11 @@ const start_drag_area_box = (index: number, event: MouseEvent) => {
         y: clone_drag_start.y - event.clientY,
     };
     is_draggable.value = false;
+    // 当前选中区域包含的内容
     const rect1 = { x: clone_drag_start.x, y: clone_drag_start.y, width: clone_drag_end.width, height: clone_drag_end.height }
     diy_data.value.forEach(item => {
         const rect2 = { x: item.location.x, y: item.location.y, width: item.com_data.com_width, height: item.com_data.com_height };
+        // 如果交集或者包裹，返回为true，否则为false
         item.is_hot = isRectangleIntersecting(rect1, rect2);
     });
 
@@ -411,7 +413,7 @@ const start_drag_area_box = (index: number, event: MouseEvent) => {
             const move_y = new_coordinate.y - clone_drag_start.y;
             // 遍历对象,包裹在区域内部的拖拽距离更新
             diy_data.value.forEach(item => {
-                if (item.is_hot) {
+                if (item.is_hot) { // 只更新交集和包裹中的数据
                     let { record_x, record_y} = cloneDeep(item.location);
                     item.location.x = Math.max(0, record_x + move_x);
                     item.location.y = Math.max(0, record_y + move_y);
@@ -426,6 +428,7 @@ const start_drag_area_box = (index: number, event: MouseEvent) => {
     document.onmouseup = () => {
         is_draggable.value = true;
         drag_box_bool.value = false;
+        // 鼠标抬起的时候将默认值重置为当前x、y坐标
         diy_data.value.forEach(item => {
             if (item.is_hot) {
                 const { x, y } = cloneDeep(item.location);
