@@ -33,10 +33,10 @@
             </card-container>
             <el-tabs v-model="tabs_name" class="content-tabs">
                 <el-tab-pane label="内容设置" name="content">
-                    <tabs-content :value="form.data_magic_list[selected_active].data_content" :isShowTitle="is_show_title"></tabs-content>
+                    <tabs-content :value="form.data_magic_list[selected_active].data_content" :is-show-title="is_show_title"></tabs-content>
                 </el-tab-pane>
                 <el-tab-pane label="样式设置" name="styles">
-                    <tabs-styles :value="form.data_magic_list[selected_active].data_style" :content="form.data_magic_list[selected_active].data_content" :isShowTitle="is_show_title"></tabs-styles>
+                    <tabs-styles :value="form.data_magic_list[selected_active].data_style" :content="form.data_magic_list[selected_active].data_content" :is-show-title="is_show_title"></tabs-styles>
                 </el-tab-pane>
             </el-tabs>
         </el-form>
@@ -68,6 +68,13 @@ const data_style = {
     subtitle_color: '#FF852A',
     subtitle_typeface: 'normal',
     subtitle_size: 14,
+    chunk_padding: {
+        padding: 0,
+        padding_top: 20, 
+        padding_bottom: 20, 
+        padding_left: 15,
+        padding_right: 15,
+    },
     is_show: true,
     indicator_style: 'dot',
     indicator_location: 'center',
@@ -85,9 +92,10 @@ const data_style = {
 // 每个小模块独立的内容
 const data_content = {
     data_type: 'commodity',
-    heading_title: '',
-    subtitle: '',
+    heading_title: '主标题',
+    subtitle: '副标题',
     product_list:[],
+    is_show: ['0', '1'],
     img_list:[
         {
             carousel_img: [],
@@ -155,12 +163,19 @@ const style_click = (index: number) => {
 }
 // 规整复制的数据
 const magic_list = (index: number) => {
-    return cloneDeep(style_show_list[index]).map((item) => ({
+    return cloneDeep(style_show_list[index]).map((item, map_index) => ({
         ...item,
         actived_index: 0,
         data_content: cloneDeep(data_content),
         data_style: {
             ...cloneDeep(data_style),
+            chunk_padding: {
+                padding: show_padding(index, map_index) ? 10 : 0,
+                padding_top: show_padding(index, map_index) ? 10 : 20,
+                padding_bottom: show_padding(index, map_index) ? 10 : 20,
+                padding_left: show_padding(index, map_index) ? 10 : 15,
+                padding_right: show_padding(index, map_index) ? 10 : 15,
+            },
             carouselKey: get_math(),
         }
     }));
@@ -170,6 +185,9 @@ const magic_list = (index: number) => {
 const selected_click = (index: number) => {
     selected_active.value = index;
     tabs_name.value = 'content';
+}
+const show_padding = (index:number, map_index:number) => {
+    return index == 7 && ![0, 1].includes(map_index)
 }
 //#endregion
 const data_title = (item: any) => {
