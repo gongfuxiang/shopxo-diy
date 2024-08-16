@@ -12,7 +12,7 @@
                     <el-radio-group v-model="form.type" @change="upload_type_change">
                         <el-radio value="loc">本地上传</el-radio>
                         <el-radio value="scan">扫码上传</el-radio>
-                        <el-radio v-if="upload_type !== 'file'" value="web">网络上传</el-radio>
+                        <el-radio v-if="type !== 'file'" value="web">网络上传</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="上传至分组" prop="category_id">
@@ -105,13 +105,27 @@
                             <div class="table-body">
                                 <div v-for="(item, index) in scan_file_list" :key="index" class="table-row">
                                     <div class="table-cell">
-                                        <el-image :src="item.url" class="preview-img radius-sm" fit="contain">
-                                            <template #error>
+                                        <template v-if="type == 'video'">
+                                            <div class="preview-img radius-sm">
+                                                <icon name="video" size="12" color="9"></icon>
+                                            </div>
+                                        </template>
+                                        <template v-else-if="type == 'file'">
+                                            <div class="preview-img radius-sm">
                                                 <div class="bg-f5 img flex-row jc-c align-c radius h w">
-                                                    <icon name="error-img" size="12"></icon>
+                                                    <icon :name="ext_file_name_list_map.filter((ext) => ext.type == item.ext).length > 0 && ext_file_name_list_map.filter((ext) => ext.type == item.ext)[0].type == item.ext ? ext_file_name_list_map.filter((ext) => ext.type == item.ext)[0].icon : 'file'" size="12" color="9"></icon>
                                                 </div>
-                                            </template>
-                                        </el-image>
+                                            </div>
+                                        </template>
+                                        <template v-else>
+                                            <el-image :src="item.url" class="preview-img radius-sm" fit="contain">
+                                                <template #error>
+                                                    <div class="bg-f5 img flex-row jc-c align-c radius h w">
+                                                        <icon name="error-img" size="12"></icon>
+                                                    </div>
+                                                </template>
+                                            </el-image>
+                                        </template>
                                         <div class="desc">{{ item.title }}</div>
                                     </div>
                                     <div class="table-cell">{{ annex_size_to_unit(item.size) }}</div>
@@ -173,11 +187,9 @@ const props = defineProps({
     },
 });
 const dialogVisible = defineModel({ type: Boolean, default: false });
-// 上传类型
-const upload_type = ref(props.type);
 // 上传类型转换成name
 const upload_type_name = computed(() => {
-    return upload_type.value === 'img' ? '图片' : upload_type.value === 'video' ? '视频' : '文件';
+    return props.type === 'img' ? '图片' : props.type === 'video' ? '视频' : '文件';
 });
 // 格式限制
 const exts_text = ref(props.exts.join(','));
@@ -199,7 +211,7 @@ const form = ref<formData>({
     type: 'loc',
     category_id: [],
     file: [],
-    qrcode: '******',
+    qrcode: '',
     web_image: '',
 });
 const rules = reactive<FormRules>({

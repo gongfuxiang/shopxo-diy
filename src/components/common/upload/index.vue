@@ -75,7 +75,7 @@
                                         </template>
                                         <template v-else-if="upload_type == 'file'">
                                             <div class="bg-f5 img flex-row jc-c align-c radius h w">
-                                                <icon :name="ext_file_name_list_map.filter((ext) => ext.type == item.type).length > 0 && ext_file_name_list_map.filter((ext) => ext.type == item.type)[0].type == item.type ? ext_file_name_list_map.filter((ext) => ext.type == item.type)[0].icon : 'file'" size="42" color="9"></icon>
+                                                <icon :name="ext_file_name_list_map.filter((ext) => ext.type == item.ext).length > 0 && ext_file_name_list_map.filter((ext) => ext.type == item.ext)[0].type == item.ext ? ext_file_name_list_map.filter((ext) => ext.type == item.ext)[0].icon : 'file'" size="42" color="9"></icon>
                                             </div>
                                         </template>
                                         <template v-else>
@@ -296,6 +296,7 @@ const all_tree = {
     id: '',
     pid: '',
     name: '全部',
+    items: [],
     path: '',
     is_enable: 1,
     sort: '',
@@ -338,9 +339,11 @@ const upload_category_confirm = () => {
 };
 const category_id = ref('');
 // 左侧分类树结构节点点击事件
-const tree_node_event = (data: any) => {
+const tree_node_event = (data: any, a: any, b: any) => {
     // 判断是否开启状态，如果关闭则不可操作
     // if (data.is_enable == 0) return;
+    // 判断是否是子节点，如果不是子节点则不可操作
+    if (data.items.length > 0) return;
     category_id.value = data.id;
     get_attachment_list();
 };
