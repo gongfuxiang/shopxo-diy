@@ -185,6 +185,7 @@
     <form-upload-category v-model="upload_category_model_visible" :value="upload_category_model" :type="upload_category_type" :category-id="upload_category_id" :category-pid="upload_category_pid" @confirm="upload_category_confirm"></form-upload-category>
 </template>
 <script lang="ts" setup>
+import { ext_img_name_list, ext_video_name_list, ext_file_name_list, ext_file_name_list_map } from './index';
 import UploadAPI, { Tree } from '@/api/upload';
 import { uploadrStore } from '@/store';
 const upload_store = uploadrStore();
@@ -254,58 +255,6 @@ watch(
         }
     }
 );
-
-// 文件后缀分类
-const ext_img_name_list = ref(['.png', '.jpg', '.jpeg', '.bmp', '.webp', '.gif']);
-const ext_video_name_list = ref(['.flv', '.swf', '.mkv', '.avi', '.rm', '.rmvb', '.mpeg', '.mpg', '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.webm']);
-const ext_file_name_list = ref(['.png', '.jpg', '.jpeg', '.bmp', '.webp', '.gif', '.flv', '.swf', '.mkv', '.avi', '.rm', '.rmvb', '.mpeg', '.mpg', '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.webm', '.mp3', '.csv', '.wav', '.mid', '.cab', '.iso', '.ofd', '.xml', '.rar', '.zip', '.tar', '.gz', '.7z', '.bz2', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.pdf', '.txt', '.md', '.vsd','.sql']);
-const ext_file_name_list_map = ref([
-    { type: '.png', icon: 'error-img' },
-    { type: '.jpg', icon: 'error-img' },
-    { type: '.jpeg', icon: 'error-img' },
-    { type: '.bmp', icon: 'error-img' },
-    { type: '.webp', icon: 'error-img' },
-    { type: '.gif', icon: 'error-img' },
-    { type: '.flv', icon: 'video' },
-    { type: '.swf', icon: 'video' },
-    { type: '.mkv', icon: 'video' },
-    { type: '.avi', icon: 'video' },
-    { type: '.rm', icon: 'video' },
-    { type: '.rmvb', icon: 'video' },
-    { type: '.mpeg', icon: 'video' },
-    { type: '.mpg', icon: 'video' },
-    { type: '.ogg', icon: 'video' },
-    { type: '.ogv', icon: 'video' },
-    { type: '.mov', icon: 'video' },
-    { type: '.wmv', icon: 'video' },
-    { type: '.mp4', icon: 'video' },
-    { type: '.webm', icon: 'video' },
-    { type: '.mp3', icon: 'vf' },
-    { type: '.csv', icon: 'file' },
-    { type: '.wav', icon: 'file' },
-    { type: '.mid', icon: 'file' },
-    { type: '.cab', icon: 'file' },
-    { type: '.iso', icon: 'file' },
-    { type: '.ofd', icon: 'file' },
-    { type: '.xml', icon: 'file' },
-    { type: '.sql', icon: 'file' },
-    { type: '.rar', icon: 'zip' },
-    { type: '.zip', icon: 'zip' },
-    { type: '.tar', icon: 'zip' },
-    { type: '.gz', icon: 'zip' },
-    { type: '.7z', icon: 'zip' },
-    { type: '.bz2', icon: 'bz2' },
-    { type: '.doc', icon: 'word' },
-    { type: '.docx', icon: 'word' },
-    { type: '.xls', icon: 'excel' },
-    { type: '.xlsx', icon: 'excel' },
-    { type: '.ppt', icon: 'ppt' },
-    { type: '.pptx', icon: 'ppt' },
-    { type: '.pdf', icon: 'pdf' },
-    { type: '.txt', icon: 'txt' },
-    { type: '.md', icon: 'txt' },
-    { type: '.vsd', icon: 'vsd' },
-]);
 // 弹窗上传显示
 const upload_model_visible = ref(false);
 // 上传类型

@@ -7,7 +7,6 @@
             </div>
         </template>
         <div class="upload-content pa-20" @paste="handle_paste">
-            {{ exts }}
             <el-form ref="ruleFormRef" :model="form" :rules="rules" label-width="85" status-icon>
                 <el-form-item label="上传方式">
                     <el-radio-group v-model="form.type" @change="upload_type_change">
@@ -49,13 +48,27 @@
                                         <div class="progress" :style="'width:' + item.progress + '%'"></div>
                                         <div class="table-row">
                                             <div class="table-cell">
-                                                <el-image :src="file_to_base64(item.file)" class="preview-img radius-sm" fit="contain">
-                                                    <template #error>
+                                                <template v-if="type == 'video'">
+                                                    <div class="preview-img radius-sm">
+                                                        <icon name="video" size="12" color="9"></icon>
+                                                    </div>
+                                                </template>
+                                                <template v-else-if="type == 'file'">
+                                                    <div class="preview-img radius-sm">
                                                         <div class="bg-f5 img flex-row jc-c align-c radius h w">
-                                                            <icon name="error-img" size="12"></icon>
+                                                            <icon :name="ext_file_name_list_map.filter((ext) => ext.type == get_after_string(item.file.name)).length > 0 && ext_file_name_list_map.filter((ext) => ext.type == get_after_string(item.file.name))[0].type == get_after_string(item.file.name) ? ext_file_name_list_map.filter((ext) => ext.type == get_after_string(item.file.name))[0].icon : 'file'" size="12" color="9"></icon>
                                                         </div>
-                                                    </template>
-                                                </el-image>
+                                                    </div>
+                                                </template>
+                                                <template v-else>
+                                                    <el-image :src="file_to_base64(item.file)" class="preview-img radius-sm" fit="contain">
+                                                        <template #error>
+                                                            <div class="bg-f5 img flex-row jc-c align-c radius h w">
+                                                                <icon name="error-img" size="12"></icon>
+                                                            </div>
+                                                        </template>
+                                                    </el-image>
+                                                </template>
                                                 <div class="desc">{{ item.file.name }}</div>
                                             </div>
                                             <div class="table-cell">{{ annex_size_to_unit(item.file.size) }}</div>
@@ -134,6 +147,7 @@ import { uploadrStore } from '@/store';
 const upload_store = uploadrStore();
 import type { UploadFile, UploadFiles, UploadUserFile, FormRules, FormInstance } from 'element-plus';
 import { annex_size_to_unit, ext_name } from '@/utils';
+import { ext_img_name_list, ext_video_name_list, ext_file_name_list, ext_file_name_list_map } from './index';
 /**
  * @description: 图片执行上传弹窗
  * @param close{String} 默认值
@@ -229,6 +243,13 @@ const cascader_data = computed(() => {
     }));
 });
 
+// 获取字符串中‘，’后所有字符
+const get_after_string = (str: string) => {
+    let index = str.lastIndexOf('.');
+    str = str.substring(index, str.length);
+    return str;
+};
+
 //#region 本地上传 -----------------------------------------------start
 
 // 选择文件夹
@@ -247,7 +268,7 @@ const folder_mode = (type: boolean) => {
 };
 // 文件状态改变时的钩子，添加文件、上传成功和上传失败时都会被调用
 const upload_change = async (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
-    // console.log('文件状态改变时的钩子', uploadFile, uploadFiles);
+    console.log('文件状态改变时的钩子', uploadFile, uploadFiles);
     // // 过滤已上传的文件和重复的文件
     const results = uploadFiles.flat(Infinity).filter((f: any) => validExt(f.name) && validSize(f.size));
     const new_upload_files = results.filter((item: UploadFile) => {
