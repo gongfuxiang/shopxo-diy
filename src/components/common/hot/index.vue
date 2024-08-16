@@ -148,6 +148,7 @@ const end_drag = (event: MouseEvent) => {
             drag_end: cloneDeep(rect_end.value),
         });
     }
+    rect_start.value = { x: 0, y: 0, width: 0, height: 0 };
     rect_end.value = { x: 0, y: 0, width: 0, height: 0 };
 };
 
