@@ -23,12 +23,11 @@ const hot_data = ref<hotListData[]>([]);
 // 热区组件图片的宽高
 const img_width = ref(1);
 const img_height = ref(1);
-// containerRef的宽高
-const w_scale1 = ref(1);
-const h_scale1 = ref(1);
-//  hotRef的宽高
-const w_scale2 = ref(1);
-const h_scale2 = ref(1);
+
+const container_ref_h = ref(0);
+const container_ref_w = ref(0);
+const hot_ref_w = ref(0);
+const hot_ref_h = ref(0);
 watch(
     props.value,
     (newVal, oldValue) => {
@@ -38,21 +37,36 @@ watch(
         img_width.value = new_content?.hot.img_width || 1;
         img_height.value = new_content?.hot.img_height || 1;
         style_container.value = common_styles_computer(new_style.common_style);
-        setTimeout(() => {
-            hot_data.value = new_content?.hot?.data || [];
-            if (containerRef.value && hotRef.value) {
-                // 原图片的宽和高和实际展示的图片宽和高的比例
-                w_scale1.value = containerRef.value?.clientWidth / img_width.value;
-                h_scale1.value = containerRef.value?.clientHeight / img_height.value;
-
-                // 坐标缩小比例  containerRef的宽高除以hotRef的宽高
-                w_scale2.value = hotRef.value?.clientWidth / containerRef.value?.clientWidth;
-                h_scale2.value = hotRef.value?.clientHeight / containerRef.value?.clientHeight;
-            }
-        }, 200);
+        hot_data.value = new_content?.hot?.data || [];
+        console.log(1);
     },
     { immediate: true, deep: true }
 );
+
+onMounted(() => {
+    nextTick(() => {
+        console.log(2);
+        container_ref_h.value = containerRef.value?.clientHeight || 0;
+        container_ref_w.value = containerRef.value?.clientWidth || 0;
+        hot_ref_w.value = hotRef.value?.clientWidth || 0;
+        hot_ref_h.value = hotRef.value?.clientHeight || 0;
+        console.log(container_ref_h.value, container_ref_w.value, hot_ref_w.value, hot_ref_h.value);
+    });
+});
+// containerRef的宽高
+const w_scale1 = computed(() => {
+    return container_ref_h.value / img_width.value;
+});
+const h_scale1 = computed(() => {
+    return container_ref_h.value / img_height.value;
+});
+//  hotRef的宽高
+const w_scale2 = computed(() => {
+    return hot_ref_w.value / container_ref_h.value;
+});
+const h_scale2 = computed(() => {
+    return hot_ref_h.value / container_ref_h.value;
+});
 
 const rect_style = computed(() => {
     return (start: rectCoords, end: rectCoords) => {

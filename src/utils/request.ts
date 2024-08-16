@@ -15,12 +15,12 @@ service.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
         // 如果是本地则使用静态tonken如果是线上则使用cookie的token
         const cookie = get_cookie('admin_info');
-        let token_key = '';
-        if (cookie) {
-            token_key = import.meta.env.VITE_APP_BASE_API == '/dev-api' ? '68f4eba5f67a758a972cca831885dfda' : JSON.parse(cookie);
-        }
-        if (token_key) {
-            config.url = config.url + '?token=' + token_key;
+        if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
+            config.url = config.url + '?token=' + 'f714594929c39071f21856b885f91556';
+        } else {
+            if (cookie) {
+                config.url = config.url + '?token=' + JSON.parse(cookie).token;
+            }
         }
         return config;
     },
