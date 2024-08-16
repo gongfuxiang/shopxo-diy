@@ -1,4 +1,4 @@
-import { isEmpty } from "lodash";
+import { isEmpty } from 'lodash';
 /**
  * 判断一个对象是否为空。
  *
@@ -41,13 +41,13 @@ export function gradient_handle(color_list: color_list[], direction: string) {
         new_color_list.forEach((item: any, index: number) => {
             container_common_styles += `${item.color ? item.color : 'rgb(255 255 255 / 0%)'}`;
             if (color_list.length == 1) {
-                container_common_styles += ` ${ item.color_percentage || 0 }%, ${ item.color } 100%`;
+                container_common_styles += ` ${item.color_percentage || 0}%, ${item.color} 100%`;
             } else {
                 if (!isEmpty(item.color_percentage)) {
                     if (index == color_list.length - 1) {
-                        container_common_styles += ` ${ item.color_percentage }%`;
+                        container_common_styles += ` ${item.color_percentage}%`;
                     } else {
-                        container_common_styles += ` ${ item.color_percentage }%,`;
+                        container_common_styles += ` ${item.color_percentage}%,`;
                     }
                 } else {
                     if (index == color_list.length - 1) {
@@ -58,7 +58,6 @@ export function gradient_handle(color_list: color_list[], direction: string) {
                         container_common_styles += ` ${(100 / color_list.length) * index}%,`;
                     }
                 }
-                
             }
         });
         container_common_styles += `);`;
@@ -200,7 +199,6 @@ export const ext_name = (name: string) => {
     return '';
 };
 
-
 /**
  * 将大小计算成百分比
  *
@@ -209,9 +207,9 @@ export const ext_name = (name: string) => {
  * @returns 计算后的百分比值，含4位小数
  */
 export const percentage_count = (num: number, container_size: number) => {
-    const marks = num / container_size * 100;
-    return marks.toFixed(4)+ '%';
-}
+    const marks = (num / container_size) * 100;
+    return marks.toFixed(4) + '%';
+};
 
 /**
  * 计算当前偏移量
@@ -232,4 +230,53 @@ export const location_compute = (size: number, location: number, container_size:
     } else {
         return location;
     }
-}
+};
+
+/**
+ * 读取指定名称的cookie值
+ * @param name 需要读取的cookie的名称
+ * @returns 返回cookie的值，如果未找到则返回空字符串
+ */
+export const get_cookie = (name: string) => {
+    // 初始化cookie值为空字符串
+    var cookievalue = '';
+    // 定义要搜索的cookie名称字符串
+    var search = name + '=';
+    // 检查是否存在cookie
+    if (document.cookie.length > 0) {
+        // 尝试查找cookie名称的位置
+        let offset = document.cookie.indexOf(search);
+        // 如果找到了cookie名称
+        if (offset != -1) {
+            // 跳过cookie名称的长度
+            offset += search.length;
+            // 查找cookie值的结束位置（可能是分号或者字符串末尾）
+            let end = document.cookie.indexOf(';', offset);
+            if (end == -1) end = document.cookie.length;
+            // 提取并解码cookie值
+            cookievalue = decodeURIComponent(document.cookie.substring(offset, end));
+        }
+    }
+    // 返回获取到的cookie值
+    return cookievalue;
+};
+/**
+ * 设置cookie
+ * 该函数用于设置一个cookie，包括cookie的名称、值和过期时间
+ * @param name {string} - cookie的名称
+ * @param value {string} - cookie的值
+ * @param expire_time {number} - cookie的过期时间，单位为天
+ */
+export const set_cookie = (name: string, value: string, expire_time?: number) => {
+    // 构造cookie字符串
+    var cookie_str = name + '=' + encodeURIComponent(value);
+    if (expire_time) {
+        // 获取当前时间
+        var now = new Date();
+        // 计算过期时间
+        var expire_date = new Date(now.getTime() + expire_time * 86400);
+        cookie_str += ';expires=' + expire_date.toUTCString();
+        // 将新增的cookie储存到cookie中，可以存储多个而不是替换
+        document.cookie = cookie_str;
+    }
+};

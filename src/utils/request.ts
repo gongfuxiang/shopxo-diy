@@ -1,8 +1,11 @@
 import axios, { InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { ElMessage, ElMessageBox } from 'element-plus';
+import { get_cookie } from './index';
 // 创建 axios 实例
+const index = window.location.href.lastIndexOf('?');
+const pro_url = window.location.href.substring(0, index);
 const service = axios.create({
-    baseURL: import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API : window.location.origin,
+    baseURL: import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API : pro_url,
     timeout: 50000,
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
 });
@@ -10,13 +13,14 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
-        // const userStore = useUserStoreHook();
-        // const accessToken = localStorage.getItem(TOKEN_KEY);
-        const accessToken = { token: 'b84c6cac0dacd1bc624393cd522dec37' };
-        if (accessToken.token) {
-            // config.headers.Authorization = accessToken.token;
-            // config.data = { ...config.data, token: accessToken.token };
-            config.url = config.url + '?token=' + accessToken.token;
+        // 如果是本地则使用静态tonken如果是线上则使用cookie的token
+        const cookie = get_cookie('admin_info');
+        let token_key = '';
+        if (cookie) {
+            token_key = import.meta.env.VITE_APP_BASE_API == '/dev-api' ? '68f4eba5f67a758a972cca831885dfda' : JSON.parse(cookie);
+        }
+        if (token_key) {
+            config.url = config.url + '?token=' + token_key;
         }
         return config;
     },
