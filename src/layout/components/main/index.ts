@@ -20,7 +20,7 @@ import defaultImgMagic from './default/img-magic';
 import defaultHotZone from './default/hot-zone';
 import defaultCustom from './default/custom';
 import defaultDataMagic from './default/data-magic';
-import { de } from 'element-plus/es/locale';
+
 // 系统设置
 interface DefaultSettings {
     header_nav: object;

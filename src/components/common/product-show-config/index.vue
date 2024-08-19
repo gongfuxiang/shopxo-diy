@@ -6,6 +6,9 @@
                 <el-checkbox v-for="item in base_list.list_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
             </el-checkbox-group>
         </el-form-item>
+        <el-form-item label="价格独行">
+            <el-switch v-model="form.is_price_solo"></el-switch>
+        </el-form-item>
     </card-container>
     <card-container>
         <div class="mb-12">购物车设置</div>
@@ -16,10 +19,10 @@
             <div class="flex-row align-c jc-s gap-20 shopping_button_all">
                 <div v-for="item in base_list.shopping_button_list" :key="item.value" :class="['pa-10 re', { 'br-c br-primary radius-sm': shop_type(item) }]" @click="shopping_button_click(item)">
                     <template v-if="item.value == '0'">
-                        <div class="pl-13 pr-13 round size-12 bg-primary cr-f shopping_button">{{ item.name }}</div>
+                        <div :class="['pl-13 pr-13 round size-12 bg-primary cr-f shopping_button', {'disabled': ['3','4','5'].includes(form.product_style) }]">{{ item.name }}</div>
                     </template>
                     <template v-else-if="item.value == '1'">
-                        <div class="pl-11 pr-11 round size-12 bg-primary cr-f shopping_button">{{ item.name }}</div>
+                        <div :class="['pl-13 pr-13 round size-12 bg-primary cr-f shopping_button', {'disabled': ['3','4','5'].includes(form.product_style) }]">{{ item.name }}</div>
                     </template>
                     <template v-else-if="item.value == '2'">
                         <icon class="shopping_button round pl-6 pr-6 bg-primary " name="add" color="f" size="16"></icon>
@@ -93,11 +96,20 @@ const shop_type = computed(() => {
 });
 
 const shopping_button_click = (item: { value: string; }) => {
-    form.value.shop_type = item.value;
+    if (['3','4','5'].includes(form.value.product_style) && ['0', '1'].includes(item.value)) {
+        return;
+    } else {
+        form.value.shop_type = item.value;
+    }
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+.card, .card.mb-8 {
+    .el-form-item:last-child {
+        margin-bottom: 0;
+    }
+}
 .card-container-br {
     border-bottom: 0.8rem solid #f0f2f5;
 }

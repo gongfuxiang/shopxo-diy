@@ -9,4 +9,5 @@ export function setupStore(app: App<Element>) {
 }
 export * from './modules/footer-nav-content';
 export * from './modules/upload';
+export * from './modules/shop';
 export { store };

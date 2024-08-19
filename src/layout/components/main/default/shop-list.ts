@@ -3,8 +3,10 @@ interface DefaultProductList {
     content: {
         product_style: string;
         product_check: string;
-        product_type: string[];
+        goods_category_ids: string[];
+        goods_brand_ids: string[];
         product_list: [];
+        is_price_solo: boolean;
         number: number;
         sort: string;
         sort_rules: string;
@@ -45,7 +47,9 @@ const defaultProductList: DefaultProductList = {
         product_style: '0',
         product_check: '0',
         product_list: [],
-        product_type: [],
+        goods_category_ids: [],
+        goods_brand_ids: [],
+        is_price_solo: true,
         number: 4,
         sort: '0',
         sort_rules: '0',
