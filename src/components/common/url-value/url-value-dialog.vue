@@ -14,7 +14,7 @@
                 </el-menu>
             </div>
             <div class="right-content flex-1">
-                <template v-if="link_select == 'shop'">
+                <template v-if="link_select == 'shop' || link_select == 'plugins'">
                     <link-list v-model="link_value" :reset="reset_compontent"></link-list>
                 </template>
                 <template v-else-if="link_select == 'goods-category'">
@@ -29,20 +29,11 @@
                 <template v-else-if="link_select == 'articles'">
                     <link-articles v-model="link_value" :reset="reset_compontent"></link-articles>
                 </template>
-                <template v-else-if="link_select == 'diy'">
-                    <link-table v-model="link_value" :reset="reset_compontent"></link-table>
-                </template>
-                <template v-else-if="link_select == 'design'">
-                    <link-table v-model="link_value" :reset="reset_compontent"></link-table>
-                </template>
-                <template v-else-if="link_select == 'custom-view'">
+                <template v-else-if="link_select == 'diy' || link_select == 'design' || link_select == 'custom-view'">
                     <link-table v-model="link_value" :reset="reset_compontent"></link-table>
                 </template>
                 <template v-else-if="link_select == 'custom'">
                     <link-custom :reset="reset_compontent" :status="component_status" @update:link="custom_link" @required="required_tips"></link-custom>
-                </template>
-                <template v-else-if="link_select == 'plugins'">
-                    <link-list v-model="link_value" :reset="reset_compontent"></link-list>
                 </template>
             </div>
         </div>
@@ -59,14 +50,15 @@
 import { MenuItemClicked } from 'element-plus/es/components/menu/src/types';
 import { is_obj_empty } from '@/utils';
 import { PropType } from 'vue';
-
+import UrlValueAPI from '@/api/url-value';
+import { urlValueStore, urlValue } from '@/store';
+const url_value_store = urlValueStore();
 const app = getCurrentInstance();
 /**
  * @description: 页面链接
  * @param modelValue{Object} 默认值
  * @param dialogVisible {Boolean} 弹窗显示
  * @param type{String} 链接类型为空数组则表示无限制，全部可用，传过来则表示传的值可用
- * @param placeholder{String} 提示文字
  * @return {*} update:modelValue
  */
 const props = defineProps({
@@ -76,69 +68,58 @@ const props = defineProps({
     },
 });
 const modelValue = defineModel({ type: Object, default: {} });
-const dialogVisible = defineModel('visibleDialog', { type: Boolean, default: false });
+const dialogVisible = defineModel('dialogVisible', { type: Boolean, default: false });
 const link_value = ref({});
 const reset_compontent = ref(false);
 const custom_link_type = ref(props.type);
-const base_data = reactive([
-    {
-        name: '商城页面',
-        type: 'shop',
-        data: [{ name: '基础链接', data: [{ name: '', page: '' }] }],
-    },
-    {
-        name: '商品分类',
-        type: 'goods-category',
-        data: null,
-    },
-    {
-        name: '商品搜索',
-        type: 'goods-search',
-        data: null,
-    },
-    {
-        name: '商品页面',
-        type: 'goods',
-        data: null,
-    },
-    {
-        name: '文章页面',
-        type: 'articles',
-        data: null,
-    },
-    {
-        name: 'DIY页面',
-        type: 'diy',
-        data: null,
-    },
-    {
-        name: '页面设计',
-        type: 'design',
-        data: null,
-    },
-    {
-        name: '自定义页面',
-        type: 'custom-view',
-        data: null,
-    },
-    {
-        name: '自定义链接',
-        type: 'custom',
-        data: null,
-    },
-    {
-        name: '插件',
-        type: 'plugins',
-        data: [{ name: '多商户', data: [{ name: '1', page: '2' }] }],
-    },
-]);
-// 弹窗显示
+const base_data = ref<any[]>([]);
+const init_data = ref({});
+watch(
+    () => dialogVisible.value,
+    (val) => {
+        if (val) {
+        }
+    }
+);
+watch(
+    () => dialogVisible.value,
+    (val) => {
+        if (val) {
+            init();
+        }
+    }
+);
+onMounted(() => {
+    init();
+});
+const init = () => {
+    if (!url_value_store.is_url_value_api) {
+        url_value_store.set_is_url_value_api(true);
+        UrlValueAPI.getInit()
+            .then((res: any) => {
+                init_data.value = res.data;
+                base_data.value = res.data.page_link_list;
+                if (res.data.page_link_list.length > 0) {
+                    link_select.value = res.data.page_link_list[0].type;
+                }
+                url_value_store.set_url_value(res.data);
+            })
+            .catch(() => {
+                url_value_store.set_is_url_value_api(false);
+            });
+    } else {
+        init_data.value = url_value_store.url_value;
+        base_data.value = url_value_store.url_value.page_link_list;
+        if (url_value_store.url_value.page_link_list.length > 0) {
+            link_select.value = url_value_store.url_value.page_link_list[0].type;
+        }
+    }
+};
 
 //#region 链接回调 -----------------------------------------------start
 // 菜单选中回调
-const link_select = ref(props.type.length == 0 ? 'shop' : props.type[0]);
+const link_select = ref('');
 const handle_select = (index: string, indexPath: string[], item: MenuItemClicked, routeResult: any) => {
-    // console.log(index, indexPath, item, routeResult);
     link_select.value = index;
 };
 //#endregion 链接回调 -----------------------------------------------end

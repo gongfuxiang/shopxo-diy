@@ -20,7 +20,6 @@
 </template>
 <script lang="ts" setup>
 import { is_obj_empty } from '@/utils';
-
 const app = getCurrentInstance();
 /**
  * @description: 页面链接
