@@ -58,7 +58,7 @@
                             </div>
                         </div>
                         <div v-else class="flex-row align-c jc-sb">
-                            <div class="flex-row align-c nowrap text-line-1">
+                            <div class="flex-row align-c nowrap">
                                 <div v-if="is_show('2')" class="num" :style="`color: ${ new_style.shop_price_color }`"><span class="identifying">{{ item.show_price_symbol }}</span><span :style="trends_config('price')">{{ item.min_price }}</span><span class="identifying">{{ item.show_price_unit }}</span></div>
                                 <div v-if="show_content && is_show('5')" class="size-10 flex"><span class="original-price-left"></span><span class="original-price flex-1 text-line-1">{{ item.show_original_price_symbol }}{{ item.min_original_price }}{{ item.show_original_price_unit }}</span></div>
                             </div>
@@ -133,17 +133,6 @@ const default_list = {
     new_src: []
 }
 const list = ref<product_list[]>([]);
-watchEffect(() => {
-    if (form.value.product_check == '0') {
-        if (!isEmpty(form.value.product_list)) {
-            list.value = form.value.product_list;
-        } else {
-            list.value = Array(4).fill(default_list);
-        }
-    } else {
-        get_products();
-    }
-});
 const get_products = () => {
     const { goods_category_ids, goods_brand_ids, number, sort, sort_rules } = form.value;
     const params = {
@@ -163,6 +152,17 @@ const get_products = () => {
         }
     });
 };
+watchEffect(() => {
+    if (form.value.product_check == '0') {
+        if (!isEmpty(form.value.product_list)) {
+            list.value = form.value.product_list;
+        } else {
+            list.value = Array(4).fill(default_list);
+        }
+    } else {
+        get_products();
+    }
+});
 
 // 圆角设置
 const content_radius = computed(() => radius_computer(new_style.value.shop_radius));
@@ -376,7 +376,7 @@ const style_container = computed(() => {
     height: 11.4rem;
 }
 .flex-img4 {
-    width: 100%;
+    width: 7rem;
     height: 7rem;
 }
 .flex-img5 {

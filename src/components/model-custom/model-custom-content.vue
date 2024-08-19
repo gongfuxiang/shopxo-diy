@@ -39,6 +39,9 @@
 import Dialog from './components/dialog.vue';
 import DragIndex from './components/index.vue';
 import { cloneDeep } from 'lodash';
+import { DataSourceStore } from '@/store';
+const data_source = DataSourceStore();
+
 const props = defineProps({
     value: {
         type: Object,

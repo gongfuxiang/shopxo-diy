@@ -91,7 +91,7 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form } = toRefs(state);
 
-const base_list = {
+const base_list = reactive({
     product_style_list: [
         { name: '单列展示', value: '0' },
         { name: '大图展示', value: '2' },
@@ -117,16 +117,6 @@ const base_list = {
         { name: '降序(desc)', value: '0' },
         { name: '升序(asc)', value: '1' },
     ]
-};
-
-onBeforeMount(() => {
-    if (!shop_store.is_shop_api) {
-        shop_store.set_is_shop_api(true);
-        init();
-    } else {
-        base_list.product_category_list = shop_store.category_list;
-        base_list.product_brand_list = shop_store.brand_list;
-    }
 });
 
 const init = () => {
@@ -137,6 +127,16 @@ const init = () => {
         shop_store.set_category_brand(goods_category, brand_list);
     });
 };
+
+onMounted(() => {
+    if (!shop_store.is_shop_api) {
+        shop_store.set_is_shop_api(true);
+        init();
+    } else {
+        base_list.product_category_list = shop_store.category_list;
+        base_list.product_brand_list = shop_store.brand_list;
+    }
+});
 
 const product_list_remove = (index: number) => {
     form.value.product_list.splice(index, 1);
