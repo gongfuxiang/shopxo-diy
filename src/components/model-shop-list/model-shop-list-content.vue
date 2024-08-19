@@ -4,7 +4,7 @@
             <card-container class="mb-8">
                 <div class="mb-12">列表设置</div>
                 <el-form-item label="选择风格">
-                    <el-radio-group v-model="form.product_style">
+                    <el-radio-group v-model="form.product_style" @change="change_style">
                         <el-radio v-for="item in base_list.product_style_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
@@ -34,22 +34,22 @@
                                     </div>
                                 </template>
                             </drag>
-                            <el-button class="mtb-20 w" @click="add">+添加</el-button>
+                            <el-button class="mt-20 w" @click="add">+添加</el-button>
                         </div>
                     </template>
                     <template v-else>
                         <el-form-item label="商品分类">
-                            <el-select v-model="form.product_type" multiple collapse-tags placeholder="请选择文章分类">
-                                <el-option v-for="item in base_list.product_type_list" :key="item.value" :label="item.name" :value="item.value" />
+                            <el-select v-model="form.goods_category_ids" multiple collapse-tags placeholder="请选择商品分类">
+                                <el-option v-for="item in base_list.product_category_list" :key="item.id" :label="item.name" :value="item.id" />
                             </el-select>
                         </el-form-item>
                         <el-form-item label="指定品牌">
-                            <el-select v-model="form.product_type" multiple collapse-tags placeholder="请选择文章分类">
-                                <el-option v-for="item in base_list.product_type_list" :key="item.value" :label="item.name" :value="item.value" />
+                            <el-select v-model="form.goods_brand_ids" multiple collapse-tags placeholder="请选择品牌">
+                                <el-option v-for="item in base_list.product_brand_list" :key="item.id" :label="item.name" :value="item.id" />
                             </el-select>
                         </el-form-item>
                         <el-form-item label="显示数量">
-                            <el-input v-model="form.number" placeholder="请输入显示数量" clearable />
+                            <el-input-number v-model="form.number" :min="1" :max="100" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w" controls-position="right"></el-input-number>
                         </el-form-item>
                         <el-form-item label="排序类型">
                             <el-radio-group v-model="form.sort">
@@ -72,6 +72,13 @@
 <script setup lang="ts">
 import { get_math } from '@/utils';
 import ShopAPI from '@/api/shop';
+import { ShopStore } from '@/store';
+const shop_store = ShopStore();
+interface shop_list {
+    id: number;
+    name: string;
+};
+
 const props = defineProps({
     value: {
         type: Object,
@@ -97,11 +104,8 @@ const base_list = {
         { name: '指定商品', value: '0' },
         { name: '筛选商品', value: '1' },
     ],
-    product_type_list: [
-        { name: '样式一', value: '0' },
-        { name: '样式二', value: '1' },
-        { name: '样式三', value: '2' },
-    ],
+    product_category_list: [] as shop_list[],
+    product_brand_list: [] as shop_list[],
     sort_list: [
         { name: '综合', value: '0' },
         { name: '销量', value: '1' },
@@ -115,9 +119,24 @@ const base_list = {
     ]
 };
 
-// onBeforeMount(() => {
-//     ShopAPI
-// });
+onBeforeMount(() => {
+    if (!shop_store.is_shop_api) {
+        shop_store.set_is_shop_api(true);
+        init();
+    } else {
+        base_list.product_category_list = shop_store.category_list;
+        base_list.product_brand_list = shop_store.brand_list;
+    }
+});
+
+const init = () => {
+    ShopAPI.getShop().then((res) => {
+        const { goods_category, brand_list } = res.data;
+        base_list.product_category_list = goods_category;
+        base_list.product_brand_list = brand_list;
+        shop_store.set_category_brand(goods_category, brand_list);
+    });
+};
 
 const product_list_remove = (index: number) => {
     form.value.product_list.splice(index, 1);
@@ -134,6 +153,12 @@ const add = () => {
 const product_list_sort = (new_list: any) => {
     form.value.product_list = new_list;
 }
+const change_style = (val: any):void => {
+    form.value.product_style = val;
+    if (['3', '4', '5'].includes(val) && ['0', '1'].includes(form.value.shop_type)) {
+        form.value.shop_type = '2';
+    }
+};
 </script>
 <style lang="scss" scoped>
 .content {
@@ -145,7 +170,7 @@ const product_list_sort = (new_list: any) => {
         }
     }
 }
-.card {
+.card, .card.mb-8 {
     .el-form-item:last-child {
         margin-bottom: 0;
     }
