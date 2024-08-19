@@ -28,7 +28,7 @@ export const urlValueStore = defineStore('urlValue', () => {
     };
 });
 
-interface pageLinkList {
+export interface pageLinkList {
     name: string;
     type: string;
     data: pageLinkList[];

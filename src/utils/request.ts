@@ -4,6 +4,7 @@ import { get_cookie } from './index';
 // 创建 axios 实例
 const index = window.location.href.lastIndexOf('?s=');
 const pro_url = window.location.href.substring(0, index);
+console.log(import.meta.env.VITE_APP_BASE_API);
 const service = axios.create({
     baseURL: import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API : pro_url + '?s=',
     timeout: 50000,
@@ -33,9 +34,10 @@ service.interceptors.response.use(
         const { code, msg, data } = response.data;
         if (code == 0) {
             return response.data;
-        } else if(code == -400) {
+        } else if (code == -400) {
             ElMessageBox.alert(msg, '温馨提示', {
                 confirmButtonText: '确定',
+                showClose: false,
                 type: 'warning',
             }).then(() => {
                 localStorage.clear(); // @vueuse/core 自动导入

@@ -25,7 +25,7 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { urlValueStore, urlValue } from '@/store';
+import { urlValueStore, urlValue, pageLinkList } from '@/store';
 const url_value_store = urlValueStore();
 const props = defineProps({
     // 重置
@@ -42,35 +42,43 @@ watch(
 );
 const modelValue = defineModel({ type: Object, default: {} });
 const search_value = ref('');
-const base_data = computed(() => {
+const base_data = ref<pageLinkList[]>([]);
+const new_base_data = ref<pageLinkList[]>([]);
+onMounted(() => {
     // 过滤url_value_store.url_value.page_link_list中的type为shop的data的数据，只保留data数组
-    return url_value_store.url_value.page_link_list.filter((item: any) => {
+    base_data.value = url_value_store.url_value.page_link_list.filter((item: any) => {
         if (item.type == 'shop') {
             return item.data;
         }
     });
+    new_base_data.value = base_data.value[0].data;
 });
-const new_base_data = computed(() => {
-    // 过滤url_value_store.url_value.page_link_list中的type为shop的data的数据，只保留data数组
-    return base_data.value[0].data;
-});
+
 const handle_search = () => {
-    // 根据关键词过滤new_base_data数据
-    new_base_data.value.filter((item: any) => {
-        if (item.data) {
-            return item.data.filter((item: any) => {
-                if (item.name.includes(search_value.value)) {
-                    return item;
-                }
-            });
-        } else {
-            return item.filter((item: any) => {
-                if (item.name.includes(search_value.value)) {
-                    return item;
-                }
+    // 根据关键词过滤new_base_data数据,如果==父级 显示父级和父级下的所有子级数据，如果==子级则显示该子级数据和父级
+    let bool = false;
+    if (search_value.value) {
+        new_base_data.value = new_base_data.value.filter((item: any) => {
+            if (item.name == search_value.value) {
+                bool = true;
+                console.log(1);
+                return item;
+            }
+        });
+        if (!true) {
+            new_base_data.value = new_base_data.value.filter((item: any) => {
+                item.filter((child: any) => {
+                    if (child.name == search_value.value) {
+                        bool = true;
+                        return child;
+                    }
+                });
             });
         }
-    });
+    } else {
+        new_base_data.value = base_data.value[0].data;
+    }
+    console.log(new_base_data.value);
 };
 const menu_active = ref('');
 const emit = defineEmits(['update:link']);
