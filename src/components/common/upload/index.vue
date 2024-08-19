@@ -49,11 +49,11 @@
                         <el-button @click="mult_del_event">删除{{ upload_type_name }}</el-button>
                         <!-- <el-cascader :show-all-levels="false" clearable></el-cascader> -->
                         <div class="right-classify ml-12">
-                            <transform-category :data="type_data_list" :check-img-ids="check_img_ids" :placeholder="upload_type_name + '移动至'"></transform-category>
+                            <transform-category :data="type_data_list" :check-img-ids="check_img_ids" :placeholder="upload_type_name + '移动至'" @call-back="transform_category_event"></transform-category>
                         </div>
                     </div>
                     <div class="right-search">
-                        <el-input v-model="search_name" :placeholder="'请输入' + upload_type_name + '名称'" @input="get_attachment_list('1')">
+                        <el-input v-model="search_name" :placeholder="'请输入' + upload_type_name + '名称'" @change="get_attachment_list('1')">
                             <template #suffix>
                                 <icon name="search" size="18"></icon>
                             </template>
@@ -496,11 +496,16 @@ const mult_del_event = () => {
                 ElMessage.success('删除成功!');
                 // 调用查询接口
                 get_attachment_list();
+                check_img_ids.value = '';
             });
         });
     } else {
         ElMessage.warning('请先选择图片!');
     }
+};
+const transform_category_event = () => {
+    check_img_ids.value = '';
+    get_attachment_list();
 };
 
 //#endregion 附件 ----------------------------------------------------------end
