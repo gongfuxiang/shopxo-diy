@@ -71,6 +71,7 @@
 </template>
 <script setup lang="ts">
 import { get_math } from '@/utils';
+import ShopAPI from '@/api/shop';
 const props = defineProps({
     value: {
         type: Object,
@@ -113,6 +114,10 @@ const base_list = {
         { name: '升序(asc)', value: '1' },
     ]
 };
+
+// onBeforeMount(() => {
+//     ShopAPI
+// });
 
 const product_list_remove = (index: number) => {
     form.value.product_list.splice(index, 1);
