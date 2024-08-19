@@ -187,8 +187,8 @@
 <script lang="ts" setup>
 import { ext_img_name_list, ext_video_name_list, ext_file_name_list, ext_file_name_list_map } from './index';
 import UploadAPI, { Tree } from '@/api/upload';
-import { uploadrStore } from '@/store';
-const upload_store = uploadrStore();
+import { uploadStore } from '@/store';
+const upload_store = uploadStore();
 const app = getCurrentInstance();
 /**
  * @description: 图片上传
@@ -309,6 +309,7 @@ const get_tree = () => {
         type_data.value = [all_tree, ...res.data.category_list];
         type_data_list.value = res.data.category_list;
         upload_store.set_category(type_data_list.value);
+        upload_store.set_is_upload_api(true);
     });
 };
 
@@ -588,7 +589,6 @@ onMounted(() => {
     // 监听点击事件
     document.addEventListener('click', video_show);
     if (!upload_store.is_upload_api) {
-        upload_store.set_is_upload_api(true);
         get_tree();
     } else {
         type_data.value = upload_store.category;
