@@ -249,8 +249,7 @@ watch(
     () => dialog_visible.value,
     (val) => {
         if (val) {
-            type_data_list.value = upload_store.category;
-            type_data.value = [all_tree, ...upload_store.category];
+            get_tree();
             get_attachment_list();
         }
     }
@@ -304,13 +303,22 @@ const all_tree = {
 const type_data_list = ref<Tree[]>([]);
 // 查询分类列表
 const get_tree = () => {
-    UploadAPI.getTree().then((res) => {
-        // 将all_tree和res.data.category_list全部插入到type_data.value,all_tree放在数组最前面
-        type_data.value = [all_tree, ...res.data.category_list];
-        type_data_list.value = res.data.category_list;
-        upload_store.set_category(type_data_list.value);
+    if (!upload_store.is_upload_api) {
         upload_store.set_is_upload_api(true);
-    });
+        UploadAPI.getTree()
+            .then((res) => {
+                // 将all_tree和res.data.category_list全部插入到type_data.value,all_tree放在数组最前面
+                type_data.value = [all_tree, ...res.data.category_list];
+                type_data_list.value = res.data.category_list;
+                upload_store.set_category(type_data_list.value);
+            })
+            .catch(() => {
+                upload_store.set_is_upload_api(false);
+            });
+    } else {
+        type_data_list.value = upload_store.category;
+        type_data.value = [all_tree, ...upload_store.category];
+    }
 };
 
 // 分类弹窗表单数据
@@ -588,11 +596,7 @@ const close_upload_model = (data: any) => {
 onMounted(() => {
     // 监听点击事件
     document.addEventListener('click', video_show);
-    if (!upload_store.is_upload_api) {
-        get_tree();
-    } else {
-        type_data.value = upload_store.category;
-    }
+    get_tree();
 });
 onUnmounted(() => {
     // 移除监听事件
