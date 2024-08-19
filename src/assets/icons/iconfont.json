@@ -6,6 +6,13 @@
   "description": "web端",
   "glyphs": [
     {
+      "icon_id": "39793709",
+      "name": "三点",
+      "font_class": "ellipsis",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
       "icon_id": "41451474",
       "name": "编辑 (2)",
       "font_class": "commodity-edit",

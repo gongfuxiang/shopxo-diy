@@ -1,6 +1,6 @@
 <!-- 上传组件 -->
 <template>
-    <el-dialog v-model="dialog_visible" class="radius-lg" width="1168" append-to-body>
+    <el-dialog v-model="dialog_visible" class="radius-lg" width="1168" draggable append-to-body>
         <template #header>
             <div class="title re">
                 <el-radio-group v-model="upload_type" is-button @change="upload_type_change">
@@ -26,16 +26,19 @@
                         <template #default="{ node, data }">
                             <div class="custom-tree-node flex-row jc-sb gap-10 align-c w pr-10" :class="data.is_enable == 0 || node.parent.data.is_enable == 0 ? 'disabled bg-red' : ''">
                                 <div class="flex-1 flex-width text-line-1 block">{{ data.name }}</div>
-                                <div v-if="data.id" class="flex-row gap-10 cr-9 category-oprate c-pointer">
-                                    <div v-if="data.pid == 0" @click.stop="append_type_event(data)">
-                                        <icon class="icon" name="add" size="12"></icon>
-                                    </div>
-                                    <div @click.stop="edit_type_event(data)">
-                                        <icon class="icon" name="edit" size="12"></icon>
-                                    </div>
-                                    <div @click.stop="remove_type_event(node, data)">
-                                        <icon class="icon" name="del" size="12"></icon>
-                                    </div>
+                                <div v-if="data.id" class="flex-row gap-10 cr-9 category-operate c-pointer">
+                                    <el-popover placement="bottom" width="70" trigger="hover">
+                                        <template #reference>
+                                            <div class="tree-operate-btn">
+                                                <icon name="ellipsis" size="14"></icon>
+                                            </div>
+                                        </template>
+                                        <div class="flex-col gap-12 tree-operate">
+                                            <div v-if="data.pid == 0" class="flex-row gap-5 c-pointer w item" @click.stop="append_type_event(data)"><icon class="icon" name="add" size="12"></icon>新增</div>
+                                            <div class="flex-row gap-5 c-pointer w item" @click.stop="edit_type_event(data)"><icon class="icon" name="edit" size="12"></icon>编辑</div>
+                                            <div class="flex-row gap-5 c-pointer w item" @click.stop="remove_type_event(node, data)"><icon class="icon" name="del" size="12"></icon>删除</div>
+                                        </div>
+                                    </el-popover>
                                 </div>
                             </div>
                         </template>
@@ -44,7 +47,7 @@
             </div>
             <div class="right-content flex-1 flex-width">
                 <div class="flex-row jc-sb align-c mb-15">
-                    <div class="right-oprate flex-row">
+                    <div class="right-operate flex-row">
                         <el-button type="primary" plain @click="upload_model_open">上传{{ upload_type_name }}</el-button>
                         <el-button @click="mult_del_event">删除{{ upload_type_name }}</el-button>
                         <!-- <el-cascader :show-all-levels="false" clearable></el-cascader> -->
@@ -55,7 +58,7 @@
                     <div class="right-search">
                         <el-input v-model="search_name" :placeholder="'请输入' + upload_type_name + '名称'" @change="get_attachment_list('1')">
                             <template #suffix>
-                                <icon name="search" size="18"></icon>
+                                <icon name="search" size="18" class="c-pointer" @click="get_attachment_list('1')"></icon>
                             </template>
                         </el-input>
                     </div>
@@ -90,12 +93,12 @@
                                         <div class="check-icon fill flex-row jc-c align-c" :class="view_list_value.findIndex((i) => i.id === item.id) !== -1 ? 'active' : ''">
                                             <icon name="true-o" color="f" size="26"></icon>
                                         </div>
-                                        <div class="oprate">
-                                            <div class="oprate-content flex-row jc-sa align-c">
+                                        <div class="operate">
+                                            <div class="operate-content flex-row jc-sa align-c">
                                                 <div class="flex-1 tc c-pointer" @click.stop="edit_event(item, index)">
                                                     <icon name="edit" class="flex-1" size="14" color="f"></icon>
                                                 </div>
-                                                <div v-if="upload_type !== 'file'" class="oprate-icon flex-1 tc c-pointer" @click.stop="preview_event(item, index)">
+                                                <div v-if="upload_type !== 'file'" class="operate-icon flex-1 tc c-pointer" @click.stop="preview_event(item, index)">
                                                     <icon name="eye" size="14" color="f"></icon>
                                                 </div>
                                                 <div class="flex-1 tc c-pointer" @click.stop="del_event(item)">
@@ -187,8 +190,8 @@
 <script lang="ts" setup>
 import { ext_img_name_list, ext_video_name_list, ext_file_name_list, ext_file_name_list_map } from './index';
 import UploadAPI, { Tree } from '@/api/upload';
-import { uploadrStore } from '@/store';
-const upload_store = uploadrStore();
+import { uploadStore } from '@/store';
+const upload_store = uploadStore();
 const app = getCurrentInstance();
 /**
  * @description: 图片上传
@@ -249,8 +252,7 @@ watch(
     () => dialog_visible.value,
     (val) => {
         if (val) {
-            type_data_list.value = upload_store.category;
-            type_data.value = [all_tree, ...upload_store.category];
+            get_tree();
             get_attachment_list();
         }
     }
@@ -270,6 +272,7 @@ const upload_type_name = computed(() => {
 // 切换图片/视频/文件
 const upload_type_change = (type: any) => {
     view_list_value.value = [];
+    get_attachment_list();
 };
 
 // 打开上传弹窗
@@ -304,12 +307,22 @@ const all_tree = {
 const type_data_list = ref<Tree[]>([]);
 // 查询分类列表
 const get_tree = () => {
-    UploadAPI.getTree().then((res) => {
-        // 将all_tree和res.data.category_list全部插入到type_data.value,all_tree放在数组最前面
-        type_data.value = [all_tree, ...res.data.category_list];
-        type_data_list.value = res.data.category_list;
-        upload_store.set_category(type_data_list.value);
-    });
+    if (!upload_store.is_upload_api) {
+        upload_store.set_is_upload_api(true);
+        UploadAPI.getTree()
+            .then((res) => {
+                // 将all_tree和res.data.category_list全部插入到type_data.value,all_tree放在数组最前面
+                type_data.value = [all_tree, ...res.data.category_list];
+                type_data_list.value = res.data.category_list;
+                upload_store.set_category(type_data_list.value);
+            })
+            .catch(() => {
+                upload_store.set_is_upload_api(false);
+            });
+    } else {
+        type_data_list.value = upload_store.category;
+        type_data.value = [all_tree, ...upload_store.category];
+    }
 };
 
 // 分类弹窗表单数据
@@ -483,6 +496,12 @@ const del_event = (item: uploadList) => {
             ElMessage.success('删除成功!');
             // 调用查询接口
             get_attachment_list();
+
+            // 过滤已删除的文件
+            view_list_value.value = view_list_value.value.filter((items: any) => {
+                return items.id !== item.id;
+            });
+            console.log(view_list_value.value);
         });
     });
 };
@@ -497,6 +516,7 @@ const mult_del_event = () => {
                 // 调用查询接口
                 get_attachment_list();
                 check_img_ids.value = '';
+                view_list_value.value = [];
             });
         });
     } else {
@@ -587,12 +607,7 @@ const close_upload_model = (data: any) => {
 onMounted(() => {
     // 监听点击事件
     document.addEventListener('click', video_show);
-    if (!upload_store.is_upload_api) {
-        upload_store.set_is_upload_api(true);
-        get_tree();
-    } else {
-        type_data.value = upload_store.category;
-    }
+    get_tree();
 });
 onUnmounted(() => {
     // 移除监听事件

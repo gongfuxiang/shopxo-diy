@@ -17,7 +17,6 @@ const style_container = ref('');
 watch(
     props.value,
     (newVal, oldValue) => {
-        console.log(1);
         const new_content = newVal?.content || {};
         const new_style = newVal?.style || {};
         let border_content = `border-bottom-style: ${new_content?.styles || 'solid'};`;

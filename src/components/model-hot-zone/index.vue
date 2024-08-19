@@ -38,7 +38,6 @@ watch(
         img_height.value = new_content?.hot.img_height || 1;
         style_container.value = common_styles_computer(new_style.common_style);
         hot_data.value = new_content?.hot?.data || [];
-        console.log(1);
     },
     { immediate: true, deep: true }
 );

@@ -5,7 +5,7 @@
             <div class="search">
                 <el-input v-model="search_value" placeholder="请输入搜索内容" class="" @change="handle_search">
                     <template #suffix>
-                        <icon name="search" size="16" color="9"></icon>
+                        <icon name="search" size="16" color="9" class="c-pointer" @click="handle_search"></icon>
                     </template>
                 </el-input>
             </div>
@@ -13,10 +13,10 @@
         <div class="content">
             <el-scrollbar height="480px">
                 <div class="flex-col gap-30">
-                    <div v-for="item in base_data" :key="item.id">
+                    <div v-for="item in new_base_data" :key="item.type">
                         <div class="fw mb-15">{{ item.name }}</div>
                         <div class="flex-row flex-wrap gap-15">
-                            <div v-for="child in item.data" :key="child.id" class="item" :class="menu_active == item.id + '-' + child.id ? 'active' : ''" @click="menu_link_event(child, item.id)">{{ child.name }}</div>
+                            <div v-for="(child, index) in item.data" :key="index" class="item" :class="menu_active == item.page ? 'active' : ''" @click="menu_link_event(child)">{{ child.name }}</div>
                         </div>
                     </div>
                 </div>
@@ -25,6 +25,8 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { urlValueStore, urlValue, pageLinkList } from '@/store';
+const url_value_store = urlValueStore();
 const props = defineProps({
     // 重置
     reset: {
@@ -40,67 +42,52 @@ watch(
 );
 const modelValue = defineModel({ type: Object, default: {} });
 const search_value = ref('');
-const base_data = ref<linkData[]>([
-    {
-        id: 0,
-        name: '基础链接',
-        data: [
-            { id: 0, name: '首页', link: '首页' },
-            { id: 1, name: '商城分类', link: '商城分类' },
-            { id: 2, name: '购物车', link: '购物车' },
-            { id: 3, name: '分类商品列表', link: '分类商品列表' },
-            { id: 4, name: '退款列表', link: '退款列表' },
-            { id: 5, name: '我的订单', link: '我的订单' },
-            { id: 6, name: '文章列表', link: '文章列表' },
-            { id: 7, name: '供应商入驻', link: '供应商入驻' },
-        ],
-    },
-    {
-        id: 1,
-        name: '个人中心',
-        data: [
-            { id: 0, name: '付费会员', link: '付费会员' },
-            { id: 1, name: '收银页面', link: '收银页面' },
-            { id: 2, name: '我的订单', link: '我的订单' },
-            { id: 3, name: '我的收藏', link: '我的收藏' },
-            { id: 4, name: '我的地址', link: '我的地址' },
-            { id: 5, name: '我的优惠券', link: '我的优惠券' },
-            { id: 6, name: '我的消息', link: '我的消息' },
-            { id: 7, name: '我的资料', link: '我的资料' },
-            { id: 8, name: '我的积分', link: '我的积分' },
-            { id: 9, name: '我的余额', link: '我的余额' },
-            { id: 10, name: '我的红包', link: '我的红包' },
-        ],
-    },
-    {
-        id: 2,
-        name: '分销',
-        data: [
-            { id: 0, name: '分销中心', link: '分销中心' },
-            { id: 1, name: '分销订单', link: '分销订单' },
-            { id: 2, name: '分销商品', link: '分销商品' },
-            { id: 3, name: '分销提现', link: '分销提现' },
-            { id: 4, name: '分销佣金', link: '分销佣金' },
-            { id: 5, name: '分销设置', link: '分销设置' },
-            { id: 6, name: '分销关系', link: '分销关系' },
-            { id: 7, name: '分销商列表', link: '分销商列表' },
-            { id: 8, name: '分销商等级', link: '分销商等级' },
-            { id: 9, name: '分销商统计', link: '分销商统计' },
-            { id: 10, name: '分销商提现', link: '分销商提现' },
-        ],
-    },
-]);
+const base_data = ref<pageLinkList[]>([]);
+const new_base_data = ref<pageLinkList[]>([]);
+onMounted(() => {
+    // 过滤url_value_store.url_value.page_link_list中的type为shop的data的数据，只保留data数组
+    base_data.value = url_value_store.url_value.page_link_list.filter((item: any) => {
+        if (item.type == 'shop') {
+            return item.data;
+        }
+    });
+    new_base_data.value = base_data.value[0].data;
+});
+
 const handle_search = () => {
-    console.log(search_value.value);
+    // 根据关键词过滤new_base_data数据,如果==父级 显示父级和父级下的所有子级数据，如果==子级则显示该子级数据和父级
+    let bool = false;
+    if (search_value.value) {
+        new_base_data.value = new_base_data.value.filter((item: any) => {
+            if (item.name == search_value.value) {
+                bool = true;
+                console.log(1);
+                return item;
+            }
+        });
+        if (!true) {
+            new_base_data.value = new_base_data.value.filter((item: any) => {
+                item.filter((child: any) => {
+                    if (child.name == search_value.value) {
+                        bool = true;
+                        return child;
+                    }
+                });
+            });
+        }
+    } else {
+        new_base_data.value = base_data.value[0].data;
+    }
+    console.log(new_base_data.value);
 };
 const menu_active = ref('');
 const emit = defineEmits(['update:link']);
-const menu_link_event = (item: linkData, parent_id: number | undefined) => {
-    if (`${parent_id}-${item.id}` == menu_active.value) {
+const menu_link_event = (item: any) => {
+    if (item.page == menu_active.value) {
         menu_active.value = '';
         modelValue.value = {};
     } else {
-        menu_active.value = `${parent_id}-${item.id}`;
+        menu_active.value = item.page;
         modelValue.value = item;
     }
 };

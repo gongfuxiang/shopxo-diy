@@ -1,6 +1,6 @@
 <!-- 上传组件 -->
 <template>
-    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" append-to-body @close="close_dialog">
+    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body @close="close_dialog">
         <template #header>
             <div class="title center re">
                 <div class="tc size-16 fw">{{ upload_type_name }}上传</div>
@@ -12,7 +12,7 @@
                     <el-radio-group v-model="form.type" @change="upload_type_change">
                         <el-radio value="loc">本地上传</el-radio>
                         <el-radio value="scan">扫码上传</el-radio>
-                        <el-radio v-if="type !== 'file'" value="web">网络上传</el-radio>
+                        <el-radio value="web">网络上传</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="上传至分组" prop="category_id">
@@ -38,7 +38,7 @@
                                 <div class="table-cell">文件名</div>
                                 <div class="table-cell">文件大小</div>
                                 <div class="table-cell">上传状态</div>
-                                <div class="table-cell-oprate">操作</div>
+                                <div class="table-cell-operate">操作</div>
                             </div>
                         </div>
                         <div id="dropzone" @dragover.prevent="handle_drag_in" @dragenter="handle_drag_in" @dragleave="handle_drag_leave" @drop.prevent="handle_drop">
@@ -73,7 +73,7 @@
                                             </div>
                                             <div class="table-cell">{{ annex_size_to_unit(item.file.size) }}</div>
                                             <div class="table-cell" :class="item.status">{{ item.status == 'loading' ? '上传中' : item.status == 'success' ? '上传成功' : item.status == 'error' ? '上传失败' : '等待上传' }}{{ item.status == 'loading' ? '(' + item.progress + '%)' : '' }}</div>
-                                            <div class="table-cell-oprate" @click="del_upload(index)">移除</div>
+                                            <div class="table-cell-operate" @click="del_upload(index)">移除</div>
                                         </div>
                                     </div>
                                 </div>
@@ -98,7 +98,7 @@
                             <div class="table-row">
                                 <div class="table-cell">文件名</div>
                                 <div class="table-cell">文件大小</div>
-                                <div class="table-cell-oprate">操作</div>
+                                <div class="table-cell-operate">操作</div>
                             </div>
                         </div>
                         <el-scrollbar height="224px">
@@ -129,7 +129,7 @@
                                         <div class="desc">{{ item.title }}</div>
                                     </div>
                                     <div class="table-cell">{{ annex_size_to_unit(item.size) }}</div>
-                                    <div class="table-cell-oprate" @click="del_already_upload(item.id, index)">删除</div>
+                                    <div class="table-cell-operate" @click="del_already_upload(item.id, index)">删除</div>
                                 </div>
                             </div>
                         </el-scrollbar>
@@ -157,8 +157,8 @@
 </template>
 <script lang="ts" setup>
 import UploadAPI, { Tree } from '@/api/upload';
-import { uploadrStore } from '@/store';
-const upload_store = uploadrStore();
+import { uploadStore } from '@/store';
+const upload_store = uploadStore();
 import type { UploadFile, UploadFiles, UploadUserFile, FormRules, FormInstance } from 'element-plus';
 import { annex_size_to_unit, ext_name, get_math } from '@/utils';
 import { ext_img_name_list, ext_video_name_list, ext_file_name_list, ext_file_name_list_map } from './index';
@@ -634,7 +634,7 @@ const close_dialog = () => {
                         width: 0;
                     }
                 }
-                .table-cell-oprate {
+                .table-cell-operate {
                     padding: 1rem;
                     width: 5rem;
                     cursor: pointer;
@@ -647,10 +647,10 @@ const close_dialog = () => {
         }
         .table-body {
             .table-cell,
-            .table-cell-oprate {
+            .table-cell-operate {
                 padding: 1.5rem 1rem !important;
             }
-            .table-cell-oprate {
+            .table-cell-operate {
                 color: $cr-primary;
             }
         }
