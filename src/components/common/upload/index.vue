@@ -15,7 +15,7 @@
             <div class="left-content">
                 <div class="flex-row align-c gap-10 mb-10">
                     <el-input v-model="search_filter" placeholder="请输入分类名称">
-                        <template #suffix>
+                        <template #prefix>
                             <icon name="search" size="18"></icon>
                         </template>
                     </el-input>
@@ -132,7 +132,7 @@
                         </div>
                     </div>
                     <div class="mt-10 flex-row jc-e">
-                        <el-pagination :current-page="page" :page-size="21" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="current_page_change" />
+                        <el-pagination :current-page="page" :page-size="30" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="current_page_change" />
                     </div>
                 </div>
             </div>
@@ -307,7 +307,7 @@ const all_tree = {
 const type_data_list = ref<Tree[]>([]);
 // 查询分类列表
 const get_tree = () => {
-    if (!upload_store.is_upload_api) {
+    if (!upload_store.is_upload_api && upload_store.category.length === 0) {
         upload_store.set_is_upload_api(true);
         UploadAPI.getTree()
             .then((res) => {
@@ -407,8 +407,11 @@ const search_name = ref('');
 const upload_list = ref<uploadList[]>([]);
 // 附件列表
 const get_attachment_list = (type?: string) => {
+    if (type) {
+        page.value = 1;
+    }
     const new_data = {
-        page: type ? 1 : page.value,
+        page: page.value,
         type: upload_type.value == 'img' ? 'image' : upload_type.value == 'video' ? 'video' : upload_type.value == 'file' ? 'file' : '',
         keywords: search_name.value,
         category_id: category_id.value,
