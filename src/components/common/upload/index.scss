@@ -166,11 +166,16 @@
     }
 }
 
+.tree-operate-btn {
+    color: #999;
+    &:hover {
+        color: $cr-primary;
+    }
+}
 .tree-operate {
     .item {
         transition: all 0.3s linear;
         &:hover {
-            background-color: #f5f7fa;
             color: $cr-primary;
         }
     }

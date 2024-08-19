@@ -29,7 +29,9 @@
                                 <div v-if="data.id" class="flex-row gap-10 cr-9 category-operate c-pointer">
                                     <el-popover placement="bottom" width="70" trigger="hover">
                                         <template #reference>
-                                            <icon name="ellipsis" size="14"></icon>
+                                            <div class="tree-operate-btn">
+                                                <icon name="ellipsis" size="14"></icon>
+                                            </div>
                                         </template>
                                         <div class="flex-col gap-12 tree-operate">
                                             <div v-if="data.pid == 0" class="flex-row gap-5 c-pointer w item" @click.stop="append_type_event(data)"><icon class="icon" name="add" size="12"></icon>新增</div>
