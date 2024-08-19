@@ -9,7 +9,7 @@ const service = axios.create({
     timeout: 50000,
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
 });
-
+console.log('321');
 // 请求拦截器
 service.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
