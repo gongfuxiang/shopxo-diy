@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="dialog_visible_category_oprate" class="radius-lg" width="500" draggable append-to-body>
+    <el-dialog v-model="dialog_visible_category_operate" class="radius-lg" width="500" draggable append-to-body>
         <template #header>
             <div class="title center re">
                 <div class="tc size-16 fw">{{ type == 'add' ? '添加' : '编辑' }}附件分类</div>
@@ -60,7 +60,7 @@ const props = defineProps({
         default: '',
     },
 });
-const dialog_visible_category_oprate = defineModel({ type: Boolean, default: false });
+const dialog_visible_category_operate = defineModel({ type: Boolean, default: false });
 const form = ref<Tree>({
     id: '',
     pid: '',
@@ -71,7 +71,7 @@ const form = ref<Tree>({
     items: [],
 });
 watch(
-    () => dialog_visible_category_oprate.value,
+    () => dialog_visible_category_operate.value,
     (newValue) => {
         if (newValue && props.type !== 'add') {
             form.value = cloneDeep(props.value);
@@ -107,7 +107,7 @@ onMounted(() => {
 });
 
 const cancel_event = (formEl: FormInstance | undefined) => {
-    dialog_visible_category_oprate.value = false;
+    dialog_visible_category_operate.value = false;
     formEl?.resetFields();
 };
 const emit = defineEmits(['update:modelValue', 'confirm']);

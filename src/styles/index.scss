@@ -170,3 +170,7 @@ div:focus {
         right: -1.6rem;
     }
 }
+
+.el-popover.el-popper {
+    min-width: 5rem;
+}

@@ -6,7 +6,7 @@
         .el-tree {
             --el-tree-node-content-height: 40px;
         }
-        .category-oprate {
+        .category-operate {
             .icon:hover {
                 color: $cr-primary;
             }
@@ -53,7 +53,7 @@
                                 opacity: 1;
                             }
                         }
-                        .oprate {
+                        .operate {
                             position: absolute;
                             bottom: 0rem;
                             left: 0;
@@ -61,7 +61,7 @@
                             z-index: 1;
                             height: 2.4rem;
                             overflow: hidden;
-                            .oprate-content {
+                            .operate-content {
                                 opacity: 0;
                                 transition: all 0.5s linear;
                                 position: absolute;
@@ -74,7 +74,7 @@
                                 border-bottom-right-radius: 0.4rem;
                                 height: 2.4rem;
                             }
-                            .oprate-icon {
+                            .operate-icon {
                                 position: relative;
                                 &::before {
                                     content: '';
@@ -106,7 +106,7 @@
                     line-height: 2.8rem;
                 }
                 &:hover {
-                    .oprate-content {
+                    .operate-content {
                         opacity: 1 !important;
                         bottom: 0 !important;
                     }
@@ -163,5 +163,15 @@
         right: -6px;
         z-index: 1;
         line-height: normal;
+    }
+}
+
+.tree-operate {
+    .item {
+        transition: all 0.3s linear;
+        &:hover {
+            background-color: #f5f7fa;
+            color: $cr-primary;
+        }
     }
 }

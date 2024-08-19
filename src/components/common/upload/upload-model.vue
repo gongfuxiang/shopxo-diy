@@ -38,7 +38,7 @@
                                 <div class="table-cell">文件名</div>
                                 <div class="table-cell">文件大小</div>
                                 <div class="table-cell">上传状态</div>
-                                <div class="table-cell-oprate">操作</div>
+                                <div class="table-cell-operate">操作</div>
                             </div>
                         </div>
                         <div id="dropzone" @dragover.prevent="handle_drag_in" @dragenter="handle_drag_in" @dragleave="handle_drag_leave" @drop.prevent="handle_drop">
@@ -73,7 +73,7 @@
                                             </div>
                                             <div class="table-cell">{{ annex_size_to_unit(item.file.size) }}</div>
                                             <div class="table-cell" :class="item.status">{{ item.status == 'loading' ? '上传中' : item.status == 'success' ? '上传成功' : item.status == 'error' ? '上传失败' : '等待上传' }}{{ item.status == 'loading' ? '(' + item.progress + '%)' : '' }}</div>
-                                            <div class="table-cell-oprate" @click="del_upload(index)">移除</div>
+                                            <div class="table-cell-operate" @click="del_upload(index)">移除</div>
                                         </div>
                                     </div>
                                 </div>
@@ -98,7 +98,7 @@
                             <div class="table-row">
                                 <div class="table-cell">文件名</div>
                                 <div class="table-cell">文件大小</div>
-                                <div class="table-cell-oprate">操作</div>
+                                <div class="table-cell-operate">操作</div>
                             </div>
                         </div>
                         <el-scrollbar height="224px">
@@ -129,7 +129,7 @@
                                         <div class="desc">{{ item.title }}</div>
                                     </div>
                                     <div class="table-cell">{{ annex_size_to_unit(item.size) }}</div>
-                                    <div class="table-cell-oprate" @click="del_already_upload(item.id, index)">删除</div>
+                                    <div class="table-cell-operate" @click="del_already_upload(item.id, index)">删除</div>
                                 </div>
                             </div>
                         </el-scrollbar>
@@ -634,7 +634,7 @@ const close_dialog = () => {
                         width: 0;
                     }
                 }
-                .table-cell-oprate {
+                .table-cell-operate {
                     padding: 1rem;
                     width: 5rem;
                     cursor: pointer;
@@ -647,10 +647,10 @@ const close_dialog = () => {
         }
         .table-body {
             .table-cell,
-            .table-cell-oprate {
+            .table-cell-operate {
                 padding: 1.5rem 1rem !important;
             }
-            .table-cell-oprate {
+            .table-cell-operate {
                 color: $cr-primary;
             }
         }

@@ -26,14 +26,16 @@
                         <template #default="{ node, data }">
                             <div class="custom-tree-node flex-row jc-sb gap-10 align-c w pr-10" :class="data.is_enable == 0 || node.parent.data.is_enable == 0 ? 'disabled bg-red' : ''">
                                 <div class="flex-1 flex-width text-line-1 block">{{ data.name }}</div>
-                                <div v-if="data.id" class="flex-row gap-10 cr-9 category-oprate c-pointer">
-                                    <el-popover placement="right" :width="400" trigger="click">
+                                <div v-if="data.id" class="flex-row gap-10 cr-9 category-operate c-pointer">
+                                    <el-popover placement="bottom" width="70" trigger="hover">
                                         <template #reference>
-                                            <icon name="ellipsis" size="14" color="9"></icon>
+                                            <icon name="ellipsis" size="14"></icon>
                                         </template>
-                                        <div v-if="data.pid == 0" @click.stop="append_type_event(data)"><icon class="icon" name="add" size="12"></icon>新增</div>
-                                        <div @click.stop="edit_type_event(data)"><icon class="icon" name="edit" size="12"></icon>编辑</div>
-                                        <div @click.stop="remove_type_event(node, data)"><icon class="icon" name="del" size="12"></icon>删除</div>
+                                        <div class="flex-col gap-12 tree-operate">
+                                            <div v-if="data.pid == 0" class="flex-row gap-5 c-pointer w item" @click.stop="append_type_event(data)"><icon class="icon" name="add" size="12"></icon>新增</div>
+                                            <div class="flex-row gap-5 c-pointer w item" @click.stop="edit_type_event(data)"><icon class="icon" name="edit" size="12"></icon>编辑</div>
+                                            <div class="flex-row gap-5 c-pointer w item" @click.stop="remove_type_event(node, data)"><icon class="icon" name="del" size="12"></icon>删除</div>
+                                        </div>
                                     </el-popover>
                                 </div>
                             </div>
@@ -43,7 +45,7 @@
             </div>
             <div class="right-content flex-1 flex-width">
                 <div class="flex-row jc-sb align-c mb-15">
-                    <div class="right-oprate flex-row">
+                    <div class="right-operate flex-row">
                         <el-button type="primary" plain @click="upload_model_open">上传{{ upload_type_name }}</el-button>
                         <el-button @click="mult_del_event">删除{{ upload_type_name }}</el-button>
                         <!-- <el-cascader :show-all-levels="false" clearable></el-cascader> -->
@@ -89,12 +91,12 @@
                                         <div class="check-icon fill flex-row jc-c align-c" :class="view_list_value.findIndex((i) => i.id === item.id) !== -1 ? 'active' : ''">
                                             <icon name="true-o" color="f" size="26"></icon>
                                         </div>
-                                        <div class="oprate">
-                                            <div class="oprate-content flex-row jc-sa align-c">
+                                        <div class="operate">
+                                            <div class="operate-content flex-row jc-sa align-c">
                                                 <div class="flex-1 tc c-pointer" @click.stop="edit_event(item, index)">
                                                     <icon name="edit" class="flex-1" size="14" color="f"></icon>
                                                 </div>
-                                                <div v-if="upload_type !== 'file'" class="oprate-icon flex-1 tc c-pointer" @click.stop="preview_event(item, index)">
+                                                <div v-if="upload_type !== 'file'" class="operate-icon flex-1 tc c-pointer" @click.stop="preview_event(item, index)">
                                                     <icon name="eye" size="14" color="f"></icon>
                                                 </div>
                                                 <div class="flex-1 tc c-pointer" @click.stop="del_event(item)">
