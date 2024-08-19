@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="dialog_visible_category_oprate" class="radius-lg" width="500" append-to-body>
+    <el-dialog v-model="dialog_visible_category_oprate" class="radius-lg" width="500" draggable append-to-body>
         <template #header>
             <div class="title center re">
                 <div class="tc size-16 fw">{{ type == 'add' ? '添加' : '编辑' }}附件分类</div>
@@ -136,4 +136,10 @@ const confirm_event = async (formEl: FormInstance | undefined) => {
     });
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.el-dialog__header {
+    .title {
+        height: 2.8rem;
+    }
+}
+</style>

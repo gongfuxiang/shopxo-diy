@@ -1,6 +1,6 @@
 <!-- 上传组件 -->
 <template>
-    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" append-to-body @close="close_dialog">
+    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body @close="close_dialog">
         <template #header>
             <div class="title center re">
                 <div class="tc size-16 fw">{{ upload_type_name }}上传</div>
@@ -12,7 +12,7 @@
                     <el-radio-group v-model="form.type" @change="upload_type_change">
                         <el-radio value="loc">本地上传</el-radio>
                         <el-radio value="scan">扫码上传</el-radio>
-                        <el-radio v-if="type !== 'file'" value="web">网络上传</el-radio>
+                        <el-radio value="web">网络上传</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="上传至分组" prop="category_id">

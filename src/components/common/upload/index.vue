@@ -1,6 +1,6 @@
 <!-- 上传组件 -->
 <template>
-    <el-dialog v-model="dialog_visible" class="radius-lg" width="1168" append-to-body>
+    <el-dialog v-model="dialog_visible" class="radius-lg" width="1168" draggable append-to-body>
         <template #header>
             <div class="title re">
                 <el-radio-group v-model="upload_type" is-button @change="upload_type_change">
@@ -27,15 +27,14 @@
                             <div class="custom-tree-node flex-row jc-sb gap-10 align-c w pr-10" :class="data.is_enable == 0 || node.parent.data.is_enable == 0 ? 'disabled bg-red' : ''">
                                 <div class="flex-1 flex-width text-line-1 block">{{ data.name }}</div>
                                 <div v-if="data.id" class="flex-row gap-10 cr-9 category-oprate c-pointer">
-                                    <div v-if="data.pid == 0" @click.stop="append_type_event(data)">
-                                        <icon class="icon" name="add" size="12"></icon>
-                                    </div>
-                                    <div @click.stop="edit_type_event(data)">
-                                        <icon class="icon" name="edit" size="12"></icon>
-                                    </div>
-                                    <div @click.stop="remove_type_event(node, data)">
-                                        <icon class="icon" name="del" size="12"></icon>
-                                    </div>
+                                    <el-popover placement="right" :width="400" trigger="click">
+                                        <template #reference>
+                                            <icon name="ellipsis" size="14" color="9"></icon>
+                                        </template>
+                                        <div v-if="data.pid == 0" @click.stop="append_type_event(data)"><icon class="icon" name="add" size="12"></icon>新增</div>
+                                        <div @click.stop="edit_type_event(data)"><icon class="icon" name="edit" size="12"></icon>编辑</div>
+                                        <div @click.stop="remove_type_event(node, data)"><icon class="icon" name="del" size="12"></icon>删除</div>
+                                    </el-popover>
                                 </div>
                             </div>
                         </template>
@@ -55,7 +54,7 @@
                     <div class="right-search">
                         <el-input v-model="search_name" :placeholder="'请输入' + upload_type_name + '名称'" @change="get_attachment_list('1')">
                             <template #suffix>
-                                <icon name="search" size="18"></icon>
+                                <icon name="search" size="18" class="c-pointer" @click="get_attachment_list('1')"></icon>
                             </template>
                         </el-input>
                     </div>
@@ -269,6 +268,7 @@ const upload_type_name = computed(() => {
 // 切换图片/视频/文件
 const upload_type_change = (type: any) => {
     view_list_value.value = [];
+    get_attachment_list();
 };
 
 // 打开上传弹窗
@@ -492,6 +492,12 @@ const del_event = (item: uploadList) => {
             ElMessage.success('删除成功!');
             // 调用查询接口
             get_attachment_list();
+
+            // 过滤已删除的文件
+            view_list_value.value = view_list_value.value.filter((items: any) => {
+                return items.id !== item.id;
+            });
+            console.log(view_list_value.value);
         });
     });
 };
@@ -506,6 +512,7 @@ const mult_del_event = () => {
                 // 调用查询接口
                 get_attachment_list();
                 check_img_ids.value = '';
+                view_list_value.value = [];
             });
         });
     } else {
