@@ -7,6 +7,7 @@ export const text_com_data = {
     data_source_id: '',
     data_source_list: {},
     text_link: {},
+    is_rich_text: false,
     text_color: '#000',
     text_weight: 'normal',
     text_size: 12,

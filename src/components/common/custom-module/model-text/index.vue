@@ -1,6 +1,13 @@
 <template>
     <div class="img-outer re" :style="com_style">
-        <div :style="text_style">{{ form.text_title }}</div>
+        <div :style="text_style" class="break">
+            <template v-if="form.is_rich_text">
+                <div :innerHTML="form.text_title"></div>
+            </template>
+            <template v-else>
+                {{ form.text_title }}
+            </template>
+        </div>
     </div>
 </template>
 <script setup lang="ts">
@@ -46,4 +53,13 @@ const set_count = () => {
     }
 };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.break{
+    word-wrap: break-word;
+    word-break:break-all;
+}
+.rich-text-content {
+    white-space: normal;
+    word-break:break-all;
+}
+</style>

@@ -71,6 +71,7 @@
                             <!-- 已完成 -->
                             <div class="drag-btn drag-br" :data-index="index" @mousedown.stop="start_drag_btn_br(index, $event)"></div>
                             <div class="drag-btn drag-rc" :data-index="index" @mousedown.stop="start_drag_btn_rc(index, $event)"></div>
+                            
                         </div>
                     </div>
                 </div>
@@ -560,13 +561,14 @@ defineExpose({
 <style lang="scss" scoped>
 @import 'index.scss';
 .model-drag {
-    overflow-y: auto;
+    overflow-y: scroll;
     .model-wall {
         width: 39rem;
         background: #fff;
         margin: 0 auto;
         .drag-area {
             height: v-bind(drag_area_height);
+            margin: 0.5rem 0; // 用于将上边框和下边框显示出来
             user-select: none;
             cursor: crosshair;
         }
