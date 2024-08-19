@@ -110,7 +110,7 @@
 </template>
 <script setup lang="ts">
 import { location_compute } from '@/utils';
-import { pick } from 'lodash';
+import { pick, cloneDeep } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
@@ -142,7 +142,9 @@ watch(
     (val) => {
         diy_data.value.location.x = location_compute(form.value.com_width, val.location.x, 390);
         diy_data.value.location.y = location_compute(form.value.com_height, val.location.y, center_height.value);
-        diy_data.value.location.staging_y = diy_data.value.location.y;
+        diy_data.value.location.record_x = location_compute(form.value.com_width, val.location.record_x, 390);
+        diy_data.value.location.record_y = location_compute(form.value.com_height, val.location.record_y, center_height.value);
+        diy_data.value.location.staging_y = location_compute(form.value.com_height, val.location.staging_y, center_height.value);
 
         form.value.staging_height = form.value.com_height;
     },

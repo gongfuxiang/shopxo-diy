@@ -47,42 +47,42 @@ const props = defineProps({
 });
 const predefine_colors = ref(['#ff4500', '#ff8c00', '#ffd700', '#90ee90', '#00ced1', '#1e90ff', '#c71585', 'rgba(255, 69, 0, 0.68)', 'rgb(255, 120, 0)', 'hsv(51, 100, 98)', 'hsva(120, 40, 94, 0.5)', 'hsl(181, 100%, 37%)', 'hsla(209, 100%, 56%, 0.73)', '#c7158577']);
 const direction_type = ref(props.type);
-let color_list = reactive(
-    //将数组['#fff']改为对象数组
-    props.value.map((item: any) => {
+let state = reactive({
+    color_list: props.value.map((item: any) => {
         return {
             color: item.color,
             color_percentage: item.color_percentage,
         };
     })
-);
+});
+const { color_list } = toRefs(state);
 const emit = defineEmits(['update:value']);
 const direction_type_change = (type: any) => {
     direction_type.value = type.toString();
     update_value();
 };
 const reset_event = () => {
-    color_list = [{ color: '', color_percentage: '' }];
+    color_list.value = [{ color: '', color_percentage: '' }];
     update_value();
 };
 const del_event = (index: number) => {
-    color_list.splice(index, 1);
+    color_list.value.splice(index, 1);
     update_value();
 };
 const add_event = () => {
-    color_list.push({ color: '', color_percentage: '' });
+    color_list.value.push({ color: '', color_percentage: '' });
     update_value();
 };
 const change_color = (index: number, color: string | null) => {
-    color_list[index].color = color;
+    color_list.value[index].color = color;
     update_value();
 };
 const change_color_percentage = (index: number, percentage: string | null) => {
-    color_list[index].color_percentage = percentage;
+    color_list.value[index].color_percentage = percentage;
     update_value();
 };
 const update_value = () => {
-    emit('update:value', color_list, direction_type.value);
+    emit('update:value', color_list.value, direction_type.value);
 };
 </script>
 <style lang="scss" scoped>

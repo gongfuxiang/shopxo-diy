@@ -6,7 +6,7 @@
                 <el-radio value="img">图片</el-radio>
             </el-radio-group>
         </el-form-item>
-        <template v-if="form.data_type === 'commodity'">
+        <template v-if="form.data_type === 'commodity' && isShowTitle">
             <el-form-item label="主标题">
                 <el-input v-model="form.heading_title" placeholder="请输入主标题"></el-input>
             </el-form-item>
@@ -50,6 +50,11 @@
             </template>
         </drag>
         <el-button class="mtb-20 w" @click="product_list_add">+添加</el-button>
+        <el-form-item label="展示信息">
+            <el-checkbox-group v-model="form.is_show">
+                <el-checkbox v-for="item in list_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
+            </el-checkbox-group>
+        </el-form-item>
     </card-container>
 </template>
 <script setup lang="ts">
@@ -60,7 +65,13 @@ const props = defineProps({
         type: Object,
         default: () => {},
     },
+    isShowTitle: {
+        type: Boolean,
+        default: true,
+    }
 });
+
+const list_show_list = [{ name: '商品名称', value: '0' }, { name: '商品售价', value: '1' }]
 
 const form = ref(props.value);
 

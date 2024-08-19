@@ -3,7 +3,7 @@
         <el-form :model="form" label-width="80">
             <card-container class="mb-8">
                 <div class="mb-12">展示风格</div>
-                <el-form-item label="选择风格">
+                <el-form-item label="选择风格" label-width="60">
                     <div class="flex align-c flex-wrap gap-10">
                         <div v-for="(item, index) in style_list" :key="index" :class="['flex-item', {'flex-item-actived': form.style_actived === index }]" @click="style_click(index)">
                             <icon :name="item" :color="`${ form.style_actived === index ? '#E1EEF9' : '#EDEDED'}`" size="48"></icon>
@@ -21,6 +21,7 @@
                                 <div class="cube-selected-text">
                                     <template v-if="[0, 1].includes(index)">375 x 375 像素</template> 
                                     <template v-else>250 x 375 像素</template>
+                                    <div>{{ data_title(item) }}</div>
                                 </div>
                             </div>
                         </div>
@@ -32,10 +33,10 @@
             </card-container>
             <el-tabs v-model="tabs_name" class="content-tabs">
                 <el-tab-pane label="内容设置" name="content">
-                    <tabs-content :value="form.data_magic_list[selected_active].data_content"></tabs-content>
+                    <tabs-content :value="form.data_magic_list[selected_active].data_content" :is-show-title="is_show_title"></tabs-content>
                 </el-tab-pane>
                 <el-tab-pane label="样式设置" name="styles">
-                    <tabs-styles :value="form.data_magic_list[selected_active].data_style"></tabs-styles>
+                    <tabs-styles :value="form.data_magic_list[selected_active].data_style" :content="form.data_magic_list[selected_active].data_content" :is-show-title="is_show_title"></tabs-styles>
                 </el-tab-pane>
             </el-tabs>
         </el-form>
@@ -58,15 +59,22 @@ const data_style = {
     direction: '180deg',
     background_img_style: 2,
     background_img_url: [],
-    is_roll: true,
+    is_roll: false,
     rotation_direction: 'horizontal',
     interval_time: 2,
     heading_color: '#000',
     heading_typeface: 'normal',
-    heading_size: 12,
-    subtitle_color: '#000',
+    heading_size: 20,
+    subtitle_color: '#FF852A',
     subtitle_typeface: 'normal',
-    subtitle_size: 12,
+    subtitle_size: 14,
+    chunk_padding: {
+        padding: 0,
+        padding_top: 20, 
+        padding_bottom: 20, 
+        padding_left: 15,
+        padding_right: 15,
+    },
     is_show: true,
     indicator_style: 'dot',
     indicator_location: 'center',
@@ -84,9 +92,10 @@ const data_style = {
 // 每个小模块独立的内容
 const data_content = {
     data_type: 'commodity',
-    heading_title: '',
-    subtitle: '',
+    heading_title: '主标题',
+    subtitle: '副标题',
     product_list:[],
+    is_show: ['0', '1'],
     img_list:[
         {
             carousel_img: [],
@@ -97,15 +106,15 @@ const data_content = {
 
 // 不同风格的数据
 const style_show_list = [
-    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2} }, { start: {x: 1, y: 3}, end: {x: 4, y: 4} }], // 风格1
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1}, end: {x: 4, y: 4} }], // 风格2
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2} }, { start: {x: 3, y: 1}, end: {x: 4, y: 2} }, { start: {x: 1, y: 3}, end: {x: 4, y: 4} }],// 风格3
-    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2} }, { start: {x: 1, y: 3}, end: {x: 2, y: 4} }, { start: {x: 3, y: 3}, end: {x: 4, y: 4} }],// 风格4
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1}, end: {x: 4, y: 2} }, { start: {x: 3, y: 3}, end: {x: 4, y: 4} }],// 风格5
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2} }, { start: {x: 1, y: 3}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1}, end: {x: 4, y: 4} }],// 风格6
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2} }, { start: {x: 3, y: 1}, end: {x: 4, y: 2} }, { start: {x: 1, y: 3}, end: {x: 2, y: 4} }, { start: {x: 3, y: 3}, end: {x: 4, y: 4} }],// 风格7
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1}, end: {x: 4, y: 2} }, { start: {x: 3, y: 3}, end: {x: 3, y: 4} }, { start: {x: 4, y: 3}, end: {x: 4, y: 4} }, { start: {x: 4, y: 3}, end: {x: 4, y: 4} }],// 风格8
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4} }, { start: {x: 3, y: 1}, end: {x: 4, y: 2} }, { start: {x: 3, y: 3}, end: {x: 3, y: 4} }, { start: {x: 4, y: 3}, end: {x: 4, y: 4} }],// 风格9
+    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'row', outerflex: 'row' }, { start: {x: 1, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'row', outerflex: 'row'}], // 风格1
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 3, flex: 'row', outerflex: 'col' }, { start: {x: 3, y: 1}, end: {x: 4, y: 4}, num: 3, flex: 'row', outerflex: 'col' }], // 风格2
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 1, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'row', outerflex: 'row' }],// 风格3
+    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'row', outerflex: 'row' }, { start: {x: 1, y: 3}, end: {x: 2, y: 4}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'col', outerflex: 'row' }],// 风格4
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 3, flex: 'row', outerflex: 'col' }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'col', outerflex: 'row' }],// 风格5
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 1, y: 3}, end: {x: 2, y: 4}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 1}, end: {x: 4, y: 4}, num: 3, flex: 'row', outerflex: 'col' }],// 风格6
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 1, y: 3}, end: {x: 2, y: 4}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'col', outerflex: 'row' }],// 风格7
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 3}, end: {x: 3, y: 4}, num: 1, flex: 'col', outerflex: 'row' }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col', outerflex: 'row' }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col', outerflex: 'row' }],// 风格8
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 3, flex: 'row', outerflex: 'col' }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 3}, end: {x: 3, y: 4}, num: 1, flex: 'col', outerflex: 'row' }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col', outerflex: 'row' }],// 风格9
 ]
 const tabs_name = ref('content');
 const state = reactive({
@@ -142,8 +151,9 @@ const handleResize = () => {
     }
 }
 //#endregion
+//#region 选中切换数据
 const selected_active = ref(0);
-
+// 切换风格
 const style_click = (index: number) => {
     form.value.data_magic_list = magic_list(index);
 
@@ -151,23 +161,48 @@ const style_click = (index: number) => {
     selected_active.value = 0;
     tabs_name.value = 'content';
 }
+// 规整复制的数据
 const magic_list = (index: number) => {
-    return cloneDeep(style_show_list[index]).map((item) => ({
+    return cloneDeep(style_show_list[index]).map((item, map_index) => ({
         ...item,
         actived_index: 0,
         data_content: cloneDeep(data_content),
         data_style: {
             ...cloneDeep(data_style),
+            chunk_padding: {
+                padding: show_padding(index, map_index) ? 10 : 0,
+                padding_top: show_padding(index, map_index) ? 10 : 20,
+                padding_bottom: show_padding(index, map_index) ? 10 : 20,
+                padding_left: show_padding(index, map_index) ? 10 : 15,
+                padding_right: show_padding(index, map_index) ? 10 : 15,
+            },
             carouselKey: get_math(),
         }
     }));
 }
 
-// 选中的点击事件
+// 选中风格内不同的块
 const selected_click = (index: number) => {
     selected_active.value = index;
     tabs_name.value = 'content';
 }
+const show_padding = (index:number, map_index:number) => {
+    return index == 7 && ![0, 1].includes(map_index)
+}
+//#endregion
+const data_title = (item: any) => {
+    let title = `共有`;
+    if (item.data_content) {
+        if (item.data_content.data_type == 'commodity') {
+            title += `${ item.data_content.product_list.length }个商品`;
+        } else {
+            title += `${ item.data_content.img_list.length }个图片`;
+        }
+    }
+    return title;
+};
+// 除了第8个风格下的后3个不显示标题，其他的都显示
+const is_show_title = computed(() => !(form.value.style_actived == 7 && ![0, 1].includes(selected_active.value)));
 </script>
 <style lang="scss" scoped>
 .card.mb-8 {

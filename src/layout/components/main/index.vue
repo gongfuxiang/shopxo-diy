@@ -28,7 +28,7 @@
                 <!-- 页面设置 -->
                 <page-settings :show-page="page_data.show_tabs" :page-data="page_data" @page_settings="page_settings"></page-settings>
                 <!-- 拖拽区 -->
-                <div class="model-drag" ref="scrollTop">
+                <div ref="scrollTop" class="model-drag">
                     <div class="seat" style="background: #fff"></div>
                     <div class="model-wall" :style="content_style">
                         <div :style="'padding-bottom:' + footer_nav_counter_store.padding_footer + 'px;'">
@@ -166,6 +166,7 @@ const props = defineProps({
 const diy_data = ref(props.diyData);
 const page_data = ref(props.header);
 const footer_nav = ref(props.footer);
+const content_style = ref('');
 // 监听
 watch(
     () => props.diyData,
@@ -173,12 +174,19 @@ watch(
         diy_data.value = newValue;
     }
 );
+// 监听
 watch(
     () => props.header,
     (newValue) => {
         page_data.value = newValue;
+        page_settings();
     }
 );
+watchEffect(() => {
+    const content = props.header.com_data?.content || {};
+    const container_common_styles = gradient_computer(content) + background_computer(content);
+    content_style.value = container_common_styles;
+});
 watch(
     () => props.footer,
     (newValue) => {
@@ -442,7 +450,7 @@ const activeCard = ref<HTMLElement | null>(null);
 const scroll = () => {
     nextTick(() => {
         // 获取当前选中的内容
-        activeCard.value = document.querySelector(".plug-in-table.plug-in-border");
+        activeCard.value = document.querySelector('.plug-in-table.plug-in-border');
         if (activeCard.value) {
             // 获取选中内容的位置
             const scrollY = activeCard.value.offsetTop;
@@ -455,13 +463,6 @@ const scroll = () => {
 };
 //#endregion
 //#region 页面设置 导出 导入
-const content_style = ref('');
-watch(page_data.value.com_data, (val) => {
-    const content = val?.content || {};
-    const container_common_styles = gradient_computer(content) + background_computer(content);
-
-    content_style.value = container_common_styles;
-});
 // 在组件挂载时默认执行
 onMounted(() => {
     page_settings();
@@ -477,6 +478,7 @@ const page_settings = () => {
             item.show_tabs = false;
         });
     }
+
     emits('rightUpdate', page_data.value, diy_data.value, page_data.value, footer_nav.value);
 };
 //导出

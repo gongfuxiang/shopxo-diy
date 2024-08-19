@@ -25,7 +25,9 @@
                 <div v-if="!isEmpty(diy_data)" class="flex-row flex-wrap gap-10">
                     <div v-for="(item, index) in diy_data" :key="index" class="item flex jc-sb align-c size-14 cr-3" :class="{ 'item-active': item.show_tabs }" @click="on_choose(index, item.show_tabs)">{{ item.name }}<icon name="close" color="3" size="10" class="c-pointer" @click="del(index)"></icon></div>
                 </div>
-                <NoData v-else :img-width="10"></NoData>
+                <div v-else class="w h flex jc-c align-c">
+                    <no-data></no-data>
+                </div>
             </div>
         </card-container>
     </div>
@@ -35,27 +37,41 @@
             <!-- 拖拽区 -->
             <div class="model-drag">
                 <div class="model-wall">
-                    <div class="drag-area re dropzone" @dragover.prevent @dragenter.prevent @drop="drop">
-                        <DraggableContainer v-if="draggable_container" :reference-line-visible="true" :disabled="false" reference-line-color="#ddd">
-                            <!-- @mouseover="on_choose(index)" -->
-                            <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="{ 'plug-in-show-tabs': item.show_tabs }" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :handles="['tl', 'tr', 'bl', 'br']" :x="item.location.x" :y="item.location.y" :parent="true" @mousedown="on_choose(index, item.show_tabs)" @click="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index)" @resize-end="resizingHandle($event, item.key, index)">
-                                <div v-if="item.show_tabs" class="plug-in-right" chosenClass="close">
-                                    <el-icon class="iconfont icon-del" @click.stop="del(index)" />
-                                    <el-icon class="iconfont icon-copy" @click.stop="copy(index)" />
-                                </div>
-                                <div :class="['main-content', { 'plug-in-border': item.show_tabs }]" :style="{ 'z-index': item.com_data.bottom_up ? 0 : 1 }">
-                                    <template v-if="item.key == 'text'">
-                                        <model-text :key="item.id" :value="item.com_data"></model-text>
-                                    </template>
-                                    <template v-else-if="item.key == 'img'">
-                                        <model-image :key="item.id" :value="item.com_data"></model-image>
-                                    </template>
-                                    <template v-else-if="item.key == 'auxiliary-line'">
-                                        <model-lines :key="item.id" :value="item.com_data"></model-lines>
-                                    </template>
-                                </div>
-                            </Vue3DraggableResizable>
-                        </DraggableContainer>
+                    <div ref="imgBoxRef" class="drag-area re dropzone" @dragover.prevent @dragenter.prevent @drop="drop">
+                        <div class="w h" @mousedown.prevent="start_drag" @mousemove.prevent="move_drag" @mouseup.prevent="end_drag">
+                            <DraggableContainer v-if="draggable_container" :reference-line-visible="true" :disabled="false" reference-line-color="#ddd" @selectstart.prevent @contextmenu.prevent @dragstart.prevent>
+                                <!-- @mouseover="on_choose(index)" -->
+                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="{ 'plug-in-show-tabs': item.show_tabs }" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index)" @resize-end="resizingHandle($event, item.key, index)">
+                                    <div v-if="item.show_tabs" class="plug-in-right" chosenClass="close">
+                                        <el-icon class="iconfont icon-del" @click.stop="del(index)" />
+                                        <el-icon class="iconfont icon-copy" @click.stop="copy(index)" />
+                                    </div>
+                                    <div :class="['main-content', { 'plug-in-border': item.show_tabs }]" :style="{ 'z-index': item.com_data.bottom_up ? 0 : 1 }">
+                                        <template v-if="item.key == 'text'">
+                                            <model-text :key="item.id" :value="item.com_data"></model-text>
+                                        </template>
+                                        <template v-else-if="item.key == 'img'">
+                                            <model-image :key="item.id" :value="item.com_data"></model-image>
+                                        </template>
+                                        <template v-else-if="item.key == 'auxiliary-line'">
+                                            <model-lines :key="item.id" :value="item.com_data"></model-lines>
+                                        </template>
+                                    </div>
+                                </Vue3DraggableResizable>
+                            </DraggableContainer>
+                            <div ref="areaRef" class="area" :style="init_drag_style"></div>
+                        </div>
+                        <div v-for="(item, index) in hot_list.data" :key="index" class="area-box" :style="rect_style(item.drag_start, item.drag_end)" @mousedown.stop="start_drag_area_box(index, $event)" @dblclick="dbl_drag_event(item, index)">
+                            <div class="del-btn" @click.stop="del_area_event(index)"><icon name="close"></icon></div>
+                            <div class="drag-btn drag-tl" :data-index="index" @mousedown.stop="start_drag_btn_tl(index, $event)"></div>
+                            <div class="drag-btn drag-tc" :data-index="index" @mousedown.stop="start_drag_btn_tc(index, $event)"></div>
+                            <div class="drag-btn drag-lc" :data-index="index" @mousedown.stop="start_drag_btn_lc(index, $event)"></div>
+                            <div class="drag-btn drag-bl" :data-index="index" @mousedown.stop="start_drag_btn_bl(index, $event)"></div>
+                            <div class="drag-btn drag-bc" :data-index="index" @mousedown.stop="start_drag_btn_bc(index, $event)"></div>
+                            <!-- 已完成 -->
+                            <div class="drag-btn drag-br" :data-index="index" @mousedown.stop="start_drag_btn_br(index, $event)"></div>
+                            <div class="drag-btn drag-rc" :data-index="index" @mousedown.stop="start_drag_btn_rc(index, $event)"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -65,6 +81,7 @@
 <script setup lang="ts">
 import { cloneDeep, isEmpty } from 'lodash';
 import { get_math } from '@/utils';
+import { text_com_data, img_com_data, line_com_data, isRectangleIntersecting } from "./index-default";
 // 删除
 const app = getCurrentInstance();
 //#region 传递参数和传出数据的处理
@@ -84,91 +101,17 @@ const components = reactive([
             {
                 key: 'text',
                 name: '文本',
-                com_data: {
-                    com_width: 150,
-                    com_height: 17,
-                    staging_height: 17,
-                    text_title: '文本',
-                    data_source_id: '',
-                    data_source_list: {},
-                    text_link: {},
-                    text_color: '#000',
-                    text_weight: 'normal',
-                    text_size: 12,
-                    text_option: 'none',
-                    text_location: 'left',
-                    text_padding: {
-                        padding: 0,
-                        padding_top: 0,
-                        padding_bottom: 0,
-                        padding_left: 0,
-                        padding_right: 0,
-                    },
-                    text_rotate: 0,
-                    border_show: false,
-                    border_color: '#FF5D5D',
-                    border_style: 'solid',
-                    border_radius: {
-                        radius: 0,
-                        radius_top_left: 0,
-                        radius_top_right: 0,
-                        radius_bottom_left: 0,
-                        radius_bottom_right: 0,
-                    },
-                    border_size: 1,
-                    com_bg: '',
-                    bottom_up: true,
-                },
+                com_data: text_com_data
             },
             {
                 key: 'img',
                 name: '图片',
-                com_data: {
-                    com_width: 50,
-                    com_height: 50,
-                    staging_height: 50,
-                    img_src: [],
-                    data_source_id: '',
-                    data_source_list: {},
-                    link: {},
-                    img_radius: {
-                        radius: 0,
-                        radius_top_left: 0,
-                        radius_top_right: 0,
-                        radius_bottom_left: 0,
-                        radius_bottom_right: 0,
-                    },
-                    img_width: 50,
-                    img_height: 50,
-                    img_rotate: 0,
-                    border_show: false,
-                    border_color: '#FF3F3F',
-                    border_style: 'dashed',
-                    border_radius: {
-                        radius: 0,
-                        radius_top_left: 0,
-                        radius_top_right: 0,
-                        radius_bottom_left: 0,
-                        radius_bottom_right: 0,
-                    },
-                    border_size: 1,
-                    bottom_up: true,
-                },
+                com_data: img_com_data,
             },
             {
                 key: 'auxiliary-line',
                 name: '线条',
-                com_data: {
-                    com_width: 306,
-                    com_height: 11,
-                    staging_height: 11,
-                    line_settings: 'horizontal',
-                    line_style: 'solid',
-                    line_width: 306,
-                    line_size: 1,
-                    line_color: '#000',
-                    bottom_up: true,
-                },
+                com_data: line_com_data,
             },
         ],
     },
@@ -253,42 +196,46 @@ watch(() => center_height.value, () => {
     data = diy_data.value;
     // 从 DOM 中删除组件
     draggable_container.value = false;
+    // 容器高度变化时，组件不绑定右侧数据
+    emits('rightUpdate', {});
     nextTick(() => {
         // 在 DOM 中添加组件
-        draggable_container.value = true;
         diy_data.value = data.map((item) => ({
             ...item,
+            show_tabs: false,
             location: {
                 x: item.location.x,
                 y: item.location.staging_y,
+                record_x: item.location.x,
+                record_y: item.location.staging_y,
                 staging_y: item.location.staging_y,
             },
             com_data: {
                 ...item.com_data,
                 com_height: item.com_data.staging_height,
-            }
+            },
         }));
+        draggable_container.value = true;
     });
 },{ immediate: true, deep: true });
 //#endregion
 //#region 左侧拖拽过来的处理
 let draggedItem = ref<any>({});
 const dragStart = (item: any, event: any) => {
+    // 初始化拖拽的数据
     draggedItem.value = {
         name: item.name,
         show_tabs: true,
         is_enable: true,
-        location: {
-            x: 0,
-            y: 0,
-            staging_y: 0,
-        },
+        location: { x: 0, y: 0, record_x: 0, record_y: 0, staging_y: 0},
         src: item.src,
         id: get_math(),
         key: item.key,
+        is_hot: false,
         com_data: cloneDeep(item.com_data),
     };
-    // event.dataTransfer.effectAllowed = 'none';
+    // 拖拽的时候清空热区
+    hot_list.data = [];
 };
 const dragEnd = () => {
     draggedItem.value = {};
@@ -299,34 +246,16 @@ const drop = (event: any) => {
         const com_height = draggedItem.value.com_data.com_height;
         let location_x = event.offsetX;
         let location_y = event.offsetY;
-        const mouse_width = com_width / 2;
-        const mouse_height = com_height / 2;
-        // 左边间距大于屏幕宽度
-        if (location_x - mouse_width < 0) {
-            location_x = 0;
-        } else {
-            location_x = location_x - mouse_width;
-        }
-        // 左右间距大于屏幕宽度
-        if (location_x + com_width > 390) {
-            location_x = 390 - com_width;
-        }
-        // 顶部间距大于屏幕高度
-        if (location_y - mouse_height < 0) {
-            location_y = 0;
-        } else {
-            location_y = location_y - mouse_height;
-        }
-        // 高度大于屏幕高度
-        if (location_y + com_height > center_height.value) {
-            location_y = center_height.value - com_height;
-        }
+        // 使用新函数调整位置
+        const { x: adjustedX, y: adjustedY } = adjustPosition(location_x, location_y, com_width, com_height, 390, center_height.value);
         const newItem = {
             ...draggedItem.value,
             location: {
-                x: location_x,
-                y: location_y,
-                staging_y: location_y,
+                x: adjustedX,
+                y: adjustedY,
+                record_x: adjustedX,
+                record_y: adjustedY,
+                staging_y: adjustedY,
             },
         };
 
@@ -334,44 +263,294 @@ const drop = (event: any) => {
         set_show_tabs(diy_data.value.length - 1);
     }
 };
+function adjustPosition(x: number, y: number, width:number, height:number, maxWidth:number, maxHeight:number) {
+    const halfWidth = width / 2;
+    const halfHeight = height / 2;
+
+    // 确保元素不会超出屏幕范围
+    x = Math.max(0, Math.min(maxWidth - width, x - halfWidth));
+    y = Math.max(0, Math.min(maxHeight - height, y - halfHeight));
+
+    return { x, y };
+}
 //#endregion
 //#region 区域内拖拽显示
 const dragEndHandle = (item: any, index: number) => {
-    diy_data.value[index].location = {
-        x: item.x,
-        y: item.y,
-        staging_y: item.y,
-    };
+    diy_data.value[index].location = { x: item.x, y: item.y, record_x: item.x, record_y: item.y, staging_y: item.y };
 };
 // {x: number, y: number, w: number, h: number}
 const resizingHandle = (new_location: any, key: string, index: number) => {
-    diy_data.value[index].location = {
-        x: new_location.x,
-        y: new_location.y,
-        staging_y: new_location.y,
-    };
+    const { x, y, w, h } = new_location;
+    diy_data.value[index].location = { x, y, record_x: x, record_y: y, staging_y: y };
     const com_data = diy_data.value[index].com_data;
-    com_data.com_width = new_location.w;
-    com_data.com_height = new_location.h;
-    com_data.staging_height = new_location.h;
+    com_data.com_width = w;
+    com_data.com_height = h;
+    com_data.staging_height = h;
     if (key == 'img') {
-        if (com_data.border_show) {
-            com_data.img_width = new_location.w - com_data.border_size * 2;
-            com_data.img_height = new_location.h - com_data.border_size * 2;
-        } else {
-            com_data.img_width = new_location.w;
-            com_data.img_height = new_location.h;
-        }
+        const { img_width, img_height } =  handleImg(com_data, w, h);
+        com_data.img_width = img_width;
+        com_data.img_height = img_height;
     } else if (key == 'auxiliary-line') {
-        if (com_data.line_settings === 'horizontal') {
-            com_data.line_width = com_data.com_width;
-            com_data.line_size = com_data.com_height - 10;
-        } else {
-            com_data.line_width = com_data.com_height;
-            com_data.line_size = com_data.com_width - 10;
-        }
+        const { line_width, line_size } = handleAuxiliaryLine(com_data, w, h);
+        com_data.line_width = line_width;
+        com_data.line_size = line_size;
     }
 };
+// 图片大小的计算
+const handleImg = (com_data: any, w: number, h: number ) => {
+    if (com_data.border_show) {
+        return { img_width: w - com_data.border_size * 2, img_height: h - com_data.border_size * 2 }
+    } else {
+        return  { img_width: w, img_height: h }
+    }
+};
+// 线条的计算
+const handleAuxiliaryLine = (com_data: any, w: number, h: number ) => {
+    if (com_data.line_settings === 'horizontal') {
+        return { line_width: com_data.com_width, line_size: com_data.com_height - 10 }
+    } else {
+        return { line_width: com_data.com_height, line_size: com_data.com_width - 10 }
+    }
+};
+//#endregion
+//#region 全部拖拽添加
+const hot_list = reactive({ data: [] as hotListData[] });
+const hot_list_index = ref(0);
+const imgBoxRef = ref<HTMLElement | null>(null);
+const rect_start = ref<rectCoords>({ x: 0, y: 0, width: 0, height: 0 });
+const rect_end = ref<rectCoords>({ x: 0, y: 0, width: 0, height: 0 });
+const areaRef = ref<HTMLElement | null>(null);
+const init_drag_style = ref('');
+const is_draggable = ref(true);
+// 拖拽生成盒子的开关
+const drag_bool = ref(false);
+// 拖拽盒子的开关
+const drag_box_bool = ref(false);
+// 拖拽放大缩小盒子的开关
+const drag_box_scale_bool = ref(false);
+const start_drag = (event: MouseEvent) => {
+    drag_bool.value = true;
+    if (!imgBoxRef.value) return;
+    rect_start.value.x = rect_start.value.x !== 0 ? rect_start.value.x : event.clientX - imgBoxRef.value.getBoundingClientRect().left;
+    rect_start.value.y = rect_start.value.y !== 0 ? rect_start.value.y : event.clientY - imgBoxRef.value.getBoundingClientRect().top;
+    rect_start.value.width = 0;
+    rect_start.value.height = 0;
+};
+const move_drag = (event: MouseEvent) => {
+    if (drag_bool.value) {
+        if (!imgBoxRef.value) return;
+        rect_end.value.x = event.clientX - imgBoxRef.value.getBoundingClientRect().left;
+        rect_end.value.y = event.clientY - imgBoxRef.value.getBoundingClientRect().top;
+        rect_end.value.width = rect_end.value.x - rect_start.value.x > 0 ? rect_end.value.x - rect_start.value.x : 0;
+        rect_end.value.height = rect_end.value.y - rect_start.value.y > 0 ? rect_end.value.y - rect_start.value.y : 0;
+        if (rect_end.value.width > 5 && rect_end.value.height > 5) {
+            hot_list.data = [];
+        }
+        init_drag_style.value = `left: ${rect_start.value.x}px;top: ${rect_start.value.y}px;width: ${Math.max(rect_end.value.width, 1)}px;height: ${Math.max(rect_end.value.height, 1)}px;display: flex;`;
+    }
+};
+const end_drag = (event: MouseEvent) => {
+    drag_bool.value = false;
+    if (areaRef.value) areaRef.value.style.display = 'none';
+    if (!imgBoxRef.value) return;
+    init_drag_style.value = ``;
+    if (rect_end.value.width > 16 && rect_end.value.height > 16) {
+        hot_list.data = [{ name: '热区' + (hot_list.data.length + 1), link: {}, drag_start: cloneDeep(rect_start.value), drag_end: cloneDeep(rect_end.value) }];
+    }
+    rect_start.value = { x: 0, y: 0, width: 0, height: 0 };
+    rect_end.value = { x: 0, y: 0, width: 0, height: 0 };
+};
+const area_box_point = ref({ x: 0, y: 0 });
+// area-box
+const dbl_drag_event = (item: hotListData, index: number) => {
+    hot_list_index.value = index;
+};
+const start_drag_area_box = (index: number, event: MouseEvent) => {
+    hot_list_index.value = index;
+    event.stopPropagation();
+    drag_box_bool.value = true;
+    let clone_drag_start = cloneDeep(hot_list.data[hot_list_index.value].drag_start);
+    let clone_drag_end = cloneDeep(hot_list.data[hot_list_index.value].drag_end);
+    // 记录原始位置
+    area_box_point.value = {
+        x: clone_drag_start.x - event.clientX,
+        y: clone_drag_start.y - event.clientY,
+    };
+    is_draggable.value = false;
+    // 当前选中区域包含的内容
+    const rect1 = { x: clone_drag_start.x, y: clone_drag_start.y, width: clone_drag_end.width, height: clone_drag_end.height }
+    diy_data.value.forEach(item => {
+        const rect2 = { x: item.location.x, y: item.location.y, width: item.com_data.com_width, height: item.com_data.com_height };
+        // 如果交集或者包裹，返回为true，否则为false
+        item.is_hot = isRectangleIntersecting(rect1, rect2);
+    });
+
+    // 当子元素拖拽方法触发后父元素方法不触发
+    document.onmousemove = (areaBoxEvent) => {
+        // areaBoxEvent.stopPropagation();
+        if (drag_box_bool.value) {
+            if (!imgBoxRef.value) return;
+            const new_coordinate = {
+                x: areaBoxEvent.clientX + area_box_point.value.x,
+                y: areaBoxEvent.clientY + area_box_point.value.y,
+            };
+            // 左上边界判断
+            if (new_coordinate.x < 0) {
+                new_coordinate.x = 0;
+            }
+            if (new_coordinate.y < 0) {
+                new_coordinate.y = 0;
+            }
+            // 右下边界判断
+            if (new_coordinate.x + Math.max(clone_drag_end.width, 1) > imgBoxRef.value.getBoundingClientRect().width) {
+                new_coordinate.x = imgBoxRef.value.getBoundingClientRect().width - Math.max(clone_drag_end.width, 1);
+            }
+            if (new_coordinate.y + Math.max(clone_drag_end.height, 1) > imgBoxRef.value.getBoundingClientRect().height) {
+                new_coordinate.y = imgBoxRef.value.getBoundingClientRect().height - Math.max(clone_drag_end.height, 1);
+            }
+            // 计算鼠标移动的距离
+            const move_x = new_coordinate.x - clone_drag_start.x;
+            const move_y = new_coordinate.y - clone_drag_start.y;
+            // 遍历对象,包裹在区域内部的拖拽距离更新
+            diy_data.value.forEach(item => {
+                if (item.is_hot) { // 只更新交集和包裹中的数据
+                    let { record_x, record_y} = cloneDeep(item.location);
+                    item.location.x = Math.max(0, record_x + move_x);
+                    item.location.y = Math.max(0, record_y + move_y);
+                }
+            });
+            hot_list.data[hot_list_index.value].drag_start.x = new_coordinate.x;
+            hot_list.data[hot_list_index.value].drag_start.y = new_coordinate.y;
+            hot_list.data[hot_list_index.value].drag_end.x = new_coordinate.x + Math.max(clone_drag_end.width, 1);
+            hot_list.data[hot_list_index.value].drag_end.y = new_coordinate.y + Math.max(clone_drag_end.height, 1);
+        }
+    };
+    document.onmouseup = () => {
+        is_draggable.value = true;
+        drag_box_bool.value = false;
+        // 鼠标抬起的时候将默认值重置为当前x、y坐标
+        diy_data.value.forEach(item => {
+            if (item.is_hot) {
+                const { x, y } = cloneDeep(item.location);
+                item.location.record_x = x;
+                item.location.record_y = y;
+            }
+        });
+    };
+};
+
+// drag-btn
+const start_drag_btn_br = (index: number, event: MouseEvent) => {
+    start_drag_btn(index, event, 'br');
+};
+const start_drag_btn_bl = (index: number, event: MouseEvent) => {
+    start_drag_btn(index, event, 'bl');
+};
+const start_drag_btn_bc = (index: number, event: MouseEvent) => {
+    start_drag_btn(index, event, 'bc');
+};
+const start_drag_btn_tl = (index: number, event: MouseEvent) => {
+    start_drag_btn(index, event, 'tl');
+};
+const start_drag_btn_tc = (index: number, event: MouseEvent) => {
+    start_drag_btn(index, event, 'tc');
+};
+const start_drag_btn_lc = (index: number, event: MouseEvent) => {
+    start_drag_btn(index, event, 'lc');
+};
+const start_drag_btn_rc = (index: number, event: MouseEvent) => {
+    start_drag_btn(index, event, 'rc');
+};
+// 画布拖拽公用方法
+const start_drag_btn = (index: number, event: MouseEvent, type: string) => {
+    hot_list_index.value = index;
+    event.stopPropagation();
+    drag_box_scale_bool.value = true;
+    let clone_drag_start = hot_list.data[hot_list_index.value].drag_start;
+    let clone_drag_end = hot_list.data[hot_list_index.value].drag_end;
+    document.onmousemove = (dragBtnEvent) => {
+        //用鼠标的位置减去鼠标相对元素的位置，得到元素的位置
+        if (drag_box_scale_bool.value) {
+            if (!imgBoxRef.value) return;
+
+            switch (type) {
+                case 'br':
+                    // 下右
+                    clone_drag_end.x = handleBoundary(dragBtnEvent.clientX - imgBoxRef.value.getBoundingClientRect().left, 0, imgBoxRef.value.getBoundingClientRect().width);
+                    clone_drag_end.y = handleBoundary(dragBtnEvent.clientY - imgBoxRef.value.getBoundingClientRect().top, 0, imgBoxRef.value.getBoundingClientRect().height);
+                    hot_list.data[hot_list_index.value].drag_end = updateDragEnd(clone_drag_start, clone_drag_end, clone_drag_end);
+                    break;
+                case 'bl':
+                    // 下左
+                    clone_drag_start.x = handleBoundary(dragBtnEvent.clientX - imgBoxRef.value.getBoundingClientRect().left, 0, clone_drag_end.x);
+                    clone_drag_end.y = handleBoundary(dragBtnEvent.clientY - imgBoxRef.value.getBoundingClientRect().top, 0, imgBoxRef.value.getBoundingClientRect().height);
+                    hot_list.data[hot_list_index.value].drag_start.x = clone_drag_start.x;
+                    hot_list.data[hot_list_index.value].drag_end.y = clone_drag_end.y;
+                    hot_list.data[hot_list_index.value].drag_end = updateDragEnd(clone_drag_start, clone_drag_end, { y: clone_drag_end.y });
+                    break;
+                case 'bc':
+                    // 下中
+                    clone_drag_end.y = handleBoundary(dragBtnEvent.clientY - imgBoxRef.value.getBoundingClientRect().top, 0, imgBoxRef.value.getBoundingClientRect().height);
+                    hot_list.data[hot_list_index.value].drag_end.y = clone_drag_end.y;
+                    hot_list.data[hot_list_index.value].drag_end = updateDragEnd(clone_drag_start, clone_drag_end, { y: clone_drag_end.y });
+                    break;
+                case 'tl':
+                    // 上左
+                    clone_drag_start.x = handleBoundary(dragBtnEvent.clientX - imgBoxRef.value.getBoundingClientRect().left, 0, clone_drag_end.x);
+                    clone_drag_start.y = handleBoundary(dragBtnEvent.clientY - imgBoxRef.value.getBoundingClientRect().top, 0, clone_drag_end.y);
+                    hot_list.data[hot_list_index.value].drag_start.x = clone_drag_start.x;
+                    hot_list.data[hot_list_index.value].drag_start.y = clone_drag_start.y;
+                    hot_list.data[hot_list_index.value].drag_end = updateDragEnd(clone_drag_start, clone_drag_end, {});
+                    break;
+                case 'tc':
+                    // 上中
+                    clone_drag_start.y = handleBoundary(dragBtnEvent.clientY - imgBoxRef.value.getBoundingClientRect().top, 0, clone_drag_end.y);
+                    hot_list.data[hot_list_index.value].drag_start.y = clone_drag_start.y;
+                    hot_list.data[hot_list_index.value].drag_end = updateDragEnd(clone_drag_start, clone_drag_end, { y: clone_drag_end.y });
+                    break;
+                case 'lc':
+                    // 左中
+                    clone_drag_start.x = handleBoundary(dragBtnEvent.clientX - imgBoxRef.value.getBoundingClientRect().left, 0, clone_drag_end.x);
+                    hot_list.data[hot_list_index.value].drag_start.x = clone_drag_start.x;
+                    hot_list.data[hot_list_index.value].drag_end = updateDragEnd(clone_drag_start, clone_drag_end, {});
+                    break;
+                case 'rc':
+                    // 右中
+                    clone_drag_end.x = handleBoundary(dragBtnEvent.clientX - imgBoxRef.value.getBoundingClientRect().left, 0, imgBoxRef.value.getBoundingClientRect().width);
+                    hot_list.data[hot_list_index.value].drag_end.x = clone_drag_end.x;
+                    hot_list.data[hot_list_index.value].drag_end = updateDragEnd(clone_drag_start, clone_drag_end, { x: clone_drag_end.x });
+                    break;
+            }
+        }
+    };
+    document.onmouseup = () => {
+        drag_box_scale_bool.value = false;
+    };
+};
+
+// 辅助函数用于更新drag_end
+const updateDragEnd = (dragStart: { x: number; y: number }, dragEnd: { x: number; y: number }, newDragEnd: { x?: number; y?: number }) => {
+    const newX = newDragEnd.x !== undefined ? newDragEnd.x : dragEnd.x;
+    const newY = newDragEnd.y !== undefined ? newDragEnd.y : dragEnd.y;
+    return {
+        x: newX,
+        y: newY,
+        width: newX - dragStart.x > 0 ? newX - dragStart.x : 0,
+        height: newY - dragStart.y > 0 ? newY - dragStart.y : 0,
+    };
+};
+
+// 辅助函数用于处理边界
+const handleBoundary = (value: number, min: number, max: number) => Math.max(min, Math.min(value, max));
+
+const del_area_event = (index: number) => {
+    hot_list.data.splice(index, 1);
+};
+const rect_style = computed(() => {
+    return (start: rectCoords, end: rectCoords) => {
+        return `left: ${start.x}px;top: ${start.y}px;width: ${Math.max(end.width, 1)}px;height: ${Math.max(end.height, 1)}px;display: flex;`;
+    };
+});
 //#endregion
 defineExpose({
     diy_data,
@@ -379,121 +558,23 @@ defineExpose({
 </script>
 
 <style lang="scss" scoped>
-.siderbar {
-    width: 34rem;
-    overflow: hidden;
-    :deep(.el-collapse) {
-        border: 0;
-        .el-collapse-item__wrap, .el-collapse-item__header {
-            border: 0;
-        }
-        .el-collapse-item__content {
-            padding-bottom: 0;
-        }
-    }
-    .component {
-        .item {
-            width: calc(100% / 3);
-            padding: 0.5rem;
-            .img {
-                width: 3rem;
-                height: 3rem;
-            }
-        }
-        .siderbar-item {
-            padding: 0.5rem;
-        }
-    }
-    .siderbar-item:hover {
-        cursor: pointer;
-        border-radius: 0.5rem;
-        box-shadow: 0 0 0.5rem 0 rgba(24, 144, 255, 0.3);
-        transform: scale(1.1);
-        transition: all 0.2s;
-    }
-}
-.main {
-    flex: 1;
-    position: relative;
-    height: 100%;
-    width: 100%;
-    .model-content {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        overflow: hidden;
-        height: 100%;
-        .model-drag {
-            overflow-y: auto;
-            .model-wall {
-                width: 39rem;
-                background: #fff;
-                margin: 0 auto;
-                .drag-area {
-                    height: v-bind(drag_area_height);
-                }
-                .main-content {
-                    max-width: 100%;
-                    height: 100%;
-                    overflow: hidden;
-                }
-            }
-        }
-        :deep(.plug-in-show-tabs.vdr-container) {
-            .vdr-handle.vdr-handle-tl,
-            .vdr-handle.vdr-handle-tr,
-            .vdr-handle.vdr-handle-bl,
-            .vdr-handle.vdr-handle-br {
-                display: block !important;
-            }
-        }
-        .plug-in-border {
-            position: relative;
-            box-shadow: 0px 0 0px 0.2rem $cr-main;
-            border: 0;
-        }
-        .plug-in-right {
-            background: $cr-main;
-            position: absolute;
-            right: -5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-            padding: 2rem 1.2rem;
-            color: #fff;
-            border-radius: 0.4rem;
-            z-index: 2;
-            & > i {
-                cursor: pointer;
-            }
-            & > i.disabled {
-                color: #5db2ff;
-                cursor: not-allowed;
-            }
-            & .icon-arrow-top,
-            & .icon-arrow-bottom {
-                height: 0.9rem;
-            }
-        }
-    }
-}
-.selected {
-    overflow: hidden;
-}
-.assembly {
-    height: calc(100% - 3rem);
-    width: calc(100% - 0.6rem);
-    overflow: hidden;
+@import 'index.scss';
+.model-drag {
     overflow-y: auto;
-    .item {
-        width: calc(33% - 1rem);
-        padding: 1rem 1.5rem;
-        background: #f6f6f6;
-        border-radius: 0.4rem;
-    }
-    .item-active {
-        border: 0.1rem solid $cr-main;
-        padding: 0.8rem 1.3rem;
+    .model-wall {
+        width: 39rem;
+        background: #fff;
+        margin: 0 auto;
+        .drag-area {
+            height: v-bind(drag_area_height);
+            user-select: none;
+            cursor: crosshair;
+        }
+        .main-content {
+            max-width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
     }
 }
 </style>

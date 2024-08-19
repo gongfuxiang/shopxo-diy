@@ -13,7 +13,7 @@
                 </template>
             </el-image>
         </div>
-        <div class="flex-row align-c gap-10 size-12">
+        <div v-if="src !== ''" class="flex-row align-c gap-10 size-12">
             {{ src }}
             <div class="copy" @click="clipboard_event">复制</div>
         </div>
@@ -42,23 +42,36 @@ const qrCodeUrl = ref('');
 
 const generateQRCode = async (text: string, margin: number) => {
     try {
-        const dataUrl = await QRCode.toDataURL(text, { margin });
+        let new_text = text.trim();
+        if (!text) {
+            new_text = '请先选择分组';
+        }
+        const dataUrl = await QRCode.toDataURL(new_text, { margin });
         qrCodeUrl.value = dataUrl;
     } catch (error) {
-        console.error('Error generating QR code:', error);
+        console.error('生成二维码时出错：', error);
     }
 };
 const clipboard_event = async () => {
     try {
         await navigator.clipboard.writeText(props.src);
+        ElMessage.success('复制成功');
     } catch (error) {
         console.error('复制失败', error);
     }
 };
+watch(
+    () => props.src,
+    (newValue) => {
+        if (newValue !== '') {
+            generateQRCode(newValue, 2);
+        }
+    }
+);
 
 // 在组件挂载后自动调用生成二维码方法
 onMounted(() => {
-    generateQRCode(props.src.trim(), 2);
+    generateQRCode(props.src, 2);
 });
 </script>
 <style lang="scss" scoped>

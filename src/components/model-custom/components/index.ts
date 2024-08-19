@@ -1,6 +1,8 @@
 interface location {
     x: number,
     y: number,
+    record_x: number, // 用于记录位置
+    record_y: number, // 用于记录位置
     staging_y: number, // 用于记录位置
 }
 interface diy {
@@ -15,6 +17,7 @@ interface diy_content extends diy{
     show_tabs: Boolean,
     is_enable: Boolean,
     src: string,
+    is_hot: Boolean,
     id: string
 }
 
@@ -24,4 +27,11 @@ interface expose {
 
 interface diy_data {
     diy_data: diy_content[]
+}
+
+interface react1 { 
+    x: number; 
+    y: number; 
+    width: number; 
+    height: number; 
 }

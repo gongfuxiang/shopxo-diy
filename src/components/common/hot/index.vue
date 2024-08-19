@@ -120,8 +120,8 @@ const drag_box_scale_bool = ref(false);
 const start_drag = (event: MouseEvent) => {
     drag_bool.value = true;
     if (!imgBoxRef.value) return;
-    rect_start.value.x = event.clientX - imgBoxRef.value.getBoundingClientRect().left;
-    rect_start.value.y = event.clientY - imgBoxRef.value.getBoundingClientRect().top;
+    rect_start.value.x = rect_start.value.x !== 0 ? rect_start.value.x : event.clientX - imgBoxRef.value.getBoundingClientRect().left;
+    rect_start.value.y = rect_start.value.y !== 0 ? rect_start.value.y : event.clientY - imgBoxRef.value.getBoundingClientRect().top;
     rect_start.value.width = 0;
     rect_start.value.height = 0;
 };
@@ -148,6 +148,7 @@ const end_drag = (event: MouseEvent) => {
             drag_end: cloneDeep(rect_end.value),
         });
     }
+    rect_start.value = { x: 0, y: 0, width: 0, height: 0 };
     rect_end.value = { x: 0, y: 0, width: 0, height: 0 };
 };
 

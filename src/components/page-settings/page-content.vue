@@ -32,7 +32,7 @@
 </template>
 <script setup lang="ts">
 interface Props {
-    value: page_content
+    value: page_content;
 }
 const props = defineProps<Props>();
 

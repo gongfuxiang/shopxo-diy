@@ -1,4 +1,5 @@
 import request from '@/utils/request';
+import { AxiosRequestConfig } from 'axios';
 
 class UploadAPI {
     /**  分类查询接口*/
@@ -28,6 +29,59 @@ class UploadAPI {
     static moveTree(data: any) {
         return request({
             url: `diyapi/attachmentmovecategory`,
+            method: 'post',
+            data,
+        });
+    }
+
+    // 附件列表
+    static getAttachmentList(data: any) {
+        return request({
+            url: `diyapi/attachmentlist`,
+            method: 'post',
+            data,
+        });
+    }
+    // 附件名称修改
+    static saveAttachmentName(data: any) {
+        return request({
+            url: `diyapi/attachmentsave`,
+            method: 'post',
+            data,
+        });
+    }
+    // 附件删除
+    static delAttachment(data: any) {
+        return request({
+            url: `diyapi/attachmentdelete`,
+            method: 'post',
+            data,
+        });
+    }
+    // 附件上传
+    static uploadAttachment(data: any, progress: any) {
+        return request({
+            url: `diyapi/attachmentupload`,
+            method: 'post',
+            data,
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+            onUploadProgress: progress,
+        });
+    }
+    // 扫码上传
+    static uploadQrcode(data: any) {
+        return request({
+            url: `diyapi/attachmentscanuploaddata`,
+            method: 'post',
+            data,
+        });
+    }
+    // 提取链接 --------附件远程下载
+    static getAttachmentCatch(data: any) {
+        return request({
+            url: `diyapi/attachmentcatch`,
             method: 'post',
             data,
         });

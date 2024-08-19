@@ -1,23 +1,23 @@
 <!-- 上传组件 -->
 <template>
-    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" append-to-body>
+    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" append-to-body @close="close_dialog">
         <template #header>
             <div class="title center re">
                 <div class="tc size-16 fw">{{ upload_type_name }}上传</div>
             </div>
         </template>
         <div class="upload-content pa-20" @paste="handle_paste">
-            <el-form :model="form" label-width="75">
+            <el-form ref="ruleFormRef" :model="form" :rules="rules" label-width="85" status-icon>
                 <el-form-item label="上传方式">
                     <el-radio-group v-model="form.type" @change="upload_type_change">
                         <el-radio value="loc">本地上传</el-radio>
                         <el-radio value="scan">扫码上传</el-radio>
-                        <el-radio v-if="upload_type !== 'file'" value="web">网络上传</el-radio>
+                        <el-radio v-if="type !== 'file'" value="web">网络上传</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="上传至分组" prop="group">
+                <el-form-item label="上传至分组" prop="category_id">
                     <div class="form-item-width">
-                        <el-cascader v-model="form.group" class="w" :options="classify" placeholder="请选择" :show-all-levels="false" @change="group_change"></el-cascader>
+                        <el-cascader v-model="form.category_id" class="w" :options="cascader_data" placeholder="请选择" :show-all-levels="false" @change="category_id_change"></el-cascader>
                     </div>
                 </el-form-item>
                 <template v-if="form.type == 'loc'">
@@ -44,20 +44,37 @@
                         <div id="dropzone" @dragover.prevent="handle_drag_in" @dragenter="handle_drag_in" @dragleave="handle_drag_leave" @drop.prevent="handle_drop">
                             <el-scrollbar v-if="!is_dragging && form.file.length > 0" height="341px">
                                 <div class="table-body">
-                                    <div v-for="(item, index) in form.file" :key="item.file.name + item.file.size" class="table-row">
-                                        <div class="table-cell">
-                                            <el-image :src="file_to_base64(item.file)" class="preview-img radius-sm" fit="contain">
-                                                <template #error>
-                                                    <div class="bg-f5 img flex-row jc-c align-c radius h w">
-                                                        <icon name="error-img" size="12"></icon>
+                                    <div v-for="(item, index) in form.file" :key="item.file.name + item.file.size" class="re">
+                                        <div class="progress" :style="'width:' + item.progress + '%'"></div>
+                                        <div class="table-row" :class="item.status == '上传失败' ? 'bg-table-rwo-error' : ''">
+                                            <div class="table-cell">
+                                                <template v-if="type == 'video'">
+                                                    <div class="preview-img radius-sm">
+                                                        <icon name="video" size="12" color="9"></icon>
                                                     </div>
                                                 </template>
-                                            </el-image>
-                                            <div class="desc">{{ item.file.name }}</div>
+                                                <template v-else-if="type == 'file'">
+                                                    <div class="preview-img radius-sm">
+                                                        <div class="bg-f5 img flex-row jc-c align-c radius h w">
+                                                            <icon :name="ext_file_name_list_map.filter((ext) => ext.type == get_after_string(item.file.name)).length > 0 && ext_file_name_list_map.filter((ext) => ext.type == get_after_string(item.file.name))[0].type == get_after_string(item.file.name) ? ext_file_name_list_map.filter((ext) => ext.type == get_after_string(item.file.name))[0].icon : 'file'" size="12" color="9"></icon>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                                <template v-else>
+                                                    <el-image :src="file_to_base64(item.file)" class="preview-img radius-sm" fit="contain">
+                                                        <template #error>
+                                                            <div class="bg-f5 img flex-row jc-c align-c radius h w">
+                                                                <icon name="error-img" size="12"></icon>
+                                                            </div>
+                                                        </template>
+                                                    </el-image>
+                                                </template>
+                                                <div class="desc">{{ item.file.name }}</div>
+                                            </div>
+                                            <div class="table-cell">{{ annex_size_to_unit(item.file.size) }}</div>
+                                            <div class="table-cell" :class="item.status">{{ item.status == 'loading' ? '上传中' : item.status == 'success' ? '上传成功' : item.status == 'error' ? '上传失败' : '等待上传' }}{{ item.status == 'loading' ? '(' + item.progress + '%)' : '' }}</div>
+                                            <div class="table-cell-oprate" @click="del_upload(index)">移除</div>
                                         </div>
-                                        <div class="table-cell">{{ annex_size_to_unit(item.file.size) }}</div>
-                                        <div class="table-cell">{{ item.status }}</div>
-                                        <div class="table-cell-oprate" @click="del_upload(index)">移除</div>
                                     </div>
                                 </div>
                             </el-scrollbar>
@@ -86,19 +103,33 @@
                         </div>
                         <el-scrollbar height="224px">
                             <div class="table-body">
-                                <div v-for="(item, index) in scan_file_list" :key="item.name + item.size" class="table-row">
+                                <div v-for="(item, index) in scan_file_list" :key="index" class="table-row">
                                     <div class="table-cell">
-                                        <el-image :src="item.url" class="preview-img radius-sm" fit="contain">
-                                            <template #error>
+                                        <template v-if="type == 'video'">
+                                            <div class="preview-img radius-sm">
+                                                <icon name="video" size="12" color="9"></icon>
+                                            </div>
+                                        </template>
+                                        <template v-else-if="type == 'file'">
+                                            <div class="preview-img radius-sm">
                                                 <div class="bg-f5 img flex-row jc-c align-c radius h w">
-                                                    <icon name="error-img" size="12"></icon>
+                                                    <icon :name="ext_file_name_list_map.filter((ext) => ext.type == item.ext).length > 0 && ext_file_name_list_map.filter((ext) => ext.type == item.ext)[0].type == item.ext ? ext_file_name_list_map.filter((ext) => ext.type == item.ext)[0].icon : 'file'" size="12" color="9"></icon>
                                                 </div>
-                                            </template>
-                                        </el-image>
-                                        <div class="desc">{{ item.name }}</div>
+                                            </div>
+                                        </template>
+                                        <template v-else>
+                                            <el-image :src="item.url" class="preview-img radius-sm" fit="contain">
+                                                <template #error>
+                                                    <div class="bg-f5 img flex-row jc-c align-c radius h w">
+                                                        <icon name="error-img" size="12"></icon>
+                                                    </div>
+                                                </template>
+                                            </el-image>
+                                        </template>
+                                        <div class="desc">{{ item.title }}</div>
                                     </div>
                                     <div class="table-cell">{{ annex_size_to_unit(item.size) }}</div>
-                                    <div class="table-cell-oprate" @click="del_already_upload(index)">删除</div>
+                                    <div class="table-cell-oprate" @click="del_already_upload(item.id, index)">删除</div>
                                 </div>
                             </div>
                         </el-scrollbar>
@@ -108,7 +139,7 @@
                     <el-form-item label="网络图片">
                         <div class="flex-row align-c gap-10">
                             <el-input v-model="form.web_image" class="form-item-width" placeholder="请输入网络图片地址" />
-                            <div class="c-pointer cr-primary size-12" @click="extract_images">提取图片</div>
+                            <div class="c-pointer cr-primary size-12" @click="extract_images(ruleFormRef)">提取图片</div>
                         </div>
                     </el-form-item>
                 </template>
@@ -117,7 +148,7 @@
         <template #footer>
             <span class="dialog-footer">
                 <el-button class="plr-28 ptb-10" @click="close_dialog">取消</el-button>
-                <el-button v-if="form.type == 'loc'" class="plr-28 ptb-10" type="primary" @click="submit">上传</el-button>
+                <el-button v-if="form.type == 'loc'" class="plr-28 ptb-10" type="primary" @click="submit_event(ruleFormRef)">上传</el-button>
                 <el-button v-else-if="form.type == 'scan'" class="plr-28 ptb-10" type="primary" @click="close_dialog">返回图库</el-button>
                 <el-button v-else-if="form.type == 'web'" class="plr-28 ptb-10" type="primary" @click="close_all_dialog">确认</el-button>
             </span>
@@ -125,8 +156,13 @@
     </el-dialog>
 </template>
 <script lang="ts" setup>
-import type { UploadFile, UploadFiles, UploadUserFile } from 'element-plus';
+import UploadAPI, { Tree } from '@/api/upload';
+import { uploadrStore } from '@/store';
+const upload_store = uploadrStore();
+import type { UploadFile, UploadFiles, UploadUserFile, FormRules, FormInstance } from 'element-plus';
 import { annex_size_to_unit, ext_name, get_math } from '@/utils';
+import { ext_img_name_list, ext_video_name_list, ext_file_name_list, ext_file_name_list_map } from './index';
+const app = getCurrentInstance();
 /**
  * @description: 图片执行上传弹窗
  * @param close{String} 默认值
@@ -147,17 +183,13 @@ const props = defineProps({
     },
     fileSize: {
         type: Number,
-        default: 1024 * 1024,
+        default: 1024 * 1024 * 1024,
     },
 });
 const dialogVisible = defineModel({ type: Boolean, default: false });
-// const v_model = defineModel({ type: Array, default: [] });
-// const dialogVisible = ref(false);
-// 上传类型
-const upload_type = ref(props.type);
 // 上传类型转换成name
 const upload_type_name = computed(() => {
-    return upload_type.value === 'img' ? '图片' : upload_type.value === 'video' ? '视频' : '文件';
+    return props.type === 'img' ? '图片' : props.type === 'video' ? '视频' : '文件';
 });
 // 格式限制
 const exts_text = ref(props.exts.join(','));
@@ -165,20 +197,25 @@ const file_list = ref<UploadUserFile[]>([]);
 interface fileData {
     file: File;
     status: string;
+    progress: number;
 }
 interface formData {
     type: string;
-    group: string;
+    category_id: string[];
     file: fileData[];
     qrcode: string;
     web_image: string;
 }
+const ruleFormRef = ref<FormInstance>();
 const form = ref<formData>({
     type: 'loc',
-    group: '',
+    category_id: [],
     file: [],
-    qrcode: '11223344',
+    qrcode: '',
     web_image: '',
+});
+const rules = reactive<FormRules>({
+    category_id: [{ required: true, trigger: 'change', message: '请选择分组' }],
 });
 // 是否给二维码加模糊效果
 const is_mask = ref(true);
@@ -186,69 +223,61 @@ const timer = ref<number | null>(null);
 // 上传方式
 const upload_type_change = (type: any) => {
     // 清除之前的定时器（如果存在）
-    if (timer.value) {
+    if (timer.value && type !== 'scan') {
         // 直接检查 timer.value 是否存在（不是 null 或 undefined）
         clearTimeout(timer.value);
         timer.value = null; // 清除引用，防止内存泄漏
     }
-    // 如果需要设置新的定时器
-    if (type === 'scan') {
-        timer.value = setInterval(() => {
-            console.log('timer-----定时调用');
-            // 此处写定时调用接口，获取文件列表
+    if (type == 'scan') {
+        timer.value = setInterval(async () => {
+            if (scan_uuid.value.toString().length > 0) {
+                const { data } = await UploadAPI.uploadQrcode({ key: scan_uuid.value });
+                scan_file_list.value = data;
+            }
         }, 3000);
     }
 };
+const scan_uuid = ref('');
 // 选择分组
-const group_change = (val: any) => {
+const category_id_change = (val: any) => {
     if (val && val.length > 0) {
+        scan_file_list.value = [];
         is_mask.value = false;
+        scan_uuid.value = get_math();
+        let new_url = '';
+        if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
+            new_url = get_before_string(import.meta.env.VITE_APP_BASE_API_URL);
+        } else {
+            new_url = window.location.origin + '/';
+        }
+        form.value.qrcode = new_url + '?s=ueditor/scanupload/key/' + scan_uuid.value + '/cid/' + val[val.length - 1] + '/type/upload' + (props.type == 'file' ? 'file' : props.type == 'video' ? 'video' : 'image');
     }
 };
 
-// 图片/视频/文件移动至
-const classify = [
-    {
-        value: 'resource',
-        label: 'Resource',
-    },
-    {
-        value: 'resource',
-        label: 'Resource',
-        children: [
-            {
-                value: 'axure',
-                label: 'Axure Components',
-            },
-        ],
-    },
-    {
-        value: 'guide',
-        label: 'Guide',
-        children: [
-            {
-                value: 'disciplines',
-                label: 'Disciplines',
-                children: [
-                    {
-                        value: 'consistency',
-                        label: 'Consistency',
-                    },
-                ],
-            },
-            {
-                value: 'navigation',
-                label: 'Navigation',
-                children: [
-                    {
-                        value: 'side nav',
-                        label: 'Side Navigation',
-                    },
-                ],
-            },
-        ],
-    },
-];
+// 使用计算属性获取级联数据 // 图片/视频/文件移动至
+const cascader_data = computed(() => {
+    return upload_store.category.map((tree: Tree) => ({
+        value: tree.id,
+        label: tree.name,
+        children: tree.items?.map((item: Tree) => ({
+            value: item.id,
+            label: item.name,
+        })),
+    }));
+});
+
+// 获取字符串中‘，’后所有字符
+const get_after_string = (str: string) => {
+    let index = str.lastIndexOf('.');
+    str = str.substring(index, str.length);
+    return str;
+};
+// 获取字符串中‘/’迁民所有字符
+const get_before_string = (str: string) => {
+    let index = str.lastIndexOf('admin.php');
+    str = str.substring(0, index);
+    return str;
+};
 
 //#region 本地上传 -----------------------------------------------start
 
@@ -280,7 +309,8 @@ const upload_change = async (uploadFile: UploadFile, uploadFiles: UploadFiles) =
     new_upload_files.forEach((item: UploadFile) => {
         // item.status = 'ready';
         const new_file_obj = {
-            status: '等待上传',
+            status: 'ready',
+            progress: 0,
             file: item.raw as File,
         };
         form.value.file.push(new_file_obj);
@@ -356,7 +386,8 @@ const handle_drop = async (event: any) => {
         results.forEach((file: any) => {
             if (!form.value.file.some((item: any) => item.file.name === file.name && item.file.size === file.size)) {
                 const new_file_obj = {
-                    status: '等待上传',
+                    status: 'ready',
+                    progress: 0,
                     file: file,
                 };
                 const new_file_obj_upload = {
@@ -415,7 +446,8 @@ const handle_paste = (event: any) => {
             // 如果上传列表中没有与当前文件相同的文件，则添加到上传列表中
             if (!form.value.file.some((item: any) => item.file.name === file.name && item.file.size === file.size)) {
                 const new_file_obj = {
-                    status: '等待上传',
+                    status: 'ready',
+                    progress: 0,
                     file: file,
                 };
                 const new_file_obj_upload = {
@@ -435,37 +467,85 @@ const handle_paste = (event: any) => {
 };
 
 // 执行上传
-const submit = () => {};
+const submit_event = async (formEl: FormInstance | undefined) => {
+    if (!formEl) return;
+    await formEl.validate((valid, fields) => {
+        if (valid) {
+            form.value.file.forEach((item: any) => {
+                const formData = new FormData();
+                formData.append('type', props.type == 'img' ? 'image' : props.type == 'video' ? 'video' : props.type == 'file' ? 'file' : '');
+                formData.append('category_id', form.value.category_id[form.value.category_id.length - 1]);
+                formData.append('upfile', item.file);
+                if (item.status == 'ready') {
+                    item.status = 'loading';
+                    const on_upload_progress = (progressEvent: any) => {
+                        console.log('progressEvent', progressEvent);
+                        item.progress = Number(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2));
+                        console.log('1', item.progress);
+                    };
+                    UploadAPI.uploadAttachment(formData, on_upload_progress)
+                        .then((res) => {
+                            ElMessage.success('上传成功');
+                            item.status = 'success';
+                        })
+                        .catch((err) => {
+                            item.status = 'error';
+                            item.progress = 0;
+                        });
+                }
+            });
+        } else {
+            console.log('error submit!', fields);
+        }
+    });
+};
+
 //#endregion 本地上传 -----------------------------------------------end
 
 //#region 扫码上传 -----------------------------------------------start
-interface scanFile {
-    name: string;
-    url: string;
-    size: number;
-}
-const scan_file_list = ref<scanFile[]>([
-    { name: '1', url: '1', size: 0 },
-    { name: '2', url: '2', size: 0 },
-    { name: '3', url: '3', size: 0 },
-    { name: '4', url: '4', size: 0 },
-    { name: '5', url: '5', size: 0 },
-]);
+const scan_file_list = ref<uploadList[]>([]);
 // 删除已上传的文件
-const del_already_upload = (index: number) => {
+const del_already_upload = (id: number | undefined, index: number) => {
     // 根据下标删除文件
-    scan_file_list.value.splice(index, 1);
+    // scan_file_list.value.splice(index, 1);
     // 调接口真实删除
+    if (id !== undefined) {
+        app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
+            // 调用删除接口，然后，更新数据
+            UploadAPI.delAttachment({ ids: id }).then((res) => {
+                ElMessage.success('删除成功!');
+                scan_file_list.value.splice(index, 1);
+            });
+        });
+    } else {
+        ElMessage.warning('请先选择图片!');
+    }
 };
 //#endregion 扫码上传 -----------------------------------------------end
 
 //#region 网络上传 -----------------------------------------------start
 // 提取图片
-const extract_images = () => {
-    // 此处调用接口获取提取后的图片更新输入框的地址，改为在线地址
-    ElMessage({
-        type: 'success',
-        message: '提取成功!',
+const extract_images = async (formEl: FormInstance | undefined) => {
+    if (!formEl) return;
+    await formEl.validate((valid, fields) => {
+        if (valid) {
+            // 此处调用接口获取提取后的图片更新输入框的地址，改为在线地址
+            if (form.value.web_image) {
+                const new_data = {
+                    type: props.type == 'img' ? 'image' : props.type == 'video' ? 'video' : props.type == 'file' ? 'file' : '',
+                    category_id: form.value.category_id[form.value.category_id.length - 1],
+                    source: form.value.web_image,
+                };
+                UploadAPI.getAttachmentCatch(new_data).then((res) => {
+                    form.value.web_image = res.data[0].url;
+                    ElMessage.success('提取成功!');
+                });
+            } else {
+                ElMessage.warning('请输入地址后再提取!');
+            }
+        } else {
+            console.log('error submit!', fields);
+        }
     });
 };
 const emit = defineEmits(['close']);
@@ -486,12 +566,13 @@ const close_dialog = () => {
     dialogVisible.value = false;
     form.value = {
         type: 'loc',
-        group: '',
+        category_id: [],
         file: [],
         qrcode: '',
         web_image: '',
     };
     scan_file_list.value = [];
+    scan_uuid.value = '';
     // 直接检查 timer.value 是否存在（不是 null 或 undefined）
     if (timer.value !== null) {
         clearTimeout(timer.value);
@@ -508,12 +589,25 @@ const close_dialog = () => {
         height: 30rem;
         .table-header,
         .table-body {
+            .progress {
+                position: absolute;
+                inset: 0;
+                width: 0;
+                height: 100%;
+                background: #f3f9ff;
+                transition: width 0.5s linear;
+            }
             .table-row {
+                position: relative;
+                z-index: 1;
                 display: flex;
                 width: 100%;
                 border-bottom: 0.1rem solid #eee;
                 color: #999;
                 font-size: 1.4rem;
+                &.bg-table-rwo-error {
+                    background: #f3f9ff;
+                }
                 .table-cell {
                     flex: 1;
                     padding: 1rem;
@@ -522,6 +616,15 @@ const close_dialog = () => {
                     align-items: center;
                     word-break: break-all;
                     gap: 1rem;
+                    &.loading {
+                        color: $cr-primary;
+                    }
+                    &.success {
+                        color: $cr-success;
+                    }
+                    &.error {
+                        color: $cr-error;
+                    }
                     .preview-img {
                         width: 2.8rem;
                         height: 2.8rem;

@@ -109,7 +109,9 @@ watch(
 
         diy_data.value.location.x = location_compute(width, val.location.x, 390);
         diy_data.value.location.y = location_compute(height, val.location.y, center_height.value);
-        diy_data.value.location.staging_y = diy_data.value.location.y;
+        diy_data.value.location.record_x = location_compute(width, val.location.record_x, 390);
+        diy_data.value.location.record_y = location_compute(height, val.location.record_y, center_height.value);
+        diy_data.value.location.staging_y = location_compute(height, val.location.staging_y, center_height.value);
 
         form.value.com_width = width;
         form.value.com_height = height;
