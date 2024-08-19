@@ -66,7 +66,6 @@ const app = getCurrentInstance();
  * @param modelValue{Object} 默认值
  * @param dialogVisible {Boolean} 弹窗显示
  * @param type{String} 链接类型为空数组则表示无限制，全部可用，传过来则表示传的值可用
- * @param placeholder{String} 提示文字
  * @return {*} update:modelValue
  */
 const props = defineProps({
@@ -76,7 +75,7 @@ const props = defineProps({
     },
 });
 const modelValue = defineModel({ type: Object, default: {} });
-const dialogVisible = defineModel('visibleDialog', { type: Boolean, default: false });
+const dialogVisible = defineModel('dialogVisible', { type: Boolean, default: false });
 const link_value = ref({});
 const reset_compontent = ref(false);
 const custom_link_type = ref(props.type);
