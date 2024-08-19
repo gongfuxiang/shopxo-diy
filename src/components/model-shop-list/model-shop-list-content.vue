@@ -49,7 +49,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="显示数量">
-                            <el-input v-model="form.number" placeholder="Please input" clearable />
+                            <el-input v-model="form.number" placeholder="请输入显示数量" clearable />
                         </el-form-item>
                         <el-form-item label="排序类型">
                             <el-radio-group v-model="form.sort">
