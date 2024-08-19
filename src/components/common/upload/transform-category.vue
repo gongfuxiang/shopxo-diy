@@ -69,7 +69,6 @@ watch(
         }
     }
 );
-const emit = defineEmits(['update:modelValue']);
 const clear_model_value = () => {
     label.value = '';
     temp_label.value = '';
@@ -100,6 +99,7 @@ const get_label = (item: any, val: any) => {
         }
     });
 };
+const emit = defineEmits(['call-back']);
 // 确定提交事件
 const confirm = () => {
     console.log(props.checkImgIds);
@@ -113,6 +113,7 @@ const confirm = () => {
             UploadAPI.moveTree(new_data).then((res) => {
                 visible_dialog.value = false;
                 label.value = cloneDeep(temp_label.value);
+                emit('call-back');
                 ElMessage.success('转移成功!');
             });
         });

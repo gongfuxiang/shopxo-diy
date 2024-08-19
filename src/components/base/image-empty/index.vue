@@ -1,5 +1,5 @@
 <template>
-    <el-image :src="image?.url || ''" class="flex align-c jc-c">
+    <el-image :src="image?.url || ''" class="flex align-c jc-c" @load="on_load">
         <template #error>
             <div class="image-slot" :style="errorStyle">
                 <img :src="error_image" :style="errorImgStyle" />
@@ -20,6 +20,11 @@ const props = defineProps({
 });
 const image = defineModel({ type: Object, default: () => {} });
 const error_image = ref(new URL(`../../../assets/images/empty.png`, import.meta.url).href);
+const emit = defineEmits(['load']);
+const on_load = (e: any) => {
+    const { width, height } = e.target;
+    emit('load', width, height);
+};
 </script>
 <style lang="scss" scoped>
 .image-slot {

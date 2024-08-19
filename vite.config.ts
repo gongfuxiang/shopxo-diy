@@ -97,7 +97,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
             terserOptions: {
                 compress: {
                     // 移除console
-                    drop_console: true,
+                    drop_console: false,
                     // 移除debugger
                     drop_debugger: true,
                 },

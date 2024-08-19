@@ -1,5 +1,4 @@
 import request from '@/utils/request';
-import { AxiosRequestConfig } from 'axios';
 
 class UploadAPI {
     /**  分类查询接口*/
