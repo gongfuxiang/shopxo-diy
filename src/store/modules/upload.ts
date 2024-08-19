@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 
-export const uploadrStore = defineStore('upload', () => {
+export const uploadStore = defineStore('upload', () => {
     // 上传是否需要调接口判断
     const is_upload_api = ref(false);
     // 上传分类列表

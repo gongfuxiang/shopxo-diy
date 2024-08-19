@@ -157,8 +157,8 @@
 </template>
 <script lang="ts" setup>
 import UploadAPI, { Tree } from '@/api/upload';
-import { uploadrStore } from '@/store';
-const upload_store = uploadrStore();
+import { uploadStore } from '@/store';
+const upload_store = uploadStore();
 import type { UploadFile, UploadFiles, UploadUserFile, FormRules, FormInstance } from 'element-plus';
 import { annex_size_to_unit, ext_name, get_math } from '@/utils';
 import { ext_img_name_list, ext_video_name_list, ext_file_name_list, ext_file_name_list_map } from './index';

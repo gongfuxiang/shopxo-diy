@@ -49,11 +49,11 @@
                         <el-button @click="mult_del_event">删除{{ upload_type_name }}</el-button>
                         <!-- <el-cascader :show-all-levels="false" clearable></el-cascader> -->
                         <div class="right-classify ml-12">
-                            <transform-category :data="type_data_list" :check-img-ids="check_img_ids" :placeholder="upload_type_name + '移动至'"></transform-category>
+                            <transform-category :data="type_data_list" :check-img-ids="check_img_ids" :placeholder="upload_type_name + '移动至'" @call-back="transform_category_event"></transform-category>
                         </div>
                     </div>
                     <div class="right-search">
-                        <el-input v-model="search_name" :placeholder="'请输入' + upload_type_name + '名称'" @input="get_attachment_list('1')">
+                        <el-input v-model="search_name" :placeholder="'请输入' + upload_type_name + '名称'" @change="get_attachment_list('1')">
                             <template #suffix>
                                 <icon name="search" size="18"></icon>
                             </template>
@@ -187,8 +187,8 @@
 <script lang="ts" setup>
 import { ext_img_name_list, ext_video_name_list, ext_file_name_list, ext_file_name_list_map } from './index';
 import UploadAPI, { Tree } from '@/api/upload';
-import { uploadrStore } from '@/store';
-const upload_store = uploadrStore();
+import { uploadStore } from '@/store';
+const upload_store = uploadStore();
 const app = getCurrentInstance();
 /**
  * @description: 图片上传
@@ -309,6 +309,7 @@ const get_tree = () => {
         type_data.value = [all_tree, ...res.data.category_list];
         type_data_list.value = res.data.category_list;
         upload_store.set_category(type_data_list.value);
+        upload_store.set_is_upload_api(true);
     });
 };
 
@@ -496,15 +497,19 @@ const mult_del_event = () => {
                 ElMessage.success('删除成功!');
                 // 调用查询接口
                 get_attachment_list();
+                check_img_ids.value = '';
             });
         });
     } else {
         ElMessage.warning('请先选择图片!');
     }
 };
+const transform_category_event = () => {
+    check_img_ids.value = '';
+    get_attachment_list();
+};
 
 //#endregion 附件 ----------------------------------------------------------end
-
 // 确认
 const confirm_event = () => {
     dialog_visible.value = false;
@@ -584,7 +589,6 @@ onMounted(() => {
     // 监听点击事件
     document.addEventListener('click', video_show);
     if (!upload_store.is_upload_api) {
-        upload_store.set_is_upload_api(true);
         get_tree();
     } else {
         type_data.value = upload_store.category;

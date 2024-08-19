@@ -2,14 +2,13 @@ import axios, { InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { get_cookie } from './index';
 // 创建 axios 实例
-const index = window.location.href.lastIndexOf('?');
+const index = window.location.href.lastIndexOf('?s=');
 const pro_url = window.location.href.substring(0, index);
 const service = axios.create({
-    baseURL: import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API : pro_url,
+    baseURL: import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API : pro_url + '?s=',
     timeout: 50000,
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
 });
-
 // 请求拦截器
 service.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
@@ -19,7 +18,7 @@ service.interceptors.request.use(
             config.url = config.url + '?token=' + 'f714594929c39071f21856b885f91556';
         } else {
             if (cookie) {
-                config.url = config.url + '?token=' + JSON.parse(cookie).token;
+                config.url = config.url + '&token=' + JSON.parse(cookie).token;
             }
         }
         return config;
