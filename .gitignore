@@ -12,6 +12,7 @@ node_modules
 dist
 src/types/auto-imports.d.ts
 src/types/components.d.ts
+src/types/temp.d.ts
 dist-ssr
 coverage
 *.local
