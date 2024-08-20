@@ -59,12 +59,12 @@
                                     <template v-else>
                                         <el-form-item label="商品分类">
                                             <el-select v-model="row.product_type" multiple collapse-tags placeholder="请选择文章分类">
-                                                <el-option v-for="item in base_list.product_type_list" :key="item.value" :label="item.name" :value="item.value" />
+                                                <el-option v-for="item in base_list.product_category_list" :key="item.id" :label="item.name" :value="item.id" />
                                             </el-select>
                                         </el-form-item>
                                         <el-form-item label="指定品牌">
                                             <el-select v-model="row.product_type" multiple collapse-tags placeholder="请选择文章分类">
-                                                <el-option v-for="item in base_list.product_type_list" :key="item.value" :label="item.name" :value="item.value" />
+                                                <el-option v-for="item in base_list.product_brand_list" :key="item.id" :label="item.name" :value="item.id" />
                                             </el-select>
                                         </el-form-item>
                                         <el-form-item label="显示数量">
@@ -95,6 +95,14 @@
 </template>
 <script setup lang="ts">
 import { get_math } from '@/utils';
+import ShopAPI from '@/api/shop';
+import { ShopStore } from '@/store';
+const shop_store = ShopStore();
+interface shop_list {
+    id: number;
+    name: string;
+};
+
 const props = defineProps({
     value: {
         type: Object,
@@ -128,11 +136,8 @@ const base_list = reactive({
         { name: '指定商品', value: '0' },
         { name: '选择商品', value: '1' },
     ],
-    product_type_list: [
-        { name: '样式一', value: '0' },
-        { name: '样式二', value: '1' },
-        { name: '样式三', value: '2' },
-    ],
+    product_category_list: [] as shop_list[],
+    product_brand_list: [] as shop_list[],
     sort_list: [
         { name: '综合', value: '0' },
         { name: '销量', value: '1' },
@@ -149,6 +154,27 @@ const base_list = reactive({
         { name: '浏览量', value: '1' },
     ],
 });
+// 获取商品分类和品牌分类
+const init = () => {
+    ShopAPI.getShop().then((res) => {
+        const { goods_category, brand_list } = res.data;
+        base_list.product_category_list = goods_category;
+        base_list.product_brand_list = brand_list;
+        shop_store.set_category_brand(goods_category, brand_list);
+    });
+};
+
+onBeforeMount(() => {
+    // 判断是否有历史数据
+    if (!shop_store.is_shop_api) {
+        shop_store.set_is_shop_api(true);
+        init();
+    } else {
+        base_list.product_category_list = shop_store.category_list;
+        base_list.product_brand_list = shop_store.brand_list;
+    }
+});
+
 const active_index = ref(0);
 const tabs_list_click = (item: any, index: number) => {
     active_index.value = index;
