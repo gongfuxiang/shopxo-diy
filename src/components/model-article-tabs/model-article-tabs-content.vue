@@ -92,7 +92,7 @@
                 </el-form-item>
             </card-container>
         </el-form>
-        <url-value-dialog v-model:dialog-visible="urlValueDialogVisible" :type="['article']" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
+        <url-value-dialog v-model:dialog-visible="urlValueDialogVisible" :type="['article']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
     </div>
 </template>
 <script setup lang="ts">
@@ -183,13 +183,15 @@ const article_add = (index: number) => {
     urlValueDialogVisible.value = true;
     article_index.value = index;
 };
-const url_value_dialog_call_back = (item: any) => {
-    console.log(item);
-    form.tabs_list[article_index.value].article_list.push({
-        id: get_math(),
-        src: 'carousel',
-        new_url: [],
-        link: item,
+const url_value_dialog_call_back = (item: any[]) => {
+    // console.log(item);
+    item.forEach((child: any) => {
+        form.tabs_list[article_index.value].article_list.push({
+            id: get_math(),
+            src: 'carousel',
+            new_url: [],
+            link: child,
+        });
     });
 };
 </script>

@@ -2,11 +2,11 @@
     <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body @close="close_event">
         <template #header>
             <div class="title center re">
-                <div class="tc size-16 fw">选择链接</div>
+                <div class="tc size-16 fw">{{ dialog_title }}</div>
             </div>
         </template>
         <div class="url-value-content pa-20 flex-row">
-            <div class="left-content">
+            <div v-if="type.length !== 1" class="left-content">
                 <el-menu :default-active="link_select" class="w br-none" @select="handle_select">
                     <el-menu-item v-for="item in base_data" :key="item.type" :index="item.type" :disabled="!(custom_link_type.length == 0 || custom_link_type.includes(item.type))">
                         <span>{{ item.name }}</span>
@@ -24,13 +24,16 @@
                     <link-goods-search :reset="reset_compontent" :status="component_status" @update:link="goods_category_link" @type="goods_category_type_change"></link-goods-search>
                 </template>
                 <template v-else-if="link_select == 'goods'">
-                    <link-goods v-model="link_value" :reset="reset_compontent"></link-goods>
+                    <link-goods v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-goods>
                 </template>
                 <template v-else-if="link_select == 'article'">
-                    <link-articles v-model="link_value" :reset="reset_compontent"></link-articles>
+                    <link-articles v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-articles>
                 </template>
                 <template v-else-if="link_select == 'diy' || link_select == 'design' || link_select == 'custom-view'">
-                    <link-table :key="link_select" v-model="link_value" :type="link_select" :reset="reset_compontent"></link-table>
+                    <link-table :key="link_select" v-model="link_value" :multiple="multiple" :type="link_select" :reset="reset_compontent"></link-table>
+                </template>
+                <template v-else-if="link_select == 'brand'">
+                    <link-brand v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-brand>
                 </template>
                 <template v-else-if="link_select == 'custom-url'">
                     <link-custom :reset="reset_compontent" :status="component_status" @update:link="custom_link"></link-custom>
@@ -48,10 +51,9 @@
 
 <script lang="ts" setup>
 import { MenuItemClicked } from 'element-plus/es/components/menu/src/types';
-import { is_obj_empty } from '@/utils';
 import { PropType } from 'vue';
 import UrlValueAPI from '@/api/url-value';
-import { urlValueStore, urlValue } from '@/store';
+import { urlValueStore } from '@/store';
 const url_value_store = urlValueStore();
 const app = getCurrentInstance();
 /**
@@ -66,10 +68,15 @@ const props = defineProps({
         type: Array as PropType<string[]>,
         default: () => [],
     },
+    // 是否多选 默认单选 只生效 商品页面 goods/ 文章页面 article/ DIY页面 diy/ 设计页面 design/ 自定义页面 custom-view/ 品牌页面 brand
+    multiple: {
+        type: Boolean,
+        default: false,
+    },
 });
-const modelValue = defineModel({ type: Object, default: {} });
+const modelValue = defineModel({ type: Array, default: [] });
 const dialogVisible = defineModel('dialogVisible', { type: Boolean, default: false });
-const link_value = ref({});
+const link_value = ref<any[]>([]);
 const reset_compontent = ref(false);
 const custom_link_type = ref(props.type);
 const base_data = ref<any[]>([]);
@@ -117,6 +124,37 @@ const init = () => {
         }
     }
 };
+const dialog_title = computed(() => {
+    if (props.type.length == 1) {
+        let name = '';
+        if (props.type[0] == 'shop') {
+            name = '商城';
+        } else if (props.type[0] == 'goods-category') {
+            name = '商品分类';
+        } else if (props.type[0] == 'goods-search') {
+            name = '商品搜索';
+        } else if (props.type[0] == 'goods') {
+            name = '商品';
+        } else if (props.type[0] == 'article') {
+            name = '文章';
+        } else if (props.type[0] == 'diy') {
+            name = 'DIY';
+        } else if (props.type[0] == 'design') {
+            name = '页面设计';
+        } else if (props.type[0] == 'custom-view') {
+            name = '自定义页面';
+        } else if (props.type[0] == 'custom-url') {
+            name = '自定义';
+        } else if (props.type[0] == 'brand') {
+            name = '品牌';
+        } else if (props.type[0] == 'plugins') {
+            name = '插件';
+        }
+        return name + '链接';
+    } else {
+        return '选择链接';
+    }
+});
 
 //#region 链接回调 -----------------------------------------------start
 // 菜单选中回调
@@ -135,15 +173,15 @@ const goods_category_type_change = (type: number) => {
 };
 const goods_category_link = (data: object, type: number) => {
     if (type == 2) {
-        modelValue.value = data;
+        modelValue.value = [data];
         close_event();
     } else {
-        link_value.value = data;
+        link_value.value = [data];
     }
 };
 // 自定义地址回调
 const custom_link = (data: object) => {
-    modelValue.value = data;
+    modelValue.value = [data];
     close_event();
 };
 //#endregion 子组件回调 -----------------------------------------------end
@@ -153,7 +191,7 @@ const custom_link = (data: object) => {
 const close_event = () => {
     link_select.value = props.type.length == 0 ? 'shop' : props.type[0];
     dialogVisible.value = false;
-    link_value.value = {};
+    link_value.value = [];
     reset_compontent.value = !reset_compontent.value;
 };
 // 确认回调
@@ -162,7 +200,7 @@ const confirm_event = () => {
     if (link_select.value == 'custom-url' || (link_select.value == 'goods-search' && goods_category_type.value == 2)) {
         component_status.value = !component_status.value;
     } else {
-        if (is_obj_empty(link_value.value)) {
+        if (link_value.value.length < 1) {
             ElMessage({
                 type: 'warning',
                 message: '请先选择链接',

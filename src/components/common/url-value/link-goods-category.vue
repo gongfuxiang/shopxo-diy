@@ -10,12 +10,12 @@
         </div>
         <div class="content">
             <el-table :data="new_table_data" class="w" :header-cell-style="{ background: '#f7f7f7' }" :tree-props="{ children: 'items' }" row-key="id" height="460" fixed @row-click="row_click">
-                <el-table-column label="#" width="120" type="">
+                <el-table-column label="#" width="60" type="">
                     <template #default="scope">
                         <el-radio v-model="template_selection" :label="scope.$index + ''">&nbsp;</el-radio>
                     </template>
                 </el-table-column>
-                <el-table-column prop="id" label="ID" width="180" type="" />
+                <el-table-column prop="id" label="ID" width="80" type="" />
                 <el-table-column prop="name" label="分类名称"></el-table-column>
                 <el-table-column prop="icon" label="分类图标">
                     <template #default="scope">
@@ -120,7 +120,7 @@ const row_click = (row: any) => {
     };
     const new_table_datas = array_conversion(JSON.parse(JSON.stringify(new_table_data.value)));
     template_selection.value = new_table_datas.findIndex((item: pageLinkList) => item.id == row.id).toString();
-    modelValue.value = row;
+    modelValue.value = [row];
 };
 </script>
 <style lang="scss" scoped>

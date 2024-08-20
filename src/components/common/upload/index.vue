@@ -132,7 +132,7 @@
                         </div>
                     </div>
                     <div class="mt-10 flex-row jc-e">
-                        <el-pagination :current-page="page" :page-size="30" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="current_page_change" />
+                        <el-pagination :current-page="page" background :page-size="30" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="current_page_change" />
                     </div>
                 </div>
             </div>
