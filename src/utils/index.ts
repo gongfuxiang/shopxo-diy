@@ -12,6 +12,25 @@ import { isEmpty } from 'lodash';
 export function is_obj_empty(obj: object): boolean {
     return Object.keys(obj).length === 0;
 }
+/**
+ * 检查给定的参数是否为对象
+ *
+ * 此函数用于精确地验证一个变量是否为对象类型它通过以下步骤实现：
+ * 1. 特殊处理 `null` 值，因为 `null` 在 JavaScript 中被当作对象处理，但实质上它不是
+ * 2. 使用 `typeof` 操作符初步判断变量是否为对象
+ * 3. 使用 `Object.prototype.toString.call(obj)` 方法精确判断变量是否为普通的对象
+ *
+ * @param obj 未知类型的参数，待检查是否为对象
+ * @returns 如果参数是对象，则返回 true；否则返回 false
+ */
+export function is_obj(obj: unknown): boolean {
+    // 特殊处理 null值，因为 typeof null 返回 "object"，但 null 并不是我们要检查的对象
+    if (obj === null) return false;
+    // 使用 typeof 排除非对象类型
+    if (typeof obj !== 'object') return false;
+    // 确认是普通对象
+    return Object.prototype.toString.call(obj) === '[object Object]';
+}
 
 /**
  * 渐变色的方法

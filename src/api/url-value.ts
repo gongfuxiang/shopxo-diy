@@ -8,6 +8,47 @@ class UrlValueAPI {
             method: 'post',
         });
     }
+    /**  获取商品列表 */
+    static getGoodsList(data: any) {
+        return request({
+            url: `diyapi/goodslist`,
+            method: 'post',
+            data,
+        });
+    }
+    /** 获取文章列表 */
+    static getArticleList(data: any) {
+        return request({
+            url: `diyapi/articlelist`,
+            method: 'post',
+            data,
+        });
+    }
+    /** 获取diy列表 */
+    static getDiyList(data: any) {
+        return request({
+            url: `diyapi/diylist`,
+            method: 'post',
+            data,
+        });
+    }
+    /** 获取页面设计列表 */
+    static getDesignList(data: any) {
+        return request({
+            url: `diyapi/designlist`,
+            method: 'post',
+            data,
+        });
+    }
+
+    /** 获取自定义列表 */
+    static getCustomList(data: any) {
+        return request({
+            url: `diyapi/customviewlist`,
+            method: 'post',
+            data,
+        });
+    }
 }
 
 export default UrlValueAPI;

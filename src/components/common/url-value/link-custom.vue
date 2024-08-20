@@ -48,6 +48,7 @@
 </template>
 <script lang="ts" setup>
 import type { FormInstance } from 'element-plus';
+import { pageLinkList } from '@/store';
 const props = defineProps({
     status: {
         type: Boolean,
@@ -128,12 +129,12 @@ const address = computed(() => {
     return { trigger: 'change', message: '详细地址不能为空', required: custom_type_active.value == 3 };
 });
 const ruleFormRef = ref<FormInstance>();
-const emit = defineEmits(['update:link', 'required']);
+const emit = defineEmits(['update:link']);
 const on_submit = () => {
     if (!ruleFormRef.value) return;
     ruleFormRef.value.validate((valid: boolean) => {
         if (valid) {
-            let new_value: linkData = {
+            let new_value: pageLinkList = {
                 name: '',
                 link: '',
             };
@@ -161,8 +162,6 @@ const on_submit = () => {
                 };
             }
             emit('update:link', new_value);
-        } else {
-            emit('required');
         }
     });
 };

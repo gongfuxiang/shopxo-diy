@@ -33,6 +33,11 @@
 import { urlValueStore, urlValue, pageLinkList } from '@/store';
 const url_value_store = urlValueStore();
 const props = defineProps({
+    // 类型
+    type: {
+        type: String,
+        default: () => '',
+    },
     // 重置
     reset: {
         type: Boolean,
@@ -57,19 +62,19 @@ const init = () => {
     search_value.value = '';
     // 过滤url_value_store.url_value.page_link_list中的type为shop的data的数据，只保留data数组
     base_data.value = url_value_store.url_value.page_link_list.filter((item: any) => {
-        if (item.type == 'shop') {
+        if (item.type == props.type) {
             return item.data;
         }
     });
-    new_base_data.value = base_data.value[0].data;
+    new_base_data.value = base_data.value[0].data || [];
 };
 
 const handle_search = () => {
     // 根据关键词过滤new_base_data数据,如果==父级 显示父级和父级下的所有子级数据，
     if (search_value.value) {
-        new_base_data.value = filterData(search_value.value, base_data.value[0].data);
+        new_base_data.value = filterData(search_value.value, base_data.value[0].data || []);
     } else {
-        new_base_data.value = base_data.value[0].data;
+        new_base_data.value = base_data.value[0].data || [];
     }
 };
 const filterData = (input: string, data: pageLinkList[]) => {
@@ -80,11 +85,13 @@ const filterData = (input: string, data: pageLinkList[]) => {
         if (item.name.includes(input)) {
             result.push(item);
         } else {
-            // 否则，‌检查当前项的data属性中的子项
-            let subResult = item.data.filter((subItem) => subItem.name.includes(input));
-            // 如果找到匹配的子项，‌将当前项（‌父级）‌添加到结果中
-            if (subResult.length > 0) {
-                result.push({ ...item, data: subResult });
+            if (item.data) {
+                // 否则，‌检查当前项的data属性中的子项
+                let subResult = item.data.filter((subItem) => subItem.name.includes(input));
+                // 如果找到匹配的子项，‌将当前项（‌父级）‌添加到结果中
+                if (subResult.length > 0) {
+                    result.push({ ...item, data: subResult });
+                }
             }
         }
     }

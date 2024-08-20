@@ -1,5 +1,5 @@
 <template>
-    <el-image :src="image?.url || ''" class="flex align-c jc-c w h" @load="on_load">
+    <el-image :src="is_obj(image) ? image?.url || '' : image" class="flex align-c jc-c w h" @load="on_load">
         <template #error>
             <div class="image-slot" :style="errorStyle">
                 <img :src="error_image" :style="errorImgStyle" />
@@ -8,6 +8,7 @@
     </el-image>
 </template>
 <script setup lang="ts">
+import { is_obj } from '@/utils';
 const props = defineProps({
     errorImgStyle: {
         type: String,
@@ -18,7 +19,7 @@ const props = defineProps({
         default: () => '',
     },
 });
-const image = defineModel({ type: Object, default: () => {} });
+const image = defineModel({ type: [Object, String], default: () => {} });
 const error_image = ref(new URL(`../../../assets/images/empty.png`, import.meta.url).href);
 const emit = defineEmits(['load']);
 const on_load = (e: any) => {
@@ -34,5 +35,8 @@ const on_load = (e: any) => {
     align-items: center;
     justify-content: center;
     background-color: #f4fcff;
+    img {
+        width: 100%;
+    }
 }
 </style>

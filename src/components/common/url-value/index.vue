@@ -1,8 +1,8 @@
-<!-- 上传组件 -->
+<!-- 链接组件 -->
 <template>
     <div class="flex-row align-c gap-10 br-d radius-sm plr-11 url-value-input" @click="dialogVisible = true">
         <div class="flex-1 flex-width size-12 text-line-1">
-            <text v-if="!is_obj_empty(modelValue)">{{ modelValue.name }}</text>
+            <text v-if="!is_obj_empty(modelValue)">{{ modelValue.name || modelValue.title }}</text>
             <text v-else class="cr-9">{{ placeholder }}</text>
         </div>
         <div class="value-input-icon">
@@ -40,7 +40,7 @@ const props = defineProps({
     },
 });
 const modelValue = defineModel({ type: Object, default: {} });
-const dialogVisible = defineModel('visibleDialog', { type: Boolean, default: false });
+const dialogVisible = defineModel('dialogVisible', { type: Boolean, default: false });
 //#endregion 链接清空-------------------------------------------------start
 const clear_model_value = () => {
     modelValue.value = {};
