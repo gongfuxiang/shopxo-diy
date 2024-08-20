@@ -101,38 +101,43 @@
                                 <div class="table-cell-operate">操作</div>
                             </div>
                         </div>
-                        <el-scrollbar height="224px">
-                            <div class="table-body">
-                                <div v-for="(item, index) in scan_file_list" :key="index" class="table-row">
-                                    <div class="table-cell">
-                                        <template v-if="type == 'video'">
-                                            <div class="preview-img radius-sm">
-                                                <icon name="video" size="12" color="9"></icon>
-                                            </div>
-                                        </template>
-                                        <template v-else-if="type == 'file'">
-                                            <div class="preview-img radius-sm">
-                                                <div class="bg-f5 img flex-row jc-c align-c radius h w">
-                                                    <icon :name="ext_file_name_list_map.filter((ext) => ext.type == item.ext).length > 0 && ext_file_name_list_map.filter((ext) => ext.type == item.ext)[0].type == item.ext ? ext_file_name_list_map.filter((ext) => ext.type == item.ext)[0].icon : 'file'" size="12" color="9"></icon>
+                        <div v-if="scan_file_list.length > 0">
+                            <el-scrollbar height="224px">
+                                <div class="table-body">
+                                    <div v-for="(item, index) in scan_file_list" :key="index" class="table-row">
+                                        <div class="table-cell">
+                                            <template v-if="type == 'video'">
+                                                <div class="preview-img radius-sm">
+                                                    <icon name="video" size="12" color="9"></icon>
                                                 </div>
-                                            </div>
-                                        </template>
-                                        <template v-else>
-                                            <el-image :src="item.url" class="preview-img radius-sm" fit="contain">
-                                                <template #error>
+                                            </template>
+                                            <template v-else-if="type == 'file'">
+                                                <div class="preview-img radius-sm">
                                                     <div class="bg-f5 img flex-row jc-c align-c radius h w">
-                                                        <icon name="error-img" size="12"></icon>
+                                                        <icon :name="ext_file_name_list_map.filter((ext) => ext.type == item.ext).length > 0 && ext_file_name_list_map.filter((ext) => ext.type == item.ext)[0].type == item.ext ? ext_file_name_list_map.filter((ext) => ext.type == item.ext)[0].icon : 'file'" size="12" color="9"></icon>
                                                     </div>
-                                                </template>
-                                            </el-image>
-                                        </template>
-                                        <div class="desc">{{ item.title }}</div>
+                                                </div>
+                                            </template>
+                                            <template v-else>
+                                                <el-image :src="item.url" class="preview-img radius-sm" fit="contain">
+                                                    <template #error>
+                                                        <div class="bg-f5 img flex-row jc-c align-c radius h w">
+                                                            <icon name="error-img" size="12"></icon>
+                                                        </div>
+                                                    </template>
+                                                </el-image>
+                                            </template>
+                                            <div class="desc">{{ item.title }}</div>
+                                        </div>
+                                        <div class="table-cell">{{ annex_size_to_unit(item.size) }}</div>
+                                        <div class="table-cell-operate" @click="del_already_upload(item.id, index)">删除</div>
                                     </div>
-                                    <div class="table-cell">{{ annex_size_to_unit(item.size) }}</div>
-                                    <div class="table-cell-operate" @click="del_already_upload(item.id, index)">删除</div>
                                 </div>
-                            </div>
-                        </el-scrollbar>
+                            </el-scrollbar>
+                        </div>
+                        <div v-else>
+                            <no-data height="280"></no-data>
+                        </div>
                     </div>
                 </template>
                 <template v-else-if="form.type == 'web'">
@@ -577,6 +582,7 @@ const close_dialog = () => {
     if (timer.value !== null) {
         clearTimeout(timer.value);
     }
+    is_mask.value = true;
     timer.value = null; // 清除引用，防止内存泄漏
 };
 </script>

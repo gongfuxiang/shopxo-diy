@@ -13,12 +13,17 @@
         <div class="content">
             <el-scrollbar height="480px">
                 <div class="flex-col gap-30">
-                    <div v-for="item in new_base_data" :key="item.type">
-                        <div class="fw mb-15">{{ item.name }}</div>
-                        <div class="flex-row flex-wrap gap-15">
-                            <div v-for="(child, index) in item.data" :key="index" class="item" :class="menu_active == item.page ? 'active' : ''" @click="menu_link_event(child)">{{ child.name }}</div>
+                    <template v-if="new_base_data.length > 0">
+                        <div v-for="item in new_base_data" :key="item.type">
+                            <div class="fw mb-15">{{ item.name }}</div>
+                            <div class="flex-row flex-wrap gap-15">
+                                <div v-for="(child, index) in item.data" :key="index" class="item" :class="menu_active == item.page ? 'active' : ''" @click="menu_link_event(child)">{{ child.name }}</div>
+                            </div>
                         </div>
-                    </div>
+                    </template>
+                    <template v-else>
+                        <no-data height="480"></no-data>
+                    </template>
                 </div>
             </el-scrollbar>
         </div>
@@ -37,7 +42,7 @@ const props = defineProps({
 watch(
     () => props.reset,
     () => {
-        menu_active.value = '';
+        init();
     }
 );
 const modelValue = defineModel({ type: Object, default: {} });
@@ -45,6 +50,11 @@ const search_value = ref('');
 const base_data = ref<pageLinkList[]>([]);
 const new_base_data = ref<pageLinkList[]>([]);
 onMounted(() => {
+    init();
+});
+const init = () => {
+    menu_active.value = '';
+    search_value.value = '';
     // 过滤url_value_store.url_value.page_link_list中的type为shop的data的数据，只保留data数组
     base_data.value = url_value_store.url_value.page_link_list.filter((item: any) => {
         if (item.type == 'shop') {
@@ -52,34 +62,36 @@ onMounted(() => {
         }
     });
     new_base_data.value = base_data.value[0].data;
-});
+};
 
 const handle_search = () => {
-    // 根据关键词过滤new_base_data数据,如果==父级 显示父级和父级下的所有子级数据，如果==子级则显示该子级数据和父级
-    let bool = false;
+    // 根据关键词过滤new_base_data数据,如果==父级 显示父级和父级下的所有子级数据，
     if (search_value.value) {
-        new_base_data.value = new_base_data.value.filter((item: any) => {
-            if (item.name == search_value.value) {
-                bool = true;
-                console.log(1);
-                return item;
-            }
-        });
-        if (!true) {
-            new_base_data.value = new_base_data.value.filter((item: any) => {
-                item.filter((child: any) => {
-                    if (child.name == search_value.value) {
-                        bool = true;
-                        return child;
-                    }
-                });
-            });
-        }
+        new_base_data.value = filterData(search_value.value, base_data.value[0].data);
     } else {
         new_base_data.value = base_data.value[0].data;
     }
-    console.log(new_base_data.value);
 };
+const filterData = (input: string, data: pageLinkList[]) => {
+    let result = [];
+    // 遍历数组
+    for (let item of data) {
+        // 检查当前项的name是否匹配
+        if (item.name.includes(input)) {
+            result.push(item);
+        } else {
+            // 否则，‌检查当前项的data属性中的子项
+            let subResult = item.data.filter((subItem) => subItem.name.includes(input));
+            // 如果找到匹配的子项，‌将当前项（‌父级）‌添加到结果中
+            if (subResult.length > 0) {
+                result.push({ ...item, data: subResult });
+            }
+        }
+    }
+
+    return result;
+};
+
 const menu_active = ref('');
 const emit = defineEmits(['update:link']);
 const menu_link_event = (item: any) => {
