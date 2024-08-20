@@ -49,7 +49,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="显示数量">
-                            <el-input-number v-model="form.number" :min="1" :max="100" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w" controls-position="right"></el-input-number>
+                            <el-input-number v-model="form.number" :min="1" :max="100" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
                         </el-form-item>
                         <el-form-item label="排序类型">
                             <el-radio-group v-model="form.sort">
@@ -128,7 +128,7 @@ const init = () => {
     });
 };
 
-onMounted(() => {
+onBeforeMount(() => {
     if (!shop_store.is_shop_api) {
         shop_store.set_is_shop_api(true);
         init();
@@ -178,5 +178,10 @@ const change_style = (val: any):void => {
 .img {
     width: 4rem;
     height: 4rem;
+}
+.number-show {
+    :deep(.el-input__wrapper .el-input__inner) {
+        text-align: left;
+    }
 }
 </style>
