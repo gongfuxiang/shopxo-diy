@@ -1,5 +1,5 @@
 <template>
-    <el-image :src="image?.url || ''" class="flex align-c jc-c" @load="on_load">
+    <el-image :src="image?.url || ''" class="flex align-c jc-c w h" @load="on_load">
         <template #error>
             <div class="image-slot" :style="errorStyle">
                 <img :src="error_image" :style="errorImgStyle" />

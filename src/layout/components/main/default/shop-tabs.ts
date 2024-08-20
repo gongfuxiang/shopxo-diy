@@ -2,7 +2,7 @@ import defaultCommon from './index';
 interface articleTabsList {
     id: string;
     title: string;
-    img: string;
+    img: uploadList[];
     desc: string;
     product_check: string;
     goods_category_ids: string[];
@@ -26,7 +26,7 @@ interface DefaultProductList {
         shop_button_size: string;
     };
     style: {
-        tabs_checked: string[];
+        tabs_checked: color_list[];
         tabs_direction: string;
         tabs_weight_checked: string,
         tabs_size_checked: number,
@@ -65,10 +65,10 @@ const defaultProductList: DefaultProductList = {
         tabs_top_up: false,
         product_style: '0',
         tabs_list: [
-            { id: '1', title: '热门推荐', img: '', desc: '简介', product_check: '0', goods_category_ids: [], goods_brand_ids: [], number: 4, is_price_solo: true, sort: '0', sort_rules: '0', product_list: [] },
-            { id: '2', title: '测试一', img: '', desc: '简介', product_check: '0', goods_category_ids: [], goods_brand_ids: [], number: 4, is_price_solo: true, sort: '0', sort_rules: '0', product_list: [] },
-            { id: '3', title: '测试二', img: '', desc: '简介', product_check: '0', goods_category_ids: [], goods_brand_ids: [], number: 4, is_price_solo: true, sort: '0', sort_rules: '0', product_list: [] },
-            { id: '4', title: '测试三', img: '', desc: '简介', product_check: '0', goods_category_ids: [], goods_brand_ids: [], number: 4, is_price_solo: true, sort: '0', sort_rules: '0', product_list: [] },
+            { id: '1', title: '热门推荐', img: [], desc: '简介', product_check: '0', goods_category_ids: [], goods_brand_ids: [], number: 4, is_price_solo: true, sort: '0', sort_rules: '0', product_list: [] },
+            { id: '2', title: '测试一', img: [], desc: '简介', product_check: '0', goods_category_ids: [], goods_brand_ids: [], number: 4, is_price_solo: true, sort: '0', sort_rules: '0', product_list: [] },
+            { id: '3', title: '测试二', img: [], desc: '简介', product_check: '0', goods_category_ids: [], goods_brand_ids: [], number: 4, is_price_solo: true, sort: '0', sort_rules: '0', product_list: [] },
+            { id: '4', title: '测试三', img: [], desc: '简介', product_check: '0', goods_category_ids: [], goods_brand_ids: [], number: 4, is_price_solo: true, sort: '0', sort_rules: '0', product_list: [] },
         ],
         is_show: ['0', '1', '2', '3', '4', '5'],
         is_shop_show: true,
@@ -77,7 +77,7 @@ const defaultProductList: DefaultProductList = {
         shop_button_size: '1',
     },
     style: {
-        tabs_checked: ['rgba(212,212,212,2)', 'rgba(255,210,210,1)'],
+        tabs_checked: [{ color: 'rgba(212,212,212,2)', color_percentage: '' }, { color: 'rgba(255,210,210,1)', color_percentage: '' }],
         tabs_direction: '90deg',
         tabs_weight_checked: '500',
         tabs_size_checked: 14,

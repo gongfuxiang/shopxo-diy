@@ -1,37 +1,39 @@
 <template>
     <div :style="style_container">
         <div :style="style" class="flex-row align-c">
-            <template v-if="is_title()">
-                <div class="mr-15" :style="{ 'color': new_style.text_color }"><span class="set-text-size">{{ form.search_title }}</span></div>
-            </template>
-            <template v-if="(form.style_radio == 'search' && form.style_type == 'location') || form.style_radio == 'location'">
-                <div class="mr-15 flex-row align-c" :style="{ 'color': new_style.text_color }" >
-                    <template v-if="form.location == 'store'">
-                        <span class="set-text-size nowrap">官方...</span><el-icon class="iconfont icon-arrow-right" />
+            <div class="search w re">
+                <div class="box h oh flex align-c gap-10" :style="box_style">
+                    <template v-if="form.is_icon_show">
+                        <template v-if="form.icon_type == 'icon'">
+                            <span class="iconfont icon-search size-14" :style="`color: ${ new_style.icon_color }`"></span>
+                        </template>
+                        <template v-else>
+                            <div class="img-box">
+                                <image-empty v-model="form.icon_img_src[0]" class="img" error-img-style="width: 4rem;height: 2.5rem;" />
+                            </div>
+                        </template>
                     </template>
-                    <template v-else>
-                        <el-icon class="iconfont icon-index-zxmd-dress mr-3" /><span class="set-text-size nowrap">莲湖...</span><el-icon class="iconfont icon-arrow-right" />
+                    <span v-if="form.is_tips_show" class="size-14" :style="`color: ${ new_style.tips_color }`">{{ form.tips }}</span>
+                </div>
+                <div v-if="form.is_search_show" class="abs search-botton h flex align-c jc-c" :style="search_button">
+                    <template v-if="form.search_type === 'text'">
+                        <div class="pl-16 pr-16 ptb-3 size-12">{{ form.search_tips }}</div>
+                    </template>
+                    <template v-if="form.search_type === 'img'">
+                        <image-empty v-model="form.search_botton_src[0]" class="img" :style="search_button_radius" error-img-style="width: 4rem;height: 2.8rem;" />
+                    </template>
+                    <template v-if="form.search_type === 'icon'">
+                        <div class="pl-16 pr-16 ptb-3 size-12">
+                            <icon></icon>
+                        </div>
                     </template>
                 </div>
-            </template>
-            <template v-else-if="form.style_radio == 'search' && form.style_type == 'logo' && form.logo.length > 0">
-                <image-empty v-model="form.logo[0]" class="search-image mr-10"></image-empty>
-            </template>
-            <el-input :placeholder="get_placeholder()" :style="{ borderColor: 'red' }" :readonly="true">
-                <template v-if="text_location == 'right'" #suffix>
-                    <el-icon class="iconfont icon-search" />
-                </template>
-                <template v-else #prefix>
-                    <el-icon class="iconfont icon-search" />
-                </template>
-            </el-input>
+            </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer } from '@/utils';
-import { isEmpty } from 'lodash';
-
+import { background_computer, common_styles_computer, gradient_computer, radius_computer } from '@/utils';
 const props = defineProps({
     value: {
         type: Object,
@@ -59,46 +61,45 @@ const style = computed(() => {
     return common_styles;
 });
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));
-// 输入框颜色
-const search_border = computed(() => new_style.value.search_border);
-// 提示语颜色
-const placeholder_color = computed(() => new_style.value.tips_color || '#CCCCCC');
-// 定位位置
-const text_location = computed(() => new_style.value.text_location || 'left');
-// 字体大小
-const text_size = computed(() => new_style.value.text_size + 'px' || '15px');
 
-// 是否显示标题
-const is_title = () => {
-    return ((form.value.style_radio == 'search' && form.value.style_type == 'title') || form.value.style_radio == 'title') && !isEmpty(form.value.search_title);
-}
-// 提示信息修改
-const get_placeholder = () => {
-    return form.value.tips || '请输入搜索内容';
-}
+const search_button_radius = computed(() => radius_computer(new_style.value.search_button_radius));
+// 搜索框设置
+const box_style = computed(() => {
+    let style = `background: ${ new_style.value.search_border }; ${ radius_computer(new_style.value.search_border_radius) }`;
+    if (form.value.is_center) {
+        style += `justify-content: center;`;
+    }
+    return style;
+});
+const search_button = computed(() => {
+    let style = search_button_radius.value;
+    if (form.value.search_type != 'img') {
+        style += gradient_computer(new_style.value) + background_computer(new_style.value) + `color: ${ new_style.value.button_inner_color };`;
+    }
+    return style;
+})
 </script>
 <style lang="scss" scoped>
-:deep(.el-input) {
-    & .el-input__wrapper {
-        border-radius: 16px !important;
-        border: 0;
-        box-shadow: none;
-        background: v-bind(search_border);
+.search {
+    height: 3.2rem;
+    .box {
+        padding: 0.6rem 1.5rem;
     }
-    & .el-input__inner::placeholder, 
-    & .el-input__prefix-inner {
-        text-align: v-bind(text_location);
-        color: v-bind(placeholder_color);
+    .img-box {
+        height: 100%;
+        min-width: 2rem;
+        max-width: 6rem;
     }
-}
-.set-text-size {
-    font-size: v-bind(text_size);
-}
-.search-image {
-    width: 5rem;
-    height: 3rem;
-}
-.nowrap {
-    text-wrap: nowrap;
+    .search-botton {
+        height: 2.8rem;
+        top: 0.2rem;
+        right: 0.2rem;
+        .img {
+            height: 2.8rem;
+            min-width: 3rem;
+            max-width: 10rem;
+        }
+    }
+    
 }
 </style>

@@ -1,51 +1,58 @@
 <template>
-    <div class="auxiliary-line common-content-height">
+    <div class="auxiliary-line common-content-height bg-f">
         <el-form :model="form" label-width="70">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">展示设置</div>
-                <el-form-item label="选择风格">
-                    <el-radio-group v-model="form.style_radio" class="ml-4">
-                        <el-radio value="search">搜索</el-radio>
-                        <el-radio value="title">标题</el-radio>
-                        <el-radio value="location">定位</el-radio>
-                    </el-radio-group>
+                <el-form-item label="是否居中">
+                    <el-switch v-model="form.is_center"/>
                 </el-form-item>
-                <el-form-item v-if="form.style_radio == 'search'" label="样式类型">
-                    <el-radio-group v-model="form.style_type" class="ml-4">
-                        <el-radio value="title">标题</el-radio>
-                        <el-radio value="location">定位</el-radio>
-                        <el-radio value="logo">logo</el-radio>
-                    </el-radio-group>
+                <el-form-item label="图标样式" class="align-s">
+                    <div class="flex-col w h gap-10">
+                        <el-switch v-model="form.is_icon_show"/>
+                        <template v-if="form.is_icon_show">
+                            <el-radio-group v-model="form.icon_type" class="ml-4">
+                                <el-radio value="img">图片</el-radio>
+                                <el-radio value="icon">图标</el-radio>
+                            </el-radio-group>
+                            <template v-if="form.icon_type === 'img'">
+                                <upload v-model="form.icon_img_src" :limit="1" size="50"></upload>
+                            </template>
+                            <template v-else>
+                                <upload v-model="form.icon_src" :limit="1" size="50"></upload>
+                            </template>
+                        </template>
+                    </div>
                 </el-form-item>
-                <template v-if="(form.style_radio == 'search' && form.style_type == 'title') || form.style_radio == 'title'">
-                    <el-form-item label="标题">
-                        <el-input v-model="form.search_title" placeholder="请输入标题"></el-input>
-                    </el-form-item>
-                    <el-form-item label="链接">
-                        <url-value v-model="form.search_link"></url-value>
-                    </el-form-item>
-                </template>
-                <template v-if="(form.style_radio == 'search' && form.style_type == 'location') || form.style_radio == 'location'">
-                    <el-form-item label="定位方式">
-                        <el-radio-group v-model="form.location" class="ml-4">
-                            <el-radio value="store">门店</el-radio>
-                            <el-radio value="user_location">用户位置</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                </template>
-                <template v-if="form.style_radio == 'search' && form.style_type == 'logo'">
-                    <el-form-item label="logo图">
-                        <upload v-model="form.logo" :limit="1" size="60"></upload>
-                    </el-form-item>
-                </template>
-            </card-container>
-            <card-container class="mb-8">
-                <div class="mb-12">搜索内容</div>
-                <el-form-item label="提示文字">
+                <el-form-item label="是否显示">
+                    <el-switch v-model="form.is_tips_show"/>
+                </el-form-item>
+                <el-form-item v-if="form.is_tips_show" label="提示文字">
                     <el-input v-model="form.tips" placeholder="请输入提示文字"></el-input>
                 </el-form-item>
+                <el-form-item label="搜索按钮" class="align-s">
+                    <div class="flex-col w h gap-10">
+                        <el-switch v-model="form.is_search_show"/>
+                        <template v-if="form.is_search_show">
+                            <el-radio-group v-model="form.search_type" class="ml-4">
+                                <el-radio value="img">图片</el-radio>
+                                <el-radio value="icon">图标</el-radio>
+                                <el-radio value="text">文字</el-radio>
+                            </el-radio-group>
+                            <template v-if="form.search_type === 'img'">
+                                <upload v-model="form.search_botton_src" :limit="1" size="50"></upload>
+                            </template>
+                            <template v-else-if="form.search_type === 'icon'">
+                                <upload v-model="form.search_botton_icon" :limit="1" size="50"></upload>
+                            </template>
+                            <template v-else>
+                                <el-input v-model="form.search_tips" placeholder="请输入文字内容"></el-input>
+                            </template>
+                        </template>
+                    </div>
+                </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="bg-f5 partition-line" />
+            <card-container>
                 <div class="mb-12">搜索热词</div>
                 <drag :data="form.hot_word_list" @remove="remove" @on-sort="on_sort">
                     <template #default="scoped">
@@ -65,13 +72,18 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {
     value: () => ({
-        style_radio: 'search',
-        style_type: 'title',
-        logo: '',
-        search_title: '',
-        search_link: '',
-        location: 'store',
-        tips: '',
+        is_center: false,
+        is_icon_show: true,
+        icon_type: 'icon',
+        icon_src: '',
+        icon_img_src: [],
+        search_botton_src: [],
+        search_botton_icon: '',
+        is_tips_show: true,
+        tips: '请输入搜索内容',
+        is_search_show: false,
+        search_type: 'text',
+        search_tips: '搜索',
         hot_word_list: [
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
@@ -108,4 +120,7 @@ const search_color_change = (color: string, old_hot_word: hot_word_list) => {
 }
 </script>
 <style lang="scss" scoped>
+.partition-line {
+    height: 0.8rem;
+}
 </style>

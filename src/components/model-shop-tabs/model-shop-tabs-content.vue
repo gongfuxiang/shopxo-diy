@@ -58,17 +58,17 @@
                                     </template>
                                     <template v-else>
                                         <el-form-item label="商品分类">
-                                            <el-select v-model="row.product_type" multiple collapse-tags placeholder="请选择文章分类">
+                                            <el-select v-model="row.goods_category_ids" multiple collapse-tags placeholder="请选择商品分类">
                                                 <el-option v-for="item in base_list.product_category_list" :key="item.id" :label="item.name" :value="item.id" />
                                             </el-select>
                                         </el-form-item>
                                         <el-form-item label="指定品牌">
-                                            <el-select v-model="row.product_type" multiple collapse-tags placeholder="请选择文章分类">
+                                            <el-select v-model="row.goods_brand_ids" multiple collapse-tags placeholder="请选择商品品牌">
                                                 <el-option v-for="item in base_list.product_brand_list" :key="item.id" :label="item.name" :value="item.id" />
                                             </el-select>
                                         </el-form-item>
                                         <el-form-item label="显示数量">
-                                            <el-input v-model="row.number" placeholder="Please input" clearable />
+                                            <el-input-number v-model="row.number" :min="1" :max="100" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
                                         </el-form-item>
                                         <el-form-item label="排序类型">
                                             <el-radio-group v-model="row.sort">
@@ -217,6 +217,11 @@ const product_add = (index: number) => {
     width: 100%;
     .content-height {
         min-height: calc(100vh - 38.2rem);
+    }
+}
+.number-show {
+    :deep(.el-input__wrapper .el-input__inner) {
+        text-align: left;
     }
 }
 </style>

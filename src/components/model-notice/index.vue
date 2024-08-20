@@ -3,8 +3,8 @@
         <template v-if="form.notice_style == 'inherit'">
             <div class="flex-row align-c news-box gap-y-8">
                 <template v-if="form.title_type == 'img'">
-                    <div v-if="!isEmpty(form.img_src)" :style="img_style">
-                        <el-image :src="form.img_src[0]?.url || ''"></el-image>
+                    <div v-if="!isEmpty(form.img_src)">
+                        <el-image :src="form.img_src[0]?.url || ''" :style="img_style"></el-image>
                     </div>
                 </template>
                 <template v-else>
@@ -20,8 +20,8 @@
             <div class="news-card flex-col gap-10">
                 <div class="flex-row w jc-sb">
                     <template v-if="form.title_type == 'img'">
-                        <div v-if="!isEmpty(form.img_src)" :style="img_style">
-                            <el-image :src="form.img_src[0]?.url || ''" ></el-image>
+                        <div v-if="!isEmpty(form.img_src)" >
+                            <el-image :src="form.img_src[0]?.url || ''" :style="img_style"></el-image>
                         </div>
                     </template>
                     <template v-else>

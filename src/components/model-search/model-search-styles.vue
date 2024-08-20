@@ -2,44 +2,54 @@
     <div class="common-style-height">
         <el-form :model="form" label-width="70">
             <card-container class="mb-8">
-                <div class="mb-12">搜索框</div>
-                <el-form-item label="文字位置">
-                    <el-radio-group v-model="form.text_location" is-button>
-                        <el-tooltip content="左对齐" placement="top" effect="light">
-                            <el-radio-button value="left"><icon name="iconfont icon-left"></icon></el-radio-button>
-                        </el-tooltip>
-                        <el-tooltip content="居中" placement="top" effect="light">
-                            <el-radio-button value="center"><icon name="iconfont icon-center"></icon></el-radio-button>
-                        </el-tooltip>
-                        <el-tooltip content="右对齐" placement="top" effect="light">
-                            <el-radio-button value="right"><icon name="iconfont icon-right"></icon></el-radio-button>
-                        </el-tooltip>
-                    </el-radio-group>
-                </el-form-item>
-                <el-form-item label="搜索框">
-                    <color-picker v-model="form.search_border"></color-picker>
-                </el-form-item>
-                <el-form-item label="提示文字">
-                    <color-picker v-model="form.tips_color"></color-picker>
-                </el-form-item>
-                <el-form-item label="热词文字">
-                    <color-picker v-model="form.hot_words_color"></color-picker>
+                <div class="mb-12">左侧图标</div>
+                <el-form-item label="图标">
+                    <color-picker v-model="form.icon_color" default-color="#CCCCCC"></color-picker>
                 </el-form-item>
             </card-container>
-            <card-container v-if="text_show()" class="mb-8">
-                <div class="mb-12">文字设置</div>
-                <el-form-item label="文字样式">
-                    <el-radio-group v-model="form.text_style" class="ml-4">
-                        <el-radio value="normal">正常</el-radio>
-                        <el-radio value="italic">倾斜</el-radio>
-                        <el-radio value="500">加粗</el-radio>
-                    </el-radio-group>
+            <card-container class="mb-8">
+                <div class="mb-12">搜索按钮</div>
+                <el-form-item label="搜索按钮">
+                    <color-picker v-model="form.button_inner_color" default-color="#fff"></color-picker>
                 </el-form-item>
-                <el-form-item label="文字颜色">
-                    <color-picker v-model="form.text_color"></color-picker>
+                <el-form-item v-if="content.search_type != 'img'" label="背景设置">
+                    <div class="flex-col gap-10 w">
+                        <div class="size-12">背景色</div>
+                        <mult-color-picker :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
+                        <div class="flex-row jc-sb align-c">
+                            <div class="size-12">背景图</div>
+                            <el-radio-group v-model="form.background_img_style" is-button>
+                                <el-tooltip content="单张" placement="top" effect="light">
+                                    <el-radio-button value="0"><icon name="single-sheet"></icon></el-radio-button>
+                                </el-tooltip>
+                                <el-tooltip content="平铺" placement="top" effect="light">
+                                    <el-radio-button value="1"><icon name="tile"></icon></el-radio-button>
+                                </el-tooltip>
+                                <el-tooltip content="铺满" placement="top" effect="light">
+                                    <el-radio-button value="2"><icon name="spread-over"></icon></el-radio-button>
+                                </el-tooltip>
+                            </el-radio-group>
+                        </div>
+                        <upload v-model="form.background_img_url" :limit="1"></upload>
+                    </div>
                 </el-form-item>
-                <el-form-item label="文字大小">
-                    <slider v-model="form.text_size" :max="100"></slider>
+                <el-form-item label="按钮圆角">
+                    <radius :value="form.search_button_radius" @update:value="button_radius_change"></radius>
+                </el-form-item>
+            </card-container>
+            <card-container class="mb-8">
+                <div class="mb-12">框体样式</div>
+                <el-form-item label="提示文字">
+                    <color-picker v-model="form.tips_color" default-color="#CCCCCC"></color-picker>
+                </el-form-item>
+                <el-form-item label="热词文字">
+                    <color-picker v-model="form.hot_words_color" default-color="#000"></color-picker>
+                </el-form-item>
+                <el-form-item label="搜索框">
+                    <color-picker v-model="form.search_border" default-color="#fff"></color-picker>
+                </el-form-item>
+                <el-form-item label="框体圆角">
+                    <radius :value="form.search_border_radius" @update:value="border_radius_change"></radius>
                 </el-form-item>
             </card-container>
         </el-form>
@@ -47,23 +57,12 @@
     </div>
 </template>
 <script setup lang="ts">
-import { isEmpty } from 'lodash';
+import { isEmpty, pick } from 'lodash';
 interface Props {
     value: search_styles;
     content: search_content;
 }
-const props = withDefaults(defineProps<Props>(), {
-    value: () => ({
-        search_border: '#F5F5F5',
-        tips_color: '#CCCCCC',
-        hot_words_color: '#000',
-        text_location: 'left',
-        text_style: 'normal',
-        text_color: '#000',
-        text_size: 15,
-        common_style: {},
-    }),
-});
+const props = defineProps<Props>();
 
 const state = reactive({
     form: props.value,
@@ -79,14 +78,30 @@ const common_styles_update = (val: Object) => {
     form.value.common_style = val;
 };
 
-// 是否显示文字设置
-const text_show = () => {
-    const { content } = toRefs(state);
-    if (!isEmpty(content.value)) {
-        return (content.value.style_radio == 'search' && content.value.style_type == 'title') || content.value.style_radio == 'title' || (content.value.style_radio == 'search' && content.value.style_type == 'location') || content.value.style_radio == 'location';
-    } else {
-        return true;
-    }
+// 按钮圆角
+const button_radius_change = (radius: any) => {
+    form.value.search_button_radius = Object.assign(form.value.search_button_radius, pick(radius, [
+        'radius',
+        'radius_top_left',
+        'radius_top_right',
+        'radius_bottom_left',
+        'radius_bottom_right',
+    ]));
+}
+// 搜索框圆角
+const border_radius_change = (radius: any) => {
+    form.value.search_border_radius = Object.assign(form.value.search_border_radius, pick(radius, [
+        'radius',
+        'radius_top_left',
+        'radius_top_right',
+        'radius_bottom_left',
+        'radius_bottom_right',
+    ]));
+}
+
+const mult_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.color_list = arry;
+    form.value.direction = type.toString();
 };
 </script>
 <style lang="scss" scoped>
