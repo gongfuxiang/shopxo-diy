@@ -15,7 +15,7 @@
             </div>
             <div class="right-content flex-1">
                 <template v-if="link_select == 'shop' || link_select == 'plugins'">
-                    <link-list v-model="link_value" :reset="reset_compontent"></link-list>
+                    <link-list :key="link_select" v-model="link_value" :type="link_select" :reset="reset_compontent"></link-list>
                 </template>
                 <template v-else-if="link_select == 'goods-category'">
                     <link-goods-category v-model="link_value" :reset="reset_compontent"></link-goods-category>
@@ -30,10 +30,10 @@
                     <link-articles v-model="link_value" :reset="reset_compontent"></link-articles>
                 </template>
                 <template v-else-if="link_select == 'diy' || link_select == 'design' || link_select == 'custom-view'">
-                    <link-table v-model="link_value" :reset="reset_compontent"></link-table>
+                    <link-table v-model="link_value" :type="link_select" :reset="reset_compontent"></link-table>
                 </template>
                 <template v-else-if="link_select == 'custom'">
-                    <link-custom :reset="reset_compontent" :status="component_status" @update:link="custom_link" @required="required_tips"></link-custom>
+                    <link-custom :key="link_select" :reset="reset_compontent" :status="component_status" @update:link="custom_link" @required="required_tips"></link-custom>
                 </template>
             </div>
         </div>
@@ -78,13 +78,6 @@ watch(
     () => dialogVisible.value,
     (val) => {
         if (val) {
-        }
-    }
-);
-watch(
-    () => dialogVisible.value,
-    (val) => {
-        if (val) {
             init();
         }
     }
@@ -111,7 +104,7 @@ const init = () => {
         init_data.value = url_value_store.url_value;
         base_data.value = url_value_store.url_value.page_link_list;
         if (url_value_store.url_value.page_link_list.length > 0) {
-            link_select.value = url_value_store.url_value.page_link_list[0].type;
+            link_select.value = url_value_store.url_value.page_link_list[0].type || '';
         }
     }
 };

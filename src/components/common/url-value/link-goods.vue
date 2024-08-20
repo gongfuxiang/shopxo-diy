@@ -36,6 +36,8 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { urlValueStore, urlValue, pageLinkList } from '@/store';
+const url_value_store = urlValueStore();
 const props = defineProps({
     // 重置
     reset: {
@@ -46,37 +48,21 @@ const props = defineProps({
 watch(
     () => props.reset,
     () => {
-        template_selection.value = '';
+        init();
     }
 );
+onMounted(() => {
+    init();
+});
 const modelValue = defineModel({ type: Object, default: {} });
-const tableData: linkData[] = [
-    {
-        id: 1,
-        name: '一级分类',
-        icon: 'https://img.yzcdn.cn/vant/cat.jpeg',
-        link: 'a',
-    },
-    {
-        id: 3,
-        name: '一级分类',
-        icon: 'https://img.yzcdn.cn/vant/cat.jpeg',
-        link: 'c',
-    },
-    {
-        id: 4,
-        name: '一级分类',
-        icon: 'https://img.yzcdn.cn/vant/cat.jpeg',
-        link: 'd',
-    },
-    {
-        id: 5,
-        name: '一级分类',
-        icon: 'https://img.yzcdn.cn/vant/cat.jpeg',
-        link: 'e',
-    },
-];
+const tableData = ref<pageLinkList[]>([]);
 const search_value = ref('');
+const init = () => {
+    template_selection.value = '';
+    type.value = '';
+    brand.value = '';
+    get_list();
+};
 const handle_search = () => {
     console.log(search_value.value);
 };

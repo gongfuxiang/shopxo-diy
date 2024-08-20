@@ -29,10 +29,18 @@ export const urlValueStore = defineStore('urlValue', () => {
 });
 
 export interface pageLinkList {
+    id?: string;
     name: string;
-    type: string;
-    data: pageLinkList[];
+    type?: string;
     page?: string;
+    data?: pageLinkList[];
+    items?: pageLinkList[];
+    icon?: string;
+    link?: string;
+    lng?: number;
+    lat?: number;
+    hasChildren?: boolean;
+    children?: pageLinkList[];
 }
 
 // 分类树结构
