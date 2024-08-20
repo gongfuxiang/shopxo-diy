@@ -4,8 +4,8 @@
             <card-container class="common-content-height">
                 <div class="mb-20">数据源</div>
                 <el-form-item label="动态数据">
-                    <el-select v-model="form.data_source" value-key="id" placeholder="Select" size="default">
-                        <el-option v-for="item in options" :key="item.id" :label="item.label" :value="item" />
+                    <el-select v-model="form.data_source" value-key="id" placeholder="请选择数据源" @change="changeDataSource">
+                        <el-option v-for="item in options" :key="item.type" :label="item.name" :value="item.type" />
                     </el-select>
                 </el-form-item>
                 <div class="mb-20">内容设置</div>
@@ -17,10 +17,10 @@
                 <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" :list="custom_list" @right-update="right_update"></DragIndex>
                 <div class="settings">
                     <template v-if="diy_data.key === 'img'">
-                        <model-image-style :key="key" v-model:height="center_height" :value="diy_data"></model-image-style>
+                        <model-image-style :key="key" v-model:height="center_height" :options="model_data_source" :value="diy_data"></model-image-style>
                     </template>
                     <template v-else-if="diy_data.key == 'text'">
-                        <model-text-style :key="key" v-model:height="center_height" :value="diy_data"></model-text-style>
+                        <model-text-style :key="key" v-model:height="center_height" :options="model_data_source" :value="diy_data"></model-text-style>
                     </template>
                     <template v-else-if="diy_data.key == 'auxiliary-line'">
                         <model-lines-style :key="key" v-model:height="center_height" :value="diy_data"></model-lines-style>
@@ -39,6 +39,10 @@
 import Dialog from './components/dialog.vue';
 import DragIndex from './components/index.vue';
 import { cloneDeep } from 'lodash';
+import CustomAPI from '@/api/custom';
+import { DataSourceStore } from '@/store';
+const data_source = DataSourceStore();
+
 const props = defineProps({
     value: {
         type: Object,
@@ -53,12 +57,33 @@ const form = reactive(props.value);
 let custom_list = reactive([]);
 const center_height = ref(0);
 
-const options = [
-  { id: 1, label: 'Option A', desc: 'Option A - 230506' },
-  { id: 2, label: 'Option B', desc: 'Option B - 230506' },
-  { id: 3, label: 'Option C', desc: 'Option C - 230506' },
-  { id: 4, label: 'Option A', desc: 'Option A - 230507' },
-];
+const options = ref<source_list[]>([]);
+interface data_list {
+    name: string;
+    field: string;
+    type: string;
+};
+interface source_list {
+    name: string;
+    data: data_list[];
+    type: string;
+};
+const init = () => {
+    CustomAPI.getCustominit().then((res) => {
+        const { data_source } = res.data;
+        options.value = data_source;
+        data_source.set_data_source(data_source);
+    });
+}
+
+onBeforeMount(() => {
+    if (!data_source.is_data_source_api) {
+        data_source.set_is_data_source_api(true);
+        init();
+    } else {
+        options.value = data_source.data_source_list;
+    }
+});
 
 const diy_data = ref<diy>({
     key: '',
@@ -96,6 +121,15 @@ const accomplish = () => {
     }
     form.height = center_height.value;
 };
+const model_data_source = ref<data_list[]>([])
+const changeDataSource = (key: any) => {
+    const list = options.value.filter(item => item.type == key);
+    if (list.length > 0) {
+        model_data_source.value = list[0].data; 
+    } else {
+        model_data_source.value = [];
+    }
+}
 </script>
 <style lang="scss" scoped>
 .card.mb-8 {

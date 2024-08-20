@@ -49,7 +49,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="显示数量">
-                            <el-input-number v-model="form.number" :min="1" :max="100" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w" controls-position="right"></el-input-number>
+                            <el-input-number v-model="form.number" :min="1" :max="100" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
                         </el-form-item>
                         <el-form-item label="排序类型">
                             <el-radio-group v-model="form.sort">
@@ -91,7 +91,7 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form } = toRefs(state);
 
-const base_list = {
+const base_list = reactive({
     product_style_list: [
         { name: '单列展示', value: '0' },
         { name: '大图展示', value: '2' },
@@ -117,6 +117,15 @@ const base_list = {
         { name: '降序(desc)', value: '0' },
         { name: '升序(asc)', value: '1' },
     ]
+});
+
+const init = () => {
+    ShopAPI.getShop().then((res) => {
+        const { goods_category, brand_list } = res.data;
+        base_list.product_category_list = goods_category;
+        base_list.product_brand_list = brand_list;
+        shop_store.set_category_brand(goods_category, brand_list);
+    });
 };
 
 onBeforeMount(() => {
@@ -128,15 +137,6 @@ onBeforeMount(() => {
         base_list.product_brand_list = shop_store.brand_list;
     }
 });
-
-const init = () => {
-    ShopAPI.getShop().then((res) => {
-        const { goods_category, brand_list } = res.data;
-        base_list.product_category_list = goods_category;
-        base_list.product_brand_list = brand_list;
-        shop_store.set_category_brand(goods_category, brand_list);
-    });
-};
 
 const product_list_remove = (index: number) => {
     form.value.product_list.splice(index, 1);
@@ -178,5 +178,10 @@ const change_style = (val: any):void => {
 .img {
     width: 4rem;
     height: 4rem;
+}
+.number-show {
+    :deep(.el-input__wrapper .el-input__inner) {
+        text-align: left;
+    }
 }
 </style>

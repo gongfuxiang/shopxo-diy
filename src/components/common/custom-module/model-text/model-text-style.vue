@@ -8,7 +8,7 @@
                         <el-input v-model="form.text_title" placeholder="请输入链接" type="textarea" :rows="3"></el-input>
                         <div class="flex-row align-c gap-10 mt-12">
                             <el-select v-model="form.data_source_id" value-key="id" placeholder="请选择图片数据字段" size="default" class="flex-1">
-                                <el-option v-for="item in options" :key="item.id" :label="item.label" :value="item" />
+                                <el-option v-for="item in options.filter(item => item.type == 'text')" :key="item.field" :label="item.name" :value="item.field" />
                             </el-select>
                             <el-popover placement="top-start" :width="200" trigger="hover" content="this is content, this is content, this is content">
                                 <template #reference>
@@ -20,9 +20,6 @@
                 </el-form-item>
                 <el-form-item label="链接">
                     <url-value v-model="form.text_link"></url-value>
-                </el-form-item>
-                <el-form-item label="富文本">
-                    <el-switch v-model="form.is_rich_text" />
                 </el-form-item>
                 <el-form-item label="文字颜色">
                     <color-picker v-model="form.text_color" default-color="#FF3F3F"></color-picker>
