@@ -92,7 +92,7 @@
                 </el-form-item>
             </card-container>
         </el-form>
-        <url-value-dialog v-model:dialog-visible="urlValueDialogVisible" :is-url-oprate="false" :type="['article']" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
+        <url-value-dialog v-model:dialog-visible="urlValueDialogVisible" :type="['article']" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
     </div>
 </template>
 <script setup lang="ts">
