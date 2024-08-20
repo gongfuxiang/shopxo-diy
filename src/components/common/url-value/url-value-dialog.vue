@@ -93,8 +93,13 @@ const init = () => {
                 init_data.value = res.data;
                 base_data.value = res.data.page_link_list;
                 if (res.data.page_link_list.length > 0) {
-                    link_select.value = res.data.page_link_list[0].type;
+                    if (props.type.length == 0) {
+                        link_select.value = res.data.page_link_list[0].type;
+                    } else {
+                        link_select.value = props.type[0];
+                    }
                 }
+                console.log(link_select.value);
                 url_value_store.set_url_value(res.data);
             })
             .catch(() => {
@@ -104,7 +109,11 @@ const init = () => {
         init_data.value = url_value_store.url_value;
         base_data.value = url_value_store.url_value.page_link_list;
         if (url_value_store.url_value.page_link_list.length > 0) {
-            link_select.value = url_value_store.url_value.page_link_list[0].type || '';
+            if (props.type.length == 0) {
+                link_select.value = url_value_store.url_value.page_link_list[0].type || '';
+            } else {
+                link_select.value = props.type[0];
+            }
         }
     }
 };

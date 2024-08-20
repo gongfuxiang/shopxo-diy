@@ -40,16 +40,14 @@
                                             <drag :data="row.article_list" :space-col="20" @remove="article_list_remove" @on-sort="article_list_sort">
                                                 <template #default="scoped">
                                                     <upload v-model="scoped.row.new_url" :limit="1" size="40" styles="2"></upload>
-                                                    <el-image :src="scoped.row.url" fit="contain" class="img">
+                                                    <el-image :src="scoped.row.link.cover" fit="contain" class="img">
                                                         <template #error>
                                                             <div class="bg-f5 flex-row jc-c align-c radius h w">
                                                                 <icon name="error-img" size="16" color="9"></icon>
                                                             </div>
                                                         </template>
                                                     </el-image>
-                                                    <div class="flex-1 flex-width">
-                                                        <url-value v-model="scoped.row.link"></url-value>
-                                                    </div>
+                                                    <div class="flex-1 flex-width text-line-2 size-12 self-s">{{ scoped.row.link.title }}</div>
                                                 </template>
                                             </drag>
                                             <el-button class="mtb-20 w" @click="article_add(index)">+添加</el-button>
@@ -62,7 +60,7 @@
                                             </el-select>
                                         </el-form-item>
                                         <el-form-item label="显示数量">
-                                            <el-input v-model="row.number" placeholder="请输入显示数量" clearable />
+                                            <el-input v-model="row.number" type="number" placeholder="请输入显示数量" clearable />
                                         </el-form-item>
                                         <el-form-item label="排序类型">
                                             <el-radio-group v-model="row.sort">
@@ -94,6 +92,7 @@
                 </el-form-item>
             </card-container>
         </el-form>
+        <url-value-dialog v-model:dialog-visible="urlValueDialogVisible" :is-url-oprate="false" :type="['article']" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
     </div>
 </template>
 <script setup lang="ts">
@@ -141,6 +140,8 @@ const base_list = reactive({
         { name: '浏览量', value: '1' },
     ],
 });
+// 开启关闭链接
+const urlValueDialogVisible = ref(false);
 const active_index = ref(0);
 const tabs_list_click = (item: any, index: number) => {
     active_index.value = index;
@@ -158,7 +159,7 @@ const tabs_add = () => {
         id: get_math(),
         title: '',
         desc: '',
-        article_check: '1',
+        article_check: '0',
         article_type: [],
         number: 4,
         sort: '0',
@@ -176,13 +177,19 @@ const article_list_remove = (index: number) => {
 const article_list_sort = (item: any) => {
     // emit('update:value', item);
 };
+
+const article_index = ref(0);
 const article_add = (index: number) => {
-    console.log(index);
-    form.tabs_list[index].article_list.push({
+    urlValueDialogVisible.value = true;
+    article_index.value = index;
+};
+const url_value_dialog_call_back = (item: any) => {
+    console.log(item);
+    form.tabs_list[article_index.value].article_list.push({
         id: get_math(),
         src: 'carousel',
         new_url: [],
-        link: {},
+        link: item,
     });
 };
 </script>
