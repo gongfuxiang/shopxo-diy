@@ -172,7 +172,7 @@ const tabs_add = () => {
 
 // 指定文章
 const article_list_remove = (index: number) => {
-    form.tabs_list[index].article_list.splice(index, 1);
+    form.tabs_list[active_index.value].article_list.splice(index, 1);
 };
 const article_list_sort = (item: any) => {
     // emit('update:value', item);
