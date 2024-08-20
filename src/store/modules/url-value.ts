@@ -9,6 +9,7 @@ export const urlValueStore = defineStore('urlValue', () => {
         brand_list: [],
         article_category_list: [],
         page_link_list: [],
+        brand_category: [],
     });
     // 存储链接数据
     const set_url_value = (data: urlValue) => {
@@ -47,6 +48,7 @@ export interface pageLinkList {
 export interface urlValue {
     goods_category: any[];
     brand_list: any[];
+    brand_category: any[];
     article_category_list: any[];
     page_link_list: pageLinkList[];
 }

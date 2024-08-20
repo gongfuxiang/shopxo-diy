@@ -92,7 +92,7 @@
                 </el-form-item>
             </card-container>
         </el-form>
-        <url-value-dialog v-model:dialog-visible="urlValueDialogVisible" :type="['article']" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
+        <url-value-dialog v-model:dialog-visible="urlValueDialogVisible" :type="['article']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
     </div>
 </template>
 <script setup lang="ts">
@@ -172,7 +172,7 @@ const tabs_add = () => {
 
 // 指定文章
 const article_list_remove = (index: number) => {
-    form.tabs_list[index].article_list.splice(index, 1);
+    form.tabs_list[active_index.value].article_list.splice(index, 1);
 };
 const article_list_sort = (item: any) => {
     // emit('update:value', item);
@@ -183,13 +183,15 @@ const article_add = (index: number) => {
     urlValueDialogVisible.value = true;
     article_index.value = index;
 };
-const url_value_dialog_call_back = (item: any) => {
-    console.log(item);
-    form.tabs_list[article_index.value].article_list.push({
-        id: get_math(),
-        src: 'carousel',
-        new_url: [],
-        link: item,
+const url_value_dialog_call_back = (item: any[]) => {
+    // console.log(item);
+    item.forEach((child: any) => {
+        form.tabs_list[article_index.value].article_list.push({
+            id: get_math(),
+            src: 'carousel',
+            new_url: [],
+            link: child,
+        });
     });
 };
 </script>

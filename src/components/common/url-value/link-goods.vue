@@ -13,8 +13,9 @@
             </el-input>
         </div>
         <div class="content">
-            <el-table :data="tableData" class="w" :header-cell-style="{ background: '#f7f7f7' }" row-key="id" height="438" fixed @row-click="row_click">
-                <el-table-column label="#" width="40" type="">
+            <el-table :data="tableData" class="w" :header-cell-style="{ background: '#f7f7f7' }" row-key="id" height="438" fixed @row-click="row_click" @select="handle_select" @select-all="handle_select">
+                <el-table-column v-if="multiple" type="selection" width="60" />
+                <el-table-column v-else label="#" width="60" type="">
                     <template #default="scope">
                         <el-radio v-model="template_selection" :label="scope.$index + ''">&nbsp;</el-radio>
                     </template>
@@ -35,7 +36,7 @@
                 </template>
             </el-table>
             <div class="mt-10 flex-row jc-e">
-                <el-pagination :current-page="page" :page-size="page_size" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="get_list" />
+                <el-pagination :current-page="page" background :page-size="page_size" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="get_list" />
             </div>
         </div>
     </div>
@@ -47,6 +48,10 @@ const url_value_store = urlValueStore();
 const props = defineProps({
     // 重置
     reset: {
+        type: Boolean,
+        default: () => false,
+    },
+    multiple: {
         type: Boolean,
         default: () => false,
     },
@@ -91,12 +96,6 @@ const category_list = ref<pageLinkList[]>([]);
 const brand_list = ref<any[]>([]);
 const emit = defineEmits(['update:link']);
 const template_selection = ref('');
-
-const row_click = (row: any) => {
-    const new_table_data = JSON.parse(JSON.stringify(tableData.value));
-    template_selection.value = new_table_data.findIndex((item: pageLinkList) => item.id == row.id).toString();
-    modelValue.value = row;
-};
 //#region 分页 -----------------------------------------------start
 // 当前页
 const page = ref(1);
@@ -121,6 +120,16 @@ const get_list = (new_page: number) => {
     });
 };
 //#region 分页 -----------------------------------------------end
+const row_click = (row: any) => {
+    if (!props.multiple) {
+        const new_table_data = JSON.parse(JSON.stringify(tableData.value));
+        template_selection.value = new_table_data.findIndex((item: pageLinkList) => item.id == row.id).toString();
+        modelValue.value = [row];
+    }
+};
+const handle_select = (selection: any) => {
+    modelValue.value = selection;
+};
 </script>
 <style lang="scss" scoped>
 .container {
@@ -133,7 +142,6 @@ const get_list = (new_page: number) => {
         }
         .img {
             width: 3.6rem;
-            height: 3.6rem;
         }
     }
 }

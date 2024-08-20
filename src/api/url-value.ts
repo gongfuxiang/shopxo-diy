@@ -49,6 +49,14 @@ class UrlValueAPI {
             data,
         });
     }
+    /** 获取品牌列表 */
+    static getBrandList(data: any) {
+        return request({
+            url: `diyapi/brandlist`,
+            method: 'post',
+            data,
+        });
+    }
 }
 
 export default UrlValueAPI;

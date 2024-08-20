@@ -16,7 +16,7 @@
             </template>
         </div>
     </div>
-    <url-value-dialog v-model:modelValue="modelValue" v-model:dialogVisible="dialogVisible" :type="type"></url-value-dialog>
+    <url-value-dialog v-model:modelValue="new_model_value" v-model:dialogVisible="dialogVisible" :type="type" @update:model-value="model_value_call_back"></url-value-dialog>
 </template>
 <script lang="ts" setup>
 import { is_obj_empty } from '@/utils';
@@ -40,12 +40,18 @@ const props = defineProps({
     },
 });
 const modelValue = defineModel({ type: Object, default: {} });
+const new_model_value = ref<any[]>([]);
 const dialogVisible = defineModel('dialogVisible', { type: Boolean, default: false });
 //#endregion 链接清空-------------------------------------------------start
 const clear_model_value = () => {
     modelValue.value = {};
 };
 //#endregion 链接清空-------------------------------------------------end
+const model_value_call_back = (value: any[]) => {
+    if (value.length > 0) {
+        modelValue.value = JSON.parse(JSON.stringify(value[0]));
+    }
+};
 </script>
 <style lang="scss" scoped>
 @import 'index.scss';

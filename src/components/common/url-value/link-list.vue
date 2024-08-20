@@ -17,7 +17,9 @@
                         <div v-for="item in new_base_data" :key="item.type">
                             <div class="fw mb-15">{{ item.name }}</div>
                             <div class="flex-row flex-wrap gap-15">
-                                <div v-for="(child, index) in item.data" :key="index" class="item" :class="menu_active == item.page ? 'active' : ''" @click="menu_link_event(child)">{{ child.name }}</div>
+                                <div v-for="(child, index) in item.data" :key="index" class="item" :class="menu_active == child.page ? 'active' : ''" @click="menu_link_event(child)">
+                                    {{ child.name }}
+                                </div>
                             </div>
                         </div>
                     </template>
@@ -50,7 +52,7 @@ watch(
         init();
     }
 );
-const modelValue = defineModel({ type: Object, default: {} });
+const modelValue = defineModel({ type: Array, default: [] });
 const search_value = ref('');
 const base_data = ref<pageLinkList[]>([]);
 const new_base_data = ref<pageLinkList[]>([]);
@@ -104,10 +106,10 @@ const emit = defineEmits(['update:link']);
 const menu_link_event = (item: any) => {
     if (item.page == menu_active.value) {
         menu_active.value = '';
-        modelValue.value = {};
+        modelValue.value = [];
     } else {
         menu_active.value = item.page;
-        modelValue.value = item;
+        modelValue.value = [item];
     }
 };
 </script>
