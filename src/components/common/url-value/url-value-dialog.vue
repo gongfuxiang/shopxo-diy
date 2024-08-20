@@ -21,19 +21,19 @@
                     <link-goods-category v-model="link_value" :reset="reset_compontent"></link-goods-category>
                 </template>
                 <template v-else-if="link_select == 'goods-search'">
-                    <link-goods-search :reset="reset_compontent" :status="component_status" @update:link="goods_category_link" @type="goods_category_type_change" @required="required_tips"></link-goods-search>
+                    <link-goods-search :reset="reset_compontent" :status="component_status" @update:link="goods_category_link" @type="goods_category_type_change"></link-goods-search>
                 </template>
                 <template v-else-if="link_select == 'goods'">
                     <link-goods v-model="link_value" :reset="reset_compontent"></link-goods>
                 </template>
-                <template v-else-if="link_select == 'articles'">
+                <template v-else-if="link_select == 'article'">
                     <link-articles v-model="link_value" :reset="reset_compontent"></link-articles>
                 </template>
                 <template v-else-if="link_select == 'diy' || link_select == 'design' || link_select == 'custom-view'">
-                    <link-table v-model="link_value" :type="link_select" :reset="reset_compontent"></link-table>
+                    <link-table :key="link_select" v-model="link_value" :type="link_select" :reset="reset_compontent"></link-table>
                 </template>
-                <template v-else-if="link_select == 'custom'">
-                    <link-custom :key="link_select" :reset="reset_compontent" :status="component_status" @update:link="custom_link" @required="required_tips"></link-custom>
+                <template v-else-if="link_select == 'custom-url'">
+                    <link-custom :reset="reset_compontent" :status="component_status" @update:link="custom_link"></link-custom>
                 </template>
             </div>
         </div>
@@ -137,13 +137,6 @@ const custom_link = (data: object) => {
     modelValue.value = data;
     close_event();
 };
-// 错误回调
-const required_tips = () => {
-    ElMessage({
-        type: 'warning',
-        message: '必填项不能为空',
-    });
-};
 //#endregion 子组件回调 -----------------------------------------------end
 
 //#region 链接确认回调 -----------------------------------------------start
@@ -157,7 +150,7 @@ const close_event = () => {
 // 确认回调
 const confirm_event = () => {
     // 判断是否是自定义页面和商品查询
-    if (link_select.value == 'custom' || (link_select.value == 'goods-search' && goods_category_type.value == 2)) {
+    if (link_select.value == 'custom-url' || (link_select.value == 'goods-search' && goods_category_type.value == 2)) {
         component_status.value = !component_status.value;
     } else {
         if (is_obj_empty(link_value.value)) {

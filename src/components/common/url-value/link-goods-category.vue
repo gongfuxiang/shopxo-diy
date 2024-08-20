@@ -16,18 +16,15 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="id" label="ID" width="180" type="" />
-                <el-table-column prop="name" label="分类名称" />
+                <el-table-column prop="name" label="分类名称"></el-table-column>
                 <el-table-column prop="icon" label="分类图标">
                     <template #default="scope">
-                        <el-image :src="scope.row.icon" class="img">
-                            <template #error>
-                                <div class="img">
-                                    <img :src="error_image" class="w" />
-                                </div>
-                            </template>
-                        </el-image>
+                        <image-empty v-model="scope.row.icon" class="img"></image-empty>
                     </template>
                 </el-table-column>
+                <template #empty>
+                    <no-data></no-data>
+                </template>
             </el-table>
         </div>
     </div>
@@ -53,7 +50,6 @@ const modelValue = defineModel({ type: Object, default: {} });
 const table_data = ref<pageLinkList[]>([]);
 const new_table_data = ref<pageLinkList[]>([]);
 const search_value = ref('');
-const error_image = ref(new URL(`../../../assets/images/empty.png`, import.meta.url).href);
 onMounted(() => {
     init();
 });

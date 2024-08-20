@@ -87,7 +87,7 @@ watch(
         init();
     }
 );
-const emit = defineEmits(['update:link', 'required', 'type']);
+const emit = defineEmits(['update:link', 'type']);
 
 onMounted(() => {
     init();
@@ -193,8 +193,6 @@ const on_submit = () => {
                 link: form.key,
             };
             emit('update:link', new_value, 2);
-        } else {
-            emit('required');
         }
     });
 };
