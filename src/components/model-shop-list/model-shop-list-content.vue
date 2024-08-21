@@ -10,7 +10,7 @@
                 </el-form-item>
             </card-container>
             <div class="content-height bg-f">
-                <card-container class="card-container-br" @click="card_click">
+                <card-container class="card-container-br">
                     <div class="mb-12">商品设置</div>
                     <el-form-item label="添加商品">
                         <el-radio-group v-model="form.product_check">
@@ -151,7 +151,6 @@ const url_value_dialog_call_back = (item: any[]) => {
         form.value.product_list.push({
             id: get_math(),
             new_url: [],
-            is_edit: false,
             new_title: item.title,
             link: item,
         });
