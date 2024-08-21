@@ -5,7 +5,7 @@ interface DefaultProductList {
         product_check: string;
         goods_category_ids: string[];
         goods_brand_ids: string[];
-        product_list: [];
+        product_list: string[];
         is_price_solo: boolean;
         number: number;
         sort: string;
