@@ -10,7 +10,7 @@ interface articleTabsList {
     title: string;
     desc: string;
     article_check: string;
-    article_type: string[];
+    article_category: string[];
     number: number;
     sort: string;
     sort_rules: string;
@@ -58,12 +58,12 @@ const defaultArticleTabs: DefaultArticleTabs = {
         tabs_top_up: true,
         article_style: '0',
         tabs_list: [
-            { id: '1', title: '热门推荐', desc: '简介', article_check: '0', article_type: [], number: 4, sort: '0', sort_rules: '0', is_img_show: true, article_list: [] },
-            { id: '2', title: '测试一', desc: '简介', article_check: '0', article_type: [], number: 4, sort: '0', sort_rules: '0', is_img_show: true, article_list: [] },
-            { id: '3', title: '测试二', desc: '简介', article_check: '0', article_type: [], number: 4, sort: '0', sort_rules: '0', is_img_show: true, article_list: [] },
-            { id: '4', title: '测试三', desc: '简介', article_check: '0', article_type: [], number: 4, sort: '0', sort_rules: '0', is_img_show: true, article_list: [] },
-            { id: '5', title: '测试四', desc: '简介', article_check: '0', article_type: [], number: 4, sort: '0', sort_rules: '0', is_img_show: true, article_list: [] },
-            { id: '6', title: '测试五', desc: '简介', article_check: '0', article_type: [], number: 4, sort: '0', sort_rules: '0', is_img_show: true, article_list: [] },
+            { id: '1', title: '热门推荐', desc: '简介', article_check: '0', article_category: [], number: 4, sort: '0', sort_rules: '0', is_img_show: true, article_list: [] },
+            { id: '2', title: '测试一', desc: '简介', article_check: '0', article_category: [], number: 4, sort: '0', sort_rules: '0', is_img_show: true, article_list: [] },
+            { id: '3', title: '测试二', desc: '简介', article_check: '0', article_category: [], number: 4, sort: '0', sort_rules: '0', is_img_show: true, article_list: [] },
+            { id: '4', title: '测试三', desc: '简介', article_check: '0', article_category: [], number: 4, sort: '0', sort_rules: '0', is_img_show: true, article_list: [] },
+            { id: '5', title: '测试四', desc: '简介', article_check: '0', article_category: [], number: 4, sort: '0', sort_rules: '0', is_img_show: true, article_list: [] },
+            { id: '6', title: '测试五', desc: '简介', article_check: '0', article_category: [], number: 4, sort: '0', sort_rules: '0', is_img_show: true, article_list: [] },
         ],
         is_show: ['0', '1'],
     },

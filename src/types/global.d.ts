@@ -3,6 +3,10 @@ declare global {
     interface arrayIndex {
         [key: string]: any;
     }
+    interface select_1 {
+        id: string | number;
+        name: string;
+    }
     // 可视化数据
     interface commonComponentData {
         src: string;
@@ -53,7 +57,7 @@ declare global {
         box_shadow_spread: number;
     };
     // 图片/视频/文件的数据类型
-    export interface uploadList {
+    type uploadList = {
         id?: number;
         url: string;
         original?: string;
@@ -62,7 +66,7 @@ declare global {
         size?: number;
         type?: string;
         error?: boolean;
-    }
+    };
     /**
      * 背景图
      */
@@ -100,20 +104,31 @@ declare global {
         box_shadow_spread: number;
         background_img_url: uploadList[];
     };
-
     /**
      * 链接参数
      */
-    type linkData = {
-        id?: number;
+    type pageLinkList = {
+        id?: string;
         name?: string;
-        link?: String;
-        data?: Data[];
+        type?: string;
+        page?: string;
+        data?: pageLinkList[];
+        items?: pageLinkList[];
         icon?: string;
+        link?: string;
         lng?: number;
         lat?: number;
         hasChildren?: boolean;
-        children?: linkData[];
+        children?: pageLinkList[];
+    };
+
+    // 分类树结构
+    type urlValue = {
+        goods_category: any[];
+        brand_list: any[];
+        brand_category: any[];
+        article_category_list: any[];
+        page_link_list: pageLinkList[];
     };
 
     /**
@@ -135,7 +150,7 @@ declare global {
         drag_start: rectCoords;
         drag_end: rectCoords;
         name: string;
-        link: linkData;
+        link: pageLinkList;
     };
 }
 export {};

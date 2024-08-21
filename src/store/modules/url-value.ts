@@ -28,27 +28,3 @@ export const urlValueStore = defineStore('urlValue', () => {
         set_is_url_value_api,
     };
 });
-
-export interface pageLinkList {
-    id?: string;
-    name: string;
-    type?: string;
-    page?: string;
-    data?: pageLinkList[];
-    items?: pageLinkList[];
-    icon?: string;
-    link?: string;
-    lng?: number;
-    lat?: number;
-    hasChildren?: boolean;
-    children?: pageLinkList[];
-}
-
-// 分类树结构
-export interface urlValue {
-    goods_category: any[];
-    brand_list: any[];
-    brand_category: any[];
-    article_category_list: any[];
-    page_link_list: pageLinkList[];
-}

@@ -72,12 +72,8 @@
 <script setup lang="ts">
 import { get_math } from '@/utils';
 import ShopAPI from '@/api/shop';
-import { ShopStore } from '@/store';
-const shop_store = ShopStore();
-interface shop_list {
-    id: number;
-    name: string;
-};
+import { shopStore } from '@/store';
+const shop_store = shopStore();
 
 const props = defineProps({
     value: {
@@ -104,8 +100,8 @@ const base_list = reactive({
         { name: '指定商品', value: '0' },
         { name: '筛选商品', value: '1' },
     ],
-    product_category_list: [] as shop_list[],
-    product_brand_list: [] as shop_list[],
+    product_category_list: [] as select_1[],
+    product_brand_list: [] as select_1[],
     sort_list: [
         { name: '综合', value: '0' },
         { name: '销量', value: '1' },
@@ -116,26 +112,30 @@ const base_list = reactive({
     sort_rules_list: [
         { name: '降序(desc)', value: '0' },
         { name: '升序(asc)', value: '1' },
-    ]
+    ],
 });
 
 const init = () => {
-    ShopAPI.getShop().then((res) => {
-        const { goods_category, brand_list } = res.data;
-        base_list.product_category_list = goods_category;
-        base_list.product_brand_list = brand_list;
-        shop_store.set_category_brand(goods_category, brand_list);
-    });
-};
-
-onBeforeMount(() => {
     if (!shop_store.is_shop_api) {
         shop_store.set_is_shop_api(true);
-        init();
+        ShopAPI.getShop()
+            .then((res) => {
+                const { goods_category, brand_list } = res.data;
+                base_list.product_category_list = goods_category;
+                base_list.product_brand_list = brand_list;
+                shop_store.set_category_brand(goods_category, brand_list);
+            })
+            .catch((err) => {
+                shop_store.set_is_shop_api(false);
+            });
     } else {
         base_list.product_category_list = shop_store.category_list;
         base_list.product_brand_list = shop_store.brand_list;
     }
+};
+
+onBeforeMount(() => {
+    init();
 });
 
 const product_list_remove = (index: number) => {
@@ -152,8 +152,8 @@ const add = () => {
 // 拖拽更新之后，更新数据
 const product_list_sort = (new_list: any) => {
     form.value.product_list = new_list;
-}
-const change_style = (val: any):void => {
+};
+const change_style = (val: any): void => {
     form.value.product_style = val;
     if (['3', '4', '5'].includes(val) && ['0', '1'].includes(form.value.shop_type)) {
         form.value.shop_type = '2';
@@ -170,7 +170,8 @@ const change_style = (val: any):void => {
         }
     }
 }
-.card, .card.mb-8 {
+.card,
+.card.mb-8 {
     .el-form-item:last-child {
         margin-bottom: 0;
     }
