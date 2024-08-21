@@ -38,9 +38,12 @@ const props = defineProps({
 const error_img = ref('width:50px;padding:10px;');
 const style = ref('');
 const style_container = ref('');
+interface linkObj {
+    cover?: string;
+}
 interface ArticleList {
     id: number | string;
-    link: object;
+    link: linkObj;
     new_title: string;
     new_url: uploadList[];
 }
@@ -73,6 +76,12 @@ const article_spacing_children = ref('');
 const article_item_width = ref('50%');
 
 const article_style = ref({});
+const default_article_list: ArticleList = {
+    id: 0,
+    link: {},
+    new_title: '标题',
+    new_url: [],
+};
 watch(
     props.value,
     (newVal, oldValue) => {
@@ -80,7 +89,11 @@ watch(
         const new_content = newVal?.content;
         const new_style = newVal?.style;
         // 内容
-        article_list.value = new_content.article_list;
+        if (new_content.article_list.length == 0) {
+            article_list.value = Array(4).fill(default_article_list);
+        } else {
+            article_list.value = new_content.article_list;
+        }
         article_type.value = new_content.article_style;
         is_show.value = new_content.is_show;
         is_img_show.value = new_content.is_img_show;
@@ -115,7 +128,6 @@ watch(
     { immediate: true, deep: true }
 );
 const article_type_class = computed(() => {
-    // article_type == '1' ? '' : article_type == '0' ? '' : ''
     switch (article_type.value) {
         case '0':
             return 'style2 flex-col';

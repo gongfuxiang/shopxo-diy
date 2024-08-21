@@ -13,13 +13,13 @@
                 <card-container class="card-container-br">
                     <div class="mb-12">文章设置</div>
                     <el-form-item label="读取方式">
-                        <el-radio-group v-model="form.article_check" @change="article_check_change">
+                        <el-radio-group v-model="form.article_check">
                             <el-radio v-for="item in base_list.get_data_method_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                     <template v-if="form.article_check === '0'">
                         <div class="nav-list">
-                            <drag :data="new_auto_article_list" :space-col="20" @remove="article_list_remove" @on-sort="article_list_sort">
+                            <drag :data="form.article_list" :space-col="20" @remove="article_list_remove" @on-sort="article_list_sort">
                                 <template #default="{ row }">
                                     <upload v-model="row.new_url" :limit="1" size="40" styles="2"></upload>
                                     <el-image :src="row.link.cover" fit="contain" class="img">
@@ -37,21 +37,21 @@
                     </template>
                     <template v-else>
                         <el-form-item label="文章分类">
-                            <el-select v-model="form.article_category" multiple collapse-tags placeholder="请选择文章分类" @change="get_pointer_article">
+                            <el-select v-model="form.article_category" multiple collapse-tags placeholder="请选择文章分类">
                                 <el-option v-for="item in base_list.article_category_list" :key="item.id" :label="item.name" :value="item.id" />
                             </el-select>
                         </el-form-item>
                         <el-form-item label="显示数量">
-                            <el-input v-model="form.number" type="number" placeholder="请输入显示数量" clearable @change="get_pointer_article" />
+                            <el-input v-model="form.number" type="number" placeholder="请输入显示数量" clearable />
                         </el-form-item>
                         <el-form-item label="排序类型">
                             <el-radio-group v-model="form.sort">
-                                <el-radio v-for="item in base_list.sort_list" :key="item.value" :value="item.value" @change="get_pointer_article">{{ item.name }}</el-radio>
+                                <el-radio v-for="item in base_list.sort_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item label="排序规则">
                             <el-radio-group v-model="form.sort_rules">
-                                <el-radio v-for="item in base_list.sort_rules_list" :key="item.value" :value="item.value" @change="get_pointer_article">{{ item.name }}</el-radio>
+                                <el-radio v-for="item in base_list.sort_rules_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                         <el-form-item label="封面图片">
@@ -74,7 +74,6 @@
 </template>
 <script setup lang="ts">
 import { get_math } from '@/utils';
-import { isEmpty } from 'lodash';
 import ArticleAPI from '@/api/article';
 import { articleStore } from '@/store/article';
 const article_store = articleStore();
@@ -130,70 +129,12 @@ const init = () => {
     } else {
         base_list.article_category_list = article_store.article;
     }
-    if (isEmpty(form.article_list)) {
-        if (isEmpty(new_auto_article_list.value)) {
-            form.article_list = Array(4).fill(default_article_list);
-        } else {
-            form.article_list = new_auto_article_list.value;
-        }
-    }
-};
-const new_auto_article_list = ref<ArticleList[]>([]);
-const article_check_change = (val: any) => {
-    if (val == '0') {
-        if (isEmpty(form.article_list)) {
-            if (isEmpty(new_auto_article_list.value)) {
-                form.article_list = Array(4).fill(default_article_list);
-            } else {
-                form.article_list = new_auto_article_list.value;
-            }
-        }
-    } else {
-        get_pointer_article();
-    }
-};
-
-interface ArticleList {
-    id: number | string;
-    link: object;
-    new_title: string;
-    new_url: uploadList[];
-}
-const default_article_list: ArticleList = {
-    id: 0,
-    link: {},
-    new_title: '标题',
-    new_url: [],
-};
-const get_pointer_article = () => {
-    const { article_category, number, sort, sort_rules } = form;
-    const new_data = {
-        article_keywords: '',
-        article_category_ids: article_category.join(','),
-        article_number: number,
-        article_order_by_type: sort,
-        article_order_by_rule: sort_rules,
-    };
-    ArticleAPI.getAutoList(new_data).then((res: any) => {
-        form.article_list = [];
-        res.data.forEach((child: any) => {
-            const obj = {
-                id: get_math(),
-                new_title: child.title,
-                new_url: [],
-                link: child,
-            };
-            form.article_list.push(obj);
-        });
-    });
 };
 
 const article_list_remove = (index: number) => {
-    new_auto_article_list.value.splice(index, 1);
     form.article_list.splice(index, 1);
 };
 const article_list_sort = (item: any) => {
-    new_auto_article_list.value = item;
     form.article_list = item;
 };
 const add = () => {
@@ -203,15 +144,14 @@ const add = () => {
 const url_value_dialog_visible = ref(false);
 const url_value_dialog_call_back = (item: any[]) => {
     item.forEach((child: any) => {
-        const obj = {
+        form.article_list.push({
             id: get_math(),
+            is_edit: false,
             new_title: child.title,
             new_url: [],
             link: child,
-        };
-        new_auto_article_list.value.push(obj);
+        });
     });
-    form.article_list = new_auto_article_list.value;
 };
 </script>
 <style lang="scss" scoped>
