@@ -20,8 +20,7 @@ interface DefaultProductList {
         shop_padding: internalStyle;
         shop_img_radius: radiusStyle;
         shop_radius: radiusStyle;
-        content_outer_down_spacing: number;
-        content_outer_about_spacing: number;
+        content_outer_spacing: number;
         content_outer_width: number;
         content_spacing: number;
         shop_title_typeface: string;
@@ -81,8 +80,7 @@ const defaultProductList: DefaultProductList = {
             radius_bottom_left: 0,
             radius_bottom_right: 0,
         },
-        content_outer_down_spacing: 10, // 内容间的上下间距
-        content_outer_about_spacing: 10, // 内容间的左右间距
+        content_outer_spacing: 10, // 商品间距
         content_spacing: 10,
         content_outer_width: 104,
         shop_title_typeface: 'normal',

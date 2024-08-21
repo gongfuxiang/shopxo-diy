@@ -1,5 +1,5 @@
 <template>
-    <div :style="style_container">
+    <div class="oh" :style="style_container">
         <div :class="outer_class" :style="onter_style">
             <div v-for="(item, index) in list" :key="index" class="re" :class="layout_type" :style="layout_style">
                 <template v-if="product_style == '6'">
@@ -172,16 +172,12 @@ const content_img_radius = computed(() => radius_computer(new_style.value.shop_i
 const content_padding = computed(() => padding_computer(new_style.value.shop_padding));
 // 选择的风格
 const product_style = computed(() => form.value.product_style);
-// 左右间距数量
-const content_outer_about_spacing = computed(() => new_style.value.content_outer_about_spacing );
-// 上下间距
-const flex_down_spacing = computed(() => new_style.value.content_outer_down_spacing + 'px');
-// 左右间距
-const flex_about_spacing = computed(() => content_outer_about_spacing.value + 'px');
+// 商品间距
+const content_outer_spacing = computed(() => new_style.value.content_outer_spacing );
 // 两列风格
-const two_columns = computed(() => (content_outer_about_spacing.value) + 'px' );
+const two_columns = computed(() => (content_outer_spacing.value) + 'px' );
 // 三列风格
-const three_columns = computed(() => (content_outer_about_spacing.value * 2) + 'px');
+const three_columns = computed(() => (content_outer_spacing.value * 2) + 'px');
 // 不换行显示
 const multicolumn_columns = computed(() => new_style.value.content_outer_width + 'px');
 
@@ -189,14 +185,13 @@ const multicolumn_columns = computed(() => new_style.value.content_outer_width +
 const outer_class = computed(() => {
     const flex = ['0', '2', '6'].includes(product_style.value) ? 'flex-col ' : 'flex-row ';
     const wrap = product_style.value == '5' ? '' : 'flex-wrap ';
-    const background = ['4', '6'].includes(product_style.value) ? 'bg-f ' : '';
-    return flex + wrap + background;
+    const background = ['6'].includes(product_style.value) ? 'bg-f ' : '';
+    return flex + wrap + background + 'oh';
 });
 const onter_style = computed(() => {
-    const radius = product_style.value == '4' ? content_radius.value : '';
-    const padding = product_style.value == '4' ? content_padding.value : '';
-    const gap = `column-gap: ${ flex_about_spacing.value }; row-gap: ${ flex_down_spacing.value };`;
-    return `${ radius }  ${ padding } ${ gap }`;
+    const radius = product_style.value == '6' ? content_radius.value : '';
+    const gap = `gap: ${ new_style.value.content_outer_spacing + 'px'};`;
+    return `${ radius } ${ gap }`;
 })
 
 // 不同风格下的样式
@@ -204,22 +199,22 @@ const layout_type = computed(() => {
     let class_type = '';
     switch (product_style.value) {
         case '0':
-            class_type = `flex-row bg-f`;
+            class_type = `flex-row bg-f oh`;
             break;
         case '1':
-            class_type = `flex-col two-columns bg-f`;
+            class_type = `flex-col two-columns bg-f oh`;
             break;
         case '2':
-            class_type = `flex-col bg-f`;
+            class_type = `flex-col bg-f oh`;
             break;
         case '3':
-            class_type = `flex-col three-columns bg-f`;
+            class_type = `flex-col three-columns bg-f oh`;
             break;
         case '4':
-            class_type = `flex-row two-columns bg-f`;
+            class_type = `flex-row two-columns bg-f oh`;
             break;
         case '5':
-            class_type = `flex-col multicolumn-columns bg-f`;
+            class_type = `flex-col multicolumn-columns bg-f oh`;
             break;
         default:
             break;
@@ -228,9 +223,9 @@ const layout_type = computed(() => {
 })
 
 const layout_style = computed(() => {
-    const radius = product_style.value == '4' ? '' : content_radius.value;
-    const padding = product_style.value == '0' ? content_padding.value : '';
-    return `${ radius }  ${ padding } `;
+    const radius = product_style.value == '6' ? '' : content_radius.value;
+    const padding = ['0', '4'].includes(product_style.value) ? content_padding.value : '';
+    return `${ radius } ${ padding }`;
 })
 // 内容区域的样式
 const content_style =  computed(() => {
