@@ -141,10 +141,12 @@ const init = () => {
 const new_auto_article_list = ref<ArticleList[]>([]);
 const article_check_change = (val: any) => {
     if (val == '0') {
-        if (isEmpty(new_auto_article_list.value)) {
-            form.article_list = Array(4).fill(default_article_list);
-        } else {
-            form.article_list = new_auto_article_list.value;
+        if (isEmpty(form.article_list)) {
+            if (isEmpty(new_auto_article_list.value)) {
+                form.article_list = Array(4).fill(default_article_list);
+            } else {
+                form.article_list = new_auto_article_list.value;
+            }
         }
     } else {
         get_pointer_article();
