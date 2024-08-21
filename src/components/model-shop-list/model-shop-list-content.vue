@@ -19,21 +19,7 @@
                     </el-form-item>
                     <template v-if="form.product_check === '0'">
                         <div class="nav-list">
-                            <drag :data="form.product_list" :space-col="20" @remove="product_list_remove" @on-sort="product_list_sort">
-                                <template #default="{ row }">
-                                    <upload v-model="row.new_src" :limit="1" size="40" styles="2"></upload>
-                                    <el-image :src="row.url" fit="contain" class="img">
-                                        <template #error>
-                                            <div class="bg-f5 flex-row jc-c align-c radius h w">
-                                                <icon name="error-img" size="16" color="9"></icon>
-                                            </div>
-                                        </template>
-                                    </el-image>
-                                    <div class="flex-1 flex-width">
-                                        <url-value v-model="row.href"></url-value>
-                                    </div>
-                                </template>
-                            </drag>
+                            <drag-group :list="form.product_list" img-params="images" @onsort="product_list_sort" @remove="product_list_remove"></drag-group>
                             <el-button class="mt-20 w" @click="add">+添加</el-button>
                         </div>
                     </template>

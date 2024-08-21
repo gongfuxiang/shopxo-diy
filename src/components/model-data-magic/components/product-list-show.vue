@@ -2,29 +2,68 @@
     <template v-if="props.outerflex == 'row'">
         <div class="flex-row gap-10 align-c w h">
             <template v-if="props.flex === 'row'">
-                <div v-for="(item2, index2) in split_list" :key="index2" class="flex-row gap-10 half-width h">
-                    <image-empty v-model="item2.new_src[0]" :style="contentImgRadius"></image-empty>
+                <div v-for="(item, index) in split_list" :key="index" class="flex-row gap-10 half-width h">
+                    <template v-if="!isEmpty(item.new_url)">
+                        <image-empty v-model="item.new_url[0]" :style="contentImgRadius"></image-empty>
+                    </template>
+                    <template v-else-if="!isEmpty(item.images)">
+                        <el-image :src="item.images" fit="contain" class="img" :style="contentImgRadius"></el-image>
+                    </template>
+                    <template v-else>
+                        <image-empty :style="contentImgRadius"></image-empty>
+                    </template>
                     <div v-if="!isEmpty(isShow)" class="flex-col w h tl gap-10">
-                        <div v-if="isShow.includes('0')" class="text-line-2 size-14">华为荣耀畅享平大幅度发过板华为荣耀畅享平大幅度发过板</div>
-                        <div v-if="isShow.includes('1')" class="identifying"><span class="num">¥</span><span>{{'51' }}</span></div>
+                        <div v-if="isShow.includes('0')" class="text-line-2 size-14">{{ item.title }}</div>
+                        <div v-if="isShow.includes('1')" class="identifying">
+                            <span class="num">{{ item.show_price_symbol }}</span>{{ item.min_price }}
+                            <template v-if="isShow.includes('2')">
+                                <span class="num">{{ item.show_price_unit }}</span>
+                            </template>
+                        </div>
                     </div>
                 </div>
             </template>
             <template v-else-if="actived != 7 || props.num !== 1">
-                <div v-for="(item2, index2) in split_list" :key="index2" :class="['flex-col gap-10 h', { 'half-width': props.num !== 1, 'w': props.num == 1 }]">
+                <div v-for="(item, index) in split_list" :key="index" :class="['flex-col gap-10 h', { 'half-width': props.num !== 1, 'w': props.num == 1 }]">
                     <div class="w h re">
-                        <image-empty v-model="item2.new_src[0]" :style="contentImgRadius"></image-empty>
-                        <div v-if="isShow.includes('1')" class="price-suspension">¥{{ '51' }}</div>
+                        <template v-if="!isEmpty(item.new_url)">
+                            <image-empty v-model="item.new_url[0]" :style="contentImgRadius"></image-empty>
+                        </template>
+                        <template v-else-if="!isEmpty(item.images)">
+                            <el-image :src="item.images" fit="contain" class="img" :style="contentImgRadius"></el-image>
+                        </template>
+                        <template v-else>
+                            <image-empty :style="contentImgRadius"></image-empty>
+                        </template>
+                        <div v-if="isShow.includes('1')" class="price-suspension text-line-1">
+                            {{ item.show_price_symbol }}{{ item.min_price }}
+                            <template v-if="isShow.includes('2')">
+                                {{ item.show_price_unit }}
+                            </template>
+                        </div>
                     </div>
-                    <div v-if="isShow.includes('0')" class="text-line-1 size-14 tl w" style="overflow: inherit;">华为荣耀畅享平大幅度发过板华为荣耀畅享平大幅度发过板</div>
+                    <div v-if="isShow.includes('0')" class="text-line-1 size-14 tl w" style="overflow: inherit;">{{ item.title }}</div>
                 </div>
             </template>
             <template v-else>
-                <div v-for="(item2, index2) in split_list" :key="index2" class="flex-col w h">
-                    <image-empty v-model="item2.new_src[0]" :style="contentImgRadius"></image-empty>
+                <div v-for="(item, index) in split_list" :key="index" class="flex-col w h">
+                    <template v-if="!isEmpty(item.new_url)">
+                        <image-empty v-model="item.new_url[0]" :style="contentImgRadius"></image-empty>
+                    </template>
+                    <template v-else-if="!isEmpty(item.images)">
+                        <el-image :src="item.images" fit="contain" class="img" :style="contentImgRadius"></el-image>
+                    </template>
+                    <template v-else>
+                        <image-empty :style="contentImgRadius"></image-empty>
+                    </template>
                     <div v-if="!isEmpty(isShow)" class="flex-col w tl gap-10" :style="`${ padding_computer(props.chunkPadding) }`">
-                        <div v-if="isShow.includes('0')" class="text-line-2 size-14">华为荣耀畅享平大幅度发过板华为荣耀畅享平大幅度发过板</div>
-                        <div v-if="isShow.includes('1')" class="identifying"><span class="num">¥</span><span>{{'51' }}</span></div>
+                        <div v-if="isShow.includes('0')" class="text-line-2 size-14">{{ item.title }}</div>
+                        <div v-if="isShow.includes('1')" class="identifying">
+                            <span class="num">{{ item.show_price_symbol }}</span>{{ item.min_price }}
+                            <template v-if="isShow.includes('2')">
+                                <span class="num">{{ item.show_price_unit }}</span>
+                            </template>
+                        </div>
                     </div>
                 </div>
             </template>
@@ -33,11 +72,24 @@
     <template v-else>
         <div class="flex-col gap-20 align-c w h">
             <template v-if="props.flex === 'row'">
-                <div v-for="(item2, index2) in split_list" :key="index2" class="flex-row gap-10 align-c w h">
-                    <image-empty v-model="item2.new_src[0]" :style="contentImgRadius"></image-empty>
-                    <div v-if="!isEmpty(isShow)" class="flex-col w h tl gap-10">
-                        <div v-if="isShow.includes('0')" class="text-line-2 size-14">华为荣耀畅享平大幅度发过板华为荣耀畅享平大幅度发过板</div>
-                        <div v-if="isShow.includes('1')" class="identifying"><span class="num">￥</span><span>{{'51' }}</span></div>
+                <div v-for="(item, index) in split_list" :key="index" class="flex-row gap-10 align-c w h">
+                    <template v-if="!isEmpty(item.new_url)">
+                        <image-empty v-model="item.new_url[0]" :style="contentImgRadius"></image-empty>
+                    </template>
+                    <template v-else-if="!isEmpty(item.images)">
+                        <el-image :src="item.images" fit="contain" class="img" :style="contentImgRadius"></el-image>
+                    </template>
+                    <template v-else>
+                        <image-empty :style="contentImgRadius"></image-empty>
+                    </template>
+                    <div v-if="!isEmpty(isShow)" class="flex-col w h tl gap-20">
+                        <div v-if="isShow.includes('0')" class="text-line-2 size-14">{{ item.title }}</div>
+                        <div v-if="isShow.includes('1')" class="identifying">
+                            <span class="num">{{ item.show_price_symbol }}</span>{{ item.min_price }}
+                            <template v-if="isShow.includes('2')">
+                                <span class="num">{{ item.show_price_unit }}</span>
+                            </template>
+                        </div>
                     </div>
                 </div>
             </template>
@@ -84,7 +136,7 @@ watchEffect(() => {
     }
 }
 .identifying {
-    font-size: 2rem;
+    font-size: 1.4rem;
     color: #EA3323;
     .num {
         font-size: 0.9rem;

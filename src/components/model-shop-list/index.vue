@@ -10,8 +10,8 @@
                 </template>
                 <template v-else>
                     <template v-if="!isEmpty(item)">
-                        <template v-if="!isEmpty(item.new_src)">
-                            <image-empty v-model="item.new_src[0]" :class="`flex-img${product_style} flex align-c jc-c`" :style="content_img_radius"></image-empty>
+                        <template v-if="!isEmpty(item.new_url)">
+                            <image-empty v-model="item.new_url[0]" :class="`flex-img${product_style} flex align-c jc-c`" :style="content_img_radius"></image-empty>
                         </template>
                         <template v-else-if="!isEmpty(item.images)">
                             <el-image :src="item.images" :class="`flex-img${product_style} flex align-c jc-c`" fit="contain" class="img"></el-image>
@@ -31,8 +31,14 @@
                         </div>
                         <div v-if="!['3','4','5'].includes(form.product_style)" class="flex-col gap-5 oh">
                             <div :class="[form.is_price_solo ? 'flex-row align-c nowrap': 'flex-col gap-5']">
-                                <div v-if="is_show('2')" class="num" :style="`color: ${ new_style.shop_price_color }`"><span class="identifying">{{ item.show_price_symbol }}</span><span :style="trends_config('price')">{{ item.min_price }}</span><span class="identifying">{{ item.show_price_unit }}</span></div>
-                                <div v-if="show_content && is_show('5')" class="size-10 flex"><span class="original-price-left"></span><span class="original-price flex-1 text-line-1">{{ item.show_original_price_symbol }}{{ item.min_original_price }}{{ item.show_original_price_unit }}</span></div>
+                                <div v-if="is_show('2')" class="num" :style="`color: ${ new_style.shop_price_color }`"><span class="identifying">{{ item.show_price_symbol }}</span><span :style="trends_config('price')">{{ item.min_price }}</span>
+                                    <span v-if="is_show('6')" class="identifying">{{ item.show_price_unit }}</span>
+                                </div>
+                                <div v-if="show_content && is_show('5')" class="size-10 flex"><span class="original-price-left"></span><span class="original-price flex-1 text-line-1">{{ item.show_original_price_symbol }}{{ item.min_original_price }}
+                                    <template v-if="is_show('7')">
+                                        {{ item.show_original_price_unit }}
+                                    </template>
+                                </span></div>
                             </div>
                             <div class="flex-row jc-sb align-e">
                                 <div>
@@ -85,7 +91,7 @@
 </template>
 <script setup lang="ts">
 import { common_styles_computer, gradient_handle, padding_computer, radius_computer } from '@/utils';
-import { isEmpty } from 'lodash';
+import { isEmpty, cloneDeep } from 'lodash';
 import ShopAPI from '@/api/shop';
 
 const props = defineProps({
@@ -112,7 +118,7 @@ const { form, new_style } = toRefs(state);
 interface product_list {
     title: string;
     images: string;
-    new_src: string[];
+    new_url: string[];
     min_original_price: string;
     show_original_price_symbol: string;
     show_original_price_unit: string;
@@ -130,9 +136,10 @@ const default_list = {
     show_price_unit: "",
     sales_count: "1000",
     images: '',
-    new_src: []
+    new_url: []
 }
 const list = ref<product_list[]>([]);
+
 const get_products = () => {
     const { goods_category_ids, goods_brand_ids, number, sort, sort_rules } = form.value;
     const params = {
@@ -152,10 +159,15 @@ const get_products = () => {
         }
     });
 };
+
 watchEffect(() => {
     if (form.value.product_check == '0') {
         if (!isEmpty(form.value.product_list)) {
-            list.value = form.value.product_list;
+            list.value = cloneDeep(form.value.product_list).map((item: any) => ({
+                ...item.link,
+                title: item.new_title,
+                new_url: item.new_url,
+            }));
         } else {
             list.value = Array(4).fill(default_list);
         }
@@ -356,6 +368,7 @@ const style_container = computed(() => {
 }
 .flex-img0 {
     height: auto;
+    max-height: 12rem;
     width: 11rem;
 } 
 .flex-img1 {
