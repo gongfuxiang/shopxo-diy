@@ -17,7 +17,7 @@ interface DefaultProductList {
         shop_button_size: string;
     };
     style: {
-        shop_padding: internalStyle;
+        shop_padding: paddingStyle;
         shop_img_radius: radiusStyle;
         shop_radius: radiusStyle;
         content_outer_spacing: number;

@@ -27,9 +27,9 @@ declare global {
     /**
      * 内边距的参数集合
      */
-    type internalKeys = 'padding' | 'padding_bottom' | 'padding_top' | 'padding_left' | 'padding_right';
-    type internalStyle = {
-        [key in internalKeys]: number;
+    type paddingKeys = 'padding' | 'padding_bottom' | 'padding_top' | 'padding_left' | 'padding_right';
+    type paddingStyle = {
+        [key in paddingKeys]: number;
     };
     /**
      * 内边距的参数集合

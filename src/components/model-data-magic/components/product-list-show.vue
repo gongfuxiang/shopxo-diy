@@ -57,7 +57,7 @@ interface Props {
     num: number;
     actived: number;
     isShow: Array<string>;
-    chunkPadding: internalStyle;
+    chunkPadding: paddingStyle;
 }
 
 const props = withDefaults(defineProps<Props>(), {
