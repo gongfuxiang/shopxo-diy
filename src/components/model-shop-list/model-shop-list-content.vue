@@ -52,6 +52,7 @@
                 <!-- 商品显示的配置信息 -->
                 <product-show-config :value="form"></product-show-config>
             </div>
+            <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['goods']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
         </el-form>
     </div>
 </template>
@@ -128,11 +129,19 @@ const product_list_remove = (index: number) => {
     form.value.product_list.splice(index, 1);
 };
 const add = () => {
-    form.value.product_list.push({
-        id: get_math(),
-        src: 'carousel',
-        new_src: [],
-        href: {},
+    url_value_dialog_visible.value = true;
+};
+// 打开弹出框
+const url_value_dialog_visible = ref(false);
+// 弹出框选择的内容
+const url_value_dialog_call_back = (item: any[]) => {
+    item.forEach((item: any) => {
+        form.value.product_list.push({
+            id: get_math(),
+            new_url: [],
+            new_title: item.title,
+            link: item,
+        });
     });
 };
 // 拖拽更新之后，更新数据

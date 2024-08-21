@@ -25,13 +25,17 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form, new_style } = toRefs(state);
 
-const tabs_list = ref({
-    content: {
-        ...toRefs(form.value),
-        ...toRefs(form.value.tabs_list[0]),
-    },
-    style: {
-        ...toRefs(new_style.value),
+const tabs_list = ref({});
+
+watchEffect(() => {
+    tabs_list.value = {
+        content: {
+            ...toRefs(form.value),
+            ...toRefs(form.value.tabs_list[0]),
+        },
+        style: {
+            ...toRefs(new_style.value),
+        }
     }
 })
 console.log(tabs_list.value);
