@@ -18,7 +18,7 @@
                                 <upload v-model="form.icon_img_src" :limit="1" size="50"></upload>
                             </template>
                             <template v-else>
-                                <upload v-model="form.icon_src" :limit="1" size="50"></upload>
+                                <!-- <upload-icon :dialogVisible="true" :limit="1" size="50"></upload-icon> -->
                             </template>
                         </template>
                     </div>

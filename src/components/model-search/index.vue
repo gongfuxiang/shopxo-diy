@@ -34,6 +34,7 @@
 </template>
 <script setup lang="ts">
 import { background_computer, common_styles_computer, gradient_computer, radius_computer } from '@/utils';
+
 const props = defineProps({
     value: {
         type: Object,
