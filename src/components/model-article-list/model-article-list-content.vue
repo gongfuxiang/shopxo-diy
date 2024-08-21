@@ -22,16 +22,14 @@
                             <drag :data="form.article_list" :space-col="20" @remove="article_list_remove" @on-sort="article_list_sort">
                                 <template #default="{ row }">
                                     <upload v-model="row.new_url" :limit="1" size="40" styles="2"></upload>
-                                    <el-image :src="row.url" fit="contain" class="img">
+                                    <el-image :src="row.link.cover" fit="contain" class="img">
                                         <template #error>
                                             <div class="bg-f5 flex-row jc-c align-c radius h w">
                                                 <icon name="error-img" size="16" color="9"></icon>
                                             </div>
                                         </template>
                                     </el-image>
-                                    <div class="flex-1 flex-width">
-                                        <url-value v-model="row.link"></url-value>
-                                    </div>
+                                    <div class="flex-1 flex-width text-line-2 size-12 self-s">{{ row.link.title }}</div>
                                 </template>
                             </drag>
                             <el-button class="mtb-20 w" @click="add">+添加</el-button>
@@ -120,12 +118,12 @@ const init = () => {
     if (!article_store.is_article_api) {
         article_store.set_is_article_api(true);
         ArticleAPI.getInit()
-            .then((res) => {
+            .then((res: any) => {
                 const { article_category_list } = res.data;
                 base_list.article_category_list = article_category_list;
                 article_store.set_article(article_category_list);
             })
-            .catch((err) => {
+            .catch((err: any) => {
                 article_store.set_is_article_api(false);
             });
     } else {

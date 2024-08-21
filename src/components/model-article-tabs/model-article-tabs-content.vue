@@ -147,12 +147,12 @@ const init = () => {
     if (!article_store.is_article_api) {
         article_store.set_is_article_api(true);
         ArticleAPI.getInit()
-            .then((res) => {
+            .then((res: any) => {
                 const { article_category_list } = res.data;
                 base_list.article_category_list = article_category_list;
                 article_store.set_article(article_category_list);
             })
-            .catch((err) => {
+            .catch((err: any) => {
                 article_store.set_is_article_api(false);
             });
     } else {
