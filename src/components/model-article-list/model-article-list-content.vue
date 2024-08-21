@@ -130,10 +130,12 @@ const init = () => {
     } else {
         base_list.article_category_list = article_store.article;
     }
-    if (isEmpty(new_auto_article_list.value)) {
-        form.article_list = Array(4).fill(default_article_list);
-    } else {
-        form.article_list = new_auto_article_list.value;
+    if (isEmpty(form.article_list)) {
+        if (isEmpty(new_auto_article_list.value)) {
+            form.article_list = Array(4).fill(default_article_list);
+        } else {
+            form.article_list = new_auto_article_list.value;
+        }
     }
 };
 const new_auto_article_list = ref<ArticleList[]>([]);
