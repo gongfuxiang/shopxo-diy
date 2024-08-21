@@ -5,6 +5,7 @@ interface DefaultProductList {
         product_check: string;
         goods_category_ids: string[];
         goods_brand_ids: string[];
+        product_show_list: string[];
         product_list: string[];
         is_price_solo: boolean;
         number: number;
@@ -45,6 +46,7 @@ const defaultProductList: DefaultProductList = {
     content: {
         product_style: '0',
         product_check: '0',
+        product_show_list: [],
         product_list: [],
         goods_category_ids: [],
         goods_brand_ids: [],

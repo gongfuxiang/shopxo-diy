@@ -31,8 +31,14 @@
                         </div>
                         <div v-if="!['3','4','5'].includes(form.product_style)" class="flex-col gap-5 oh">
                             <div :class="[form.is_price_solo ? 'flex-row align-c nowrap': 'flex-col gap-5']">
-                                <div v-if="is_show('2')" class="num" :style="`color: ${ new_style.shop_price_color }`"><span class="identifying">{{ item.show_price_symbol }}</span><span :style="trends_config('price')">{{ item.min_price }}</span><span class="identifying">{{ item.show_price_unit }}</span></div>
-                                <div v-if="show_content && is_show('5')" class="size-10 flex"><span class="original-price-left"></span><span class="original-price flex-1 text-line-1">{{ item.show_original_price_symbol }}{{ item.min_original_price }}{{ item.show_original_price_unit }}</span></div>
+                                <div v-if="is_show('2')" class="num" :style="`color: ${ new_style.shop_price_color }`"><span class="identifying">{{ item.show_price_symbol }}</span><span :style="trends_config('price')">{{ item.min_price }}</span>
+                                    <span v-if="is_show('6')" class="identifying">{{ item.show_price_unit }}</span>
+                                </div>
+                                <div v-if="show_content && is_show('5')" class="size-10 flex"><span class="original-price-left"></span><span class="original-price flex-1 text-line-1">{{ item.show_original_price_symbol }}{{ item.min_original_price }}
+                                    <template v-if="is_show('7')">
+                                        {{ item.show_original_price_unit }}
+                                    </template>
+                                </span></div>
                             </div>
                             <div class="flex-row jc-sb align-e">
                                 <div>
@@ -133,6 +139,7 @@ const default_list = {
     new_url: []
 }
 const list = ref<product_list[]>([]);
+
 const get_products = () => {
     const { goods_category_ids, goods_brand_ids, number, sort, sort_rules } = form.value;
     const params = {
@@ -152,6 +159,7 @@ const get_products = () => {
         }
     });
 };
+
 watchEffect(() => {
     if (form.value.product_check == '0') {
         if (!isEmpty(form.value.product_list)) {

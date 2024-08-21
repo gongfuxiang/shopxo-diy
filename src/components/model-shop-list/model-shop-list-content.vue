@@ -19,7 +19,7 @@
                     </el-form-item>
                     <template v-if="form.product_check === '0'">
                         <div class="nav-list">
-                            <dragGroup :list="form.product_list" img-params="images" @onsort="product_list_sort" @remove="product_list_remove"></dragGroup>
+                            <drag-group :list="form.product_list" img-params="images" @onsort="product_list_sort" @remove="product_list_remove"></drag-group>
                             <el-button class="mt-20 w" @click="add">+添加</el-button>
                         </div>
                     </template>
@@ -53,7 +53,6 @@
                 <product-show-config :value="form"></product-show-config>
             </div>
         </el-form>
-        <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['goods']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
     </div>
 </template>
 <script setup lang="ts">
@@ -125,36 +124,26 @@ onBeforeMount(() => {
     init();
 });
 
+const product_list_remove = (index: number) => {
+    form.value.product_list.splice(index, 1);
+};
 const add = () => {
-    url_value_dialog_visible.value = true;
+    form.value.product_list.push({
+        id: get_math(),
+        src: 'carousel',
+        new_src: [],
+        href: {},
+    });
 };
 // 拖拽更新之后，更新数据
 const product_list_sort = (new_list: any) => {
     form.value.product_list = new_list;
 };
-// 删除显示
-const product_list_remove = (index: number) => {
-    form.value.product_list.splice(index, 1);
-};
-
 const change_style = (val: any): void => {
     form.value.product_style = val;
     if (['3', '4', '5'].includes(val) && ['0', '1'].includes(form.value.shop_type)) {
         form.value.shop_type = '2';
     }
-};
-// 打开弹出框
-const url_value_dialog_visible = ref(false);
-// 弹出框选择的内容
-const url_value_dialog_call_back = (item: any[]) => {
-    item.forEach((item: any) => {
-        form.value.product_list.push({
-            id: get_math(),
-            new_url: [],
-            new_title: item.title,
-            link: item,
-        });
-    });
 };
 </script>
 <style lang="scss" scoped>

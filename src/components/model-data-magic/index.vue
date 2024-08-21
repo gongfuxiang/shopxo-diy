@@ -244,7 +244,11 @@ const text_style = (typeface: string, size: number, color: string) => {
 const commodity_list = (list: any[], num: number) => {
     if (list.length > 0) {
         // 深拷贝一下，确保不会出现问题
-        const commodity_list = cloneDeep(list);
+        const commodity_list = cloneDeep(list).map((item: any) => ({
+            ...item.link,
+            title: item.new_title,
+            new_url: item.new_url,
+        }));
         // 存储数据显示
         let nav_list = [];
         // 拆分的数量

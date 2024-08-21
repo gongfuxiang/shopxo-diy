@@ -40,19 +40,7 @@
                                     </el-form-item>
                                     <template v-if="row.product_check === '0'">
                                         <div class="nav-list">
-                                            <drag :data="row.product_list" :space-col="20" @remove="product_list_remove($event, index)" @on-sort="product_list_sort($event, index)">
-                                                <template #default="scoped">
-                                                    <upload v-model="scoped.row.new_src" :limit="1" size="40" styles="2"></upload>
-                                                    <el-image :src="scoped.row.url" fit="contain" class="img">
-                                                        <template #error>
-                                                            <div class="bg-f5 flex-row jc-c align-c radius h w">
-                                                                <icon name="error-img" size="16" color="9"></icon>
-                                                            </div>
-                                                        </template>
-                                                    </el-image>
-                                                    <url-value v-model="scoped.row.href"></url-value>
-                                                </template>
-                                            </drag>
+                                            <drag-group :list="row.product_list" img-params="images" @onsort="product_list_sort($event, index)" @remove="product_list_remove($event, index)"></drag-group>
                                             <el-button class="mtb-20 w" @click="product_add(index)">+添加</el-button>
                                         </div>
                                     </template>
@@ -90,6 +78,7 @@
             </card-container>
             <!-- 商品显示的配置信息 -->
             <product-show-config :value="form"></product-show-config>
+            <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['goods']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
         </el-form>
     </div>
 </template>
@@ -202,14 +191,24 @@ const product_list_remove = (index: number, product_index: number) => {
 const product_list_sort = (item: any, index: number) => {
     form.value.tabs_list[index].product_list = item;
 };
+let click_index = 0;
 const product_add = (index: number) => {
-    form.value.tabs_list[index].product_list.push({
-        id: get_math(),
-        src: 'carousel',
-        new_src: [],
-        href: '',
+    click_index = index;
+    url_value_dialog_visible.value = true;
+};
+
+// 打开弹出框
+const url_value_dialog_visible = ref(false);
+// 弹出框选择的内容
+const url_value_dialog_call_back = (item: any[]) => {
+    item.forEach((item: any) => {
+        form.value.tabs_list[click_index].product_list.push({
+            id: get_math(),
+            new_url: [],
+            new_title: item.title,
+            link: item,
+        });
     });
-    // emit('update:value', form);
 };
 </script>
 <style lang="scss" scoped>

@@ -34,31 +34,19 @@
     </card-container>
     <card-container v-else class="mb-8">
         <div class="mb-12">商品设置</div>
-        <drag :key="form.product_list" :data="form.product_list" :space-col="20" @remove="product_list_remove" @on-sort="product_list_sort">
-            <template #default="{ row }">
-                <upload v-model="row.new_src" :limit="1" size="40" styles="2"></upload>
-                <el-image :src="row.url" fit="contain" class="img">
-                    <template #error>
-                        <div class="bg-f5 flex-row jc-c align-c radius h w">
-                            <icon name="error-img" size="16" color="9"></icon>
-                        </div>
-                    </template>
-                </el-image>
-                <div class="flex-1 flex-width">
-                    <url-value v-model="row.href"></url-value>
-                </div>
-            </template>
-        </drag>
+        <drag-group :list="form.product_list" img-params="images" @onsort="product_list_sort" @remove="product_list_remove"></drag-group>
         <el-button class="mtb-20 w" @click="product_list_add">+添加</el-button>
-        <el-form-item label="展示信息">
+        <el-form-item label="展示信息" label-width="60">
             <el-checkbox-group v-model="form.is_show">
                 <el-checkbox v-for="item in list_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
             </el-checkbox-group>
         </el-form-item>
+        <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['goods']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
     </card-container>
 </template>
 <script setup lang="ts">
 import { get_math } from '@/utils';
+import { cloneDeep } from 'lodash';
 
 const props = defineProps({
     value: {
@@ -71,7 +59,7 @@ const props = defineProps({
     }
 });
 
-const list_show_list = [{ name: '商品名称', value: '0' }, { name: '商品售价', value: '1' }]
+const list_show_list = [{ name: '商品名称', value: '0' }, { name: '商品售价', value: '1' }, { name: '售价单位', value: '2' }]
 
 const form = ref(props.value);
 
@@ -87,22 +75,31 @@ const img_remove = (index: number) => {
 const product_list_remove = (index: number) => {
     form.value.product_list.splice(index, 1);
 };
-const product_list_add = () => {
-    form.value.product_list.push({
-        id: get_math(),
-        src: 'carousel',
-        new_src: [],
-        href: {},
-    });
-};
 // 拖拽更新之后，更新数据
 const product_list_sort = (new_list: any) => {
-    form.value.product_list = new_list;
+    form.value.product_list = cloneDeep(new_list);
 }
 
 watchEffect(() => {
     form.value = props.value;
-})
+});
+
+const product_list_add = () => {
+    url_value_dialog_visible.value = true;
+};
+// 打开弹出框
+const url_value_dialog_visible = ref(false);
+// 弹出框选择的内容
+const url_value_dialog_call_back = (item: any[]) => {
+    item.forEach((item: any) => {
+        form.value.product_list.push({
+            id: get_math(),
+            new_url: [],
+            new_title: item.title,
+            link: item,
+        });
+    });
+};
 </script>
 <style lang="scss" scoped>
 .card.mb-8 {

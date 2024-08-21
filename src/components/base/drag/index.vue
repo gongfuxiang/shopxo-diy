@@ -44,7 +44,8 @@ if (props.type == 'card') {
     className.value = 'align-c';
 }
 
-const from = ref(props.data);
+const from = computed(() => props.data);
+
 const on_click = (item: any, index: number) => {
     emits('click', item, index);
 };

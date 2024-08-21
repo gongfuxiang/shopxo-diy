@@ -26,15 +26,16 @@ const state = reactive({
 const { form, new_style } = toRefs(state);
 
 const tabs_list = ref({
-        content: {
-            ...toRefs(form.value),
-            ...toRefs(form.value.tabs_list[0]),
-        },
-        style: {
-            ...toRefs(new_style.value),
-        }
+    content: {
+        ...toRefs(form.value),
+        ...toRefs(form.value.tabs_list[0]),
+    },
+    style: {
+        ...toRefs(new_style.value),
     }
-)
+})
+console.log(tabs_list.value);
+
 // 公共样式
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));
 </script>
