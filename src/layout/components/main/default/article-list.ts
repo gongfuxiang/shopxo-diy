@@ -10,7 +10,7 @@ interface DefaultArticleList {
     content: {
         article_style: string;
         article_check: string;
-        article_type: string[];
+        article_category: string[];
         article_list: ArticleList[];
         number: number;
         sort: string;
@@ -41,7 +41,7 @@ const defaultArticleList: DefaultArticleList = {
         article_style: '1',
         article_check: '0',
         article_list: [],
-        article_type: [],
+        article_category: [],
         number: 4,
         sort: '0',
         sort_rules: '0',

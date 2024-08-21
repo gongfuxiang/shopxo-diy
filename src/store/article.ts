@@ -1,12 +1,12 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 export const articleStore = defineStore('article', () => {
-    // 链接是否需要调接口判断
+    // 文章是否需要调接口判断
     const is_article_api = ref(false);
-    // 链接数据
-    const article = ref<article_list[]>([]);
-    // 存储链接数据
-    const set_article = (data: article_list[]) => {
+    // 文章数据
+    const article = ref<select_1[]>([]);
+    // 存储文章数据
+    const set_article = (data: select_1[]) => {
         article.value = data;
         is_article_api.value = true;
     };
@@ -22,8 +22,3 @@ export const articleStore = defineStore('article', () => {
         set_is_article_api,
     };
 });
-interface article_list {
-    id: number;
-    name: string;
-    url?: string;
-}

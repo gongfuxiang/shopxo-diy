@@ -3,6 +3,10 @@ declare global {
     interface arrayIndex {
         [key: string]: any;
     }
+    interface select_1 {
+        id: string | number;
+        name: string;
+    }
     // 可视化数据
     interface commonComponentData {
         src: string;

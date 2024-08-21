@@ -98,10 +98,6 @@ import { get_math } from '@/utils';
 import ShopAPI from '@/api/shop';
 import { shopStore } from '@/store';
 const shop_store = shopStore();
-interface shop_list {
-    id: number;
-    name: string;
-};
 
 const props = defineProps({
     value: {
@@ -136,8 +132,8 @@ const base_list = reactive({
         { name: '指定商品', value: '0' },
         { name: '选择商品', value: '1' },
     ],
-    product_category_list: [] as shop_list[],
-    product_brand_list: [] as shop_list[],
+    product_category_list: [] as select_1[],
+    product_brand_list: [] as select_1[],
     sort_list: [
         { name: '综合', value: '0' },
         { name: '销量', value: '1' },
@@ -156,23 +152,27 @@ const base_list = reactive({
 });
 // 获取商品分类和品牌分类
 const init = () => {
-    ShopAPI.getShop().then((res) => {
-        const { goods_category, brand_list } = res.data;
-        base_list.product_category_list = goods_category;
-        base_list.product_brand_list = brand_list;
-        shop_store.set_category_brand(goods_category, brand_list);
-    });
-};
-
-onBeforeMount(() => {
     // 判断是否有历史数据
     if (!shop_store.is_shop_api) {
         shop_store.set_is_shop_api(true);
-        init();
+        ShopAPI.getShop()
+            .then((res) => {
+                const { goods_category, brand_list } = res.data;
+                base_list.product_category_list = goods_category;
+                base_list.product_brand_list = brand_list;
+                shop_store.set_category_brand(goods_category, brand_list);
+            })
+            .catch((err) => {
+                shop_store.set_is_shop_api(false);
+            });
     } else {
         base_list.product_category_list = shop_store.category_list;
         base_list.product_brand_list = shop_store.brand_list;
     }
+};
+
+onBeforeMount(() => {
+    init();
 });
 
 const active_index = ref(0);
