@@ -62,7 +62,7 @@
 </template>
 <script lang="ts" setup>
 import type { FormInstance, FormRules } from 'element-plus';
-import { urlValueStore, urlValue, pageLinkList } from '@/store';
+import { urlValueStore } from '@/store';
 const url_value_store = urlValueStore();
 const props = defineProps({
     status: {
@@ -188,7 +188,7 @@ const on_submit = () => {
     if (!ruleFormRef.value) return;
     ruleFormRef.value.validate((valid: boolean) => {
         if (valid) {
-            let new_value: linkData = {
+            let new_value: pageLinkList = {
                 name: form.key,
                 link: form.key,
             };

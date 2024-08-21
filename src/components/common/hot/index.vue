@@ -357,7 +357,7 @@ const add_event = () => {
 //#region 设置热区弹窗-----------------------------------------------start
 const hot_dialog_visible = ref(false);
 interface formData {
-    link: linkData;
+    link: pageLinkList;
     name: string;
 }
 const form = ref<formData>({

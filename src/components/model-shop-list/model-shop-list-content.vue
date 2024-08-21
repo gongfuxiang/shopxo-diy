@@ -72,8 +72,8 @@
 <script setup lang="ts">
 import { get_math } from '@/utils';
 import ShopAPI from '@/api/shop';
-import { ShopStore } from '@/store';
-const shop_store = ShopStore();
+import { shopStore } from '@/store';
+const shop_store = shopStore();
 interface shop_list {
     id: number;
     name: string;

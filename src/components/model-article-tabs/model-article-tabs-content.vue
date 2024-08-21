@@ -97,6 +97,8 @@
 </template>
 <script setup lang="ts">
 import { get_math } from '@/utils';
+import ArticleAPI from '@/api/article';
+import { articleStore } from '@/store/article';
 const props = defineProps({
     value: {
         type: Object,
