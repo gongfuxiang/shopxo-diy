@@ -34,7 +34,7 @@ interface DefaultProductList {
         tabs_weight: string,
         tabs_size: number,
         tabs_color: string,
-        shop_padding: internalStyle;
+        shop_padding: paddingStyle;
         shop_img_radius: radiusStyle;
         shop_radius: radiusStyle;
         content_outer_down_spacing: number;

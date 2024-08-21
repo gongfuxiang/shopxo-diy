@@ -29,23 +29,7 @@
                     <padding :value="form" @update:value="padding_change"></padding>
                 </el-form-item>
                 <el-form-item label="外边距">
-                    <div class="flex-col gap-10 w">
-                        <slider v-model="form.margin" @update:model-value="margin_event"></slider>
-                        <div class="flex-row flex-wrap gap-x-20 mt-10">
-                            <div class="flex-width-half pr-10">
-                                <input-number v-model="form.margin_top" icon-name="out-t" @update:model-value="mt_event"></input-number>
-                            </div>
-                            <div class="flex-width-half pl-10">
-                                <input-number v-model="form.margin_bottom" icon-name="out-b" @update:model-value="mb_event"></input-number>
-                            </div>
-                            <div class="flex-width-half pr-10">
-                                <input-number v-model="form.margin_left" icon-name="out-l" @update:model-value="ml_event"></input-number>
-                            </div>
-                            <div class="flex-width-half pl-10">
-                                <input-number v-model="form.margin_right" icon-name="out-r" @update:model-value="mr_event"></input-number>
-                            </div>
-                        </div>
-                    </div>
+                    <margin :value="form" @update:value="margin_change"></margin>
                 </el-form-item>
                 <el-form-item label="圆角">
                     <radius :value="form" @update:value="radius_change"></radius>
@@ -128,36 +112,13 @@ const background_img_url_change = (arry: uploadList[]) => {
     form.background_img_url = arry;
     emit('update:value', form);
 };
-
-const margin_event = (val: number | undefined) => {
-    form.margin_top = Number(val);
-    form.margin_bottom = Number(val);
-    form.margin_left = Number(val);
-    form.margin_right = Number(val);
-    emit('update:value', form);
-};
-const mt_event = (val: number | undefined) => {
-    form.margin_top = Number(val);
-    form.margin = 0;
-    emit('update:value', form);
-};
-const mb_event = (val: number | undefined) => {
-    form.margin_bottom = Number(val);
-    form.margin = 0;
-    emit('update:value', form);
-};
-const ml_event = (val: number | undefined) => {
-    form.margin_left = Number(val);
-    form.margin = 0;
-    emit('update:value', form);
-};
-const mr_event = (val: number | undefined) => {
-    form.margin_right = Number(val);
-    form.margin = 0;
-    emit('update:value', form);
-};
 const radius_change = (radius: any) => {
     form = Object.assign(form, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
+    emit('update:value', form);
+};
+
+const margin_change = (margin: any) => {
+    form = Object.assign(form, pick(margin, ['margin', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right']));
     emit('update:value', form);
 };
 

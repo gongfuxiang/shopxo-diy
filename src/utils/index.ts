@@ -91,7 +91,7 @@ export function gradient_handle(color_list: color_list[], direction: string) {
  * @param {string[], string} path
  * @returns {string}
  */
-export function padding_computer(new_style: internalStyle) {
+export function padding_computer(new_style: paddingStyle) {
     return `padding: ${new_style.padding_top || 0}px ${new_style.padding_right || 0}px ${new_style.padding_bottom || 0}px ${new_style.padding_left || 0}px;`;
 }
 
