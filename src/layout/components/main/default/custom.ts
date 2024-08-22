@@ -5,6 +5,7 @@ interface defaultSearch {
     content: {
         height: number;
         data_source: string;
+        source_list: string[];
         custom_list: string[];
     };
     style: {
@@ -14,6 +15,7 @@ interface defaultSearch {
 const defaultSearch: defaultSearch = {
     content: {
         height: 390,
+        source_list: [],
         data_source:'',
         custom_list: []
     },

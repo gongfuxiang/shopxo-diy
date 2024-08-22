@@ -195,11 +195,13 @@ const custom_link = (data: object) => {
 
 //#region 链接确认回调 -----------------------------------------------start
 // 取消回调
+const emit = defineEmits(['close']);
 const close_event = () => {
     link_select.value = props.type.length == 0 ? 'shop' : props.type[0];
     dialogVisible.value = false;
     link_value.value = [];
     reset_compontent.value = !reset_compontent.value;
+    emit('close');
 };
 // 确认回调
 const confirm_event = () => {

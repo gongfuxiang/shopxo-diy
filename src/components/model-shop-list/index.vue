@@ -3,7 +3,7 @@
         <div :class="outer_class" :style="onter_style">
             <div v-for="(item, index) in list" :key="index" class="re" :class="layout_type" :style="layout_style">
                 <template v-if="product_style == '6'">
-                    <div :class="['flex-row jc-sb ptb-15 mlr-10 gap-20', { 'br-b-e': index != list.length - 1 }]">
+                    <div :class="['flex-row align-c jc-sb ptb-15 mlr-10 gap-20', { 'br-b-e': index != list.length - 1 }]">
                         <div v-if="is_show('0')" :class="text_line" :style="trends_config('title')">{{ item.title }}</div>
                         <div v-if="is_show('2')" class="num" :style="`color: ${new_style.shop_price_color}`">
                             <span class="identifying">￥</span><span :style="trends_config('price')">{{ item.min_price }}</span>
@@ -13,22 +13,17 @@
                 <template v-else>
                     <template v-if="!isEmpty(item)">
                         <template v-if="!isEmpty(item.new_url)">
-                            <image-empty v-model="item.new_url[0]" :class="`flex-img${product_style} flex align-c jc-c`" :style="content_img_radius"></image-empty>
-                        </template>
-                        <template v-else-if="!isEmpty(item.images)">
-                            <el-image :src="item.images" :class="`flex-img${product_style} flex align-c jc-c`" fit="contain" class="img"></el-image>
+                            <image-empty v-model="item.new_url[0]" :class="`flex-img${product_style}`" :style="content_img_radius"></image-empty>
                         </template>
                         <template v-else>
-                            <image-empty :class="`flex-img${product_style} flex align-c jc-c`" :style="content_img_radius"></image-empty>
+                            <image-empty v-model="item.images" :class="`flex-img${product_style}`" :style="content_img_radius"></image-empty>
                         </template>
                     </template>
                     <div class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
                         <div class="flex-col gap-10 top-title">
                             <div v-if="is_show('0')" :class="text_line" :style="trends_config('title')">{{ item.title }}</div>
-                            <div v-if="show_content && is_show('1')" class="flex-row gap-5">
-                                <div class="one1 radius-sm size-9 pl-3 pr-3">{{ '满减活动' }}</div>
-                                <div class="one2 radius-sm size-9 pl-3 pr-3">{{ '包邮' }}</div>
-                                <div class="one3 radius-sm size-9 pl-3 pr-3">{{ '领劵' }}</div>
+                            <div v-if="show_content && is_show('1') && !isEmpty(item.plugins_view_icon_data)" class="flex-row gap-5">
+                                <div v-for="(icon_data, icon_index) in item.plugins_view_icon_data" :key="icon_index" class="radius-sm size-9 pl-3 pr-3" :style="icon_style(icon_data)">{{ icon_data.name }}</div>
                             </div>
                         </div>
                         <div v-if="!['3', '4', '5'].includes(form.product_style)" class="flex-col gap-5 oh">
@@ -40,7 +35,7 @@
                                 </div>
                                 <div v-if="show_content && is_show('5')" class="size-10 flex">
                                     <span class="original-price-left"></span
-                                    ><span class="original-price flex-1 text-line-1"
+                                    ><span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo }]"
                                         >{{ item.show_original_price_symbol }}{{ item.min_original_price }}
                                         <template v-if="is_show('7')">
                                             {{ item.show_original_price_unit }}
@@ -51,8 +46,9 @@
                             <div class="flex-row jc-sb align-e">
                                 <div>
                                     <div v-if="show_content" class="flex-row align-c size-10">
-                                        <div v-if="is_show('3')" :class="['pr-5', { 'br-r-e': is_show('3') && is_show('4') }]" :style="trends_config('sold_number')">已售{{ item.sales_count }}件</div>
-                                        <div v-if="is_show('4')" class="pl-5" :style="trends_config('score')">评分0</div>
+                                        <div v-if="is_show('3')" class="pr-5" :style="trends_config('sold_number')">已售{{ item.sales_count }}件</div>
+                                        <!-- <div v-if="is_show('3')" :class="['pr-5', {'br-r-e': is_show('3') && is_show('4')}]" :style="trends_config('sold_number')">已售{{ item.sales_count }}件</div> -->
+                                        <!-- <div v-if="is_show('4')" class="pl-5" :style="trends_config('score')">评分0</div> -->
                                     </div>
                                 </div>
                                 <div v-if="form.is_shop_show">
@@ -75,11 +71,17 @@
                             <div class="flex-row align-c nowrap">
                                 <div v-if="is_show('2')" class="num" :style="`color: ${new_style.shop_price_color}`">
                                     <span class="identifying">{{ item.show_price_symbol }}</span
-                                    ><span :style="trends_config('price')">{{ item.min_price }}</span
-                                    ><span class="identifying">{{ item.show_price_unit }}</span>
+                                    ><span :style="trends_config('price')">{{ item.min_price }}</span>
+                                    <span v-if="is_show('6')" class="identifying">{{ item.show_price_unit }}</span>
                                 </div>
                                 <div v-if="show_content && is_show('5')" class="size-10 flex">
-                                    <span class="original-price-left"></span><span class="original-price flex-1 text-line-1">{{ item.show_original_price_symbol }}{{ item.min_original_price }}{{ item.show_original_price_unit }}</span>
+                                    <span class="original-price-left"></span
+                                    ><span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo }]"
+                                        >{{ item.show_original_price_symbol }}{{ item.min_original_price }}
+                                        <template v-if="is_show('7')">
+                                            {{ item.show_original_price_unit }}
+                                        </template>
+                                    </span>
                                 </div>
                             </div>
                             <div v-if="form.is_shop_show">
@@ -125,6 +127,13 @@ const form = computed(() => props.value?.content || {});
 const new_style = computed(() => props.value?.style || {});
 
 // 目前显示假数据，日后通过分类或者选择的商品来显示真实数据
+interface plugins_icon_data {
+    name: string;
+    bg_color: string;
+    br_color: string;
+    color: string;
+    url: string;
+}
 interface product_list {
     title: string;
     images: string;
@@ -136,6 +145,7 @@ interface product_list {
     show_price_symbol: string;
     show_price_unit: string;
     sales_count: string;
+    plugins_view_icon_data: plugins_icon_data[];
 }
 const default_list = {
     title: '华为荣耀畅享平板换屏服务 屏幕换外屏',
@@ -147,6 +157,7 @@ const default_list = {
     sales_count: '1000',
     images: '',
     new_url: [],
+    plugins_view_icon_data: []
 };
 const list = ref<product_list[]>([]);
 
@@ -201,7 +212,8 @@ const two_columns = computed(() => content_outer_spacing.value + 'px');
 // 三列风格
 const three_columns = computed(() => content_outer_spacing.value * 2 + 'px');
 // 不换行显示
-const multicolumn_columns = computed(() => new_style.value.content_outer_width + 'px');
+const multicolumn_columns_width = computed(() => new_style.value.content_outer_width + 'px');
+const multicolumn_columns_height = computed(() => new_style.value.content_outer_height + 'px');
 
 // 最外层不同风格下的显示
 const outer_class = computed(() => {
@@ -315,6 +327,14 @@ const style_config = (typeface: string, size: number, color: string | object, ty
 const button_gradient = () => {
     return gradient_handle(new_style.value.shop_button_color, '90deg');
 };
+// icon标志显示样式
+const icon_style = (item: { bg_color: string; color: string; br_color: string; }) => {
+    let style = `background: ${item.bg_color};color: ${item.color};`;
+    if (!isEmpty(item.br_color)) {
+        style += `border: 1px solid ${item.br_color};`
+    }
+    return style;
+}
 // 公共样式
 const style_container = computed(() => {
     if (props.isCommonStyle) {
@@ -353,20 +373,6 @@ const style_container = computed(() => {
     height: v-bind(button_size);
     line-height: v-bind(button_size);
 }
-.one1 {
-    border: 1px solid #ea3323;
-    background: #ea3323;
-    color: #fff;
-}
-.one2 {
-    border: 1px solid #ea3323;
-    color: #ea3323;
-}
-.one3 {
-    border: 1px solid #ffc300;
-    color: #ffc300;
-}
-
 .two-columns {
     width: calc((100% - v-bind(two_columns)) / 2);
 }
@@ -374,7 +380,9 @@ const style_container = computed(() => {
     width: calc((100% - v-bind(three_columns)) / 3);
 }
 .multicolumn-columns {
-    min-width: v-bind(multicolumn_columns);
+    width: v-bind(multicolumn_columns_width);
+    min-width: v-bind(multicolumn_columns_width);
+    height: v-bind(multicolumn_columns_height);
 }
 .flex-img0 {
     height: auto;
@@ -399,6 +407,6 @@ const style_container = computed(() => {
 }
 .flex-img5 {
     width: 100%;
-    height: 10.4rem;
+    min-height: 10.4rem;
 }
 </style>

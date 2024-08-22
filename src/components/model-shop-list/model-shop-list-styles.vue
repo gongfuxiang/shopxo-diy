@@ -21,12 +21,12 @@
                 <el-form-item label="数量设置">
                     <color-picker v-model="form.shop_sold_number_color" default-color="#000000"></color-picker>
                 </el-form-item>
-                <el-form-item label="评分">
+                <!-- <el-form-item label="评分">
                     <text-size-type v-model:typeface="form.shop_score_typeface" v-model:size="form.shop_score_size"></text-size-type>
                 </el-form-item>
                 <el-form-item label="评分颜色">
                     <color-picker v-model="form.shop_score_color" default-color="#000000"></color-picker>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item label="内容圆角">
                     <radius :value="form.shop_radius" @update:value="shop_radius_change"></radius>
                 </el-form-item>
@@ -42,9 +42,14 @@
                 <el-form-item label="商品间距">
                     <slider v-model="form.content_outer_spacing" :max="100"></slider>
                 </el-form-item>
-                <el-form-item v-if="product_style == '5'" label="内容宽度">
-                    <slider v-model="form.content_outer_width" :max="1000"></slider>
-                </el-form-item>
+                <template v-if="product_style == '5'">
+                    <el-form-item label="内容宽度">
+                        <slider v-model="form.content_outer_width" :max="1000"></slider>
+                    </el-form-item>
+                    <el-form-item label="内容高度">
+                        <slider v-model="form.content_outer_height" :max="1000"></slider>
+                    </el-form-item>
+                </template>
             </card-container>
             <card-container class="mb-8">
                 <div class="mb-12">购物车按钮</div>

@@ -13,7 +13,7 @@
                 <el-input v-model="row.new_title" placeholder="请输入链接" type="textarea" class="flex-1 do-not-trigger" :rows="2"></el-input>
             </template>
             <template v-else>
-                <div class="flex-1 flex-width text-line-2 size-12 self-s">{{ row.new_title }}</div>
+                <div class="flex-1 flex-width text-line-2 size-12 self-s do-not-trigger" @dblclick="double_click(index)">{{ row.new_title }}</div>
             </template>
         </template>
     </drag>
@@ -66,6 +66,10 @@ const edit = (index: number) => {
     } else {
         edit_index.value = index;
     }
+}
+
+const double_click = (index: number) => {
+    edit_index.value = index;
 }
 </script>
 <style lang="scss" scoped>

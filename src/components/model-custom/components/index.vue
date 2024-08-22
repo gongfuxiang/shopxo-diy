@@ -48,13 +48,13 @@
                                     </div>
                                     <div :class="['main-content', { 'plug-in-border': item.show_tabs }]" :style="{ 'z-index': item.com_data.bottom_up ? 0 : 1 }">
                                         <template v-if="item.key == 'text'">
-                                            <model-text :key="item.id" :value="item.com_data"></model-text>
+                                            <model-text :key="item.id" :value="item.com_data" :source-list="props.sourceList"></model-text>
                                         </template>
                                         <template v-else-if="item.key == 'img'">
-                                            <model-image :key="item.id" :value="item.com_data"></model-image>
+                                            <model-image :key="item.id" :value="item.com_data" :source-list="props.sourceList"></model-image>
                                         </template>
                                         <template v-else-if="item.key == 'auxiliary-line'">
-                                            <model-lines :key="item.id" :value="item.com_data"></model-lines>
+                                            <model-lines :key="item.id" :value="item.com_data" :source-list="props.sourceList"></model-lines>
                                         </template>
                                     </div>
                                 </Vue3DraggableResizable>
@@ -89,6 +89,7 @@ const app = getCurrentInstance();
 const emits = defineEmits(['rightUpdate']);
 interface Props {
     list: diy_content[];
+    sourceList: object;
 }
 const props = defineProps<Props>();
 //#endregion
@@ -218,7 +219,7 @@ watch(() => center_height.value, () => {
         }));
         draggable_container.value = true;
     });
-},{ immediate: true, deep: true });
+},{ deep: true });
 //#endregion
 //#region 左侧拖拽过来的处理
 let draggedItem = ref<any>({});

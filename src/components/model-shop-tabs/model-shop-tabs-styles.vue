@@ -34,15 +34,17 @@
                     <el-form-item v-if="['0', '4'].includes(product_style)" label="内容间距">
                         <slider v-model="form.content_spacing" :max="100"></slider>
                     </el-form-item>
-                    <el-form-item v-if="product_style != '5'" label="外间距">
-                        <slider v-model="form.content_outer_down_spacing" :max="100"></slider>
+                    <el-form-item label="商品间距">
+                        <slider v-model="form.content_outer_spacing" :max="100"></slider>
                     </el-form-item>
-                    <el-form-item v-if="!['0', '2'].includes(product_style)" label="左右间距">
-                        <slider v-model="form.content_outer_about_spacing" :max="100"></slider>
-                    </el-form-item>
-                    <el-form-item v-if="product_style == '5'" label="内容宽度">
-                        <slider v-model="form.content_outer_width" :max="1000"></slider>
-                    </el-form-item>
+                    <template v-if="product_style == '5'">
+                        <el-form-item label="内容宽度">
+                            <slider v-model="form.content_outer_width" :max="1000"></slider>
+                        </el-form-item>
+                        <el-form-item label="内容高度">
+                            <slider v-model="form.content_outer_height" :max="1000"></slider>
+                        </el-form-item>
+                    </template>
                 </template>
                 <el-form-item label="商品名称">
                     <text-size-type v-model:typeface="form.shop_title_typeface" v-model:size="form.shop_title_size"></text-size-type>
@@ -62,12 +64,12 @@
                 <el-form-item label="数量设置">
                     <color-picker v-model="form.shop_sold_number_color" default-color="#000000"></color-picker>
                 </el-form-item>
-                <el-form-item label="评分">
+                <!-- <el-form-item label="评分">
                     <text-size-type v-model:typeface="form.shop_score_typeface" v-model:size="form.shop_score_size"></text-size-type>
                 </el-form-item>
                 <el-form-item label="评分颜色">
                     <color-picker v-model="form.shop_score_color" default-color="#000000"></color-picker>
-                </el-form-item>
+                </el-form-item> -->
             </card-container>
             <card-container class="mb-8">
                 <div class="mb-12">购物车按钮</div>

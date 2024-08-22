@@ -6,11 +6,8 @@
                     <template v-if="!isEmpty(item.new_url)">
                         <image-empty v-model="item.new_url[0]" :style="contentImgRadius"></image-empty>
                     </template>
-                    <template v-else-if="!isEmpty(item.images)">
-                        <el-image :src="item.images" fit="contain" class="img" :style="contentImgRadius"></el-image>
-                    </template>
                     <template v-else>
-                        <image-empty :style="contentImgRadius"></image-empty>
+                        <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
                     </template>
                     <div v-if="!isEmpty(isShow)" class="flex-col w h tl gap-10">
                         <div v-if="isShow.includes('0')" class="text-line-2 size-14">{{ item.title }}</div>
@@ -29,11 +26,8 @@
                         <template v-if="!isEmpty(item.new_url)">
                             <image-empty v-model="item.new_url[0]" :style="contentImgRadius"></image-empty>
                         </template>
-                        <template v-else-if="!isEmpty(item.images)">
-                            <el-image :src="item.images" fit="contain" class="img" :style="contentImgRadius"></el-image>
-                        </template>
                         <template v-else>
-                            <image-empty :style="contentImgRadius"></image-empty>
+                            <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
                         </template>
                         <div v-if="isShow.includes('1')" class="price-suspension text-line-1">
                             {{ item.show_price_symbol }}{{ item.min_price }}
@@ -50,11 +44,8 @@
                     <template v-if="!isEmpty(item.new_url)">
                         <image-empty v-model="item.new_url[0]" :style="contentImgRadius"></image-empty>
                     </template>
-                    <template v-else-if="!isEmpty(item.images)">
-                        <el-image :src="item.images" fit="contain" class="img" :style="contentImgRadius"></el-image>
-                    </template>
                     <template v-else>
-                        <image-empty :style="contentImgRadius"></image-empty>
+                        <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
                     </template>
                     <div v-if="!isEmpty(isShow)" class="flex-col w tl gap-10" :style="`${ padding_computer(props.chunkPadding) }`">
                         <div v-if="isShow.includes('0')" class="text-line-2 size-14">{{ item.title }}</div>
@@ -76,11 +67,8 @@
                     <template v-if="!isEmpty(item.new_url)">
                         <image-empty v-model="item.new_url[0]" :style="contentImgRadius"></image-empty>
                     </template>
-                    <template v-else-if="!isEmpty(item.images)">
-                        <el-image :src="item.images" fit="contain" class="img" :style="contentImgRadius"></el-image>
-                    </template>
                     <template v-else>
-                        <image-empty :style="contentImgRadius"></image-empty>
+                        <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
                     </template>
                     <div v-if="!isEmpty(isShow)" class="flex-col w h tl gap-20">
                         <div v-if="isShow.includes('0')" class="text-line-2 size-14">{{ item.title }}</div>
