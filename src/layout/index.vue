@@ -39,7 +39,7 @@ const form = ref<diy_data_item>({
     id: '',
     model: {
         img: '',
-        name: '装修模版',
+        name: '',
     },
     header: {
         name: '页面设置',
