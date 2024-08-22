@@ -2,7 +2,7 @@
     <div class="footer-nav flex-row jc-c align-c" :class="showFooter ? 'br-2 br-primary' : ''" @click="footer_nav_event">
         <div class="footer-nav-content flex-row jc-c align-c w" :style="style_container">
             <ul class="flex-row jc-sa align-c w">
-                <li v-for="(item, index) in footerData.content.nav_content" :key="index" class="flex-1 flex-col jc-c align-c gap-5" @mouseenter="is_hover = index + 1" @mouseleave="is_hover = 0">
+                <li v-for="(item, index) in footerData?.content?.nav_content" :key="index" class="flex-1 flex-col jc-c align-c gap-5" @mouseenter="is_hover = index + 1" @mouseleave="is_hover = 0">
                     <div v-if="footerData.content.nav_style !== '2'" class="img re">
                         <img class="img-item abs radius-xs animate-linear w" :class="is_hover != index + 1 ? 'active' : ''" :src="item.src[0]?.url" width="22" height="22" />
                         <img class="img-item abs radius-xs animate-linear w" :class="is_hover == index + 1 ? 'active' : ''" :src="item.src_checked[0]?.url" width="22" height="22" />

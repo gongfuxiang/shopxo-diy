@@ -139,8 +139,8 @@ const diy_data_transfor_form_data = (clone_form: diy_data_item) => {
         name: clone_form.model.name,
         describe: '',
         config: JSON.stringify({
-            header: clone_form.header.com_data,
-            footer: clone_form.footer.com_data,
+            header: clone_form.header,
+            footer: clone_form.footer,
             diy_data: clone_form.diy_data,
         }),
         is_enable: clone_form.is_enable,

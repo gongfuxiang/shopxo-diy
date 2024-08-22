@@ -172,6 +172,7 @@ watch(
     () => props.diyData,
     (newValue) => {
         diy_data.value = newValue;
+        console.log(newValue);
     }
 );
 // 监听
@@ -183,9 +184,11 @@ watch(
     }
 );
 watchEffect(() => {
-    const content = props.header.com_data?.content || {};
-    const container_common_styles = gradient_computer(content) + background_computer(content);
-    content_style.value = container_common_styles;
+    if (props.header.com_data?.content) {
+        const content = props.header.com_data?.content;
+        const container_common_styles = gradient_computer(content) + background_computer(content);
+        content_style.value = container_common_styles;
+    }
 });
 watch(
     () => props.footer,
