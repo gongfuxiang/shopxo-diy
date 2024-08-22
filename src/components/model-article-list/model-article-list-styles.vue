@@ -51,9 +51,14 @@
                 <el-form-item label="文章间距">
                     <slider v-model="form.article_spacing"></slider>
                 </el-form-item>
-                <el-form-item v-if="article_style == '3'" label="内容宽度">
-                    <slider v-model="form.article_width" :max="1000"></slider>
-                </el-form-item>
+                <template v-if="article_style == '3'">
+                    <el-form-item label="内容宽度">
+                        <slider v-model="form.article_width" :max="1000"></slider>
+                    </el-form-item>
+                    <el-form-item label="内容高度">
+                        <slider v-model="form.article_height" :max="1000"></slider>
+                    </el-form-item>
+                </template>
             </card-container>
         </el-form>
         <common-styles :value="form.common_style" @update:value="common_style_update" />

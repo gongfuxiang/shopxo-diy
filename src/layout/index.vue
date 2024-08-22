@@ -30,7 +30,7 @@ interface diy_data_item {
 const form = ref<diy_data_item>({
     model: {
         img: '',
-        name: '',
+        name: 'demo',
     },
     header: {
         name: '页面设置',

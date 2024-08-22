@@ -49,6 +49,7 @@ interface DefaultArticleTabs {
         article_spacing: number;
         content_spacing: number;
         article_width: number;
+        article_height: number;
         common_style: object;
     };
 }
@@ -114,7 +115,8 @@ const defaultArticleTabs: DefaultArticleTabs = {
         },
         content_spacing: 10, // 内容间距
         article_spacing: 10, // 文章间距
-        article_width: 160, // 文章宽度
+        article_width: 155, // 文章宽度
+        article_height: 155, // 文章宽度
         common_style: { ...defaultCommon, padding_left: 10, padding_right: 10, padding_bottom: 10 },
     },
 };

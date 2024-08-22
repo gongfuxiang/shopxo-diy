@@ -1,5 +1,5 @@
 <template>
-    <el-image :src="is_obj(image) ? image?.url || '' : image" class="flex align-c jc-c w h" @load="on_load">
+    <el-image :src="is_obj(image) ? image?.url || '' : image" class="flex align-c jc-c w h" fit="cover" @load="on_load">
         <template #error>
             <div class="image-slot" :style="errorStyle">
                 <img :src="error_image" :style="errorImgStyle" />
