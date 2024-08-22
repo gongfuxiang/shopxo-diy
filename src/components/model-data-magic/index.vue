@@ -35,7 +35,7 @@
             <template v-else>
                 <div v-for="(item, index) in data_magic_list" :key="index" class="cube-selected img-spacing-border" :style="`${ selected_style(item) } ${ item.data_style.background_style } ${ content_radius }`">
                     <template v-if="item.data_content.data_type == 'commodity'">
-                        <div class="w h flex-col gap-20" :style="`${ padding_computer(item.data_style.chunk_padding) }`">
+                        <div :class="[spacing_processing(index) ? 'gap-20 w h flex-col' : 'gap-10 w h flex-col']" :style="`${ padding_computer(item.data_style.chunk_padding) }`">
                             <div v-if="!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)" class="flex-col gap-5 tl">
                                 <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
                                 <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
@@ -260,6 +260,10 @@ const commodity_list = (list: any[], num: number) => {
     } else {
         return [];
     }
+}
+// 不属于第9个，并且第9个的第一个和第二个
+const spacing_processing = (index: number) => {
+    return form.value.style_actived !== 8 || (form.value.style_actived === 8 && [0, 1].includes(index))
 }
 // 公共样式
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));

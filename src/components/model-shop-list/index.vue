@@ -13,10 +13,10 @@
                 <template v-else>
                     <template v-if="!isEmpty(item)">
                         <template v-if="!isEmpty(item.new_url)">
-                            <image-empty v-model="item.new_url[0]" :class="`flex-img${product_style} flex align-c jc-c`" :style="content_img_radius"></image-empty>
+                            <image-empty v-model="item.new_url[0]" :class="`flex-img${product_style}`" :style="content_img_radius"></image-empty>
                         </template>
                         <template v-else>
-                            <image-empty v-model="item.images" :class="`flex-img${product_style} flex align-c jc-c`" :style="content_img_radius"></image-empty>
+                            <image-empty v-model="item.images" :class="`flex-img${product_style}`" :style="content_img_radius"></image-empty>
                         </template>
                     </template>
                     <div class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
@@ -373,6 +373,7 @@ const style_container = computed(() => {
     width: calc((100% - v-bind(three_columns)) / 3);
 }
 .multicolumn-columns {
+    width: v-bind(multicolumn_columns);
     min-width: v-bind(multicolumn_columns);
 }
 .flex-img0 {
