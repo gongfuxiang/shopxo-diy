@@ -3,7 +3,7 @@
         <div :class="outer_class" :style="onter_style">
             <div v-for="(item, index) in list" :key="index" class="re" :class="layout_type" :style="layout_style">
                 <template v-if="product_style == '6'">
-                    <div :class="['flex-row jc-sb ptb-15 mlr-10 gap-20', { 'br-b-e': index != list.length - 1 }]">
+                    <div :class="['flex-row align-c jc-sb ptb-15 mlr-10 gap-20', { 'br-b-e': index != list.length - 1 }]">
                         <div v-if="is_show('0')" :class="text_line" :style="trends_config('title')">{{ item.title }}</div>
                         <div v-if="is_show('2')" class="num" :style="`color: ${new_style.shop_price_color}`">
                             <span class="identifying">￥</span><span :style="trends_config('price')">{{ item.min_price }}</span>

@@ -59,12 +59,12 @@
                 <el-form-item label="数量设置">
                     <color-picker v-model="form.shop_sold_number_color" default-color="#000000"></color-picker>
                 </el-form-item>
-                <el-form-item label="评分">
+                <!-- <el-form-item label="评分">
                     <text-size-type v-model:typeface="form.shop_score_typeface" v-model:size="form.shop_score_size"></text-size-type>
                 </el-form-item>
                 <el-form-item label="评分颜色">
                     <color-picker v-model="form.shop_score_color" default-color="#000000"></color-picker>
-                </el-form-item>
+                </el-form-item> -->
             </card-container>
             <card-container class="mb-8">
                 <div class="mb-12">购物车按钮</div>
