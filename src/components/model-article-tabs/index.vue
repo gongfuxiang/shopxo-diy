@@ -7,7 +7,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, get_math } from '@/utils';
+import { common_styles_computer } from '@/utils';
 const props = defineProps({
     value: {
         type: Object,

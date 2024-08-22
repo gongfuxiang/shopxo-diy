@@ -10,9 +10,9 @@
                         <template v-else>
                             <image-empty v-model="item.link.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
                         </template>
-                        <div class="flex-col jc-sb" :style="article_type !== '0' ? content_padding : ''">
+                        <div class="flex-col jc-sb flex-1" :style="article_type !== '0' ? content_padding : ''">
                             <div class="title text-line-2" :style="article_name">{{ item.new_title }}</div>
-                            <div class="flex-row jc-sb gap-8 align-c mt-10">
+                            <div class="flex-row jc-sb gap-8 align-e mt-10">
                                 <div :style="article_date">{{ is_show.includes('0') ? '2020-06-05 15:20' : '' }}</div>
                                 <icon v-show="is_show.includes('1')" name="eye" :style="article_page_view">16</icon>
                             </div>
@@ -24,7 +24,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, gradient_handle, padding_computer, radius_computer, get_math } from '@/utils';
+import { common_styles_computer, padding_computer, radius_computer, get_math } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 import ArticleAPI from '@/api/article';
 const props = defineProps({
@@ -75,7 +75,8 @@ const content_spacing = ref('');
 // 文章间距
 const article_spacing = ref('');
 const article_spacing_children = ref('');
-const article_item_width = ref('50%');
+const article_item_width = ref('104');
+const article_item_height = ref('104');
 
 const article_style = ref({});
 const default_article_list: ArticleList = {
@@ -127,6 +128,7 @@ watch(
         }
         if (article_type.value == '3') {
             article_item_width.value = `${new_style.article_width}px`;
+            article_item_height.value = `${new_style.article_height}px`;
         }
         if (new_style.common_style && props.isCommonStyle) {
             style_container.value = common_styles_computer(new_style.common_style);
@@ -137,9 +139,9 @@ watch(
 const article_type_class = computed(() => {
     switch (article_type.value) {
         case '0':
-            return 'style2 flex-col';
+            return 'style1 flex-col';
         case '1':
-            return 'style1 flex-row flex-wrap';
+            return 'style2 flex-row flex-wrap';
         case '2':
             return 'style3 flex-col';
         case '3':
@@ -175,26 +177,38 @@ const get_auto_article_list = async (new_content: any) => {
 <style lang="scss" scoped>
 .style1 {
     .item {
-        width: calc(50% - 0.5rem);
+        width: 100%;
+        .img {
+            height: 8.3rem;
+            width: 11rem;
+        }
     }
 }
 .style2 {
     .item {
-        width: 100%;
+        width: calc(50% - 0.5rem);
         .img {
-            width: 11rem;
-            height: 8.3rem;
+            height: 18rem;
         }
     }
 }
 .style3 {
     .item {
         width: 100%;
+        .img {
+            width: 100%;
+            height: 18rem;
+        }
     }
 }
 .style4 {
     .item {
         min-width: v-bind(article_item_width);
+        width: v-bind(article_item_width);
+        .img {
+            width: 100%;
+            height: v-bind(article_item_height);
+        }
     }
 }
 </style>
