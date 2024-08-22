@@ -2,7 +2,12 @@
     <div class="tabs flex-row oh">
         <template v-for="(item, index) in tabs.content.tabs_list" :key="index">
             <div class="item nowrap flex-col jc-c gap-4" :class="tabs_style + (index == 0 ? ' active' : '')">
-                <image-empty v-model="item.img[0]" class="img" error-img-style="width:2rem;height:2rem;"></image-empty>
+                <template v-if="!isEmpty(item.img)">
+                    <image-empty v-model="item.img[0]" class="img" error-img-style="width:2rem;height:2rem;"></image-empty>
+                </template>
+                <template v-else>
+                    <image-empty class="img" error-img-style="width:2rem;height:2rem;"></image-empty>
+                </template>
                 <div class="title" :style="index == 0 ? tabs_style_style.tabs_title_checked : tabs_style_style.tabs_title">{{ item.title }}</div>
                 <div class="desc">{{ item.desc }}</div>
                 <icon name="checked-1" class="icon"></icon>
@@ -14,6 +19,7 @@
 
 <script lang="ts" setup>
 import { gradient_computer } from '@/utils';
+import { isEmpty } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
