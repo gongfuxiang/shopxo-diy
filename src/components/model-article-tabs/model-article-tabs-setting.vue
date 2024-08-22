@@ -4,7 +4,7 @@
             <model-article-tabs-content :value="value.content"></model-article-tabs-content>
         </template>
         <template v-else-if="type == '2'">
-            <model-article-tabs-styles :value="value.style"></model-article-tabs-styles>
+            <model-article-tabs-styles :value="value.style" :content="value.content"></model-article-tabs-styles>
         </template>
     </div>
 </template>

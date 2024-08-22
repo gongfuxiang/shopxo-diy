@@ -51,9 +51,6 @@
                 <el-form-item label="文章间距">
                     <slider v-model="form.article_spacing"></slider>
                 </el-form-item>
-                <el-form-item label="文章间距">
-                    <slider v-model="form.article_spacing"></slider>
-                </el-form-item>
                 <el-form-item v-if="article_style == '3'" label="内容宽度">
                     <slider v-model="form.article_width" :max="1000"></slider>
                 </el-form-item>

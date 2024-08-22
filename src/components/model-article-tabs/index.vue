@@ -22,7 +22,7 @@ watch(
         const new_style = newVal?.style;
         let new_data = newVal;
         new_data.content.article_check = new_data.content.tabs_list[0].article_check;
-        new_data.content.article_type = new_data.content.tabs_list[0].article_type;
+        new_data.content.article_category = new_data.content.tabs_list[0].article_category;
         new_data.content.number = new_data.content.tabs_list[0].number;
         new_data.content.sort = new_data.content.tabs_list[0].sort;
         new_data.content.sort_rules = new_data.content.tabs_list[0].sort_rules;

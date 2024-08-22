@@ -23,11 +23,10 @@ interface DefaultArticleTabs {
         tabs_top_up: boolean;
         article_style: string;
         tabs_list: articleTabsList[];
-
         is_show: string[];
     };
     style: {
-        tabs_checked: string[];
+        tabs_checked: color_list[];
         tabs_direction: string;
         tabs_weight_checked: string;
         tabs_size_checked: number;
@@ -44,11 +43,12 @@ interface DefaultArticleTabs {
         page_view_weight: string;
         page_view_size: number;
         page_view_color: string;
-        radius: number;
-        radius_top_left: number;
-        radius_top_right: number;
-        radius_bottom_left: number;
-        radius_bottom_right: number;
+        content_radius: radiusStyle;
+        img_radius: radiusStyle;
+        padding: paddingStyle;
+        article_spacing: number;
+        content_spacing: number;
+        article_width: number;
         common_style: object;
     };
 }
@@ -68,7 +68,10 @@ const defaultArticleTabs: DefaultArticleTabs = {
         is_show: ['0', '1'],
     },
     style: {
-        tabs_checked: ['rgba(212,212,212,1)', 'rgba(255,210,210,1)'],
+        tabs_checked: [
+            { color: 'rgba(212,212,212,2)', color_percentage: '' },
+            { color: 'rgba(255,210,210,1)', color_percentage: '' },
+        ],
         tabs_direction: '90deg',
         tabs_weight_checked: '500',
         tabs_size_checked: 14,
@@ -85,11 +88,33 @@ const defaultArticleTabs: DefaultArticleTabs = {
         page_view_weight: '400',
         page_view_size: 12,
         page_view_color: 'rgba(153, 153, 153, 1)',
-        radius: 8,
-        radius_top_left: 8,
-        radius_top_right: 8,
-        radius_bottom_left: 8,
-        radius_bottom_right: 8,
+        // 内容圆角
+        content_radius: {
+            radius: 8,
+            radius_top_left: 8,
+            radius_top_right: 8,
+            radius_bottom_left: 8,
+            radius_bottom_right: 8,
+        },
+        // 图片圆角
+        img_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+        },
+        // 内间距
+        padding: {
+            padding: 10,
+            padding_top: 10,
+            padding_bottom: 10,
+            padding_left: 10,
+            padding_right: 10,
+        },
+        content_spacing: 10, // 内容间距
+        article_spacing: 10, // 文章间距
+        article_width: 160, // 文章宽度
         common_style: { ...defaultCommon, padding_left: 10, padding_right: 10, padding_bottom: 10 },
     },
 };
