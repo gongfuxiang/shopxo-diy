@@ -37,9 +37,14 @@
                     <el-form-item label="商品间距">
                         <slider v-model="form.content_outer_spacing" :max="100"></slider>
                     </el-form-item>
-                    <el-form-item v-if="product_style == '5'" label="内容宽度">
-                        <slider v-model="form.content_outer_width" :max="1000"></slider>
-                    </el-form-item>
+                    <template v-if="product_style == '5'">
+                        <el-form-item label="内容宽度">
+                            <slider v-model="form.content_outer_width" :max="1000"></slider>
+                        </el-form-item>
+                        <el-form-item label="内容高度">
+                            <slider v-model="form.content_outer_height" :max="1000"></slider>
+                        </el-form-item>
+                    </template>
                 </template>
                 <el-form-item label="商品名称">
                     <text-size-type v-model:typeface="form.shop_title_typeface" v-model:size="form.shop_title_size"></text-size-type>

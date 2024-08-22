@@ -212,7 +212,8 @@ const two_columns = computed(() => content_outer_spacing.value + 'px');
 // 三列风格
 const three_columns = computed(() => content_outer_spacing.value * 2 + 'px');
 // 不换行显示
-const multicolumn_columns = computed(() => new_style.value.content_outer_width + 'px');
+const multicolumn_columns_width = computed(() => new_style.value.content_outer_width + 'px');
+const multicolumn_columns_height = computed(() => new_style.value.content_outer_height + 'px');
 
 // 最外层不同风格下的显示
 const outer_class = computed(() => {
@@ -379,8 +380,9 @@ const style_container = computed(() => {
     width: calc((100% - v-bind(three_columns)) / 3);
 }
 .multicolumn-columns {
-    width: v-bind(multicolumn_columns);
-    min-width: v-bind(multicolumn_columns);
+    width: v-bind(multicolumn_columns_width);
+    min-width: v-bind(multicolumn_columns_width);
+    height: v-bind(multicolumn_columns_height);
 }
 .flex-img0 {
     height: auto;

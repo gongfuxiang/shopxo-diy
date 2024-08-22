@@ -39,6 +39,7 @@ interface DefaultProductList {
         shop_radius: radiusStyle;
         content_outer_spacing: number;
         content_outer_width: number;
+        content_outer_height: number;
         content_spacing: number;
         shop_title_typeface: string;
         shop_title_size: number;
@@ -108,6 +109,7 @@ const defaultProductList: DefaultProductList = {
         content_outer_spacing: 10,
         content_spacing: 10,
         content_outer_width: 104,
+        content_outer_height: 189,
         shop_title_typeface: 'normal',
         shop_title_size: 12,    
         shop_title_color: "#000",
