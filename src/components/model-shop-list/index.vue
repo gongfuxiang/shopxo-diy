@@ -71,11 +71,17 @@
                             <div class="flex-row align-c nowrap">
                                 <div v-if="is_show('2')" class="num" :style="`color: ${new_style.shop_price_color}`">
                                     <span class="identifying">{{ item.show_price_symbol }}</span
-                                    ><span :style="trends_config('price')">{{ item.min_price }}</span
-                                    ><span class="identifying">{{ item.show_price_unit }}</span>
+                                    ><span :style="trends_config('price')">{{ item.min_price }}</span>
+                                    <span v-if="is_show('6')" class="identifying">{{ item.show_price_unit }}</span>
                                 </div>
                                 <div v-if="show_content && is_show('5')" class="size-10 flex">
-                                    <span class="original-price-left"></span><span class="original-price flex-1 text-line-1">{{ item.show_original_price_symbol }}{{ item.min_original_price }}{{ item.show_original_price_unit }}</span>
+                                    <span class="original-price-left"></span
+                                    ><span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo }]"
+                                        >{{ item.show_original_price_symbol }}{{ item.min_original_price }}
+                                        <template v-if="is_show('7')">
+                                            {{ item.show_original_price_unit }}
+                                        </template>
+                                    </span>
                                 </div>
                             </div>
                             <div v-if="form.is_shop_show">
