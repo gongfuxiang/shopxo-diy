@@ -43,8 +43,13 @@ if (props.type == 'card') {
     // 不是卡片类型的设置居中显示
     className.value = 'align-c';
 }
-
-const from = computed(() => props.data);
+watch(
+    () => props.data,
+    () => {
+        from.value = props.data;
+    }
+);
+const from = ref(props.data);
 
 const on_click = (item: any, index: number) => {
     emits('click', item, index);
@@ -58,7 +63,7 @@ const edit = (index: number) => {
 };
 // 拖拽更新之后用户更新数据
 const on_sort = () => {
-    emits('onSort', from);
+    emits('onSort', from.value);
 };
 </script>
 <style scoped>
@@ -70,7 +75,8 @@ const on_sort = () => {
 .size-16 {
     font-size: 1.6rem !important;
 }
-.icon-del-o, .icon-commodity-edit {
+.icon-del-o,
+.icon-commodity-edit {
     cursor: pointer;
 }
 .cursor-move {

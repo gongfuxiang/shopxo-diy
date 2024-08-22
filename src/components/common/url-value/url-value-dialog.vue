@@ -114,7 +114,6 @@ const init = () => {
                         link_select.value = props.type[0];
                     }
                 }
-                console.log(link_select.value);
                 url_value_store.set_url_value(res.data);
             })
             .catch(() => {
