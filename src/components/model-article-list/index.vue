@@ -24,7 +24,9 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, gradient_handle, padding_computer, radius_computer } from '@/utils';
+import { common_styles_computer, gradient_handle, padding_computer, radius_computer, get_math } from '@/utils';
+import { isEmpty, cloneDeep } from 'lodash';
+import ArticleAPI from '@/api/article';
 const props = defineProps({
     value: {
         type: Object,
@@ -85,15 +87,20 @@ const default_article_list: ArticleList = {
 watch(
     props.value,
     (newVal, oldValue) => {
-        console.log(newVal);
         const new_content = newVal?.content;
         const new_style = newVal?.style;
         // 内容
-        if (new_content.article_list.length == 0) {
-            article_list.value = Array(4).fill(default_article_list);
+        if (new_content.article_check === '0') {
+            if (!isEmpty(new_content.article_list)) {
+                article_list.value = new_content.article_list;
+                article_list.value = cloneDeep(new_content.article_list);
+            } else {
+                article_list.value = Array(4).fill(default_article_list);
+            }
         } else {
-            article_list.value = new_content.article_list;
+            get_auto_article_list(new_content);
         }
+
         article_type.value = new_content.article_style;
         is_show.value = new_content.is_show;
         is_img_show.value = new_content.is_img_show;
@@ -140,6 +147,30 @@ const article_type_class = computed(() => {
     }
     return `style${article_type.value}`;
 });
+const get_auto_article_list = async (new_content: any) => {
+    const { article_category, number, sort, sort_rules } = new_content;
+    const new_data = {
+        article_keywords: '',
+        article_category_ids: article_category.join(','),
+        article_order_by_type: sort,
+        article_order_by_rule: sort_rules,
+        article_number: number,
+    };
+    const res = await ArticleAPI.getAutoList(new_data);
+    if (!isEmpty(res.data)) {
+        article_list.value = [];
+        res.data.forEach((child: any) => {
+            article_list.value.push({
+                id: get_math(),
+                new_title: child.title,
+                new_url: [],
+                link: child,
+            });
+        });
+    } else {
+        article_list.value = Array(4).fill(default_article_list);
+    }
+};
 </script>
 <style lang="scss" scoped>
 .style1 {

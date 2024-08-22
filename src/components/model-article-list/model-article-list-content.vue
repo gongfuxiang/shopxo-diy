@@ -146,7 +146,6 @@ const url_value_dialog_call_back = (item: any[]) => {
     item.forEach((child: any) => {
         form.article_list.push({
             id: get_math(),
-            is_edit: false,
             new_title: child.title,
             new_url: [],
             link: child,
