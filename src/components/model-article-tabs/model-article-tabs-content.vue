@@ -37,19 +37,7 @@
                                     </el-form-item>
                                     <template v-if="row.article_check === '0'">
                                         <div class="nav-list">
-                                            <drag :data="row.article_list" :space-col="20" @remove="article_list_remove" @on-sort="article_list_sort">
-                                                <template #default="scoped">
-                                                    <upload v-model="scoped.row.new_url" :limit="1" size="40" styles="2"></upload>
-                                                    <el-image :src="scoped.row.link.cover" fit="contain" class="img">
-                                                        <template #error>
-                                                            <div class="bg-f5 flex-row jc-c align-c radius h w">
-                                                                <icon name="error-img" size="16" color="9"></icon>
-                                                            </div>
-                                                        </template>
-                                                    </el-image>
-                                                    <div class="flex-1 flex-width text-line-2 size-12 self-s">{{ scoped.row.link.title }}</div>
-                                                </template>
-                                            </drag>
+                                            <drag-group :list="row.article_list" img-params="cover" @onsort="article_list_sort($event, index)" @remove="article_list_remove($event, index)"></drag-group>
                                             <el-button class="mtb-20 w" @click="article_add(index)">+添加</el-button>
                                         </div>
                                     </template>
@@ -191,11 +179,11 @@ const tabs_add = () => {
 };
 
 // 指定文章
-const article_list_remove = (index: number) => {
-    form.tabs_list[active_index.value].article_list.splice(index, 1);
+const article_list_remove = (index: number, article_index: number) => {
+    form.tabs_list[article_index].article_list.splice(index, 1);
 };
-const article_list_sort = (item: any) => {
-    form.tabs_list[active_index.value].article_list = item;
+const article_list_sort = (item: any, index: number) => {
+    form.tabs_list[index].article_list = item;
 };
 
 const article_index = ref(0);
@@ -210,6 +198,7 @@ const url_value_dialog_call_back = (item: any[]) => {
             id: get_math(),
             src: 'carousel',
             new_url: [],
+            new_title: child.title,
             link: child,
         });
     });

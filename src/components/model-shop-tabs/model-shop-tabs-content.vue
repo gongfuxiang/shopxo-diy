@@ -186,7 +186,7 @@ const tabs_add = () => {
 
 // 指定商品
 const product_list_remove = (index: number, product_index: number) => {
-    form.value.tabs_list[index].product_list.splice(product_index, 1);
+    form.value.tabs_list[product_index].product_list.splice(index, 1);
 };
 const product_list_sort = (item: any, index: number) => {
     form.value.tabs_list[index].product_list = item;
