@@ -22,7 +22,7 @@
                     <div class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
                         <div class="flex-col gap-10 top-title">
                             <div v-if="is_show('0')" :class="text_line" :style="trends_config('title')">{{ item.title }}</div>
-                            <div v-if="show_content && is_show('1')" class="flex-row gap-5">
+                            <div v-if="show_content && is_show('1') && !isEmpty(item.plugins_view_icon_data)" class="flex-row gap-5">
                                 <div v-for="(icon_data, icon_index) in item.plugins_view_icon_data" :key="icon_index" class="radius-sm size-9 pl-3 pr-3" :style="icon_style(icon_data)">{{ icon_data.name }}</div>
                             </div>
                         </div>
