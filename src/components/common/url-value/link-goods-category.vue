@@ -30,7 +30,7 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { urlValueStore, urlValue, pageLinkList } from '@/store';
+import { urlValueStore } from '@/store';
 const url_value_store = urlValueStore();
 const props = defineProps({
     // 重置

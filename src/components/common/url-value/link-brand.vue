@@ -41,7 +41,7 @@
 </template>
 <script lang="ts" setup>
 import UrlValueAPI from '@/api/url-value';
-import { urlValueStore, urlValue, pageLinkList } from '@/store';
+import { urlValueStore } from '@/store';
 const url_value_store = urlValueStore();
 const props = defineProps({
     // 重置

@@ -1,10 +1,15 @@
 <template>
     <div class="app-wrapper no-copy">
-        <navbar v-model="form.model" @preview="preview" @save="save" @save-close="save_close" />
-        <div class="app-wrapper-content flex-row">
-            <app-main :diy-data="form.diy_data" :header="form.header" :footer="form.footer" @right-update="right_update"></app-main>
-            <settings :key="key" :value="diy_data_item"></settings>
-        </div>
+        <template v-if="!is_empty">
+            <navbar v-model="form.model" @preview="preview" @save="save" @save-close="save_close" />
+            <div class="app-wrapper-content flex-row">
+                <app-main :diy-data="form.diy_data" :header="form.header" :footer="form.footer" @right-update="right_update"></app-main>
+                <settings :key="key" :value="diy_data_item"></settings>
+            </div>
+        </template>
+        <template v-else>
+            <no-data height="100vh" img-width="300" size="40px" text="编辑数据有误"></no-data>
+        </template>
     </div>
 </template>
 
@@ -12,6 +17,7 @@
 import { Navbar, Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
 import { cloneDeep } from 'lodash';
+import DiyAPI, { diyData } from '@/api/diy';
 interface headerAndFooter {
     name: string;
     show_tabs: boolean;
@@ -19,6 +25,7 @@ interface headerAndFooter {
     com_data: any;
 }
 interface diy_data_item {
+    id: string;
     model: {
         img: string;
         name: string;
@@ -26,11 +33,13 @@ interface diy_data_item {
     header: headerAndFooter;
     footer: headerAndFooter;
     diy_data: Array<any>;
+    is_enable: string;
 }
 const form = ref<diy_data_item>({
+    id: '',
     model: {
         img: '',
-        name: 'demo',
+        name: '装修模版',
     },
     header: {
         name: '页面设置',
@@ -45,6 +54,7 @@ const form = ref<diy_data_item>({
         com_data: defaultSettings.footer_nav,
     },
     diy_data: [],
+    is_enable: '1',
 });
 const diy_data_item = ref({});
 
@@ -63,12 +73,31 @@ const right_update = (item: any, diy: [Array<any>], header: headerAndFooter, foo
 onMounted(() => {
     init();
 });
-
+const is_empty = ref(false);
 const init = () => {
     // 获取localStorage数据
-    const diy_data = localStorage.getItem('diy_data');
-    if (diy_data) {
-        form.value = JSON.parse(diy_data);
+    // const diy_data = localStorage.getItem('diy_data');
+    // if (diy_data) {
+    //     form.value = JSON.parse(diy_data);
+    // }
+    // 截取document.location.search字符串内id/后面的所有字段
+    let new_data = { id: '' };
+    if (document.location.search.indexOf('id/') !== -1) {
+        new_data.id = document.location.search.substring(document.location.search.indexOf('id/') + 3);
+        // 去除字符串的.html
+        let html_index = new_data.id.indexOf('.html');
+        if (html_index !== -1) {
+            new_data.id = new_data.id.substring(0, html_index);
+        }
+    }
+    if (new_data.id) {
+        DiyAPI.getInit(new_data).then((res: any) => {
+            if (res.data) {
+                form.value = form_data_transfor_diy_data(res.data);
+            } else {
+                is_empty.value = true;
+            }
+        });
     }
 };
 //#endregion 页面初始化数据 ---------------------end
@@ -79,11 +108,9 @@ const preview = () => {
 };
 const save = () => {
     formmat_form_data(form.value);
-    ElMessage.success('保存成功');
 };
 const save_close = () => {
     formmat_form_data(form.value);
-    ElMessage.success('保存成功');
 };
 const formmat_form_data = (data: diy_data_item) => {
     const clone_form = cloneDeep(data);
@@ -96,9 +123,56 @@ const formmat_form_data = (data: diy_data_item) => {
         };
     });
     // 将数据暂存到localStorage
-    localStorage.setItem('diy_data', JSON.stringify(clone_form));
+    // localStorage.setItem('diy_data', JSON.stringify(clone_form));
+    // 数据改造
+    const new_data = diy_data_transfor_form_data(clone_form);
+    DiyAPI.save(new_data).then((res) => {
+        ElMessage.success('保存成功');
+    });
 };
 //#endregion 顶部导航回调方法 ---------------------end
+// 数据改造
+const diy_data_transfor_form_data = (clone_form: diy_data_item) => {
+    return {
+        id: clone_form.id,
+        logo: clone_form.model.img,
+        name: clone_form.model.name,
+        describe: '',
+        config: JSON.stringify({
+            header: clone_form.header.com_data,
+            footer: clone_form.footer.com_data,
+            diy_data: clone_form.diy_data,
+        }),
+        is_enable: clone_form.is_enable,
+    };
+};
+const form_data_transfor_diy_data = (clone_form: diyData) => {
+    try {
+        return {
+            id: clone_form.id,
+            model: {
+                img: clone_form.logo,
+                name: clone_form.name,
+            },
+            header: JSON.parse(clone_form.config).header,
+            footer: JSON.parse(clone_form.config).footer,
+            diy_data: JSON.parse(clone_form.config).diy_data,
+            is_enable: clone_form.is_enable,
+        };
+    } catch (error) {
+        return {
+            id: clone_form.id,
+            model: {
+                img: clone_form.logo,
+                name: clone_form.name,
+            },
+            header: form.value.header,
+            footer: form.value.footer,
+            diy_data: form.value.diy_data,
+            is_enable: clone_form.is_enable,
+        };
+    }
+};
 </script>
 
 <style scoped lang="scss">

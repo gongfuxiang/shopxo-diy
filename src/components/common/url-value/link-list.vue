@@ -24,7 +24,7 @@
                         </div>
                     </template>
                     <template v-else>
-                        <no-data height="480"></no-data>
+                        <no-data height="480px"></no-data>
                     </template>
                 </div>
             </el-scrollbar>
@@ -32,7 +32,7 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { urlValueStore, urlValue, pageLinkList } from '@/store';
+import { urlValueStore } from '@/store';
 const url_value_store = urlValueStore();
 const props = defineProps({
     // 类型

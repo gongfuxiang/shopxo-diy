@@ -121,7 +121,7 @@
                             </div>
                         </div>
                         <div v-else>
-                            <no-data height="440"></no-data>
+                            <no-data height="440px"></no-data>
                         </div>
                     </el-scrollbar>
                     <div v-if="preview_switch_video && upload_type == 'video'">
