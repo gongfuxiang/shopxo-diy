@@ -17,31 +17,27 @@ const props = defineProps({
         },
     },
 });
-// 用于页面判断显示
-const state = reactive({
-    form: props.value.content,
-    new_style: props.value.style,
-});
-// 如果需要解构，确保使用toRefs
-const { form, new_style } = toRefs(state);
 
-const tabs_list = ref({});
+const style_container = ref('');
+const tabs_list = ref(props.value);
 
-watchEffect(() => {
-    tabs_list.value = {
-        content: {
-            ...toRefs(form.value),
-            ...toRefs(form.value.tabs_list[0]),
-        },
-        style: {
-            ...toRefs(new_style.value),
-        }
-    }
-})
-console.log(tabs_list.value);
-
-// 公共样式
-const style_container = computed(() => common_styles_computer(new_style.value.common_style));
+watch(tabs_list.value, (val) => {
+    const new_style = val?.style;
+    let new_data = val;
+    // 产品的值
+    new_data.content.product_check = new_data.content.tabs_list[0].product_check;
+    new_data.content.goods_category_ids = new_data.content.tabs_list[0].goods_category_ids;
+    new_data.content.goods_brand_ids = new_data.content.tabs_list[0].goods_brand_ids;
+    new_data.content.number = new_data.content.tabs_list[0].number;
+    new_data.content.is_price_solo = new_data.content.tabs_list[0].is_price_solo;
+    new_data.content.sort = new_data.content.tabs_list[0].sort;
+    new_data.content.sort_rules = new_data.content.tabs_list[0].sort_rules;
+    new_data.content.product_list = new_data.content.tabs_list[0].product_list;
+    
+    tabs_list.value = new_data;
+    // 公共样式
+    style_container.value += common_styles_computer(new_style.common_style);
+},{ immediate: true, deep: true });
 </script>
 <style lang="scss" scoped>
 </style>
