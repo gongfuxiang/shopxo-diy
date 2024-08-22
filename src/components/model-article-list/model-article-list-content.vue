@@ -19,19 +19,7 @@
                     </el-form-item>
                     <template v-if="form.article_check === '0'">
                         <div class="nav-list">
-                            <drag :data="form.article_list" :space-col="20" @remove="article_list_remove" @on-sort="article_list_sort">
-                                <template #default="{ row }">
-                                    <upload v-model="row.new_url" :limit="1" size="40" styles="2"></upload>
-                                    <el-image :src="row.link.cover" fit="contain" class="img">
-                                        <template #error>
-                                            <div class="bg-f5 flex-row jc-c align-c radius h w">
-                                                <icon name="error-img" size="16" color="9"></icon>
-                                            </div>
-                                        </template>
-                                    </el-image>
-                                    <div class="flex-1 flex-width text-line-2 size-12 self-s">{{ row.new_title }}</div>
-                                </template>
-                            </drag>
+                            <drag-group :list="form.article_list" img-params="cover" @onsort="article_list_sort" @remove="article_list_remove"></drag-group>
                             <el-button class="mtb-20 w" @click="add">+添加</el-button>
                         </div>
                     </template>
