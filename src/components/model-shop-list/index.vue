@@ -106,13 +106,9 @@ const props = defineProps({
         default: true,
     }
 });
-// 用于页面判断显示
-const state = reactive({
-    form: props.value?.content || {},
-    new_style: props.value?.style || {},
-});
-// 如果需要解构，确保使用toRefs
-const { form, new_style } = toRefs(state);
+
+const form = computed(() => props.value?.content || {});
+const new_style = computed(() => props.value?.style || {});
 
 // 目前显示假数据，日后通过分类或者选择的商品来显示真实数据
 interface product_list {
