@@ -14,6 +14,12 @@ const props = defineProps({
         },
         required: true
     },
+    sourceList: {
+        type: Object,
+        default: () => {
+            return {};
+        }
+    },
     isPercentage: {
         type: Boolean,
         default: false
@@ -21,13 +27,14 @@ const props = defineProps({
 });
 // 用于页面判断显示
 const form = reactive(props.value);
-
 const img_src = computed(() => {
     if (!isEmpty(form.img_src[0])) {
         return form.img_src[0];
     } else {
-        return {
-            url: form.data_source_list.url
+        if (!isEmpty(props.sourceList)) {
+            return props.sourceList[form.data_source_id];
+        } else {
+            return '';
         }
     }
 });

@@ -4,9 +4,16 @@
             <card-container class="common-content-height">
                 <div class="mb-20">数据源</div>
                 <el-form-item label="动态数据">
-                    <el-select v-model="form.data_source" value-key="id" placeholder="请选择数据源" @change="changeDataSource">
+                    <el-select v-model="form.data_source" value-key="id" placeholder="请选择数据源" clearable @change="changeDataSource">
                         <el-option v-for="item in options" :key="item.type" :label="item.name" :value="item.type" />
                     </el-select>
+                    <div v-if="!isEmpty(form.source_list)" class="flex-row mt-20 gap-20">
+                        <div class="re flex align-c">
+                            <image-empty v-model="form.source_list[img_key]" style="width: 10rem; height: 10rem;"></image-empty>
+                            <div class="plr-15 bg-f abs replace-data size-14" @click="replace_data">替换数据</div>
+                        </div>
+                        <div class="flex-1 size-14 text-line-3">{{ form.source_list.title ||  form.source_list.name }}</div>
+                    </div>
                 </el-form-item>
                 <div class="mb-20">内容设置</div>
                 <el-button class="w" size="large" @click="custom_edit"><icon name="edit" size="12"></icon>自定义编辑</el-button>
@@ -14,7 +21,7 @@
         </el-form>
         <Dialog ref="dialog" @accomplish="accomplish">
             <div class="flex-row h w">
-                <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" :list="custom_list" @right-update="right_update"></DragIndex>
+                <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" :source-list="form.source_list" :list="custom_list" @right-update="right_update"></DragIndex>
                 <div class="settings">
                     <template v-if="diy_data.key === 'img'">
                         <model-image-style :key="key" v-model:height="center_height" :options="model_data_source" :value="diy_data"></model-image-style>
@@ -33,15 +40,16 @@
                 </div>
             </div>
         </Dialog>
+        <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="dialog_type" @update:model-value="url_value_dialog_call_back" @close="url_value_close"></url-value-dialog>
     </div>
 </template>
 <script setup lang="ts">
 import Dialog from './components/dialog.vue';
 import DragIndex from './components/index.vue';
-import { cloneDeep } from 'lodash';
+import { isEmpty, cloneDeep } from 'lodash';
 import CustomAPI from '@/api/custom';
 import { DataSourceStore } from '@/store';
-const data_source = DataSourceStore();
+const data_source_store = DataSourceStore();
 
 const props = defineProps({
     value: {
@@ -56,8 +64,8 @@ const form = reactive(props.value);
 // 弹出框里的内容
 let custom_list = reactive([]);
 const center_height = ref(0);
-
 const options = ref<source_list[]>([]);
+//#region 初始化数据处理
 interface data_list {
     name: string;
     field: string;
@@ -68,23 +76,44 @@ interface source_list {
     data: data_list[];
     type: string;
 };
-const init = () => {
+const getCustominit = () => {
     CustomAPI.getCustominit().then((res) => {
         const { data_source } = res.data;
         options.value = data_source;
-        data_source.set_data_source(data_source);
+        data_source_store.set_data_source(data_source);
     });
 }
 
 onBeforeMount(() => {
-    if (!data_source.is_data_source_api) {
-        data_source.set_is_data_source_api(true);
-        init();
+    if (!data_source_store.is_data_source_api) {
+        data_source_store.set_is_data_source_api(true);
+        getCustominit();
     } else {
-        options.value = data_source.data_source_list;
+        options.value = data_source_store.data_source_list;
+        // 如果历史的值出现，根据历史选中的值处理一下传递的数据结构
+        processing_data(form.data_source);
     }
 });
-
+// 处理显示的图片和传递到下去的数据结构
+const processing_data = (key: string) => {
+    const list = options.value.filter(item => item.type == key);
+    if (list.length > 0) {
+        model_data_source.value = list[0].data;
+        // 从中取出包含图片的内容
+        const field_list = list[0].data.filter(item => item.type == 'images');
+        // 取出图片的key
+        if (field_list.length > 0) {
+            img_key.value = field_list[0].field;
+        }
+    } else {
+        model_data_source.value = [];
+    }
+    if (!isEmpty(key)) {
+        dialog_type.value = [ key ];
+    }
+};
+//#endregion
+//#region 自定义编辑的内部处理逻辑
 const diy_data = ref<diy>({
     key: '',
     location: {
@@ -104,7 +133,7 @@ const right_update = (item: any) => {
     // 生成随机id
     key.value = Math.random().toString(36).substring(2);
 };
-
+// 自定义编辑的逻辑
 const custom_edit = () => {
     if (!dialog.value) return;
     dialog.value.dialogVisible = true;
@@ -112,7 +141,7 @@ const custom_edit = () => {
     custom_list = cloneDeep(form.custom_list);
     center_height.value = cloneDeep(form.height);
 };
-
+// 点击完成的处理逻辑
 const accomplish = () => {
     if (!draglist.value) {
         return;
@@ -121,15 +150,42 @@ const accomplish = () => {
     }
     form.height = center_height.value;
 };
+//#endregion
+//#region 数据源更新逻辑处理
 const model_data_source = ref<data_list[]>([])
-const changeDataSource = (key: any) => {
-    const list = options.value.filter(item => item.type == key);
-    if (list.length > 0) {
-        model_data_source.value = list[0].data; 
-    } else {
-        model_data_source.value = [];
+const dialog_type = ref<string[]>([]);
+const img_key = ref('');
+// 打开弹出框
+const url_value_dialog_visible = ref(false);
+const changeDataSource = (key: string) => {
+    processing_data(key);
+    form.source_list = {};
+    if (!isEmpty(key)) {
+        url_value_dialog_visible.value = true;
     }
 }
+
+// 弹出框选择的内容
+const url_value_dialog_call_back = (item: any[]) => {
+    if (item.length > 0) {
+        form.source_list = item[0];
+    } else {
+        form.source_list = {};
+    }
+};
+// 弹出框关闭
+const url_value_close = () => {
+    if (isEmpty(form.source_list)) {
+        form.data_source = '';
+    }
+}
+// 替换数据
+const replace_data = () => {
+    if (!isEmpty(dialog_type.value)) {
+        url_value_dialog_visible.value = true;
+    }
+}
+//#endregion
 </script>
 <style lang="scss" scoped>
 .card.mb-8 {
@@ -171,5 +227,11 @@ const changeDataSource = (key: any) => {
     .el-dialog__footer {
         padding: 2.4rem 3rem;
     }
+}
+.replace-data {
+    bottom: 1rem;
+    left: 0.5rem;
+    border-radius: 2rem;
+    border: 1px solid #ccc;
 }
 </style>

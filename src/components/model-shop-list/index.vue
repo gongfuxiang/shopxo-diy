@@ -15,11 +15,8 @@
                         <template v-if="!isEmpty(item.new_url)">
                             <image-empty v-model="item.new_url[0]" :class="`flex-img${product_style} flex align-c jc-c`" :style="content_img_radius"></image-empty>
                         </template>
-                        <template v-else-if="!isEmpty(item.images)">
-                            <el-image :src="item.images" :class="`flex-img${product_style} flex align-c jc-c`" fit="contain" class="img"></el-image>
-                        </template>
                         <template v-else>
-                            <image-empty :class="`flex-img${product_style} flex align-c jc-c`" :style="content_img_radius"></image-empty>
+                            <image-empty v-model="item.images" :class="`flex-img${product_style} flex align-c jc-c`" :style="content_img_radius"></image-empty>
                         </template>
                     </template>
                     <div class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
@@ -51,8 +48,8 @@
                             <div class="flex-row jc-sb align-e">
                                 <div>
                                     <div v-if="show_content" class="flex-row align-c size-10">
-                                        <div v-if="is_show('3')" :class="['pr-5', { 'br-r-e': is_show('3') && is_show('4') }]" :style="trends_config('sold_number')">已售{{ item.sales_count }}件</div>
-                                        <div v-if="is_show('4')" class="pl-5" :style="trends_config('score')">评分0</div>
+                                        <div v-if="is_show('3')" :class="['pr-5', {'br-r-e': is_show('3') && is_show('4')}]" :style="trends_config('sold_number')">已售{{ item.sales_count }}件</div>
+                                        <!-- <div v-if="is_show('4')" class="pl-5" :style="trends_config('score')">评分0</div> -->
                                     </div>
                                 </div>
                                 <div v-if="form.is_shop_show">
@@ -399,6 +396,6 @@ const style_container = computed(() => {
 }
 .flex-img5 {
     width: 100%;
-    height: 10.4rem;
+    min-height: 10.4rem;
 }
 </style>

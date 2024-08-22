@@ -2,16 +2,17 @@
     <div class="img-outer re" :style="com_style">
         <div :style="text_style" class="break">
             <template v-if="form.is_rich_text">
-                <div :innerHTML="form.text_title"></div>
+                <div :innerHTML="text_title"></div>
             </template>
             <template v-else>
-                {{ form.text_title }}
+                {{ text_title }}
             </template>
         </div>
     </div>
 </template>
 <script setup lang="ts">
 import { radius_computer, padding_computer } from '@/utils';
+import { isEmpty } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
@@ -20,6 +21,12 @@ const props = defineProps({
         },
         required: true
     },
+    sourceList: {
+        type: Object,
+        default: () => {
+            return {};
+        }
+    },
     isPercentage: {
         type: Boolean,
         default: false
@@ -27,6 +34,17 @@ const props = defineProps({
 });
 // 用于页面判断显示
 const form = reactive(props.value);
+const text_title = computed(() => {
+    let text = '';
+    if (!isEmpty(form.text_title)) {
+        text = form.text_title;
+    } else if(!isEmpty(props.sourceList[form.data_source_id])) {
+        text =  props.sourceList[form.data_source_id];
+    } else if(!props.isPercentage){
+        text = '请在此输入文字';
+    }
+    return text;
+});
 
 const text_style = computed(() => {
     let style = `font-size: ${ form.text_size }px;color: ${ form.text_color }; text-align: ${ form.text_location }; transform: rotate(${form.text_rotate}deg);text-decoration: ${ form.text_option };${ padding_computer(form.text_padding) };`;

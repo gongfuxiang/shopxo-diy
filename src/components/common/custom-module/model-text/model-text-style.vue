@@ -4,19 +4,12 @@
             <card-container>
                 <div class="mb-12">文本设置</div>
                 <el-form-item label="文本内容">
-                    <div class="flex-column w">
-                        <el-input v-model="form.text_title" placeholder="请输入链接" type="textarea" :rows="3"></el-input>
-                        <div class="flex-row align-c gap-10 mt-12">
-                            <el-select v-model="form.data_source_id" value-key="id" placeholder="请选择图片数据字段" size="default" class="flex-1">
-                                <el-option v-for="item in options.filter(item => item.type == 'text')" :key="item.field" :label="item.name" :value="item.field" />
-                            </el-select>
-                            <el-popover placement="top-start" :width="200" trigger="hover" content="this is content, this is content, this is content">
-                                <template #reference>
-                                    <icon name="tips" size="24"></icon>
-                                </template>
-                            </el-popover>
-                        </div>
-                    </div>
+                    <el-input v-model="form.text_title" placeholder="请输入文本内容" type="textarea" :rows="3" @input="text_change('1')"></el-input>
+                </el-form-item>
+                <el-form-item label="数据字段">
+                    <el-select v-model="form.data_source_id" value-key="id" clearable placeholder="请选择图片数据字段" size="default" class="flex-1" @change="text_change('2')">
+                        <el-option v-for="item in options.filter(item => item.type == 'text')" :key="item.field" :label="item.name" :value="item.field" />
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="链接">
                     <url-value v-model="form.text_link"></url-value>
@@ -136,6 +129,14 @@ const padding_change = (padding: any) => {
 const border_radius_change = (radius: any) => {
     form.value.border_radius = Object.assign(form.value.border_radius, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
 };
+
+const text_change = (key: string) => {
+    if (key == '2') {
+        form.value.text_title = '';
+    } else {
+        form.value.data_source_id = '';
+    }
+}
 
 watch(
     diy_data,

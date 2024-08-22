@@ -69,7 +69,7 @@ const base_list = {
         { name: '商品标签', value: '1' },
         { name: '商品售价', value: '2' },
         { name: '商品销量', value: '3' },
-        { name: '商品评分', value: '4' },
+        // { name: '商品评分', value: '4' },
         { name: '商品原价', value: '5' },
         { name: '售价单位', value: '6' },
         { name: '原价单位', value: '7' },
