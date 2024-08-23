@@ -14,6 +14,9 @@
                 <el-form-item label="链接">
                     <url-value v-model="form.text_link"></url-value>
                 </el-form-item>
+                <el-form-item label="富文本">
+                    <el-switch v-model="form.is_rich_text" />
+                </el-form-item>
                 <el-form-item label="文字颜色">
                     <color-picker v-model="form.text_color" default-color="#FF3F3F"></color-picker>
                 </el-form-item>
