@@ -1,4 +1,3 @@
-import { id } from 'element-plus/es/locale';
 import defaultCommon from './index';
 interface DefaultUserInfo {
     content: {

@@ -12,8 +12,8 @@
                 </template>
                 <template v-else>
                     <template v-if="!isEmpty(item)">
-                        <template v-if="!isEmpty(item.new_url)">
-                            <image-empty v-model="item.new_url[0]" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
+                        <template v-if="!isEmpty(item.new_cover)">
+                            <image-empty v-model="item.new_cover[0]" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
                         </template>
                         <template v-else>
                             <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
@@ -137,7 +137,7 @@ interface plugins_icon_data {
 interface data_list {
     title: string;
     images: string;
-    new_url: string[];
+    new_cover: string[];
     min_original_price: string;
     show_original_price_symbol: string;
     show_original_price_unit: string;
@@ -156,7 +156,7 @@ const default_list = {
     show_price_unit: '',
     sales_count: '1000',
     images: '',
-    new_url: [],
+    new_cover: [],
     plugins_view_icon_data: []
 };
 const list = ref<data_list[]>([]);
@@ -187,7 +187,7 @@ watchEffect(() => {
             list.value = cloneDeep(form.value.data_list).map((item: any) => ({
                 ...item.data,
                 title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
-                new_url: item.new_url,
+                new_cover: item.new_cover,
             }));
         } else {
             list.value = Array(4).fill(default_list);

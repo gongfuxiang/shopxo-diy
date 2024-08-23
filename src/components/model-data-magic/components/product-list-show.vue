@@ -3,8 +3,8 @@
         <div class="flex-row gap-10 align-c w h">
             <template v-if="props.flex === 'row'">
                 <div v-for="(item, index) in split_list" :key="index" class="flex-row gap-10 half-width h">
-                    <template v-if="!isEmpty(item.new_url)">
-                        <image-empty v-model="item.new_url[0]" :style="contentImgRadius"></image-empty>
+                    <template v-if="!isEmpty(item.new_cover)">
+                        <image-empty v-model="item.new_cover[0]" :style="contentImgRadius"></image-empty>
                     </template>
                     <template v-else>
                         <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
@@ -23,8 +23,8 @@
             <template v-else-if="actived != 7 || props.num !== 1">
                 <div v-for="(item, index) in split_list" :key="index" :class="['flex-col gap-10 h', { 'half-width': props.num !== 1, 'w': props.num == 1 }]">
                     <div class="w h re">
-                        <template v-if="!isEmpty(item.new_url)">
-                            <image-empty v-model="item.new_url[0]" :style="contentImgRadius"></image-empty>
+                        <template v-if="!isEmpty(item.new_cover)">
+                            <image-empty v-model="item.new_cover[0]" :style="contentImgRadius"></image-empty>
                         </template>
                         <template v-else>
                             <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
@@ -41,8 +41,8 @@
             </template>
             <template v-else>
                 <div v-for="(item, index) in split_list" :key="index" class="flex-col w h">
-                    <template v-if="!isEmpty(item.new_url)">
-                        <image-empty v-model="item.new_url[0]" :style="contentImgRadius"></image-empty>
+                    <template v-if="!isEmpty(item.new_cover)">
+                        <image-empty v-model="item.new_cover[0]" :style="contentImgRadius"></image-empty>
                     </template>
                     <template v-else>
                         <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
@@ -64,8 +64,8 @@
         <div class="flex-col gap-20 align-c w h">
             <template v-if="props.flex === 'row'">
                 <div v-for="(item, index) in split_list" :key="index" class="flex-row gap-10 align-c w h">
-                    <template v-if="!isEmpty(item.new_url)">
-                        <image-empty v-model="item.new_url[0]" :style="contentImgRadius"></image-empty>
+                    <template v-if="!isEmpty(item.new_cover)">
+                        <image-empty v-model="item.new_cover[0]" :style="contentImgRadius"></image-empty>
                     </template>
                     <template v-else>
                         <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>

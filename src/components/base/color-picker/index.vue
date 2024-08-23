@@ -1,6 +1,6 @@
 <template>
     <div class="flex-row align-c gap-12">
-        <el-color-picker v-model="color" show-alpha :predefine="predefine_colors" @change="color_picker_change" />
+        <el-color-picker v-model="color" show-alpha :predefine="predefine_colors" @change="color_picker_change"  />
         <icon name="reset" color="primary" size="16" :class="['c-pointer', { disable: color == defaultColor }]" @click="reset_event"></icon>
     </div>
 </template>

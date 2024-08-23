@@ -247,7 +247,7 @@ const commodity_list = (list: any[], num: number) => {
         const goods_list = cloneDeep(list).map((item: any) => ({
             ...item.data,
             title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
-            new_url: item.new_url,
+            new_cover: item.new_cover,
         }));
         // 存储数据显示
         let nav_list = [];

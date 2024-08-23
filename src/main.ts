@@ -6,8 +6,8 @@ import router from './router';
 import Particles from 'vue3-particles';
 
 import common from '@/utils/common';
-import Vue3DraggableResizable from 'vue3-draggable-resizable'
 //default styles
+import Vue3DraggableResizable from 'vue3-draggable-resizable'
 import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css'
 
 import '@/styles/index.scss';

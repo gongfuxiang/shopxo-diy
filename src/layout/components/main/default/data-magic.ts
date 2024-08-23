@@ -1,6 +1,5 @@
 import { get_math } from "@/utils";
 import defaultCommon from "./index";
-import { tr } from "element-plus/es/locale";
 interface data_magic {
     start: object;
     end: object;

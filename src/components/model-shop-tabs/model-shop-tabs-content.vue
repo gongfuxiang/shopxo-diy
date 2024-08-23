@@ -178,9 +178,16 @@ const tabs_list_sort = (item: any) => {
 const tabs_add = () => {
     form.value.tabs_list.push({
         id: get_math(),
-        src: 'carousel',
-        new_src: [],
-        href: {},
+        title: '',
+        img: [],
+        desc: '',
+        data_type: '0',
+        category: [],
+        data_ids: [],
+        number: 4,
+        sort: '0',
+        sort_rules: '0',
+        data_list: [],
     });
 };
 
@@ -204,7 +211,7 @@ const url_value_dialog_call_back = (item: any[]) => {
     item.forEach((item: any) => {
         form.value.tabs_list[click_index].data_list.push({
             id: get_math(),
-            new_url: [],
+            new_cover: [],
             new_title: '',
             data: item,
         });
