@@ -46,6 +46,7 @@ const editor_config = ref({
         uploadImage: {
             // 自定义选择图片
             customBrowseAndUpload(insertFn: InsertFnType) {
+                upload_insert.value = insertFn;
                 rich_upload_type.value = 'img';
                 visibleDialog.value = true;
                 cursor_position.value = editor_ref.value.selection;
@@ -54,6 +55,7 @@ const editor_config = ref({
         uploadVideo: {
             // 自定义上传视频
             customBrowseAndUpload(insertFn: InsertFnType) {
+                upload_insert.value = insertFn;
                 rich_upload_type.value = 'video';
                 visibleDialog.value = true;
                 cursor_position.value = editor_ref.value.selection;
@@ -61,6 +63,8 @@ const editor_config = ref({
         },
     },
 });
+// 获取到对应的触发事件
+const upload_insert = ref<any>(null);
 const handle_created = (editor: any) => {
     editor_ref.value = editor; // 记录 editor 实例，重要！
 };
@@ -76,20 +80,23 @@ const upload_list_change = (arry: uploadList[]) => {
         arry.forEach((item: uploadList) => {
             const url = item.url;
             const alt = item.title;
-            if (rich_upload_type.value === 'img') {
-                new_html += `<img src="${url}" alt="${alt}" />`;
-            } else if (rich_upload_type.value === 'video') {
-                new_html += `<video src="${url}" />`;
-            }
+            // if (rich_upload_type.value === 'img') {
+            //     new_html += `<img src="${url}" alt="${alt}" />`;
+            // } else if (rich_upload_type.value === 'video') {
+            //     new_html += `<video src="${url}" />`;
+            // }
+            // 弹出框结束的时候触发添加事件
+            upload_insert.value(url, alt);
         });
+        // 弹出框结束之后清空数据
+        upload_insert.value = null;
         // 插入图片或视频
-        console.log(editor);
         // if (editor.isDisabled()) editor.enable();
         // if (!editor.isFocused()) editor.focus();
 
         // editor.select(cursor_position.value);
         // // editor.deleteFragment();
-        editor.dangerouslyInsertHtml(new_html);
+        // editor.dangerouslyInsertHtml(new_html);
     }
     upload_list.value = [];
 };
