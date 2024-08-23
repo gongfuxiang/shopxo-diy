@@ -36,6 +36,7 @@ function onClick() {
 </script>
 
 <style lang="scss">
+@import '@/assets/search-icons/iconfont.css';
 @import '@/assets/icons/iconfont.css';
 i.iconfont {
     display: inline-flex;

@@ -5,7 +5,7 @@
                 <div class="box h oh flex align-c gap-10" :style="box_style">
                     <template v-if="form.is_icon_show">
                         <template v-if="form.icon_type == 'icon'">
-                            <span class="iconfont icon-search size-14" :style="`color: ${ new_style.icon_color }`"></span>
+                            <el-icon :class="`iconfont ${ !isEmpty(form.icon_class) ? 'icon-' + form.icon_class : 'search' } size-14`" :style="`color:${new_style.icon_color};`" />
                         </template>
                         <template v-else>
                             <div class="img-box">
@@ -24,7 +24,7 @@
                     </template>
                     <template v-if="form.search_type === 'icon'">
                         <div class="pl-16 pr-16 ptb-3 size-12">
-                            <icon></icon>
+                            <el-icon :class="`iconfont ${ 'icon-' + form.icon_class } size-14`" />
                         </div>
                     </template>
                 </div>
@@ -34,6 +34,7 @@
 </template>
 <script setup lang="ts">
 import { background_computer, common_styles_computer, gradient_computer, radius_computer } from '@/utils';
+import { isEmpty } from 'lodash';
 
 const props = defineProps({
     value: {

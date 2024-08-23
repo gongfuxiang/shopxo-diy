@@ -18,7 +18,7 @@
                                 <upload v-model="form.icon_img_src" :limit="1" size="50"></upload>
                             </template>
                             <template v-else>
-                                <!-- <upload-icon :dialogVisible="true" :limit="1" size="50"></upload-icon> -->
+                                <upload-icon v-model:icon_class="form.icon_class" :size="50"></upload-icon>
                             </template>
                         </template>
                     </div>
@@ -42,7 +42,7 @@
                                 <upload v-model="form.search_botton_src" :limit="1" size="50"></upload>
                             </template>
                             <template v-else-if="form.search_type === 'icon'">
-                                <upload v-model="form.search_botton_icon" :limit="1" size="50"></upload>
+                                <upload-icon v-model:icon_class="form.search_botton_icon" :size="50"></upload-icon>
                             </template>
                             <template v-else>
                                 <el-input v-model="form.search_tips" placeholder="请输入文字内容"></el-input>
@@ -77,6 +77,7 @@ const props = withDefaults(defineProps<Props>(), {
         icon_type: 'icon',
         icon_src: '',
         icon_img_src: [],
+        icon_class: '',
         search_botton_src: [],
         search_botton_icon: '',
         is_tips_show: true,

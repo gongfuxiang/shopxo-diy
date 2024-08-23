@@ -12,6 +12,7 @@ interface defaultSearch {
         icon_type: string;
         icon_src: string;
         icon_img_src: uploadList[];
+        icon_class: string;
         search_botton_src: uploadList[];
         search_botton_icon: string;
         is_tips_show: boolean;
@@ -43,6 +44,7 @@ const defaultSearch: defaultSearch = {
         icon_type: 'icon',
         icon_src: '',
         icon_img_src: [],
+        icon_class: '',
         search_botton_src: [],
         search_botton_icon: '',
         is_tips_show: true,

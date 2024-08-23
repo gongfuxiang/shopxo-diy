@@ -9,6 +9,7 @@ interface search_content {
     icon_type: string;
     icon_src: string;
     icon_img_src: uploadList[];
+    icon_class: string;
     search_botton_src: uploadList[];
     search_botton_icon: string;
     is_tips_show: boolean;
