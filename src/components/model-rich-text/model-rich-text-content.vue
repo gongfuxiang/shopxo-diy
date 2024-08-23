@@ -6,9 +6,9 @@
                 <!-- 工具栏 -->
                 <Toolbar id="toolbar-container" :editor="editor_ref" :default-config="toolbar_config" :mode="mode" />
                 <!-- 编辑器 -->
-                <Editor id="editor-container" v-model="form.html" class="editor" :default-config="editor_config" :mode="mode" @on-change="handle_change" @on-created="handle_created" />
+                <Editor id="editor-container" ref="editorRef" v-model="form.html" class="editor" :default-config="editor_config" :mode="mode" @on-change="handle_change" @on-created="handle_created" />
             </div>
-            <upload v-model:model-value="upload_list" v-model:visible-dialog="visibleDialog" :type="rich_upload_type" is-custom-dialog @update:model-value="upload_list_change"></upload>
+            <upload v-model:model-value="upload_list" v-model:visible-dialog="visibleDialog" :type="rich_upload_type" :limit="1" is-custom-dialog @update:model-value="upload_list_change"></upload>
         </card-container>
     </div>
 </template>
@@ -24,6 +24,7 @@ const props = defineProps({
 const form = reactive(props.value);
 
 const mode = ref('default'); // 编辑器模式
+const editorRef = ref<HTMLElement | null>(null);
 // 编辑器实例，必须用 shallowRef
 const editor_ref = shallowRef();
 // 插入光标位置
@@ -89,7 +90,8 @@ const upload_list_change = (arry: uploadList[]) => {
 
         // editor.select(cursor_position.value);
         // // editor.deleteFragment();
-        editor.dangerouslyInsertHtml(new_html);
+        // editor.dangerouslyInsertHtml(new_html);
+        console.log(editorRef);
     }
     upload_list.value = [];
 };
