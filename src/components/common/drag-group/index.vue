@@ -1,7 +1,7 @@
 <template>
     <drag :data="drag_list" :space-col="20" :is-show-edit="true" @remove="remove" @on-sort="on_sort" @edit="edit">
         <template #default="{ row, index }">
-            <upload v-model="row.new_url" :limit="1" size="40" styles="2"></upload>
+            <upload v-model="row.new_cover" :limit="1" size="40" styles="2"></upload>
             <el-image :src="row.data[imgParams]" fit="contain" class="img">
                 <template #error>
                     <div class="bg-f5 flex-row jc-c align-c radius h w">
@@ -60,10 +60,10 @@ const remove = (index: number) => {
         edit_index.value = -1;
     }
     emits('remove', index);
-}
+};
 const on_sort = (item: any) => {
     emits('onsort', item);
-}
+};
 const edit = (index: number) => {
     if (edit_index.value === index) {
         edit_close_processing(index);
@@ -72,27 +72,26 @@ const edit = (index: number) => {
         edit_index.value = index;
         edit_processing(index);
     }
-}
+};
 
 const double_click = (index: number) => {
     edit_index.value = index;
     edit_processing(index);
-}
-// new_tile === title  new_tile清空，使用title字段，如果不一致，先办判断new_title !=='', 取new_title否则取title
+};
 // 编辑时的数据处理
 const edit_processing = (index: number) => {
     const list = drag_list.value[index];
     if (!isEmpty(list) && isEmpty(list.new_title)) {
         list.new_title = list.data.title;
     }
-}
+};
 //编辑关闭前的处理
 const edit_close_processing = (index: number) => {
     const list = drag_list.value[index];
     if (!isEmpty(list) && !isEmpty(list.new_title) && list.new_title === list.data.title) {
         list.new_title = '';
     }
-}
+};
 </script>
 <style lang="scss" scoped>
 .img {
