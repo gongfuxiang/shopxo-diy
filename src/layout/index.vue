@@ -27,19 +27,22 @@ interface headerAndFooter {
 interface diy_data_item {
     id: string;
     model: {
-        img: string;
+        logo: string;
         name: string;
+        is_enable: string;
+        describe: string;
     };
     header: headerAndFooter;
     footer: headerAndFooter;
     diy_data: Array<any>;
-    is_enable: string;
 }
 const form = ref<diy_data_item>({
     id: '',
     model: {
-        img: '',
+        logo: '',
         name: '',
+        is_enable: '1',
+        describe: '',
     },
     header: {
         name: '页面设置',
@@ -54,7 +57,6 @@ const form = ref<diy_data_item>({
         com_data: defaultSettings.footer_nav,
     },
     diy_data: [],
-    is_enable: '1',
 });
 const diy_data_item = ref({});
 
@@ -135,15 +137,15 @@ const formmat_form_data = (data: diy_data_item) => {
 const diy_data_transfor_form_data = (clone_form: diy_data_item) => {
     return {
         id: clone_form.id,
-        logo: clone_form.model.img,
+        logo: clone_form.model.logo,
         name: clone_form.model.name,
-        describe: '',
+        is_enable: clone_form.model.is_enable,
+        describe: clone_form.model.describe,
         config: JSON.stringify({
             header: clone_form.header,
             footer: clone_form.footer,
             diy_data: clone_form.diy_data,
         }),
-        is_enable: clone_form.is_enable,
     };
 };
 const form_data_transfor_diy_data = (clone_form: diyData) => {
@@ -151,25 +153,27 @@ const form_data_transfor_diy_data = (clone_form: diyData) => {
         return {
             id: clone_form.id,
             model: {
-                img: clone_form.logo,
+                logo: clone_form.logo,
                 name: clone_form.name,
+                is_enable: clone_form.is_enable,
+                describe: clone_form.describe,
             },
             header: JSON.parse(clone_form.config).header,
             footer: JSON.parse(clone_form.config).footer,
             diy_data: JSON.parse(clone_form.config).diy_data,
-            is_enable: clone_form.is_enable,
         };
     } catch (error) {
         return {
             id: clone_form.id,
             model: {
-                img: clone_form.logo,
+                logo: clone_form.logo,
                 name: clone_form.name,
+                is_enable: clone_form.is_enable,
+                describe: clone_form.describe,
             },
             header: form.value.header,
             footer: form.value.footer,
             diy_data: form.value.diy_data,
-            is_enable: clone_form.is_enable,
         };
     }
 };
