@@ -94,7 +94,7 @@ const url_value_dialog_call_back = (item: any[]) => {
     item.forEach((item: any) => {
         form.value.goods_list.push({
             id: get_math(),
-            new_url: [],
+            new_cover: [],
             new_title: '',
             data: item,
         });

@@ -204,7 +204,7 @@ const url_value_dialog_call_back = (item: any[]) => {
     item.forEach((item: any) => {
         form.value.tabs_list[click_index].data_list.push({
             id: get_math(),
-            new_url: [],
+            new_cover: [],
             new_title: '',
             data: item,
         });
