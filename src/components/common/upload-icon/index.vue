@@ -35,7 +35,7 @@ const upload_size = computed(() => {
 });
 // 搜索
 const searchText = ref('');
-const icon_list = computed(() => searchIcons.glyphs.filter(item => item.font_class.includes(searchText.value) || item.name.includes(searchText.value)));
+const icon_list = computed(() => searchIcons.glyphs.filter(item => item.name.includes(searchText.value)));
 // 弹出框操作
 const dialogVisible = ref(false);
 const handleClose = () => {
