@@ -31,7 +31,7 @@ watch(tabs_list.value, (val) => {
     new_data.content.number = new_data.content.tabs_list[0].number;
     new_data.content.sort = new_data.content.tabs_list[0].sort;
     new_data.content.sort_rules = new_data.content.tabs_list[0].sort_rules;
-    new_data.content.goods_list = new_data.content.tabs_list[0].goods_list;
+    new_data.content.data_list = new_data.content.tabs_list[0].data_list;
     
     tabs_list.value = new_data;
     // 公共样式
