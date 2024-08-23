@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="dialogVisible" title="添加icon" :close-on-press-escape="false" width="70%" :close-on-click-modal="false" :append-to-body="false" :before-close="handleClose">
+    <el-dialog v-model="dialogVisible" title="icon选择" :close-on-press-escape="false" width="70%" :close-on-click-modal="false" :append-to-body="false" :before-close="handleClose">
         <div class="mt-20 icon-dialog">
             <div class="flex jc-e"><el-input v-model="searchText" placeholder="请输入图标名称" class="search-text" clearable></el-input></div>
             <el-row v-if="icon_list.length > 0" class="icon-row mt-20" :gutter="20">
