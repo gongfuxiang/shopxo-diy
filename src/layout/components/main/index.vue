@@ -443,7 +443,10 @@ const set_show_tabs = (index: number) => {
         if (for_index == index) {
             emits('rightUpdate', item, diy_data.value, page_data.value, footer_nav.value);
             item.show_tabs = true;
-            scroll();
+            // 悬浮按钮的时候不用滚动到指定位置
+            if (item.key !== 'float-window') {
+                scroll();
+            }
         }
     });
 };
