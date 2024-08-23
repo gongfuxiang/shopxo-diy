@@ -1,4 +1,3 @@
-import { de } from "element-plus/es/locale";
 import defaultCommon from "./index";
 
 interface defaultSearch {
