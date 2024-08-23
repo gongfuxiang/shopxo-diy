@@ -81,23 +81,15 @@ const upload_list_change = (arry: uploadList[]) => {
         arry.forEach((item: uploadList) => {
             const url = item.url;
             const alt = item.title;
-            // if (rich_upload_type.value === 'img') {
-            //     new_html += `<img src="${url}" alt="${alt}" />`;
-            // } else if (rich_upload_type.value === 'video') {
-            //     new_html += `<video src="${url}" />`;
-            // }
             // 弹出框结束的时候触发添加事件
-            upload_insert.value(url, alt);
+            if (rich_upload_type.value == 'img') {
+                upload_insert.value(url, alt);
+            } else {
+                upload_insert.value(url);
+            }
         });
         // 弹出框结束之后清空数据
         upload_insert.value = null;
-        // 插入图片或视频
-        // if (editor.isDisabled()) editor.enable();
-        // if (!editor.isFocused()) editor.focus();
-
-        // editor.select(cursor_position.value);
-        // // editor.deleteFragment();
-        // editor.dangerouslyInsertHtml(new_html);
     }
     upload_list.value = [];
 };
@@ -114,10 +106,7 @@ onBeforeUnmount(() => {
         position: relative;
         height: calc(100vh - 42.5rem) !important;
         overflow-y: hidden;
-        img {
-            max-width: 100%;
-        }
-        video {
+        * {
             max-width: 100%;
         }
     }
