@@ -100,7 +100,7 @@ export interface Tree {
     /** 路径 */
     path: string;
     /** 是否开启 */
-    is_enable: Number;
+    is_enable: number | string;
     /** 排序 */
     sort: number;
     /** 下级 */

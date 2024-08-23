@@ -252,8 +252,13 @@ watch(
     () => dialog_visible.value,
     (val) => {
         if (val) {
-            get_tree();
-            get_attachment_list();
+            if (val === true) {
+                upload_type.value = props.type;
+                // 获取分类
+                get_tree();
+                // 获取附件列表
+                get_attachment_list();
+            }
         }
     }
 );
