@@ -140,4 +140,7 @@ const shopping_button_click = (item: { value: string; }) => {
         font-weight: 700;
     }
 }
+:deep(.el-checkbox-group .el-checkbox){
+    margin-right: 2rem;
+}
 </style>

@@ -118,4 +118,7 @@ const url_value_dialog_call_back = (item: any[]) => {
     width: 100%;
     height: 12.4rem;
 }
+:deep(.el-checkbox-group .el-checkbox){
+    margin-right: 2rem;
+}
 </style>
