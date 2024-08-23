@@ -2,11 +2,11 @@
     <card-container class="mb-8">
         <el-form-item label="数据类型">
             <el-radio-group v-model="form.data_type" class="ml-4">
-                <el-radio value="commodity">商品</el-radio>
-                <el-radio value="img">图片</el-radio>
+                <el-radio value="goods">商品</el-radio>
+                <el-radio value="images">图片</el-radio>
             </el-radio-group>
         </el-form-item>
-        <template v-if="form.data_type === 'commodity' && isShowTitle">
+        <template v-if="form.data_type === 'goods' && isShowTitle">
             <el-form-item label="主标题">
                 <el-input v-model="form.heading_title" placeholder="请输入主标题"></el-input>
             </el-form-item>
@@ -15,10 +15,10 @@
             </el-form-item>
         </template>
     </card-container>
-    <card-container v-if="form.data_type == 'img'" class="mb-8">
+    <card-container v-if="form.data_type == 'images'" class="mb-8">
         <div class="mb-12">图片设置</div>
         <div class="flex-col gap-20">
-            <div v-for="(item, index) in form.img_list" :key="index" class="card-background box-shadow-sm re">
+            <div v-for="(item, index) in form.images_list" :key="index" class="card-background box-shadow-sm re">
                 <div class="flex-col align-c jc-c gap-20 w">
                     <div class="upload_style">
                         <upload v-model="item.carousel_img" :limit="1" size="100%"></upload>
@@ -34,8 +34,8 @@
     </card-container>
     <card-container v-else class="mb-8">
         <div class="mb-12">商品设置</div>
-        <drag-group :list="form.product_list" img-params="images" @onsort="product_list_sort" @remove="product_list_remove"></drag-group>
-        <el-button class="mtb-20 w" @click="product_list_add">+添加</el-button>
+        <drag-group :list="form.goods_list" img-params="images" @onsort="goods_list_sort" @remove="goods_list_remove"></drag-group>
+        <el-button class="mtb-20 w" @click="goods_list_add">+添加</el-button>
         <el-form-item label="展示信息" label-width="60">
             <el-checkbox-group v-model="form.is_show">
                 <el-checkbox v-for="item in list_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
@@ -59,32 +59,32 @@ const props = defineProps({
     }
 });
 
-const list_show_list = [{ name: '商品名称', value: '0' }, { name: '商品售价', value: '1' }, { name: '售价单位', value: '2' }]
+const list_show_list = [{ name: '商品名称', value: 'title' }, { name: '商品售价', value: 'price' }, { name: '售价单位', value: 'price_unit' }];
 
 const form = ref(props.value);
 
 const img_add = () => {
-    form.value.img_list.push({
+    form.value.images_list.push({
         carousel_img: [],
         carousel_link: {},
     });
 }
 const img_remove = (index: number) => {
-    form.value.img_list.splice(index, 1);
+    form.value.images_list.splice(index, 1);
 }
-const product_list_remove = (index: number) => {
-    form.value.product_list.splice(index, 1);
+const goods_list_remove = (index: number) => {
+    form.value.goods_list.splice(index, 1);
 };
 // 拖拽更新之后，更新数据
-const product_list_sort = (new_list: any) => {
-    form.value.product_list = cloneDeep(new_list);
+const goods_list_sort = (new_list: any) => {
+    form.value.goods_list = cloneDeep(new_list);
 }
 
 watchEffect(() => {
     form.value = props.value;
 });
 
-const product_list_add = () => {
+const goods_list_add = () => {
     url_value_dialog_visible.value = true;
 };
 // 打开弹出框
@@ -92,11 +92,11 @@ const url_value_dialog_visible = ref(false);
 // 弹出框选择的内容
 const url_value_dialog_call_back = (item: any[]) => {
     item.forEach((item: any) => {
-        form.value.product_list.push({
+        form.value.goods_list.push({
             id: get_math(),
             new_url: [],
-            new_title: item.title,
-            link: item,
+            new_title: '',
+            data: item,
         });
     });
 };

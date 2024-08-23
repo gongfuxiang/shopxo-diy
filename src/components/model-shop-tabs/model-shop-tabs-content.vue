@@ -12,7 +12,7 @@
                     <el-switch v-model="form.tabs_top_up" />
                 </el-form-item>
                 <el-form-item label="商品风格">
-                    <el-radio-group v-model="form.product_style">
+                    <el-radio-group v-model="form.theme" @change="change_style">
                         <el-radio v-for="item in base_list.product_style_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
@@ -34,24 +34,24 @@
                                         <el-input v-model="row.desc" placeholder="请输入简介" clearable />
                                     </el-form-item>
                                     <el-form-item label="添加商品">
-                                        <el-radio-group v-model="row.product_check">
+                                        <el-radio-group v-model="row.data_type">
                                             <el-radio v-for="item in base_list.product_list" :key="item.value + get_math()" :value="item.value">{{ item.name }}</el-radio>
                                         </el-radio-group>
                                     </el-form-item>
-                                    <template v-if="row.product_check === '0'">
+                                    <template v-if="row.data_type === '0'">
                                         <div class="nav-list">
-                                            <drag-group :list="row.product_list" img-params="images" @onsort="product_list_sort($event, index)" @remove="product_list_remove($event, index)"></drag-group>
+                                            <drag-group :list="row.data_list" img-params="images" @onsort="goods_list_sort($event, index)" @remove="goods_list_remove($event, index)"></drag-group>
                                             <el-button class="mtb-20 w" @click="product_add(index)">+添加</el-button>
                                         </div>
                                     </template>
                                     <template v-else>
                                         <el-form-item label="商品分类">
-                                            <el-select v-model="row.goods_category_ids" multiple collapse-tags placeholder="请选择商品分类">
+                                            <el-select v-model="row.category" multiple collapse-tags placeholder="请选择商品分类">
                                                 <el-option v-for="item in base_list.product_category_list" :key="item.id" :label="item.name" :value="item.id" />
                                             </el-select>
                                         </el-form-item>
                                         <el-form-item label="指定品牌">
-                                            <el-select v-model="row.goods_brand_ids" multiple collapse-tags placeholder="请选择商品品牌">
+                                            <el-select v-model="row.data_ids" multiple collapse-tags placeholder="请选择商品品牌">
                                                 <el-option v-for="item in base_list.product_brand_list" :key="item.id" :label="item.name" :value="item.id" />
                                             </el-select>
                                         </el-form-item>
@@ -185,11 +185,11 @@ const tabs_add = () => {
 };
 
 // 指定商品
-const product_list_remove = (index: number, product_index: number) => {
-    form.value.tabs_list[product_index].product_list.splice(index, 1);
+const goods_list_remove = (index: number, product_index: number) => {
+    form.value.tabs_list[product_index].data_list.splice(index, 1);
 };
-const product_list_sort = (item: any, index: number) => {
-    form.value.tabs_list[index].product_list = item;
+const goods_list_sort = (item: any, index: number) => {
+    form.value.tabs_list[index].data_list = item;
 };
 let click_index = 0;
 const product_add = (index: number) => {
@@ -202,13 +202,20 @@ const url_value_dialog_visible = ref(false);
 // 弹出框选择的内容
 const url_value_dialog_call_back = (item: any[]) => {
     item.forEach((item: any) => {
-        form.value.tabs_list[click_index].product_list.push({
+        form.value.tabs_list[click_index].data_list.push({
             id: get_math(),
             new_url: [],
-            new_title: item.title,
-            link: item,
+            new_title: '',
+            data: item,
         });
     });
+};
+// 选择某些风格时， 切换到对应的按钮
+const change_style = (val: any): void => {
+    form.value.theme = val;
+    if (['3', '4', '5'].includes(val) && ['0', '1'].includes(form.value.shop_type)) {
+        form.value.shop_type = '2';
+    }
 };
 </script>
 <style lang="scss" scoped>

@@ -91,12 +91,12 @@ const data_style = {
 }
 // 每个小模块独立的内容
 const data_content = {
-    data_type: 'commodity',
+    data_type: 'goods',
     heading_title: '主标题',
     subtitle: '副标题',
-    product_list:[],
-    is_show: ['0', '1'],
-    img_list:[
+    goods_list:[],
+    is_show: ['title', 'price'],
+    images_list:[
         {
             carousel_img: [],
             carousel_link: {},
@@ -193,10 +193,10 @@ const show_padding = (index:number, map_index:number) => {
 const data_title = (item: any) => {
     let title = `共有`;
     if (item.data_content) {
-        if (item.data_content.data_type == 'commodity') {
-            title += `${ item.data_content.product_list.length }个商品`;
+        if (item.data_content.data_type == 'goods') {
+            title += `${ item.data_content.goods_list.length }个商品`;
         } else {
-            title += `${ item.data_content.img_list.length }个图片`;
+            title += `${ item.data_content.images_list.length }个图片`;
         }
     }
     return title;

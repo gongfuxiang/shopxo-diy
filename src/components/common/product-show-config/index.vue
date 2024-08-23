@@ -19,10 +19,10 @@
             <div class="flex-row align-c jc-s gap-20 shopping_button_all">
                 <div v-for="item in base_list.shopping_button_list" :key="item.value" :class="['pa-10 re', { 'br-c br-primary radius-sm': shop_type(item) }]" @click="shopping_button_click(item)">
                     <template v-if="item.value == '0'">
-                        <div :class="['pl-13 pr-13 round size-12 bg-primary cr-f shopping_button', {'disabled': ['3','4','5'].includes(form.product_style) }]">{{ item.name }}</div>
+                        <div :class="['pl-13 pr-13 round size-12 bg-primary cr-f shopping_button', {'disabled': ['3','4','5'].includes(form.theme) }]">{{ item.name }}</div>
                     </template>
                     <template v-else-if="item.value == '1'">
-                        <div :class="['pl-13 pr-13 round size-12 bg-primary cr-f shopping_button', {'disabled': ['3','4','5'].includes(form.product_style) }]">{{ item.name }}</div>
+                        <div :class="['pl-13 pr-13 round size-12 bg-primary cr-f shopping_button', {'disabled': ['3','4','5'].includes(form.theme) }]">{{ item.name }}</div>
                     </template>
                     <template v-else-if="item.value == '2'">
                         <icon class="shopping_button round pl-6 pr-6 bg-primary " name="add" color="f" size="16"></icon>
@@ -65,14 +65,14 @@ const { form } = toRefs(state);
 
 const base_list = {
     list_show_list: [
-        { name: '商品名称', value: '0' },
-        { name: '商品标签', value: '1' },
-        { name: '商品售价', value: '2' },
-        { name: '商品销量', value: '3' },
+        { name: '商品名称', value: 'title' },
+        { name: '商品标签', value: 'plugins_view_icon' },
+        { name: '商品售价', value: 'price' },
+        { name: '商品销量', value: 'sales_count' },
         // { name: '商品评分', value: '4' },
-        { name: '商品原价', value: '5' },
-        { name: '售价单位', value: '6' },
-        { name: '原价单位', value: '7' },
+        { name: '商品原价', value: 'original_price' },
+        { name: '售价单位', value: 'price_unit' },
+        { name: '原价单位', value: 'original_price_unit' },
     ],
     shopping_button_list: [
         { name: '购买', value: '0' },
@@ -98,7 +98,7 @@ const shop_type = computed(() => {
 });
 
 const shopping_button_click = (item: { value: string; }) => {
-    if (['3','4','5'].includes(form.value.product_style) && ['0', '1'].includes(item.value)) {
+    if (['3','4','5'].includes(form.value.theme) && ['0', '1'].includes(item.value)) {
         return;
     } else {
         form.value.shop_type = item.value;

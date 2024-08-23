@@ -5,7 +5,7 @@
             <template v-if="form.style_actived == 7">
                 <div class="flex-row align-c jc-c style-size flex-wrap">
                     <div v-for="(item, index) in data_magic_list" :key="index" :style="`${ item.data_style.background_style } ${ content_radius }`" :class="['img-spacing-border', { 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index) }]">
-                        <template v-if="item.data_content.data_type == 'commodity'">
+                        <template v-if="item.data_content.data_type == 'goods'">
                             <div class="w h flex-col gap-20" :style="`${ [0, 1].includes(index) ? padding_computer(item.data_style.chunk_padding) : '' }`">
                                 <div v-if="(!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)) && [0, 1].includes(index)" class="flex-col gap-5 tl">
                                     <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
@@ -22,7 +22,7 @@
                         <div v-if="item.data_style.is_show && item.data_content.list.length > 1" :class="{'dot-center': item.data_style?.indicator_location == 'center', 'dot-right': item.data_style?.indicator_location == 'flex-end' }" class="dot flex abs">
                             <template v-if="item.data_style.indicator_style == 'num'">
                                 <div :style="item.data_style.indicator_styles" class="dot-item">
-                                    <span class="num-active" :style="`color: ${ item.data_style.actived_color }`">{{ item.actived_index + 1 }}</span><span>/{{ item.data_content.product_list.length }}</span>
+                                    <span class="num-active" :style="`color: ${ item.data_style.actived_color }`">{{ item.actived_index + 1 }}</span><span>/{{ item.data_content.list.length }}</span>
                                 </div>
                             </template>
                             <template v-else>
@@ -34,7 +34,7 @@
             </template>
             <template v-else>
                 <div v-for="(item, index) in data_magic_list" :key="index" class="cube-selected img-spacing-border" :style="`${ selected_style(item) } ${ item.data_style.background_style } ${ content_radius }`">
-                    <template v-if="item.data_content.data_type == 'commodity'">
+                    <template v-if="item.data_content.data_type == 'goods'">
                         <div :class="[spacing_processing(index) ? 'gap-20 w h flex-col' : 'gap-10 w h flex-col']" :style="`${ padding_computer(item.data_style.chunk_padding) }`">
                             <div v-if="!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)" class="flex-col gap-5 tl">
                                 <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
@@ -51,7 +51,7 @@
                     <div v-if="item.data_style.is_show && item.data_content.list.length > 1" :class="{'dot-center': item.data_style?.indicator_location == 'center', 'dot-right': item.data_style?.indicator_location == 'flex-end' }" class="dot flex abs">
                         <template v-if="item.data_style.indicator_style == 'num'">
                             <div :style="item.data_style.indicator_styles" class="dot-item">
-                                <span class="num-active" :style="`color: ${ item.data_style.actived_color }`">{{ item.actived_index + 1 }}</span><span>/{{ item.data_content.product_list.length }}</span>
+                                <span class="num-active" :style="`color: ${ item.data_style.actived_color }`">{{ item.actived_index + 1 }}</span><span>/{{ item.data_content.list.length }}</span>
                             </div>
                         </template>
                         <template v-else>
@@ -163,19 +163,19 @@ watch(props.value.content, (val) => {
         data_style.background_style = background_style(data_style);
 
         const { is_roll, rotation_direction, interval_time } = data_style;
-        const { product_list, img_list } = data_content;
-        if (data_content.data_type == 'commodity') {
-            data_content.list = commodity_list(data_content.product_list, item.num);
+        const { goods_list, images_list } = data_content;
+        if (data_content.data_type == 'goods') {
+            data_content.list = commodity_list(data_content.goods_list, item.num);
         } else {
-            data_content.list = data_content.img_list;
+            data_content.list = data_content.images_list;
         }
         const new_data = {
             data_type: data_content.data_type,
             interval_time: interval_time,
             is_roll: is_roll,
             rotation_direction: rotation_direction,
-            product_list: [...product_list], // 确保深拷贝
-            img_list: [...img_list] // 确保深拷贝
+            goods_list: [...goods_list], // 确保深拷贝
+            images_list: [...images_list] // 确保深拷贝
         };
         // let old_data = old_list.value[key];
         // 获取旧数据
@@ -244,17 +244,17 @@ const text_style = (typeface: string, size: number, color: string) => {
 const commodity_list = (list: any[], num: number) => {
     if (list.length > 0) {
         // 深拷贝一下，确保不会出现问题
-        const commodity_list = cloneDeep(list).map((item: any) => ({
-            ...item.link,
-            title: item.new_title,
+        const goods_list = cloneDeep(list).map((item: any) => ({
+            ...item.data,
+            title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
             new_url: item.new_url,
         }));
         // 存储数据显示
         let nav_list = [];
         // 拆分的数量
-        const split_num = Math.ceil(commodity_list.length / num);
+        const split_num = Math.ceil(goods_list.length / num);
         for (let i = 0; i < split_num; i++) {
-            nav_list.push({ split_list: commodity_list.slice(i * num, (i + 1) * num) });
+            nav_list.push({ split_list: goods_list.slice(i * num, (i + 1) * num) });
         }
         return nav_list;
     } else {

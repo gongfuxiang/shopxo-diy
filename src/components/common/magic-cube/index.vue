@@ -35,8 +35,8 @@
 import { isEmpty } from 'lodash';
 interface content {
     data_type: string;
-    product_list: Array<string>;
-    img_list: Array<string>;
+    goods_list: Array<string>;
+    images_list: Array<string>;
 }
 interface CubeItem {
     start: {
@@ -217,10 +217,10 @@ const selected_click = (index: number) => {
 const data_title = (item: CubeItem) => {
     let title = `共有`;
     if (item.data_content) {
-        if (item.data_content.data_type == 'commodity') {
-            title += `${ item.data_content.product_list.length }个商品`;
+        if (item.data_content.data_type == 'goods') {
+            title += `${ item.data_content.goods_list.length }个商品`;
         } else {
-            title += `${ item.data_content.img_list.length }个图片`;
+            title += `${ item.data_content.images_list.length }个图片`;
         }
     }
     return title;

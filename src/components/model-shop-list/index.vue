@@ -2,10 +2,10 @@
     <div class="oh" :style="style_container">
         <div :class="outer_class" :style="onter_style">
             <div v-for="(item, index) in list" :key="index" class="re" :class="layout_type" :style="layout_style">
-                <template v-if="product_style == '6'">
+                <template v-if="theme == '6'">
                     <div :class="['flex-row align-c jc-sb ptb-15 mlr-10 gap-20', { 'br-b-e': index != list.length - 1 }]">
-                        <div v-if="is_show('0')" :class="text_line" :style="trends_config('title')">{{ item.title }}</div>
-                        <div v-if="is_show('2')" class="num" :style="`color: ${new_style.shop_price_color}`">
+                        <div v-if="is_show('title')" :class="text_line" :style="trends_config('title')">{{ item.title }}</div>
+                        <div v-if="is_show('price')" class="num" :style="`color: ${new_style.shop_price_color}`">
                             <span class="identifying">￥</span><span :style="trends_config('price')">{{ item.min_price }}</span>
                         </div>
                     </div>
@@ -13,31 +13,31 @@
                 <template v-else>
                     <template v-if="!isEmpty(item)">
                         <template v-if="!isEmpty(item.new_url)">
-                            <image-empty v-model="item.new_url[0]" :class="`flex-img${product_style}`" :style="content_img_radius"></image-empty>
+                            <image-empty v-model="item.new_url[0]" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
                         </template>
                         <template v-else>
-                            <image-empty v-model="item.images" :class="`flex-img${product_style}`" :style="content_img_radius"></image-empty>
+                            <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
                         </template>
                     </template>
                     <div class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
                         <div class="flex-col gap-10 top-title">
-                            <div v-if="is_show('0')" :class="text_line" :style="trends_config('title')">{{ item.title }}</div>
-                            <div v-if="show_content && is_show('1') && !isEmpty(item.plugins_view_icon_data)" class="flex-row gap-5">
+                            <div v-if="is_show('title')" :class="text_line" :style="trends_config('title')">{{ item.title }}</div>
+                            <div v-if="show_content && is_show('plugins_view_icon') && !isEmpty(item.plugins_view_icon_data)" class="flex-row gap-5">
                                 <div v-for="(icon_data, icon_index) in item.plugins_view_icon_data" :key="icon_index" class="radius-sm size-9 pl-3 pr-3" :style="icon_style(icon_data)">{{ icon_data.name }}</div>
                             </div>
                         </div>
-                        <div v-if="!['3', '4', '5'].includes(form.product_style)" class="flex-col gap-5 oh">
+                        <div v-if="!['3', '4', '5'].includes(form.theme)" class="flex-col gap-5 oh">
                             <div :class="[form.is_price_solo ? 'flex-row align-c nowrap' : 'flex-col gap-5']">
-                                <div v-if="is_show('2')" class="num" :style="`color: ${new_style.shop_price_color}`">
+                                <div v-if="is_show('price')" class="num" :style="`color: ${new_style.shop_price_color}`">
                                     <span class="identifying">{{ item.show_price_symbol }}</span
                                     ><span :style="trends_config('price')">{{ item.min_price }}</span>
-                                    <span v-if="is_show('6')" class="identifying">{{ item.show_price_unit }}</span>
+                                    <span v-if="is_show('price_unit')" class="identifying">{{ item.show_price_unit }}</span>
                                 </div>
-                                <div v-if="show_content && is_show('5')" class="size-10 flex">
+                                <div v-if="show_content && is_show('original_price')" class="size-10 flex">
                                     <span class="original-price-left"></span
                                     ><span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo }]"
                                         >{{ item.show_original_price_symbol }}{{ item.min_original_price }}
-                                        <template v-if="is_show('7')">
+                                        <template v-if="is_show('original_price_unit')">
                                             {{ item.show_original_price_unit }}
                                         </template>
                                     </span>
@@ -46,8 +46,8 @@
                             <div class="flex-row jc-sb align-e">
                                 <div>
                                     <div v-if="show_content" class="flex-row align-c size-10">
-                                        <div v-if="is_show('3')" class="pr-5" :style="trends_config('sold_number')">已售{{ item.sales_count }}件</div>
-                                        <!-- <div v-if="is_show('3')" :class="['pr-5', {'br-r-e': is_show('3') && is_show('4')}]" :style="trends_config('sold_number')">已售{{ item.sales_count }}件</div> -->
+                                        <div v-if="is_show('sales_count')" class="pr-5" :style="trends_config('sold_number')">已售{{ item.sales_count }}件</div>
+                                        <!-- <div v-if="is_show('sales_count')" :class="['pr-5', {'br-r-e': is_show('sales_count') && is_show('4')}]" :style="trends_config('sold_number')">已售{{ item.sales_count }}件</div> -->
                                         <!-- <div v-if="is_show('4')" class="pl-5" :style="trends_config('score')">评分0</div> -->
                                     </div>
                                 </div>
@@ -69,16 +69,16 @@
                         </div>
                         <div v-else class="flex-row align-c jc-sb">
                             <div class="flex-row align-c nowrap">
-                                <div v-if="is_show('2')" class="num" :style="`color: ${new_style.shop_price_color}`">
+                                <div v-if="is_show('price')" class="num" :style="`color: ${new_style.shop_price_color}`">
                                     <span class="identifying">{{ item.show_price_symbol }}</span
                                     ><span :style="trends_config('price')">{{ item.min_price }}</span>
-                                    <span v-if="is_show('6')" class="identifying">{{ item.show_price_unit }}</span>
+                                    <span v-if="is_show('price_unit')" class="identifying">{{ item.show_price_unit }}</span>
                                 </div>
-                                <div v-if="show_content && is_show('5')" class="size-10 flex">
+                                <div v-if="show_content && is_show('original_price')" class="size-10 flex">
                                     <span class="original-price-left"></span
                                     ><span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo }]"
                                         >{{ item.show_original_price_symbol }}{{ item.min_original_price }}
-                                        <template v-if="is_show('7')">
+                                        <template v-if="is_show('original_price_unit')">
                                             {{ item.show_original_price_unit }}
                                         </template>
                                     </span>
@@ -134,7 +134,7 @@ interface plugins_icon_data {
     color: string;
     url: string;
 }
-interface product_list {
+interface data_list {
     title: string;
     images: string;
     new_url: string[];
@@ -159,14 +159,14 @@ const default_list = {
     new_url: [],
     plugins_view_icon_data: []
 };
-const list = ref<product_list[]>([]);
+const list = ref<data_list[]>([]);
 
 const get_products = () => {
-    const { goods_category_ids, goods_brand_ids, number, sort, sort_rules } = form.value;
+    const { category, data_ids, number, sort, sort_rules } = form.value;
     const params = {
         goods_keywords: '',
-        goods_category_ids: goods_category_ids,
-        goods_brand_ids: goods_brand_ids,
+        goods_category_ids: category,
+        goods_brand_ids: data_ids,
         goods_order_by_type: sort,
         goods_order_by_rule: sort_rules,
         goods_number: number,
@@ -182,11 +182,11 @@ const get_products = () => {
 };
 
 watchEffect(() => {
-    if (form.value.product_check == '0') {
-        if (!isEmpty(form.value.product_list)) {
-            list.value = cloneDeep(form.value.product_list).map((item: any) => ({
-                ...item.link,
-                title: item.new_title,
+    if (form.value.data_type == '0') {
+        if (!isEmpty(form.value.data_list)) {
+            list.value = cloneDeep(form.value.data_list).map((item: any) => ({
+                ...item.data,
+                title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
                 new_url: item.new_url,
             }));
         } else {
@@ -204,7 +204,7 @@ const content_img_radius = computed(() => radius_computer(new_style.value.shop_i
 // 内边距设置
 const content_padding = computed(() => padding_computer(new_style.value.shop_padding));
 // 选择的风格
-const product_style = computed(() => form.value.product_style);
+const theme = computed(() => form.value.theme);
 // 商品间距
 const content_outer_spacing = computed(() => new_style.value.content_outer_spacing);
 // 两列风格
@@ -217,13 +217,13 @@ const multicolumn_columns_height = computed(() => new_style.value.content_outer_
 
 // 最外层不同风格下的显示
 const outer_class = computed(() => {
-    const flex = ['0', '2', '6'].includes(product_style.value) ? 'flex-col ' : 'flex-row ';
-    const wrap = product_style.value == '5' ? '' : 'flex-wrap ';
-    const background = ['6'].includes(product_style.value) ? 'bg-f ' : '';
+    const flex = ['0', '2', '6'].includes(theme.value) ? 'flex-col ' : 'flex-row ';
+    const wrap = theme.value == '5' ? '' : 'flex-wrap ';
+    const background = ['6'].includes(theme.value) ? 'bg-f ' : '';
     return flex + wrap + background + 'oh';
 });
 const onter_style = computed(() => {
-    const radius = product_style.value == '6' ? content_radius.value : '';
+    const radius = theme.value == '6' ? content_radius.value : '';
     const gap = `gap: ${new_style.value.content_outer_spacing + 'px'};`;
     return `${radius} ${gap}`;
 });
@@ -231,7 +231,7 @@ const onter_style = computed(() => {
 // 不同风格下的样式
 const layout_type = computed(() => {
     let class_type = '';
-    switch (product_style.value) {
+    switch (theme.value) {
         case '0':
             class_type = `flex-row bg-f oh`;
             break;
@@ -257,15 +257,15 @@ const layout_type = computed(() => {
 });
 
 const layout_style = computed(() => {
-    const radius = product_style.value == '6' ? '' : content_radius.value;
-    const padding = ['0', '4'].includes(product_style.value) ? content_padding.value : '';
+    const radius = theme.value == '6' ? '' : content_radius.value;
+    const padding = ['0', '4'].includes(theme.value) ? content_padding.value : '';
     return `${radius} ${padding}`;
 });
 // 内容区域的样式
 const content_style = computed(() => {
     const spacing_value = new_style.value.content_spacing;
     let spacing = '';
-    if (['0', '4'].includes(product_style.value)) {
+    if (['0', '4'].includes(theme.value)) {
         spacing = `margin-left: ${spacing_value}px;`;
     } else {
         spacing = content_padding.value;
@@ -274,13 +274,13 @@ const content_style = computed(() => {
     return `${spacing}`;
 });
 // 显示除标题外的其他区域
-const show_content = computed(() => ['0', '1', '2'].includes(product_style.value));
+const show_content = computed(() => ['0', '1', '2'].includes(theme.value));
 // 超过多少行隐藏
 const text_line = computed(() => {
     let line = '';
-    if (['1', '6'].includes(product_style.value)) {
+    if (['1', '6'].includes(theme.value)) {
         line = 'text-line-1';
-    } else if (['0', '2', '3', '4', '5'].includes(product_style.value)) {
+    } else if (['0', '2', '3', '4', '5'].includes(theme.value)) {
         line = 'text-line-2';
     }
     return line;

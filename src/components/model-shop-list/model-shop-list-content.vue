@@ -4,7 +4,7 @@
             <card-container class="mb-8">
                 <div class="mb-12">列表设置</div>
                 <el-form-item label="选择风格">
-                    <el-radio-group v-model="form.product_style" @change="change_style">
+                    <el-radio-group v-model="form.theme" @change="change_style">
                         <el-radio v-for="item in base_list.product_style_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
@@ -13,24 +13,24 @@
                 <card-container class="card-container-br">
                     <div class="mb-12">商品设置</div>
                     <el-form-item label="添加商品">
-                        <el-radio-group v-model="form.product_check">
+                        <el-radio-group v-model="form.data_type">
                             <el-radio v-for="item in base_list.product_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
-                    <template v-if="form.product_check === '0'">
+                    <template v-if="form.data_type === '0'">
                         <div class="nav-list">
-                            <drag-group :list="form.product_list" img-params="images" @onsort="product_list_sort" @remove="product_list_remove"></drag-group>
+                            <drag-group :list="form.data_list" img-params="images" @onsort="goods_list_sort" @remove="goods_list_remove"></drag-group>
                             <el-button class="mt-20 w" @click="add">+添加</el-button>
                         </div>
                     </template>
                     <template v-else>
                         <el-form-item label="商品分类">
-                            <el-select v-model="form.goods_category_ids" multiple collapse-tags placeholder="请选择商品分类">
+                            <el-select v-model="form.category" multiple collapse-tags placeholder="请选择商品分类">
                                 <el-option v-for="item in base_list.product_category_list" :key="item.id" :label="item.name" :value="item.id" />
                             </el-select>
                         </el-form-item>
                         <el-form-item label="指定品牌">
-                            <el-select v-model="form.goods_brand_ids" multiple collapse-tags placeholder="请选择品牌">
+                            <el-select v-model="form.data_ids" multiple collapse-tags placeholder="请选择品牌">
                                 <el-option v-for="item in base_list.product_brand_list" :key="item.id" :label="item.name" :value="item.id" />
                             </el-select>
                         </el-form-item>
@@ -125,8 +125,8 @@ onBeforeMount(() => {
     init();
 });
 
-const product_list_remove = (index: number) => {
-    form.value.product_list.splice(index, 1);
+const goods_list_remove = (index: number) => {
+    form.value.data_list.splice(index, 1);
 };
 const add = () => {
     url_value_dialog_visible.value = true;
@@ -136,20 +136,21 @@ const url_value_dialog_visible = ref(false);
 // 弹出框选择的内容
 const url_value_dialog_call_back = (item: any[]) => {
     item.forEach((item: any) => {
-        form.value.product_list.push({
+        form.value.data_list.push({
             id: get_math(),
             new_url: [],
-            new_title: item.title,
-            link: item,
+            new_title: '',
+            data: item,
         });
     });
 };
 // 拖拽更新之后，更新数据
-const product_list_sort = (new_list: any) => {
-    form.value.product_list = new_list;
+const goods_list_sort = (new_list: any) => {
+    form.value.data_list = new_list;
 };
+// 选择某些风格时， 切换到对应的按钮
 const change_style = (val: any): void => {
-    form.value.product_style = val;
+    form.value.theme = val;
     if (['3', '4', '5'].includes(val) && ['0', '1'].includes(form.value.shop_type)) {
         form.value.shop_type = '2';
     }

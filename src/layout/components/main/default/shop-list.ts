@@ -1,12 +1,12 @@
 import defaultCommon from './index';
 interface DefaultProductList {
     content: {
-        product_style: string;
-        product_check: string;
-        goods_category_ids: string[];
-        goods_brand_ids: string[];
+        theme: string;
+        data_type: string;
+        category: string[];
+        data_ids: string[];
         product_show_list: string[];
-        product_list: string[];
+        data_list: string[];
         is_price_solo: boolean;
         number: number;
         sort: string;
@@ -45,17 +45,17 @@ interface DefaultProductList {
 }
 const defaultProductList: DefaultProductList = {
     content: {
-        product_style: '0',
-        product_check: '0',
+        theme: '0',
+        data_type: '0',
         product_show_list: [],
-        product_list: [],
-        goods_category_ids: [],
-        goods_brand_ids: [],
+        data_list: [],
+        category: [],
+        data_ids: [],
         is_price_solo: true,
         number: 4,
         sort: '0',
         sort_rules: '0',
-        is_show: ['0', '1', '2', '3', '4', '5'],
+        is_show: ['title', 'plugins_view_icon', 'price', 'sales_count', 'original_price'],
         is_shop_show: true,
         shop_type: '0',
         shop_button_effect: '0',

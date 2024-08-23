@@ -24,20 +24,20 @@
                 <el-form-item label="内容圆角">
                     <radius :value="form.shop_radius" @update:value="shop_radius_change"></radius>
                 </el-form-item>
-                <template v-if="product_style != '6'">
+                <template v-if="theme != '6'">
                     <el-form-item label="图片圆角">
                         <radius :value="form.shop_img_radius" @update:value="img_radius_change"></radius>
                     </el-form-item>
                     <el-form-item label="内间距">
                         <padding :value="form.shop_padding" @update:value="shop_padding_change"></padding>
                     </el-form-item>
-                    <el-form-item v-if="['0', '4'].includes(product_style)" label="内容间距">
+                    <el-form-item v-if="['0', '4'].includes(theme)" label="内容间距">
                         <slider v-model="form.content_spacing" :max="100"></slider>
                     </el-form-item>
                     <el-form-item label="商品间距">
                         <slider v-model="form.content_outer_spacing" :max="100"></slider>
                     </el-form-item>
-                    <template v-if="product_style == '5'">
+                    <template v-if="theme == '5'">
                         <el-form-item label="内容宽度">
                             <slider v-model="form.content_outer_width" :max="1000"></slider>
                         </el-form-item>
@@ -105,7 +105,7 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form, data } = toRefs(state);
 
-const product_style = computed(() => data.value.product_style);
+const theme = computed(() => data.value.theme);
 
 const common_style_update = (value: any) => {
     form.value.common_style = value;

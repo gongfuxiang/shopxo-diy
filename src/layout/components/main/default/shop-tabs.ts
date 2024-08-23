@@ -4,20 +4,19 @@ interface articleTabsList {
     title: string;
     img: uploadList[];
     desc: string;
-    product_check: string;
-    goods_category_ids: string[];
-    goods_brand_ids: string[];
-    is_price_solo: boolean;
+    data_type: string;
+    category: string[];
+    data_ids: string[];
     number: number;
     sort: string;
     sort_rules: string;
-    product_list: [];
+    data_list: [];
 }
 interface DefaultProductList {
     content: {
         tabs_style: string;
         tabs_top_up: boolean;
-        product_style: string;
+        theme: string;
         tabs_list: articleTabsList[];
         is_show: string[];
         is_shop_show: boolean;
@@ -63,14 +62,14 @@ const defaultProductList: DefaultProductList = {
     content: {
         tabs_style: '0',
         tabs_top_up: false,
-        product_style: '0',
+        theme: '0',
         tabs_list: [
-            { id: '1', title: '热门推荐', img: [], desc: '简介', product_check: '0', goods_category_ids: [], goods_brand_ids: [], number: 4, is_price_solo: true, sort: '0', sort_rules: '0', product_list: [] },
-            { id: '2', title: '测试一', img: [], desc: '简介', product_check: '0', goods_category_ids: [], goods_brand_ids: [], number: 4, is_price_solo: true, sort: '0', sort_rules: '0', product_list: [] },
-            { id: '3', title: '测试二', img: [], desc: '简介', product_check: '0', goods_category_ids: [], goods_brand_ids: [], number: 4, is_price_solo: true, sort: '0', sort_rules: '0', product_list: [] },
-            { id: '4', title: '测试三', img: [], desc: '简介', product_check: '0', goods_category_ids: [], goods_brand_ids: [], number: 4, is_price_solo: true, sort: '0', sort_rules: '0', product_list: [] },
+            { id: '1', title: '热门推荐', img: [], desc: '简介', data_type: '0', category: [], data_ids: [], number: 4,  sort: '0', sort_rules: '0', data_list: [] },
+            { id: '2', title: '测试一', img: [], desc: '简介', data_type: '0', category: [], data_ids: [], number: 4,  sort: '0', sort_rules: '0', data_list: [] },
+            { id: '3', title: '测试二', img: [], desc: '简介', data_type: '0', category: [], data_ids: [], number: 4, sort: '0', sort_rules: '0', data_list: [] },
+            { id: '4', title: '测试三', img: [], desc: '简介', data_type: '0', category: [], data_ids: [], number: 4, sort: '0', sort_rules: '0', data_list: [] },
         ],
-        is_show: ['0', '1', '2', '3', '4', '5'],
+        is_show: ['title', 'plugins_view_icon', 'price', 'sales_count', 'original_price'],
         is_shop_show: true,
         shop_type: '0',
         shop_button_effect: '0',

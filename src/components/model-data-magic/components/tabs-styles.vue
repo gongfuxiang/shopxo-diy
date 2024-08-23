@@ -33,7 +33,7 @@
         <el-form-item label="间隔时间">
             <slider v-model="form.interval_time" :max="100"></slider>
         </el-form-item>
-        <template v-if="tabs_content.data_type === 'commodity'">
+        <template v-if="tabs_content.data_type === 'goods'">
             <template v-if="isShowTitle">
                 <el-form-item label="主标题">
                     <div class="flex-col gap-10 w">
