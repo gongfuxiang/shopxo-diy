@@ -136,7 +136,7 @@
                             </el-scrollbar>
                         </div>
                         <div v-else>
-                            <no-data height="280"></no-data>
+                            <no-data height="280px"></no-data>
                         </div>
                     </div>
                 </template>

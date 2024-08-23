@@ -37,6 +37,7 @@
         </div>
     </div>
     <upload v-model:visible-dialog="is_custom_dialog" is-custom-dialog :is-check-confirm="false"></upload>
+    
 </template>
 <script setup lang="ts">
 const modelValue = defineModel({ type: Object, default: {} });
