@@ -4,16 +4,16 @@
             <card-container class="mb-8">
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选项卡风格">
-                    <el-radio-group v-model="form.tabs_style">
-                        <el-radio v-for="item in base_list.tabs_style_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                    <el-radio-group v-model="form.tabs_theme">
+                        <el-radio v-for="item in base_list.tabs_theme_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="选项卡置顶">
                     <el-switch v-model="form.tabs_top_up" />
                 </el-form-item>
                 <el-form-item label="文章风格">
-                    <el-radio-group v-model="form.article_style">
-                        <el-radio v-for="item in base_list.article_style_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                    <el-radio-group v-model="form.article_theme">
+                        <el-radio v-for="item in base_list.article_theme_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
             </card-container>
@@ -31,19 +31,19 @@
                                         <el-input v-model="row.desc" placeholder="请输入简介" clearable />
                                     </el-form-item>
                                     <el-form-item label="读取方式">
-                                        <el-radio-group v-model="row.article_check">
-                                            <el-radio v-for="item in base_list.get_data_method_list" :key="item.value + get_math()" :value="item.value">{{ item.name }}</el-radio>
+                                        <el-radio-group v-model="row.data_type">
+                                            <el-radio v-for="item in base_list.data_type_list" :key="item.value + get_math()" :value="item.value">{{ item.name }}</el-radio>
                                         </el-radio-group>
                                     </el-form-item>
-                                    <template v-if="row.article_check === '0'">
+                                    <template v-if="row.data_type === '0'">
                                         <div class="nav-list">
-                                            <drag-group :list="row.article_list" img-params="cover" @onsort="article_list_sort($event, index)" @remove="article_list_remove($event, index)"></drag-group>
+                                            <drag-group :list="row.data_list" img-params="cover" @onsort="data_list_sort($event, index)" @remove="data_list_remove($event, index)"></drag-group>
                                             <el-button class="mtb-20 w" @click="article_add(index)">+添加</el-button>
                                         </div>
                                     </template>
                                     <template v-else>
                                         <el-form-item label="文章分类">
-                                            <el-select v-model="row.article_category" multiple collapse-tags placeholder="请选择文章分类">
+                                            <el-select v-model="row.category" multiple collapse-tags placeholder="请选择文章分类">
                                                 <el-option v-for="item in base_list.article_category_list" :key="item.id" :label="item.name" :value="item.id" />
                                             </el-select>
                                         </el-form-item>
@@ -61,7 +61,7 @@
                                             </el-radio-group>
                                         </el-form-item>
                                         <el-form-item label="封面图片">
-                                            <el-switch v-model="row.is_img_show" />
+                                            <el-switch v-model="row.is_cover" />
                                         </el-form-item>
                                     </template>
                                 </template>
@@ -96,19 +96,19 @@ const props = defineProps({
 });
 const form = reactive(props.value);
 const base_list = reactive({
-    tabs_style_list: [
+    tabs_theme_list: [
         { name: '样式一', value: '0' },
         { name: '样式二', value: '1' },
         { name: '样式三', value: '2' },
         { name: '样式四', value: '3' },
     ],
-    article_style_list: [
+    article_theme_list: [
         { name: '单列展示', value: '0' },
         { name: '两列展示（纵向）', value: '1' },
         { name: '大图展示', value: '2' },
         { name: '左右滑动展示', value: '3' },
     ],
-    get_data_method_list: [
+    data_type_list: [
         { name: '选择文章', value: '0' },
         { name: '筛选文章', value: '1' },
     ],
@@ -167,23 +167,23 @@ const tabs_add = () => {
         id: get_math(),
         title: '',
         desc: '',
-        article_check: '0',
-        article_type: [],
+        data_type: '0',
+        category: [],
         number: 4,
         sort: '0',
         sort_rules: '0',
-        is_img_show: true,
-        article_list: [],
+        is_cover: true,
+        data_list: [],
     });
     // emit('update:value', form);
 };
 
 // 指定文章
-const article_list_remove = (index: number, article_index: number) => {
-    form.tabs_list[article_index].article_list.splice(index, 1);
+const data_list_remove = (index: number, article_index: number) => {
+    form.tabs_list[article_index].data_list.splice(index, 1);
 };
-const article_list_sort = (item: any, index: number) => {
-    form.tabs_list[index].article_list = item;
+const data_list_sort = (item: any, index: number) => {
+    form.tabs_list[index].data_list = item;
 };
 
 const article_index = ref(0);
@@ -194,12 +194,11 @@ const article_add = (index: number) => {
 const url_value_dialog_call_back = (item: any[]) => {
     // console.log(item);
     item.forEach((child: any) => {
-        form.tabs_list[article_index.value].article_list.push({
+        form.tabs_list[article_index.value].data_list.push({
             id: get_math(),
-            src: 'carousel',
-            new_url: [],
-            new_title: child.title,
-            link: child,
+            new_title: '',
+            new_cover: [],
+            data: child,
         });
     });
 };

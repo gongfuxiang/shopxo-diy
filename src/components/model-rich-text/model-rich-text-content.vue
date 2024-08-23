@@ -6,9 +6,9 @@
                 <!-- 工具栏 -->
                 <Toolbar id="toolbar-container" :editor="editor_ref" :default-config="toolbar_config" :mode="mode" />
                 <!-- 编辑器 -->
-                <Editor id="editor-container" v-model="form.html" class="editor" :default-config="editor_config" :mode="mode" @on-change="handle_change" @on-created="handle_created" />
+                <Editor id="editor-container" ref="editorRef" v-model="form.html" class="editor" :default-config="editor_config" :mode="mode" @on-change="handle_change" @on-created="handle_created" />
             </div>
-            <upload v-model:model-value="upload_list" v-model:visible-dialog="visibleDialog" :type="rich_upload_type" is-custom-dialog @update:model-value="upload_list_change"></upload>
+            <upload v-model:model-value="upload_list" v-model:visible-dialog="visibleDialog" :type="rich_upload_type" :limit="1" is-custom-dialog @update:model-value="upload_list_change"></upload>
         </card-container>
     </div>
 </template>
@@ -24,6 +24,7 @@ const props = defineProps({
 const form = reactive(props.value);
 
 const mode = ref('default'); // 编辑器模式
+const editorRef = ref<HTMLElement | null>(null);
 // 编辑器实例，必须用 shallowRef
 const editor_ref = shallowRef();
 // 插入光标位置
@@ -46,19 +47,19 @@ const editor_config = ref({
         uploadImage: {
             // 自定义选择图片
             customBrowseAndUpload(insertFn: InsertFnType) {
-                upload_insert.value = insertFn;
                 rich_upload_type.value = 'img';
                 visibleDialog.value = true;
                 cursor_position.value = editor_ref.value.selection;
+                upload_insert.value = insertFn;
             },
         },
         uploadVideo: {
             // 自定义上传视频
             customBrowseAndUpload(insertFn: InsertFnType) {
-                upload_insert.value = insertFn;
                 rich_upload_type.value = 'video';
                 visibleDialog.value = true;
                 cursor_position.value = editor_ref.value.selection;
+                upload_insert.value = insertFn;
             },
         },
     },
@@ -80,23 +81,15 @@ const upload_list_change = (arry: uploadList[]) => {
         arry.forEach((item: uploadList) => {
             const url = item.url;
             const alt = item.title;
-            // if (rich_upload_type.value === 'img') {
-            //     new_html += `<img src="${url}" alt="${alt}" />`;
-            // } else if (rich_upload_type.value === 'video') {
-            //     new_html += `<video src="${url}" />`;
-            // }
             // 弹出框结束的时候触发添加事件
-            upload_insert.value(url, alt);
+            if (rich_upload_type.value == 'img') {
+                upload_insert.value(url, alt);
+            } else {
+                upload_insert.value(url);
+            }
         });
         // 弹出框结束之后清空数据
         upload_insert.value = null;
-        // 插入图片或视频
-        // if (editor.isDisabled()) editor.enable();
-        // if (!editor.isFocused()) editor.focus();
-
-        // editor.select(cursor_position.value);
-        // // editor.deleteFragment();
-        // editor.dangerouslyInsertHtml(new_html);
     }
     upload_list.value = [];
 };
@@ -113,10 +106,7 @@ onBeforeUnmount(() => {
         position: relative;
         height: calc(100vh - 42.5rem) !important;
         overflow-y: hidden;
-        img {
-            max-width: 100%;
-        }
-        video {
+        * {
             max-width: 100%;
         }
     }

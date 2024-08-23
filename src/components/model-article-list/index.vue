@@ -1,20 +1,20 @@
 <template>
     <div class="oh" :style="style_container">
         <div class="re" :style="style">
-            <div class="flex-warp" :class="article_type_class" :style="article_spacing">
-                <template v-for="(item, index) in article_list" :key="index">
-                    <div class="item gap-10 bg-f oh" :class="article_type == '0' ? 'flex-row' : 'flex-col'" :style="article_style">
-                        <template v-if="item.new_url.length > 0">
-                            <image-empty v-model="item.new_url[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
+            <div class="flex-warp" :class="article_theme_class" :style="article_spacing">
+                <template v-for="(item, index) in data_list" :key="index">
+                    <div class="item gap-10 bg-f oh" :class="article_theme == '0' ? 'flex-row' : 'flex-col'" :style="article_style">
+                        <template v-if="item.new_cover.length > 0">
+                            <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
                         </template>
                         <template v-else>
-                            <image-empty v-model="item.link.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
+                            <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
                         </template>
-                        <div class="flex-col jc-sb flex-1" :style="article_type !== '0' ? content_padding : ''">
-                            <div class="title text-line-2" :style="article_name">{{ item.new_title }}</div>
+                        <div class="flex-col jc-sb flex-1" :style="article_theme !== '0' ? content_padding : ''">
+                            <div class="title text-line-2" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
                             <div class="flex-row jc-sb gap-8 align-e mt-10">
-                                <div :style="article_date">{{ is_show.includes('0') ? '2020-06-05 15:20' : '' }}</div>
-                                <icon v-show="is_show.includes('1')" name="eye" :style="article_page_view">16</icon>
+                                <div :style="article_date">{{ field_show.includes('0') ? '2020-06-05 15:20' : '' }}</div>
+                                <icon v-show="field_show.includes('1')" name="eye" :style="article_page_view">16</icon>
                             </div>
                         </div>
                     </div>
@@ -40,24 +40,25 @@ const props = defineProps({
 const error_img = ref('width:50px;padding:10px;');
 const style = ref('');
 const style_container = ref('');
-interface linkObj {
+interface dataObj {
     cover?: string;
+    title?: string;
 }
 interface ArticleList {
     id: number | string;
-    link: linkObj;
+    data: dataObj;
     new_title: string;
-    new_url: uploadList[];
+    new_cover: uploadList[];
 }
 const containerRef = ref<HTMLElement | null>(null);
 // 数据
-const article_list = ref<ArticleList[]>([]);
+const data_list = ref<ArticleList[]>([]);
 // 风格
-const article_type = ref('0');
+const article_theme = ref('0');
 // 是否显示
-const is_show = ref(['0', '1']);
+const field_show = ref(['0', '1']);
 // 是否显示封面图片
-const is_img_show = ref(true);
+const is_cover = ref(true);
 // 文章
 const article_name = ref('');
 // 日期
@@ -79,11 +80,11 @@ const article_item_width = ref('104');
 const article_item_height = ref('104');
 
 const article_style = ref({});
-const default_article_list: ArticleList = {
+const default_data_list: ArticleList = {
     id: 0,
-    link: {},
+    data: {},
     new_title: '标题',
-    new_url: [],
+    new_cover: [],
 };
 watch(
     props.value,
@@ -91,20 +92,20 @@ watch(
         const new_content = newVal?.content;
         const new_style = newVal?.style;
         // 内容
-        if (new_content.article_check === '0') {
-            if (!isEmpty(new_content.article_list)) {
-                article_list.value = new_content.article_list;
-                article_list.value = cloneDeep(new_content.article_list);
+        if (new_content.data_type === '0') {
+            if (!isEmpty(new_content.data_list)) {
+                data_list.value = new_content.data_list;
+                data_list.value = cloneDeep(new_content.data_list);
             } else {
-                article_list.value = Array(4).fill(default_article_list);
+                data_list.value = Array(4).fill(default_data_list);
             }
         } else {
-            get_auto_article_list(new_content);
+            get_auto_data_list(new_content);
         }
 
-        article_type.value = new_content.article_style;
-        is_show.value = new_content.is_show;
-        is_img_show.value = new_content.is_img_show;
+        article_theme.value = new_content.theme;
+        field_show.value = new_content.field_show;
+        is_cover.value = new_content.is_cover;
         // 样式
         article_name.value = 'font-size:' + new_style.name_size + 'px;' + 'font-weight:' + new_style.name_weight + ';' + 'color:' + new_style.name_color + ';';
         article_date.value = 'font-size:' + new_style.time_size + 'px;' + 'font-weight:' + new_style.time_weight + ';' + 'color:' + new_style.time_color + ';';
@@ -119,14 +120,14 @@ watch(
         article_spacing.value = `gap: ${new_style.article_spacing}px;`;
         // 文章样式
         article_style.value = content_radius.value + content_spacing.value;
-        if (article_type.value == '0') {
+        if (article_theme.value == '0') {
             article_style.value += content_padding.value;
         }
-        if (article_type.value == '1') {
+        if (article_theme.value == '1') {
             article_spacing_children.value = `width: calc(50% - ${new_style.article_spacing / 2}px);`;
             article_style.value += article_spacing_children.value;
         }
-        if (article_type.value == '3') {
+        if (article_theme.value == '3') {
             article_item_width.value = `${new_style.article_width}px`;
             article_item_height.value = `${new_style.article_height}px`;
         }
@@ -136,8 +137,8 @@ watch(
     },
     { immediate: true, deep: true }
 );
-const article_type_class = computed(() => {
-    switch (article_type.value) {
+const article_theme_class = computed(() => {
+    switch (article_theme.value) {
         case '0':
             return 'style1 flex-col';
         case '1':
@@ -147,30 +148,30 @@ const article_type_class = computed(() => {
         case '3':
             return 'style4 flex-row';
     }
-    return `style${article_type.value}`;
+    return `style${article_theme.value}`;
 });
-const get_auto_article_list = async (new_content: any) => {
-    const { article_category, number, sort, sort_rules } = new_content;
+const get_auto_data_list = async (new_content: any) => {
+    const { category, number, sort, sort_rules } = new_content;
     const new_data = {
         article_keywords: '',
-        article_category_ids: article_category.join(','),
+        article_category_ids: category.join(','),
         article_order_by_type: sort,
         article_order_by_rule: sort_rules,
         article_number: number,
     };
     const res = await ArticleAPI.getAutoList(new_data);
     if (!isEmpty(res.data)) {
-        article_list.value = [];
+        data_list.value = [];
         res.data.forEach((child: any) => {
-            article_list.value.push({
+            data_list.value.push({
                 id: get_math(),
-                new_title: child.title,
-                new_url: [],
-                link: child,
+                new_title: '',
+                new_cover: [],
+                data: child,
             });
         });
     } else {
-        article_list.value = Array(4).fill(default_article_list);
+        data_list.value = Array(4).fill(default_data_list);
     }
 };
 </script>

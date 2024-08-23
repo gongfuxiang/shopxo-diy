@@ -1,17 +1,17 @@
 <template>
     <div class="tabs flex-row oh">
         <template v-for="(item, index) in tabs.content.tabs_list" :key="index">
-            <div class="item nowrap flex-col jc-c gap-4" :class="tabs_style + (index == 0 ? ' active' : '')">
+            <div class="item nowrap flex-col jc-c gap-4" :class="tabs_theme + (index == 0 ? ' active' : '')">
                 <template v-if="!isEmpty(item.img)">
                     <image-empty v-model="item.img[0]" class="img" error-img-style="width:2rem;height:2rem;"></image-empty>
                 </template>
                 <template v-else>
                     <image-empty class="img" error-img-style="width:2rem;height:2rem;"></image-empty>
                 </template>
-                <div class="title" :style="index == 0 ? tabs_style_style.tabs_title_checked : tabs_style_style.tabs_title">{{ item.title }}</div>
+                <div class="title" :style="index == 0 ? tabs_theme_style.tabs_title_checked : tabs_theme_style.tabs_title">{{ item.title }}</div>
                 <div class="desc">{{ item.desc }}</div>
                 <icon name="checked-1" class="icon"></icon>
-                <div class="bottom_line" :style="tabs_style_style.tabs_check"></div>
+                <div class="bottom_line" :style="tabs_theme_style.tabs_check"></div>
             </div>
         </template>
     </div>
@@ -27,22 +27,22 @@ const props = defineProps({
     },
 });
 const tabs = ref(props.value);
-const tabs_style = computed(() => {
-    let tabs_style = '';
-    if (tabs.value.content.tabs_style == '1') {
-        tabs_style = 'tabs-style-2';
-    } else if (tabs.value.content.tabs_style == '2') {
-        tabs_style = 'tabs-style-3';
-    } else if (tabs.value.content.tabs_style == '3') {
-        tabs_style = 'tabs-style-4';
-    } else if (tabs.value.content.tabs_style == '4') {
-        tabs_style = 'tabs-style-5';
+const tabs_theme = computed(() => {
+    let tabs_theme = '';
+    if (tabs.value.content.tabs_theme == '1') {
+        tabs_theme = 'tabs-style-2';
+    } else if (tabs.value.content.tabs_theme == '2') {
+        tabs_theme = 'tabs-style-3';
+    } else if (tabs.value.content.tabs_theme == '3') {
+        tabs_theme = 'tabs-style-4';
+    } else if (tabs.value.content.tabs_theme == '4') {
+        tabs_theme = 'tabs-style-5';
     } else {
-        tabs_style = 'tabs-style-1';
+        tabs_theme = 'tabs-style-1';
     }
-    return tabs_style;
+    return tabs_theme;
 });
-const tabs_style_style = computed(() => {
+const tabs_theme_style = computed(() => {
     const new_gradient_params = {
         color_list: tabs.value.style.tabs_checked,
         direction: tabs.value.style.tabs_direction,

@@ -2,21 +2,23 @@ import defaultCommon from './index';
 
 interface ArticleList {
     id: number | string;
-    link: object;
+    data: object;
     new_title: string;
-    new_url: uploadList[];
+    new_cover: uploadList[];
 }
 interface DefaultArticleList {
     content: {
-        article_style: string;
-        article_check: string;
-        article_category: string[];
-        article_list: ArticleList[];
+        // 风格
+        theme: string;
+        data_type: string;
+        category: string[];
+        data_list: ArticleList[];
+        data_ids: string;
         number: number;
         sort: string;
         sort_rules: string;
-        is_show: string[];
-        is_img_show: boolean;
+        field_show: string[];
+        is_cover: boolean;
     };
     style: {
         name_weight: string;
@@ -40,15 +42,16 @@ interface DefaultArticleList {
 }
 const defaultArticleList: DefaultArticleList = {
     content: {
-        article_style: '1',
-        article_check: '0',
-        article_list: [],
-        article_category: [],
+        theme: '1',
+        data_type: '0',
+        category: [],
+        data_list: [],
+        data_ids: '',
         number: 4,
         sort: '0',
         sort_rules: '0',
-        is_show: ['0', '1'],
-        is_img_show: true,
+        field_show: ['0', '1'],
+        is_cover: true,
     },
     style: {
         name_weight: '500',
