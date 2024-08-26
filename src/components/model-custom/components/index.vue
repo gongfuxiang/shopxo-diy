@@ -125,12 +125,15 @@ const url_computer = (name: string) => {
 //#endregion
 //#region 中间区域的处理逻辑
 const diy_data = toRef(props.list);
-onMounted(() => {
-    // 如果默认不等于空的话，则默认选中第一个
-    if (!isEmpty(diy_data)) {
-        on_choose(0, false);
-    }
-});
+
+// 因为容器变更的话，需要重新计算高度，所以不能默认选中第一个
+// onMounted(() => {
+//     // 如果默认不等于空的话，则默认选中第一个
+//     if (!isEmpty(diy_data)) {
+//         on_choose(0, false);
+//     }
+// });
+
 // 复制
 const copy = (index: number) => {
     // 获取当前数据, 复制的时候id更换一下
