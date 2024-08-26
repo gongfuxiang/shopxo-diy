@@ -198,8 +198,6 @@ watch(() => center_height.value, () => {
     data = diy_data.value;
     // 从 DOM 中删除组件
     draggable_container.value = false;
-    // 容器高度变化时，组件不绑定右侧数据
-    emits('rightUpdate', {});
     nextTick(() => {
         // 在 DOM 中添加组件
         diy_data.value = data.map((item) => ({
@@ -217,9 +215,11 @@ watch(() => center_height.value, () => {
                 com_height: item.com_data.staging_height,
             },
         }));
+        // 容器高度变化时，组件不绑定右侧数据
+        emits('rightUpdate', {});
         draggable_container.value = true;
     });
-},{ deep: true });
+},{ immediate:true, deep: true });
 //#endregion
 //#region 左侧拖拽过来的处理
 let draggedItem = ref<any>({});
