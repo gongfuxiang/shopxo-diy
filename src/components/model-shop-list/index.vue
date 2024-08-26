@@ -223,9 +223,8 @@ const outer_class = computed(() => {
     return flex + wrap + background + 'oh';
 });
 const onter_style = computed(() => {
-    const radius = theme.value == '6' ? content_radius.value : '';
-    const gap = `gap: ${new_style.value.content_outer_spacing + 'px'};`;
-    return `${radius} ${gap}`;
+    const radius = theme.value == '6' ? content_radius.value : `gap: ${new_style.value.content_outer_spacing + 'px'};`;
+    return `${radius}`;
 });
 
 // 不同风格下的样式
