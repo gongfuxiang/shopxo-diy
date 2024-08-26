@@ -1,8 +1,8 @@
 <template>
     <div :style="style_container">
         <div class="video re" :style="style">
-            <image-empty v-if="!video_img" error-img-style="width:60px;height:60px;"></image-empty>
-            <video v-else :src="video" :poster="video_img" class="w h"></video>
+            <image-empty v-if="!video_img" v-model="video_img" error-img-style="width:60px;height:60px;"></image-empty>
+            <video :src="video" :poster="video_img" class="w h"></video>
             <img src="@/assets/images/components/model-video/video.png" class="middle box-shadow-sm round" width="60" height="60" />
         </div>
     </div>
