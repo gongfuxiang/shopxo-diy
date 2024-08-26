@@ -1,3 +1,4 @@
+
 // 文本的默认值
 export const text_com_data = {
     com_width: 150,
@@ -8,6 +9,7 @@ export const text_com_data = {
     data_source_list: {},
     text_link: {},
     is_rich_text: false,
+    is_up_down: true,
     text_color: '#000',
     text_weight: 'normal',
     text_size: 12,
@@ -24,7 +26,7 @@ export const text_com_data = {
     border_show: false,
     border_color: '#FF5D5D',
     border_style: 'solid',
-    border_radius: {
+    bg_radius: {
         radius: 0,
         radius_top_left: 0,
         radius_top_right: 0,
