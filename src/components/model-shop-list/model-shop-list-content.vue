@@ -82,6 +82,7 @@ const base_list = reactive({
         { name: '两列展示(横向)', value: '4' },
         { name: '三列展示', value: '3' },
         { name: '左右滑动展示', value: '5' },
+        { name: '无图模式', value: '6' },
     ],
     product_list: [
         { name: '指定商品', value: '0' },

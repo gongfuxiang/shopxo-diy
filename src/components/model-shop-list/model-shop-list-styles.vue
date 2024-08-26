@@ -15,12 +15,14 @@
                 <el-form-item label="价格色值">
                     <color-picker v-model="form.shop_price_color" default-color="#000000"></color-picker>
                 </el-form-item>
-                <el-form-item label="已售数量">
-                    <text-size-type v-model:typeface="form.shop_sold_number_typeface" v-model:size="form.shop_sold_number_size"></text-size-type>
-                </el-form-item>
-                <el-form-item label="数量设置">
-                    <color-picker v-model="form.shop_sold_number_color" default-color="#000000"></color-picker>
-                </el-form-item>
+                <template v-if="theme != '6'">
+                    <el-form-item label="已售数量">
+                        <text-size-type v-model:typeface="form.shop_sold_number_typeface" v-model:size="form.shop_sold_number_size"></text-size-type>
+                    </el-form-item>
+                    <el-form-item label="数量设置">
+                        <color-picker v-model="form.shop_sold_number_color" default-color="#000000"></color-picker>
+                    </el-form-item>
+                </template>
                 <!-- <el-form-item label="评分">
                     <text-size-type v-model:typeface="form.shop_score_typeface" v-model:size="form.shop_score_size"></text-size-type>
                 </el-form-item>
@@ -30,25 +32,27 @@
                 <el-form-item label="内容圆角">
                     <radius :value="form.shop_radius" @update:value="shop_radius_change"></radius>
                 </el-form-item>
-                <el-form-item label="图片圆角">
-                    <radius :value="form.shop_img_radius" @update:value="img_radius_change"></radius>
-                </el-form-item>
-                <el-form-item label="内间距">
-                    <padding :value="form.shop_padding" @update:value="shop_padding_change"></padding>
-                </el-form-item>
-                <el-form-item v-if="['0', '4'].includes(theme)" label="内容间距">
-                    <slider v-model="form.content_spacing" :max="100"></slider>
-                </el-form-item>
-                <el-form-item label="商品间距">
-                    <slider v-model="form.content_outer_spacing" :max="100"></slider>
-                </el-form-item>
-                <template v-if="theme == '5'">
-                    <el-form-item label="内容宽度">
-                        <slider v-model="form.content_outer_width" :max="1000"></slider>
+                <template v-if="theme != '6'">
+                    <el-form-item label="图片圆角">
+                        <radius :value="form.shop_img_radius" @update:value="img_radius_change"></radius>
                     </el-form-item>
-                    <el-form-item label="内容高度">
-                        <slider v-model="form.content_outer_height" :max="1000"></slider>
+                    <el-form-item label="内间距">
+                        <padding :value="form.shop_padding" @update:value="shop_padding_change"></padding>
                     </el-form-item>
+                    <el-form-item v-if="['0', '4'].includes(theme)" label="内容间距">
+                        <slider v-model="form.content_spacing" :max="100"></slider>
+                    </el-form-item>
+                    <el-form-item label="商品间距">
+                        <slider v-model="form.content_outer_spacing" :max="100"></slider>
+                    </el-form-item>
+                    <template v-if="theme == '5'">
+                        <el-form-item label="内容宽度">
+                            <slider v-model="form.content_outer_width" :max="1000"></slider>
+                        </el-form-item>
+                        <el-form-item label="内容高度">
+                            <slider v-model="form.content_outer_height" :max="1000"></slider>
+                        </el-form-item>
+                    </template>
                 </template>
             </card-container>
             <card-container class="mb-8">
