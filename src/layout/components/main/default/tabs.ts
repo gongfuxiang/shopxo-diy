@@ -11,12 +11,12 @@ interface tabs_page {
 }
 interface defaultTabs {
     content: {
-        tabs_style: string;
+        tabs_theme: string;
         tabs_top_up: boolean;
         tabs_list: tabs_page[];
     };
     style: {
-        tabs_checked: string[];
+        tabs_checked: color_list[];
         tabs_direction: string;
         tabs_weight_checked: string,
         tabs_size_checked: number,
@@ -29,7 +29,7 @@ interface defaultTabs {
 }
 const defaultTabs: defaultTabs = {
     content: {
-        tabs_style: '0',
+        tabs_theme: '0',
         tabs_top_up: true,
         tabs_list: [
             { id: get_math(), title: '热门推荐', desc: '简介', data_type: 'micro_page', classify: {}, micro_page: '', category_list: [] },
@@ -38,7 +38,7 @@ const defaultTabs: defaultTabs = {
         ],
     },
     style: {
-        tabs_checked: ['rgba(212,212,212,2)', 'rgba(255,210,210,1)'],
+        tabs_checked: [{ color: 'rgba(212,212,212,2)', color_percentage: '' }, { color: 'rgba(255,210,210,1)', color_percentage: '' }],
         tabs_direction: '90deg',
         tabs_weight_checked: '500',
         tabs_size_checked: 14,
