@@ -20,7 +20,7 @@
             <slider v-model="center_height" :max="3000">组件高度</slider>
         </card-container>
         <card-container class="h selected">
-            <div class="mb-12">已选组件</div>
+            <div class="mb-12 flex-row align-c jc-sb">已选组件<el-button @click="cancel">清除选中</el-button></div>
             <div class="assembly">
                 <div v-if="!isEmpty(diy_data)" class="flex-row flex-wrap gap-10">
                     <div v-for="(item, index) in diy_data" :key="index" class="item flex jc-sb align-c size-14 cr-3" :class="{ 'item-active': item.show_tabs }" @click="on_choose(index, item.show_tabs)">{{ item.name }}<icon name="close" color="3" size="10" class="c-pointer" @click="del(index)"></icon></div>
@@ -189,6 +189,13 @@ const on_choose = (index: number, show_tabs: Boolean) => {
         // 设置对应的位置为显示
         set_show_tabs(index);
     }
+};
+// 清除选中
+const cancel = () => {
+    diy_data.value.forEach((item) => {
+        item.show_tabs = false;
+    });
+    emits('rightUpdate', {});
 };
 //#endregion
 //#region 容器高度发生变化时的处理

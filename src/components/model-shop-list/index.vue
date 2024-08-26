@@ -148,7 +148,7 @@ interface data_list {
     plugins_view_icon_data: plugins_icon_data[];
 }
 const default_list = {
-    title: '华为荣耀畅享平板换屏服务 屏幕换外屏',
+    title: '测试商品标题',
     min_original_price: '41.2',
     show_original_price_symbol: '￥',
     min_price: '51',

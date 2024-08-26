@@ -24,7 +24,7 @@
                     </template>
                     <template v-if="form.search_type === 'icon'">
                         <div class="pl-16 pr-16 ptb-3 size-12">
-                            <el-icon :class="`iconfont ${ 'icon-' + form.icon_class } size-14`" />
+                            <el-icon :class="`iconfont ${ 'icon-' + form.search_botton_icon } size-14`" />
                         </div>
                     </template>
                 </div>

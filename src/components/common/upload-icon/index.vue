@@ -75,6 +75,9 @@ const remove_icon = () => {
                 height: 3.6rem;
             }
         }
+        .icon-item:hover {
+            border: 1px solid $cr-main;
+        }
         .text-line-1 {
             line-height: 2rem;
         }
