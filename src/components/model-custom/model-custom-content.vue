@@ -1,6 +1,6 @@
 <template>
     <div class="auxiliary-line">
-        <el-form :model="form" label-width="60">
+        <el-form :model="form" label-width="70">
             <card-container class="common-content-height">
                 <div class="mb-20">数据源</div>
                 <el-form-item label="动态数据">

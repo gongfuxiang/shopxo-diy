@@ -1,6 +1,6 @@
 <template>
     <div class="w h bg-f">
-        <el-form :model="form" label-width="80">
+        <el-form :model="form" label-width="70">
             <card-container class="">
                 <div class="mb-12">线条设置</div>
                 <el-form-item label="竖线横线">

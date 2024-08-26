@@ -1,6 +1,6 @@
 <template>
     <div class="w h bg-f">
-        <el-form :model="form" label-width="60">
+        <el-form :model="form" label-width="70">
             <card-container>
                 <div class="mb-12">图片设置</div>
                 <el-form-item label="上传图片">
