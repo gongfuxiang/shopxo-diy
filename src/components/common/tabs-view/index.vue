@@ -115,7 +115,7 @@ const tabs_theme_style = computed(() => {
         &.tabs-style-2 {
             &.active {
                 .desc {
-                    background: red;
+                    background: #FF5E5E;
                     color: #fff;
                 }
             }
@@ -128,7 +128,7 @@ const tabs_theme_style = computed(() => {
         &.tabs-style-3 {
             &.active {
                 .title {
-                    background: red;
+                    background: #FF2222;
                     border-radius: 2rem;
                     padding: 0.2rem 1.2rem;
                     color: #fff;
@@ -152,13 +152,13 @@ const tabs_theme_style = computed(() => {
             &.active {
                 .title {
                     font-size: 1.1rem;
-                    background: red;
+                    background: #FF5E5E;
                     border-radius: 2rem;
                     padding: 0.2rem 0.7rem;
                     color: #fff;
                 }
                 .img {
-                    border-color: red;
+                    border-color: #FF5E5E;
                 }
             }
             .img {
