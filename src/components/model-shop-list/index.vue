@@ -386,6 +386,7 @@ const style_container = computed(() => {
 }
 .flex-img0 {
     height: auto;
+    min-height: 11rem;
     max-height: 12rem;
     width: 11rem;
 }
