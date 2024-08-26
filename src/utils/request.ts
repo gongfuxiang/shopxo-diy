@@ -1,7 +1,6 @@
 import axios, { InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { get_cookie } from './index';
-import temp_token from '@/types/temp.d';
 // 创建 axios 实例
 const index = window.location.href.lastIndexOf('?s=');
 const pro_url = window.location.href.substring(0, index);
@@ -12,11 +11,12 @@ const service = axios.create({
 });
 // 请求拦截器
 service.interceptors.request.use(
-    (config: InternalAxiosRequestConfig) => {
+    async (config: InternalAxiosRequestConfig) => {
         // 如果是本地则使用静态tonken如果是线上则使用cookie的token
         const cookie = get_cookie('admin_info');
         if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
-            config.url = config.url + '?token=' + temp_token;
+            let temp_token = await import('../types/stemp.d');
+            config.url = config.url + '?token=' + temp_token.default;
         } else {
             if (cookie) {
                 config.url = config.url + '&token=' + JSON.parse(cookie).token;
