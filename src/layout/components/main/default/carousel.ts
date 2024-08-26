@@ -10,7 +10,8 @@ interface defaultSearch {
         carousel_type: string;
         carousel_list: carousel_list[];
         img_fit: string,
-        height: number,
+        is_roll: boolean;
+        interval_time: number;
     };
     style: {
         radius: number;
@@ -19,8 +20,7 @@ interface defaultSearch {
         radius_bottom_left: number;
         radius_bottom_right: number;
         is_show: boolean;
-        is_roll: boolean;
-        interval_time: number;
+        height: number,
         indicator_style: string;
         indicator_location: string;
         indicator_size: number;
@@ -34,7 +34,8 @@ const defaultSearch: defaultSearch = {
     content: {
         carousel_type: 'inherit',
         img_fit: 'contain',
-        height: 300,
+        is_roll: true,
+        interval_time: 2,
         carousel_list: [
             {
                 carousel_img: [],
@@ -57,8 +58,7 @@ const defaultSearch: defaultSearch = {
         radius_bottom_left: 0,
         radius_bottom_right: 0,
         is_show: true,
-        is_roll: true,
-        interval_time: 2,
+        height: 300,
         indicator_style: 'dot',
         indicator_location: 'center',
         indicator_size: 5,

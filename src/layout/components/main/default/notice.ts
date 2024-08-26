@@ -55,7 +55,7 @@ const defaultSearch: defaultSearch = {
     style: {
         news_color: '#000',
         news_typeface: 'normal',
-        news_size: 15,
+        news_size: 12,
         topic_color_list: [
             {
                 color: '',
@@ -68,7 +68,7 @@ const defaultSearch: defaultSearch = {
         ],
         topic_color: '#000',
         topic_typeface: 'normal',
-        topic_size: 15,
+        topic_size: 14,
         topic_width: 24,
         topic_height: 24,
         button_color: '#999',

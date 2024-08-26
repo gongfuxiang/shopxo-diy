@@ -77,11 +77,11 @@ const defaultProductList: DefaultProductList = {
             radius_bottom_right: 0,
         },
         shop_radius: {
-            radius: 0,
-            radius_top_left: 4,
-            radius_top_right: 4,
-            radius_bottom_left: 0,
-            radius_bottom_right: 0,
+            radius: 8,
+            radius_top_left: 8,
+            radius_top_right: 8,
+            radius_bottom_left: 8,
+            radius_bottom_right: 8,
         },
         content_outer_spacing: 10, // 商品间距
         content_spacing: 10,

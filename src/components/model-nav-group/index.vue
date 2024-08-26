@@ -2,8 +2,8 @@
     <div :style="style_container">
         <el-carousel :key="carouselKey" indicator-position="none" :interval="interval_time" arrow="never" :autoplay="is_roll" @change="carousel_change">
             <el-carousel-item v-for="(item, index) in nav_content_list" :key="index">
-                <div ref="bannerImg" class="flex flex-wrap">
-                    <div v-for="(item1, index1) in item.split_list" :key="index1" class="item flex-col gap-10 align-c mt-12">
+                <div ref="bannerImg" class="flex flex-wrap gap-x-10">
+                    <div v-for="(item1, index1) in item.split_list" :key="index1" class="item flex-col gap-10 align-c">
                         <div v-if="['image_with_text', 'image'].includes(nav_style)" class="top-img flex align-c jc-c">
                             <image-empty v-model="item1.nav_image[0]" :style="img_style"></image-empty>
                         </div>

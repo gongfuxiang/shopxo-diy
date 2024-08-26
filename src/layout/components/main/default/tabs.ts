@@ -48,7 +48,8 @@ const defaultTabs: defaultTabs = {
         tabs_color: 'rgba(51,51,51,1)',
         common_style: {
             ...defaultCommon,
-            padding_top: 0,
+            padding: 10,
+            padding_top: 10,
             padding_bottom: 10,
             padding_left: 10,
             padding_right: 10,

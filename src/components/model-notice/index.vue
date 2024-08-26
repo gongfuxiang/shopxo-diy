@@ -20,9 +20,7 @@
             <div class="news-card flex-col gap-10">
                 <div class="flex-row w jc-sb">
                     <template v-if="form.title_type == 'img'">
-                        <div v-if="!isEmpty(form.img_src)" >
-                            <image-empty v-model="form.img_src[0]" :style="img_style"></image-empty>
-                        </div>
+                        <image-empty v-model="form.img_src[0]" :style="img_style" error-img-style="width:1.6rem;height:1.6rem;"></image-empty>
                     </template>
                     <template v-else>
                         <div :style="topic_style" class="pl-6 pr-6 radius-sm">{{ form.title || '公告' }}</div>
@@ -90,7 +88,9 @@ const notice_list = computed(() => {
 // 内容参数的集合
 watchEffect(() => {
     //#region 标题设置
-    if (!isEmpty(form.value.img_src)) {
+    if (form.value.notice_style == 'card') {
+        img_style.value = `height: ${ new_style.value.topic_height }px; width: ${ new_style.value.topic_width }px`;
+    } else if (!isEmpty(form.value.img_src)) {
         img_style.value = `height: ${ new_style.value.topic_height }px; width: ${ new_style.value.topic_width }px`;
     }
     //#endregion
@@ -140,6 +140,10 @@ watchEffect(() => {
 }
 .one3 {
     color: #FFC300;
+}
+.two-style {
+    width: 2.4rem;
+    height: 2.4rem;
 }
 .break {
     word-break: break-word;
