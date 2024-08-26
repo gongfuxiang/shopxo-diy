@@ -75,7 +75,7 @@
                 <div class="mb-12">列表设置</div>
                 <el-form-item label="是否显示">
                     <el-checkbox-group v-model="form.field_show">
-                        <el-checkbox v-for="item in base_list.list_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
+                        <el-checkbox v-for="item in base_list.field_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
             </card-container>
@@ -123,7 +123,7 @@ const base_list = reactive({
         { name: '降序（desc）', value: '0' },
         { name: '升序（asc）', value: '1' },
     ],
-    list_show_list: [
+    field_show_list: [
         { name: '日期时间', value: '0' },
         { name: '浏览量', value: '1' },
     ],
