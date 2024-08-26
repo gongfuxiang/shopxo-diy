@@ -1,7 +1,8 @@
 <template>
     <div :style="style_container">
         <div class="video re" :style="style">
-            <video :poster="video_img" class="w h"></video>
+            <image-empty v-if="!video_img" error-img-style="width:60px;height:60px;"></image-empty>
+            <video v-else :poster="video_img" class="w h"></video>
             <img src="@/assets/images/components/model-video/video.png" class="middle box-shadow-sm round" width="60" height="60" />
         </div>
     </div>
@@ -23,7 +24,7 @@ watch(
     (newVal, oldValue) => {
         const new_content = newVal?.content || {};
         const new_style = newVal?.style || {};
-        video_img.value = new_content?.video_img[0]?.url;
+        video_img.value = new_content?.video_img[0]?.url || '';
 
         // 视频比例
         let video_ratio = ``;

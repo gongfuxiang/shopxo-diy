@@ -1,5 +1,5 @@
-import { get_math } from "@/utils";
-import defaultCommon from "./index";
+import { get_math } from '@/utils';
+import defaultCommon from './index';
 
 interface carousel_list {
     id: string;
@@ -25,11 +25,11 @@ interface defaultSearch {
         news_typeface: string;
         news_size: number;
         topic_color_list: color_list[];
-        topic_color: string,
-        topic_typeface: string,
-        topic_size: number,
-        topic_width: number,
-        topic_height: number
+        topic_color: string;
+        topic_typeface: string;
+        topic_size: number;
+        topic_width: number;
+        topic_height: number;
         common_style: object;
     };
 }
@@ -38,7 +38,7 @@ const defaultSearch: defaultSearch = {
         notice_style: 'inherit',
         direction: 'vertical',
         title_type: 'img',
-        title: '',
+        title: '测试标题',
         img_src: [],
         is_right_button: 'show',
         interval_time: 2,
@@ -46,11 +46,11 @@ const defaultSearch: defaultSearch = {
         notice_list: [
             {
                 id: get_math(),
-                notice_title: '',
+                notice_title: '公告栏',
                 notice_link: {},
-                is_show: true
-            }
-        ]
+                is_show: true,
+            },
+        ],
     },
     style: {
         news_color: '#000',
@@ -59,12 +59,12 @@ const defaultSearch: defaultSearch = {
         topic_color_list: [
             {
                 color: '',
-                color_percentage: ''
+                color_percentage: '',
             },
             {
                 color: '',
-                color_percentage: ''
-            }
+                color_percentage: '',
+            },
         ],
         topic_color: '#000',
         topic_typeface: 'normal',
@@ -72,7 +72,7 @@ const defaultSearch: defaultSearch = {
         topic_width: 24,
         topic_height: 24,
         button_color: '#999',
-        common_style: defaultCommon
+        common_style: defaultCommon,
     },
 };
 
