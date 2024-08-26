@@ -4,7 +4,7 @@
             <card-container class="mb-8">
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选择风格">
-                    <el-radio-group v-model="form.tabs_style" class="ml-4">
+                    <el-radio-group v-model="form.tabs_theme" class="ml-4">
                         <el-radio value="0">样式一</el-radio>
                         <el-radio value="2">样式二</el-radio>
                         <el-radio value="3">样式三</el-radio>

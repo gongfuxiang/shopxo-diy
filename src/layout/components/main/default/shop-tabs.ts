@@ -14,7 +14,7 @@ interface articleTabsList {
 }
 interface DefaultProductList {
     content: {
-        tabs_style: string;
+        tabs_theme: string;
         tabs_top_up: boolean;
         theme: string;
         tabs_list: articleTabsList[];
@@ -60,7 +60,7 @@ interface DefaultProductList {
 }
 const defaultProductList: DefaultProductList = {
     content: {
-        tabs_style: '0',
+        tabs_theme: '0',
         tabs_top_up: false,
         theme: '0',
         tabs_list: [
