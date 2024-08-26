@@ -27,11 +27,11 @@
                                 <el-form-item label="图标" label-width="45">
                                     <div class="flex-col jc-c align-c mr-12">
                                         <upload v-model="row.src" :limit="1" :size="44" :styles="1"></upload>
-                                        <text class="cr-9 size-12">选中</text>
+                                        <text class="cr-9 size-12">未选中</text>
                                     </div>
                                     <div class="flex-col jc-c align-c">
                                         <upload v-model="row.src_checked" :limit="1" :size="44" :styles="1"></upload>
-                                        <text class="cr-9 size-12">未选中</text>
+                                        <text class="cr-9 size-12">选中</text>
                                     </div>
                                 </el-form-item>
                                 <el-form-item label="名称" label-width="45">

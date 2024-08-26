@@ -148,7 +148,7 @@ interface data_list {
     plugins_view_icon_data: plugins_icon_data[];
 }
 const default_list = {
-    title: '华为荣耀畅享平板换屏服务 屏幕换外屏',
+    title: '测试商品标题',
     min_original_price: '41.2',
     show_original_price_symbol: '￥',
     min_price: '51',
@@ -223,9 +223,8 @@ const outer_class = computed(() => {
     return flex + wrap + background + 'oh';
 });
 const onter_style = computed(() => {
-    const radius = theme.value == '6' ? content_radius.value : '';
-    const gap = `gap: ${new_style.value.content_outer_spacing + 'px'};`;
-    return `${radius} ${gap}`;
+    const radius = theme.value == '6' ? content_radius.value : `gap: ${new_style.value.content_outer_spacing + 'px'};`;
+    return `${radius}`;
 });
 
 // 不同风格下的样式
@@ -386,6 +385,7 @@ const style_container = computed(() => {
 }
 .flex-img0 {
     height: auto;
+    min-height: 11rem;
     max-height: 12rem;
     width: 11rem;
 }

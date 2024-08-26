@@ -1,20 +1,20 @@
 <template>
     <div class="oh" :style="style_container">
-        <div class="re" :style="style">
-            <div class="flex-warp" :class="article_theme_class" :style="article_spacing">
+        <div class="re oh" :style="style">
+            <div class="flex-warp" :class="article_theme_class" :style="article_theme !== '3' ? article_spacing : ''">
                 <template v-for="(item, index) in data_list" :key="index">
-                    <div class="item gap-10 bg-f oh" :class="article_theme == '0' ? 'flex-row' : 'flex-col'" :style="article_style">
-                        <template v-if="item.new_cover.length > 0">
-                            <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
+                    <div class="item bg-f oh" :class="article_theme == '0' ? 'flex-row' : 'flex-col'" :style="article_style">
+                        <template v-if="article_theme !== '3'">
+                            <template v-if="item.new_cover.length > 0">
+                                <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
+                            </template>
+                            <template v-else> <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty> </template>
                         </template>
-                        <template v-else>
-                            <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
-                        </template>
-                        <div class="flex-col jc-sb flex-1" :style="article_theme !== '0' ? content_padding : ''">
-                            <div class="title text-line-2" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
-                            <div class="flex-row jc-sb gap-8 align-e mt-10">
-                                <div :style="article_date">{{ field_show.includes('0') ? '2020-06-05 15:20' : '' }}</div>
-                                <icon v-show="field_show.includes('1')" name="eye" :style="article_page_view">16</icon>
+                        <div class="jc-sb flex-1" :class="article_theme == '3' ? 'flex-row align-c' : 'flex-col'" :style="article_theme !== '0' ? content_padding : ''">
+                            <div class="title" :class="article_theme == '3' ? 'text-line-1 flex-1 flex-width' : 'text-line-2'" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                            <div class="flex-row jc-sb gap-8" :class="article_theme == '3' ? 'ml-10' : 'align-e mt-10'">
+                                <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
+                                <icon v-show="field_show.includes('1')" name="eye" :style="article_page_view">{{ item.data.access_count ? item.data.access_count : '16' }}</icon>
                             </div>
                         </div>
                     </div>
@@ -24,7 +24,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, padding_computer, radius_computer, get_math } from '@/utils';
+import { common_styles_computer, padding_computer, radius_computer, get_math, is_obj_empty } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 import ArticleAPI from '@/api/article';
 const props = defineProps({
@@ -42,6 +42,8 @@ const style = ref('');
 const style_container = ref('');
 interface dataObj {
     cover?: string;
+    add_time?: string;
+    access_count?: string;
     title?: string;
 }
 interface ArticleList {
@@ -83,12 +85,13 @@ const article_style = ref({});
 const default_data_list: ArticleList = {
     id: 0,
     data: {},
-    new_title: '标题',
+    new_title: '测试标题',
     new_cover: [],
 };
 watch(
     props.value,
     (newVal, oldValue) => {
+        console.log(newVal);
         const new_content = newVal?.content;
         const new_style = newVal?.style;
         // 内容
@@ -119,17 +122,19 @@ watch(
         // 文章间距
         article_spacing.value = `gap: ${new_style.article_spacing}px;`;
         // 文章样式
-        article_style.value = content_radius.value + content_spacing.value;
+        article_style.value = '';
+        style.value = '';
         if (article_theme.value == '0') {
-            article_style.value += content_padding.value;
-        }
-        if (article_theme.value == '1') {
+            article_style.value += content_spacing.value + content_padding.value + content_radius.value;
+        } else if (article_theme.value == '1') {
             article_spacing_children.value = `width: calc(50% - ${new_style.article_spacing / 2}px);`;
-            article_style.value += article_spacing_children.value;
-        }
-        if (article_theme.value == '3') {
+            article_style.value += article_spacing_children.value + content_radius.value;
+        } else if (article_theme.value == '3') {
+            style.value = `padding: 0 ${new_style.content_spacing}px;background:#fff;` + content_radius.value;
+        } else if (article_theme.value == '4') {
             article_item_width.value = `${new_style.article_width}px`;
             article_item_height.value = `${new_style.article_height}px`;
+            article_style.value += content_radius.value;
         }
         if (new_style.common_style && props.isCommonStyle) {
             style_container.value = common_styles_computer(new_style.common_style);
@@ -146,7 +151,9 @@ const article_theme_class = computed(() => {
         case '2':
             return 'style3 flex-col';
         case '3':
-            return 'style4 flex-row';
+            return 'style4 flex-col';
+        case '4':
+            return 'style5 flex-row';
     }
     return `style${article_theme.value}`;
 });
@@ -203,6 +210,14 @@ const get_auto_data_list = async (new_content: any) => {
     }
 }
 .style4 {
+    .item {
+        width: 100%;
+        &:not(:last-child) {
+            border-bottom: 0.1rem solid #eee;
+        }
+    }
+}
+.style5 {
     .item {
         min-width: v-bind(article_item_width);
         width: v-bind(article_item_width);

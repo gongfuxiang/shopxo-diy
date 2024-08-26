@@ -44,7 +44,6 @@
         overflow: hidden;
         height: 100%;
         :deep(.vdr-container) {
-            cursor: pointer;
             border: 0;
             .vdr-handle.vdr-handle-tl,
             .vdr-handle.vdr-handle-tr,
@@ -70,11 +69,13 @@
             }
         }
         .plug-in-border {
+            cursor: pointer;
             position: relative;
             box-shadow: 0px 0 0px 0.2rem $cr-main;
             border: 0;
         }
         .plug-in-right {
+            cursor: default;
             background: $cr-main;
             position: absolute;
             right: -5rem;

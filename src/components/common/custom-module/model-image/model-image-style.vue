@@ -1,13 +1,13 @@
 <template>
     <div class="w h bg-f">
-        <el-form :model="form" label-width="60">
+        <el-form :model="form" label-width="70">
             <card-container>
                 <div class="mb-12">图片设置</div>
                 <el-form-item label="上传图片">
                     <upload v-model="form.img_src" :limit="1" size="50" @update:model-value="img_src_change('1')"></upload>
                 </el-form-item>
                 <el-form-item label="数据字段">
-                    <el-select v-model="form.data_source_id" value-key="id" clearable placeholder="请选择图片数据字段" size="default" class="flex-1" @change="img_src_change('2')">
+                    <el-select v-model="form.data_source_id" value-key="id" clearable filterable placeholder="请选择图片数据字段" size="default" class="flex-1" @change="img_src_change('2')">
                         <el-option v-for="item in options.filter(item => item.type == 'images')" :key="item.field" :label="item.name" :value="item.field" />
                     </el-select>
                 </el-form-item>

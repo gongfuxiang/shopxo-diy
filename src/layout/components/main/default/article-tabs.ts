@@ -81,7 +81,7 @@ const defaultArticleTabs: DefaultArticleTabs = {
         tabs_size: 14,
         tabs_color: 'rgba(51,51,51,1)',
         name_weight: '500',
-        name_size: 16,
+        name_size: 14,
         name_color: 'rgba(51, 51, 51, 1)',
         time_weight: '400',
         time_size: 12,

@@ -12,7 +12,7 @@
                     <el-switch v-model="form.tabs_top_up" />
                 </el-form-item>
                 <el-form-item label="文章风格">
-                    <el-radio-group v-model="form.article_theme">
+                    <el-radio-group v-model="form.article_theme" @change="article_theme_change">
                         <el-radio v-for="item in base_list.article_theme_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
@@ -74,8 +74,8 @@
             <card-container>
                 <div class="mb-12">列表设置</div>
                 <el-form-item label="是否显示">
-                    <el-checkbox-group v-model="form.is_show">
-                        <el-checkbox v-for="item in base_list.list_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
+                    <el-checkbox-group v-model="form.field_show">
+                        <el-checkbox v-for="item in base_list.field_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
             </card-container>
@@ -106,7 +106,8 @@ const base_list = reactive({
         { name: '单列展示', value: '0' },
         { name: '两列展示（纵向）', value: '1' },
         { name: '大图展示', value: '2' },
-        { name: '左右滑动展示', value: '3' },
+        { name: '无图模式', value: '3' },
+        { name: '左右滑动展示', value: '4' },
     ],
     data_type_list: [
         { name: '选择文章', value: '0' },
@@ -122,7 +123,7 @@ const base_list = reactive({
         { name: '降序（desc）', value: '0' },
         { name: '升序（asc）', value: '1' },
     ],
-    list_show_list: [
+    field_show_list: [
         { name: '日期时间', value: '0' },
         { name: '浏览量', value: '1' },
     ],
@@ -145,6 +146,13 @@ const init = () => {
             });
     } else {
         base_list.article_category_list = article_store.article;
+    }
+};
+const article_theme_change = (val: any) => {
+    if (val == '3' || val == '4') {
+        form.field_show = ['1'];
+    } else {
+        form.field_show = ['0', '1'];
     }
 };
 

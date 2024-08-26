@@ -1,8 +1,8 @@
 <template>
-    <div class="img-outer re" :style="com_style">
+    <div class="img-outer re oh" :style="com_style">
         <div :style="text_style" class="break">
             <template v-if="form.is_rich_text">
-                <div :innerHTML="text_title"></div>
+                <div class="rich-text-content" :innerHTML="text_title"></div>
             </template>
             <template v-else>
                 {{ text_title }}
@@ -57,9 +57,13 @@ const text_style = computed(() => {
 });
 
 const com_style = computed(() => {
-    let style = `${ set_count() } background-color: ${ form.com_bg };`;
+    let style = `${ set_count() } background-color: ${ form.com_bg }; ${ radius_computer(form.bg_radius) }`;
     if (form.border_show) {
-        style += `border: ${form.border_size}px ${form.border_style} ${form.border_color}; ${ radius_computer(form.border_radius) };`;
+        style += `border: ${form.border_size}px ${form.border_style} ${form.border_color};`;
+    }
+    // 是富文本并且开启了上下滚动的开关
+    if (form.is_rich_text && form.is_up_down) {
+        style += `overflow-y: auto;`
     }
     return style;
 });
@@ -79,5 +83,8 @@ const set_count = () => {
 .rich-text-content {
     white-space: normal;
     word-break:break-all;
+    * {
+        max-width: 100%;
+    }
 }
 </style>

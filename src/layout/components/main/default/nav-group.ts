@@ -1,9 +1,9 @@
-import { get_math } from "@/utils";
-import defaultCommon from "./index";
+import { get_math } from '@/utils';
+import defaultCommon from './index';
 interface nav_group {
     id: string;
     nav_image: uploadList[];
-    title: string,
+    title: string;
     title_link: object;
 }
 interface defaultSearch {
@@ -45,28 +45,28 @@ const defaultSearch: defaultSearch = {
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
                 nav_image: [],
-                title: '',
+                title: '测试标题',
                 title_link: {},
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
                 nav_image: [],
-                title: '',
+                title: '测试标题',
                 title_link: {},
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
                 nav_image: [],
-                title: '',
+                title: '测试标题',
                 title_link: {},
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
                 nav_image: [],
-                title: '',
+                title: '测试标题',
                 title_link: {},
-            }
-        ]
+            },
+        ],
     },
     style: {
         radius: 0,

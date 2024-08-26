@@ -1,13 +1,13 @@
 <template>
     <div class="w h bg-f">
-        <el-form :model="form" label-width="80">
+        <el-form :model="form" label-width="70">
             <card-container>
                 <div class="mb-12">文本设置</div>
                 <el-form-item label="文本内容">
                     <el-input v-model="form.text_title" placeholder="请输入文本内容" type="textarea" :rows="3" @input="text_change('1')"></el-input>
                 </el-form-item>
                 <el-form-item label="数据字段">
-                    <el-select v-model="form.data_source_id" value-key="id" clearable placeholder="请选择图片数据字段" size="default" class="flex-1" @change="text_change('2')">
+                    <el-select v-model="form.data_source_id" value-key="id" clearable filterable placeholder="请选择图片数据字段" size="default" class="flex-1" @change="text_change('2')">
                         <el-option v-for="item in options.filter(item => item.type == 'text')" :key="item.field" :label="item.name" :value="item.field" />
                     </el-select>
                 </el-form-item>
@@ -16,6 +16,9 @@
                 </el-form-item>
                 <el-form-item label="富文本">
                     <el-switch v-model="form.is_rich_text" />
+                </el-form-item>
+                <el-form-item v-if="form.is_rich_text" label="上下滚动">
+                    <el-switch v-model="form.is_up_down" />
                 </el-form-item>
                 <el-form-item label="文字颜色">
                     <color-picker v-model="form.text_color" default-color="#FF3F3F"></color-picker>
@@ -72,6 +75,9 @@
                 <el-form-item label="背景颜色">
                     <color-picker v-model="form.com_bg" default-color="#FF3F3F"></color-picker>
                 </el-form-item>
+                <el-form-item label="圆角">
+                    <radius :value="form.bg_radius" @update:value="bg_radius_change"></radius>
+                </el-form-item>
             </card-container>
             <div class="bg-f5 partition-line" />
             <card-container>
@@ -92,9 +98,6 @@
                             <el-radio value="solid"><div class="border-style-item" style="border: 1px solid #979797"></div></el-radio>
                             <el-radio value="dotted"><div class="border-style-item" style="border: 1px dotted #979797"></div></el-radio>
                         </el-radio-group>
-                    </el-form-item>
-                    <el-form-item label="边框圆角">
-                        <radius :value="form.border_radius" @update:value="border_radius_change"></radius>
                     </el-form-item>
                     <el-form-item label="边框粗细">
                         <slider v-model="form.border_size" :max="1000"></slider>
@@ -129,8 +132,8 @@ const center_height = defineModel('height', { type: Number, default: 0 });
 const padding_change = (padding: any) => {
     form.value.text_padding = Object.assign(form.value.text_padding, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
 };
-const border_radius_change = (radius: any) => {
-    form.value.border_radius = Object.assign(form.value.border_radius, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
+const bg_radius_change = (radius: any) => {
+    form.value.bg_radius = Object.assign(form.value.bg_radius, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
 };
 
 const text_change = (key: string) => {

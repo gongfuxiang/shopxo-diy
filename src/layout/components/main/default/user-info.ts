@@ -51,7 +51,10 @@ const defaultUserInfo: DefaultUserInfo = {
         stats_number_color: 'rgba(0, 0, 0, 1)',
         stats_number_weight: '500',
         stats_number_size: 16,
-        common_style: defaultCommon,
+        common_style: {
+            ...defaultCommon,
+            color_list: [{ color: '#fff', color_percentage: '' }],
+        },
     },
 };
 

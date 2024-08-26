@@ -20,7 +20,7 @@
             <slider v-model="center_height" :max="3000">组件高度</slider>
         </card-container>
         <card-container class="h selected">
-            <div class="mb-12">已选组件</div>
+            <div class="mb-12 flex-row align-c jc-sb">已选组件<el-button @click="cancel">清除选中</el-button></div>
             <div class="assembly">
                 <div v-if="!isEmpty(diy_data)" class="flex-row flex-wrap gap-10">
                     <div v-for="(item, index) in diy_data" :key="index" class="item flex jc-sb align-c size-14 cr-3" :class="{ 'item-active': item.show_tabs }" @click="on_choose(index, item.show_tabs)">{{ item.name }}<icon name="close" color="3" size="10" class="c-pointer" @click="del(index)"></icon></div>
@@ -125,12 +125,15 @@ const url_computer = (name: string) => {
 //#endregion
 //#region 中间区域的处理逻辑
 const diy_data = toRef(props.list);
-onMounted(() => {
-    // 如果默认不等于空的话，则默认选中第一个
-    if (!isEmpty(diy_data)) {
-        on_choose(0, false);
-    }
-});
+
+// 因为容器变更的话，需要重新计算高度，所以不能默认选中第一个
+// onMounted(() => {
+//     // 如果默认不等于空的话，则默认选中第一个
+//     if (!isEmpty(diy_data)) {
+//         on_choose(0, false);
+//     }
+// });
+
 // 复制
 const copy = (index: number) => {
     // 获取当前数据, 复制的时候id更换一下
@@ -187,6 +190,13 @@ const on_choose = (index: number, show_tabs: Boolean) => {
         set_show_tabs(index);
     }
 };
+// 清除选中
+const cancel = () => {
+    diy_data.value.forEach((item) => {
+        item.show_tabs = false;
+    });
+    emits('rightUpdate', {});
+};
 //#endregion
 //#region 容器高度发生变化时的处理
 const center_height = defineModel('height', { type: Number, default: 0 });
@@ -198,8 +208,6 @@ watch(() => center_height.value, () => {
     data = diy_data.value;
     // 从 DOM 中删除组件
     draggable_container.value = false;
-    // 容器高度变化时，组件不绑定右侧数据
-    emits('rightUpdate', {});
     nextTick(() => {
         // 在 DOM 中添加组件
         diy_data.value = data.map((item) => ({
@@ -217,9 +225,11 @@ watch(() => center_height.value, () => {
                 com_height: item.com_data.staging_height,
             },
         }));
+        // 容器高度变化时，组件不绑定右侧数据
+        emits('rightUpdate', {});
         draggable_container.value = true;
     });
-},{ deep: true });
+},{ immediate:true, deep: true });
 //#endregion
 //#region 左侧拖拽过来的处理
 let draggedItem = ref<any>({});

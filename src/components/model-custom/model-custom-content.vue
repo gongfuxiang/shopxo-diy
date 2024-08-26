@@ -1,10 +1,10 @@
 <template>
     <div class="auxiliary-line">
-        <el-form :model="form" label-width="60">
+        <el-form :model="form" label-width="70">
             <card-container class="common-content-height">
                 <div class="mb-20">数据源</div>
                 <el-form-item label="动态数据">
-                    <el-select v-model="form.data_source" value-key="id" placeholder="请选择数据源" clearable @change="changeDataSource">
+                    <el-select v-model="form.data_source" value-key="id" placeholder="请选择数据源" filterable clearable @change="changeDataSource">
                         <el-option v-for="item in options" :key="item.type" :label="item.name" :value="item.type" />
                     </el-select>
                     <div v-if="!isEmpty(form.source_list)" class="flex-row mt-20 gap-20">
