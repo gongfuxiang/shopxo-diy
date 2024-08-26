@@ -139,10 +139,10 @@ const tabs_theme_style = computed(() => {
             padding-bottom: 1.8rem;
             &.active {
                 .title {
-                    color: red;
+                    color: #FF2222;
                 }
                 .icon {
-                    color: red;
+                    color: #FF2222;
                     display: block;
                 }
             }

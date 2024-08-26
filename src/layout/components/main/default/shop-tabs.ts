@@ -82,7 +82,7 @@ const defaultProductList: DefaultProductList = {
         tabs_direction: '90deg',
         tabs_weight_checked: '500',
         tabs_size_checked: 14,
-        tabs_color_checked: '#000',
+        tabs_color_checked: 'rgba(51,51,51,1)',
         tabs_weight: '500',
         tabs_size: 14,
         tabs_color: 'rgba(51,51,51,1)',

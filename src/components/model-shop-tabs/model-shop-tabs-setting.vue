@@ -1,7 +1,7 @@
 <template>
     <div class="auxiliary-line-setting">
         <template v-if="type == '1'">
-            <model-shop-tabs-content :value="value.content"></model-shop-tabs-content>
+            <model-shop-tabs-content :value="value.content" :tab-style="value.style"></model-shop-tabs-content>
         </template>
         <template v-if="type == '2'">
             <model-shop-tabs-styles :value="value.style" :content="value.content"></model-shop-tabs-styles>

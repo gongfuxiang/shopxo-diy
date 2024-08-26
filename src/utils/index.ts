@@ -299,3 +299,19 @@ export const set_cookie = (name: string, value: string, expire_time?: number) =>
         document.cookie = cookie_str;
     }
 };
+
+// style 风格
+export const tabs_style = (color: string, style: string | number | boolean | undefined) => {
+    const color_list = ['rgba(51,51,51,1)', 'rgba(255, 34, 34, 1)', 'rgba(255, 255, 255, 1)'];
+    if (color_list.includes(color)) {
+        if ((style == '2' || style == '4')) {
+            return 'rgba(255, 255, 255, 1)';
+        } else if (style == '3') {
+            return 'rgba(255, 34, 34, 1)';
+        } else {
+            return 'rgba(51,51,51,1)';
+        }
+    } else {
+        return color;
+    }
+}

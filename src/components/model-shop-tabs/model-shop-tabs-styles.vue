@@ -10,7 +10,7 @@
                     <text-size-type v-model:typeface="form.tabs_weight_checked" v-model:size="form.tabs_size_checked"></text-size-type>
                 </el-form-item>
                 <el-form-item label="文字色值">
-                    <color-picker v-model="form.tabs_color_checked" default-color="#000000"></color-picker>
+                    <color-picker v-model="form.tabs_color_checked" default-color="rgba(51,51,51,1)"></color-picker>
                 </el-form-item>
                 <el-form-item label="未选文字">
                     <text-size-type v-model:typeface="form.tabs_weight" v-model:size="form.tabs_size"></text-size-type>
