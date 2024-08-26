@@ -1,6 +1,6 @@
 <template>
     <div class="common-content-height">
-        <el-form :model="form" label-width="70">
+        <el-form :model="form" label-width="60">
             <card-container class="mb-8">
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选择风格">

@@ -40,10 +40,10 @@
                         <div class="flex-row align-c jc-c">
                             <upload v-model="scoped.row.nav_image" :limit="1" size="72"></upload>
                             <div class="flex-col align-c jc-c gap-20">
-                                <el-form-item label="标题" class="mb-0">
+                                <el-form-item label="标题" class="mb-0" label-width="50">
                                     <el-input v-model="scoped.row.title" placeholder="请输入标题" maxlength="4" show-word-limit></el-input>
                                 </el-form-item>
-                                <el-form-item label="链接" class="w mb-0">
+                                <el-form-item label="链接" class="w mb-0" label-width="50">
                                     <url-value v-model="scoped.row.title_link"></url-value>
                                 </el-form-item>
                             </div>

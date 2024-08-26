@@ -53,13 +53,13 @@
                 <drag :data="form.notice_list" type="card" :space-col="25" @remove="remove" @on-sort="on_sort">
                     <template #default="scoped">
                         <div class="flex-col align-c jc-s gap-20 flex-1">
-                            <el-form-item label="标题" class="w mb-0">
+                            <el-form-item label="标题" class="w mb-0" label-width="40">
                                 <el-input v-model="scoped.row.notice_title" placeholder="请输入标题" maxlength="20" show-word-limit></el-input>
                             </el-form-item>
-                            <el-form-item label="链接" class="w mb-0">
+                            <el-form-item label="链接" class="w mb-0" label-width="40">
                                 <url-value v-model="scoped.row.notice_link"></url-value>
                             </el-form-item>
-                            <el-form-item label="状态" class="w mb-0">
+                            <el-form-item label="状态" class="w mb-0" label-width="40">
                                 <el-switch v-model="scoped.row.is_show"></el-switch>
                             </el-form-item>
                         </div>
