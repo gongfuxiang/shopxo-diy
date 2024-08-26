@@ -3,6 +3,7 @@ import defaultCommon from "./index";
 interface defaultSearch {
     content: {
         height: number;
+        img_key: string;
         data_source: string;
         source_list: string[];
         custom_list: string[];
@@ -14,6 +15,7 @@ interface defaultSearch {
 const defaultSearch: defaultSearch = {
     content: {
         height: 390,
+        img_key: '',
         source_list: [],
         data_source:'',
         custom_list: []
