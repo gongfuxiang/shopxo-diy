@@ -120,7 +120,11 @@ const init = () => {
     }
 };
 const theme_change = (val: any) => {
-    form.field_show = ['1'];
+    if (val == '3' || val == '4') {
+        form.field_show = ['1'];
+    } else {
+        form.field_show = ['0', '1'];
+    }
 };
 
 const data_list_remove = (index: number) => {

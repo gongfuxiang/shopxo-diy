@@ -12,7 +12,7 @@
                     <el-switch v-model="form.tabs_top_up" />
                 </el-form-item>
                 <el-form-item label="文章风格">
-                    <el-radio-group v-model="form.article_theme">
+                    <el-radio-group v-model="form.article_theme" @change="article_theme_change">
                         <el-radio v-for="item in base_list.article_theme_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
@@ -74,7 +74,7 @@
             <card-container>
                 <div class="mb-12">列表设置</div>
                 <el-form-item label="是否显示">
-                    <el-checkbox-group v-model="form.is_show">
+                    <el-checkbox-group v-model="form.field_show">
                         <el-checkbox v-for="item in base_list.list_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
@@ -146,6 +146,13 @@ const init = () => {
             });
     } else {
         base_list.article_category_list = article_store.article;
+    }
+};
+const article_theme_change = (val: any) => {
+    if (val == '3' || val == '4') {
+        form.field_show = ['1'];
+    } else {
+        form.field_show = ['0', '1'];
     }
 };
 
