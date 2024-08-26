@@ -10,7 +10,7 @@
                         <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
                     </template>
                     <div v-if="!isEmpty(isShow)" class="flex-col w h tl gap-10">
-                        <div v-if="isShow.includes('title')" class="text-line-2 size-14">{{ item.title }}</div>
+                        <div v-if="isShow.includes('title')" class="text-line-2 size-14 shop-title">{{ item.title }}</div>
                         <div v-if="isShow.includes('price')" class="identifying">
                             <span class="num">{{ item.show_price_symbol }}</span>{{ item.min_price }}
                             <template v-if="isShow.includes('price_unit')">
@@ -36,7 +36,7 @@
                             </template>
                         </div>
                     </div>
-                    <div v-if="isShow.includes('title')" class="text-line-1 size-14 tl w" style="overflow: inherit;">{{ item.title }}</div>
+                    <div v-if="isShow.includes('title')" class="text-line-1 size-14 shop-title tl w" style="overflow: inherit;">{{ item.title }}</div>
                 </div>
             </template>
             <template v-else>
@@ -48,7 +48,7 @@
                         <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
                     </template>
                     <div v-if="!isEmpty(isShow)" class="flex-col w tl gap-10" :style="`${ padding_computer(props.chunkPadding) }`">
-                        <div v-if="isShow.includes('title')" class="text-line-2 size-14">{{ item.title }}</div>
+                        <div v-if="isShow.includes('title')" class="text-line-2 size-14 shop-title">{{ item.title }}</div>
                         <div v-if="isShow.includes('price')" class="identifying">
                             <span class="num">{{ item.show_price_symbol }}</span>{{ item.min_price }}
                             <template v-if="isShow.includes('price_unit')">
@@ -71,7 +71,7 @@
                         <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
                     </template>
                     <div v-if="!isEmpty(isShow)" class="flex-col w h tl gap-20">
-                        <div v-if="isShow.includes('title')" class="text-line-2 size-14">{{ item.title }}</div>
+                        <div v-if="isShow.includes('title')" class="text-line-2 size-14 shop-title">{{ item.title }}</div>
                         <div v-if="isShow.includes('price')" class="identifying">
                             <span class="num">{{ item.show_price_symbol }}</span>{{ item.min_price }}
                             <template v-if="isShow.includes('price_unit')">
@@ -144,5 +144,8 @@ watchEffect(() => {
 }
 .half-width {
     width: 50%;
+}
+.shop-title {
+    line-height: 2rem;
 }
 </style>
