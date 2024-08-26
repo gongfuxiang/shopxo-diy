@@ -78,11 +78,11 @@ const base_list = reactive({
     product_style_list: [
         { name: '单列展示', value: '0' },
         { name: '大图展示', value: '2' },
+        { name: '无图模式', value: '6' },
         { name: '两列展示(纵向)', value: '1' },
         { name: '两列展示(横向)', value: '4' },
         { name: '三列展示', value: '3' },
         { name: '左右滑动展示', value: '5' },
-        { name: '无图模式', value: '6' },
     ],
     product_list: [
         { name: '指定商品', value: '0' },
