@@ -20,6 +20,7 @@ interface DefaultProductList {
         tabs_list: articleTabsList[];
         is_show: string[];
         is_shop_show: boolean;
+        is_price_solo: boolean;
         shop_type: string;
         shop_button_effect: string;
         shop_button_size: string;
@@ -71,6 +72,7 @@ const defaultProductList: DefaultProductList = {
         ],
         is_show: ['title', 'plugins_view_icon', 'price', 'sales_count', 'original_price'],
         is_shop_show: true,
+        is_price_solo: true,
         shop_type: '0',
         shop_button_effect: '0',
         shop_button_size: '1',
@@ -92,11 +94,11 @@ const defaultProductList: DefaultProductList = {
             padding_right: 10,
         },
         shop_img_radius: {
-            radius: 0,
-            radius_top_left: 0,
-            radius_top_right: 0,
-            radius_bottom_left: 0,
-            radius_bottom_right: 0,
+            radius: 4,
+            radius_top_left: 4,
+            radius_top_right: 4,
+            radius_bottom_left: 4,
+            radius_bottom_right: 4,
         },
         shop_radius: {
             radius: 8,
@@ -109,11 +111,11 @@ const defaultProductList: DefaultProductList = {
         content_spacing: 10,
         content_outer_width: 104,
         content_outer_height: 189,
-        shop_title_typeface: 'normal',
+        shop_title_typeface: '500',
         shop_title_size: 14,    
         shop_title_color: "#333333",
-        shop_price_typeface: 'normal',
-        shop_price_size: 14,
+        shop_price_typeface: '500',
+        shop_price_size: 18,
         shop_price_color: "#EA3323;",
         shop_sold_number_typeface: 'normal',
         shop_sold_number_size: 10,
@@ -125,11 +127,11 @@ const defaultProductList: DefaultProductList = {
         shop_button_size: 12,
         shop_button_color: [
             {
-                color: '#2a94ff',
+                color: '#FF3D53',
                 color_percentage: ''
             },
             {
-                color: '#2a94ff',
+                color: '#D73A3A',
                 color_percentage: ''
             }
         ],

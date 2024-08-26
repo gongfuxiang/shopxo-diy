@@ -22,7 +22,7 @@
                     <div class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
                         <div class="flex-col gap-10 top-title">
                             <div v-if="is_show('title')" :class="text_line" :style="trends_config('title')">{{ item.title }}</div>
-                            <div v-if="show_content && is_show('plugins_view_icon') && !isEmpty(item.plugins_view_icon_data)" class="flex-row gap-5">
+                            <div v-if="show_content && is_show('plugins_view_icon') && !isEmpty(item.plugins_view_icon_data)" class="flex-row gap-5 align-c">
                                 <div v-for="(icon_data, icon_index) in item.plugins_view_icon_data" :key="icon_index" class="radius-sm size-9 pl-3 pr-3" :style="icon_style(icon_data)">{{ icon_data.name }}</div>
                             </div>
                         </div>
@@ -151,13 +151,36 @@ const default_list = {
     title: '测试商品标题',
     min_original_price: '41.2',
     show_original_price_symbol: '￥',
+    show_original_price_unit: '/ 台',
     min_price: '51',
     show_price_symbol: '￥',
-    show_price_unit: '',
+    show_price_unit: '/ 台',
     sales_count: '1000',
     images: '',
     new_cover: [],
-    plugins_view_icon_data: []
+    plugins_view_icon_data: [
+        {
+            name: '满减活动',
+            bg_color: '#EA3323',
+            br_color: '',
+            color: '#fff',
+            url: ''
+        },
+        {
+            name: '包邮',
+            bg_color: '',
+            br_color: '#EA3323',
+            color: '#EA3323',
+            url: ''
+        },
+        {
+            name: '领劵',
+            bg_color: '',
+            br_color: '#EA9223',
+            color: '#EA9223 ',
+            url: ''
+        }
+    ]
 };
 const list = ref<data_list[]>([]);
 
