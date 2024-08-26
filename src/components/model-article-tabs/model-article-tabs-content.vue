@@ -106,7 +106,8 @@ const base_list = reactive({
         { name: '单列展示', value: '0' },
         { name: '两列展示（纵向）', value: '1' },
         { name: '大图展示', value: '2' },
-        { name: '左右滑动展示', value: '3' },
+        { name: '无图模式', value: '3' },
+        { name: '左右滑动展示', value: '4' },
     ],
     data_type_list: [
         { name: '选择文章', value: '0' },
