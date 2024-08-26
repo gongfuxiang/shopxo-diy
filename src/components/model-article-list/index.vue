@@ -85,7 +85,7 @@ const article_style = ref({});
 const default_data_list: ArticleList = {
     id: 0,
     data: {},
-    new_title: '测试标题',
+    new_title: '测试文章标题',
     new_cover: [],
 };
 watch(
