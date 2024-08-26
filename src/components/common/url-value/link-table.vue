@@ -38,7 +38,6 @@
 </template>
 <script lang="ts" setup>
 import UrlValueAPI from '@/api/url-value';
-import { pageLinkList } from '@/store';
 const props = defineProps({
     type: {
         type: String,

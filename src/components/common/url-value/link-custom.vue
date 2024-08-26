@@ -48,7 +48,6 @@
 </template>
 <script lang="ts" setup>
 import type { FormInstance } from 'element-plus';
-import { pageLinkList } from '@/store';
 const props = defineProps({
     status: {
         type: Boolean,

@@ -137,7 +137,7 @@ const three_item_text = ref('');
 const goods_item_click = (item: pageLinkList, level: number, index: number) => {
     if (level === 1) {
         one_item_index.value = index + 1;
-        one_item_text.value = item.name;
+        one_item_text.value = item.name || '';
         two_item_index.value = 0;
         two_item_text.value = '';
         three_item_index.value = 0;
@@ -146,13 +146,13 @@ const goods_item_click = (item: pageLinkList, level: number, index: number) => {
         three_item_data.value = [];
     } else if (level === 2) {
         two_item_index.value = index + 1;
-        two_item_text.value = item.name;
+        two_item_text.value = item.name || '';
         three_item_index.value = 0;
         three_item_text.value = '';
         three_item_data.value = [];
     } else {
         three_item_index.value = index + 1;
-        three_item_text.value = item.name;
+        three_item_text.value = item.name || '';
     }
     if (item.items && item.items.length > 0) {
         if (level === 1) {
