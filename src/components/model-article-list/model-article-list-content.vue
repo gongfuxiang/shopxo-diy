@@ -4,7 +4,7 @@
             <card-container class="mb-8">
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选择风格">
-                    <el-radio-group v-model="form.theme">
+                    <el-radio-group v-model="form.theme" @change="theme_change">
                         <el-radio v-for="item in base_list.theme_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
@@ -77,7 +77,8 @@ const base_list = reactive({
         { name: '单列展示', value: '0' },
         { name: '两列展示（纵向）', value: '1' },
         { name: '大图展示', value: '2' },
-        { name: '左右滑动展示', value: '3' },
+        { name: '无图模式', value: '3' },
+        { name: '左右滑动展示', value: '4' },
     ],
     data_type_list: [
         { name: '选择文章', value: '0' },
@@ -117,6 +118,9 @@ const init = () => {
     } else {
         base_list.article_category_list = article_store.article;
     }
+};
+const theme_change = (val: any) => {
+    form.field_show = ['1'];
 };
 
 const data_list_remove = (index: number) => {

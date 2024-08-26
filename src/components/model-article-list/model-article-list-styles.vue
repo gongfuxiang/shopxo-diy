@@ -39,19 +39,23 @@
                 <el-form-item label="内容圆角">
                     <radius :value="form.content_radius"></radius>
                 </el-form-item>
-                <el-form-item label="图片圆角">
-                    <radius :value="form.img_radius"></radius>
-                </el-form-item>
+                <template v-if="theme !== '3'">
+                    <el-form-item label="图片圆角">
+                        <radius :value="form.img_radius"></radius>
+                    </el-form-item>
+                </template>
                 <el-form-item label="内间距">
                     <padding :value="form.padding"></padding>
                 </el-form-item>
-                <el-form-item label="内容间距">
-                    <slider v-model="form.content_spacing"></slider>
-                </el-form-item>
-                <el-form-item label="文章间距">
-                    <slider v-model="form.article_spacing"></slider>
-                </el-form-item>
-                <template v-if="article_style == '3'">
+                <template v-if="theme !== '3'">
+                    <el-form-item label="内容间距">
+                        <slider v-model="form.content_spacing"></slider>
+                    </el-form-item>
+                    <el-form-item label="文章间距">
+                        <slider v-model="form.article_spacing"></slider>
+                    </el-form-item>
+                </template>
+                <template v-if="theme == '4'">
                     <el-form-item label="内容宽度">
                         <slider v-model="form.article_width" :max="1000"></slider>
                     </el-form-item>
@@ -82,7 +86,7 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, data } = toRefs(state);
-const article_style = computed(() => data.value.article_style);
+const theme = computed(() => data.value.theme);
 const emit = defineEmits(['update:value']);
 const font_weight = reactive([
     { name: '加粗', value: '500' },
