@@ -91,7 +91,7 @@ const icon_tabs_check = () => {
 .tabs {
     max-width: 39rem;
     .item {
-        padding: 0.5rem 0;
+        padding: 0 0 0.5rem 0;
         margin: 0 1rem;
         position: relative;
         &:first-of-type {
