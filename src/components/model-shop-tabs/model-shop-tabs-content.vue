@@ -96,7 +96,15 @@ const props = defineProps({
     tabStyle: {
         type: Object,
         default: () => ({}),
-    }
+    },
+    defaultConfig: {
+        type: Object,
+        default: () => ({
+            // 图片不同风格下的圆角
+            img_radius_0: 4,
+            img_radius_1: 0,
+        }),
+    },
 });
 const state = reactive({
     form: props.value,
@@ -223,7 +231,7 @@ const url_value_dialog_call_back = (item: any[]) => {
     });
 };
 
-const tabs_theme_change = (val: string | number | boolean | undefined):void => {
+const tabs_theme_change = (val: string | number | boolean | undefined): void => {
     styles.value.tabs_color_checked = tabs_style(styles.value.tabs_color_checked, val);
 };
 // 选择某些风格时， 切换到对应的按钮
@@ -231,6 +239,23 @@ const change_style = (val: any): void => {
     form.value.theme = val;
     if (['3', '4', '5'].includes(val) && ['0', '1'].includes(form.value.shop_type)) {
         form.value.shop_type = '2';
+    }
+    if (['0', '4'].includes(val)) {
+        if (styles.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (styles.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && styles.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && styles.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && styles.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+            styles.value.shop_img_radius.radius = props.defaultConfig.img_radius_0;
+            styles.value.shop_img_radius.radius_bottom_left = props.defaultConfig.img_radius_0;
+            styles.value.shop_img_radius.radius_bottom_right = props.defaultConfig.img_radius_0;
+            styles.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_0;
+            styles.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_0;
+        }
+    } else {
+        if (styles.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (styles.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && styles.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && styles.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && styles.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+            styles.value.shop_img_radius.radius = props.defaultConfig.img_radius_1;
+            styles.value.shop_img_radius.radius_bottom_left = props.defaultConfig.img_radius_1;
+            styles.value.shop_img_radius.radius_bottom_right = props.defaultConfig.img_radius_1;
+            styles.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_1;
+            styles.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_1;
+        }
     }
 };
 </script>
