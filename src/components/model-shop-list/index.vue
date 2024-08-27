@@ -53,7 +53,7 @@
                                 </div>
                                 <div v-if="form.is_shop_show">
                                     <template v-if="form.shop_type == 'text'">
-                                        <div class="plr-13 ptb-4 round cr-f" :style="trends_config('button', 'gradient') + `color: ${ new_style.shop_button_text_color };`">{{ form.shop_button_text }}</div>
+                                        <div class="plr-11 ptb-6 round cr-f" :style="trends_config('button', 'gradient') + `color: ${ new_style.shop_button_text_color };`">{{ form.shop_button_text }}</div>
                                     </template>
                                     <template v-else>
                                         <icon class="round plr-6 ptb-5" :name="!isEmpty(form.shop_button_icon_class) ? form.shop_button_icon_class : 'cart'" :color="new_style.shop_icon_color" :size="new_style.shop_icon_size + ''" :styles="button_gradient()"></icon>
@@ -80,7 +80,7 @@
                             </div>
                             <div v-if="form.is_shop_show">
                                 <template v-if="form.shop_type == 'text'">
-                                    <div class="plr-13 ptb-4 round cr-f" :style="trends_config('button', 'gradient') + `color: ${ new_style.shop_button_text_color };`">{{ form.shop_button_text }}</div>
+                                    <div class="plr-11 ptb-6 round cr-f" :style="trends_config('button', 'gradient') + `color: ${ new_style.shop_button_text_color };`">{{ form.shop_button_text }}</div>
                                 </template>
                                 <template v-else>
                                     <icon class="round plr-6 ptb-5" :name="!isEmpty(form.shop_button_icon_class) ? form.shop_button_icon_class : 'cart'" :color="new_style.shop_icon_color" :size="new_style.shop_icon_size + ''" :styles="button_gradient()"></icon>
