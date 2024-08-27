@@ -15,7 +15,7 @@
                 <div class="nav-list">
                     <drag :data="form.icon_setting" :space-col="20" @remove="icon_setting_remove" @on-sort="icon_setting_sort">
                         <template #default="{ row }">
-                            <upload v-model="row.src" v-model:icon-value="row.icon" is-icon :limit="1" :styles="2" :size="30"></upload>
+                            <upload v-model="row.src" v-model:icon-value="row.icon" is-icon type="icon" :limit="1" :styles="2" :size="30"></upload>
                             <url-value v-model="row.href"></url-value>
                         </template>
                     </drag>

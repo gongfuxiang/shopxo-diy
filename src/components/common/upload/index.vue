@@ -297,6 +297,10 @@ watch(
                 get_tree();
                 // 获取附件列表
                 get_attachment_list();
+
+                icon_value.value = '';
+                temp_icon_value.value = '';
+                icon_index.value = -1;
             }
         }
     }
@@ -591,7 +595,7 @@ const icon_value = defineModel('iconValue', { type: String, default: '' });
 const temp_icon_value = ref('');
 const search_icon = ref('');
 const icon_list = computed(() => searchIcons.glyphs.filter((item) => item.name.includes(search_icon.value)));
-const icon_index = ref(0);
+const icon_index = ref(-1);
 const handle_select_icon = (item: any, index: number) => {
     icon_index.value = index;
     temp_icon_value.value = item.font_class;
@@ -622,7 +626,7 @@ const confirm_event = () => {
     if (view_list_value.value.length > 0) {
         icon_value.value = '';
         temp_icon_value.value = '';
-        icon_index.value = 0;
+        icon_index.value = -1;
     } else {
         icon_value.value = JSON.parse(JSON.stringify(temp_icon_value.value));
     }
