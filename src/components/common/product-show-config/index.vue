@@ -17,7 +17,7 @@
         </el-form-item>
         <el-form-item label="按钮样式">
             <div class="flex-col w gap-10">
-                <el-radio-group v-model="form.shop_type">
+                <el-radio-group v-model="form.shop_type" @change="change_shop_type">
                     <el-radio v-for="item in base_list.shopping_button_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                 </el-radio-group>
                 <template v-if="form.shop_type == 'text'">
@@ -69,6 +69,10 @@ const base_list = {
         { name: '商品加购', value: '1' }
     ]
 };
+const emit = defineEmits(['change_shop_type']);
+const change_shop_type = () => {
+    emit('change_shop_type');
+}
 </script>
 
 <style lang="scss" scoped>
