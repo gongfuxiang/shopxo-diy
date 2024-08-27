@@ -165,7 +165,7 @@ const default_list = {
             name: '领劵',
             bg_color: '',
             br_color: '#EA9223',
-            color: '#EA9223 ',
+            color: '#EA9223',
             url: ''
         }
     ]
