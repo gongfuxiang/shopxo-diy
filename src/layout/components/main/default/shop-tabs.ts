@@ -85,7 +85,7 @@ const defaultProductList: DefaultProductList = {
         shop_button_size: '1',
     },
     style: {
-        tabs_checked: [{ color: '#FF9898', color_percentage: '' }, { color: '#FF2222', color_percentage: '' }],
+        tabs_checked: [{ color: '#FF2222', color_percentage: '' }, { color: '#FF9898', color_percentage: '' }],
         tabs_direction: '90deg',
         tabs_weight_checked: '500',
         tabs_size_checked: 14,
