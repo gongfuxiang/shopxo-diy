@@ -22,6 +22,8 @@ interface DefaultProductList {
         is_shop_show: boolean;
         is_price_solo: boolean;
         shop_type: string;
+        shop_button_text: string;
+        shop_button_icon_class: string;
         shop_button_effect: string;
         shop_button_size: string;
     };
@@ -56,6 +58,9 @@ interface DefaultProductList {
         shop_button_typeface:string;
         shop_button_size: number;
         shop_button_color: color_list[];
+        shop_button_text_color: string,
+        shop_icon_size: number;
+        shop_icon_color: string;
         common_style: object;
     };
 }
@@ -73,7 +78,9 @@ const defaultProductList: DefaultProductList = {
         is_show: ['title', 'plugins_view_icon', 'price', 'sales_count', 'original_price'],
         is_shop_show: true,
         is_price_solo: true,
-        shop_type: '0',
+        shop_type: 'text',
+        shop_button_text: '购买',
+        shop_button_icon_class: '',
         shop_button_effect: '0',
         shop_button_size: '1',
     },
@@ -135,6 +142,9 @@ const defaultProductList: DefaultProductList = {
                 color_percentage: ''
             }
         ],
+        shop_button_text_color: '#fff',
+        shop_icon_size: 10,
+        shop_icon_color: "#fff",
         common_style: { ...defaultCommon, padding: 10, padding_top: 10, padding_bottom: 10, padding_left: 10, padding_right: 10 },
     },
 };

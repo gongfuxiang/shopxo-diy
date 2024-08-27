@@ -15,31 +15,18 @@
         <el-form-item label="是否显示">
             <el-switch v-model="form.is_shop_show"></el-switch>
         </el-form-item>
-        <el-form-item label="按钮样式" class="align-c">
-            <div class="flex-row align-c jc-s gap-20 shopping_button_all">
-                <div v-for="item in base_list.shopping_button_list" :key="item.value" :class="['pa-10 re', { 'br-c br-primary radius-sm': shop_type(item) }]" @click="shopping_button_click(item)">
-                    <template v-if="item.value == '0'">
-                        <div :class="['pl-13 pr-13 round size-12 bg-primary cr-f shopping_button', {'disabled': ['3','4','5'].includes(form.theme) }]">{{ item.name }}</div>
-                    </template>
-                    <template v-else-if="item.value == '1'">
-                        <div :class="['pl-13 pr-13 round size-12 bg-primary cr-f shopping_button', {'disabled': ['3','4','5'].includes(form.theme) }]">{{ item.name }}</div>
-                    </template>
-                    <template v-else-if="item.value == '2'">
-                        <icon class="shopping_button round pl-6 pr-6 bg-primary " name="add" color="f" size="16"></icon>
-                    </template>
-                    <template v-else>
-                        <icon class="shopping_button round pl-6 pr-6 bg-primary" name="cart" color="f" size="16"></icon>
-                    </template>
-                    <div v-if="shop_type(item)" class="button-checked">
-                        <icon name="true" color="f" size="8"></icon>
-                    </div>
-                </div>
+        <el-form-item label="按钮样式">
+            <div class="flex-col w gap-10">
+                <el-radio-group v-model="form.shop_type">
+                    <el-radio v-for="item in base_list.shopping_button_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                </el-radio-group>
+                <template v-if="form.shop_type == 'text'">
+                    <el-input v-model="form.shop_button_text" placeholder="请输入按钮文字"></el-input>
+                </template>
+                <template v-else>
+                    <upload v-model:icon-value="form.shop_button_icon_class" is-icon type="icon" :limit="1" size="50"></upload>
+                </template>
             </div>
-        </el-form-item>
-        <el-form-item label="按钮大小" label-width="140">
-            <el-radio-group v-model="form.shop_button_size">
-                <el-radio v-for="item in base_list.shopping_button_size" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-            </el-radio-group>
         </el-form-item>
         <el-form-item label="按钮效果">
             <el-radio-group v-model="form.shop_button_effect">
@@ -75,19 +62,12 @@ const base_list = {
         { name: '原价单位', value: 'original_price_unit' },
     ],
     shopping_button_list: [
-        { name: '购买', value: '0' },
-        { name: '立即购买', value: '1' },
-        { name: '添加', value: '2' },
-        { name: '购物车', value: '3' },
+        { name: '文字', value: 'text' },
+        { name: 'icon', value: 'icon' },
     ],
     shopping_cart_list: [
         { name: '进入商品详情页', value: '0' },
         { name: '商品加购', value: '1' }
-    ],
-    shopping_button_size: [
-        { name: '大', value: '0' },
-        { name: '中', value: '1' },
-        { name: '小', value: '2' },
     ]
 };
 
