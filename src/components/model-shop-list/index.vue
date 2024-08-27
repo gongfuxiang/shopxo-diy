@@ -354,6 +354,8 @@ const icon_style = (item: { bg_color: string; color: string; br_color: string; }
     let style = `background: ${item.bg_color};color: ${item.color};`;
     if (!isEmpty(item.br_color)) {
         style += `border: 1px solid ${item.br_color};`
+    } else {
+        style += `border: 1px solid ${item.bg_color};`
     }
     return style;
 }
