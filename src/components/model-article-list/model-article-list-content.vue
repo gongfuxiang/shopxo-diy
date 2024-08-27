@@ -70,8 +70,26 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    styles: {
+        type: Object,
+        default: () => ({}),
+    },
+    defaultConfig: {
+        type: Object,
+        default: () => ({
+            // 图片不同风格下的圆角
+            img_radius_0: 4,
+            img_radius_1: 0,
+        }),
+    },
 });
-const form = reactive(props.value);
+// 默认值
+const state = reactive({
+    form: props.value,
+    data: props.styles,
+});
+// 如果需要解构，确保使用toRefs
+const { form, data } = toRefs(state);
 const base_list = reactive({
     theme_list: [
         { name: '单列展示', value: '0' },
@@ -121,17 +139,34 @@ const init = () => {
 };
 const theme_change = (val: any) => {
     if (val == '3' || val == '4') {
-        form.field_show = ['1'];
+        form.value.field_show = ['1'];
     } else {
-        form.field_show = ['0', '1'];
+        form.value.field_show = ['0', '1'];
+    }
+    if (val == '0') {
+        if (data.value.img_radius.radius == props.defaultConfig.img_radius_0 || (data.value.img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && data.value.img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && data.value.img_radius.radius_top_left == props.defaultConfig.img_radius_1 && data.value.img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+            data.value.img_radius.radius = props.defaultConfig.img_radius_0;
+            data.value.img_radius.radius_bottom_left = props.defaultConfig.img_radius_0;
+            data.value.img_radius.radius_bottom_right = props.defaultConfig.img_radius_0;
+            data.value.img_radius.radius_top_left = props.defaultConfig.img_radius_0;
+            data.value.img_radius.radius_top_right = props.defaultConfig.img_radius_0;
+        }
+    } else {
+        if (data.value.img_radius.radius == props.defaultConfig.img_radius_0 || (data.value.img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && data.value.img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && data.value.img_radius.radius_top_left == props.defaultConfig.img_radius_1 && data.value.img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+            data.value.img_radius.radius = props.defaultConfig.img_radius_1;
+            data.value.img_radius.radius_bottom_left = props.defaultConfig.img_radius_1;
+            data.value.img_radius.radius_bottom_right = props.defaultConfig.img_radius_1;
+            data.value.img_radius.radius_top_left = props.defaultConfig.img_radius_1;
+            data.value.img_radius.radius_top_right = props.defaultConfig.img_radius_1;
+        }
     }
 };
 
 const data_list_remove = (index: number) => {
-    form.data_list.splice(index, 1);
+    form.value.data_list.splice(index, 1);
 };
 const data_list_sort = (item: any) => {
-    form.data_list = item;
+    form.value.data_list = item;
 };
 const add = () => {
     url_value_dialog_visible.value = true;
@@ -140,7 +175,7 @@ const add = () => {
 const url_value_dialog_visible = ref(false);
 const url_value_dialog_call_back = (item: any[]) => {
     item.forEach((child: any) => {
-        form.data_list.push({
+        form.value.data_list.push({
             id: get_math(),
             new_title: '',
             new_cover: [],

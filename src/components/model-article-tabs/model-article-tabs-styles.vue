@@ -67,6 +67,14 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    defaultConfig: {
+        type: Object,
+        default: () => ({
+            // 图片不同风格下的圆角
+            img_radius_0: 4,
+            img_radius_1: 0,
+        }),
+    },
 });
 // 默认值
 const state = reactive({
@@ -76,6 +84,23 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form, data } = toRefs(state);
 const theme = computed(() => data.value.theme);
+if (theme.value == '0') {
+    if (form.value.img_radius.radius == props.defaultConfig.img_radius_0 || (form.value.img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && form.value.img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && form.value.img_radius.radius_top_left == props.defaultConfig.img_radius_1 && form.value.img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+        form.value.img_radius.radius = props.defaultConfig.img_radius_0;
+        form.value.img_radius.radius_bottom_left = props.defaultConfig.img_radius_0;
+        form.value.img_radius.radius_bottom_right = props.defaultConfig.img_radius_0;
+        form.value.img_radius.radius_top_left = props.defaultConfig.img_radius_0;
+        form.value.img_radius.radius_top_right = props.defaultConfig.img_radius_0;
+    }
+} else {
+    if (form.value.img_radius.radius == props.defaultConfig.img_radius_0 || (form.value.img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && form.value.img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && form.value.img_radius.radius_top_left == props.defaultConfig.img_radius_1 && form.value.img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+        form.value.img_radius.radius = props.defaultConfig.img_radius_1;
+        form.value.img_radius.radius_bottom_left = props.defaultConfig.img_radius_1;
+        form.value.img_radius.radius_bottom_right = props.defaultConfig.img_radius_1;
+        form.value.img_radius.radius_top_left = props.defaultConfig.img_radius_1;
+        form.value.img_radius.radius_top_right = props.defaultConfig.img_radius_1;
+    }
+}
 const font_weight = reactive([
     { name: '加粗', value: '500' },
     { name: '正常', value: '400' },

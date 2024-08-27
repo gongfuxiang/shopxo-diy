@@ -27,14 +27,14 @@
                     </el-form-item>
                 </template>
                 <el-form-item label="内容圆角">
-                    <radius :value="form.shop_radius" @update:value="shop_radius_change"></radius>
+                    <radius :value="form.shop_radius"></radius>
                 </el-form-item>
                 <template v-if="theme != '6'">
                     <el-form-item label="图片圆角">
-                        <radius :value="form.shop_img_radius" @update:value="img_radius_change"></radius>
+                        <radius :value="form.shop_img_radius"></radius>
                     </el-form-item>
                     <el-form-item label="内间距">
-                        <padding :value="form.shop_padding" @update:value="shop_padding_change"></padding>
+                        <padding :value="form.shop_padding"></padding>
                     </el-form-item>
                     <el-form-item v-if="['0', '4'].includes(theme)" label="内容间距">
                         <slider v-model="form.content_spacing" :max="100"></slider>
@@ -88,52 +88,46 @@ const props = defineProps({
     content: {
         type: Object,
         default: () => ({}),
-    }
+    },
+    defaultConfig: {
+        type: Object,
+        default: () => ({
+            // 图片不同风格下的圆角
+            img_radius_0: 4,
+            img_radius_1: 0,
+        }),
+    },
 });
 
 // 默认值
 const state = reactive({
     form: props.value,
-    data: props.content
+    data: props.content,
 });
 // 如果需要解构，确保使用toRefs
 const { form, data } = toRefs(state);
 
 const theme = computed(() => data.value.theme);
-
+if (['0', '4'].includes(theme.value)) {
+    if (form.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (form.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+        form.value.shop_img_radius.radius = props.defaultConfig.img_radius_0;
+        form.value.shop_img_radius.radius_bottom_left = props.defaultConfig.img_radius_0;
+        form.value.shop_img_radius.radius_bottom_right = props.defaultConfig.img_radius_0;
+        form.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_0;
+        form.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_0;
+    }
+} else {
+    if (form.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (form.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+        form.value.shop_img_radius.radius = props.defaultConfig.img_radius_1;
+        form.value.shop_img_radius.radius_bottom_left = props.defaultConfig.img_radius_1;
+        form.value.shop_img_radius.radius_bottom_right = props.defaultConfig.img_radius_1;
+        form.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_1;
+        form.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_1;
+    }
+}
 const common_style_update = (value: any) => {
     form.value.common_style = value;
 };
-// 内容圆角
-const shop_radius_change = (radius: any) => {
-    form.value.shop_radius = Object.assign(form.value.shop_radius, pick(radius, [
-        'radius',
-        'radius_top_left',
-        'radius_top_right',
-        'radius_bottom_left',
-        'radius_bottom_right',
-    ]));
-}
-
-const img_radius_change = (radius: any) => {
-    form.value.shop_img_radius = Object.assign(form.value.shop_img_radius, pick(radius, [
-        'radius',
-        'radius_top_left',
-        'radius_top_right',
-        'radius_bottom_left',
-        'radius_bottom_right',
-    ]));
-}
-
-const shop_padding_change = (padding: any) => {
-    form.value.shop_padding = Object.assign(form.value.shop_padding, pick(padding, [
-        'padding', 
-        'padding_top', 
-        'padding_bottom', 
-        'padding_left', 
-        'padding_right'
-    ]));
-}
 
 const tabs_checked_event = (arry: string[], type: number) => {
     form.value.tabs_checked = arry;

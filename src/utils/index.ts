@@ -315,11 +315,19 @@ export const tabs_style = (color: string, style: string | number | boolean | und
         return color;
     }
 };
-// 在线地址
+/**
+ * 获取在线资源URL的异步函数
+ * 该函数根据当前环境变量的配置选择不同的方式来获取资源URL
+ * 如果环境变量VITE_APP_BASE_API被设置为'/dev-api'，则从本地开发环境中导入临时数据
+ * 否则，从cookie中获取资源主机地址
+ * 这种设计允许开发者在不同的环境中灵活切换资源URL的来源，以适应不同的开发和生产需求
+ *
+ * @returns {Promise<string>} 返回一个Promise，解析为包含资源URL的字符串
+ */
 export const online_url = async () => {
     if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
-        let temp_value = await import('../../temp.d');
-        return temp_value.default.temp_attachment_host + '/static/app/tabbar/';
+        let temp_data = await import(import.meta.env.VITE_APP_BASE_API == '/dev-api' ? '../../temp.d' : '../../temp_pro.d');
+        return temp_data.default.temp_attachment_host + '/static/app/tabbar/';
     } else {
         return (await get_cookie('temp_attachment_host')) + '/static/app/tabbar/';
     }
