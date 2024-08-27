@@ -4,27 +4,18 @@
             <card-container class="mb-8">
                 <div class="mb-12">商品样式</div>
                 <el-form-item label="商品名称">
-                    <text-size-type v-model:typeface="form.shop_title_typeface" v-model:size="form.shop_title_size"></text-size-type>
-                </el-form-item>
-                <el-form-item label="名称色值">
-                    <color-picker v-model="form.shop_title_color" default-color="#000000"></color-picker>
+                    <color-text-size-group v-model:color="form.shop_title_color" v-model:typeface="form.shop_title_typeface" v-model:size="form.shop_title_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
                 <el-form-item label="商品价格">
-                    <text-size-type v-model:typeface="form.shop_price_typeface" v-model:size="form.shop_price_size"></text-size-type>
-                </el-form-item>
-                <el-form-item label="价格色值">
-                    <color-picker v-model="form.shop_price_color" default-color="#000000"></color-picker>
+                    <color-text-size-group v-model:color="form.shop_price_color" v-model:typeface="form.shop_price_typeface" v-model:size="form.shop_price_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
                 <template v-if="theme != '6'">
                     <el-form-item label="已售数量">
-                        <text-size-type v-model:typeface="form.shop_sold_number_typeface" v-model:size="form.shop_sold_number_size"></text-size-type>
-                    </el-form-item>
-                    <el-form-item label="数量设置">
-                        <color-picker v-model="form.shop_sold_number_color" default-color="#000000"></color-picker>
+                        <color-text-size-group v-model:color="form.shop_sold_number_color" v-model:typeface="form.shop_sold_number_typeface" v-model:size="form.shop_sold_number_size" default-color="#000000"></color-text-size-group>
                     </el-form-item>
                 </template>
                 <!-- <el-form-item label="评分">
-                    <text-size-type v-model:typeface="form.shop_score_typeface" v-model:size="form.shop_score_size"></text-size-type>
+                    <text-size-group v-model:typeface="form.shop_score_typeface" v-model:size="form.shop_score_size"></text-size-group>
                 </el-form-item>
                 <el-form-item label="评分颜色">
                     <color-picker v-model="form.shop_score_color" default-color="#000000"></color-picker>
@@ -58,10 +49,10 @@
             <card-container class="mb-8">
                 <div class="mb-12">购物车按钮</div>
                 <el-form-item label="按钮颜色" class="topic">
-                    <flex-gradients-create :color-list="form.shop_button_color" default-color="#2a94ff"></flex-gradients-create>
+                    <flex-gradients-create :color-list="form.shop_button_color" default-color="#FF3D53"></flex-gradients-create>
                 </el-form-item>
                 <el-form-item label="立即购买">
-                    <text-size-type v-model:typeface="form.shop_button_typeface" v-model:size="form.shop_button_size"></text-size-type>
+                    <color-text-size-group v-model:typeface="form.shop_button_typeface" v-model:size="form.shop_button_size" :type-list="['typeface', 'size']"></color-text-size-group>
                 </el-form-item>
             </card-container>
         </el-form>
