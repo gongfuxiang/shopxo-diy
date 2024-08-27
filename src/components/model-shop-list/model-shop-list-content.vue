@@ -154,7 +154,7 @@ const change_style = (val: any): void => {
     form.value.theme = val;
     if (['3', '4', '5'].includes(val) && form.value.shop_type == 'text') {
         form.value.shop_type = 'icon';
-    } else {
+    } else if (['0', '1', '2'].includes(val) && form.value.shop_type == 'icon') {
         form.value.shop_type = 'text';
     }
 };

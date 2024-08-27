@@ -229,9 +229,10 @@ const tabs_theme_change = (val: string | number | boolean | undefined):void => {
 // 选择某些风格时， 切换到对应的按钮
 const change_style = (val: any): void => {
     form.value.theme = val;
+    form.value.theme = val;
     if (['3', '4', '5'].includes(val) && form.value.shop_type == 'text') {
         form.value.shop_type = 'icon';
-    } else {
+    } else if (['0', '1', '2'].includes(val) && form.value.shop_type == 'icon') {
         form.value.shop_type = 'text';
     }
 };

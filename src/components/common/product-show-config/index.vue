@@ -69,20 +69,6 @@ const base_list = {
         { name: '商品加购', value: '1' }
     ]
 };
-
-const shop_type = computed(() => {
-    return (item: { value: string; }) => {
-        return item.value == form.value.shop_type;
-    };
-});
-
-const shopping_button_click = (item: { value: string; }) => {
-    if (['3','4','5'].includes(form.value.theme) && ['0', '1'].includes(item.value)) {
-        return;
-    } else {
-        form.value.shop_type = item.value;
-    }
-};
 </script>
 
 <style lang="scss" scoped>
