@@ -71,7 +71,7 @@ const defaultArticleList: DefaultArticleList = {
             radius_bottom_left: 8,
             radius_bottom_right: 8,
         },
-        // 图片圆角
+        // 图片圆角 ---- 除了风格一圆角是4，其他都是0
         img_radius: {
             radius: 4,
             radius_top_left: 4,

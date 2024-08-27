@@ -96,7 +96,15 @@ const props = defineProps({
     tabStyle: {
         type: Object,
         default: () => ({}),
-    }
+    },
+    defaultConfig: {
+        type: Object,
+        default: () => ({
+            // 图片不同风格下的圆角
+            img_radius_0: 4,
+            img_radius_1: 0,
+        }),
+    },
 });
 const form = reactive(props.value);
 const base_list = reactive({
@@ -158,6 +166,23 @@ const article_theme_change = (val: any) => {
     } else {
         form.field_show = ['0', '1'];
     }
+    if (val == '0') {
+        if (styles.img_radius.radius == props.defaultConfig.img_radius_0 || (styles.img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && styles.img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && styles.img_radius.radius_top_left == props.defaultConfig.img_radius_1 && styles.img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+            styles.img_radius.radius = props.defaultConfig.img_radius_0;
+            styles.img_radius.radius_bottom_left = props.defaultConfig.img_radius_0;
+            styles.img_radius.radius_bottom_right = props.defaultConfig.img_radius_0;
+            styles.img_radius.radius_top_left = props.defaultConfig.img_radius_0;
+            styles.img_radius.radius_top_right = props.defaultConfig.img_radius_0;
+        }
+    } else {
+        if (styles.img_radius.radius == props.defaultConfig.img_radius_0 || (styles.img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && styles.img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && styles.img_radius.radius_top_left == props.defaultConfig.img_radius_1 && styles.img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+            styles.img_radius.radius = props.defaultConfig.img_radius_1;
+            styles.img_radius.radius_bottom_left = props.defaultConfig.img_radius_1;
+            styles.img_radius.radius_bottom_right = props.defaultConfig.img_radius_1;
+            styles.img_radius.radius_top_left = props.defaultConfig.img_radius_1;
+            styles.img_radius.radius_top_right = props.defaultConfig.img_radius_1;
+        }
+    }
 };
 
 // 开启关闭链接
@@ -216,7 +241,7 @@ const url_value_dialog_call_back = (item: any[]) => {
 };
 
 const styles = reactive(props.tabStyle);
-const tabs_theme_change = (val: string | number | boolean | undefined):void => {
+const tabs_theme_change = (val: string | number | boolean | undefined): void => {
     styles.tabs_color_checked = tabs_style(styles.tabs_color_checked, val);
 };
 </script>
