@@ -63,7 +63,7 @@ const base_list = {
     ],
     shopping_button_list: [
         { name: '文字', value: 'text' },
-        { name: 'icon', value: 'icon' },
+        { name: '图标', value: 'icon' },
     ],
     shopping_cart_list: [
         { name: '进入商品详情页', value: '0' },

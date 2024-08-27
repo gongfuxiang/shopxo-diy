@@ -57,7 +57,7 @@
                     </el-form-item>
                 </template>
                 <template v-else>
-                    <el-form-item label="icon设置">
+                    <el-form-item label="图标设置">
                         <color-text-size-group v-model:color="form.shop_icon_color" v-model:size="form.shop_icon_size" default-color="#fff" :type-list="['color', 'size']"></color-text-size-group>
                     </el-form-item>
                 </template>
