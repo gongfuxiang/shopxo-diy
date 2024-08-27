@@ -38,13 +38,13 @@
                 <el-form-item label="主标题">
                     <div class="flex-col gap-10 w">
                         <color-picker v-model="form.heading_color" default-color="#000000"></color-picker>
-                        <text-size-type v-model:typeface="form.heading_typeface" v-model:size="form.heading_size"></text-size-type>
+                        <text-size-group v-model:typeface="form.heading_typeface" v-model:size="form.heading_size"></text-size-group>
                     </div>
                 </el-form-item>
                 <el-form-item label="副标题">
                     <div class="flex-col gap-10 w">
                         <color-picker v-model="form.subtitle_color" default-color="#000000"></color-picker>
-                        <text-size-type v-model:typeface="form.subtitle_typeface" v-model:size="form.subtitle_size"></text-size-type>
+                        <text-size-group v-model:typeface="form.subtitle_typeface" v-model:size="form.subtitle_size"></text-size-group>
                     </div>
                 </el-form-item>
             </template>

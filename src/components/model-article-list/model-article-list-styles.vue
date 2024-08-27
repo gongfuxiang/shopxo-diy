@@ -4,37 +4,13 @@
             <card-container class="mb-8">
                 <div class="mb-12">列表样式</div>
                 <el-form-item label="文章名称">
-                    <el-radio-group v-model="form.name_weight">
-                        <el-radio v-for="item in font_weight" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                    </el-radio-group>
-                </el-form-item>
-                <el-form-item label="字号">
-                    <slider v-model="form.name_size"></slider>
-                </el-form-item>
-                <el-form-item label="名称色值">
-                    <color-picker v-model="form.name_color"></color-picker>
+                    <color-text-size-group v-model:color="form.name_color" v-model:typeface="form.name_weight" v-model:size="form.name_size"></color-text-size-group>
                 </el-form-item>
                 <el-form-item label="日期时间">
-                    <el-radio-group v-model="form.time_weight">
-                        <el-radio v-for="item in font_weight" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                    </el-radio-group>
-                </el-form-item>
-                <el-form-item label="字号">
-                    <slider v-model="form.time_size"></slider>
-                </el-form-item>
-                <el-form-item label="日期颜色">
-                    <color-picker v-model="form.time_color"></color-picker>
+                    <color-text-size-group v-model:color="form.time_color" v-model:typeface="form.time_weight" v-model:size="form.time_size"></color-text-size-group>
                 </el-form-item>
                 <el-form-item label="浏览量">
-                    <el-radio-group v-model="form.page_view_weight">
-                        <el-radio v-for="item in font_weight" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                    </el-radio-group>
-                </el-form-item>
-                <el-form-item label="字号">
-                    <slider v-model="form.page_view_size"></slider>
-                </el-form-item>
-                <el-form-item label="浏览色值">
-                    <color-picker v-model="form.page_view_color"></color-picker>
+                    <color-text-size-group v-model:color="form.page_view_color" v-model:typeface="form.page_view_weight" v-model:size="form.page_view_size"></color-text-size-group>
                 </el-form-item>
                 <el-form-item label="内容圆角">
                     <radius :value="form.content_radius"></radius>

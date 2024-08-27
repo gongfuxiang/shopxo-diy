@@ -59,8 +59,6 @@ const data_list = ref<ArticleList[]>([]);
 const article_theme = ref('0');
 // 是否显示
 const field_show = ref(['0', '1']);
-// 是否显示封面图片
-const is_cover = ref(true);
 // 文章
 const article_name = ref('');
 // 日期
@@ -108,7 +106,6 @@ watch(
 
         article_theme.value = new_content.theme;
         field_show.value = new_content.field_show;
-        is_cover.value = new_content.is_cover;
         // 样式
         article_name.value = 'font-size:' + new_style.name_size + 'px;' + 'font-weight:' + new_style.name_weight + ';' + 'color:' + new_style.name_color + ';';
         article_date.value = 'font-size:' + new_style.time_size + 'px;' + 'font-weight:' + new_style.time_weight + ';' + 'color:' + new_style.time_color + ';';
@@ -160,13 +157,14 @@ const article_theme_class = computed(() => {
     return `style${article_theme.value}`;
 });
 const get_auto_data_list = async (new_content: any) => {
-    const { category, number, sort, sort_rules } = new_content;
+    const { category, number, sort, sort_rules, is_cover } = new_content;
     const new_data = {
         article_keywords: '',
         article_category_ids: category.join(','),
         article_order_by_type: sort,
         article_order_by_rule: sort_rules,
         article_number: number,
+        article_is_cover: is_cover ? 1 : 0,
     };
     const res = await ArticleAPI.getAutoList(new_data);
     if (!isEmpty(res.data)) {

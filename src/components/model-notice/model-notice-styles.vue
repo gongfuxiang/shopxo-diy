@@ -7,7 +7,7 @@
                     <el-form-item label="标题文字">
                         <div class="flex-col gap-10 w">
                             <color-picker v-model="form.topic_color" default-color="#000000"></color-picker>
-                            <text-size-type v-model:typeface="form.topic_typeface" v-model:size="form.topic_size"></text-size-type>
+                            <text-size-group v-model:typeface="form.topic_typeface" v-model:size="form.topic_size"></text-size-group>
                         </div>
                     </el-form-item>
                     <el-form-item label="标题背景" class="topic">
@@ -28,7 +28,7 @@
                 <el-form-item label="内容标题">
                     <div class="flex-col gap-10 w">
                         <color-picker v-model="form.news_color" default-color="#000000"></color-picker>
-                        <text-size-type v-model:typeface="form.news_typeface" v-model:size="form.news_size"></text-size-type>
+                        <text-size-group v-model:typeface="form.news_typeface" v-model:size="form.news_size"></text-size-group>
                     </div>
                 </el-form-item>
             </card-container>

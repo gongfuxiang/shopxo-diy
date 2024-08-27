@@ -2,7 +2,7 @@
     <el-radio-group v-model="typeface" class="ml-4">
         <el-radio v-for="item in font_weight" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
     </el-radio-group>
-    <el-form-item label="字号" label-width="40" class="mb-0 w">
+    <el-form-item label="字号" label-width="40" class="mb-0 w word-size">
         <slider v-model="size" :max="100"></slider>
     </el-form-item>
 </template>
@@ -24,4 +24,10 @@ const font_weight = [
 </script>
 
 <style lang="scss" scoped>
+.word-size {
+    :deep(.el-form-item__label) {
+        color: #999;
+        font-size: 1.2rem;
+    }
+}
 </style>
