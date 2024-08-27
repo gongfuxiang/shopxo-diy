@@ -13,7 +13,7 @@
             </div>
         </template>
         <div class="upload-content pa-20">
-            <div v-if="upload_type !== 'icon'" class="flex-row">
+            <div v-if="upload_type !== 'icon'" class="flex-row gap-40">
                 <div class="left-content">
                     <div class="flex-row align-c gap-10 mb-10">
                         <el-input v-model="search_filter" placeholder="请输入分类名称">
@@ -297,7 +297,7 @@ watch(
                 get_tree();
                 // 获取附件列表
                 get_attachment_list();
-                
+
                 icon_index.value = -1;
             }
         }
