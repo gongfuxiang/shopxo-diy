@@ -2,9 +2,12 @@
     <div :style="style_container">
         <template v-if="form.notice_style == 'inherit'">
             <div class="flex-row align-c news-box gap-y-8">
-                <template v-if="form.title_type == 'img'">
+                <template v-if="form.title_type == 'img-icon'">
                     <div v-if="!isEmpty(form.img_src)">
                         <image-empty v-model="form.img_src[0]" :style="img_style"></image-empty>
+                    </div>
+                    <div v-else>
+                        <icon :name="form.icon_class" :size="new_style.icon_size + ''" :color="new_style.icon_color"></icon>
                     </div>
                 </template>
                 <template v-else>
@@ -19,8 +22,13 @@
         <template v-else>
             <div class="news-card flex-col gap-10">
                 <div class="flex-row w jc-sb">
-                    <template v-if="form.title_type == 'img'">
-                        <image-empty v-model="form.img_src[0]" :style="img_style" error-img-style="width:1.6rem;height:1.6rem;"></image-empty>
+                    <template v-if="form.title_type == 'img-icon'">
+                        <template v-if="!isEmpty(form.icon_class)">
+                            <icon :name="form.icon_class" :size="new_style.icon_size + ''" :color="new_style.icon_color"></icon>
+                        </template>
+                        <template v-else>
+                            <image-empty v-model="form.img_src[0]" :style="img_style" error-img-style="width:1.6rem;height:1.6rem;"></image-empty>
+                        </template>
                     </template>
                     <template v-else>
                         <div :style="topic_style" class="pl-6 pr-6 radius-sm">{{ form.title || '公告' }}</div>

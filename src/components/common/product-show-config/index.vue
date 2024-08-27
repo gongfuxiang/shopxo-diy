@@ -36,12 +36,12 @@
                 </div>
             </div>
         </el-form-item>
-        <el-form-item label="是否显示" label-width="140">
+        <el-form-item label="按钮大小" label-width="140">
             <el-radio-group v-model="form.shop_button_size">
                 <el-radio v-for="item in base_list.shopping_button_size" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
             </el-radio-group>
         </el-form-item>
-        <el-form-item label="是否显示">
+        <el-form-item label="按钮效果">
             <el-radio-group v-model="form.shop_button_effect">
                 <el-radio v-for="item in base_list.shopping_cart_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
             </el-radio-group>

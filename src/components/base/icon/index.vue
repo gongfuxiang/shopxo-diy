@@ -1,5 +1,5 @@
 <template>
-    <i class="iconfont" :class="className" :style="'font-size:' + size + 'px;' + (props.color.indexOf('#') !== -1 ? 'color:' + props.color : '') + styles" @click="onClick">
+    <i class="iconfont" :class="className" :style="'font-size:' + size + 'px;' + (props.color.indexOf('#') !== -1 || props.color.indexOf('rgba') !== -1 ? 'color:' + props.color : '') + styles" @click="onClick">
         <slot></slot>
     </i>
 </template>

@@ -4,13 +4,13 @@
             <div class="search w re">
                 <div class="box h oh flex align-c gap-10" :style="box_style">
                     <template v-if="form.is_icon_show">
-                        <template v-if="form.icon_type == 'icon'">
-                            <el-icon :class="`iconfont ${ !isEmpty(form.icon_class) ? 'icon-' + form.icon_class : 'search' } size-14`" :style="`color:${new_style.icon_color};`" />
-                        </template>
-                        <template v-else>
+                        <template v-if="form.icon_img_src.length > 0">
                             <div class="img-box">
                                 <image-empty v-model="form.icon_img_src[0]" class="img" error-img-style="width: 4rem;height: 2.5rem;" />
                             </div>
+                        </template>
+                        <template v-else>
+                            <el-icon :class="`iconfont ${ !isEmpty(form.icon_class) ? 'icon-' + form.icon_class : 'icon-search' } size-14`" :style="`color:${new_style.icon_color};`" />
                         </template>
                     </template>
                     <span v-if="form.is_tips_show" class="size-14" :style="`color: ${ new_style.tips_color }`">{{ form.tips }}</span>
@@ -19,10 +19,10 @@
                     <template v-if="form.search_type === 'text'">
                         <div class="pl-16 pr-16 ptb-3 size-12">{{ form.search_tips }}</div>
                     </template>
-                    <template v-if="form.search_type === 'img'">
+                    <template v-else-if="form.search_botton_src.length > 0">
                         <image-empty v-model="form.search_botton_src[0]" class="img" :style="search_button_radius" error-img-style="width: 4rem;height: 2.8rem;" />
                     </template>
-                    <template v-if="form.search_type === 'icon'">
+                    <template v-else>
                         <div class="pl-16 pr-16 ptb-3 size-12">
                             <el-icon :class="`iconfont ${ 'icon-' + form.search_botton_icon } size-14`" />
                         </div>
