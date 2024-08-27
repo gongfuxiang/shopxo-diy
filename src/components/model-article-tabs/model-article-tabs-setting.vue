@@ -1,10 +1,10 @@
 <template>
     <div class="setting-content">
         <template v-if="type == '1'">
-            <model-article-tabs-content :value="value.content"></model-article-tabs-content>
+            <model-article-tabs-content :value="value.content" :tab-style="value.style" :default-config="data_config"></model-article-tabs-content>
         </template>
         <template v-else-if="type == '2'">
-            <model-article-tabs-styles :value="value.style" :content="value.content"></model-article-tabs-styles>
+            <model-article-tabs-styles :value="value.style" :content="value.content" :default-config="data_config"></model-article-tabs-styles>
         </template>
     </div>
 </template>
@@ -18,5 +18,10 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+});
+const data_config = reactive({
+    // 图片不同风格下的圆角
+    img_radius_0: 4,
+    img_radius_1: 0,
 });
 </script>

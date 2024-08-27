@@ -14,7 +14,12 @@
                             <div class="title" :class="article_theme == '3' ? 'text-line-1 flex-1 flex-width' : 'text-line-2'" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
                             <div class="flex-row jc-sb gap-8" :class="article_theme == '3' ? 'ml-10' : 'align-e mt-10'">
                                 <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
-                                <icon v-show="field_show.includes('1')" name="eye" :style="article_page_view">{{ item.data.access_count ? item.data.access_count : '16' }}</icon>
+                                <div class="flex-row align-c gap-3" :style="article_page_view">
+                                    <icon v-show="field_show.includes('1')" name="eye"></icon>
+                                    <div>
+                                        {{ item.data.access_count ? item.data.access_count : '16' }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -59,8 +64,6 @@ const data_list = ref<ArticleList[]>([]);
 const article_theme = ref('0');
 // 是否显示
 const field_show = ref(['0', '1']);
-// 是否显示封面图片
-const is_cover = ref(true);
 // 文章
 const article_name = ref('');
 // 日期
@@ -85,13 +88,12 @@ const article_style = ref({});
 const default_data_list: ArticleList = {
     id: 0,
     data: {},
-    new_title: '测试标题',
+    new_title: '测试文章标题',
     new_cover: [],
 };
 watch(
     props.value,
     (newVal, oldValue) => {
-        console.log(newVal);
         const new_content = newVal?.content;
         const new_style = newVal?.style;
         // 内容
@@ -108,7 +110,6 @@ watch(
 
         article_theme.value = new_content.theme;
         field_show.value = new_content.field_show;
-        is_cover.value = new_content.is_cover;
         // 样式
         article_name.value = 'font-size:' + new_style.name_size + 'px;' + 'font-weight:' + new_style.name_weight + ';' + 'color:' + new_style.name_color + ';';
         article_date.value = 'font-size:' + new_style.time_size + 'px;' + 'font-weight:' + new_style.time_weight + ';' + 'color:' + new_style.time_color + ';';
@@ -129,6 +130,8 @@ watch(
         } else if (article_theme.value == '1') {
             article_spacing_children.value = `width: calc(50% - ${new_style.article_spacing / 2}px);`;
             article_style.value += article_spacing_children.value + content_radius.value;
+        } else if (article_theme.value == '2') {
+            article_style.value += content_radius.value;
         } else if (article_theme.value == '3') {
             style.value = `padding: 0 ${new_style.content_spacing}px;background:#fff;` + content_radius.value;
         } else if (article_theme.value == '4') {
@@ -158,13 +161,14 @@ const article_theme_class = computed(() => {
     return `style${article_theme.value}`;
 });
 const get_auto_data_list = async (new_content: any) => {
-    const { category, number, sort, sort_rules } = new_content;
+    const { category, number, sort, sort_rules, is_cover } = new_content;
     const new_data = {
         article_keywords: '',
         article_category_ids: category.join(','),
         article_order_by_type: sort,
         article_order_by_rule: sort_rules,
         article_number: number,
+        article_is_cover: is_cover ? 1 : 0,
     };
     const res = await ArticleAPI.getAutoList(new_data);
     if (!isEmpty(res.data)) {

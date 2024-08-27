@@ -22,7 +22,7 @@
                     <div class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
                         <div class="flex-col gap-10 top-title">
                             <div v-if="is_show('title')" :class="text_line" :style="trends_config('title')">{{ item.title }}</div>
-                            <div v-if="show_content && is_show('plugins_view_icon') && !isEmpty(item.plugins_view_icon_data)" class="flex-row gap-5">
+                            <div v-if="show_content && is_show('plugins_view_icon') && !isEmpty(item.plugins_view_icon_data)" class="flex-row gap-5 align-c">
                                 <div v-for="(icon_data, icon_index) in item.plugins_view_icon_data" :key="icon_index" class="radius-sm size-9 pl-3 pr-3" :style="icon_style(icon_data)">{{ icon_data.name }}</div>
                             </div>
                         </div>
@@ -52,17 +52,11 @@
                                     </div>
                                 </div>
                                 <div v-if="form.is_shop_show">
-                                    <template v-if="form.shop_type == '0'">
-                                        <div class="pl-13 pr-13 round cr-f shopping_button" :style="trends_config('button', 'gradient')">购买</div>
-                                    </template>
-                                    <template v-else-if="form.shop_type == '1'">
-                                        <div class="pl-11 pr-11 round cr-f shopping_button" :style="trends_config('button', 'gradient')">立即购买</div>
-                                    </template>
-                                    <template v-else-if="form.shop_type == '2'">
-                                        <icon :class="['shopping_button round', { 'pl-6 pr-6': shop_icon_size != '8', 'pl-5 pr-5': shop_icon_size == '8' }]" name="add" color="f" :size="shop_icon_size" :styles="button_gradient()"></icon>
+                                    <template v-if="form.shop_type == 'text'">
+                                        <div class="plr-11 ptb-3 round cr-f" :style="trends_config('button', 'gradient') + `color: ${ new_style.shop_button_text_color };`">{{ form.shop_button_text }}</div>
                                     </template>
                                     <template v-else>
-                                        <icon :class="['shopping_button round', { 'pl-6 pr-6': shop_icon_size != '8', 'pl-5 pr-5': shop_icon_size == '8' }]" name="cart" color="f" :size="shop_icon_size" :styles="button_gradient()"></icon>
+                                        <icon class="round plr-6 ptb-5" :name="!isEmpty(form.shop_button_icon_class) ? form.shop_button_icon_class : 'cart'" :color="new_style.shop_icon_color" :size="new_style.shop_icon_size + ''" :styles="button_gradient()"></icon>
                                     </template>
                                 </div>
                             </div>
@@ -85,17 +79,11 @@
                                 </div>
                             </div>
                             <div v-if="form.is_shop_show">
-                                <template v-if="form.shop_type == '0'">
-                                    <div class="pl-13 pr-13 round cr-f shopping_button" :style="trends_config('button', 'gradient')">购买</div>
-                                </template>
-                                <template v-else-if="form.shop_type == '1'">
-                                    <div class="pl-11 pr-11 round cr-f shopping_button" :style="trends_config('button', 'gradient')">立即购买</div>
-                                </template>
-                                <template v-else-if="form.shop_type == '2'">
-                                    <icon :class="['shopping_button round', { 'pl-6 pr-6': shop_icon_size != '8', 'pl-5 pr-5': shop_icon_size == '8' }]" name="add" color="f" :size="shop_icon_size" :styles="button_gradient()"></icon>
+                                <template v-if="form.shop_type == 'text'">
+                                    <div class="plr-11 ptb-3 round cr-f" :style="trends_config('button', 'gradient') + `color: ${ new_style.shop_button_text_color };`">{{ form.shop_button_text }}</div>
                                 </template>
                                 <template v-else>
-                                    <icon :class="['shopping_button round', { 'pl-6 pr-6': shop_icon_size != '8', 'pl-5 pr-5': shop_icon_size == '8' }]" name="cart" color="f" :size="shop_icon_size" :styles="button_gradient()"></icon>
+                                    <icon class="round plr-6 ptb-5" :name="!isEmpty(form.shop_button_icon_class) ? form.shop_button_icon_class : 'cart'" :color="new_style.shop_icon_color" :size="new_style.shop_icon_size + ''" :styles="button_gradient()"></icon>
                                 </template>
                             </div>
                         </div>
@@ -151,13 +139,36 @@ const default_list = {
     title: '测试商品标题',
     min_original_price: '41.2',
     show_original_price_symbol: '￥',
+    show_original_price_unit: '/ 台',
     min_price: '51',
     show_price_symbol: '￥',
-    show_price_unit: '',
+    show_price_unit: '/ 台',
     sales_count: '1000',
     images: '',
     new_cover: [],
-    plugins_view_icon_data: []
+    plugins_view_icon_data: [
+        {
+            name: '满减活动',
+            bg_color: '#EA3323',
+            br_color: '',
+            color: '#fff',
+            url: ''
+        },
+        {
+            name: '包邮',
+            bg_color: '',
+            br_color: '#EA3323',
+            color: '#EA3323',
+            url: ''
+        },
+        {
+            name: '领劵',
+            bg_color: '',
+            br_color: '#EA9223',
+            color: '#EA9223',
+            url: ''
+        }
+    ]
 };
 const list = ref<data_list[]>([]);
 
@@ -288,26 +299,6 @@ const text_line = computed(() => {
 const is_show = (index: string) => {
     return form.value.is_show.includes(index);
 };
-// 按钮大小设置
-const button_size = computed(() => {
-    let button_size = '22px';
-    if (form.value.shop_button_size == '0') {
-        button_size = '27px';
-    } else if (form.value.shop_button_size == '2') {
-        button_size = '18px';
-    }
-    return button_size;
-});
-// 不同大小下的icon显示
-const shop_icon_size = computed(() => {
-    let size = '8';
-    if (form.value.shop_button_size == '0') {
-        size = '15';
-    } else if (form.value.shop_button_size == '1') {
-        size = '10';
-    }
-    return size;
-});
 // 根据传递的参数，从对象中取值
 const trends_config = (key: string, type?: string) => {
     return style_config(new_style.value[`shop_${key}_typeface`], new_style.value[`shop_${key}_size`], new_style.value[`shop_${key}_color`], type);
@@ -331,6 +322,8 @@ const icon_style = (item: { bg_color: string; color: string; br_color: string; }
     let style = `background: ${item.bg_color};color: ${item.color};`;
     if (!isEmpty(item.br_color)) {
         style += `border: 1px solid ${item.br_color};`
+    } else {
+        style += `border: 1px solid ${item.bg_color};`
     }
     return style;
 }
@@ -367,10 +360,6 @@ const style_container = computed(() => {
     border-bottom-right-radius: 1rem;
     border-top-right-radius: 1rem;
     padding: 0 1rem 0 0;
-}
-.shopping_button {
-    height: v-bind(button_size);
-    line-height: v-bind(button_size);
 }
 .two-columns {
     width: calc((100% - v-bind(two_columns)) / 2);

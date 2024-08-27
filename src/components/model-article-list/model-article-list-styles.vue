@@ -4,37 +4,13 @@
             <card-container class="mb-8">
                 <div class="mb-12">列表样式</div>
                 <el-form-item label="文章名称">
-                    <el-radio-group v-model="form.name_weight">
-                        <el-radio v-for="item in font_weight" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                    </el-radio-group>
-                </el-form-item>
-                <el-form-item label="字号">
-                    <slider v-model="form.name_size"></slider>
-                </el-form-item>
-                <el-form-item label="名称色值">
-                    <color-picker v-model="form.name_color"></color-picker>
+                    <color-text-size-group v-model:color="form.name_color" v-model:typeface="form.name_weight" v-model:size="form.name_size"></color-text-size-group>
                 </el-form-item>
                 <el-form-item label="日期时间">
-                    <el-radio-group v-model="form.time_weight">
-                        <el-radio v-for="item in font_weight" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                    </el-radio-group>
-                </el-form-item>
-                <el-form-item label="字号">
-                    <slider v-model="form.time_size"></slider>
-                </el-form-item>
-                <el-form-item label="日期颜色">
-                    <color-picker v-model="form.time_color"></color-picker>
+                    <color-text-size-group v-model:color="form.time_color" v-model:typeface="form.time_weight" v-model:size="form.time_size"></color-text-size-group>
                 </el-form-item>
                 <el-form-item label="浏览量">
-                    <el-radio-group v-model="form.page_view_weight">
-                        <el-radio v-for="item in font_weight" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                    </el-radio-group>
-                </el-form-item>
-                <el-form-item label="字号">
-                    <slider v-model="form.page_view_size"></slider>
-                </el-form-item>
-                <el-form-item label="浏览色值">
-                    <color-picker v-model="form.page_view_color"></color-picker>
+                    <color-text-size-group v-model:color="form.page_view_color" v-model:typeface="form.page_view_weight" v-model:size="form.page_view_size"></color-text-size-group>
                 </el-form-item>
                 <el-form-item label="内容圆角">
                     <radius :value="form.content_radius"></radius>
@@ -81,6 +57,14 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    defaultConfig: {
+        type: Object,
+        default: () => ({
+            // 图片不同风格下的圆角
+            img_radius_0: 4,
+            img_radius_1: 0,
+        }),
+    },
 });
 // 默认值
 const state = reactive({
@@ -90,11 +74,24 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form, data } = toRefs(state);
 const theme = computed(() => data.value.theme);
+if (theme.value == '0') {
+    if (form.value.img_radius.radius == props.defaultConfig.img_radius_0 || (form.value.img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && form.value.img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && form.value.img_radius.radius_top_left == props.defaultConfig.img_radius_1 && form.value.img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+        form.value.img_radius.radius = props.defaultConfig.img_radius_0;
+        form.value.img_radius.radius_bottom_left = props.defaultConfig.img_radius_0;
+        form.value.img_radius.radius_bottom_right = props.defaultConfig.img_radius_0;
+        form.value.img_radius.radius_top_left = props.defaultConfig.img_radius_0;
+        form.value.img_radius.radius_top_right = props.defaultConfig.img_radius_0;
+    }
+} else {
+    if (form.value.img_radius.radius == props.defaultConfig.img_radius_0 || (form.value.img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && form.value.img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && form.value.img_radius.radius_top_left == props.defaultConfig.img_radius_1 && form.value.img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+        form.value.img_radius.radius = props.defaultConfig.img_radius_1;
+        form.value.img_radius.radius_bottom_left = props.defaultConfig.img_radius_1;
+        form.value.img_radius.radius_bottom_right = props.defaultConfig.img_radius_1;
+        form.value.img_radius.radius_top_left = props.defaultConfig.img_radius_1;
+        form.value.img_radius.radius_top_right = props.defaultConfig.img_radius_1;
+    }
+}
 const emit = defineEmits(['update:value']);
-const font_weight = reactive([
-    { name: '加粗', value: '500' },
-    { name: '正常', value: '400' },
-]);
 const common_style_update = (value: any) => {
     form.value.common_style = value;
 };

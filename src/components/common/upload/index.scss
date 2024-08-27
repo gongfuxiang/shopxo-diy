@@ -114,6 +114,30 @@
             }
         }
     }
+    .icon-container {
+        .search-text {
+            width: 22.5rem;
+        }
+        .icon-content {
+            margin: 0 -1rem;
+            width: calc(100% + 2rem);
+            .item {
+                transition: all 0.3s ease-in-out;
+                &:hover {
+                    color: $cr-primary;
+                    border-color: $cr-primary;
+                    position: relative;
+                    scale: 1.1;
+                }
+                &.active {
+                    color: $cr-primary;
+                    border-color: $cr-primary;
+                    position: relative;
+                    scale: 1.1;
+                }
+            }
+        }
+    }
 }
 .upload-btn {
     cursor: pointer;

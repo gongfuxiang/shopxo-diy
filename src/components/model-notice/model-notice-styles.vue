@@ -5,31 +5,35 @@
                 <div class="mb-12">标题样式</div>
                 <template v-if="!is_img">
                     <el-form-item label="标题文字">
-                        <div class="flex-col gap-10 w">
-                            <color-picker v-model="form.topic_color" default-color="#000000"></color-picker>
-                            <text-size-type v-model:typeface="form.topic_typeface" v-model:size="form.topic_size"></text-size-type>
-                        </div>
+                        <color-text-size-group v-model:color="form.topic_color" v-model:typeface="form.topic_typeface" v-model:size="form.topic_size" default-color="#000000"></color-text-size-group>
                     </el-form-item>
                     <el-form-item label="标题背景" class="topic">
                         <flex-gradients-create :color-list="form.topic_color_list"></flex-gradients-create>
                     </el-form-item>
                 </template>
                 <template v-else>
-                    <el-form-item label="图片宽度">
-                        <slider v-model="form.topic_width" :max="1000"></slider>
-                    </el-form-item>
-                    <el-form-item label="图片高度">
-                        <slider v-model="form.topic_height" :max="1000"></slider>
-                    </el-form-item>
+                    <template v-if="!isEmpty(substance.icon_class)">
+                        <el-form-item label="图标大小">
+                            <slider v-model="form.icon_size" :max="100"></slider>
+                        </el-form-item>
+                        <el-form-item label="图标颜色">
+                            <color-picker v-model="form.icon_color" default-color="#999"></color-picker>
+                        </el-form-item>
+                    </template>
+                    <template v-else>
+                        <el-form-item label="图片宽度">
+                            <slider v-model="form.topic_width" :max="1000"></slider>
+                        </el-form-item>
+                        <el-form-item label="图片高度">
+                            <slider v-model="form.topic_height" :max="1000"></slider>
+                        </el-form-item>
+                    </template>
                 </template>
                 <el-form-item label="按钮颜色">
                     <color-picker v-model="form.button_color" default-color="#999"></color-picker>
                 </el-form-item>
                 <el-form-item label="内容标题">
-                    <div class="flex-col gap-10 w">
-                        <color-picker v-model="form.news_color" default-color="#000000"></color-picker>
-                        <text-size-type v-model:typeface="form.news_typeface" v-model:size="form.news_size"></text-size-type>
-                    </div>
+                    <color-text-size-group v-model:color="form.news_color" v-model:typeface="form.news_typeface" v-model:size="form.news_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
             </card-container>
         </el-form>
@@ -37,6 +41,7 @@
     </div>
 </template>
 <script setup lang="ts">
+import { isEmpty } from "lodash";
 const props = defineProps({
     value: {
         type: Object,
@@ -55,7 +60,7 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form, substance } = toRefs(state);
 
-const is_img = computed(() => substance.value.title_type == 'img');
+const is_img = computed(() => substance.value.title_type == 'img-icon');
 // 通用样式处理
 const common_styles_update = (val: Object) => {
     form.value.common_style = val;

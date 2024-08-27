@@ -14,6 +14,7 @@ interface defaultSearch {
         title: string;
         direction: string;
         img_src: uploadList[];
+        icon_class: string;
         more_link: object;
         interval_time: number;
         is_right_button: string;
@@ -30,6 +31,8 @@ interface defaultSearch {
         topic_size: number;
         topic_width: number;
         topic_height: number;
+        icon_size: number;
+        icon_color: string;
         common_style: object;
     };
 }
@@ -37,9 +40,10 @@ const defaultSearch: defaultSearch = {
     content: {
         notice_style: 'inherit',
         direction: 'vertical',
-        title_type: 'img',
+        title_type: 'img-icon',
         title: '测试标题',
         img_src: [],
+        icon_class: '',
         is_right_button: 'show',
         interval_time: 2,
         more_link: {},
@@ -54,8 +58,8 @@ const defaultSearch: defaultSearch = {
     },
     style: {
         news_color: '#000',
-        news_typeface: 'normal',
-        news_size: 15,
+        news_typeface: '400',
+        news_size: 12,
         topic_color_list: [
             {
                 color: '',
@@ -67,10 +71,12 @@ const defaultSearch: defaultSearch = {
             },
         ],
         topic_color: '#000',
-        topic_typeface: 'normal',
-        topic_size: 15,
+        topic_typeface: '400',
+        topic_size: 14,
         topic_width: 24,
         topic_height: 24,
+        icon_size: 12,
+        icon_color: '#999',
         button_color: '#999',
         common_style: defaultCommon,
     },

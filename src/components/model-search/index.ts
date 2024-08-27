@@ -6,7 +6,6 @@ interface hot_word_list {
 interface search_content {
     is_center: boolean;
     is_icon_show: boolean;
-    icon_type: string;
     icon_src: string;
     icon_img_src: uploadList[];
     icon_class: string;

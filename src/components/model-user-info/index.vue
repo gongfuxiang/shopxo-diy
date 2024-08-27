@@ -5,12 +5,15 @@
                 <div class="flex-1 flex-row align-c gap-12">
                     <img class="round" src="@/assets/images/components/model-user-info/avatar.png" :width="base_data.user_avatar_size" :height="base_data.user_avatar_size" />
                     <div class="flex-col gap-8">
-                        <div class="size-16 fw" :style="user_name_style">拓拔</div>
-                        <div v-if="id_bool" class="plr-6 ptb-1 radius-sm" :style="user_id_style">ID:32156743</div>
+                        <div class="size-16 fw" :style="user_name_style">昵称</div>
+                        <div v-if="id_bool" class="plr-6 ptb-1 radius-sm" :style="user_id_style">ID:88888888</div>
                     </div>
                 </div>
                 <div class="flex-row align-c" :class="'gap-' + base_data.img_space">
-                    <img v-for="(item, index) in icon_setting" :key="index" class="round" :src="item.src[0]?.url" :width="base_data.img_size" :height="base_data.img_size" />
+                    <div v-for="(item, index) in icon_setting" :key="index" :style="{ width: base_data.img_size + 'px', height: base_data.img_size + 'px' }">
+                        <image-empty v-if="item.src.length > 0" v-model="item.src[0]" :error-img-style="'width: ' + Number(base_data.img_size) / 2 + 'px;height:' + Number(base_data.img_size) / 2 + 'px;'"></image-empty>
+                        <icon v-else :name="item.icon" :size="base_data.img_size + ''" color="6"></icon>
+                    </div>
                 </div>
             </div>
             <div class="flex-row jc-sa align-c">
@@ -36,20 +39,21 @@ const style = ref('');
 const style_container = ref('');
 const id_bool = ref(true);
 const stats_list = reactive([
-    { id: '1', name: '订单总数', value: '15' },
-    { id: '2', name: '商品收藏', value: '3' },
-    { id: '3', name: '我的足迹', value: '8' },
-    { id: '4', name: '我的积分', value: '310' },
+    { id: '1', name: '订单总数', value: '100' },
+    { id: '2', name: '商品收藏', value: '10' },
+    { id: '3', name: '我的足迹', value: '1000' },
+    { id: '4', name: '我的积分', value: '10000' },
 ]);
 interface icon_params {
     id: string;
     src: uploadList[];
+    icon: string;
     href: string;
 }
 const user_info = ref<string[]>(['1', '2', '3', '4']);
 const icon_setting = ref<icon_params[]>([
-    { id: '1', src: [], href: 'a' },
-    { id: '2', src: [], href: 'a' },
+    { id: '1', src: [], icon: '', href: 'a' },
+    { id: '2', src: [], icon: '', href: 'a' },
 ]);
 const base_data = reactive({
     // 头像大小
@@ -61,7 +65,10 @@ const base_data = reactive({
     // 用户名字号
     user_name_size: 16,
     // 用户ID颜色
-    user_id_color_list: [{color: 'rgba(254, 184, 143, 1)', color_percentage: ''}, {color: 'rgba(255, 227, 220, 1)', color_percentage: ''}],
+    user_id_color_list: [
+        { color: 'rgba(254, 184, 143, 1)', color_percentage: '' },
+        { color: 'rgba(255, 227, 220, 1)', color_percentage: '' },
+    ],
     // 用户ID颜色
     user_id_color: 'rgba(0, 0, 0, 1)',
     // 用户ID方向

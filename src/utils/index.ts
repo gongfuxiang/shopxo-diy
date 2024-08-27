@@ -156,7 +156,7 @@ export function background_computer(new_style: backgroundImgUrlStyle) {
  * @returns 返回一个字符串，包含了计算后的样式定义，可以被直接应用于组件的样式属性。
  */
 export function common_styles_computer(new_style: componentsCommonCommonStyle) {
-    return gradient_computer(new_style) + padding_computer(new_style) + margin_computer(new_style) + radius_computer(new_style) + box_shadow_computer(new_style) + background_computer(new_style);
+    return gradient_computer(new_style) + padding_computer(new_style) + margin_computer(new_style) + radius_computer(new_style) + box_shadow_computer(new_style) + background_computer(new_style) + `overflow:hidden;`;
 }
 
 /**
@@ -297,5 +297,38 @@ export const set_cookie = (name: string, value: string, expire_time?: number) =>
         cookie_str += ';expires=' + expire_date.toUTCString();
         // 将新增的cookie储存到cookie中，可以存储多个而不是替换
         document.cookie = cookie_str;
+    }
+};
+
+// style 风格
+export const tabs_style = (color: string, style: string | number | boolean | undefined) => {
+    const color_list = ['rgba(51,51,51,1)', 'rgba(255, 34, 34, 1)', 'rgba(255, 255, 255, 1)'];
+    if (color_list.includes(color)) {
+        if (style == '2' || style == '4') {
+            return 'rgba(255, 255, 255, 1)';
+        } else if (style == '3') {
+            return 'rgba(255, 34, 34, 1)';
+        } else {
+            return 'rgba(51,51,51,1)';
+        }
+    } else {
+        return color;
+    }
+};
+/**
+ * 获取在线资源URL的异步函数
+ * 该函数根据当前环境变量的配置选择不同的方式来获取资源URL
+ * 如果环境变量VITE_APP_BASE_API被设置为'/dev-api'，则从本地开发环境中导入临时数据
+ * 否则，从cookie中获取资源主机地址
+ * 这种设计允许开发者在不同的环境中灵活切换资源URL的来源，以适应不同的开发和生产需求
+ *
+ * @returns {Promise<string>} 返回一个Promise，解析为包含资源URL的字符串
+ */
+export const online_url = async () => {
+    if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
+        let temp_value = await import('../../temp.d');
+        return temp_value.default.temp_attachment_host + '/static/app/tabbar/';
+    } else {
+        return (await get_cookie('temp_attachment_host')) + '/static/app/tabbar/';
     }
 };

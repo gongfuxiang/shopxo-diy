@@ -4,7 +4,7 @@
             <card-container class="mb-8">
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选择风格">
-                    <el-radio-group v-model="form.tabs_theme" class="ml-4">
+                    <el-radio-group v-model="form.tabs_theme" class="ml-4" @change="tabs_theme_change">
                         <el-radio value="0">样式一</el-radio>
                         <el-radio value="2">样式二</el-radio>
                         <el-radio value="3">样式三</el-radio>
@@ -44,19 +44,24 @@
     </div>
 </template>
 <script setup lang="ts">
-import { get_math } from '@/utils';
+import { get_math, tabs_style } from '@/utils';
 
 const props = defineProps({
     value: {
         type: Object,
         default: () => {},
     },
+    tabStyle: {
+        type: Object,
+        default: () => ({}),
+    }
 });
 
 const state = reactive({
-    form: props.value
+    form: props.value,
+    styles: props.tabStyle
 });
-const { form } = toRefs(state);
+const { form, styles } = toRefs(state);
 const add = () => {
     form.value.tabs_list.push({
         id: get_math(),
@@ -75,6 +80,9 @@ const remove = (index: number) => {
 const on_sort = (new_list: nav_group[]) => {
     form.value.tabs_list = new_list;
 }
+const tabs_theme_change = (val: string | number | boolean | undefined):void => {
+    styles.value.tabs_color_checked = tabs_style(styles.value.tabs_color_checked, val);
+};
 </script>
 <style lang="scss" scoped>
 .card.mb-8 {

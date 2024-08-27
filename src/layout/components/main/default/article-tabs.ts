@@ -69,10 +69,7 @@ const defaultArticleTabs: DefaultArticleTabs = {
         field_show: ['0', '1'],
     },
     style: {
-        tabs_checked: [
-            { color: 'rgba(212,212,212,2)', color_percentage: '' },
-            { color: 'rgba(255,210,210,1)', color_percentage: '' },
-        ],
+        tabs_checked: [{ color: '#FF2222', color_percentage: '' }, { color: '#FF9898', color_percentage: '' }],
         tabs_direction: '90deg',
         tabs_weight_checked: '500',
         tabs_size_checked: 14,
@@ -97,13 +94,13 @@ const defaultArticleTabs: DefaultArticleTabs = {
             radius_bottom_left: 8,
             radius_bottom_right: 8,
         },
-        // 图片圆角
+        // 图片圆角 ---- 除了风格一圆角是4，其他都是0
         img_radius: {
-            radius: 0,
-            radius_top_left: 0,
-            radius_top_right: 0,
-            radius_bottom_left: 0,
-            radius_bottom_right: 0,
+            radius: 4,
+            radius_top_left: 4,
+            radius_top_right: 4,
+            radius_bottom_left: 4,
+            radius_bottom_right: 4,
         },
         // 内间距
         padding: {
@@ -117,7 +114,7 @@ const defaultArticleTabs: DefaultArticleTabs = {
         article_spacing: 10, // 文章间距
         article_width: 155, // 文章宽度
         article_height: 155, // 文章宽度
-        common_style: { ...defaultCommon, padding_left: 10, padding_right: 10, padding_bottom: 10 },
+        common_style: { ...defaultCommon, padding: 10, padding_top: 10, padding_left: 10, padding_right: 10, padding_bottom: 10 },
     },
 };
 

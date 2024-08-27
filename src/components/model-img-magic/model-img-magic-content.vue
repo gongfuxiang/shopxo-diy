@@ -52,7 +52,7 @@
                 <div class="mb-12">内容设置</div>
                 <template v-if="!isEmpty(form.img_magic_list[selected_active])">
                     <el-form-item label="上传图片">
-                        <upload v-model="form.img_magic_list[selected_active].img" :limit="1" size="40"></upload>
+                        <upload v-model="form.img_magic_list[selected_active].img" :limit="1" size="50"></upload>
                     </el-form-item>
                     <el-form-item label="链接">
                         <url-value v-model="form.img_magic_list[selected_active].img_link"></url-value>

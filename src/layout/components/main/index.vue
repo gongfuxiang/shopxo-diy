@@ -172,7 +172,6 @@ watch(
     () => props.diyData,
     (newValue) => {
         diy_data.value = newValue;
-        console.log(newValue);
     }
 );
 // 监听

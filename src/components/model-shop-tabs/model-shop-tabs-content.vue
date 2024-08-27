@@ -4,7 +4,7 @@
             <card-container class="mb-8">
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选项卡风格">
-                    <el-radio-group v-model="form.tabs_theme">
+                    <el-radio-group v-model="form.tabs_theme" @change="tabs_theme_change">
                         <el-radio v-for="item in base_list.tabs_style_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
@@ -83,7 +83,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { get_math } from '@/utils';
+import { get_math, tabs_style } from '@/utils';
 import ShopAPI from '@/api/shop';
 import { shopStore } from '@/store';
 const shop_store = shopStore();
@@ -93,12 +93,25 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    tabStyle: {
+        type: Object,
+        default: () => ({}),
+    },
+    defaultConfig: {
+        type: Object,
+        default: () => ({
+            // 图片不同风格下的圆角
+            img_radius_0: 4,
+            img_radius_1: 0,
+        }),
+    },
 });
 const state = reactive({
     form: props.value,
+    styles: props.tabStyle,
 });
 // 如果需要解构，确保使用toRefs
-const { form } = toRefs(state);
+const { form, styles } = toRefs(state);
 
 const base_list = reactive({
     tabs_style_list: [
@@ -217,11 +230,32 @@ const url_value_dialog_call_back = (item: any[]) => {
         });
     });
 };
+
+const tabs_theme_change = (val: string | number | boolean | undefined): void => {
+    styles.value.tabs_color_checked = tabs_style(styles.value.tabs_color_checked, val);
+};
 // 选择某些风格时， 切换到对应的按钮
 const change_style = (val: any): void => {
     form.value.theme = val;
     if (['3', '4', '5'].includes(val) && ['0', '1'].includes(form.value.shop_type)) {
         form.value.shop_type = '2';
+    }
+    if (['0', '4'].includes(val)) {
+        if (styles.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (styles.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && styles.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && styles.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && styles.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+            styles.value.shop_img_radius.radius = props.defaultConfig.img_radius_0;
+            styles.value.shop_img_radius.radius_bottom_left = props.defaultConfig.img_radius_0;
+            styles.value.shop_img_radius.radius_bottom_right = props.defaultConfig.img_radius_0;
+            styles.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_0;
+            styles.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_0;
+        }
+    } else {
+        if (styles.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (styles.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && styles.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && styles.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && styles.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+            styles.value.shop_img_radius.radius = props.defaultConfig.img_radius_1;
+            styles.value.shop_img_radius.radius_bottom_left = props.defaultConfig.img_radius_1;
+            styles.value.shop_img_radius.radius_bottom_right = props.defaultConfig.img_radius_1;
+            styles.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_1;
+            styles.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_1;
+        }
     }
 };
 </script>

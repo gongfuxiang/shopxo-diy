@@ -4,40 +4,31 @@
             <card-container class="mb-8">
                 <div class="mb-12">商品样式</div>
                 <el-form-item label="商品名称">
-                    <text-size-type v-model:typeface="form.shop_title_typeface" v-model:size="form.shop_title_size"></text-size-type>
-                </el-form-item>
-                <el-form-item label="名称色值">
-                    <color-picker v-model="form.shop_title_color" default-color="#000000"></color-picker>
+                    <color-text-size-group v-model:color="form.shop_title_color" v-model:typeface="form.shop_title_typeface" v-model:size="form.shop_title_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
                 <el-form-item label="商品价格">
-                    <text-size-type v-model:typeface="form.shop_price_typeface" v-model:size="form.shop_price_size"></text-size-type>
-                </el-form-item>
-                <el-form-item label="价格色值">
-                    <color-picker v-model="form.shop_price_color" default-color="#000000"></color-picker>
+                    <color-text-size-group v-model:color="form.shop_price_color" v-model:typeface="form.shop_price_typeface" v-model:size="form.shop_price_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
                 <template v-if="theme != '6'">
                     <el-form-item label="已售数量">
-                        <text-size-type v-model:typeface="form.shop_sold_number_typeface" v-model:size="form.shop_sold_number_size"></text-size-type>
-                    </el-form-item>
-                    <el-form-item label="数量设置">
-                        <color-picker v-model="form.shop_sold_number_color" default-color="#000000"></color-picker>
+                        <color-text-size-group v-model:color="form.shop_sold_number_color" v-model:typeface="form.shop_sold_number_typeface" v-model:size="form.shop_sold_number_size" default-color="#000000"></color-text-size-group>
                     </el-form-item>
                 </template>
                 <!-- <el-form-item label="评分">
-                    <text-size-type v-model:typeface="form.shop_score_typeface" v-model:size="form.shop_score_size"></text-size-type>
+                    <text-size-group v-model:typeface="form.shop_score_typeface" v-model:size="form.shop_score_size"></text-size-group>
                 </el-form-item>
                 <el-form-item label="评分颜色">
                     <color-picker v-model="form.shop_score_color" default-color="#000000"></color-picker>
                 </el-form-item> -->
                 <el-form-item label="内容圆角">
-                    <radius :value="form.shop_radius" @update:value="shop_radius_change"></radius>
+                    <radius :value="form.shop_radius"></radius>
                 </el-form-item>
                 <template v-if="theme != '6'">
                     <el-form-item label="图片圆角">
-                        <radius :value="form.shop_img_radius" @update:value="img_radius_change"></radius>
+                        <radius :value="form.shop_img_radius"></radius>
                     </el-form-item>
                     <el-form-item label="内间距">
-                        <padding :value="form.shop_padding" @update:value="shop_padding_change"></padding>
+                        <padding :value="form.shop_padding"></padding>
                     </el-form-item>
                     <el-form-item v-if="['0', '4'].includes(theme)" label="内容间距">
                         <slider v-model="form.content_spacing" :max="100"></slider>
@@ -58,11 +49,18 @@
             <card-container class="mb-8">
                 <div class="mb-12">购物车按钮</div>
                 <el-form-item label="按钮颜色" class="topic">
-                    <flex-gradients-create :color-list="form.shop_button_color" default-color="#2a94ff"></flex-gradients-create>
+                    <flex-gradients-create :color-list="form.shop_button_color" default-color="#FF3D53"></flex-gradients-create>
                 </el-form-item>
-                <el-form-item label="立即购买">
-                    <text-size-type v-model:typeface="form.shop_button_typeface" v-model:size="form.shop_button_size"></text-size-type>
-                </el-form-item>
+                <template v-if="data.shop_type == 'text'">
+                    <el-form-item label="文字设置">
+                        <color-text-size-group v-model:color="form.shop_button_text_color" v-model:typeface="form.shop_button_typeface" v-model:size="form.shop_button_size" default-color="#fff"></color-text-size-group>
+                    </el-form-item>
+                </template>
+                <template v-else>
+                    <el-form-item label="icon设置">
+                        <color-text-size-group v-model:color="form.shop_icon_color" v-model:size="form.shop_icon_size" default-color="#fff" :type-list="['color', 'size']"></color-text-size-group>
+                    </el-form-item>
+                </template>
             </card-container>
         </el-form>
         <common-styles :value="form.common_style" @update:value="common_style_update" />
@@ -78,50 +76,46 @@ const props = defineProps({
     content: {
         type: Object,
         default: () => ({}),
-    }
+    },
+    defaultConfig: {
+        type: Object,
+        default: () => ({
+            // 图片不同风格下的圆角
+            img_radius_0: 4,
+            img_radius_1: 0,
+        }),
+    },
 });
 
 // 默认值
 const state = reactive({
     form: props.value,
-    data: props.content
+    data: props.content,
 });
 // 如果需要解构，确保使用toRefs
 const { form, data } = toRefs(state);
 
 const theme = computed(() => data.value.theme);
-
+if (['0', '4'].includes(theme.value)) {
+    if (form.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (form.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+        form.value.shop_img_radius.radius = props.defaultConfig.img_radius_0;
+        form.value.shop_img_radius.radius_bottom_left = props.defaultConfig.img_radius_0;
+        form.value.shop_img_radius.radius_bottom_right = props.defaultConfig.img_radius_0;
+        form.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_0;
+        form.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_0;
+    }
+} else {
+    if (form.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (form.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+        form.value.shop_img_radius.radius = props.defaultConfig.img_radius_1;
+        form.value.shop_img_radius.radius_bottom_left = props.defaultConfig.img_radius_1;
+        form.value.shop_img_radius.radius_bottom_right = props.defaultConfig.img_radius_1;
+        form.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_1;
+        form.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_1;
+    }
+}
 const common_style_update = (value: any) => {
     form.value.common_style = value;
 };
-const shop_padding_change = (padding: any) => {
-    form.value.shop_padding = Object.assign(form.value.shop_padding, pick(padding, [
-        'padding', 
-        'padding_top', 
-        'padding_bottom', 
-        'padding_left', 
-        'padding_right'
-    ]));
-}
-// 内容圆角
-const shop_radius_change = (radius: any) => {
-    form.value.shop_radius = Object.assign(form.value.shop_radius, pick(radius, [
-        'radius',
-        'radius_top_left',
-        'radius_top_right',
-        'radius_bottom_left',
-        'radius_bottom_right',
-    ]));
-}
-const img_radius_change = (radius: any) => {
-    form.value.shop_img_radius = Object.assign(form.value.shop_img_radius, pick(radius, [
-        'radius',
-        'radius_top_left',
-        'radius_top_right',
-        'radius_bottom_left',
-        'radius_bottom_right',
-    ]));
-}
 </script>
 <style lang="scss" scoped>
 .topic {

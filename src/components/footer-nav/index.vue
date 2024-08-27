@@ -5,9 +5,9 @@
                 <li v-for="(item, index) in footerData?.content?.nav_content" :key="index" class="flex-1 flex-col jc-c align-c gap-5" @mouseenter="is_hover = index + 1" @mouseleave="is_hover = 0">
                     <div v-if="footerData.content.nav_style !== '2'" class="img re">
                         <img class="img-item abs radius-xs animate-linear w" :class="is_hover != index + 1 ? 'active' : ''" :src="item.src[0]?.url" width="22" height="22" />
-                        <img class="img-item abs radius-xs animate-linear w" :class="is_hover == index + 1 ? 'active' : ''" :src="item.src_checked[0]?.url" width="22" height="22" />
+                        <img class="img-item abs radius-xs animate-linear w" :class="is_hover == index + 1 || index == 0 ? 'active' : ''" :src="item.src_checked[0]?.url" width="22" height="22" />
                     </div>
-                    <span v-if="footerData.content.nav_style !== '1'" class="animate-linear size-12" :style="is_hover == index + 1 ? text_color_checked : default_text_color">{{ item.name }}</span>
+                    <span v-if="footerData.content.nav_style !== '1'" class="animate-linear size-12" :style="is_hover == index + 1 || index == 0 ? text_color_checked : default_text_color">{{ item.name }}</span>
                 </li>
             </ul>
         </div>

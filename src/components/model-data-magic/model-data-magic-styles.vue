@@ -2,8 +2,8 @@
     <div class="w">
         <el-form :model="form" label-width="70">
             <card-container class="mb-8">
-                <div class="mb-12">图片魔方</div>
-                <el-form-item label="图片间距">
+                <div class="mb-12">数据魔方</div>
+                <el-form-item label="数据间距">
                     <slider v-model="form.image_spacing" :max="100"></slider>
                 </el-form-item>
                 <el-form-item label="数据圆角">

@@ -67,12 +67,25 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    styles: {
+        type: Object,
+        default: () => ({}),
+    },
+    defaultConfig: {
+        type: Object,
+        default: () => ({
+            // 图片不同风格下的圆角
+            img_radius_0: 4,
+            img_radius_1: 0,
+        }),
+    },
 });
 const state = reactive({
     form: props.value,
+    data: props.styles,
 });
 // 如果需要解构，确保使用toRefs
-const { form } = toRefs(state);
+const { form, data } = toRefs(state);
 
 const base_list = reactive({
     product_style_list: [
@@ -154,6 +167,23 @@ const change_style = (val: any): void => {
     form.value.theme = val;
     if (['3', '4', '5'].includes(val) && ['0', '1'].includes(form.value.shop_type)) {
         form.value.shop_type = '2';
+    }
+    if (['0', '4'].includes(val)) {
+        if (data.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (data.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+            data.value.shop_img_radius.radius = props.defaultConfig.img_radius_0;
+            data.value.shop_img_radius.radius_bottom_left = props.defaultConfig.img_radius_0;
+            data.value.shop_img_radius.radius_bottom_right = props.defaultConfig.img_radius_0;
+            data.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_0;
+            data.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_0;
+        }
+    } else {
+        if (data.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (data.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+            data.value.shop_img_radius.radius = props.defaultConfig.img_radius_1;
+            data.value.shop_img_radius.radius_bottom_left = props.defaultConfig.img_radius_1;
+            data.value.shop_img_radius.radius_bottom_right = props.defaultConfig.img_radius_1;
+            data.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_1;
+            data.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_1;
+        }
     }
 };
 </script>

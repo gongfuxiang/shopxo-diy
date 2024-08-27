@@ -2,7 +2,7 @@ import defaultCommon from './index';
 interface DefaultUserInfo {
     content: {
         user_info: string[];
-        icon_setting: { id: string; src: uploadList[]; href: object }[];
+        icon_setting: { id: string; src: uploadList[]; href: object; icon: string }[];
     };
     style: {
         user_avatar_size: string;
@@ -29,8 +29,8 @@ const defaultUserInfo: DefaultUserInfo = {
     content: {
         user_info: ['1', '2', '3', '4', '5'],
         icon_setting: [
-            { id: '1', src: [{ id: 1, url: '/src/assets/images/components/model-user-info/set.png', original: '设置', title: '设置', ext: '.png', type: 'img' }], href: {} },
-            { id: '2', src: [{ id: 2, url: '/src/assets/images/components/model-user-info/notice.png', original: '消息', title: '消息', ext: '.png', type: 'img' }], href: {} },
+            { id: '1', src: [], icon: 'applet-me-settings-acquiesce', href: {} },
+            { id: '2', src: [], icon: 'applet-me-message-acquiesce', href: {} },
         ],
     },
     style: {
@@ -38,7 +38,10 @@ const defaultUserInfo: DefaultUserInfo = {
         user_name_color: 'rgba(0, 0, 0, 1)',
         user_name_weight: '500',
         user_name_size: 16,
-        user_id_color_list: [{color: 'rgba(254, 184, 143, 1)', color_percentage: ''}, {color: 'rgba(255, 227, 220, 1)', color_percentage: ''}],
+        user_id_color_list: [
+            { color: 'rgba(254, 184, 143, 1)', color_percentage: '' },
+            { color: 'rgba(255, 227, 220, 1)', color_percentage: '' },
+        ],
         user_id_color: 'rgba(0, 0, 0, 1)',
         user_id_direction: '90deg',
         user_id_weight: '400',

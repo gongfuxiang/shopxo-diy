@@ -58,8 +58,10 @@ const props = defineProps({
 });
 watch(
     () => props.reset,
-    () => {
-        init();
+    (val) => {
+        if (val) {
+            init();
+        }
     }
 );
 onMounted(() => {
@@ -80,6 +82,7 @@ const init = () => {
     search_value.value = '';
     category_list.value = url_value_store.url_value.goods_category;
     brand_list.value = url_value_store.url_value.brand_list;
+    console.log('1111122');
     get_list(1);
 };
 const handle_search = () => {

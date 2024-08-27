@@ -20,7 +20,10 @@ interface DefaultProductList {
         tabs_list: articleTabsList[];
         is_show: string[];
         is_shop_show: boolean;
+        is_price_solo: boolean;
         shop_type: string;
+        shop_button_text: string;
+        shop_button_icon_class: string;
         shop_button_effect: string;
         shop_button_size: string;
     };
@@ -55,6 +58,9 @@ interface DefaultProductList {
         shop_button_typeface:string;
         shop_button_size: number;
         shop_button_color: color_list[];
+        shop_button_text_color: string,
+        shop_icon_size: number;
+        shop_icon_color: string;
         common_style: object;
     };
 }
@@ -71,12 +77,15 @@ const defaultProductList: DefaultProductList = {
         ],
         is_show: ['title', 'plugins_view_icon', 'price', 'sales_count', 'original_price'],
         is_shop_show: true,
-        shop_type: '0',
+        is_price_solo: true,
+        shop_type: 'text',
+        shop_button_text: '购买',
+        shop_button_icon_class: '',
         shop_button_effect: '0',
         shop_button_size: '1',
     },
     style: {
-        tabs_checked: [{ color: 'rgba(212,212,212,2)', color_percentage: '' }, { color: 'rgba(255,210,210,1)', color_percentage: '' }],
+        tabs_checked: [{ color: '#FF2222', color_percentage: '' }, { color: '#FF9898', color_percentage: '' }],
         tabs_direction: '90deg',
         tabs_weight_checked: '500',
         tabs_size_checked: 14,
@@ -92,47 +101,50 @@ const defaultProductList: DefaultProductList = {
             padding_right: 10,
         },
         shop_img_radius: {
-            radius: 0,
-            radius_top_left: 0,
-            radius_top_right: 0,
-            radius_bottom_left: 0,
-            radius_bottom_right: 0,
-        },
-        shop_radius: {
-            radius: 0,
+            radius: 4,
             radius_top_left: 4,
             radius_top_right: 4,
-            radius_bottom_left: 0,
-            radius_bottom_right: 0,
+            radius_bottom_left: 4,
+            radius_bottom_right: 4,
+        },
+        shop_radius: {
+            radius: 8,
+            radius_top_left: 8,
+            radius_top_right: 8,
+            radius_bottom_left: 8,
+            radius_bottom_right: 8,
         },
         content_outer_spacing: 10,
         content_spacing: 10,
         content_outer_width: 104,
         content_outer_height: 189,
-        shop_title_typeface: 'normal',
+        shop_title_typeface: '500',
         shop_title_size: 14,    
         shop_title_color: "#333333",
-        shop_price_typeface: 'normal',
-        shop_price_size: 14,
+        shop_price_typeface: '500',
+        shop_price_size: 18,
         shop_price_color: "#EA3323;",
-        shop_sold_number_typeface: 'normal',
+        shop_sold_number_typeface: '400',
         shop_sold_number_size: 10,
         shop_sold_number_color: "#999999",
-        shop_score_typeface: 'normal',
+        shop_score_typeface: '400',
         shop_score_size: 10,
         shop_score_color: "#999999",
-        shop_button_typeface:'normal',
+        shop_button_typeface:'400',
         shop_button_size: 12,
         shop_button_color: [
             {
-                color: '#2a94ff',
+                color: '#FF3D53',
                 color_percentage: ''
             },
             {
-                color: '#2a94ff',
+                color: '#D73A3A',
                 color_percentage: ''
             }
         ],
+        shop_button_text_color: '#fff',
+        shop_icon_size: 10,
+        shop_icon_color: "#fff",
         common_style: { ...defaultCommon, padding: 10, padding_top: 10, padding_bottom: 10, padding_left: 10, padding_right: 10 },
     },
 };

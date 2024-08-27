@@ -4,18 +4,18 @@ import defaultCommon from "./index";
 interface carousel_list {
     id: string;
     title: string;
-    link: string;
+    link: object;
     is_show: boolean;
 }
 interface defaultSearch {
     content: {
         title: string,
-        title_link: string,
+        title_link: object,
         keyword_show: true,
         keyword_list: carousel_list[]
         right_show: true,
         right_title: string,
-        right_link: string,
+        right_link: object,
     };
     style: {
         title_color: string,
@@ -31,16 +31,16 @@ interface defaultSearch {
 const defaultSearch: defaultSearch = {
     content: {
         title: '',
-        title_link: '',
+        title_link: {},
         keyword_show: true,
         right_show: true,
         right_title: '更多',
-        right_link: '',
+        right_link: {},
         keyword_list: [
             {
                 id: get_math(),
                 title: '',
-                link: '',
+                link: {},
                 is_show: true
             }
         ]

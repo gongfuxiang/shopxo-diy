@@ -7,16 +7,10 @@
                     <mult-color-picker :value="form.tabs_checked" :type="form.tabs_direction" @update:value="tabs_checked_event"></mult-color-picker>
                 </el-form-item>
                 <el-form-item label="选中文字">
-                    <text-size-type v-model:typeface="form.tabs_weight_checked" v-model:size="form.tabs_size_checked"></text-size-type>
-                </el-form-item>
-                <el-form-item label="文字色值">
-                    <color-picker v-model="form.tabs_color_checked" default-color="#000000"></color-picker>
+                    <color-text-size-group v-model:color="form.tabs_color_checked" v-model:typeface="form.tabs_weight_checked" v-model:size="form.tabs_size_checked" default-color="rgba(51,51,51,1)"></color-text-size-group>
                 </el-form-item>
                 <el-form-item label="未选文字">
-                    <text-size-type v-model:typeface="form.tabs_weight" v-model:size="form.tabs_size"></text-size-type>
-                </el-form-item>
-                <el-form-item label="文字色值">
-                    <color-picker v-model="form.tabs_color" default-color="#000000"></color-picker>
+                    <color-text-size-group v-model:color="form.tabs_color" v-model:typeface="form.tabs_weight" v-model:size="form.tabs_size" default-color="rgba(51,51,51,1)"></color-text-size-group>
                 </el-form-item>
             </card-container>
         </el-form>
