@@ -9,13 +9,14 @@ const service = axios.create({
     timeout: 50000,
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
 });
+/** @ts-ignore  */
 // 请求拦截器
 service.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
         // 如果是本地则使用静态tonken如果是线上则使用cookie的token
         const cookie = get_cookie('admin_info');
         if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
-            let temp_data = await import('../../temp.d');
+            let temp_data = await import(import.meta.env.VITE_APP_BASE_API == '/dev-api' ? '../../temp.d' : '../../temp_pro.d');
             config.url = config.url + '?token=' + temp_data.default.temp_token;
         } else {
             if (cookie) {

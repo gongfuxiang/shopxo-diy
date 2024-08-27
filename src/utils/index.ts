@@ -326,8 +326,8 @@ export const tabs_style = (color: string, style: string | number | boolean | und
  */
 export const online_url = async () => {
     if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
-        let temp_value = await import('../../temp.d');
-        return temp_value.default.temp_attachment_host + '/static/app/tabbar/';
+        let temp_data = await import(import.meta.env.VITE_APP_BASE_API == '/dev-api' ? '../../temp.d' : '../../temp_pro.d');
+        return temp_data.default.temp_attachment_host + '/static/app/tabbar/';
     } else {
         return (await get_cookie('temp_attachment_host')) + '/static/app/tabbar/';
     }
