@@ -48,8 +48,10 @@ const props = defineProps({
 });
 watch(
     () => props.reset,
-    () => {
-        init();
+    (val) => {
+        if (val) {
+            init();
+        }
     }
 );
 const modelValue = defineModel({ type: Array, default: [] });
@@ -84,12 +86,12 @@ const filterData = (input: string, data: pageLinkList[]) => {
     // 遍历数组
     for (let item of data) {
         // 检查当前项的name是否匹配
-        if (item.name.includes(input)) {
+        if (item.name && item.name.includes(input)) {
             result.push(item);
         } else {
             if (item.data) {
                 // 否则，‌检查当前项的data属性中的子项
-                let subResult = item.data.filter((subItem) => subItem.name.includes(input));
+                let subResult = item.data.filter((subItem) => subItem.name && subItem.name.includes(input));
                 // 如果找到匹配的子项，‌将当前项（‌父级）‌添加到结果中
                 if (subResult.length > 0) {
                     result.push({ ...item, data: subResult });

@@ -73,12 +73,12 @@ const filterData = (input: string, data: pageLinkList[]) => {
     // 遍历数组
     for (let item of data) {
         // 检查当前项的name是否匹配
-        if (item.name.includes(input)) {
+        if (item.name && item.name.includes(input)) {
             result.push(item);
         } else {
             if (item.items) {
                 // 否则，‌检查当前项的data属性中的子项
-                let subResult = item.items.filter((subItem) => subItem.name.includes(input));
+                let subResult = item.items.filter((subItem) => subItem.name && subItem.name.includes(input));
                 // 如果找到匹配的子项，‌将当前项（‌父级）‌添加到结果中
                 if (subResult.length > 0) {
                     result.push({ ...item, items: subResult });
@@ -87,7 +87,7 @@ const filterData = (input: string, data: pageLinkList[]) => {
                     let result_child: pageLinkList[] = [];
                     item.items.forEach((child: pageLinkList) => {
                         if (child.items) {
-                            let subResult = child.items.filter((subItem) => subItem.name.includes(input));
+                            let subResult = child.items.filter((subItem) => subItem.name && subItem.name.includes(input));
                             if (subResult.length > 0) {
                                 result_child.push({ ...child, items: subResult });
                             }
