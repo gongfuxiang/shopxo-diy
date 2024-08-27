@@ -85,7 +85,7 @@ const article_style = ref({});
 const default_data_list: ArticleList = {
     id: 0,
     data: {},
-    new_title: '测试标题',
+    new_title: '测试文章标题',
     new_cover: [],
 };
 watch(
@@ -129,6 +129,8 @@ watch(
         } else if (article_theme.value == '1') {
             article_spacing_children.value = `width: calc(50% - ${new_style.article_spacing / 2}px);`;
             article_style.value += article_spacing_children.value + content_radius.value;
+        } else if (article_theme.value == '2') {
+            article_style.value += content_radius.value;
         } else if (article_theme.value == '3') {
             style.value = `padding: 0 ${new_style.content_spacing}px;background:#fff;` + content_radius.value;
         } else if (article_theme.value == '4') {
