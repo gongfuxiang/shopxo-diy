@@ -54,16 +54,7 @@ import { get_math } from '@/utils';
 const props = defineProps({
     value: {
         type: Object,
-        default: () => ({
-            nav_style: '0',
-            nav_type: '0',
-            nav_content: [
-                { id: '1', name: '首页', src: [{ id: 1, url: '/src/assets/images/layout/main/phone.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], src_checked: 'tabs', href: {} },
-                { id: '2', name: '分类', src: [{ id: 1, url: '/src/assets/images/layout/main/phone.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], src_checked: 'tabs', href: {} },
-                { id: '3', name: '购物车', src: [{ id: 1, url: '/src/assets/images/layout/main/phone.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], src_checked: 'tabs', href: {} },
-                { id: '4', name: '我的', src: [{ id: 1, url: '/src/assets/images/layout/main/phone.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], src_checked: 'tabs', href: {} },
-            ],
-        }),
+        default: () => {},
     },
 });
 const form = reactive(props.value);

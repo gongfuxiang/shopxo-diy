@@ -304,7 +304,7 @@ export const set_cookie = (name: string, value: string, expire_time?: number) =>
 export const tabs_style = (color: string, style: string | number | boolean | undefined) => {
     const color_list = ['rgba(51,51,51,1)', 'rgba(255, 34, 34, 1)', 'rgba(255, 255, 255, 1)'];
     if (color_list.includes(color)) {
-        if ((style == '2' || style == '4')) {
+        if (style == '2' || style == '4') {
             return 'rgba(255, 255, 255, 1)';
         } else if (style == '3') {
             return 'rgba(255, 34, 34, 1)';
@@ -314,4 +314,13 @@ export const tabs_style = (color: string, style: string | number | boolean | und
     } else {
         return color;
     }
-}
+};
+// 在线地址
+export const online_url = async () => {
+    if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
+        let temp_value = await import('../../temp.d');
+        return temp_value.default.temp_attachment_host + '/static/app/tabbar/';
+    } else {
+        return (await get_cookie('temp_attachment_host')) + '/static/app/tabbar/';
+    }
+};

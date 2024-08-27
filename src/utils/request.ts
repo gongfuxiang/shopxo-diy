@@ -15,8 +15,8 @@ service.interceptors.request.use(
         // 如果是本地则使用静态tonken如果是线上则使用cookie的token
         const cookie = get_cookie('admin_info');
         if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
-            let temp_token = await import('../../temp.d');
-            config.url = config.url + '?token=' + temp_token.default;
+            let temp_data = await import('../../temp.d');
+            config.url = config.url + '?token=' + temp_data.default.temp_token;
         } else {
             if (cookie) {
                 config.url = config.url + '&token=' + JSON.parse(cookie).token;
