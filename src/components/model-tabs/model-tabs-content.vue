@@ -33,7 +33,12 @@
                             </el-form-item>
                             <el-form-item :label="scoped.row.data_type == 'micro_page' ? '微页面' : '商品分类'" class="w mb-0">
                                 <!-- <el-input v-model="scoped.row.classify" placeholder="请选择页面" /> -->
-                                <url-value v-model="scoped.row.classify"></url-value>
+                                <template v-if="scoped.row.data_type == 'micro_page'">
+                                    <url-value v-model="scoped.row.micro_page_list"></url-value>
+                                </template>
+                                <template v-else>
+                                    <url-value v-model="scoped.row.classify" :type="[ 'goods-category' ]"></url-value>
+                                </template>
                             </el-form-item>
                         </div>
                     </template>
@@ -70,6 +75,7 @@ const add = () => {
         data_type: 'micro_page',
         classify: {},
         micro_page: '',
+        micro_page_list: [],
         category_list: []
     })
 }

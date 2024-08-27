@@ -7,6 +7,7 @@ interface tabs_page {
     data_type: string;
     classify: object;
     micro_page: string;
+    micro_page_list: string[];
     category_list: string[];
 }
 interface defaultTabs {
@@ -32,9 +33,9 @@ const defaultTabs: defaultTabs = {
         tabs_theme: '0',
         tabs_top_up: true,
         tabs_list: [
-            { id: get_math(), title: '热门推荐', desc: '简介', data_type: 'micro_page', classify: {}, micro_page: '', category_list: [] },
-            { id: get_math(), title: '测试一', desc: '简介',  data_type: 'micro_page', classify: {}, micro_page: '', category_list: [] },
-            { id: get_math(), title: '测试二', desc: '简介',  data_type: 'micro_page', classify: {}, micro_page: '', category_list: [] },
+            { id: get_math(), title: '热门推荐', desc: '简介', data_type: 'micro_page', classify: {}, micro_page: '', micro_page_list: [], category_list: [] },
+            { id: get_math(), title: '测试一', desc: '简介',  data_type: 'micro_page', classify: {}, micro_page: '', micro_page_list: [],  category_list: [] },
+            { id: get_math(), title: '测试二', desc: '简介',  data_type: 'micro_page', classify: {}, micro_page: '', micro_page_list: [],  category_list: [] },
         ],
     },
     style: {
