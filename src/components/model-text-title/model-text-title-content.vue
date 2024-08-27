@@ -7,7 +7,7 @@
                     <el-input v-model="form.title" placeholder="请输入标题"></el-input>
                 </el-form-item>
                 <el-form-item label="标题链接">
-                    <el-input v-model="form.title_link" placeholder="请输入链接"></el-input>
+                    <url-value v-model="form.title_link"></url-value>
                 </el-form-item>
             </card-container>
             <card-container class="mb-8">
