@@ -42,7 +42,7 @@ interface DefaultArticleList {
 }
 const defaultArticleList: DefaultArticleList = {
     content: {
-        theme: '1',
+        theme: '0',
         data_type: '0',
         category: [],
         data_list: [],
@@ -73,11 +73,11 @@ const defaultArticleList: DefaultArticleList = {
         },
         // 图片圆角
         img_radius: {
-            radius: 0,
-            radius_top_left: 0,
-            radius_top_right: 0,
-            radius_bottom_left: 0,
-            radius_bottom_right: 0,
+            radius: 4,
+            radius_top_left: 4,
+            radius_top_right: 4,
+            radius_bottom_left: 4,
+            radius_bottom_right: 4,
         },
         // 内间距
         padding: {

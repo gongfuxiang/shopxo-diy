@@ -297,9 +297,7 @@ watch(
                 get_tree();
                 // 获取附件列表
                 get_attachment_list();
-
-                icon_value.value = '';
-                temp_icon_value.value = '';
+                
                 icon_index.value = -1;
             }
         }

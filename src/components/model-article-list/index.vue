@@ -14,7 +14,12 @@
                             <div class="title" :class="article_theme == '3' ? 'text-line-1 flex-1 flex-width' : 'text-line-2'" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
                             <div class="flex-row jc-sb gap-8" :class="article_theme == '3' ? 'ml-10' : 'align-e mt-10'">
                                 <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
-                                <icon v-show="field_show.includes('1')" name="eye" :style="article_page_view">{{ item.data.access_count ? item.data.access_count : '16' }}</icon>
+                                <div class="flex-row align-c gap-3" :style="article_page_view">
+                                    <icon v-show="field_show.includes('1')" name="eye"></icon>
+                                    <div>
+                                        {{ item.data.access_count ? item.data.access_count : '16' }}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -89,7 +94,6 @@ const default_data_list: ArticleList = {
 watch(
     props.value,
     (newVal, oldValue) => {
-        console.log(newVal);
         const new_content = newVal?.content;
         const new_style = newVal?.style;
         // 内容

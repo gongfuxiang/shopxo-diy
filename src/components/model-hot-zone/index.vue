@@ -73,10 +73,10 @@ const rect_style = computed(() => {
 .hot {
     min-height: 1rem;
     .hot_box {
-        background: rgba(42, 148, 255, 0.25);
-        border: 1px dashed #8ec6ff;
+        background: rgba(42, 148, 255, 0.15);
+        border: 1px dashed rgba(142, 198, 255, 0.5);
         position: absolute;
-        opacity: 0.6;
+        opacity: 0.4;
     }
 }
 </style>
