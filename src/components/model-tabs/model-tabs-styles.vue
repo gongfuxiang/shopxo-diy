@@ -8,13 +8,13 @@
                 </el-form-item>
                 <el-form-item label="选中文字" class="">
                     <div class="flex-col w h gap-10">
-                        <color-picker v-model="form.tabs_color_checked" default-color="#000000"></color-picker>
+                        <color-picker v-model="form.tabs_color_checked" default-color="rgba(51,51,51,1)"></color-picker>
                         <text-size-type v-model:typeface="form.tabs_weight_checked" v-model:size="form.tabs_size_checked"></text-size-type>
                     </div>
                 </el-form-item>
                 <el-form-item label="未选文字">
                     <div class="flex-col w h gap-10">
-                        <color-picker v-model="form.tabs_color" default-color="#000000"></color-picker>
+                        <color-picker v-model="form.tabs_color" default-color="rgba(51,51,51,1)"></color-picker>
                         <text-size-type v-model:typeface="form.tabs_weight" v-model:size="form.tabs_size"></text-size-type>
                     </div>
                 </el-form-item>

@@ -10,7 +10,7 @@
 <script setup lang="ts">
 const typeface = defineModel('typeface', {
     type: String,
-    default: 'normal'
+    default: '400'
 });
 const size = defineModel('size', {
     type: Number,
@@ -19,7 +19,7 @@ const size = defineModel('size', {
 
 const font_weight = [
     { name: '加粗', value: '500' },
-    { name: '正常', value: 'normal' },
+    { name: '正常', value: '400' },
 ];
 </script>
 

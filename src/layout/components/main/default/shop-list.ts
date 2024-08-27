@@ -93,13 +93,13 @@ const defaultProductList: DefaultProductList = {
         shop_price_typeface: '500',
         shop_price_size: 18,
         shop_price_color: "#EA3323;",
-        shop_sold_number_typeface: 'normal',
+        shop_sold_number_typeface: '400',
         shop_sold_number_size: 10,
         shop_sold_number_color: "#999999",
-        shop_score_typeface: 'normal',
+        shop_score_typeface: '400',
         shop_score_size: 10,
         shop_score_color: "#999999",
-        shop_button_typeface:'normal',
+        shop_button_typeface:'400',
         shop_button_size: 12,
         shop_button_color: [
             {

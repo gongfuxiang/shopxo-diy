@@ -63,10 +63,10 @@ const data_style = {
     rotation_direction: 'horizontal',
     interval_time: 2,
     heading_color: '#000',
-    heading_typeface: 'normal',
+    heading_typeface: '400',
     heading_size: 20,
     subtitle_color: '#FF852A',
-    subtitle_typeface: 'normal',
+    subtitle_typeface: '400',
     subtitle_size: 14,
     chunk_padding: {
         padding: 0,
