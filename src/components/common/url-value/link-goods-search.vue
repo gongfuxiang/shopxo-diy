@@ -83,8 +83,10 @@ watch(
 );
 watch(
     () => props.reset,
-    () => {
-        init();
+    (val) => {
+        if (val) {
+            init();
+        }
     }
 );
 const emit = defineEmits(['update:link', 'type']);

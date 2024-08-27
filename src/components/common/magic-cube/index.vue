@@ -54,7 +54,7 @@ interface CubeItem {
 interface Props {
     flag: boolean;
     list: CubeItem[];
-    type: string;
+    type?: string;
     cubeWidth: number;
     cubeHeight: number;
 }

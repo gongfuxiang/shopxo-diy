@@ -51,9 +51,16 @@
                 <el-form-item label="按钮颜色" class="topic">
                     <flex-gradients-create :color-list="form.shop_button_color" default-color="#FF3D53"></flex-gradients-create>
                 </el-form-item>
-                <el-form-item label="立即购买">
-                    <color-text-size-group v-model:typeface="form.shop_button_typeface" v-model:size="form.shop_button_size" :type-list="['typeface', 'size']"></color-text-size-group>
-                </el-form-item>
+                <template v-if="data.shop_type == 'text'">
+                    <el-form-item label="文字设置">
+                        <color-text-size-group v-model:color="form.shop_button_text_color" v-model:typeface="form.shop_button_typeface" v-model:size="form.shop_button_size" default-color="#fff"></color-text-size-group>
+                    </el-form-item>
+                </template>
+                <template v-else>
+                    <el-form-item label="icon设置">
+                        <color-text-size-group v-model:color="form.shop_icon_color" v-model:size="form.shop_icon_size" default-color="#fff" :type-list="['color', 'size']"></color-text-size-group>
+                    </el-form-item>
+                </template>
             </card-container>
         </el-form>
         <common-styles :value="form.common_style" @update:value="common_style_update" />

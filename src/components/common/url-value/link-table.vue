@@ -55,8 +55,10 @@ const props = defineProps({
 });
 watch(
     () => props.reset,
-    () => {
-        init();
+    (val) => {
+        if (val) {
+            init();
+        }
     }
 );
 onMounted(() => {

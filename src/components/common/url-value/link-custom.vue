@@ -67,7 +67,7 @@ watch(
 );
 watch(
     () => props.reset,
-    () => {
+    (val) => {
         reset_data();
         custom_type_active.value = 0;
     }

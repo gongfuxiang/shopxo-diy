@@ -12,12 +12,22 @@
                     </el-form-item>
                 </template>
                 <template v-else>
-                    <el-form-item label="图片宽度">
-                        <slider v-model="form.topic_width" :max="1000"></slider>
-                    </el-form-item>
-                    <el-form-item label="图片高度">
-                        <slider v-model="form.topic_height" :max="1000"></slider>
-                    </el-form-item>
+                    <template v-if="!isEmpty(substance.icon_class)">
+                        <el-form-item label="图标大小">
+                            <slider v-model="form.icon_size" :max="100"></slider>
+                        </el-form-item>
+                        <el-form-item label="图标颜色">
+                            <color-picker v-model="form.icon_color" default-color="#999"></color-picker>
+                        </el-form-item>
+                    </template>
+                    <template v-else>
+                        <el-form-item label="图片宽度">
+                            <slider v-model="form.topic_width" :max="1000"></slider>
+                        </el-form-item>
+                        <el-form-item label="图片高度">
+                            <slider v-model="form.topic_height" :max="1000"></slider>
+                        </el-form-item>
+                    </template>
                 </template>
                 <el-form-item label="按钮颜色">
                     <color-picker v-model="form.button_color" default-color="#999"></color-picker>
@@ -31,6 +41,7 @@
     </div>
 </template>
 <script setup lang="ts">
+import { isEmpty } from "lodash";
 const props = defineProps({
     value: {
         type: Object,
@@ -49,7 +60,7 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form, substance } = toRefs(state);
 
-const is_img = computed(() => substance.value.title_type == 'img');
+const is_img = computed(() => substance.value.title_type == 'img-icon');
 // 通用样式处理
 const common_styles_update = (val: Object) => {
     form.value.common_style = val;

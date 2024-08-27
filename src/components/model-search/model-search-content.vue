@@ -10,16 +10,7 @@
                     <div class="flex-col w h gap-10">
                         <el-switch v-model="form.is_icon_show"/>
                         <template v-if="form.is_icon_show">
-                            <el-radio-group v-model="form.icon_type" class="ml-4">
-                                <el-radio value="img">图片</el-radio>
-                                <el-radio value="icon">图标</el-radio>
-                            </el-radio-group>
-                            <template v-if="form.icon_type === 'img'">
-                                <upload v-model="form.icon_img_src" :limit="1" size="50"></upload>
-                            </template>
-                            <template v-else>
-                                <upload-icon v-model:icon_class="form.icon_class" :size="50"></upload-icon>
-                            </template>
+                            <upload v-model="form.icon_img_src" v-model:icon-value="form.icon_class" is-icon :limit="1" size="50"></upload>
                         </template>
                     </div>
                 </el-form-item>
@@ -34,15 +25,11 @@
                         <el-switch v-model="form.is_search_show"/>
                         <template v-if="form.is_search_show">
                             <el-radio-group v-model="form.search_type" class="ml-4">
-                                <el-radio value="img">图片</el-radio>
-                                <el-radio value="icon">图标</el-radio>
+                                <el-radio value="img-icon">图片/图标</el-radio>
                                 <el-radio value="text">文字</el-radio>
                             </el-radio-group>
-                            <template v-if="form.search_type === 'img'">
-                                <upload v-model="form.search_botton_src" :limit="1" size="50"></upload>
-                            </template>
-                            <template v-else-if="form.search_type === 'icon'">
-                                <upload-icon v-model:icon_class="form.search_botton_icon" :size="50"></upload-icon>
+                            <template v-if="form.search_type === 'img-icon'">
+                                <upload v-model="form.search_botton_src" v-model:icon-value="form.search_botton_icon" is-icon :limit="1" size="50"></upload>
                             </template>
                             <template v-else>
                                 <el-input v-model="form.search_tips" placeholder="请输入文字内容"></el-input>
@@ -74,7 +61,6 @@ const props = withDefaults(defineProps<Props>(), {
     value: () => ({
         is_center: false,
         is_icon_show: true,
-        icon_type: 'icon',
         icon_src: '',
         icon_img_src: [],
         icon_class: '',
