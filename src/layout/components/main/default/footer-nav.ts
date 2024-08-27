@@ -1,7 +1,7 @@
 import defaultCommon from './index';
 import { online_url } from '@/utils';
 
-let new_url = await online_url();
+const new_url = online_url();
 
 interface DefaultFooterNav {
     content: {
