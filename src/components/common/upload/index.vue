@@ -4,136 +4,161 @@
         <template #header>
             <div class="title re">
                 <el-radio-group v-model="upload_type" is-button @change="upload_type_change">
-                    <el-radio-button value="img" :disabled="!(upload_type == 'img') && isCheckConfirm">图片</el-radio-button>
-                    <el-radio-button value="video" :disabled="!(upload_type == 'video') && isCheckConfirm">视频</el-radio-button>
-                    <el-radio-button value="file" :disabled="!(upload_type == 'file') && isCheckConfirm">文件</el-radio-button>
+                    <el-radio-button value="img" :disabled="!(const_upload_type == 'img') && isCheckConfirm">图片</el-radio-button>
+                    <el-radio-button v-if="isIcon" value="icon" :disabled="!isIcon && isCheckConfirm">图标</el-radio-button>
+                    <el-radio-button value="video" :disabled="!(const_upload_type == 'video') && isCheckConfirm">视频</el-radio-button>
+                    <el-radio-button value="file" :disabled="!(const_upload_type == 'file') && isCheckConfirm">文件</el-radio-button>
                 </el-radio-group>
                 <div class="middle size-16 fw">附件管理</div>
             </div>
         </template>
-        <div class="upload-content pa-20 flex-row">
-            <div class="left-content">
-                <div class="flex-row align-c gap-10 mb-10">
-                    <el-input v-model="search_filter" placeholder="请输入分类名称">
-                        <template #prefix>
-                            <icon name="search" size="18"></icon>
-                        </template>
-                    </el-input>
-                    <icon name="add" size="18" class="c-pointer" @click="add_type"></icon>
-                </div>
-                <el-scrollbar height="490px">
-                    <el-tree ref="treeRef" class="filter-tree" :data="type_data" node-key="id" highlight-current :props="defaultProps" empty-text="无数据" default-expand-all :filter-node-method="filter_node" @node-click="tree_node_event">
-                        <template #default="{ node, data }">
-                            <div class="custom-tree-node flex-row jc-sb gap-10 align-c w pr-10" :class="data.is_enable == 0 || node.parent.data.is_enable == 0 ? 'disabled bg-red' : ''">
-                                <div class="flex-1 flex-width text-line-1 block">{{ data.name }}</div>
-                                <div v-if="data.id" class="flex-row gap-10 cr-9 category-operate c-pointer">
-                                    <el-popover placement="bottom" width="70" trigger="hover">
-                                        <template #reference>
-                                            <div class="tree-operate-btn">
-                                                <icon name="ellipsis" size="14"></icon>
-                                            </div>
-                                        </template>
-                                        <div class="flex-col gap-12 tree-operate">
-                                            <div v-if="data.pid == 0" class="flex-row gap-5 c-pointer w item" @click.stop="append_type_event(data)"><icon class="icon" name="add" size="12"></icon>新增</div>
-                                            <div class="flex-row gap-5 c-pointer w item" @click.stop="edit_type_event(data)"><icon class="icon" name="edit" size="12"></icon>编辑</div>
-                                            <div class="flex-row gap-5 c-pointer w item" @click.stop="remove_type_event(node, data)"><icon class="icon" name="del" size="12"></icon>删除</div>
-                                        </div>
-                                    </el-popover>
-                                </div>
-                            </div>
-                        </template>
-                    </el-tree>
-                </el-scrollbar>
-            </div>
-            <div class="right-content flex-1 flex-width">
-                <div class="flex-row jc-sb align-c mb-15">
-                    <div class="right-operate flex-row">
-                        <el-button type="primary" plain @click="upload_model_open">上传{{ upload_type_name }}</el-button>
-                        <el-button @click="mult_del_event">删除{{ upload_type_name }}</el-button>
-                        <!-- <el-cascader :show-all-levels="false" clearable></el-cascader> -->
-                        <div class="right-classify ml-12">
-                            <transform-category :data="type_data_list" :check-img-ids="check_img_ids" :placeholder="upload_type_name + '移动至'" @call-back="transform_category_event"></transform-category>
-                        </div>
-                    </div>
-                    <div class="right-search">
-                        <el-input v-model="search_name" :placeholder="'请输入' + upload_type_name + '名称'" @change="get_attachment_list('1')">
-                            <template #suffix>
-                                <icon name="search" size="18" class="c-pointer" @click="get_attachment_list('1')"></icon>
+        <div class="upload-content pa-20">
+            <div v-if="upload_type !== 'icon'" class="flex-row">
+                <div class="left-content">
+                    <div class="flex-row align-c gap-10 mb-10">
+                        <el-input v-model="search_filter" placeholder="请输入分类名称">
+                            <template #prefix>
+                                <icon name="search" size="18"></icon>
                             </template>
                         </el-input>
+                        <icon name="add" size="18" class="c-pointer" @click="add_type"></icon>
                     </div>
+                    <el-scrollbar height="490px">
+                        <el-tree ref="treeRef" class="filter-tree" :data="type_data" node-key="id" highlight-current :props="defaultProps" empty-text="无数据" default-expand-all :filter-node-method="filter_node" @node-click="tree_node_event">
+                            <template #default="{ node, data }">
+                                <div class="custom-tree-node flex-row jc-sb gap-10 align-c w pr-10" :class="data.is_enable == 0 || node.parent.data.is_enable == 0 ? 'disabled bg-red' : ''">
+                                    <div class="flex-1 flex-width text-line-1 block">{{ data.name }}</div>
+                                    <div v-if="data.id" class="flex-row gap-10 cr-9 category-operate c-pointer">
+                                        <el-popover placement="bottom" width="70" trigger="hover">
+                                            <template #reference>
+                                                <div class="tree-operate-btn">
+                                                    <icon name="ellipsis" size="14"></icon>
+                                                </div>
+                                            </template>
+                                            <div class="flex-col gap-12 tree-operate">
+                                                <div v-if="data.pid == 0" class="flex-row gap-5 c-pointer w item" @click.stop="append_type_event(data)"><icon class="icon" name="add" size="12"></icon>新增</div>
+                                                <div class="flex-row gap-5 c-pointer w item" @click.stop="edit_type_event(data)"><icon class="icon" name="edit" size="12"></icon>编辑</div>
+                                                <div class="flex-row gap-5 c-pointer w item" @click.stop="remove_type_event(node, data)"><icon class="icon" name="del" size="12"></icon>删除</div>
+                                            </div>
+                                        </el-popover>
+                                    </div>
+                                </div>
+                            </template>
+                        </el-tree>
+                    </el-scrollbar>
                 </div>
-                <div class="img-content pr">
-                    <!-- 574px -->
-                    <el-scrollbar height="440px">
-                        <div v-if="upload_list.length > 0" class="flex-row flex-wrap align-c gap-y-15 gap-x-10 pa-10">
-                            <div v-for="(item, index) in upload_list" :key="index" class="item" @click="check_img_event(item)">
-                                <el-badge :value="view_list_value.findIndex((i) => i.id === item.id) == -1 ? '' : view_list_value.findIndex((i) => i.id === item.id) + 1" class="badge flex-col gap-5 w" :hidden="view_list_value.findIndex((i) => i.id === item.id) == -1">
-                                    <div class="item-content re br-f5 radius">
-                                        <template v-if="upload_type == 'video'">
-                                            <video :src="item.url" class="w h" @error="handle_error(index)"></video>
-                                            <div v-if="item.error == true" class="bg-f5 img flex-row jc-c align-c radius h w abs top-0">
-                                                <icon name="video" size="42" color="9"></icon>
-                                            </div>
-                                        </template>
-                                        <template v-else-if="upload_type == 'file'">
-                                            <div class="bg-f5 img flex-row jc-c align-c radius h w">
-                                                <icon :name="ext_file_name_list_map.filter((ext) => ext.type == item.ext).length > 0 && ext_file_name_list_map.filter((ext) => ext.type == item.ext)[0].type == item.ext ? ext_file_name_list_map.filter((ext) => ext.type == item.ext)[0].icon : 'file'" size="42" color="9"></icon>
-                                            </div>
-                                        </template>
-                                        <template v-else>
-                                            <el-image :src="item.url" fit="contain" class="w h">
-                                                <template #error>
-                                                    <div class="bg-f5 img flex-row jc-c align-c radius h w">
-                                                        <icon name="error-img" size="42" color="9"></icon>
-                                                    </div>
-                                                </template>
-                                            </el-image>
-                                        </template>
-                                        <div class="check-icon fill flex-row jc-c align-c" :class="view_list_value.findIndex((i) => i.id === item.id) !== -1 ? 'active' : ''">
-                                            <icon name="true-o" color="f" size="26"></icon>
-                                        </div>
-                                        <div class="operate">
-                                            <div class="operate-content flex-row jc-sa align-c">
-                                                <div class="flex-1 tc c-pointer" @click.stop="edit_event(item, index)">
-                                                    <icon name="edit" class="flex-1" size="14" color="f"></icon>
-                                                </div>
-                                                <div v-if="upload_type !== 'file'" class="operate-icon flex-1 tc c-pointer" @click.stop="preview_event(item, index)">
-                                                    <icon name="eye" size="14" color="f"></icon>
-                                                </div>
-                                                <div class="flex-1 tc c-pointer" @click.stop="del_event(item)">
-                                                    <icon name="del" size="14" color="f"></icon>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="text-line-1 name">
-                                        <template v-if="edit_index !== -1 && edit_index === index">
-                                            <el-input v-model="item.original" type="text" placeholder="请输入内容" size="small" @change="edit_input_change" />
-                                        </template>
-                                        <template v-else>
-                                            <div class="ptb-1 plr-7">
-                                                {{ item.original }}
-                                            </div>
-                                        </template>
-                                    </div>
-                                </el-badge>
+                <div class="right-content flex-1 flex-width">
+                    <div class="flex-row jc-sb align-c mb-15">
+                        <div class="right-operate flex-row">
+                            <el-button type="primary" plain @click="upload_model_open">上传{{ upload_type_name }}</el-button>
+                            <el-button @click="mult_del_event">删除{{ upload_type_name }}</el-button>
+                            <!-- <el-cascader :show-all-levels="false" clearable></el-cascader> -->
+                            <div class="right-classify ml-12">
+                                <transform-category :data="type_data_list" :check-img-ids="check_img_ids" :placeholder="upload_type_name + '移动至'" @call-back="transform_category_event"></transform-category>
                             </div>
                         </div>
+                        <div class="right-search">
+                            <el-input v-model="search_name" :placeholder="'请输入' + upload_type_name + '名称'" @change="get_attachment_list('1')">
+                                <template #suffix>
+                                    <icon name="search" size="18" class="c-pointer" @click="get_attachment_list('1')"></icon>
+                                </template>
+                            </el-input>
+                        </div>
+                    </div>
+                    <div class="img-content pr">
+                        <!-- 574px -->
+                        <el-scrollbar height="440px">
+                            <div v-if="upload_list.length > 0" class="flex-row flex-wrap align-c gap-y-15 gap-x-10 pa-10">
+                                <div v-for="(item, index) in upload_list" :key="index" class="item" @click="check_img_event(item)">
+                                    <el-badge :value="view_list_value.findIndex((i) => i.id === item.id) == -1 ? '' : view_list_value.findIndex((i) => i.id === item.id) + 1" class="badge flex-col gap-5 w" :hidden="view_list_value.findIndex((i) => i.id === item.id) == -1">
+                                        <div class="item-content re br-f5 radius">
+                                            <template v-if="upload_type == 'video'">
+                                                <video :src="item.url" class="w h" @error="handle_error(index)"></video>
+                                                <div v-if="item.error == true" class="bg-f5 img flex-row jc-c align-c radius h w abs top-0">
+                                                    <icon name="video" size="42" color="9"></icon>
+                                                </div>
+                                            </template>
+                                            <template v-else-if="upload_type == 'file'">
+                                                <div class="bg-f5 img flex-row jc-c align-c radius h w">
+                                                    <icon :name="ext_file_name_list_map.filter((ext) => ext.type == item.ext).length > 0 && ext_file_name_list_map.filter((ext) => ext.type == item.ext)[0].type == item.ext ? ext_file_name_list_map.filter((ext) => ext.type == item.ext)[0].icon : 'file'" size="42" color="9"></icon>
+                                                </div>
+                                            </template>
+                                            <template v-else>
+                                                <el-image :src="item.url" fit="contain" class="w h">
+                                                    <template #error>
+                                                        <div class="bg-f5 img flex-row jc-c align-c radius h w">
+                                                            <icon name="error-img" size="42" color="9"></icon>
+                                                        </div>
+                                                    </template>
+                                                </el-image>
+                                            </template>
+                                            <div class="check-icon fill flex-row jc-c align-c" :class="view_list_value.findIndex((i) => i.id === item.id) !== -1 ? 'active' : ''">
+                                                <icon name="true-o" color="f" size="26"></icon>
+                                            </div>
+                                            <div class="operate">
+                                                <div class="operate-content flex-row jc-sa align-c">
+                                                    <div class="flex-1 tc c-pointer" @click.stop="edit_event(item, index)">
+                                                        <icon name="edit" class="flex-1" size="14" color="f"></icon>
+                                                    </div>
+                                                    <div v-if="upload_type !== 'file'" class="operate-icon flex-1 tc c-pointer" @click.stop="preview_event(item, index)">
+                                                        <icon name="eye" size="14" color="f"></icon>
+                                                    </div>
+                                                    <div class="flex-1 tc c-pointer" @click.stop="del_event(item)">
+                                                        <icon name="del" size="14" color="f"></icon>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-line-1 name">
+                                            <template v-if="edit_index !== -1 && edit_index === index">
+                                                <el-input v-model="item.original" type="text" placeholder="请输入内容" size="small" @change="edit_input_change" />
+                                            </template>
+                                            <template v-else>
+                                                <div class="ptb-1 plr-7">
+                                                    {{ item.original }}
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </el-badge>
+                                </div>
+                            </div>
+                            <div v-else>
+                                <no-data height="440px"></no-data>
+                            </div>
+                        </el-scrollbar>
+                        <div v-if="preview_switch_video && upload_type == 'video'">
+                            <div class="middle clickable-area" :class="preview_url ? '' : 'hide'">
+                                <!-- 视频预览 -->
+                                <!-- 自动播放 -->
+                                <video ref="videoPlayer" width="320" height="240" controls autoplay :src="preview_url"></video>
+                            </div>
+                        </div>
+                        <div class="mt-10 flex-row jc-e">
+                            <el-pagination :current-page="page" background :page-size="30" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="current_page_change" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-else class="icon-container">
+                <div class="flex jc-e mb-10">
+                    <el-input v-model="search_icon" placeholder="请输入图标名称" class="search-text" clearable></el-input>
+                </div>
+                <div class="icon-content">
+                    <el-scrollbar height="492px">
+                        <el-row v-if="icon_list.length > 0">
+                            <el-col v-for="(item, index) in icon_list" :key="item.unicode" :span="4">
+                                <div class="pa-10">
+                                    <div class="item plr-10 ptb-20 br-c radius-md tc flex-col gap-10" :class="{ active: index === icon_index }" @click="handle_select_icon(item, index)">
+                                        <i :class="`iconfont icon-${item.font_class}`"></i>
+                                        <div class="text-line-1 size-14">{{ item.name }}</div>
+                                    </div>
+                                </div>
+                            </el-col>
+                        </el-row>
                         <div v-else>
-                            <no-data height="440px"></no-data>
+                            <no-data height="500"></no-data>
                         </div>
                     </el-scrollbar>
-                    <div v-if="preview_switch_video && upload_type == 'video'">
-                        <div class="middle clickable-area" :class="preview_url ? '' : 'hide'">
-                            <!-- 视频预览 -->
-                            <!-- 自动播放 -->
-                            <video ref="videoPlayer" width="320" height="240" controls autoplay :src="preview_url"></video>
-                        </div>
-                    </div>
-                    <div class="mt-10 flex-row jc-e">
-                        <el-pagination :current-page="page" background :page-size="30" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="current_page_change" />
-                    </div>
                 </div>
             </div>
         </div>
@@ -146,8 +171,8 @@
     </el-dialog>
     <template v-if="!isCustomDialog">
         <div class="flex-col h">
-            <div class="flex-row flex-wrap gap-10 h">
-                <div v-for="(item, index) in modelValue" :key="item.id" :class="'upload-btn upload-btn-style-' + styles + ' ' + (styles == 2 ? 'br-none' : '')" :style="'height:' + upload_size + ';width:' + upload_size + ';'" @click="replace_file_event(index)">
+            <div v-if="model_value_upload.length > 0" class="flex-row flex-wrap gap-10 h">
+                <div v-for="(item, index) in model_value_upload" :key="item.id" :class="'upload-btn upload-btn-style-' + styles + ' ' + (styles == 2 ? 'br-none' : '')" :style="'height:' + upload_size + ';width:' + upload_size + ';'" @click="replace_file_event(index)">
                     <div class="upload-del-icon" @click.stop="del_upload_event(index)">
                         <icon name="close-o" color="c" size="14"></icon>
                     </div>
@@ -175,8 +200,16 @@
                         <div class="upload-btn-bottom-text">替换</div>
                     </template>
                 </div>
-                <div v-if="limit !== modelValue.length" :class="'upload-btn upload-btn-style-' + styles" :style="'height:' + upload_size + ';width:' + upload_size + ';'" @click="dialog_visible = true">
+                <div v-if="limit !== model_value_upload.length" :class="'upload-btn upload-btn-style-' + styles" :style="'height:' + upload_size + ';width:' + upload_size + ';'" @click="dialog_visible = true">
                     <icon name="add" :size="Number(size) / 2 + ''" color="c"></icon>
+                </div>
+            </div>
+            <div v-else>
+                <div :class="'upload-btn upload-btn-style-' + styles" :style="'height:' + upload_size + ';width:' + upload_size + ';'" @click="dialog_visible = true">
+                    <div v-if="!isEmpty(icon_value)" class="upload-del-icon" @click.stop="del_icon_event">
+                        <icon name="close-o" color="c" size="14"></icon>
+                    </div>
+                    <icon :name="!isEmpty(icon_value) ? icon_value : 'add'" :size="Number(size) / 2 + ''" color="c"></icon>
                 </div>
             </div>
             <div v-if="isTips" class="size-12 cr-9">{{ tipsText }}</div>
@@ -191,11 +224,13 @@
 import { ext_img_name_list, ext_video_name_list, ext_file_name_list, ext_file_name_list_map } from './index';
 import UploadAPI, { Tree } from '@/api/upload';
 import { uploadStore } from '@/store';
+import { isEmpty } from 'lodash';
+import searchIcons from '@/assets/search-icons/iconfont.json';
 const upload_store = uploadStore();
 const app = getCurrentInstance();
 /**
  * @description: 图片上传
- * @param modelValue{uploadList[]} 默认值
+ * @param model_value_upload{uploadList[]} 默认值
  * @param visibleDialog{Boolean} 弹窗开启关闭
  * @param type{String} 上传类型 默认图片 1.图片(img) 2.视频(video) 3.文件(file)
  * @param isCustomDialog{Boolean} 是否自定义弹窗, 配置true后将不会显示上传按钮改为传v-model:visible-dialog=""来开启关闭弹窗，通过@update:v-model=""来获取最新数据
@@ -205,7 +240,7 @@ const app = getCurrentInstance();
  * @param tipsText{String} 提示文字
  * @param size{Number|String} 上传图片大小
  * @param style{Number} 样式 0.默认样式 1.自定义样式1 2.自定义样式2
- * @return {*} update:modelValue
+ * @return {*} update:model_value_upload
  */
 const props = defineProps({
     type: {
@@ -240,9 +275,13 @@ const props = defineProps({
         type: [Number, String],
         default: 0,
     },
+    isIcon: {
+        type: Boolean,
+        default: false,
+    },
 });
 
-const modelValue = defineModel({ type: Array as PropType<uploadList[]>, default: [] });
+const model_value_upload = defineModel({ type: Array as PropType<uploadList[]>, default: [] });
 
 const view_list_value = ref<uploadList[]>([]);
 // 弹窗显示
@@ -266,16 +305,25 @@ watch(
 const upload_model_visible = ref(false);
 // 上传类型
 const upload_type = ref(props.type);
+const const_upload_type = props.type;
 const upload_size = computed(() => {
     const size = props.size.toString();
     return size.includes('%') ? size : size + 'px';
 });
 // 上传类型转换成name
 const upload_type_name = computed(() => {
-    return upload_type.value === 'img' ? '图片' : upload_type.value === 'video' ? '视频' : '文件';
+    switch (upload_type.value) {
+        case 'video':
+            return '视频';
+        case 'file':
+            return '文件';
+        default:
+            return '图片';
+    }
 });
 // 切换图片/视频/文件
 const upload_type_change = (type: any) => {
+    if (type == 'icon') return false;
     view_list_value.value = [];
     get_attachment_list();
 };
@@ -537,26 +585,46 @@ const transform_category_event = () => {
 };
 
 //#endregion 附件 ----------------------------------------------------------end
+
+//#region 图标 -------------------------------------------------------------start
+const icon_value = defineModel('iconValue', { type: String, default: '' });
+const temp_icon_value = ref('');
+const search_icon = ref('');
+const icon_list = computed(() => searchIcons.glyphs.filter((item) => item.name.includes(search_icon.value)));
+const icon_index = ref(0);
+const handle_select_icon = (item: any, index: number) => {
+    icon_index.value = index;
+    temp_icon_value.value = item.font_class;
+};
+const del_icon_event = () => {
+    icon_value.value = '';
+};
+//#endregion 图标 ----------------------------------------------------------end
+const emit = defineEmits(['update:icon']);
 // 确认
 const confirm_event = () => {
     dialog_visible.value = false;
     if (props.limit == 1) {
-        modelValue.value = view_list_value.value;
+        model_value_upload.value = view_list_value.value;
     } else {
         if (is_replace.value) {
             // 替换modelValue的replace下标下的文件
-            modelValue.value.splice(replace_index.value, 1, view_list_value.value[0]);
+            model_value_upload.value.splice(replace_index.value, 1, view_list_value.value[0]);
         } else {
-            if (props.limit >= view_list_value.value.length + modelValue.value.length) {
+            if (props.limit >= view_list_value.value.length + model_value_upload.value.length) {
                 // 数组合并
-                modelValue.value = modelValue.value.concat(view_list_value.value);
-                // view_list_value.value.forEach((item: uploadList) => {
-                //     modelValue.value.push(item);
-                // });
+                model_value_upload.value = model_value_upload.value.concat(view_list_value.value);
             } else {
                 app?.appContext.config.globalProperties.$common.alert(`最多上传 ${props.limit} 个文件!`, 'warning');
             }
         }
+    }
+    if (view_list_value.value.length > 0) {
+        icon_value.value = '';
+        temp_icon_value.value = '';
+        icon_index.value = 0;
+    } else {
+        icon_value.value = JSON.parse(JSON.stringify(temp_icon_value.value));
     }
     view_list_value.value = [];
     search_filter.value = '';
@@ -575,9 +643,9 @@ const replace_file_event = (index: number) => {
 };
 // 上传回显删除事件
 const del_upload_event = (index: number) => {
-    const new_model_val = JSON.parse(JSON.stringify(modelValue.value));
+    const new_model_val = JSON.parse(JSON.stringify(model_value_upload.value));
     new_model_val.splice(index, 1);
-    modelValue.value = new_model_val;
+    model_value_upload.value = new_model_val;
 };
 const handle_error = (index: number) => {
     // 当视频加载失败时触发
@@ -594,15 +662,15 @@ const close_upload_model = (data: any) => {
                 url: data.web_image,
             };
             if (props.limit == 1) {
-                modelValue.value = [new_web_file];
+                model_value_upload.value = [new_web_file];
             } else {
                 if (is_replace.value) {
                     // 替换modelValue的replace下标下的文件
-                    modelValue.value.splice(replace_index.value, 1, new_web_file);
+                    model_value_upload.value.splice(replace_index.value, 1, new_web_file);
                 } else {
-                    if (props.limit >= view_list_value.value.length + modelValue.value.length) {
+                    if (props.limit >= view_list_value.value.length + model_value_upload.value.length) {
                         // 数组合并
-                        modelValue.value.push(new_web_file);
+                        model_value_upload.value.push(new_web_file);
                     } else {
                         app?.appContext.config.globalProperties.$common.alert(`最多上传 ${props.limit} 个文件!`, 'warning');
                     }
