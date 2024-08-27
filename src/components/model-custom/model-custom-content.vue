@@ -9,7 +9,7 @@
                     </el-select>
                     <div v-if="!isEmpty(form.source_list)" class="flex-row mt-20 gap-20">
                         <div class="re flex align-c">
-                            <image-empty v-model="form.source_list[img_key]" style="width: 10rem; height: 10rem;"></image-empty>
+                            <image-empty v-model="form.source_list[form.img_key]" style="width: 10rem; height: 10rem;"></image-empty>
                             <div class="plr-15 bg-f abs replace-data size-14" @click="replace_data">替换数据</div>
                         </div>
                         <div class="flex-1 size-14 text-line-3">{{ form.source_list.title ||  form.source_list.name }}</div>
@@ -40,7 +40,7 @@
                 </div>
             </div>
         </Dialog>
-        <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="dialog_type" @update:model-value="url_value_dialog_call_back" @close="url_value_close"></url-value-dialog>
+        <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="[ form.data_source ]" @update:model-value="url_value_dialog_call_back" @close="url_value_close"></url-value-dialog>
     </div>
 </template>
 <script setup lang="ts">
@@ -81,6 +81,8 @@ const getCustominit = () => {
         const { data_source } = res.data;
         options.value = data_source;
         data_source_store.set_data_source(data_source);
+        // 数据处理
+        processing_data(form.data_source);
     });
 }
 
@@ -95,6 +97,7 @@ onBeforeMount(() => {
     }
 });
 // 处理显示的图片和传递到下去的数据结构
+const model_data_source = ref<data_list[]>([])
 const processing_data = (key: string) => {
     const list = options.value.filter(item => item.type == key);
     if (list.length > 0) {
@@ -103,13 +106,10 @@ const processing_data = (key: string) => {
         const field_list = list[0].data.filter(item => item.type == 'images');
         // 取出图片的key
         if (field_list.length > 0) {
-            img_key.value = field_list[0].field;
+            form.img_key = field_list[0].field;
         }
     } else {
         model_data_source.value = [];
-    }
-    if (!isEmpty(key)) {
-        dialog_type.value = [ key ];
     }
 };
 //#endregion
@@ -152,9 +152,6 @@ const accomplish = () => {
 };
 //#endregion
 //#region 数据源更新逻辑处理
-const model_data_source = ref<data_list[]>([])
-const dialog_type = ref<string[]>([]);
-const img_key = ref('');
 // 打开弹出框
 const url_value_dialog_visible = ref(false);
 const changeDataSource = (key: string) => {
@@ -181,7 +178,7 @@ const url_value_close = () => {
 }
 // 替换数据
 const replace_data = () => {
-    if (!isEmpty(dialog_type.value)) {
+    if (!isEmpty(form.data_source)) {
         url_value_dialog_visible.value = true;
     }
 }

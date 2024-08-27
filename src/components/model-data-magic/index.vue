@@ -149,6 +149,57 @@ const percentage = (num: number) => {
 };
 //#endregion
 //#region 组装页面显示的数据
+// 指示器的样式
+const indicator_style = (item: any) => {
+    let styles = '';
+    if (!isEmpty(item.indicator_radius)) {
+        styles += radius_computer(item.indicator_radius)
+    }
+    const size = item?.indicator_size || 5;
+    if (item.indicator_style == 'num') {
+        styles += `color: ${item?.color || '#DDDDDD'};`;
+        styles += `font-size: ${size}px;`;
+    } else if (item.indicator_style == 'elliptic') {
+        styles += `background: ${item?.color || '#DDDDDD'};`;
+        styles += `width: ${size * 3}px; height: ${size}px;`;
+    } else {
+        styles += `background: ${item?.color || '#DDDDDD'};`;
+        styles += `width: ${size}px; height: ${size}px;`;
+    }
+    return styles;
+};
+const background_style = (item: any) => {
+    return gradient_computer(item) + background_computer(item);
+};
+const style_actived_color = (item: any, index: number) => {
+   return item.actived_index == index ? `background: ${ item.data_style.actived_color };` : ''
+}
+/*
+** 组装产品的数据
+** @param {Array} list 商品列表
+** @param {Number} num 显示数量
+** @return {Array}
+*/
+const commodity_list = (list: any[], num: number) => {
+    if (list.length > 0) {
+        // 深拷贝一下，确保不会出现问题
+        const goods_list = cloneDeep(list).map((item: any) => ({
+            ...item.data,
+            title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
+            new_cover: item.new_cover,
+        }));
+        // 存储数据显示
+        let nav_list = [];
+        // 拆分的数量
+        const split_num = Math.ceil(goods_list.length / num);
+        for (let i = 0; i < split_num; i++) {
+            nav_list.push({ split_list: goods_list.slice(i * num, (i + 1) * num) });
+        }
+        return nav_list;
+    } else {
+        return [];
+    }
+}
 const old_list = ref<any>({});
 const data_magic_list = ref<data_magic[]>([]);
 watch(props.value.content, (val) => {
@@ -195,33 +246,7 @@ watch(props.value.content, (val) => {
         }
     });
     data_magic_list.value = data;
-})
-
-const background_style = (item: any) => {
-    return gradient_computer(item) + background_computer(item);
-};
-// 指示器的样式
-const indicator_style = (item: any) => {
-    let indicator_styles = '';
-    if (!isEmpty(item.indicator_radius)) {
-        indicator_styles += radius_computer(item.indicator_radius)
-    }
-    const size = item?.indicator_size || 5;
-    if (item.indicator_style == 'num') {
-        indicator_styles += `color: ${item?.color || '#DDDDDD'};`;
-        indicator_styles += `font-size: ${size}px;`;
-    } else if (item.indicator_style == 'elliptic') {
-        indicator_styles += `background: ${item?.color || '#DDDDDD'};`;
-        indicator_styles += `width: ${size * 3}px; height: ${size}px;`;
-    } else {
-        indicator_styles += `background: ${item?.color || '#DDDDDD'};`;
-        indicator_styles += `width: ${size}px; height: ${size}px;`;
-    }
-    return indicator_styles;
-};
-const style_actived_color = (item: any, index: number) => {
-   return item.actived_index == index ? `background: ${ item.data_style.actived_color };` : ''
-}
+}, {immediate: true, deep: true})
 //#endregion
 const carousel_change = (index: number, key: number) => {
     if (data_magic_list.value[key]) {
@@ -235,32 +260,7 @@ const trends_config = (style: any, key: string) => {
 const text_style = (typeface: string, size: number, color: string) => {
     return `font-weight:${ typeface }; font-size: ${ size }px; color: ${ color };`;
 } 
-/*
-** 组装产品的数据
-** @param {Array} list 商品列表
-** @param {Number} num 显示数量
-** @return {Array}
-*/
-const commodity_list = (list: any[], num: number) => {
-    if (list.length > 0) {
-        // 深拷贝一下，确保不会出现问题
-        const goods_list = cloneDeep(list).map((item: any) => ({
-            ...item.data,
-            title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
-            new_cover: item.new_cover,
-        }));
-        // 存储数据显示
-        let nav_list = [];
-        // 拆分的数量
-        const split_num = Math.ceil(goods_list.length / num);
-        for (let i = 0; i < split_num; i++) {
-            nav_list.push({ split_list: goods_list.slice(i * num, (i + 1) * num) });
-        }
-        return nav_list;
-    } else {
-        return [];
-    }
-}
+
 // 不属于第9个，并且第9个的第一个和第二个
 const spacing_processing = (index: number) => {
     return form.value.style_actived !== 8 || (form.value.style_actived === 8 && [0, 1].includes(index))

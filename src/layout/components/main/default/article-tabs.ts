@@ -117,7 +117,7 @@ const defaultArticleTabs: DefaultArticleTabs = {
         article_spacing: 10, // 文章间距
         article_width: 155, // 文章宽度
         article_height: 155, // 文章宽度
-        common_style: { ...defaultCommon, padding_left: 10, padding_right: 10, padding_bottom: 10 },
+        common_style: { ...defaultCommon, padding:10, padding_top:10, padding_left: 10, padding_right: 10, padding_bottom: 10 },
     },
 };
 

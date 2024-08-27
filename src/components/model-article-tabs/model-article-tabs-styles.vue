@@ -7,26 +7,16 @@
                     <mult-color-picker :value="form.tabs_checked" :type="form.tabs_direction" @update:value="tabs_checked_event"></mult-color-picker>
                 </el-form-item>
                 <el-form-item label="选中文字">
-                    <el-radio-group v-model="form.tabs_weight_checked">
-                        <el-radio v-for="item in font_weight" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                    </el-radio-group>
-                </el-form-item>
-                <el-form-item label="字号">
-                    <slider v-model="form.tabs_size_checked"></slider>
-                </el-form-item>
-                <el-form-item label="文字色值">
-                    <color-picker v-model="form.tabs_color_checked"></color-picker>
+                    <div class="flex-col w h gap-10">
+                        <color-picker v-model="form.tabs_color_checked" default-color="rgba(51,51,51,1)"></color-picker>
+                        <text-size-type v-model:typeface="form.tabs_weight_checked" v-model:size="form.tabs_size_checked"></text-size-type>
+                    </div>
                 </el-form-item>
                 <el-form-item label="未选文字">
-                    <el-radio-group v-model="form.tabs_weight">
-                        <el-radio v-for="item in font_weight" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                    </el-radio-group>
-                </el-form-item>
-                <el-form-item label="字号">
-                    <slider v-model="form.tabs_size"></slider>
-                </el-form-item>
-                <el-form-item label="文字色值">
-                    <color-picker v-model="form.tabs_color"></color-picker>
+                    <div class="flex-col w h gap-10">
+                        <color-picker v-model="form.tabs_color" default-color="rgba(51,51,51,1)"></color-picker>
+                        <text-size-type v-model:typeface="form.tabs_weight" v-model:size="form.tabs_size"></text-size-type>
+                    </div>
                 </el-form-item>
             </card-container>
             <card-container class="mb-8">

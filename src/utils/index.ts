@@ -156,7 +156,7 @@ export function background_computer(new_style: backgroundImgUrlStyle) {
  * @returns 返回一个字符串，包含了计算后的样式定义，可以被直接应用于组件的样式属性。
  */
 export function common_styles_computer(new_style: componentsCommonCommonStyle) {
-    return gradient_computer(new_style) + padding_computer(new_style) + margin_computer(new_style) + radius_computer(new_style) + box_shadow_computer(new_style) + background_computer(new_style);
+    return gradient_computer(new_style) + padding_computer(new_style) + margin_computer(new_style) + radius_computer(new_style) + box_shadow_computer(new_style) + background_computer(new_style) + `overflow:hidden;`;
 }
 
 /**
@@ -299,3 +299,19 @@ export const set_cookie = (name: string, value: string, expire_time?: number) =>
         document.cookie = cookie_str;
     }
 };
+
+// style 风格
+export const tabs_style = (color: string, style: string | number | boolean | undefined) => {
+    const color_list = ['rgba(51,51,51,1)', 'rgba(255, 34, 34, 1)', 'rgba(255, 255, 255, 1)'];
+    if (color_list.includes(color)) {
+        if ((style == '2' || style == '4')) {
+            return 'rgba(255, 255, 255, 1)';
+        } else if (style == '3') {
+            return 'rgba(255, 34, 34, 1)';
+        } else {
+            return 'rgba(51,51,51,1)';
+        }
+    } else {
+        return color;
+    }
+}

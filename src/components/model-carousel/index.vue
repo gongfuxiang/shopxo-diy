@@ -116,7 +116,7 @@ const seat_list = computed(() => {
     }
 })
 // 轮播图自适应高度 
-const newHeight = computed(() => form.value.height + 'px');
+const newHeight = computed(() => new_style.value.height + 'px');
 // 轮播图样式
 const interval_type = ref('');
 // 轮播图key值
@@ -139,8 +139,8 @@ const interval_types = computed(() => interval_type.value == 'card' );
 // 监听参数的使用
 watchEffect(() => {
     //#region 轮播图设置
-    const time = (new_style.value?.interval_time || 2) * 1000;
-    const display_is_roll = new_style.value.is_roll;
+    const time = (form.value?.interval_time || 2) * 1000;
+    const display_is_roll = form.value.is_roll;
     const type = form.value.carousel_type;
     const carousel_length = form.value.carousel_list.length;
     // 判断跟历史的是否相等，不相等更新组件时间

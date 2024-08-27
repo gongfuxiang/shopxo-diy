@@ -4,7 +4,7 @@
             <card-container class="mb-8">
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选项卡风格">
-                    <el-radio-group v-model="form.tabs_style">
+                    <el-radio-group v-model="form.tabs_theme" @change="tabs_theme_change">
                         <el-radio v-for="item in base_list.tabs_style_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
@@ -83,7 +83,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { get_math } from '@/utils';
+import { get_math, tabs_style } from '@/utils';
 import ShopAPI from '@/api/shop';
 import { shopStore } from '@/store';
 const shop_store = shopStore();
@@ -93,12 +93,17 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    tabStyle: {
+        type: Object,
+        default: () => ({}),
+    }
 });
 const state = reactive({
     form: props.value,
+    styles: props.tabStyle,
 });
 // 如果需要解构，确保使用toRefs
-const { form } = toRefs(state);
+const { form, styles } = toRefs(state);
 
 const base_list = reactive({
     tabs_style_list: [
@@ -216,6 +221,10 @@ const url_value_dialog_call_back = (item: any[]) => {
             data: item,
         });
     });
+};
+
+const tabs_theme_change = (val: string | number | boolean | undefined):void => {
+    styles.value.tabs_color_checked = tabs_style(styles.value.tabs_color_checked, val);
 };
 // 选择某些风格时， 切换到对应的按钮
 const change_style = (val: any): void => {
