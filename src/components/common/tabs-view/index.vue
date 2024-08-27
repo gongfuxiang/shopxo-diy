@@ -84,7 +84,7 @@ const title_style = (index: number) => {
 };
 // icon的渐变色处理
 const icon_tabs_check = () => {
-    return `${ tabs_check.value };display: inline-block;line-height: 1;background-clip: text;-webkit-background-clip: text;-webkit-text-fill-color: transparent;`;
+    return `${ tabs_check.value };line-height: 1;background-clip: text;-webkit-background-clip: text;-webkit-text-fill-color: transparent;`;
 }
 </script>
 <style lang="scss" scoped>
