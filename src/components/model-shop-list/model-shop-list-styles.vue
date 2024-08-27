@@ -52,7 +52,7 @@
                     <flex-gradients-create :color-list="form.shop_button_color" default-color="#FF3D53"></flex-gradients-create>
                 </el-form-item>
                 <el-form-item label="立即购买">
-                    <text-size-group v-model:typeface="form.shop_button_typeface" v-model:size="form.shop_button_size"></text-size-group>
+                    <color-text-size-group v-model:typeface="form.shop_button_typeface" v-model:size="form.shop_button_size" :type-list="['typeface', 'size']"></color-text-size-group>
                 </el-form-item>
             </card-container>
         </el-form>

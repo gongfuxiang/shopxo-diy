@@ -36,16 +36,10 @@
         <template v-if="tabs_content.data_type === 'goods'">
             <template v-if="isShowTitle">
                 <el-form-item label="主标题">
-                    <div class="flex-col gap-10 w">
-                        <color-picker v-model="form.heading_color" default-color="#000000"></color-picker>
-                        <text-size-group v-model:typeface="form.heading_typeface" v-model:size="form.heading_size"></text-size-group>
-                    </div>
+                    <color-text-size-group v-model:color="form.heading_color" v-model:typeface="form.heading_typeface" v-model:size="form.heading_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
                 <el-form-item label="副标题">
-                    <div class="flex-col gap-10 w">
-                        <color-picker v-model="form.subtitle_color" default-color="#000000"></color-picker>
-                        <text-size-group v-model:typeface="form.subtitle_typeface" v-model:size="form.subtitle_size"></text-size-group>
-                    </div>
+                    <color-text-size-group v-model:color="form.subtitle_color" v-model:typeface="form.subtitle_typeface" v-model:size="form.subtitle_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
             </template>
             <el-form-item label="内间距">
