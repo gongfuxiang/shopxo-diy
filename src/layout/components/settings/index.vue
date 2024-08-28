@@ -3,17 +3,15 @@
     <div class="settings">
         <card-container class="settings-title flex-row jc-sb align-c mb-8" padding="2.1rem 3.8rem">
             <div class="title">{{ value.name }}</div>
-            <template v-if="value.key != 'page-settings'">
-                <el-radio-group v-model="radio" class="radio-group" size="large" is-button>
-                    <el-radio-button class="radio-item" value="1">内容</el-radio-button>
-                    <el-radio-button class="radio-item" value="2">样式</el-radio-button>
-                </el-radio-group>
-            </template>
+            <el-radio-group v-model="radio" class="radio-group" size="large" is-button>
+                <el-radio-button class="radio-item" value="1">内容</el-radio-button>
+                <el-radio-button class="radio-item" value="2">样式</el-radio-button>
+            </el-radio-group>
         </card-container>
         <div class="setting-content">
             <!-- 页面设置 -->
             <template v-if="value.key == 'page-settings'">
-                <page-content :value="value.com_data.content"></page-content>
+                <page-setting :type="radio" :value="value.com_data"></page-setting>
             </template>
             <!-- 基础组件 -->
             <template v-else-if="value.key == 'video'">

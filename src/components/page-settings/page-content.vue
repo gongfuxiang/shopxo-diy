@@ -1,5 +1,5 @@
 <template>
-    <div class="auxiliary-line">
+    <div class="w h">
         <el-form :model="form" label-width="70">
             <card-container class="common-content-height">
                 <el-form-item label="页面标题">
@@ -43,8 +43,4 @@ const mult_color_picker_event = (arry: color_list[], type: number) => {
 };
 </script>
 <style lang="scss" scoped>
-.auxiliary-line {
-    width: 100%;
-    height: 100%;
-}
 </style>
