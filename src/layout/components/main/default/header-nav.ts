@@ -9,6 +9,7 @@ interface DefaultFooterNav {
         background_type: string;
         background_color_list: color_list[];
         background_direction: string;
+        background_img_style: number;
         background_img_url: uploadList[];
         background_title_color: string,
         background_title_typeface: string,
@@ -25,9 +26,10 @@ const defaultFooterNav: DefaultFooterNav = {
         title: '',
     },
     style: {
-        background_type: 'color',
+        background_type: 'color_image',
         background_color_list: [{ color: '#fff', color_percentage: '' }],
         background_direction: '180deg',
+        background_img_style: 2,
         background_img_url: [],
         background_title_color: '#000',
         background_title_typeface: '500',
