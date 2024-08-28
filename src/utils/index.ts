@@ -329,6 +329,6 @@ export const online_url = async () => {
         let temp_data = await import(import.meta.env.VITE_APP_BASE_API == '/dev-api' ? '../../temp.d' : '../../temp_pro.d');
         return temp_data.default.temp_attachment_host + '/static/app/tabbar/';
     } else {
-        return (await get_cookie('temp_attachment_host')) + '/static/app/tabbar/';
+        return get_cookie('attachment_host') + '/static/app/tabbar/';
     }
 };
