@@ -25,13 +25,13 @@
         </div>
         <div class="model">
             <div class="model-content">
-                <!-- 页面设置 -->
-                <page-settings :show-page="page_data.show_tabs" :page-data="page_data" @page_settings="page_settings"></page-settings>
                 <!-- 拖拽区 -->
                 <div ref="scrollTop" class="model-drag">
                     <div class="seat" style="background: #fff"></div>
+                     <!-- 页面设置 -->
+                    <page-settings :show-page="page_data.show_tabs" :page-data="page_data" @page_settings="page_settings"></page-settings>
                     <div class="model-wall" :style="content_style">
-                        <div :style="'padding-bottom:' + footer_nav_counter_store.padding_footer + 'px;'">
+                        <div :style="'padding-top:92px;' + 'padding-bottom:' + footer_nav_counter_store.padding_footer + 'px;'">
                             <VueDraggable v-model="diy_data" :animation="500" :touch-start-threshold="2" group="people" class="drag-area re" ghost-class="ghost" :on-sort="on_sort" :on-start="on_start" :on-end="on_end">
                                 <div v-for="(item, index) in diy_data" :key="item.id" :class="model_class(item)" :style="model_style(item)" @click="on_choose(index, item.show_tabs)">
                                     <div v-if="item.show_tabs" class="plug-in-right" chosenClass="close">
@@ -250,7 +250,7 @@ const model_style = computed(() => {
         // window.innerHeight(当前页面高度) - 80(顶部高度) - 844
         const height = (window.innerHeight - 924) / 2;
         let bottom = parseInt(float_bottom[item.id]) + height;
-        // 容器自身高度是60 755-60 =  695
+        // 容器自身高度是60 775-60 =  695
         if (parseInt(float_bottom[item.id]) > 695) {
             bottom = 695 + height;
         }
@@ -613,7 +613,7 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
 
             .model-drag {
                 overflow-y: auto;
-                max-height: 75.5rem;
+                max-height: 84.4rem;
                 &::-webkit-scrollbar {
                     display: none;
                 }
@@ -622,7 +622,7 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
                     background: #f5f5f5;
                     margin: 0 auto;
                     .drag-area {
-                        min-height: 68.1rem;
+                        min-height: 75.5rem;
                     }
                     .drag-area .float-window {
                         position: fixed;
