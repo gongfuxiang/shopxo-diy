@@ -50,7 +50,7 @@
                     </template>
                 </card-container>
                 <!-- 商品显示的配置信息 -->
-                <product-show-config :value="form"></product-show-config>
+                <product-show-config :value="form" @change_shop_type="change_shop_type"></product-show-config>
             </div>
             <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['goods']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
         </el-form>
@@ -165,8 +165,12 @@ const goods_list_sort = (new_list: any) => {
 // 选择某些风格时， 切换到对应的按钮
 const change_style = (val: any): void => {
     form.value.theme = val;
-    if (['3', '4', '5'].includes(val) && ['0', '1'].includes(form.value.shop_type)) {
-        form.value.shop_type = '2';
+    if (!is_revise.value) {
+        if (['3', '4', '5'].includes(val) && form.value.shop_type == 'text') {
+            form.value.shop_type = 'icon';
+        } else if (['0', '1', '2'].includes(val) && form.value.shop_type == 'icon') {
+            form.value.shop_type = 'text';
+        }
     }
     if (['0', '4'].includes(val)) {
         if (data.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (data.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
@@ -186,6 +190,10 @@ const change_style = (val: any): void => {
         }
     }
 };
+const is_revise = ref(false);
+const change_shop_type = () => {
+    is_revise.value = true;
+}
 </script>
 <style lang="scss" scoped>
 .content {

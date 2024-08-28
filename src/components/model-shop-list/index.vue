@@ -5,8 +5,10 @@
                 <template v-if="theme == '6'">
                     <div :class="['flex-row align-c jc-sb ptb-15 mlr-10 gap-20', { 'br-b-e': index != list.length - 1 }]">
                         <div v-if="is_show('title')" :class="text_line" :style="trends_config('title')">{{ item.title }}</div>
-                        <div v-if="is_show('price')" class="num" :style="`color: ${new_style.shop_price_color}`">
-                            <span class="identifying">￥</span><span :style="trends_config('price')">{{ item.min_price }}</span>
+                        <div v-if="is_show('price')" class="num nowrap" :style="`color: ${new_style.shop_price_color}`">
+                            <span class="identifying">{{ item.show_price_symbol }}</span
+                            ><span :style="trends_config('price')">{{ item.min_price }}</span>
+                            <span v-if="is_show('price_unit')" class="identifying">{{ item.show_price_unit }}</span>
                         </div>
                     </div>
                 </template>

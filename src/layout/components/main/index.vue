@@ -17,21 +17,20 @@
     </div>
     <!-- 视图渲染 -->
     <div class="main">
-        <div class="acticons">
-            <el-button size="large" class="" @click="page_settings">页面设置</el-button>
-            <el-button size="large" class="" @click="export_click">导出</el-button>
-            <el-button size="large" class="" @click="import_click">导入</el-button>
-            <el-button size="large" class="" @click="clear_click">清空</el-button>
-        </div>
         <div class="model">
             <div class="model-content">
-                <!-- 页面设置 -->
-                <page-settings :show-page="page_data.show_tabs" :page-data="page_data" @page_settings="page_settings"></page-settings>
+                <div class="acticons">
+                    <el-button size="large" class="" @click="page_settings">页面设置</el-button>
+                    <el-button size="large" class="" @click="export_click">导出</el-button>
+                    <el-button size="large" class="" @click="import_click">导入</el-button>
+                    <el-button size="large" class="" @click="clear_click">清空</el-button>
+                </div>
                 <!-- 拖拽区 -->
                 <div ref="scrollTop" class="model-drag">
-                    <div class="seat" style="background: #fff"></div>
+                    <!-- 页面设置 -->
+                    <page-settings :show-page="page_data.show_tabs" :page-data="page_data" @page_settings="page_settings"></page-settings>
                     <div class="model-wall" :style="content_style">
-                        <div :style="'padding-bottom:' + footer_nav_counter_store.padding_footer + 'px;'">
+                        <div :style="`padding-top:${ top_padding }px; margin-top: ${ top_margin }px;padding-bottom:${ footer_nav_counter_store.padding_footer }px;`">
                             <VueDraggable v-model="diy_data" :animation="500" :touch-start-threshold="2" group="people" class="drag-area re" ghost-class="ghost" :on-sort="on_sort" :on-start="on_start" :on-end="on_end">
                                 <div v-for="(item, index) in diy_data" :key="item.id" :class="model_class(item)" :style="model_style(item)" @click="on_choose(index, item.show_tabs)">
                                     <div v-if="item.show_tabs" class="plug-in-right" chosenClass="close">
@@ -187,11 +186,23 @@ watch(
         page_settings();
     }
 );
+const top_padding = ref(90);
+const top_margin = ref(0);
 watchEffect(() => {
-    if (props.header.com_data?.content) {
-        const content = props.header.com_data?.content;
-        const container_common_styles = gradient_computer(content) + background_computer(content);
-        content_style.value = container_common_styles;
+    if (page_data.value.com_data) {
+        const { immersive_style, up_slide_display } = page_data.value.com_data.style;
+        // 不开启沉浸式 和 上滑显示
+        if (immersive_style || !up_slide_display) {
+            top_padding.value = 2;
+        } else {
+            top_padding.value = 90;
+        }
+        // 开启沉浸式并且没有开通上滑显示
+        if (immersive_style && !up_slide_display) {
+            top_margin.value = -90;
+        } else {
+            top_margin.value = 0;
+        }
     }
 });
 watch(
@@ -260,7 +271,7 @@ const model_style = computed(() => {
         // window.innerHeight(当前页面高度) - 80(顶部高度) - 844
         const height = (window.innerHeight - 924) / 2;
         let bottom = parseInt(float_bottom[item.id]) + height;
-        // 容器自身高度是60 755-60 =  695
+        // 容器自身高度是60 775-60 =  695
         if (parseInt(float_bottom[item.id]) > 695) {
             bottom = 695 + height;
         }
@@ -585,7 +596,7 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
         position: absolute;
         left: 50%;
         margin-left: 26rem;
-        top: 4.7rem;
+        top: 0;
         display: flex;
         flex-direction: column;
         gap: 2rem;
@@ -605,7 +616,7 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
         height: 100%;
         .model-content {
             position: relative;
-            height: 84.4rem;
+            height: 84.6rem;
             .model-bottom {
                 position: absolute;
                 bottom: 0;
@@ -623,7 +634,8 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
 
             .model-drag {
                 overflow-y: auto;
-                max-height: 75.5rem;
+                padding-top: 0.2rem;
+                max-height: 84.4rem;
                 &::-webkit-scrollbar {
                     display: none;
                 }

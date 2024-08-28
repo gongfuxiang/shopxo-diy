@@ -3,10 +3,10 @@
         <div class="mb-12">显示内容</div>
         <el-form-item label="是否显示">
             <el-checkbox-group v-model="form.is_show">
-                <el-checkbox v-for="item in base_list.list_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
+                <el-checkbox v-for="item in base_list.list_show_list.filter(item => item.type.includes(form.theme))" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
             </el-checkbox-group>
         </el-form-item>
-        <el-form-item label="价格独行">
+        <el-form-item v-if="['0', '1', '2'].includes(form.theme)" label="价格独行">
             <el-switch v-model="form.is_price_solo"></el-switch>
         </el-form-item>
     </card-container>
@@ -17,7 +17,7 @@
         </el-form-item>
         <el-form-item label="按钮样式">
             <div class="flex-col w gap-10">
-                <el-radio-group v-model="form.shop_type">
+                <el-radio-group v-model="form.shop_type" @change="change_shop_type">
                     <el-radio v-for="item in base_list.shopping_button_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                 </el-radio-group>
                 <template v-if="form.shop_type == 'text'">
@@ -49,41 +49,30 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form } = toRefs(state);
-
 const base_list = {
     list_show_list: [
-        { name: '商品名称', value: 'title' },
-        { name: '商品标签', value: 'plugins_view_icon' },
-        { name: '商品售价', value: 'price' },
-        { name: '商品销量', value: 'sales_count' },
+        { name: '商品名称', value: 'title', type:['0', '1', '2', '3', '4', '5', '6']},
+        { name: '商品标签', value: 'plugins_view_icon', type:['0', '1', '2'] },
+        { name: '商品售价', value: 'price', type:['0', '1', '2', '3', '4', '5', '6'] },
+        { name: '商品销量', value: 'sales_count', type:['0', '1', '2'] },
         // { name: '商品评分', value: '4' },
-        { name: '商品原价', value: 'original_price' },
-        { name: '售价单位', value: 'price_unit' },
-        { name: '原价单位', value: 'original_price_unit' },
+        { name: '商品原价', value: 'original_price', type:['0', '1', '2'] },
+        { name: '售价单位', value: 'price_unit', type:['0', '1', '2', '3', '4', '5', '6'] },
+        { name: '原价单位', value: 'original_price_unit', type:['0', '1', '2'] },
     ],
     shopping_button_list: [
         { name: '文字', value: 'text' },
-        { name: 'icon', value: 'icon' },
+        { name: '图标', value: 'icon' },
     ],
     shopping_cart_list: [
         { name: '进入商品详情页', value: '0' },
         { name: '商品加购', value: '1' }
     ]
 };
-
-const shop_type = computed(() => {
-    return (item: { value: string; }) => {
-        return item.value == form.value.shop_type;
-    };
-});
-
-const shopping_button_click = (item: { value: string; }) => {
-    if (['3','4','5'].includes(form.value.theme) && ['0', '1'].includes(item.value)) {
-        return;
-    } else {
-        form.value.shop_type = item.value;
-    }
-};
+const emit = defineEmits(['change_shop_type']);
+const change_shop_type = () => {
+    emit('change_shop_type');
+}
 </script>
 
 <style lang="scss" scoped>
