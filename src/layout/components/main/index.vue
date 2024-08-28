@@ -41,7 +41,7 @@
                                         <el-icon :class="['iconfont', 'icon-arrow-bottom', icon_arrow_disable(item.key, index, 'moveDown')]" @click.stop="moveDown(index, arrow_disable_method(item.key, index, 'moveDown'))" />
                                     </div>
                                     <div class="plug-in-name">{{ item.name }}</div>
-                                    <div class="main-content" :class="{ 'plug-in-close': !item.is_enable }">
+                                    <div class="main-content" :class="{ 'plug-in-close': !item.is_enable }" :style="main_content_style">
                                         <!-- 基础组件 -->
                                         <!-- 视频 -->
                                         <template v-if="item.key == 'video'">
@@ -145,7 +145,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, get_math, gradient_computer } from '@/utils';
+import { background_computer, get_math, gradient_computer, padding_computer, radius_computer } from '@/utils';
 import { cloneDeep } from 'lodash';
 import { SortableEvent, VueDraggable } from 'vue-draggable-plus';
 import defaultSettings from './index';
@@ -170,7 +170,6 @@ const props = defineProps({
 const diy_data = ref(props.diyData);
 const page_data = ref(props.header);
 const footer_nav = ref(props.footer);
-const content_style = ref('');
 // 监听
 watch(
     () => props.diyData,
@@ -188,9 +187,15 @@ watch(
 );
 const top_padding = ref(90);
 const top_margin = ref(0);
+const content_style = ref('');
+const main_content_style = ref('');
 watchEffect(() => {
     if (page_data.value.com_data) {
-        const { immersive_style, up_slide_display } = page_data.value.com_data.style;
+        const new_style = page_data.value.com_data.style;
+        content_style.value = gradient_computer(new_style.common_style) + background_computer(new_style.common_style);
+        main_content_style.value = padding_computer(new_style.common_style);
+        
+        const { immersive_style, up_slide_display } = new_style;
         // 不开启沉浸式 和 上滑显示
         if (immersive_style || !up_slide_display) {
             top_padding.value = 2;
@@ -205,6 +210,7 @@ watchEffect(() => {
         }
     }
 });
+
 watch(
     () => props.footer,
     (newValue) => {
@@ -214,7 +220,7 @@ watch(
 
 // 父组件调用的方法
 const emits = defineEmits(['rightUpdate']);
-const activeNames = reactive(['1', '2']);
+const activeNames = reactive(['1', '2', '3']);
 const components = reactive([
     {
         title: '基础组件',

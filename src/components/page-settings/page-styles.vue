@@ -52,7 +52,7 @@
                 </el-form-item>
             </card-container>
         </el-form>
-        <common-styles :value="form.common_style" :is-margin="false" :is-shadow="false" @update:value="common_styles_update" />
+        <common-styles :value="form.common_style" :is-margin="false" :is-shadow="false" :is-radius="false" @update:value="common_styles_update" />
     </div>
 </template>
 <script setup lang="ts">

@@ -31,7 +31,7 @@
                 <el-form-item v-if="isMargin" label="外边距">
                     <margin :value="form" @update:value="margin_change"></margin>
                 </el-form-item>
-                <el-form-item label="圆角">
+                <el-form-item v-if="isRadius" label="圆角">
                     <radius :value="form" @update:value="radius_change"></radius>
                 </el-form-item>
                 <el-form-item v-if="isShadow" label="阴影设置">
@@ -65,6 +65,10 @@ const props = defineProps({
         default: () => ({}),
     },
     isMargin: {
+        type: Boolean,
+        default: true,
+    },
+    isRadius: {
         type: Boolean,
         default: true,
     },
