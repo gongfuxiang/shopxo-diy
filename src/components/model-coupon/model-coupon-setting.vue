@@ -30,8 +30,10 @@ const default_config = {
             // 主题1时不显示
             limit_send_count: '#999',
             btn_background: [{ color: '#FF3830', color_percentage: '' }],
+            btn_direction: '90deg',
             btn_color: '#FF3830',
             background: [{ color: '#FFF1E1', color_percentage: '' }],
+            direction: '90deg',
             spacing: 20,
         },
         theme_2: {
@@ -41,9 +43,11 @@ const default_config = {
             // 主题2时不显示
             limit_send_count: '#999',
             btn_background: [{ color: '#FFF1E1', color_percentage: '' }],
+            btn_direction: '90deg',
             btn_color: '#fff',
             // 当为主题2时，不显示
             background: [{ color: '#fff', color_percentage: '' }],
+            direction: '90deg',
             spacing: 15,
             common_style: {
                 background_img_url: [{ url: 'http://shopxo.com/static/upload/images/common/2024/08/28/1724815957918121.png' }],
@@ -55,8 +59,10 @@ const default_config = {
             desc_color: '#FF3830',
             limit_send_count: '#999',
             btn_background: [{ color: '#FF3830', color_percentage: '' }],
+            btn_direction: '90deg',
             btn_color: '#FF3830',
             background: [{ color: '#FFF1E1', color_percentage: '' }],
+            direction: '90deg',
             // 当为主题34时，间距不给予修改，优惠券沾满整行
             spacing: 0,
         },
@@ -67,8 +73,10 @@ const default_config = {
             // 主题4时不显示
             limit_send_count: '#999',
             btn_background: [{ color: '#fff', color_percentage: '' }],
+            btn_direction: '90deg',
             btn_color: '#FF3830',
             background: [{ color: '#FFF1E1', color_percentage: '' }],
+            direction: '90deg',
             // 当为主题34时，间距不给予修改，优惠券沾满整行
             spacing: 0,
         },
@@ -81,8 +89,11 @@ const default_config = {
             limit_send_count: '#999',
             // 主题5时不显示
             btn_background: [{ color: '#fff', color_percentage: '' }],
+            // 主题5时不显示
+            btn_direction: '90deg',
             btn_color: '#fff',
             background: [{ color: '#FFF1E1', color_percentage: '' }],
+            direction: '90deg',
             spacing: 10,
         },
         theme_6: {
@@ -94,8 +105,11 @@ const default_config = {
             limit_send_count: '#999',
             // 主题6时不显示
             btn_background: [{ color: '#fff', color_percentage: '' }],
+            // 主题6时不显示
+            btn_direction: '90deg',
             btn_color: '#fff',
             background: [{ color: '#FF3830', color_percentage: '' }],
+            direction: '90deg',
             spacing: 10,
         },
         theme_7: {
@@ -107,11 +121,14 @@ const default_config = {
             limit_send_count: '#999',
             // 主题7时不显示
             btn_background: [{ color: '#E1B47A', color_percentage: '' }],
+            // 主题7时不显示
+            btn_direction: '90deg',
             btn_color: '#fff',
             background: [
                 { color: '#FF3830', color_percentage: '' },
                 { color: '#E1B47A', color_percentage: '' },
             ],
+            direction: '90deg',
             spacing: 10,
         },
     },

@@ -9,27 +9,27 @@
                 <el-form-item label="名称">
                     <color-picker v-model="form.name_color" :default-color="clone_form.name_color"></color-picker>
                 </el-form-item>
-                <template v-if="['1', '5', '6', '7'].includes(theme)">
+                <template v-if="!['1', '5', '6', '7'].includes(theme)">
                     <el-form-item label="描述">
                         <color-picker v-model="form.desc_color" :default-color="clone_form.desc_color"></color-picker>
                     </el-form-item>
                 </template>
-                <template v-if="['1', '2', '4', '5', '6', '7'].includes(theme)">
+                <template v-if="!['1', '2', '4', '5', '6', '7'].includes(theme)">
                     <el-form-item label="数量限制">
                         <color-picker v-model="form.limit_send_count" :default-color="clone_form.limit_send_count"></color-picker>
                     </el-form-item>
                 </template>
-                <template v-if="['2'].includes(theme)">
+                <template v-if="!['2'].includes(theme)">
                     <el-form-item label="背景">
                         <mult-color-picker :value="form.background" :type="form.direction"></mult-color-picker>
                     </el-form-item>
                 </template>
-                <template v-if="['3', '4'].includes(theme)">
+                <template v-if="!['3', '4'].includes(theme)">
                     <el-form-item label="间距">
                         <slider v-model="form.spacing"></slider>
                     </el-form-item>
                 </template>
-                <template v-if="['5', '6', '7'].includes(theme)">
+                <template v-if="!['5', '6', '7'].includes(theme)">
                     <el-form-item label="按钮背景">
                         <mult-color-picker :value="form.btn_background" :type="form.btn_direction"></mult-color-picker>
                     </el-form-item>
