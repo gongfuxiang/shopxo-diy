@@ -55,14 +55,14 @@ const base_list = reactive({
         { name: '手动', value: '1' },
     ],
     themeList: [
-        { name: '风格1', url: new URL(`../../assets/images/components/model-coupon/theme-1.png`, import.meta.url).href },
-        { name: '风格2', url: new URL(`../../assets/images/components/model-coupon/theme-2.png`, import.meta.url).href },
-        { name: '风格3', url: new URL(`../../assets/images/components/model-coupon/theme-3.png`, import.meta.url).href },
-        { name: '风格3', url: new URL(`../../assets/images/components/model-coupon/theme-3.png`, import.meta.url).href },
-        { name: '风格4', url: new URL(`../../assets/images/components/model-coupon/theme-4.png`, import.meta.url).href },
-        { name: '风格5', url: new URL(`../../assets/images/components/model-coupon/theme-5.png`, import.meta.url).href },
-        { name: '风格6', url: new URL(`../../assets/images/components/model-coupon/theme-6.png`, import.meta.url).href },
-        { name: '风格7', url: new URL(`../../assets/images/components/model-coupon/theme-7.png`, import.meta.url).href },
+        // { name: '风格1', url: new URL(`../../assets/images/components/model-coupon/theme-1.png`, import.meta.url).href },
+        // { name: '风格2', url: new URL(`../../assets/images/components/model-coupon/theme-2.png`, import.meta.url).href },
+        // { name: '风格3', url: new URL(`../../assets/images/components/model-coupon/theme-3.png`, import.meta.url).href },
+        // { name: '风格3', url: new URL(`../../assets/images/components/model-coupon/theme-3.png`, import.meta.url).href },
+        // { name: '风格4', url: new URL(`../../assets/images/components/model-coupon/theme-4.png`, import.meta.url).href },
+        // { name: '风格5', url: new URL(`../../assets/images/components/model-coupon/theme-5.png`, import.meta.url).href },
+        // { name: '风格6', url: new URL(`../../assets/images/components/model-coupon/theme-6.png`, import.meta.url).href },
+        // { name: '风格7', url: new URL(`../../assets/images/components/model-coupon/theme-7.png`, import.meta.url).href },
     ],
 });
 const remove = (index: number) => {
