@@ -361,8 +361,8 @@ const all_tree = {
 };
 const type_data_list = ref<Tree[]>([]);
 // 查询分类列表
-const get_tree = () => {
-    if (!upload_store.is_upload_api && upload_store.category.length === 0) {
+const get_tree = (bool: boolean = false) => {
+    if ((!upload_store.is_upload_api && upload_store.category.length === 0) || bool) {
         upload_store.set_is_upload_api(true);
         UploadAPI.getTree()
             .then((res) => {
@@ -403,7 +403,7 @@ const add_type = () => {
 };
 // 分类操作确认回调
 const upload_category_confirm = () => {
-    get_tree();
+    get_tree(true);
 };
 const category_id = ref('');
 // 左侧分类树结构节点点击事件

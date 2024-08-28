@@ -29,7 +29,6 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
     imgParams: 'cover',
-    isouterClick: false,
 });
 
 const drag_list = ref(props.list);

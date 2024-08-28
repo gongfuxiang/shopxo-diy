@@ -20,6 +20,7 @@ import defaultImgMagic from './default/img-magic';
 import defaultHotZone from './default/hot-zone';
 import defaultCustom from './default/custom';
 import defaultDataMagic from './default/data-magic';
+import defaultCoupon from './default/coupon';
 
 // 系统设置
 interface DefaultSettings {
@@ -45,6 +46,7 @@ interface DefaultSettings {
     data_magic: object;
     hot_zone: object;
     custom: object;
+    coupon: object;
 }
 
 const defaultSettings: DefaultSettings = {
@@ -70,6 +72,7 @@ const defaultSettings: DefaultSettings = {
     data_magic: defaultDataMagic,
     hot_zone: defaultHotZone,
     custom: defaultCustom,
+    coupon: defaultCoupon,
 };
 
 export default defaultSettings;
