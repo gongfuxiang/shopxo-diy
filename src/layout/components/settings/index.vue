@@ -9,6 +9,7 @@
             </el-radio-group>
         </card-container>
         <div class="setting-content">
+            <!-- 基础组件 -->
             <!-- 页面设置 -->
             <template v-if="value.key == 'page-settings'">
                 <page-setting :type="radio" :value="value.com_data"></page-setting>
@@ -76,6 +77,11 @@
             <!-- 底部导航 -->
             <template v-else-if="value.key == 'footer-nav'">
                 <footer-nav-setting :type="radio" :value="value.com_data"></footer-nav-setting>
+            </template>
+            <!-- 营销组件 -->
+            <!-- 优惠券 -->
+            <template v-else-if="value.key == 'coupon'">
+                <model-coupon-setting :type="radio" :value="value.com_data"></model-coupon-setting>
             </template>
             <!-- 工具组件 -->
             <!-- 辅助空白 -->

@@ -11,7 +11,7 @@
                             <image-empty v-model="item.src_checked[0]" error-img-style="width:1.5rem;height:1.5rem;"></image-empty>
                         </div>
                     </div>
-                    <span v-if="footerData.content.nav_style !== '1'" class="animate-linear size-12" :style="is_hover == index + 1 || index == 0 ? text_color_checked : default_text_color">{{ item.name }}</span>
+                    <span v-if="footerData.content.nav_style !== '1'" class="animate-linear size-12 re z-i" :style="is_hover == index + 1 || index == 0 ? text_color_checked : default_text_color">{{ item.name }}</span>
                 </li>
             </ul>
         </div>
@@ -84,6 +84,13 @@ const footer_nav_event = () => {
     }
 }
 .br-2 {
-    border: 0.2rem solid $cr-main;
+    &::before {
+        content: '';
+        position: absolute;
+        border: 0.2rem solid $cr-main;
+        inset: 0;
+        width: calc(100% + 0.4rem);
+        height: calc(100% + 0.4rem);
+    }
 }
 </style>

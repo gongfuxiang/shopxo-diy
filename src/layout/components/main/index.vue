@@ -103,6 +103,11 @@
                                         <template v-else-if="item.key == 'custom'">
                                             <model-custom :key="item.com_data" :value="item.com_data" :show-tabs="item.show_tabs"></model-custom>
                                         </template>
+                                        <!-- 营销组件 -->
+                                        <!-- 优惠券 -->
+                                        <template v-else-if="item.key == 'coupon'">
+                                            <model-coupon :key="item.com_data" :value="item.com_data"></model-coupon>
+                                        </template>
                                         <!-- 工具组件 -->
                                         <!-- 辅助线 -->
                                         <template v-else-if="item.key == 'row-line'">
@@ -233,8 +238,13 @@ const components = reactive([
         ],
     },
     {
-        title: '工具组件',
+        title: '营销组件',
         key: '2',
+        item: [{ key: 'coupon', name: '优惠券' }],
+    },
+    {
+        title: '工具组件',
+        key: '3',
         item: [
             { key: 'float-window', name: '悬浮按钮' },
             { key: 'text-title', name: '文本标题' },
