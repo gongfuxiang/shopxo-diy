@@ -22,7 +22,7 @@ interface DefaultCoupon {
 }
 const defaultCoupoin: DefaultCoupon = {
     content: {
-        theme: '风格1',
+        theme: '1',
         data_type: '0',
         number: 4,
         title: '先领券 再购物',

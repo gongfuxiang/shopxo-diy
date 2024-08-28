@@ -1,10 +1,10 @@
 <template>
     <div class="setting-content">
         <template v-if="type == '1'">
-            <model-coupon-content :value="value.content" :styles="value.style" :default-config="default_config"></model-coupon-content>
+            <model-coupon-content :value="form.content" @update:change-theme="change_theme"></model-coupon-content>
         </template>
         <template v-else-if="type == '2'">
-            <model-coupon-styles :value="value.style" :content="value.content" :default-config="default_config"></model-coupon-styles>
+            <model-coupon-styles :value="form.style"></model-coupon-styles>
         </template>
     </div>
 </template>
@@ -19,6 +19,7 @@ const props = defineProps({
         default: () => {},
     },
 });
+const form = ref(props.value);
 const default_config = {
     style: {
         theme_1: {
@@ -71,7 +72,7 @@ const default_config = {
             // 当为主题34时，间距不给予修改，优惠券沾满整行
             spacing: 0,
         },
-        theme5: {
+        theme_5: {
             price_color: '#FF3830',
             name_color: '#FF3830',
             // 主题5时不显示
@@ -84,7 +85,7 @@ const default_config = {
             background: [{ color: '#FFF1E1', color_percentage: '' }],
             spacing: 10,
         },
-        theme6: {
+        theme_6: {
             price_color: '#FF3830',
             name_color: '#666',
             // 主题6时不显示
@@ -97,7 +98,7 @@ const default_config = {
             background: [{ color: '#FF3830', color_percentage: '' }],
             spacing: 10,
         },
-        theme7: {
+        theme_7: {
             price_color: '#fff',
             name_color: '#fff',
             // 主题7时不显示
@@ -114,5 +115,22 @@ const default_config = {
             spacing: 10,
         },
     },
+};
+const change_theme = (val: string) => {
+    if (val === '1') {
+        form.value.style = default_config.style.theme_1;
+    } else if (val === '2') {
+        form.value.style = default_config.style.theme_2;
+    } else if (val === '3') {
+        form.value.style = default_config.style.theme_3;
+    } else if (val === '4') {
+        form.value.style = default_config.style.theme_4;
+    } else if (val === '5') {
+        form.value.style = default_config.style.theme_5;
+    } else if (val === '6') {
+        form.value.style = default_config.style.theme_6;
+    } else if (val === '7') {
+        form.value.style = default_config.style.theme_7;
+    }
 };
 </script>
