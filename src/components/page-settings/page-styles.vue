@@ -52,7 +52,7 @@
                 </el-form-item>
             </card-container>
         </el-form>
-        <common-styles class="styles-height" :value="form.common_style" @update:value="common_styles_update" />
+        <common-styles :value="form.common_style" :is-margin="false" :is-shadow="false" :is-radius="false" @update:value="common_styles_update" />
     </div>
 </template>
 <script setup lang="ts">
@@ -79,8 +79,5 @@ const mult_color_picker_event = (arry: string[], type: number) => {
 <style lang="scss" scoped>
 .styles {
     width: 100%;
-    .styles-height {
-        min-height: calc(100vh - 16.8rem);
-    }
 }
 </style>

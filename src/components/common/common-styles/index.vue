@@ -28,13 +28,13 @@
                 <el-form-item label="内边距">
                     <padding :value="form" @update:value="padding_change"></padding>
                 </el-form-item>
-                <el-form-item label="外边距">
+                <el-form-item v-if="isMargin" label="外边距">
                     <margin :value="form" @update:value="margin_change"></margin>
                 </el-form-item>
-                <el-form-item label="圆角">
+                <el-form-item v-if="isRadius" label="圆角">
                     <radius :value="form" @update:value="radius_change"></radius>
                 </el-form-item>
-                <el-form-item label="阴影设置">
+                <el-form-item v-if="isShadow" label="阴影设置">
                     <div class="flex-col gap-10 w">
                         <el-form-item label="颜色" label-width="45">
                             <color-picker v-model="form.box_shadow_color" @update:value="box_shadow_color_event"></color-picker>
@@ -63,6 +63,18 @@ const props = defineProps({
     value: {
         type: Object,
         default: () => ({}),
+    },
+    isMargin: {
+        type: Boolean,
+        default: true,
+    },
+    isRadius: {
+        type: Boolean,
+        default: true,
+    },
+    isShadow: {
+        type: Boolean,
+        default: true,
     }
 });
 // 初始化表单数据
