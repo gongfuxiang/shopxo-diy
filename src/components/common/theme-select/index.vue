@@ -11,7 +11,7 @@
                     <el-row v-if="data.length > 0">
                         <el-col v-for="(item, index) in data" :key="index" :span="8">
                             <div class="pa-10">
-                                <div class="item plr-10 ptb-20 br-c radius-md tc flex-col jc-c gap-10" :class="{ active: item.name === temp_model_value }" @click="handle_select_theme(item)">
+                                <div class="item plr-10 ptb-20 br-c radius-md tc flex-col jc-c gap-10" :class="{ active: item.id === temp_data?.id }" @click="handle_select_theme(item)">
                                     <image-empty v-model="item.url" class="img-height-auto"></image-empty>
                                 </div>
                             </div>
@@ -32,11 +32,11 @@
     </el-dialog>
     <div class="flex-row align-c gap-10 br-d radius-sm plr-11 theme-input" @click="dialog_visible = true">
         <div class="flex-1 flex-width size-12 text-line-1">
-            <text v-if="model_value">{{ model_value }}</text>
+            <text v-if="temp_data_obj !== null">{{ temp_data_obj.name }}</text>
             <text v-else class="cr-9">{{ placeholder }}</text>
         </div>
         <div class="theme-icon">
-            <template v-if="!model_value">
+            <template v-if="temp_data_obj === null">
                 <icon name="arrow-right" size="12" color="9"></icon>
             </template>
             <template v-else>
@@ -48,8 +48,10 @@
     </div>
 </template>
 <script setup lang="ts">
+import { is_obj_empty } from '@/utils';
 import { cloneDeep } from 'lodash';
 interface data {
+    id: string;
     name: string;
     url: string;
 }
@@ -66,19 +68,15 @@ const props = defineProps({
 const model_value = defineModel({ type: String, default: '' });
 const { data } = toRefs(props);
 const dialog_visible = ref(false);
-watch(
-    () => dialog_visible.value,
-    (val) => {
-        if (val) {
-            temp_model_value.value = cloneDeep(model_value.value);
-        }
-    }
-);
-
+onMounted(() => {
+    temp_data.value = cloneDeep(data.value.filter((item) => item.id === model_value.value)[0]);
+    temp_data_obj.value = cloneDeep(data.value.filter((item) => item.id === model_value.value)[0]);
+});
 //#region 主题数据 ---------------------------------------------------start
-const temp_model_value = ref('');
+const temp_data = ref<data | null>(null);
+const temp_data_obj = ref<data | null>(null);
 const handle_select_theme = (data: data) => {
-    temp_model_value.value = data.name;
+    temp_data.value = data;
 };
 //#endregion 主题数据 ---------------------------------------------------end
 
@@ -88,8 +86,9 @@ const close_event = () => {
 };
 // 确定
 const confirm_event = () => {
-    if (temp_model_value.value !== null) {
-        model_value.value = temp_model_value.value;
+    if (temp_data.value !== null) {
+        model_value.value = temp_data.value.id;
+        temp_data_obj.value = temp_data.value;
         close_event();
     } else {
         ElMessage.error('请先选择主题');
@@ -97,7 +96,7 @@ const confirm_event = () => {
 };
 // 清空
 const clear_model_value = () => {
-    temp_model_value.value = '';
+    temp_data.value = null;
     model_value.value = '';
 };
 </script>
