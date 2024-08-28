@@ -7,7 +7,7 @@
                     <theme-select v-model="form.theme" :data="base_list.themeList" @update:model-value="themeChange"></theme-select>
                 </el-form-item>
             </card-container>
-            <card-container class="common-content-height">
+            <card-container class="content-height">
                 <div class="mb-12">优惠券数据</div>
                 <el-form-item label="数据来源">
                     <el-radio-group v-model="form.data_type">
@@ -27,14 +27,18 @@
                     </el-form-item>
                 </template>
                 <template v-else>
-                    <slider></slider>
+                    <el-form-item label="展示数量">
+                        <slider v-model="form.number"></slider>
+                    </el-form-item>
                 </template>
-                <el-form-item label="内容标题">
-                    <el-input v-model="form.title" placeholder="请输入内容"></el-input>
-                </el-form-item>
-                <el-form-item label="内容描述">
-                    <el-input v-model="form.desc" type="textarea" :rows="4" placeholder="请输入内容"></el-input>
-                </el-form-item>
+                <template v-if="form.theme === '4'">
+                    <el-form-item label="内容标题">
+                        <el-input v-model="form.title" placeholder="请输入内容"></el-input>
+                    </el-form-item>
+                    <el-form-item label="内容描述">
+                        <el-input v-model="form.desc" type="textarea" :rows="4" placeholder="请输入内容"></el-input>
+                    </el-form-item>
+                </template>
             </card-container>
         </el-form>
     </div>

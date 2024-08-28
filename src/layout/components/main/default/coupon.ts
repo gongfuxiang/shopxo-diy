@@ -25,7 +25,9 @@ const defaultCoupoin: DefaultCoupon = {
         theme: '1',
         data_type: '0',
         number: 4,
+        // 只有主题4用到
         title: '先领券 再购物',
+        // 只有主题4用到
         desc: '领券下单·享购物优惠',
         data_list: [],
     },

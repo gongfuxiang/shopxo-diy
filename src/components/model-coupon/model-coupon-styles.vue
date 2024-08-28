@@ -1,5 +1,10 @@
 <template>
     <div class="styles">
+        <el-form :model="form" label-width="70">
+            <card-container class="mb-8">
+                
+            </card-container>
+        </el-form>
         <common-styles class="styles-height" :value="form.common_style" @update:value="common_styles_update" />
     </div>
 </template>
