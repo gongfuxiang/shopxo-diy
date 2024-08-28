@@ -156,7 +156,7 @@
                             </el-col>
                         </el-row>
                         <div v-else>
-                            <no-data height="500"></no-data>
+                            <no-data height="500px"></no-data>
                         </div>
                     </el-scrollbar>
                 </div>
