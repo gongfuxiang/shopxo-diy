@@ -63,7 +63,7 @@ const props = defineProps({
     value: {
         type: Object,
         default: () => ({}),
-    },
+    }
 });
 // 初始化表单数据
 const init_form = reactive({

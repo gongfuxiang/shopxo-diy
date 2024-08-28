@@ -2,10 +2,15 @@
     <div class="model-top">
         <div :class="['roll', { 'page-settings-border': showPage }]" :style="roll_style" @click="page_settings">
             <div class="pt-15 pb-10 pl-25 pr-25 w">
-                <img class="img" :style="`Filter: brightness(${ new_style.function_buttons_type == 'black' ? 0 : 100 })`" :src="url_computer()" />
+                <img class="img" :style="`Filter: brightness(${ new_style.function_buttons_type == 'black' ? 0 : 100 })`" src="@/assets/images/layout/main/main-top.png" />
             </div>
-            <div class="model-head tc">
-                {{ props.pageData.com_data?.content?.title || '新建页面' }}
+            <div class="model-head tc re">
+                <div class="flex align-c jc-c w h">
+                    {{ props.pageData.com_data?.content?.title || '新建页面' }}
+                </div>
+                <div class="model-head-icon">
+                    <img class="function-icon" :src="url_computer(new_style.function_buttons_type == 'black' ? 'function-icon-black' : 'function-icon-white')" />
+                </div>
             </div>
         </div>
     </div>
@@ -30,17 +35,15 @@ const new_style = computed(() => props.pageData.com_data.style);
 const position = computed(() => new_style.value.up_slide_display ? 'absolute' : 'relative');
 const roll_style = computed(() => {
     let style = ``;
-    if (new_style.value.background_type === 'color') {
-        style += gradient_computer({ color_list: new_style.value.background_color_list, direction: new_style.value.background_direction });
-    } else if (new_style.value.background_type === 'image') {
-        style += background_computer(new_style.value);
+    if (new_style.value.background_type === 'color_image') {
+        style += gradient_computer({ color_list: new_style.value.background_color_list, direction: new_style.value.background_direction }) + background_computer(new_style.value);
     } else {
         style += `background: transparent;`;
     }
     return style
 });
-const url_computer = () => {
-    const new_url = ref(new URL(`../../assets/images/layout/main/main-top.png`, import.meta.url).href).value;
+const url_computer = (name: string) => {
+    const new_url = ref(new URL(`../../assets/images/layout/main/${name}.png`, import.meta.url).href).value;
     return new_url;
 };
 </script>
@@ -54,8 +57,7 @@ const url_computer = () => {
     .roll {
         width: 39rem;
         margin: 0 auto;
-        // box-shadow: 0px 0 0px 0.2rem #fff;
-        // border-bottom: 0.1rem solid #f5f5f5;
+        cursor: pointer;
     }
     .img {
         width: 34rem;
@@ -63,8 +65,15 @@ const url_computer = () => {
 }
 .model-head {
     height: 4.3rem;
-    padding: 1.1rem 0;
-    cursor: pointer;
+}
+.model-head-icon {
+    position: absolute;
+    right: 1.2rem;
+    bottom: 0.6rem;
+    height: 3.2rem;
+    .function-icon {
+        height: 3.2rem;
+    }
 }
 .page-settings-border {
     // border: 0.2rem solid $cr-main;

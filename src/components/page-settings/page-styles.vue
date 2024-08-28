@@ -7,13 +7,24 @@
                     <div class="flex-col gap-10">
                         <el-radio-group v-model="form.background_type">
                             <el-radio value="transparent">透明</el-radio>
-                            <el-radio value="color">颜色</el-radio>
-                            <el-radio value="image">图片</el-radio>
+                            <el-radio value="color_image">颜色/图片</el-radio>
                         </el-radio-group>
-                        <template v-if="form.background_type === 'color'">
+                        <template v-if="form.background_type === 'color_image'">
                             <mult-color-picker :value="form.background_color_list" :type="form.background_direction" @update:value="mult_color_picker_event"></mult-color-picker>
-                        </template>
-                        <template v-else-if="form.background_type === 'image'">
+                            <div class="flex-row jc-sb align-c">
+                                <div class="size-12">背景图</div>
+                                <el-radio-group v-model="form.background_img_style" is-button>
+                                    <el-tooltip content="单张" placement="top" effect="light">
+                                        <el-radio-button value="0"><icon name="single-sheet"></icon></el-radio-button>
+                                    </el-tooltip>
+                                    <el-tooltip content="平铺" placement="top" effect="light">
+                                        <el-radio-button value="1"><icon name="tile"></icon></el-radio-button>
+                                    </el-tooltip>
+                                    <el-tooltip content="铺满" placement="top" effect="light">
+                                        <el-radio-button value="2"><icon name="spread-over"></icon></el-radio-button>
+                                    </el-tooltip>
+                                </el-radio-group>
+                            </div>
                             <upload v-model="form.background_img_url" :limit="1"></upload>
                         </template>
                     </div>
