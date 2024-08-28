@@ -4,7 +4,7 @@
             <model-coupon-content :value="form.content" @update:change-theme="change_theme"></model-coupon-content>
         </template>
         <template v-else-if="type == '2'">
-            <model-coupon-styles :value="form.style"></model-coupon-styles>
+            <model-coupon-styles :value="form.style" :theme="form.content.theme"></model-coupon-styles>
         </template>
     </div>
 </template>
@@ -118,7 +118,7 @@ const default_config = {
 };
 const change_theme = (val: string) => {
     if (val) {
-        form.value.style = Object.assign({}, form.value.style, (<arrayIndex>default_config.style)[`theme_${Number(val) + 1}`]);
+        form.value.style = Object.assign({}, form.value.style, (<arrayIndex>default_config.style)[`theme_${Number(val)}`]);
     }
 };
 </script>

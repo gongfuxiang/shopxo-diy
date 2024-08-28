@@ -14,8 +14,10 @@ interface DefaultCoupon {
         desc_color: string;
         limit_send_count: string;
         btn_background: color_list[];
+        btn_direction: string;
         btn_color: string;
         background: color_list[];
+        direction: string;
         spacing: number;
         common_style: object;
     };
@@ -37,8 +39,10 @@ const defaultCoupoin: DefaultCoupon = {
         desc_color: '#FF3830',
         limit_send_count: '#999',
         btn_background: [{ color: '#FFF1E1', color_percentage: '' }],
+        btn_direction: '90deg',
         btn_color: '#FF3830',
         background: [{ color: '#FFF1E1', color_percentage: '' }],
+        direction: '90deg',
         spacing: 10,
         common_style: defaultCommon,
     },

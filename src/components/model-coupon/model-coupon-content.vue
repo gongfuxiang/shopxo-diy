@@ -70,11 +70,10 @@ const base_list = reactive({
         { id: '1', name: '风格1', url: new URL(`../../assets/images/components/model-coupon/theme-1.png`, import.meta.url).href },
         { id: '2', name: '风格2', url: new URL(`../../assets/images/components/model-coupon/theme-2.png`, import.meta.url).href },
         { id: '3', name: '风格3', url: new URL(`../../assets/images/components/model-coupon/theme-3.png`, import.meta.url).href },
-        { id: '4', name: '风格3', url: new URL(`../../assets/images/components/model-coupon/theme-3.png`, import.meta.url).href },
-        { id: '5', name: '风格4', url: new URL(`../../assets/images/components/model-coupon/theme-4.png`, import.meta.url).href },
-        { id: '6', name: '风格5', url: new URL(`../../assets/images/components/model-coupon/theme-5.png`, import.meta.url).href },
-        { id: '7', name: '风格6', url: new URL(`../../assets/images/components/model-coupon/theme-6.png`, import.meta.url).href },
-        { id: '8', name: '风格7', url: new URL(`../../assets/images/components/model-coupon/theme-7.png`, import.meta.url).href },
+        { id: '4', name: '风格4', url: new URL(`../../assets/images/components/model-coupon/theme-4.png`, import.meta.url).href },
+        { id: '5', name: '风格5', url: new URL(`../../assets/images/components/model-coupon/theme-5.png`, import.meta.url).href },
+        { id: '6', name: '风格6', url: new URL(`../../assets/images/components/model-coupon/theme-6.png`, import.meta.url).href },
+        { id: '7', name: '风格7', url: new URL(`../../assets/images/components/model-coupon/theme-7.png`, import.meta.url).href },
     ],
 });
 const emit = defineEmits(['update:change-theme']);
