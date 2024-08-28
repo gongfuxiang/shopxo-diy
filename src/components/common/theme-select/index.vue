@@ -68,6 +68,20 @@ const props = defineProps({
 const model_value = defineModel({ type: String, default: '' });
 const { data } = toRefs(props);
 const dialog_visible = ref(false);
+watch(
+    () => dialog_visible.value,
+    (val) => {
+        if (val) {
+            if (model_value.value) {
+                temp_data.value = cloneDeep(data.value.filter((item) => item.id === model_value.value)[0]);
+                temp_data_obj.value = cloneDeep(data.value.filter((item) => item.id === model_value.value)[0]);
+            } else {
+                temp_data.value = null;
+                temp_data_obj.value = null;
+            }
+        }
+    }
+);
 onMounted(() => {
     temp_data.value = cloneDeep(data.value.filter((item) => item.id === model_value.value)[0]);
     temp_data_obj.value = cloneDeep(data.value.filter((item) => item.id === model_value.value)[0]);
@@ -97,6 +111,7 @@ const confirm_event = () => {
 // 清空
 const clear_model_value = () => {
     temp_data.value = null;
+    temp_data_obj.value = null;
     model_value.value = '';
 };
 </script>
