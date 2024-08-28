@@ -1,46 +1,55 @@
 <template>
-    <div class="w h">
+    <div class="w h bg-f">
         <el-form :model="form" label-width="70">
-            <card-container class="common-content-height">
-                <el-form-item label="页面标题">
-                    <el-input v-model="form.title" placeholder="选填不超过30个字" />
+            <card-container>
+                <el-form-item label="选择风格">
+                    <theme-select v-model="form.theme" :data="base_list.themeList" @update:model-value="themeChange"></theme-select>
                 </el-form-item>
-                <el-form-item label="背景设置">
-                    <div class="flex-col gap-10 w">
-                        <div class="size-12">背景色</div>
-                        <mult-color-picker :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
-                        <div class="flex-row jc-sb align-c">
-                            <div class="size-12">背景图</div>
-                            <el-radio-group v-model="form.background_img_style" is-button>
-                                <el-tooltip content="单张" placement="top" effect="light">
-                                    <el-radio-button value="0"><icon name="single-sheet"></icon></el-radio-button>
-                                </el-tooltip>
-                                <el-tooltip content="平铺" placement="top" effect="light">
-                                    <el-radio-button value="1"><icon name="tile"></icon></el-radio-button>
-                                </el-tooltip>
-                                <el-tooltip content="铺满" placement="top" effect="light">
-                                    <el-radio-button value="2"><icon name="spread-over"></icon></el-radio-button>
-                                </el-tooltip>
-                            </el-radio-group>
-                        </div>
-                        <upload v-model="form.background_img_url" :limit="1"></upload>
-                    </div>
+                <template v-if="form.theme == '1' || form.theme == '2'">
+                    <el-form-item label="页面标题">
+                    <el-input v-model="form.title" placeholder="请输入标题名称"></el-input>
+                    </el-form-item>
+                </template>
+            </card-container>
+            <div class="bg-f5 partition-line" />
+            <card-container>
+                <el-form-item label="底部导航">
+                    <el-radio-group v-model="form.bottom_navigation_show" class="ml-4">
+                        <el-radio v-for="item in base_list.bottom_navigation" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                    </el-radio-group>
                 </el-form-item>
             </card-container>
         </el-form>
     </div>
 </template>
 <script setup lang="ts">
-interface Props {
-    value: page_content;
-}
-const props = defineProps<Props>();
-
+const props = defineProps({
+    value: {
+        type: Object,
+        default: () => ({}),
+    }
+});
 const form = reactive(props.value);
-const mult_color_picker_event = (arry: color_list[], type: number) => {
-    form.color_list = arry;
-    form.direction = type.toString();
-};
+const base_list = reactive({
+    themeList: [
+        { id: '1', name: '风格1', url: new URL(`../../assets/images/components/page-settings/theme-1.png`, import.meta.url).href },
+        { id: '2', name: '风格2', url: new URL(`../../assets/images/components/page-settings/theme-2.png`, import.meta.url).href },
+        { id: '3', name: '风格3', url: new URL(`../../assets/images/components/page-settings/theme-3.png`, import.meta.url).href },
+        { id: '4', name: '风格4', url: new URL(`../../assets/images/components/page-settings/theme-4.png`, import.meta.url).href },
+        { id: '5', name: '风格5', url: new URL(`../../assets/images/components/page-settings/theme-5.png`, import.meta.url).href },
+        { id: '6', name: '风格6', url: new URL(`../../assets/images/components/page-settings/theme-6.png`, import.meta.url).href },
+    ],
+    bottom_navigation: [
+        { name: '显示', value: '1' },
+        { name: '隐藏', value: '0' },
+    ],
+});
+const themeChange = (value: string) => {
+    console.log(value);
+}    
 </script>
 <style lang="scss" scoped>
+.partition-line {
+    height: 0.8rem;
+}
 </style>
