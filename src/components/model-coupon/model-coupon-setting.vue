@@ -117,20 +117,8 @@ const default_config = {
     },
 };
 const change_theme = (val: string) => {
-    if (val === '1') {
-        form.value.style = default_config.style.theme_1;
-    } else if (val === '2') {
-        form.value.style = default_config.style.theme_2;
-    } else if (val === '3') {
-        form.value.style = default_config.style.theme_3;
-    } else if (val === '4') {
-        form.value.style = default_config.style.theme_4;
-    } else if (val === '5') {
-        form.value.style = default_config.style.theme_5;
-    } else if (val === '6') {
-        form.value.style = default_config.style.theme_6;
-    } else if (val === '7') {
-        form.value.style = default_config.style.theme_7;
+    if (val) {
+        form.value.style = (<arrayIndex>default_config.style)[`theme_${Number(val) + 1}`];
     }
 };
 </script>
