@@ -1,7 +1,7 @@
 <template>
-    <div class="styles">
+    <div class="w h">
         <el-form :model="form" label-width="70" class="m-h">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">头部样式</div>
                 <el-form-item label="顶部背景">
                     <div class="flex-col gap-10">
@@ -52,6 +52,7 @@
                 </el-form-item>
             </card-container>
         </el-form>
+        <div class="bg-f5 divider-line" />
         <common-styles :value="form.common_style" :is-margin="false" :is-shadow="false" :is-radius="false" @update:value="common_styles_update" />
     </div>
 </template>

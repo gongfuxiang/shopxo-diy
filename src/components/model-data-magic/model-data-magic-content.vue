@@ -1,7 +1,7 @@
 <template>
-    <div class="auxiliary-line common-content-height">
+    <div class="w h">
         <el-form :model="form" label-width="80">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">展示风格</div>
                 <el-form-item label="选择风格">
                     <div class="flex align-c flex-wrap gap-10">
@@ -11,7 +11,8 @@
                     </div>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="bg-f5 divider-line" />
+            <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label-width="0" class="show-config">
                     <!-- 风格9 -->
@@ -31,6 +32,7 @@
                     </template>
                 </el-form-item>
             </card-container>
+            <div class="bg-f5 divider-line" />
             <el-tabs v-model="tabs_name" class="content-tabs">
                 <el-tab-pane label="内容设置" name="content">
                     <tabs-content :value="form.data_magic_list[selected_active].data_content" :is-show-title="is_show_title"></tabs-content>

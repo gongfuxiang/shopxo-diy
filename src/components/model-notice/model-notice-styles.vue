@@ -1,7 +1,7 @@
 <template>
-    <div class="common-style-height">
+    <div class="w h">
         <el-form :model="form" label-width="80">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">标题样式</div>
                 <template v-if="!is_img">
                     <el-form-item label="标题文字">
@@ -66,6 +66,7 @@
                 </el-form-item>
             </card-container>
         </el-form>
+        <div class="bg-f5 divider-line" />
         <common-styles :value="form.common_style" @update:value="common_styles_update" />
     </div>
 </template>
