@@ -5,8 +5,11 @@
                 <img class="img" :style="`Filter: brightness(${ new_style.function_buttons_type == 'black' ? 0 : 100 })`" src="@/assets/images/layout/main/main-top.png" />
             </div>
             <div class="model-head tc re">
-                <div class="flex align-c jc-c w h" :style="[{ 'justify-content': form?.indicator_location || 'center', 'padding-right': form?.indicator_location == 'flex-end' ? '90px' : '0'}, text_style]">
-                    {{ props.pageData.com_data?.content?.title || '新建页面' }}
+                <div class="flex align-c jc-c h gap-16" :style="[{ 'justify-content': form?.indicator_location || 'center', 'padding-right': form?.indicator_location == 'flex-end' ? '90px' : '0'}, text_style]">
+                    <template v-if="form.theme == '2'">
+                        <image-empty v-model="form.logo[0]" class="logo-style" error-img-style="width:3.2rem;height:3.2rem;"></image-empty>
+                    </template>
+                    <div>{{ form?.title || '新建页面' }}</div>
                 </div>
                 <div class="model-head-icon">
                     <img class="function-icon" :src="url_computer(new_style.function_buttons_type == 'black' ? 'function-icon-black' : 'function-icon-white')" />
@@ -84,5 +87,8 @@ const text_style = computed(() => `font-weight:${ new_style.value.background_tit
     box-shadow: 0px 0 0px 0.2rem $cr-main !important;
     z-index: 1;
     box-sizing: border-box;
+}
+.logo-style {
+    max-height: 3.2rem;
 }
 </style>

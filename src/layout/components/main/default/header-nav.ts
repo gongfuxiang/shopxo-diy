@@ -3,6 +3,7 @@ import defaultCommon from './index';
 interface DefaultFooterNav {
     content: {
         theme: string;
+        logo: uploadList[];
         title: string;
         link: object;
         indicator_location: string;
@@ -26,6 +27,7 @@ interface DefaultFooterNav {
 const defaultFooterNav: DefaultFooterNav = {
     content: {
         theme: '1',
+        logo: [],
         title: '',
         link: {},
         indicator_location: 'center',

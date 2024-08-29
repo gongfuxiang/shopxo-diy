@@ -6,6 +6,9 @@
                     <theme-select v-model="form.theme" :data="base_list.themeList" @update:model-value="themeChange"></theme-select>
                 </el-form-item>
                 <template v-if="form.theme == '1' || form.theme == '2'">
+                    <el-form-item v-if="form.theme == '2'" label="logo">
+                        <upload v-model="form.logo" :limit="1"></upload>
+                    </el-form-item>
                     <el-form-item label="页面标题">
                         <el-input v-model="form.title" placeholder="请输入标题名称"></el-input>
                     </el-form-item>
@@ -60,8 +63,10 @@ const base_list = reactive({
         { name: '隐藏', value: '0' },
     ],
 });
-const themeChange = (value: string) => {
-    console.log(value);
+
+const emit = defineEmits(['update:change-theme']);
+const themeChange = (val: string) => {
+    emit('update:change-theme', val);
 };
 </script>
 <style lang="scss" scoped></style>
