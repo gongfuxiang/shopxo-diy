@@ -1,6 +1,6 @@
 <template>
     <div class="w h">
-        <el-form :model="form" label-width="70" class="m-h">
+        <el-form :model="form" label-width="70">
             <card-container>
                 <div class="mb-12">头部样式</div>
                 <el-form-item label="顶部背景">

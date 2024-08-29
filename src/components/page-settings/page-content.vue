@@ -9,6 +9,22 @@
                     <el-form-item label="页面标题">
                         <el-input v-model="form.title" placeholder="请输入标题名称"></el-input>
                     </el-form-item>
+                    <el-form-item label="链接地址">
+                        <url-value v-model="form.link"></url-value>
+                    </el-form-item>
+                    <el-form-item label="展示位置">
+                        <el-radio-group v-model="form.indicator_location" is-button>
+                            <el-tooltip content="左对齐" placement="top" effect="light">
+                                <el-radio-button value="flex-start"><icon name="iconfont icon-left"></icon></el-radio-button>
+                            </el-tooltip>
+                            <el-tooltip content="居中" placement="top" effect="light">
+                                <el-radio-button value="center"><icon name="iconfont icon-center"></icon></el-radio-button>
+                            </el-tooltip>
+                            <el-tooltip content="右对齐" placement="top" effect="light">
+                                <el-radio-button value="flex-end"><icon name="iconfont icon-right"></icon></el-radio-button>
+                            </el-tooltip>
+                        </el-radio-group>
+                    </el-form-item>
                 </template>
             </card-container>
             <div class="bg-f5 divider-line" />

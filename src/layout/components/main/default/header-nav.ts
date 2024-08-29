@@ -4,6 +4,8 @@ interface DefaultFooterNav {
     content: {
         theme: string;
         title: string;
+        link: object;
+        indicator_location: string;
         bottom_navigation_show: string;
     };
     style: {
@@ -25,6 +27,8 @@ const defaultFooterNav: DefaultFooterNav = {
     content: {
         theme: '1',
         title: '',
+        link: {},
+        indicator_location: 'center',
         bottom_navigation_show: '1'
     },
     style: {
