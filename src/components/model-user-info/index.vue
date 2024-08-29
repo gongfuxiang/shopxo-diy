@@ -66,8 +66,8 @@ const base_data = reactive({
     user_name_size: 16,
     // 用户ID颜色
     user_id_color_list: [
-        { color: 'rgba(254, 184, 143, 1)', color_percentage: '' },
-        { color: 'rgba(255, 227, 220, 1)', color_percentage: '' },
+        { color: 'rgba(254, 184, 143, 1)', color_percentage: undefined },
+        { color: 'rgba(255, 227, 220, 1)', color_percentage: undefined },
     ],
     // 用户ID颜色
     user_id_color: 'rgba(0, 0, 0, 1)',

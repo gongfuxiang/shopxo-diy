@@ -15,7 +15,7 @@ declare global {
     }
     interface color_list {
         color: string;
-        color_percentage: string;
+        color_percentage: number | undefined;
     }
     /**
      * 渐变色参数集合

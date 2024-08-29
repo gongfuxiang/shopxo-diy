@@ -9,10 +9,10 @@
         <div class="flex-col">
             <div v-for="(item, index) in color_list" :key="index" class="flex-row align-s gap-12">
                 <div class="flex-col">
-                    <div class="flex-row align-s gap-12">
-                        <el-color-picker v-model="item.color" show-alpha :predefine="predefine_colors" @change="change_color(index, $event)" />
+                    <div class="flex-row align-c gap-12">
+                        <el-color-picker v-model="item.color" :predefine="predefine_colors" @change="change_color(index, $event)" />
                         <div class="re mo-input-number">
-                            <el-input-number v-model="item.color_percentage" :max="999" label="请输入百分比" type="number" controls-position="right" class="number-show" @change="change_color_percentage(index, $event)"></el-input-number>
+                            <el-input-number v-model="item.color_percentage" :max="999" placeholder="百分比" controls-position="right" class="number-show" @change="change_color_percentage(index, $event)"></el-input-number>
                             <div class="define-append">%</div>
                         </div>
                     </div>
@@ -33,6 +33,7 @@
 </template>
 
 <script lang="ts" setup>
+import { predefine_colors } from '@/utils';
 const props = defineProps({
     type: {
         type: String,
@@ -46,7 +47,6 @@ const props = defineProps({
         },
     },
 });
-const predefine_colors = ref(['#ff4500', '#ff8c00', '#ffd700', '#90ee90', '#00ced1', '#1e90ff', '#c71585', 'rgba(255, 69, 0, 0.68)', 'rgb(255, 120, 0)', 'hsv(51, 100, 98)', 'hsva(120, 40, 94, 0.5)', 'hsl(181, 100%, 37%)', 'hsla(209, 100%, 56%, 0.73)', '#c7158577']);
 const direction_type = ref(props.type);
 let state = reactive({
     color_list: props.value.map((item: any) => {
@@ -63,7 +63,7 @@ const direction_type_change = (type: any) => {
     update_value();
 };
 const reset_event = () => {
-    color_list.value = [{ color: '', color_percentage: '' }];
+    color_list.value = [{ color: '', color_percentage: undefined }];
     update_value();
 };
 const del_event = (index: number) => {
@@ -71,7 +71,7 @@ const del_event = (index: number) => {
     update_value();
 };
 const add_event = () => {
-    color_list.value.push({ color: '', color_percentage: '' });
+    color_list.value.push({ color: '', color_percentage: undefined });
     update_value();
 };
 const change_color = (index: number, color: string | null) => {
