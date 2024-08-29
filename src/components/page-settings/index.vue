@@ -10,6 +10,9 @@
                         <div class="logo-outer-style"><image-empty v-model="form.logo[0]" class="logo-style" error-img-style="width:2rem;height:2rem;"></image-empty></div>
                     </template>
                     <div v-if="form.theme == '1' || form.theme == '2'">{{ form?.title || '新建页面' }}</div>
+                    <template v-if="form.theme == '3'">
+                        <model-search :value="pageData.com_data"></model-search>
+                    </template>
                 </div>
                 <div class="model-head-icon">
                     <img class="function-icon" :src="url_computer(new_style.function_buttons_type == 'black' ? 'function-icon-black' : 'function-icon-white')" />
