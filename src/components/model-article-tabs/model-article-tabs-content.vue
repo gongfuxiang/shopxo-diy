@@ -48,7 +48,7 @@
                                             </el-select>
                                         </el-form-item>
                                         <el-form-item label="显示数量">
-                                            <el-input v-model="row.number" type="number" placeholder="请输入显示数量" clearable />
+                                            <el-input v-model="row.number" type="number" min="0" max="50" placeholder="请输入显示数量" clearable />
                                         </el-form-item>
                                         <el-form-item label="排序类型">
                                             <el-radio-group v-model="row.sort">

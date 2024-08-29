@@ -17,7 +17,7 @@
                 </el-form-item>
                 <el-form-item label="上传至分组" prop="category_id">
                     <div class="form-item-width">
-                        <el-cascader v-model="form.category_id" class="w" :options="cascader_data" placeholder="请选择" :show-all-levels="false" @change="category_id_change"></el-cascader>
+                        <el-cascader v-model="form.category_id" class="w" :options="cascader_data" placeholder="请选择" :show-all-levels="false" filterable clearable change="category_id_change"></el-cascader>
                     </div>
                 </el-form-item>
                 <template v-if="form.type == 'loc'">
