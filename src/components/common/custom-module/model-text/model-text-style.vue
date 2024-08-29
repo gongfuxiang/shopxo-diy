@@ -8,7 +8,7 @@
                 </el-form-item>
                 <el-form-item label="数据字段">
                     <el-select v-model="form.data_source_id" value-key="id" clearable filterable placeholder="请选择图片数据字段" size="default" class="flex-1" @change="text_change('2')">
-                        <el-option v-for="item in options.filter(item => item.type == 'text')" :key="item.field" :label="item.name" :value="item.field" />
+                        <el-option v-for="item in options.filter((item) => item.type == 'text')" :key="item.field" :label="item.name" :value="item.field" />
                     </el-select>
                 </el-form-item>
                 <el-form-item label="链接">
@@ -63,7 +63,7 @@
                     <el-switch v-model="form.bottom_up" />
                 </el-form-item>
             </card-container>
-            <div class="bg-f5 partition-line" />
+            <div class="bg-f5 divider-line" />
             <card-container>
                 <div class="mb-12">容器设置</div>
                 <el-form-item label="容器宽度">
@@ -79,7 +79,7 @@
                     <radius :value="form.bg_radius" @update:value="bg_radius_change"></radius>
                 </el-form-item>
             </card-container>
-            <div class="bg-f5 partition-line" />
+            <div class="bg-f5 divider-line" />
             <card-container>
                 <div class="mb-12">边框设置</div>
                 <el-form-item label="边框显示">
@@ -142,7 +142,7 @@ const text_change = (key: string) => {
     } else {
         form.value.data_source_id = '';
     }
-}
+};
 
 watch(
     diy_data,
@@ -167,8 +167,5 @@ watch(
 .border-style-item {
     width: 3rem;
     height: 2rem;
-}
-.partition-line {
-    height: 0.8rem;
 }
 </style>

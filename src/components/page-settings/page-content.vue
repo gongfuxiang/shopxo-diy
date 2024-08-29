@@ -11,7 +11,7 @@
                     </el-form-item>
                 </template>
             </card-container>
-            <div class="bg-f5 partition-line" />
+            <div class="bg-f5 divider-line" />
             <card-container>
                 <el-form-item label="底部导航">
                     <el-radio-group v-model="form.bottom_navigation_show" class="ml-4">
@@ -27,7 +27,7 @@ const props = defineProps({
     value: {
         type: Object,
         default: () => ({}),
-    }
+    },
 });
 const form = reactive(props.value);
 const base_list = reactive({
@@ -46,10 +46,6 @@ const base_list = reactive({
 });
 const themeChange = (value: string) => {
     console.log(value);
-}    
+};
 </script>
-<style lang="scss" scoped>
-.partition-line {
-    height: 0.8rem;
-}
-</style>
+<style lang="scss" scoped></style>

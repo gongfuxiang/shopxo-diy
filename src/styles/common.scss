@@ -248,13 +248,6 @@
 ::-webkit-scrollbar-thumb:hover {
     background-color: #c7c9cc;
 }
-/*setting content和style的高度控制，仅限只有一块区域的时候使用 */
-.common-content-height {
-    height: calc(100vh - 16.8rem);
-}
-.common-style-height {
-    height: calc(100vh - 36.8rem);
-}
 
 .animate-linear {
     transition: all 0.3s linear;
@@ -263,4 +256,10 @@
 // 透明背景
 .mask {
     background-color: rgba(0, 0, 0, 0.2);
+}
+
+// 分割线
+.divider-line {
+    height: 0.8rem;
+    background-color: #f0f2f5;
 }

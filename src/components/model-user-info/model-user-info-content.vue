@@ -9,7 +9,8 @@
                     </el-checkbox-group>
                 </el-form-item>
             </card-container>
-            <card-container class="content-height">
+            <div class="divider-line"></div>
+            <card-container>
                 <div class="mb-12">图标设置</div>
                 <div class="size-12 cr-c mb-20">图片建议宽高80*80；鼠标拖拽左侧圆点可调整导航顺序</div>
                 <div class="nav-list">
@@ -61,8 +62,5 @@ const add = () => {
 <style lang="scss" scoped>
 .content {
     width: 100%;
-    .content-height {
-        min-height: calc(100vh - 38.2rem);
-    }
 }
 </style>

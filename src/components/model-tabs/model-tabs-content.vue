@@ -37,7 +37,7 @@
                                     <url-value v-model="scoped.row.micro_page_list"></url-value>
                                 </template>
                                 <template v-else>
-                                    <url-value v-model="scoped.row.classify" :type="[ 'goods-category' ]"></url-value>
+                                    <url-value v-model="scoped.row.classify" :type="['goods-category']"></url-value>
                                 </template>
                             </el-form-item>
                         </div>
@@ -59,12 +59,12 @@ const props = defineProps({
     tabStyle: {
         type: Object,
         default: () => ({}),
-    }
+    },
 });
 
 const state = reactive({
     form: props.value,
-    styles: props.tabStyle
+    styles: props.tabStyle,
 });
 const { form, styles } = toRefs(state);
 const add = () => {
@@ -76,17 +76,21 @@ const add = () => {
         classify: {},
         micro_page: '',
         micro_page_list: [],
-        category_list: []
-    })
-}
+        category_list: [],
+    });
+};
 const remove = (index: number) => {
-    form.value.tabs_list.splice(index, 1);
-}
+    if (form.value.tabs_list.length > 1) {
+        form.value.tabs_list.splice(index, 1);
+    } else {
+        ElMessage.warning('至少保留一个选项卡');
+    }
+};
 // 拖拽更新之后，更新数据
 const on_sort = (new_list: nav_group[]) => {
     form.value.tabs_list = new_list;
-}
-const tabs_theme_change = (val: string | number | boolean | undefined):void => {
+};
+const tabs_theme_change = (val: string | number | boolean | undefined): void => {
     styles.value.tabs_color_checked = tabs_style(styles.value.tabs_color_checked, val);
 };
 </script>
