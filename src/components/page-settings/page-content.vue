@@ -7,7 +7,7 @@
                 </el-form-item>
                 <template v-if="form.theme == '1' || form.theme == '2'">
                     <el-form-item label="页面标题">
-                    <el-input v-model="form.title" placeholder="请输入标题名称"></el-input>
+                        <el-input v-model="form.title" placeholder="请输入标题名称"></el-input>
                     </el-form-item>
                 </template>
             </card-container>

@@ -190,6 +190,8 @@ const top_margin = ref(0);
 const content_style = ref('');
 const main_content_style = ref('');
 const bottom_navigation_show = ref(true);
+const container_min_height = ref(681);
+const height = computed(() => container_min_height.value + 'px');
 watchEffect(() => {
     const data = page_data.value.com_data;
     if (data) {
@@ -205,14 +207,22 @@ watchEffect(() => {
         // 不开启沉浸式 和 上滑显示
         if (immersive_style || !up_slide_display) {
             top_padding.value = 2;
+            container_min_height.value = 681 + 88;
         } else {
             top_padding.value = 90;
+            container_min_height.value = 681;
         }
         // 开启沉浸式并且没有开通上滑显示
         if (immersive_style && !up_slide_display) {
             top_margin.value = -90;
         } else {
             top_margin.value = 0;
+        }
+        // 开启沉浸式时要加上顶部的高度，关闭底部导航的时候要加上底部的高度
+        if (bottom_navigation_show.value) {
+            container_min_height.value = container_min_height.value - footer_nav_counter_store.padding_footer;
+        } else {
+            container_min_height.value = container_min_height.value + footer_nav_counter_store.padding_footer;
         }
     }
 });
@@ -656,7 +666,7 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
                     background: #f5f5f5;
                     margin: 0 auto;
                     .drag-area {
-                        min-height: 68.1rem;
+                        min-height: v-bind(height);
                     }
                     .drag-area .float-window {
                         position: fixed;
