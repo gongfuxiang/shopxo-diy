@@ -2,8 +2,9 @@ import defaultCommon from './index';
 
 interface DefaultFooterNav {
     content: {
-        color_list: color_list[];
+        theme: string;
         title: string;
+        bottom_navigation_show: string;
     };
     style: {
         background_type: string;
@@ -22,8 +23,9 @@ interface DefaultFooterNav {
 }
 const defaultFooterNav: DefaultFooterNav = {
     content: {
-        color_list: [{ color: '#f5f5f5', color_percentage: '' }],
+        theme: '1',
         title: '',
+        bottom_navigation_show: '1'
     },
     style: {
         background_type: 'color_image',

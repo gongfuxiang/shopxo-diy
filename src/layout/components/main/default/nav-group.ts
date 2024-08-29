@@ -94,7 +94,7 @@ const defaultSearch: defaultSearch = {
         common_style: {
             ...defaultCommon,
             padding_top: 9,
-            padding_bottom: 9,
+            padding_bottom: 5,
             padding_left: 15,
             padding_right: 15,
         },

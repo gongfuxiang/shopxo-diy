@@ -204,14 +204,14 @@
                     <icon name="add" :size="Number(size) / 2 + ''" color="c"></icon>
                 </div>
             </div>
-            <div v-else>
+            <template v-else>
                 <div :class="'upload-btn upload-btn-style-' + styles" :style="'height:' + upload_size + ';width:' + upload_size + ';'" @click="dialog_visible = true">
                     <div v-if="!isEmpty(icon_value)" class="upload-del-icon" @click.stop="del_icon_event">
                         <icon name="close-o" color="c" size="14"></icon>
                     </div>
                     <icon :name="!isEmpty(icon_value) ? icon_value : 'add'" :size="Number(size) / 2 + ''" color="c"></icon>
                 </div>
-            </div>
+            </template>
             <div v-if="isTips" class="size-12 cr-9">{{ tipsText }}</div>
         </div>
     </template>

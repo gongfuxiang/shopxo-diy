@@ -11,9 +11,10 @@
                 <div class="flex-col">
                     <div class="flex-row align-s gap-12">
                         <el-color-picker v-model="item.color" show-alpha :predefine="predefine_colors" @change="change_color(index, $event)" />
-                        <el-input v-model="item.color_percentage" :maxlength="3" placeholder="请输入百分比" @change="change_color_percentage(index, $event)">
-                            <template #append>%</template>
-                        </el-input>
+                        <div class="re mo-input-number">
+                            <el-input-number v-model="item.color_percentage" :max="999" label="请输入百分比" type="number" controls-position="right" class="number-show" @change="change_color_percentage(index, $event)"></el-input-number>
+                            <div class="define-append">%</div>
+                        </div>
                     </div>
                     <div v-if="index + 1 !== color_list.length" class="connect-line"></div>
                 </div>
@@ -77,8 +78,8 @@ const change_color = (index: number, color: string | null) => {
     color_list.value[index].color = color;
     update_value();
 };
-const change_color_percentage = (index: number, percentage: string | null) => {
-    color_list.value[index].color_percentage = percentage;
+const change_color_percentage = (index: number, percentage: number | undefined) => {
+    color_list.value[index].color_percentage = percentage?.toString();
     update_value();
 };
 const update_value = () => {
@@ -138,4 +139,29 @@ const update_value = () => {
         color: $cr-primary-dark;
     }
 }
+.mo-input-number {
+    :deep(.el-input-number) {
+        .el-input-number__decrease, .el-input-number__increase {
+            right: 3.4rem;
+        }
+    }
+    .number-show {
+        :deep(.el-input__wrapper .el-input__inner) {
+            text-align: left;
+        }
+    }
+    .define-append {
+        right: 0.1rem;
+        top: 0.2rem;
+        background: #f5f7fa;
+        color: #999;
+        height: 3rem;
+        padding: 0 1rem;
+        position: absolute;
+        font-size: 1.2rem;
+        border-top-right-radius: 0.4rem;
+        border-bottom-right-radius: 0.4rem;
+    }
+}
+
 </style>

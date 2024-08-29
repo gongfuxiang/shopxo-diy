@@ -12,7 +12,7 @@
                 </div>
             </el-carousel-item>
         </el-carousel>
-        <div v-if="form.display_style == 'slide' && new_style.is_show" :style="{ 'justify-content': new_style?.indicator_location || 'center'}" class="dot flex mt-10">
+        <div v-if="form.display_style == 'slide' && new_style.is_show" :style="{ 'justify-content': new_style?.indicator_location || 'center'}" class="dot flex mt-10 mb-4">
             <template v-if="new_style.indicator_style == 'num'">
                 <div :style="indicator_style" class="dot-item">
                     <span class="num-active">{{ actived_index + 1 }}</span><span>/{{ nav_content_list.length }}</span>
