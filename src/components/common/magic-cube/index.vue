@@ -3,8 +3,8 @@
         <div class="decorate-cube">
             <ul v-for="(n, index) in densityNum" :key="index" class="cube-col">
                 <li v-for="(i, index1) in densityNum" :key="index1" class="cube-item" :style="{ width: cubeCellWidth + 'px', height: cubeCellHeight + 'px' }" :data-x="n" :data-y="i" @click="onClickCubeItem($event)" @mouseenter="onEnterCubeItem($event)">
-                    <div :class="['w h item', { 'item-selecting': isSelecting(n, i), 'item-selected': isSelected(n, i) }]">
-                        <icon name="add" color="9" :style="{ 'line-height': cubeCellHeight + 'px' }"></icon>
+                    <div :class="['w h item do-not-trigger', { 'item-selecting': isSelecting(n, i), 'item-selected': isSelected(n, i) }]">
+                        <icon name="add" color="9" class="do-not-trigger" :style="{ 'line-height': cubeCellHeight + 'px' }"></icon>
                     </div>
                 </li>
             </ul>
@@ -70,12 +70,28 @@ const selected_active = ref(0);
 //#region 容器大小变更
 const density = ref('4');
 //#endregion
+
 const selectingItem = reactive<any>({
     tempStart: null,
     tempEnd: null,
     start: null,
     end: null,
 });
+
+onMounted(() => {
+    // 监听点击事件
+    document.addEventListener('click', outerClick);
+});
+onUnmounted(() => {
+    // 移除监听事件
+    document.removeEventListener('click', outerClick);
+});
+// 判断点击的是否是可以点击的区域，其他区域隐藏掉编辑属性
+const outerClick = (e: any) => {
+    if (!isEmpty(e.target.className) && !e.target.className.includes('do-not-trigger')) {
+        clearSelecting();
+    }
+};
 
 const selectedList = ref(props.list);
 
