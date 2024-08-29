@@ -292,7 +292,12 @@ watch(
     (val) => {
         if (val) {
             if (val === true) {
-                upload_type.value = props.type;
+                if (icon_value.value) {
+                    upload_type.value = 'icon';
+                } else {
+                    upload_type.value = props.type;
+                }
+                // upload_type.value = props.type;
                 // 获取分类
                 get_tree();
                 // 获取附件列表

@@ -45,9 +45,6 @@ const default_config = {
             // 当为主题2时，不显示
             background: [{ color: '#fff', color_percentage: undefined }],
             spacing: 15,
-            common_style: {
-                background_img_url: [{ url: 'http://shopxo.com/static/upload/images/common/2024/08/28/1724815957918121.png' }],
-            },
         },
         theme_3: {
             price_color: '#FF3830',
@@ -116,9 +113,22 @@ const default_config = {
             spacing: 10,
         },
     },
+    common_style: {
+        theme_default: {
+            background_img_url: [],
+        },
+        theme_2: {
+            background_img_url: [{ url: 'http://shopxo.com/static/upload/images/common/2024/08/28/1724815957918121.png' }],
+        },
+    },
 };
 const change_theme = (val: string) => {
     if (val) {
+        if (val == '2') {
+            form.value.style.common_style = Object.assign({}, form.value.style.common_style, (<arrayIndex>default_config.common_style)[`theme_${Number(val)}`]);
+        } else {
+            form.value.style.common_style = Object.assign({}, form.value.style.common_style, default_config.common_style.theme_default);
+        }
         form.value.style = Object.assign({}, form.value.style, (<arrayIndex>default_config.style)[`theme_${Number(val)}`]);
     }
 };
