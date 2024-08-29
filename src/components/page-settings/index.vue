@@ -1,15 +1,15 @@
 <template>
     <div class="model-top">
         <div :class="['roll', { 'page-settings-border': showPage }]" :style="roll_style" @click="page_settings">
-            <div class="pb-10 pl-6 pr-13 w">
+            <div class="pb-12 pl-6 pr-13 w">
                 <img class="img" :style="`Filter: brightness(${ new_style.function_buttons_type == 'black' ? 0 : 100 })`" src="@/assets/images/layout/main/main-top.png" />
             </div>
             <div class="model-head tc re">
                 <div class="flex align-c jc-c h gap-16" :style="[{ 'justify-content': form?.indicator_location || 'center', 'padding-right': form?.indicator_location == 'flex-end' ? '90px' : '0'}, text_style]">
-                    <template v-if="form.theme == '2'">
-                        <image-empty v-model="form.logo[0]" class="logo-style" error-img-style="width:3.2rem;height:3.2rem;"></image-empty>
+                    <template v-if="form.theme == '2' || form.theme == '3'">
+                        <div class="logo-outer-style"><image-empty v-model="form.logo[0]" class="logo-style" error-img-style="width:2rem;height:2rem;"></image-empty></div>
                     </template>
-                    <div>{{ form?.title || '新建页面' }}</div>
+                    <div v-if="form.theme == '1' || form.theme == '2'">{{ form?.title || '新建页面' }}</div>
                 </div>
                 <div class="model-head-icon">
                     <img class="function-icon" :src="url_computer(new_style.function_buttons_type == 'black' ? 'function-icon-black' : 'function-icon-white')" />
@@ -88,7 +88,16 @@ const text_style = computed(() => `font-weight:${ new_style.value.background_tit
     z-index: 1;
     box-sizing: border-box;
 }
-.logo-style {
-    max-height: 3.2rem;
+.logo-outer-style {
+    height: 3.2rem;
+    .logo-style {
+        max-height: 3.2rem;
+        max-width: 100%;
+        :deep(.image-slot) {
+            height: 3.2rem;
+            width: 3.2rem;
+        }
+    }
 }
+
 </style>

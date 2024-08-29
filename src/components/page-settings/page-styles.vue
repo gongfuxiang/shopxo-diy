@@ -15,13 +15,19 @@
                                 <div class="size-12">背景图</div>
                                 <el-radio-group v-model="form.background_img_style" is-button>
                                     <el-tooltip content="单张" placement="top" effect="light">
-                                        <el-radio-button value="0"><icon name="single-sheet"></icon></el-radio-button>
+                                        <el-radio-button value="0">
+                                            <icon name="single-sheet"></icon>
+                                        </el-radio-button>
                                     </el-tooltip>
                                     <el-tooltip content="平铺" placement="top" effect="light">
-                                        <el-radio-button value="1"><icon name="tile"></icon></el-radio-button>
+                                        <el-radio-button value="1">
+                                            <icon name="tile"></icon>
+                                        </el-radio-button>
                                     </el-tooltip>
                                     <el-tooltip content="铺满" placement="top" effect="light">
-                                        <el-radio-button value="2"><icon name="spread-over"></icon></el-radio-button>
+                                        <el-radio-button value="2">
+                                            <icon name="spread-over"></icon>
+                                        </el-radio-button>
                                     </el-tooltip>
                                 </el-radio-group>
                             </div>
@@ -53,6 +59,10 @@
             </card-container>
         </el-form>
         <div class="bg-f5 divider-line" />
+        <template v-if="content.theme == '3'">
+            <model-search-styles :value="form" :content="props.content"></model-search-styles>
+        </template>
+        <div class="bg-f5 divider-line" />
         <common-styles :value="form.common_style" :is-margin="false" :is-shadow="false" :is-radius="false" @update:value="common_styles_update" />
     </div>
 </template>
@@ -63,6 +73,10 @@ const props = defineProps({
         default: () => {
             return {};
         },
+    },
+    content: {
+        type: Object,
+        default: () => { },
     },
 });
 const emit = defineEmits(['update:value']);
