@@ -61,11 +61,16 @@
 </template>
 <script setup lang="ts">
 import { isEmpty, pick } from 'lodash';
-interface Props {
-    value: search_styles;
-    content: search_content;
-}
-const props = defineProps<Props>();
+const props = defineProps({
+    value: {
+        type: Object,
+        default: () => ({}),
+    },
+    content: {
+        type: Object,
+        default: () => ({}),
+    },
+});
 
 const state = reactive({
     form: props.value,

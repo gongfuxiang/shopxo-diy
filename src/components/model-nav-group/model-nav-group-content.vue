@@ -73,25 +73,25 @@ const props = withDefaults(defineProps<Props>(),{
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
                 nav_image: [],
                 title: '',
-                title_link: '',
+                title_link: {},
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
                 nav_image: [],
                 title: '',
-                title_link: '',
+                title_link: {},
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
                 nav_image: [],
                 title: '',
-                title_link: '',
+                title_link: {},
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
                 nav_image: [],
                 title: '',
-                title_link: '',
+                title_link: {},
             }
         ]
     })
@@ -106,7 +106,7 @@ const add = () => {
         id: get_math(),
         nav_image: [],
         title: '',
-        title_link: '',
+        title_link: {},
     });
 }
 const remove = (index: number) => {

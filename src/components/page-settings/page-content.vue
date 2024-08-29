@@ -5,17 +5,51 @@
                 <el-form-item label="选择风格">
                     <theme-select v-model="form.theme" :data="base_list.themeList" @update:model-value="themeChange"></theme-select>
                 </el-form-item>
-                <template v-if="form.theme == '1' || form.theme == '2'">
-                    <el-form-item label="页面标题">
-                        <el-input v-model="form.title" placeholder="请输入标题名称"></el-input>
+                <template v-if="form.theme == '1' || form.theme == '2' || form.theme == '3'">
+                    <el-form-item v-if="form.theme == '2' || form.theme == '3'" label="logo">
+                        <upload v-model="form.logo" :limit="1"></upload>
                     </el-form-item>
+                    <el-form-item v-if="form.theme == '3'" label="链接地址">
+                        <url-value v-model="form.link"></url-value>
+                    </el-form-item>
+                    <template v-if="form.theme == '1' || form.theme == '2'">
+                        <el-form-item label="页面标题">
+                            <el-input v-model="form.title" placeholder="请输入标题名称"></el-input>
+                        </el-form-item>
+                        <el-form-item label="链接地址">
+                            <url-value v-model="form.link"></url-value>
+                        </el-form-item>
+                        <el-form-item label="展示位置">
+                            <el-radio-group v-model="form.indicator_location" is-button>
+                                <el-tooltip content="左对齐" placement="top" effect="light">
+                                    <el-radio-button value="flex-start">
+                                        <icon name="iconfont icon-left"></icon>
+                                    </el-radio-button>
+                                </el-tooltip>
+                                <el-tooltip content="居中" placement="top" effect="light">
+                                    <el-radio-button value="center">
+                                        <icon name="iconfont icon-center"></icon>
+                                    </el-radio-button>
+                                </el-tooltip>
+                                <el-tooltip content="右对齐" placement="top" effect="light">
+                                    <el-radio-button value="flex-end">
+                                        <icon name="iconfont icon-right"></icon>
+                                    </el-radio-button>
+                                </el-tooltip>
+                            </el-radio-group>
+                        </el-form-item>
+                    </template>
                 </template>
             </card-container>
+            <div class="bg-f5 divider-line" />
+            <template v-if="form.theme == '3'">
+                <model-search-content :value="form"></model-search-content>
+            </template>
             <div class="bg-f5 divider-line" />
             <card-container>
                 <el-form-item label="底部导航">
                     <el-radio-group v-model="form.bottom_navigation_show" class="ml-4">
-                        <el-radio v-for="item in base_list.bottom_navigation" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                        <el-radio v-for="item in base_list.bottom_navigation" :key="item.value" :value="item.value">{{item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
             </card-container>
@@ -44,8 +78,10 @@ const base_list = reactive({
         { name: '隐藏', value: '0' },
     ],
 });
-const themeChange = (value: string) => {
-    console.log(value);
+
+const emit = defineEmits(['update:change-theme']);
+const themeChange = (val: string) => {
+    emit('update:change-theme', val);
 };
 </script>
 <style lang="scss" scoped></style>

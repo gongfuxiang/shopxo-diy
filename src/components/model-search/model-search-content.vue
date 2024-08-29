@@ -54,31 +54,11 @@
 </template>
 <script setup lang="ts">
 import { get_math } from '@/utils';
-interface Props {
-    value: search_content;
-}
-const props = withDefaults(defineProps<Props>(), {
-    value: () => ({
-        is_center: false,
-        is_icon_show: true,
-        icon_src: '',
-        icon_img_src: [],
-        icon_class: '',
-        search_botton_src: [],
-        search_botton_icon: '',
-        is_tips_show: true,
-        tips: '请输入搜索内容',
-        is_search_show: false,
-        search_type: 'text',
-        search_tips: '搜索',
-        hot_word_list: [
-            {
-                id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
-                value: '',
-                color: '#000000',
-            },
-        ],
-    }),
+const props = defineProps({
+    value: {
+        type: Object,
+        default: () => ({}),
+    },
 });
 
 const state = reactive({
@@ -97,12 +77,17 @@ const add = () => {
 const remove = (index: number) => {
     form.value.hot_word_list.splice(index, 1);
 };
+interface hot_word_list {
+    id: string;
+    value: string;
+    color: string;
+}
 // 拖拽更新之后，更新数据
 const on_sort = (new_list: hot_word_list[]) => {
     form.value.hot_word_list = new_list;
 };
 const search_color_change = (color: string, old_hot_word: hot_word_list) => {
-    const index = form.value.hot_word_list.findIndex((item) => item.id == old_hot_word.id);
+    const index = form.value.hot_word_list.findIndex((item: { id: string; }) => item.id == old_hot_word.id);
     (<arrayIndex>form.value.hot_word_list)[index].color = color;
 };
 </script>

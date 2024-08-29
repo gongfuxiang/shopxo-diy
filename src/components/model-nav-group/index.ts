@@ -2,7 +2,7 @@ interface nav_group {
     id: string;
     nav_image: uploadList[];
     title: string;
-    title_link: string,
+    title_link: object,
 }
 
 interface nav_group_content {

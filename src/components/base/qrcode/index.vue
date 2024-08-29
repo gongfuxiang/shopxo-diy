@@ -20,7 +20,6 @@
     </div>
 </template>
 <script setup lang="ts">
-import { defineProps, ref, onMounted } from 'vue';
 import QRCode from 'qrcode';
 
 const props = defineProps({

@@ -49,6 +49,7 @@
                     </el-form-item>
                 </template>
             </card-container>
+            <div class="divider-line"></div>
             <!-- 商品显示的配置信息 -->
             <product-show-config :value="form" @change_shop_type="change_shop_type"></product-show-config>
             <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['goods']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
