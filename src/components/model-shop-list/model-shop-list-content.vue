@@ -1,7 +1,7 @@
 <template>
     <div class="content">
         <el-form :model="form" label-width="70" class="m-h">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">列表设置</div>
                 <el-form-item label="选择风格">
                     <el-radio-group v-model="form.theme" @change="change_style">
@@ -9,49 +9,48 @@
                     </el-radio-group>
                 </el-form-item>
             </card-container>
-            <div class="content-height bg-f">
-                <card-container class="card-container-br">
-                    <div class="mb-12">商品设置</div>
-                    <el-form-item label="添加商品">
-                        <el-radio-group v-model="form.data_type">
-                            <el-radio v-for="item in base_list.product_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+            <div class="divider-line"></div>
+            <card-container>
+                <div class="mb-12">商品设置</div>
+                <el-form-item label="添加商品">
+                    <el-radio-group v-model="form.data_type">
+                        <el-radio v-for="item in base_list.product_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <template v-if="form.data_type === '0'">
+                    <div class="nav-list">
+                        <drag-group :list="form.data_list" img-params="images" @onsort="goods_list_sort" @remove="goods_list_remove"></drag-group>
+                        <el-button class="mt-20 w" @click="add">+添加</el-button>
+                    </div>
+                </template>
+                <template v-else>
+                    <el-form-item label="商品分类">
+                        <el-select v-model="form.category" multiple collapse-tags placeholder="请选择商品分类">
+                            <el-option v-for="item in base_list.product_category_list" :key="item.id" :label="item.name" :value="item.id" />
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="指定品牌">
+                        <el-select v-model="form.data_ids" multiple collapse-tags placeholder="请选择品牌">
+                            <el-option v-for="item in base_list.product_brand_list" :key="item.id" :label="item.name" :value="item.id" />
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="显示数量">
+                        <el-input-number v-model="form.number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
+                    </el-form-item>
+                    <el-form-item label="排序类型">
+                        <el-radio-group v-model="form.sort">
+                            <el-radio v-for="item in base_list.sort_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
-                    <template v-if="form.data_type === '0'">
-                        <div class="nav-list">
-                            <drag-group :list="form.data_list" img-params="images" @onsort="goods_list_sort" @remove="goods_list_remove"></drag-group>
-                            <el-button class="mt-20 w" @click="add">+添加</el-button>
-                        </div>
-                    </template>
-                    <template v-else>
-                        <el-form-item label="商品分类">
-                            <el-select v-model="form.category" multiple collapse-tags placeholder="请选择商品分类">
-                                <el-option v-for="item in base_list.product_category_list" :key="item.id" :label="item.name" :value="item.id" />
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item label="指定品牌">
-                            <el-select v-model="form.data_ids" multiple collapse-tags placeholder="请选择品牌">
-                                <el-option v-for="item in base_list.product_brand_list" :key="item.id" :label="item.name" :value="item.id" />
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item label="显示数量">
-                            <el-input-number v-model="form.number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
-                        </el-form-item>
-                        <el-form-item label="排序类型">
-                            <el-radio-group v-model="form.sort">
-                                <el-radio v-for="item in base_list.sort_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                        <el-form-item label="排序规则">
-                            <el-radio-group v-model="form.sort_rules">
-                                <el-radio v-for="item in base_list.sort_rules_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                    </template>
-                </card-container>
-                <!-- 商品显示的配置信息 -->
-                <product-show-config :value="form" @change_shop_type="change_shop_type"></product-show-config>
-            </div>
+                    <el-form-item label="排序规则">
+                        <el-radio-group v-model="form.sort_rules">
+                            <el-radio v-for="item in base_list.sort_rules_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                </template>
+            </card-container>
+            <!-- 商品显示的配置信息 -->
+            <product-show-config :value="form" @change_shop_type="change_shop_type"></product-show-config>
             <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['goods']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
         </el-form>
     </div>
@@ -193,7 +192,7 @@ const change_style = (val: any): void => {
 const is_revise = ref(false);
 const change_shop_type = () => {
     is_revise.value = true;
-}
+};
 </script>
 <style lang="scss" scoped>
 .content {

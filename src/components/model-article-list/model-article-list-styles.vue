@@ -1,7 +1,7 @@
 <template>
     <div class="styles">
         <el-form :model="form" label-width="70">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">列表样式</div>
                 <el-form-item label="文章名称">
                     <color-text-size-group v-model:color="form.name_color" v-model:typeface="form.name_weight" v-model:size="form.name_size"></color-text-size-group>
@@ -44,6 +44,7 @@
                 </template>
             </card-container>
         </el-form>
+        <div class="divider-line"></div>
         <common-styles :value="form.common_style" @update:value="common_style_update" />
     </div>
 </template>

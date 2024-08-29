@@ -1,7 +1,7 @@
 <template>
     <div class="auxiliary-line common-content-height">
         <el-form :model="form" label-width="70">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="样式设置">
                     <el-radio-group v-model="form.carousel_type" class="ml-4">
@@ -23,7 +23,8 @@
                     <slider v-model="form.interval_time" :max="100"></slider>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="divider-line"></div>
+            <card-container>
                 <div class="mb-12">内容设置</div>
                 <div class="tips mt-10 mb-20 size-12">最多添加{{ form.carousel_list.length }}张图片，建议尺寸750*300px</div>
                 <div class="flex-col gap-20">
@@ -53,7 +54,7 @@ const props = defineProps({
 });
 
 const state = reactive({
-    form: props.value
+    form: props.value,
 });
 const { form } = toRefs(state);
 const add = () => {
@@ -61,10 +62,10 @@ const add = () => {
         carousel_img: [],
         carousel_link: {},
     });
-}
+};
 const remove = (index: number) => {
     form.value.carousel_list.splice(index, 1);
-}
+};
 </script>
 <style lang="scss" scoped>
 .card-background {

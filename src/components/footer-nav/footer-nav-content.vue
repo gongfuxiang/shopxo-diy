@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <el-form :model="form" label-width="70">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="导航样式">
                     <el-radio-group v-model="form.nav_style" is-button @change="nav_style_change">
@@ -17,7 +17,8 @@
                     </el-radio-group>
                 </el-form-item>
             </card-container>
-            <card-container class="footer-nav-height">
+            <div class="divider-line"></div>
+            <card-container>
                 <div class="mb-12">导航内容</div>
                 <div class="size-12 cr-c mb-20">图片建议宽高80*80；鼠标拖拽左侧圆点可调整导航顺序</div>
                 <div class="nav-list">
@@ -85,8 +86,5 @@ const add = () => {
 .container {
     width: 100%;
     height: 100%;
-    .footer-nav-height {
-        min-height: calc(100vh - 36.8rem);
-    }
 }
 </style>

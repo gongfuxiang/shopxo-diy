@@ -1,12 +1,13 @@
 <template>
     <div class="content">
         <el-form :model="form" label-width="70" class="m-h">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选择风格">
                     <theme-select v-model="form.theme" :data="base_list.themeList" @update:model-value="themeChange"></theme-select>
                 </el-form-item>
             </card-container>
+            <div class="divider-line"></div>
             <card-container class="content-height">
                 <div class="mb-12">优惠券数据</div>
                 <el-form-item label="数据来源">

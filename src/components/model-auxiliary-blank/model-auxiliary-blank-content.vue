@@ -1,7 +1,7 @@
 <template>
     <div class="auxiliary-line">
         <el-form :model="state" label-width="70">
-            <card-container class="common-content-height">
+            <card-container>
                 <div class="mb-12">高度设置</div>
                 <slider v-model="state.height" :max="1000"></slider>
             </card-container>

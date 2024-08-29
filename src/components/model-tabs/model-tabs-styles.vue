@@ -1,7 +1,7 @@
 <template>
     <div class="w">
         <el-form :model="form" label-width="74">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">选项卡样式</div>
                 <el-form-item label="选中装饰">
                     <mult-color-picker :value="form.tabs_checked" :type="form.tabs_direction" @update:value="tabs_checked_event"></mult-color-picker>
@@ -14,6 +14,7 @@
                 </el-form-item>
             </card-container>
         </el-form>
+        <div class="divider-line"></div>
         <common-styles :value="form.common_style" @update:value="common_styles_update" />
     </div>
 </template>

@@ -1,7 +1,7 @@
 <template>
     <div class="content">
         <el-form :model="form" label-width="74" class="m-h">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选项卡风格">
                     <el-radio-group v-model="form.tabs_theme" @change="tabs_theme_change">
@@ -17,7 +17,8 @@
                     </el-radio-group>
                 </el-form-item>
             </card-container>
-            <card-container class="content-height mb-8">
+            <div class="divider-line"></div>
+            <card-container>
                 <div class="mb-12">选项卡设置</div>
                 <div class="nav-list">
                     <drag :data="form.tabs_list" type="card" icon-position="top" :space-col="20" @click="tabs_list_click" @remove="tabs_list_remove" @on-sort="tabs_list_sort">
@@ -71,6 +72,7 @@
                     <el-button class="mtb-20 w" @click="tabs_add">+添加</el-button>
                 </div>
             </card-container>
+            <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">列表设置</div>
                 <el-form-item label="是否显示">
@@ -252,9 +254,6 @@ const tabs_theme_change = (val: string | number | boolean | undefined): void => 
 <style lang="scss" scoped>
 .content {
     width: 100%;
-    .content-height {
-        min-height: calc(100vh - 38.2rem);
-    }
 }
 .img {
     width: 4rem;
