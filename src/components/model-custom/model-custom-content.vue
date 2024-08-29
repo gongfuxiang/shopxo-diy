@@ -1,7 +1,7 @@
 <template>
     <div class="auxiliary-line">
         <el-form :model="form" label-width="70">
-            <card-container class="common-content-height">
+            <card-container>
                 <div class="mb-20">数据源</div>
                 <el-form-item label="动态数据">
                     <el-select v-model="form.data_source" value-key="id" placeholder="请选择数据源" filterable clearable @change="changeDataSource">

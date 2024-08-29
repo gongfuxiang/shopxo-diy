@@ -1,6 +1,6 @@
 <template>
     <div class="rich-text-content w">
-        <card-container class="common-content-height">
+        <card-container>
             <div class="mb-12">展示设置</div>
             <div class="br-c pr z-deep">
                 <!-- 工具栏 -->

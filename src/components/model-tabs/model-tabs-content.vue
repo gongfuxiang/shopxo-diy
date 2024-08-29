@@ -1,7 +1,7 @@
 <template>
     <div class="common-content-height">
         <el-form :model="form" label-width="60">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选择风格">
                     <el-radio-group v-model="form.tabs_theme" class="ml-4" @change="tabs_theme_change">
@@ -17,7 +17,8 @@
                     </el-radio-group>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="divider-line"></div>
+            <card-container>
                 <div class="mb-12">选项卡设置</div>
                 <drag :data="form.tabs_list" type="card" :space-col="25" @remove="remove" @on-sort="on_sort">
                     <template #default="scoped">

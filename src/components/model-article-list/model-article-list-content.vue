@@ -1,7 +1,7 @@
 <template>
     <div class="content">
         <el-form :model="form" label-width="70" class="m-h">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选择风格">
                     <el-radio-group v-model="form.theme" @change="theme_change">
@@ -9,53 +9,53 @@
                     </el-radio-group>
                 </el-form-item>
             </card-container>
-            <div class="content-height bg-f">
-                <card-container class="card-container-br">
-                    <div class="mb-12">文章设置</div>
-                    <el-form-item label="读取方式">
-                        <el-radio-group v-model="form.data_type">
-                            <el-radio v-for="item in base_list.data_type_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+            <div class="divider-line"></div>
+            <card-container class="card-container-br">
+                <div class="mb-12">文章设置</div>
+                <el-form-item label="读取方式">
+                    <el-radio-group v-model="form.data_type">
+                        <el-radio v-for="item in base_list.data_type_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <template v-if="form.data_type === '0'">
+                    <div class="nav-list">
+                        <drag-group :list="form.data_list" img-params="cover" @onsort="data_list_sort" @remove="data_list_remove"></drag-group>
+                        <el-button class="mtb-20 w" @click="add">+添加</el-button>
+                    </div>
+                </template>
+                <template v-else>
+                    <el-form-item label="文章分类">
+                        <el-select v-model="form.category" multiple collapse-tags placeholder="请选择文章分类">
+                            <el-option v-for="item in base_list.article_category_list" :key="item.id" :label="item.name" :value="item.id" />
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="显示数量">
+                        <el-input-number v-model="form.number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
+                    </el-form-item>
+                    <el-form-item label="排序类型">
+                        <el-radio-group v-model="form.sort">
+                            <el-radio v-for="item in base_list.sort_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
-                    <template v-if="form.data_type === '0'">
-                        <div class="nav-list">
-                            <drag-group :list="form.data_list" img-params="cover" @onsort="data_list_sort" @remove="data_list_remove"></drag-group>
-                            <el-button class="mtb-20 w" @click="add">+添加</el-button>
-                        </div>
-                    </template>
-                    <template v-else>
-                        <el-form-item label="文章分类">
-                            <el-select v-model="form.category" multiple collapse-tags placeholder="请选择文章分类">
-                                <el-option v-for="item in base_list.article_category_list" :key="item.id" :label="item.name" :value="item.id" />
-                            </el-select>
-                        </el-form-item>
-                        <el-form-item label="显示数量">
-                            <el-input-number v-model="form.number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
-                        </el-form-item>
-                        <el-form-item label="排序类型">
-                            <el-radio-group v-model="form.sort">
-                                <el-radio v-for="item in base_list.sort_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                        <el-form-item label="排序规则">
-                            <el-radio-group v-model="form.sort_rules">
-                                <el-radio v-for="item in base_list.sort_rules_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                        <el-form-item label="封面图片">
-                            <el-switch v-model="form.is_cover" />
-                        </el-form-item>
-                    </template>
-                </card-container>
-                <card-container>
-                    <div class="mb-12">列表设置</div>
-                    <el-form-item label="是否显示">
-                        <el-checkbox-group v-model="form.field_show">
-                            <el-checkbox v-for="item in base_list.field_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
-                        </el-checkbox-group>
+                    <el-form-item label="排序规则">
+                        <el-radio-group v-model="form.sort_rules">
+                            <el-radio v-for="item in base_list.sort_rules_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                        </el-radio-group>
                     </el-form-item>
-                </card-container>
-            </div>
+                    <el-form-item label="封面图片">
+                        <el-switch v-model="form.is_cover" />
+                    </el-form-item>
+                </template>
+            </card-container>
+            <div class="divider-line"></div>
+            <card-container>
+                <div class="mb-12">列表设置</div>
+                <el-form-item label="是否显示">
+                    <el-checkbox-group v-model="form.field_show">
+                        <el-checkbox v-for="item in base_list.field_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
+                    </el-checkbox-group>
+                </el-form-item>
+            </card-container>
         </el-form>
         <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['article']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
     </div>
@@ -187,12 +187,6 @@ const url_value_dialog_call_back = (item: any[]) => {
 <style lang="scss" scoped>
 .content {
     width: 100%;
-    .content-height {
-        min-height: calc(100vh - 31.8rem);
-        .card-container-br {
-            border-bottom: 0.8rem solid #f0f2f5;
-        }
-    }
 }
 .img {
     width: 4rem;

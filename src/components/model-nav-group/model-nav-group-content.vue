@@ -1,7 +1,7 @@
 <template>
     <div class="auxiliary-line common-content-height">
         <el-form :model="form" label-width="70">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="导航样式">
                     <el-radio-group v-model="form.nav_style" class="ml-4">
@@ -32,7 +32,8 @@
                     </el-radio-group>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="divider-line"></div>
+            <card-container>
                 <div class="mb-12">内容设置</div>
                 <div class="tips mt-10 mb-20 size-12">最多添加{{ form.nav_content_list.length }}张图片，建议尺寸90*90px</div>
                 <drag :data="form.nav_content_list" type="card" :space-col="27" @remove="remove" @on-sort="on_sort">
