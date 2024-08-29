@@ -1,7 +1,7 @@
 <template>
-    <el-popover v-model:visible="visible_dialog" placement="bottom" width="400" trigger="hover">
+    <el-popover v-model:visible="visible_dialog" placement="bottom" width="400" trigger="click">
         <template #reference>
-            <el-input v-model="label" :placeholder="placeholder" class="pr-40" @input="handle_input">
+            <el-input v-model="label" :placeholder="placeholder" @input="handle_input" @keydown.space.prevent="stop_visible_dialog_close" @keydown.enter.prevent="stop_visible_dialog_close">
                 <template #suffix>
                     <div class="value-input-icon">
                         <icon name="arrow-top" class="re icon" :class="!visible_dialog ? 'active' : ''" size="12" color="9"></icon>
@@ -97,11 +97,17 @@ const get_label = (item: any, val: any) => {
     });
 };
 const handle_input = (val: any) => {
+    // visible_dialog.value = true;
     // 过滤符合条件的数据
     if (val) {
         new_cascader.value = filterData(val, cascader_data.value);
     } else {
         new_cascader.value = cascader_data.value;
+    }
+};
+const stop_visible_dialog_close = () => {
+    if (visible_dialog.value) {
+        visible_dialog.value = !visible_dialog.value;
     }
 };
 

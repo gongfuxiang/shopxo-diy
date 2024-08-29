@@ -482,6 +482,9 @@ const get_attachment_list = (type?: string) => {
         data_total.value = data.data_total;
         upload_list.value = data.data_list;
         img_loading.value = false;
+        // 清除选中
+        check_img_ids.value = '';
+        view_list_value.value = [];
     });
 };
 // 分页查询

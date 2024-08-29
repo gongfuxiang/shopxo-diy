@@ -79,7 +79,7 @@
                                 </div>
                             </el-scrollbar>
                             <div v-show="is_dragging || form.file.length < 1" class="folder-upload mt-20" :class="is_dragging ? 'active' : ''">
-                                <el-upload ref="fileUpload2" v-model:file-list="file_list" :accept="exts_text" multiple action="#" :auto-upload="false" :show-file-list="false" :on-change="upload_change" :before-upload="before_upload" :limit="limit" :on-exceed="handle_exceed">
+                                <el-upload ref="fileUpload2" v-model:file-list="file_list" class="upload-2" :accept="exts_text" multiple action="#" :auto-upload="false" :show-file-list="false" :on-change="upload_change" :before-upload="before_upload" :limit="limit" :on-exceed="handle_exceed">
                                     <div class="flex-col jc-c align-c">
                                         <icon name="add" size="60" color="#dbeef6"></icon>
                                         <p class="size-18 cr-c fw">请将需要上传的文件/文件夹拖到此处或粘贴</p>
@@ -677,6 +677,14 @@ const close_dialog = () => {
     }
     .form-item-width {
         width: 33.5rem !important;
+    }
+}
+.upload-2 {
+    width: 100%;
+    height: 100%;
+    :deep(.el-upload) {
+        width: inherit;
+        height: inherit;
     }
 }
 </style>
