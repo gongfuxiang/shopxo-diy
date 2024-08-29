@@ -28,7 +28,7 @@
                                     <el-input v-model="row.title" placeholder="请输入标题文字" clearable />
                                 </el-form-item>
                                 <template v-if="active_index == index">
-                                    <el-form-item label="简介配置">
+                                    <el-form-item v-if="form.tabs_theme == '1'" label="简介配置">
                                         <el-input v-model="row.desc" placeholder="请输入简介" clearable />
                                     </el-form-item>
                                     <el-form-item label="读取方式">
