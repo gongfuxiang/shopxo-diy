@@ -44,7 +44,7 @@ const defaultCoupoin: DefaultCoupon = {
         background: [{ color: '#FFF1E1', color_percentage: undefined }],
         direction: '90deg',
         spacing: 10,
-        common_style: { ...defaultCommon, padding_left: 25, padding_right: 25, padding_top: 18, padding_bottom: 18, color_list: [{ color: '#fff', color_percentage: undefined }] },
+        common_style: { ...defaultCommon, padding_left: 18, padding_right: 18, padding_top: 18, padding_bottom: 18, color_list: [{ color: '#fff', color_percentage: undefined }] },
     },
 };
 
