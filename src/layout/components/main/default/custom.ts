@@ -23,7 +23,7 @@ const defaultSearch: defaultSearch = {
     style: {
         common_style: {
             ...defaultCommon,
-            color_list: [{ color: 'rgb(244, 252, 255)', color_percentage: '' }],
+            color_list: [{ color: 'rgb(244, 252, 255)', color_percentage: undefined }],
         }
     },
 };

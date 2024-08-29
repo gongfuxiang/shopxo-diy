@@ -35,7 +35,7 @@
                             </el-select>
                         </el-form-item>
                         <el-form-item label="显示数量">
-                            <el-input-number v-model="form.number" :min="1" :max="100" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
+                            <el-input-number v-model="form.number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
                         </el-form-item>
                         <el-form-item label="排序类型">
                             <el-radio-group v-model="form.sort">

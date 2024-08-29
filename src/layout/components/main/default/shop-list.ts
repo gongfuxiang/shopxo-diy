@@ -111,11 +111,11 @@ const defaultProductList: DefaultProductList = {
         shop_button_color: [
             {
                 color: '#FF3D53',
-                color_percentage: ''
+                color_percentage: undefined
             },
             {
                 color: '#D73A3A',
-                color_percentage: ''
+                color_percentage: undefined
             }
         ],
         shop_button_text_color: '#fff',

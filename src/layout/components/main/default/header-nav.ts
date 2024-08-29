@@ -29,7 +29,7 @@ const defaultFooterNav: DefaultFooterNav = {
     },
     style: {
         background_type: 'color_image',
-        background_color_list: [{ color: '#fff', color_percentage: '' }],
+        background_color_list: [{ color: '#fff', color_percentage: undefined }],
         background_direction: '180deg',
         background_img_style: 2,
         background_img_url: [],

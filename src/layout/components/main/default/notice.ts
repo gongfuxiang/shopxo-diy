@@ -63,11 +63,11 @@ const defaultSearch: defaultSearch = {
         topic_color_list: [
             {
                 color: '',
-                color_percentage: '',
+                color_percentage: undefined,
             },
             {
                 color: '',
-                color_percentage: '',
+                color_percentage: undefined,
             },
         ],
         topic_color: '#000',

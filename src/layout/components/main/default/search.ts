@@ -61,7 +61,7 @@ const defaultSearch: defaultSearch = {
     style: {
         icon_color: '#ccc',
         button_inner_color: '#fff',
-        color_list: [{ color: '#FF973D', color_percentage: '' }, { color: '#FF3131', color_percentage: '' }],
+        color_list: [{ color: '#FF973D', color_percentage: undefined }, { color: '#FF3131', color_percentage: undefined }],
         direction: '90deg',
         background_img_style: '',
         background_img_url: [],

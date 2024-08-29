@@ -39,8 +39,8 @@ const defaultUserInfo: DefaultUserInfo = {
         user_name_weight: '500',
         user_name_size: 16,
         user_id_color_list: [
-            { color: 'rgba(254, 184, 143, 1)', color_percentage: '' },
-            { color: 'rgba(255, 227, 220, 1)', color_percentage: '' },
+            { color: 'rgba(254, 184, 143, 1)', color_percentage: undefined },
+            { color: 'rgba(255, 227, 220, 1)', color_percentage: undefined },
         ],
         user_id_color: 'rgba(0, 0, 0, 1)',
         user_id_direction: '90deg',
@@ -56,7 +56,7 @@ const defaultUserInfo: DefaultUserInfo = {
         stats_number_size: 16,
         common_style: {
             ...defaultCommon,
-            color_list: [{ color: '#fff', color_percentage: '' }],
+            color_list: [{ color: '#fff', color_percentage: undefined }],
         },
     },
 };
