@@ -3,9 +3,6 @@
         <el-form :model="form" label-width="70">
             <card-container>
                 <div class="mb-12">展示设置</div>
-                <el-form-item label="是否居中">
-                    <el-switch v-model="form.is_center"/>
-                </el-form-item>
                 <el-form-item label="图标样式" class="align-s">
                     <div class="flex-col w h gap-10">
                         <el-switch v-model="form.is_icon_show"/>
@@ -14,11 +11,14 @@
                         </template>
                     </div>
                 </el-form-item>
-                <el-form-item label="是否显示">
-                    <el-switch v-model="form.is_tips_show"/>
+                <el-form-item label="提示文字">
+                    <div class="flex-col gap-10 w">
+                        <el-switch v-model="form.is_tips_show"/>
+                        <el-input v-if="form.is_tips_show" v-model="form.tips" placeholder="请输入提示文字"></el-input>
+                    </div>
                 </el-form-item>
-                <el-form-item v-if="form.is_tips_show" label="提示文字">
-                    <el-input v-model="form.tips" placeholder="请输入提示文字"></el-input>
+                <el-form-item v-if="form.is_tips_show || form.is_icon_show" label="是否居中">
+                    <el-switch v-model="form.is_center"/>
                 </el-form-item>
                 <el-form-item label="搜索按钮" class="align-s">
                     <div class="flex-col w h gap-10">
