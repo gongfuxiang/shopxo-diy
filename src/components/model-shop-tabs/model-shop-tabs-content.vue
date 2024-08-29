@@ -17,7 +17,7 @@
                     </el-radio-group>
                 </el-form-item>
             </card-container>
-            <card-container class="content-height">
+            <card-container class="content-height mb-8">
                 <div class="mb-12">选项卡设置</div>
                 <div class="nav-list">
                     <drag :data="form.tabs_list" type="card" icon-position="top" :space-col="20" @click="tabs_list_click" @remove="tabs_list_remove" @on-sort="tabs_list_sort">
@@ -183,7 +183,11 @@ const tabs_list_click = (item: any, index: number) => {
 };
 // 选项卡设置
 const tabs_list_remove = (index: number) => {
-    form.value.tabs_list.splice(index, 1);
+    if (form.value.tabs_list.length > 1) {
+        form.value.tabs_list.splice(index, 1);
+    } else {
+        ElMessage.warning('至少保留一个选项卡');
+    }
 };
 const tabs_list_sort = (item: any) => {
     form.value.tabs_list = item;
@@ -265,7 +269,7 @@ const change_style = (val: any): void => {
 const is_revise = ref(false);
 const change_shop_type = () => {
     is_revise.value = true;
-}
+};
 </script>
 <style lang="scss" scoped>
 .content {

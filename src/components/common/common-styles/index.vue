@@ -37,7 +37,7 @@
                 <el-form-item v-if="isShadow" label="阴影设置">
                     <div class="flex-col gap-10 w">
                         <el-form-item label="颜色" label-width="45">
-                            <color-picker v-model="form.box_shadow_color" @update:value="box_shadow_color_event"></color-picker>
+                            <color-picker v-model="form.box_shadow_color"></color-picker>
                         </el-form-item>
                         <el-form-item label="X轴" label-width="45">
                             <slider v-model="form.box_shadow_x" :min="-20" :max="20"></slider>
@@ -75,7 +75,7 @@ const props = defineProps({
     isShadow: {
         type: Boolean,
         default: true,
-    }
+    },
 });
 // 初始化表单数据
 interface color_form {
@@ -137,10 +137,6 @@ const margin_change = (margin: any) => {
 
 const padding_change = (padding: any) => {
     form = Object.assign(form, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
-    emit('update:value', form);
-};
-const box_shadow_color_event = (val: string) => {
-    form.box_shadow_color = val;
     emit('update:value', form);
 };
 </script>

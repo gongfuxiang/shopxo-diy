@@ -30,7 +30,7 @@
                     <el-switch v-model="form.bottom_up" />
                 </el-form-item>
             </card-container>
-            <div class="bg-f5 partition-line" />
+            <div class="bg-f5 divider-line" />
             <card-container class="h">
                 <div class="mb-12">边框设置</div>
                 <el-form-item label="边框显示">
@@ -130,8 +130,5 @@ watch(
 .border-style-item {
     width: 3rem;
     height: 2rem;
-}
-.partition-line {
-    height: 0.8rem;
 }
 </style>

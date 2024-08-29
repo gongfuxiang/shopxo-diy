@@ -17,7 +17,7 @@
                     </el-radio-group>
                 </el-form-item>
             </card-container>
-            <card-container class="content-height">
+            <card-container class="content-height mb-8">
                 <div class="mb-12">选项卡设置</div>
                 <div class="nav-list">
                     <drag :data="form.tabs_list" type="card" icon-position="top" :space-col="20" @click="tabs_list_click" @remove="tabs_list_remove" @on-sort="tabs_list_sort">
@@ -48,7 +48,7 @@
                                             </el-select>
                                         </el-form-item>
                                         <el-form-item label="显示数量">
-                                            <el-input v-model="row.number" type="number" min="1" max="50" placeholder="请输入显示数量" clearable />
+                                            <el-input-number v-model="row.number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
                                         </el-form-item>
                                         <el-form-item label="排序类型">
                                             <el-radio-group v-model="row.sort">
@@ -193,7 +193,11 @@ const tabs_list_click = (item: any, index: number) => {
 };
 // 选项卡设置
 const tabs_list_remove = (index: number) => {
-    form.tabs_list.splice(index, 1);
+    if (form.tabs_list.length > 1) {
+        form.tabs_list.splice(index, 1);
+    } else {
+        ElMessage.warning('至少保留一个选项卡');
+    }
 };
 const tabs_list_sort = (item: any) => {
     // 拖拽完成后更新数组
@@ -255,5 +259,10 @@ const tabs_theme_change = (val: string | number | boolean | undefined): void => 
 .img {
     width: 4rem;
     height: 4rem;
+}
+.number-show {
+    :deep(.el-input__wrapper .el-input__inner) {
+        text-align: left;
+    }
 }
 </style>
