@@ -24,7 +24,7 @@
                         <icon name="add" size="18" class="c-pointer" @click="add_type"></icon>
                     </div>
                     <el-scrollbar height="490px">
-                        <el-tree ref="treeRef" class="filter-tree" :data="type_data" node-key="id" highlight-current :props="defaultProps" empty-text="无数据" default-expand-all :filter-node-method="filter_node" @node-click="tree_node_event">
+                        <el-tree ref="treeRef" v-loading="tree_loading" class="filter-tree" :data="type_data" node-key="id" highlight-current :props="defaultProps" empty-text="无数据" default-expand-all :filter-node-method="filter_node" @node-click="tree_node_event">
                             <template #default="{ node, data }">
                                 <div class="custom-tree-node flex-row jc-sb gap-10 align-c w pr-10" :class="data.is_enable == 0 || node.parent.data.is_enable == 0 ? 'disabled bg-red' : ''">
                                     <div class="flex-1 flex-width text-line-1 block">{{ data.name }}</div>
@@ -67,7 +67,7 @@
                     </div>
                     <div class="img-content pr">
                         <!-- 574px -->
-                        <el-scrollbar height="440px">
+                        <el-scrollbar v-loading="img_loading" height="440px">
                             <div v-if="upload_list.length > 0" class="flex-row flex-wrap align-c gap-y-15 gap-x-10 pa-10">
                                 <div v-for="(item, index) in upload_list" :key="index" class="item" @click="check_img_event(item)">
                                     <el-badge :value="view_list_value.findIndex((i) => i.id === item.id) == -1 ? '' : view_list_value.findIndex((i) => i.id === item.id) + 1" class="badge flex-col gap-5 w" :hidden="view_list_value.findIndex((i) => i.id === item.id) == -1">
@@ -360,16 +360,19 @@ const all_tree = {
     sort: '',
 };
 const type_data_list = ref<Tree[]>([]);
+const tree_loading = ref(false);
 // 查询分类列表
 const get_tree = (bool: boolean = false) => {
     if ((!upload_store.is_upload_api && upload_store.category.length === 0) || bool) {
         upload_store.set_is_upload_api(true);
+        tree_loading.value = true;
         UploadAPI.getTree()
             .then((res) => {
                 // 将all_tree和res.data.category_list全部插入到type_data.value,all_tree放在数组最前面
                 type_data.value = [all_tree, ...res.data.category_list];
                 type_data_list.value = res.data.category_list;
                 upload_store.set_category(type_data_list.value);
+                tree_loading.value = false;
             })
             .catch(() => {
                 upload_store.set_is_upload_api(false);
@@ -411,7 +414,7 @@ const tree_node_event = (data: any, a: any, b: any) => {
     // 判断是否开启状态，如果关闭则不可操作
     // if (data.is_enable == 0) return;
     // 判断是否是子节点，如果不是子节点则不可操作
-    if (data.items.length > 0) return;
+    if (data.items && data.items.length > 0) return;
     category_id.value = data.id;
     get_attachment_list();
 };
@@ -436,10 +439,11 @@ const edit_type_event = (data: Tree) => {
 const remove_type_event = (node: any, data: Tree) => {
     app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
         UploadAPI.delTree({ id: data.id }).then((res) => {
-            const parent = node.parent;
-            const children: Tree[] = parent.data.items || parent.data;
-            const index = children.findIndex((d) => d.id === data.id);
-            children.splice(index, 1);
+            // const parent = node.parent;
+            // const children: Tree[] = parent.data.items || parent.data;
+            // const index = children.findIndex((d) => d.id === data.id);
+            // children.splice(index, 1);
+            get_tree(true);
             ElMessage({
                 type: 'success',
                 message: '删除成功!',
@@ -460,11 +464,13 @@ const data_total = ref(0);
 const search_name = ref('');
 // 已上传数据的列表
 const upload_list = ref<uploadList[]>([]);
+const img_loading = ref(false);
 // 附件列表
 const get_attachment_list = (type?: string) => {
     if (type) {
         page.value = 1;
     }
+    img_loading.value = true;
     const new_data = {
         page: page.value,
         type: upload_type.value == 'img' ? 'image' : upload_type.value == 'video' ? 'video' : upload_type.value == 'file' ? 'file' : '',
@@ -475,6 +481,10 @@ const get_attachment_list = (type?: string) => {
         const data = res.data;
         data_total.value = data.data_total;
         upload_list.value = data.data_list;
+        img_loading.value = false;
+        // 清除选中
+        check_img_ids.value = '';
+        view_list_value.value = [];
     });
 };
 // 分页查询

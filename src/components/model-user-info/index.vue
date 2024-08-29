@@ -132,7 +132,7 @@ watch(
             base_data.stats_number_weight = new_style.stats_number_weight;
             base_data.stats_number_size = new_style.stats_number_size;
 
-            style_container.value += common_styles_computer(new_style.common_style);
+            style_container.value = common_styles_computer(new_style.common_style);
         }
         // 人物名称样式
         user_name_style.value = 'color:' + base_data.user_name_color + ';' + 'font-size:' + base_data.user_name_size + 'px;' + 'font-weight:' + base_data.user_name_weight + ';';

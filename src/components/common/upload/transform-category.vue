@@ -1,26 +1,17 @@
 <template>
     <el-popover v-model:visible="visible_dialog" placement="bottom" width="400" trigger="click">
         <template #reference>
-            <div class="flex-row align-c gap-10 br-d radius-sm plr-11 value-input">
-                <div class="flex-1 flex-width size-12 text-line-1">
-                    <text v-if="label">{{ label }}</text>
-                    <text v-else class="cr-9">{{ placeholder }}</text>
-                </div>
-                <div class="value-input-icon">
-                    <template v-if="!label">
-                        <icon name="arrow-right" size="12" color="9"></icon>
-                    </template>
-                    <template v-else>
-                        <div @click.stop="clear_model_value">
-                            <icon name="close-o" size="12" color="c"></icon>
-                        </div>
-                    </template>
-                </div>
-            </div>
+            <el-input v-model="label" :placeholder="placeholder" @input="handle_input" @keydown.space.prevent="stop_visible_dialog_close" @keydown.enter.prevent="stop_visible_dialog_close">
+                <template #suffix>
+                    <div class="value-input-icon">
+                        <icon name="arrow-top" class="re icon" :class="!visible_dialog ? 'active' : ''" size="12" color="9"></icon>
+                    </div>
+                </template>
+            </el-input>
         </template>
         <div class="flex-col gap-10">
             <div>
-                <el-cascader-panel v-model="cascader_val" :options="cascader_data" @change="cascader_change"></el-cascader-panel>
+                <el-cascader-panel v-model="cascader_val" :options="new_cascader" @change="cascader_change"></el-cascader-panel>
             </div>
             <div class="flex-row jc-e">
                 <el-button @click="visible_dialog = false">取消</el-button>
@@ -48,6 +39,11 @@ const props = defineProps({
         default: () => '',
     },
 });
+interface cascaderData {
+    value: string;
+    label: string;
+    children?: cascaderData[];
+}
 // 使用计算属性获取级联数据
 const cascader_data = computed(() => {
     return props.data.map((tree) => ({
@@ -59,6 +55,7 @@ const cascader_data = computed(() => {
         })),
     }));
 });
+const new_cascader = ref<cascaderData[]>(cascader_data.value);
 const visible_dialog = ref(false);
 watch(
     () => visible_dialog.value,
@@ -99,6 +96,43 @@ const get_label = (item: any, val: any) => {
         }
     });
 };
+const handle_input = (val: any) => {
+    // visible_dialog.value = true;
+    // 过滤符合条件的数据
+    if (val) {
+        new_cascader.value = filterData(val, cascader_data.value);
+    } else {
+        new_cascader.value = cascader_data.value;
+    }
+};
+const stop_visible_dialog_close = () => {
+    if (visible_dialog.value) {
+        visible_dialog.value = !visible_dialog.value;
+    }
+};
+
+const filterData = (input: string, data: cascaderData[]) => {
+    let result = [];
+    // 遍历数组
+    for (let item of data) {
+        // 检查当前项的name是否匹配
+        if (item.label && item.label.includes(input)) {
+            result.push(item);
+        } else {
+            if (item.children) {
+                // 否则，‌检查当前项的data属性中的子项
+                let subResult = item.children.filter((subItem) => subItem.label && subItem.label.includes(input));
+                // 如果找到匹配的子项，‌将当前项（‌父级）‌添加到结果中
+                if (subResult.length > 0) {
+                    result.push({ ...item, children: subResult });
+                }
+            }
+        }
+    }
+
+    return result;
+};
+
 const emit = defineEmits(['call-back']);
 // 确定提交事件
 const confirm = () => {
@@ -134,12 +168,18 @@ const confirm = () => {
     line-height: 3.2rem;
     cursor: pointer;
     position: relative;
-    .value-input-icon {
-        position: absolute;
-        right: 0;
-        width: 3.4rem;
-        z-index: 1;
-        text-align: center;
+}
+.value-input-icon {
+    position: absolute;
+    right: 0;
+    width: 3.4rem;
+    z-index: 1;
+    text-align: center;
+    .icon {
+        transition: transform 0.3s;
+    }
+    .active {
+        transform: rotate(-180deg);
     }
 }
 :deep(.el-cascader-menu) {
