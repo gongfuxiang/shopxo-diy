@@ -1,7 +1,7 @@
 <template>
-    <el-popover v-model:visible="visible_dialog" placement="bottom" width="400" trigger="click">
+    <el-popover v-model:visible="visible_dialog" placement="bottom" width="400" trigger="hover">
         <template #reference>
-            <el-input v-model="label" :placeholder="placeholder" class="pr-40" clearable @input="handle_input">
+            <el-input v-model="label" :placeholder="placeholder" class="pr-40" @input="handle_input">
                 <template #suffix>
                     <div class="value-input-icon">
                         <icon name="arrow-top" class="re icon" :class="!visible_dialog ? 'active' : ''" size="12" color="9"></icon>
@@ -117,7 +117,9 @@ const filterData = (input: string, data: cascaderData[]) => {
                 // 否则，‌检查当前项的data属性中的子项
                 let subResult = item.children.filter((subItem) => subItem.label && subItem.label.includes(input));
                 // 如果找到匹配的子项，‌将当前项（‌父级）‌添加到结果中
-                result.push({ ...item, children: subResult });
+                if (subResult.length > 0) {
+                    result.push({ ...item, children: subResult });
+                }
             }
         }
     }
