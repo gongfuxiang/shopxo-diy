@@ -1,7 +1,7 @@
 <template>
     <div :style="style_container">
         <template v-if="form.notice_style == 'inherit'">
-            <div class="flex-row align-c news-box gap-y-8">
+            <div class="flex-row align-c news-box gap-y-8" :style="container_background_style">
                 <template v-if="form.title_type == 'img-icon'">
                     <div v-if="!isEmpty(form.img_src)">
                         <image-empty v-model="form.img_src[0]" :style="img_style"></image-empty>
@@ -20,7 +20,7 @@
             </div>
         </template>
         <template v-else>
-            <div class="news-card flex-col gap-10">
+            <div class="news-card flex-col gap-10" :style="container_background_style">
                 <div class="flex-row w jc-sb">
                     <template v-if="form.title_type == 'img-icon'">
                         <template v-if="!isEmpty(form.icon_class)">
@@ -41,7 +41,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, get_math, gradient_handle } from '@/utils';
+import { background_computer, common_styles_computer, get_math, gradient_computer, gradient_handle, radius_computer } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 
 const props = defineProps({
@@ -62,6 +62,19 @@ const { form, new_style } = toRefs(state);
 
 // 用于样式显示
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));
+// 容器高度
+const container_height = computed(() => new_style.value.container_height + 'px');
+// 容器背景
+const container_background_style = computed(() => {
+    const { container_color_list, container_direction, container_background_img_style, container_background_img_url } = new_style.value;
+    const styles = {
+        color_list: container_color_list,
+        direction: container_direction,
+        background_img_url: container_background_img_url,
+        background_img_style: container_background_img_style,
+    };
+    return gradient_computer(styles) + radius_computer(new_style.value.container_radius) + background_computer(styles) + `overflow:hidden;`;
+});
 // 图片设置
 const img_style = ref('');
 // 标题的设置
@@ -128,7 +141,8 @@ watchEffect(() => {
 </script>
 <style lang="scss" scoped>
 .news-box {
-    height: 4.4rem;
+    min-height: 4.4rem;
+    overflow: hidden;
     padding: 0 1rem;
     background: #fff;
 }
@@ -160,7 +174,7 @@ watchEffect(() => {
 }
 :deep(.el-carousel) {
     .el-carousel__container {
-        height: 4.4rem;
+        height: v-bind(container_height);
         .el-carousel__item {
             line-height: 4.4rem;
             overflow: hidden;

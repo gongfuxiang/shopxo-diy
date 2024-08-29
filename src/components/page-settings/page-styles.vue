@@ -71,7 +71,7 @@ let form = reactive(props.value);
 const common_styles_update = (val: Object) => {
     form.common_style = val;
 };
-const mult_color_picker_event = (arry: string[], type: number) => {
+const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.background_color_list = arry;
     form.background_direction = type.toString();
 };

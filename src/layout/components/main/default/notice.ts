@@ -33,6 +33,11 @@ interface defaultSearch {
         topic_height: number;
         icon_size: number;
         icon_color: string;
+        container_color_list: color_list[],
+        container_direction: string,
+        container_background_img_style: string,
+        container_background_img_url: uploadList[],
+        container_radius: radiusStyle,
         common_style: object;
     };
 }
@@ -78,6 +83,17 @@ const defaultSearch: defaultSearch = {
         icon_size: 12,
         icon_color: '#999',
         button_color: '#999',
+        container_color_list: [{ color: '#fff', color_percentage: undefined }],
+        container_direction: '180deg',
+        container_background_img_style: '2',
+        container_background_img_url: [],
+        container_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+        },
         common_style: defaultCommon,
     },
 };
