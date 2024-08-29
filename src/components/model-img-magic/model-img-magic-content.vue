@@ -1,7 +1,7 @@
 <template>
-    <div class="auxiliary-line common-content-height">
+    <div class="w h">
         <el-form :model="form" label-width="60">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">展示风格</div>
                 <el-form-item label="选择风格">
                     <div class="flex align-c flex-wrap gap-10">
@@ -11,7 +11,8 @@
                     </div>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="bg-f5 divider-line" />
+            <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label-width="0" class="show-config">
                     <!-- 风格3 -->
@@ -48,7 +49,8 @@
                     </template>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="bg-f5 divider-line" />
+            <card-container>
                 <div class="mb-12">内容设置</div>
                 <template v-if="!isEmpty(form.img_magic_list[selected_active])">
                     <el-form-item label="上传图片">

@@ -1,5 +1,5 @@
 <template>
-    <div class="auxiliary-line common-content-height bg-f">
+    <div class="w h">
         <el-form :model="form" label-width="70">
             <card-container>
                 <div class="mb-12">展示设置</div>

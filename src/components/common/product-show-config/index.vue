@@ -1,5 +1,5 @@
 <template>
-    <card-container class="card-container-br">
+    <card-container>
         <div class="mb-12">显示内容</div>
         <el-form-item label="是否显示">
             <el-checkbox-group v-model="form.is_show">
@@ -10,6 +10,7 @@
             <el-switch v-model="form.is_price_solo"></el-switch>
         </el-form-item>
     </card-container>
+    <div class="bg-f5 divider-line" />
     <card-container>
         <div class="mb-12">购物车设置</div>
         <el-form-item label="是否显示">
@@ -80,9 +81,6 @@ const change_shop_type = () => {
     .el-form-item:last-child {
         margin-bottom: 0;
     }
-}
-.card-container-br {
-    border-bottom: 0.8rem solid #f0f2f5;
 }
 .shopping_button {
     height: 2.7rem;

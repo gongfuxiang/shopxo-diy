@@ -1,13 +1,14 @@
 <template>
-    <div class="common-style-height">
+    <div class="w h">
         <el-form :model="form" label-width="70">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">左侧图标</div>
                 <el-form-item label="图标">
                     <color-picker v-model="form.icon_color" default-color="#CCCCCC"></color-picker>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="bg-f5 divider-line" />
+            <card-container>
                 <div class="mb-12">搜索按钮</div>
                 <el-form-item label="搜索按钮">
                     <color-picker v-model="form.button_inner_color" default-color="#fff"></color-picker>
@@ -37,7 +38,8 @@
                     <radius :value="form.search_button_radius" @update:value="button_radius_change"></radius>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="bg-f5 divider-line" />
+            <card-container>
                 <div class="mb-12">框体样式</div>
                 <el-form-item label="提示文字">
                     <color-picker v-model="form.tips_color" default-color="#CCCCCC"></color-picker>
@@ -53,6 +55,7 @@
                 </el-form-item>
             </card-container>
         </el-form>
+        <div class="bg-f5 divider-line" />
         <common-styles :value="form.common_style" @update:value="common_styles_update" />
     </div>
 </template>

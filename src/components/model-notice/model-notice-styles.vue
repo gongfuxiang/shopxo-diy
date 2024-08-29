@@ -1,7 +1,7 @@
 <template>
-    <div class="common-style-height">
+    <div class="w h">
         <el-form :model="form" label-width="80">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">标题样式</div>
                 <template v-if="!is_img">
                     <el-form-item label="标题文字">
@@ -29,6 +29,35 @@
                         </el-form-item>
                     </template>
                 </template>
+                <template v-if="substance.notice_style === 'inherit'">
+                    <el-form-item label="容器高度">
+                        <slider v-model="form.container_height" :max="1000"></slider>
+                    </el-form-item>
+                </template>
+                <el-form-item label="容器背景">
+                    <div class="flex-col gap-10 w">
+                        <div class="size-12">背景色</div>
+                        <mult-color-picker :value="form.container_color_list" :type="form.container_direction" @update:value="mult_color_picker_event"></mult-color-picker>
+                        <div class="flex-row jc-sb align-c">
+                            <div class="size-12">背景图</div>
+                            <el-radio-group v-model="form.container_background_img_style" is-button>
+                                <el-tooltip content="单张" placement="top" effect="light">
+                                    <el-radio-button value="0"><icon name="single-sheet"></icon></el-radio-button>
+                                </el-tooltip>
+                                <el-tooltip content="平铺" placement="top" effect="light">
+                                    <el-radio-button value="1"><icon name="tile"></icon></el-radio-button>
+                                </el-tooltip>
+                                <el-tooltip content="铺满" placement="top" effect="light">
+                                    <el-radio-button value="2"><icon name="spread-over"></icon></el-radio-button>
+                                </el-tooltip>
+                            </el-radio-group>
+                        </div>
+                        <upload v-model="form.container_background_img_url" :limit="1"></upload>
+                    </div>
+                </el-form-item>
+                <el-form-item label="容器圆角">
+                    <radius :value="form.container_radius"></radius>
+                </el-form-item>
                 <el-form-item label="按钮颜色">
                     <color-picker v-model="form.button_color" default-color="#999"></color-picker>
                 </el-form-item>
@@ -37,6 +66,7 @@
                 </el-form-item>
             </card-container>
         </el-form>
+        <div class="bg-f5 divider-line" />
         <common-styles :value="form.common_style" @update:value="common_styles_update" />
     </div>
 </template>
@@ -64,6 +94,11 @@ const is_img = computed(() => substance.value.title_type == 'img-icon');
 // 通用样式处理
 const common_styles_update = (val: Object) => {
     form.value.common_style = val;
+};
+
+const mult_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.container_color_list = arry;
+    form.value.container_direction = type.toString();
 };
 </script>
 <style lang="scss" scoped>

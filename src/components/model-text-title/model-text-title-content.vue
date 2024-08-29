@@ -1,7 +1,7 @@
 <template>
-    <div class="auxiliary-line common-content-height">
+    <div class="w h">
         <el-form :model="form" label-width="70">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">标题设置</div>
                 <el-form-item label="标题名字">
                     <el-input v-model="form.title" placeholder="请输入标题"></el-input>
@@ -10,7 +10,8 @@
                     <url-value v-model="form.title_link"></url-value>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="bg-f5 divider-line" />
+            <card-container>
                 <div class="mb-12">关键字设置</div>
                 <el-form-item label="关键字">
                     <el-radio-group v-model="form.keyword_show" class="ml-4">
@@ -37,7 +38,8 @@
                     <el-button class="mt-20 mb-20 w" @click="add">+添加</el-button>
                 </template>
             </card-container>
-            <card-container class="mb-8">
+            <div class="bg-f5 divider-line" />
+            <card-container>
                 <div class="mb-12">更多设置</div>
                 <el-form-item label="右侧按钮">
                     <el-radio-group v-model="form.right_show" class="ml-4">

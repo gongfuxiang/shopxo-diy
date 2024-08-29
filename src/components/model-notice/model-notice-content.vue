@@ -1,7 +1,7 @@
 <template>
-    <div class="auxiliary-line common-content-height">
+    <div class="w h">
         <el-form :model="form" label-width="70">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选择风格">
                     <el-radio-group v-model="form.notice_style" class="ml-4">
@@ -10,7 +10,8 @@
                     </el-radio-group>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="bg-f5 divider-line" />
+            <card-container>
                 <div class="mb-12">公告风格</div>
                 <el-form-item label="标题类型">
                     <el-radio-group v-model="form.title_type" class="ml-4">
@@ -36,7 +37,8 @@
                     </el-form-item>
                 </template>
             </card-container>
-            <card-container class="mb-8">
+            <div class="bg-f5 divider-line" />
+            <card-container>
                 <div class="mb-12">按钮设置</div>
                 <el-form-item label="右侧按钮">
                     <el-radio-group v-model="form.is_right_button" class="ml-4">
@@ -48,7 +50,8 @@
                     <url-value v-model="form.more_link"></url-value>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="bg-f5 divider-line" />
+            <card-container>
                 <div class="mb-12">内容设置</div>
                 <drag :data="form.notice_list" type="card" :space-col="25" @remove="remove" @on-sort="on_sort">
                     <template #default="scoped">
