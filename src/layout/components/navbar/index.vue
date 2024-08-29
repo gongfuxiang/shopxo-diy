@@ -8,7 +8,7 @@
                     <div class="flex-row align-c gap-10 c-pointer" @click="dialog_visible = true">
                         <image-empty :src="modelValue.logo" class="round img" error-img-style="width: 2.2rem;height: 2.2rem;" />
                         <div>{{ modelValue.name }}</div>
-                        <icon name="edit" color="primary"></icon>
+                        <icon name="edit" color="#7DBEFF"></icon>
                     </div>
                 </div>
             </div>
@@ -114,7 +114,7 @@ const confirm_event = async (formEl: FormInstance | undefined) => {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #000;
+    background-color: $cr-primary;
     .nav-left {
         display: flex;
         align-items: center;
