@@ -54,29 +54,24 @@
                 </div>
             </template>
             <template v-else-if="theme == '4'">
-                <div class="coupon-theme-3">
-                    <div>
+                <div class="coupon-theme-4">
+                    <div class="left">
                         <div class="item">
-                            <div class="left">
-                                <div class="price">
-                                    <span class="symbol">¥</span>
-                                    <span class="number">30</span>
-                                </div>
-                                <div class="text">
-                                    <div class="name">满200元使用</div>
-                                    <div class="desc">指定商品可用</div>
-                                    <div class="limit">(限领一张)</div>
-                                </div>
+                            <div class="type">通用券</div>
+                            <div class="price">
+                                <span class="symbol">¥</span>
+                                <span class="number">30</span>
                             </div>
-                            <div class="right">
-                                <div class="coupon-btn">
-                                    <text>立即领取</text>
-                                    <icon name="arrow-right-o" class="icon"></icon>
-                                </div>
-                            </div>
+                            <div class="name">满200元使用</div>
                         </div>
                     </div>
-                    <div class=""></div>
+                    <div class="right">
+                        <div class="re z-i flex-col jc-c align-c">
+                            <div class="title">先领券 再购物</div>
+                            <div class="desc">领券下单·享购物优惠</div>
+                            <div class="coupon-btn">领取全部</div>
+                        </div>
+                    </div>
                 </div>
             </template>
             <template v-else-if="theme == '5'">
@@ -111,7 +106,22 @@
                     </div>
                 </div>
             </template>
-            <template v-else-if="theme == '7'"></template>
+            <template v-else-if="theme == '7'">
+                <div class="coupon-theme-7">
+                    <div class="item">
+                        <div class="left">
+                            <div class="price">
+                                <span class="symbol">¥</span>
+                                <span class="number">30</span>
+                            </div>
+                            <div class="name">满200元使用</div>
+                        </div>
+                        <div class="right">
+                            <div class="coupon-btn">立即领取</div>
+                        </div>
+                    </div>
+                </div>
+            </template>
         </div>
     </div>
 </template>
