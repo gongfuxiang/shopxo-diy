@@ -5,15 +5,15 @@
                 <div class="mb-12">头部样式</div>
                 <el-form-item label="顶部背景">
                     <div class="flex-col gap-10">
-                        <el-radio-group v-model="form.background_type">
+                        <el-radio-group v-model="form.header_background_type">
                             <el-radio value="transparent">透明</el-radio>
                             <el-radio value="color_image">颜色/图片</el-radio>
                         </el-radio-group>
-                        <template v-if="form.background_type === 'color_image'">
-                            <mult-color-picker :value="form.background_color_list" :type="form.background_direction" @update:value="mult_color_picker_event"></mult-color-picker>
+                        <template v-if="form.header_background_type === 'color_image'">
+                            <mult-color-picker :value="form.header_background_color_list" :type="form.header_background_direction" @update:value="mult_color_picker_event"></mult-color-picker>
                             <div class="flex-row jc-sb align-c">
                                 <div class="size-12">背景图</div>
-                                <el-radio-group v-model="form.background_img_style" is-button>
+                                <el-radio-group v-model="form.header_background_img_style" is-button>
                                     <el-tooltip content="单张" placement="top" effect="light">
                                         <el-radio-button value="0">
                                             <icon name="single-sheet"></icon>
@@ -31,7 +31,7 @@
                                     </el-tooltip>
                                 </el-radio-group>
                             </div>
-                            <upload v-model="form.background_img_url" :limit="1"></upload>
+                            <upload v-model="form.header_background_img_url" :limit="1"></upload>
                         </template>
                     </div>
                 </el-form-item>
@@ -53,14 +53,14 @@
                         <el-radio :value="false">关闭</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="标题名称">
-                    <color-text-size-group v-model:color="form.background_title_color" v-model:typeface="form.background_title_typeface" v-model:size="form.background_title_size" default-color="#000000"></color-text-size-group>
+                <el-form-item v-if="['1', '2'].includes(search_content.theme)" label="标题名称">
+                    <color-text-size-group v-model:color="form.header_background_title_color" v-model:typeface="form.header_background_title_typeface" v-model:size="form.header_background_title_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
             </card-container>
         </el-form>
         <div class="bg-f5 divider-line" />
-        <template v-if="content.theme == '3'">
-            <model-search-styles :value="form" :content="props.content"></model-search-styles>
+        <template v-if="['3', '5'].includes(content.theme)">
+            <model-search-styles :value="form" :content="props.content" :is-show-common="false"></model-search-styles>
         </template>
         <div class="bg-f5 divider-line" />
         <common-styles :value="form.common_style" :is-margin="false" :is-shadow="false" :is-radius="false" @update:value="common_styles_update" />
@@ -80,15 +80,19 @@ const props = defineProps({
     },
 });
 const emit = defineEmits(['update:value']);
-// 默认值
-let form = reactive(props.value);
+const state = reactive({
+    form: props.value,
+    search_content: props.content,
+});
+// 如果需要解构，确保使用toRefs
+const { form, search_content } = toRefs(state);
 
 const common_styles_update = (val: Object) => {
-    form.common_style = val;
+    form.value.common_style = val;
 };
 const mult_color_picker_event = (arry: color_list[], type: number) => {
-    form.background_color_list = arry;
-    form.background_direction = type.toString();
+    form.value.header_background_color_list = arry;
+    form.value.header_background_direction = type.toString();
 };
 </script>
 <style lang="scss" scoped>

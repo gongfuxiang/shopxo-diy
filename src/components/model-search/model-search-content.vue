@@ -4,38 +4,46 @@
             <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="图标样式" class="align-s">
-                    <div class="flex-col w h gap-10">
-                        <el-switch v-model="form.is_icon_show" />
-                        <template v-if="form.is_icon_show">
+                    <el-row class="w">
+                        <el-col :span="24"><el-switch v-model="form.is_icon_show" width="40"></el-switch></el-col>
+                    </el-row>
+                    <el-row v-if="form.is_icon_show" class="mt-10 w">
+                        <el-col :span="24">
                             <upload v-model="form.icon_img_src" v-model:icon-value="form.icon_class" is-icon :limit="1" size="50"></upload>
-                        </template>
-                    </div>
+                        </el-col>
+                    </el-row>
                 </el-form-item>
                 <el-form-item label="提示文字">
-                    <div class="flex-col gap-10 w">
-                        <el-switch v-model="form.is_tips_show" />
-                        <el-input v-if="form.is_tips_show" v-model="form.tips" placeholder="请输入提示文字"></el-input>
-                    </div>
+                    <el-row class="w">
+                        <el-col :span="24"><el-switch v-model="form.is_tips_show"></el-switch></el-col>
+                    </el-row>
+                    <el-row v-if="form.is_tips_show" class="mt-10 w">
+                        <el-col :span="24">
+                            <el-input v-model="form.tips" placeholder="请输入提示文字"></el-input>
+                        </el-col>
+                    </el-row>
                 </el-form-item>
                 <el-form-item v-if="form.is_tips_show || form.is_icon_show" label="是否居中">
-                    <el-switch v-model="form.is_center" />
+                    <el-switch v-model="form.is_center"></el-switch>
                 </el-form-item>
                 <el-form-item label="搜索按钮" class="align-s">
-                    <div class="flex-col w h gap-10">
-                        <el-switch v-model="form.is_search_show" />
-                        <template v-if="form.is_search_show">
-                            <el-radio-group v-model="form.search_type" class="ml-4">
+                    <el-row class="w">
+                        <el-col :span="24"><el-switch v-model="form.is_search_show"></el-switch></el-col>
+                    </el-row>
+                    <el-row v-if="form.is_search_show" class="mt-10 w">
+                        <el-col :span="24">
+                            <el-radio-group v-model="form.search_type">
                                 <el-radio value="img-icon">图片/图标</el-radio>
                                 <el-radio value="text">文字</el-radio>
                             </el-radio-group>
                             <template v-if="form.search_type === 'img-icon'">
-                                <upload v-model="form.search_botton_src" v-model:icon-value="form.search_botton_icon" is-icon :limit="1" size="50"></upload>
+                                <upload v-model="form.search_botton_src" v-model:icon-value="form.search_botton_icon" is-icon :limit="1" size="50" class="mt-10"></upload>
                             </template>
                             <template v-else>
-                                <el-input v-model="form.search_tips" placeholder="请输入文字内容"></el-input>
+                                <el-input v-model="form.search_tips" placeholder="请输入文字内容" class="mt-10"></el-input>
                             </template>
-                        </template>
-                    </div>
+                        </el-col>
+                    </el-row>
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />

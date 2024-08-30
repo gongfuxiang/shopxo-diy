@@ -13,6 +13,8 @@ interface DefaultFooterNav {
         link: object;
         indicator_location: string;
         bottom_navigation_show: string;
+        positioning_name: string;
+        is_arrows_show: boolean;
         is_center: boolean;
         is_icon_show: boolean;
         icon_src: string;
@@ -57,9 +59,11 @@ const defaultFooterNav: DefaultFooterNav = {
     content: {
         theme: '1',
         logo: [],
-        title: '',
+        title: '新建页面',
         link: {},
         indicator_location: 'center',
+        positioning_name: '默认定位名称',
+        is_arrows_show: true,
         is_center: false,
         is_icon_show: true,
         icon_src: '',
@@ -87,9 +91,9 @@ const defaultFooterNav: DefaultFooterNav = {
         header_background_direction: '180deg',
         header_background_img_style: 2,
         header_background_img_url: [],
-        header_background_title_color: '#000',
+        header_background_title_color: '#333',
         header_background_title_typeface: '500',
-        header_background_title_size: 14,
+        header_background_title_size: 16,
         function_buttons_type: 'black',
         immersive_style: false,
         up_slide_display: true,

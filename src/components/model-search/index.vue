@@ -2,7 +2,7 @@
     <div :style="style_container">
         <div :style="style" class="flex-row align-c">
             <div class="search w re">
-                <div class="box h oh flex align-c gap-10" :style="box_style">
+                <div class="box h oh flex align-c gap-10 bg-f" :style="box_style">
                     <template v-if="form.is_icon_show">
                         <template v-if="form.icon_img_src.length > 0">
                             <div class="img-box">
@@ -13,17 +13,17 @@
                             <el-icon :class="`iconfont ${ !isEmpty(form.icon_class) ? 'icon-' + form.icon_class : 'icon-search' } size-14`" :style="`color:${new_style.icon_color};`" />
                         </template>
                     </template>
-                    <span v-if="form.is_tips_show" class="size-14" :style="`color: ${ new_style.tips_color }`">{{ form.tips }}</span>
+                    <span v-if="form.is_tips_show" :class="[isPageSettings ? 'size-12 text-line-1' : 'size-14 text-line-1']" :style="`color: ${ new_style.tips_color }`">{{ form.tips }}</span>
                 </div>
                 <div v-if="form.is_search_show" class="abs search-botton h flex align-c jc-c" :style="search_button">
                     <template v-if="form.search_type === 'text'">
-                        <div class="pl-16 pr-16 ptb-3 size-12">{{ form.search_tips }}</div>
+                        <div :class="['ptb-3 size-12', isPageSettings ? 'plr-12' : 'plr-16']">{{ form.search_tips }}</div>
                     </template>
                     <template v-else-if="form.search_botton_src.length > 0">
                         <image-empty v-model="form.search_botton_src[0]" class="img" :style="search_button_radius" error-img-style="width: 4rem;height: 2.8rem;" />
                     </template>
                     <template v-else>
-                        <div class="pl-16 pr-16 ptb-3 size-12">
+                        <div :class="['ptb-3 size-12', isPageSettings ? 'plr-12' : 'plr-16']">
                             <el-icon :class="`iconfont ${ 'icon-' + form.search_botton_icon } size-14`" />
                         </div>
                     </template>
@@ -42,6 +42,10 @@ const props = defineProps({
         default: () => {
             return {};
         },
+    },
+    isPageSettings: {
+        type: Boolean,
+        default: false,
     },
 });
 // 用于页面判断显示
@@ -62,12 +66,12 @@ const style = computed(() => {
     }
     return common_styles;
 });
-const style_container = computed(() => common_styles_computer(new_style.value.common_style));
+const style_container = computed(() => props.isPageSettings ? '' : common_styles_computer(new_style.value.common_style));
 
 const search_button_radius = computed(() => radius_computer(new_style.value.search_button_radius));
 // 搜索框设置
 const box_style = computed(() => {
-    let style = `background: ${ new_style.value.search_border }; ${ radius_computer(new_style.value.search_border_radius) }`;
+    let style = `border: 1px solid ${ new_style.value.search_border }; ${ radius_computer(new_style.value.search_border_radius) };`;
     if (form.value.is_center) {
         style += `justify-content: center;`;
     }

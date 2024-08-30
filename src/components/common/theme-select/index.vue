@@ -36,7 +36,7 @@
             <text v-else class="cr-9">{{ placeholder }}</text>
         </div>
         <div class="theme-icon">
-            <template v-if="temp_data_obj === null">
+            <template v-if="temp_data_obj === null || notCleardButton">
                 <icon name="arrow-right" size="12" color="9"></icon>
             </template>
             <template v-else>
@@ -64,6 +64,10 @@ const props = defineProps({
         type: Array as PropType<data[]>,
         default: () => [],
     },
+    notCleardButton: {
+        type: Boolean,
+        default: false,
+    }
 });
 const model_value = defineModel({ type: String, default: '' });
 const { data } = toRefs(props);
