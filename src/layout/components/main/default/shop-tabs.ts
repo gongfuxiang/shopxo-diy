@@ -36,6 +36,7 @@ interface DefaultProductList {
         tabs_weight: string,
         tabs_size: number,
         tabs_color: string,
+        tabs_spacing: number;
         shop_padding: paddingStyle;
         shop_img_radius: radiusStyle;
         shop_radius: radiusStyle;
@@ -93,6 +94,7 @@ const defaultProductList: DefaultProductList = {
         tabs_weight: '500',
         tabs_size: 14,
         tabs_color: 'rgba(51,51,51,1)',
+        tabs_spacing: 20,
         shop_padding: {
             padding: 10, 
             padding_top: 10, 

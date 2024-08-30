@@ -12,6 +12,9 @@
                 <el-form-item label="未选文字">
                     <color-text-size-group v-model:color="form.tabs_color" v-model:typeface="form.tabs_weight" v-model:size="form.tabs_size" default-color="rgba(51,51,51,1)"></color-text-size-group>
                 </el-form-item>
+                <el-form-item label="选项卡间距">
+                    <slider v-model="form.tabs_spacing" :max="100"></slider>
+                </el-form-item>
             </card-container>
         </el-form>
         <div class="divider-line"></div>

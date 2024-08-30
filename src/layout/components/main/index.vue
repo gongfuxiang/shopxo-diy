@@ -15,6 +15,22 @@
             </el-collapse-item>
         </el-collapse>
     </div>
+    <div class="drawer-container">
+        <div class="drawer-content" :style="{ left: diy_data.length > 0 ? '0' : '-100%' }">
+            <div class="size-14 cr-3 fw ptb-20 pl-12">已选组件({{ diy_data.length }})</div>
+            <div ref="left_scrollTop" class="drawer-drag-area">
+                <VueDraggable v-model="diy_data" :animation="500" target=".sort-target" :scroll="true" :on-sort="on_sort">
+                    <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col">
+                        <li v-for="(item, index) in diy_data" :key="index" :class="['flex ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-drag-bg': item.show_tabs }]" @click="on_choose(index, item.show_tabs)">
+                            <el-icon class="iconfont icon-drag size-16 cr-d" />
+                            <span class="size-12 cr-6">{{ item.name }}</span>
+                            <el-icon class="iconfont icon-close-b size-16 abs" :style="[ item.show_tabs ? '' : 'display:none']" @click.stop="del(index)" />
+                        </li>
+                    </TransitionGroup>
+                </VueDraggable>
+            </div>
+        </div>
+    </div>
     <!-- 视图渲染 -->
     <div class="main">
         <div class="model">
@@ -457,16 +473,21 @@ const copy = (index: number) => {
 // 删除
 const del = (index: number) => {
     app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
-        diy_data.value.splice(index, 1);
-        if (diy_data.value.length > 0) {
-            let new_index: number = index;
-            // 删除的时候如果大于0，则显示上边的数据
-            if (index > 0) {
-                new_index = new_index - 1;
+        const show_tabs_index = diy_data.value.findIndex((item: any) => item.show_tabs);
+        if (show_tabs_index == index) {
+            diy_data.value.splice(index, 1);
+            if (diy_data.value.length > 0) {
+                let new_index: number = index;
+                // 删除的时候如果大于0，则显示上边的数据
+                if (index > 0) {
+                    new_index = new_index - 1;
+                }
+                set_show_tabs(new_index);
+            } else {
+                page_settings();
             }
-            set_show_tabs(new_index);
         } else {
-            page_settings();
+            diy_data.value.splice(index, 1);
         }
     });
 };
@@ -492,12 +513,16 @@ const set_show_tabs = (index: number) => {
         }
     });
 };
+// 中间区域的滚动效果
 const scrollTop = ref<HTMLElement | null>(null);
 const activeCard = ref<HTMLElement | null>(null);
+// 左边已选组件的滚动效果
+const left_scrollTop = ref<HTMLElement | null>(null);
+const left_activeCard = ref<HTMLElement | null>(null);
 // 滚动到指定位置
 const scroll = () => {
     nextTick(() => {
-        // 获取当前选中的内容
+        // 获取当前选中的内容 --中间区域的滚动效果
         activeCard.value = document.querySelector('.plug-in-table.plug-in-border');
         if (activeCard.value) {
             // 获取选中内容的位置
@@ -505,6 +530,16 @@ const scroll = () => {
             if (scrollTop.value) {
                 // 选中的滚动到指定位置
                 scrollTop.value.scrollTo({ top: scrollY - 200, behavior: 'smooth' });
+            }
+        }
+        // 左边已选组件的滚动效果
+        left_activeCard.value = document.querySelector('.drawer-drag-bg');
+        if (left_activeCard.value) {
+            // 获取选中内容的位置
+            const left_scrollY = left_activeCard.value.offsetTop;
+            if (left_scrollTop.value) {
+                // 选中的滚动到指定位置
+                left_scrollTop.value.scrollTo({ top: left_scrollY - 200, behavior: 'smooth' });
             }
         }
     });
@@ -564,267 +599,23 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
 </script>
 
 <style lang="scss" scoped>
-.siderbar {
-    width: 34rem;
-    padding: 2rem 3rem;
-    background-color: #fff;
-    overflow: auto;
-    .el-collapse {
-        border: 0;
-        :deep(.el-collapse-item__wrap) {
-            border: 0;
-        }
-        :deep(.el-collapse-item__header) {
-            border: 0;
-        }
-    }
-    .component {
-        .item {
-            width: calc(100% / 3);
-            padding: 0.5rem;
-            .img {
-                width: 3rem;
-                height: 3rem;
-            }
-        }
-    }
-    &-show {
-        display: flex;
-        padding: 0.5rem;
-        transition: box-shadow 0.5s ease;
-    }
-    &-show:hover {
-        cursor: pointer;
-        border-radius: 0.5rem;
-        box-shadow: 0 0 0.5rem 0 rgba(24, 144, 255, 0.3);
-        transform: scale(1.05);
-        transition: all 0.4s;
-    }
-    &-hidden {
-        display: none;
-    }
-}
-@media screen and (max-width: 1540px) {
-    .siderbar {
-        width: 32rem;
-    }
-}
-.main {
-    flex: 1;
-    position: relative;
-    height: 100%;
-    width: 100%;
-    .acticons {
-        position: absolute;
-        left: 50%;
-        margin-left: 26rem;
-        top: 0;
-        display: flex;
-        flex-direction: column;
-        gap: 2rem;
-        z-index: 1;
-        .el-button {
-            border-radius: 0.4rem;
-        }
-        .el-button + .el-button {
-            margin-left: 0;
-        }
-    }
-    .model {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        overflow: hidden;
-        height: 100%;
-        .model-content {
-            position: relative;
-            height: 84.6rem;
-            .model-bottom {
-                position: absolute;
-                bottom: 0;
-                left: 50%;
-                transform: translateX(-50%);
-                z-index: 2;
-                .roll {
-                    border-top: 0.1rem solid #f5f5f5;
-                    height: 4rem;
-                    width: 39rem;
-                    background: #fff;
-                    margin: 0 auto;
-                }
-            }
-
-            .model-drag {
-                overflow-y: auto;
-                padding-top: 0.2rem;
-                max-height: 84.4rem;
-                &::-webkit-scrollbar {
-                    display: none;
-                }
-                .model-wall {
-                    width: 39rem;
-                    background: #f5f5f5;
-                    margin: 0 auto;
-                    .drag-area {
-                        min-height: v-bind(height);
-                    }
-                    .drag-area .float-window {
-                        position: fixed;
-                        max-width: 39rem;
-                        margin: 0 auto;
-                        z-index: 3;
-                    }
-                    .main-content {
-                        max-width: 39rem;
-                        overflow: hidden;
-                    }
-                }
-            }
-            // 悬浮按钮控制， 未选中情况下宽度自适应
-            .plug-in-table.float-window {
-                .plug-in-name {
-                    display: none;
-                }
-            }
-            // 选中情况下宽度是100%
-            .plug-in-border.float-window {
-                .plug-in-name {
-                    display: block;
-                }
-            }
-            .plug-in-border {
-                position: relative;
-                // border: 0.2rem solid $cr-main;
-                z-index: 1;
-                box-sizing: border-box;
-            }
-            .plug-in-border::before {
-                content: '';
-                width: calc(100% + 0.4rem);
-                height: calc(100% + 0.4rem);
-                position: absolute;
-                top: -0.2rem;
-                left: -0.2rem;
-                border: 0.2rem solid $cr-main;
-            }
-            .plug-in-animation {
-                transition: all 0.3s ease-in-out;
-                &:hover {
-                    box-shadow: 0 2px 8px rgba(50, 55, 58, 0.1);
-                }
-            }
-            .plug-in-table {
-                display: table;
-                width: 100%;
-                cursor: move;
-                transform: translateZ(0rem) !important;
-            }
-            .plug-in-name {
-                position: absolute;
-                top: 0;
-                background: #fff;
-                left: -10rem;
-                width: 8.6rem;
-                height: 3.2rem;
-                text-align: center;
-                line-height: 3.2rem;
-                font-size: 1.3rem;
-                color: #666;
-                border-radius: 0.3rem;
-                z-index: 99;
-                &::before {
-                    content: '';
-                    position: absolute;
-                    width: 1rem;
-                    height: 1rem;
-                    background: #fff;
-                    transform: rotate(45deg);
-                    top: 50%;
-                    right: -0.5rem;
-                    margin-top: -0.5rem;
-                }
-            }
-            .plug-in-close::before {
-                position: absolute;
-                content: '\5DF2\9690\85CF';
-                background: rgba(0, 0, 0, 0.5);
-                width: 100%;
-                height: 100%;
-                z-index: 99;
-                color: #fff;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            .plug-in-right {
-                background: $cr-main;
-                position: absolute;
-                right: -5rem;
-                display: flex;
-                flex-direction: column;
-                gap: 2rem;
-                padding: 2rem 1.2rem;
-                color: #fff;
-                border-radius: 0.4rem;
-                & > i {
-                    cursor: pointer;
-                }
-                & > i.disabled {
-                    color: #5db2ff;
-                    cursor: not-allowed;
-                }
-            }
-            .main-show {
-                display: inherit;
-            }
-            .main-hidden {
-                display: none;
-            }
-            .main-border {
-                padding: 1rem;
-                border: 0.1rem dashed $cr-main;
-                background: #b9d8f5;
-            }
-        }
-        .plug-in-right {
-            background: $cr-main;
-            position: absolute;
-            right: -5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-            padding: 2rem 1.2rem;
-            color: #fff;
-            border-radius: 0.4rem;
-            & > i {
-                cursor: pointer;
-            }
-            & > i.disabled {
-                color: #5db2ff;
-                cursor: not-allowed;
-            }
-            & .icon-arrow-top,
-            & .icon-arrow-bottom {
-                height: 0.9rem;
-            }
-        }
-        .main-show {
-            display: inherit;
-        }
-        .main-hidden {
-            display: none;
-        }
-        .main-border {
-            padding: 1rem;
-            border: 0.1rem dashed $cr-main;
-            background: #b9d8f5;
-        }
-    }
-}
-.seat {
-    background: transparent;
-    height: 0.2rem;
+@import 'index.scss';
+.model-wall {
     width: 39rem;
+    background: #f5f5f5;
     margin: 0 auto;
+    .drag-area {
+        min-height: v-bind(height);
+    }
+    .drag-area .float-window {
+        position: fixed;
+        max-width: 39rem;
+        margin: 0 auto;
+        z-index: 3;
+    }
+    .main-content {
+        max-width: 39rem;
+        overflow: hidden;
+    }
 }
 </style>
