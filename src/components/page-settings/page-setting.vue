@@ -23,9 +23,9 @@ const default_data = {
     header_background_direction: '180deg',
     header_background_img_style: 2,
     header_background_img_url: [],
-    header_background_title_color: '#000',
+    header_background_title_color: '#333',
     header_background_title_typeface: '500',
-    header_background_title_size: 14,
+    header_background_title_size: 16,
     function_buttons_type: 'black',
     immersive_style: false,
     up_slide_display: true,
@@ -56,16 +56,10 @@ const default_data = {
 const default_config = {
     style: {
         theme_1: {},
-        theme_2: {
-        },
-        theme_3: {
-        },
-        theme_4: {
-        },
-        theme_5: {
-        },
-        theme_6: {
-        },
+        theme_2: {},
+        theme_3: {},
+        theme_4: {},
+        theme_5: {},
     },
 };
 const form = ref(props.value);

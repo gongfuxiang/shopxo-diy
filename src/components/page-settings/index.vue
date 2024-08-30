@@ -1,23 +1,23 @@
 <template>
     <div class="model-top">
         <div :class="['roll', { 'page-settings-border': showPage }]" :style="roll_style" @click="page_settings">
-            <div class="pb-12 pl-6 pr-13 w">
+            <div class="pt-15 pl-18 pr-22 w pb-6" :style="[!isEmpty(roll_style) ? '' : 'background-color: #fff']">
                 <img class="img" :style="`Filter: brightness(${ new_style.function_buttons_type == 'black' ? 0 : 100 })`" src="@/assets/images/layout/main/main-top.png" />
             </div>
-            <div class="model-head tc re">
+            <div class="model-head tc re mlr-12 mt-6">
                 <div v-if="['1', '2', '3'].includes(form.theme)" class="flex align-c jc-c h gap-16" :style="[{ 'justify-content': form?.indicator_location || 'center', 'padding-right': form?.indicator_location == 'flex-end' ? '90px' : '0'}, text_style]">
                     <template v-if="['2', '3'].includes(form.theme)">
                         <div class="logo-outer-style"><image-empty v-model="form.logo[0]" class="logo-style" error-img-style="width:2rem;height:2rem;"></image-empty></div>
                     </template>
-                    <div v-if="['1', '2'].includes(form.theme)">{{ form?.title || '新建页面' }}</div>
+                    <div v-if="['1', '2'].includes(form.theme)">{{ form.title }}</div>
                     <template v-if="['3', '5'].includes(form.theme)">
                         <div class="flex-1" style="padding-right:90px">
                             <model-search :value="pageData.com_data" :is-page-settings="true"></model-search>
                         </div>
                     </template>
                 </div>
-                <div class="flex align-c h gap-10">
-                    <div class="flex-row gap-2"><icon name="position" size="12" color="0"></icon><span class="size-14 cr-3 text-line-1">{{ form.positioning_name || '默认定位名称' }}</span><icon v-if="form.is_arrows_show" name="arrow-right" size="12" color="0"></icon></div>
+                <div v-else-if="['4', '5'].includes(form.theme)" class="flex align-c h gap-10">
+                    <div class="flex-row gap-2"><icon name="position" size="12" color="0"></icon><span class="size-14 cr-3 text-line-1">{{ form.positioning_name }}</span><icon v-if="form.is_arrows_show" name="arrow-right" size="12" color="0"></icon></div>
                     <template v-if="['5'].includes(form.theme)">
                         <div class="flex-1" style="padding-right:90px">
                             <model-search :value="pageData.com_data" :is-page-settings="true"></model-search>
@@ -33,7 +33,7 @@
 </template>
 <script setup lang="ts">
 import { background_computer, gradient_computer } from '@/utils';
-
+import { isEmpty } from 'lodash';
 interface Props {
     pageData: any;
     showPage: boolean;
@@ -61,6 +61,7 @@ const roll_style = computed(() => {
     } else {
         style += `background: transparent;`;
     }
+    console.log(style);
     return style
 });
 const url_computer = (name: string) => {
@@ -78,7 +79,7 @@ const text_style = computed(() => `font-weight:${ new_style.value.header_backgro
     transform: translateX(-50%);
     .roll {
         width: 39rem;
-        padding: 1.5rem 1.2rem 0.9rem 1.2rem;
+        padding-bottom: 0.9rem;
         margin: 0 auto;
         cursor: pointer;
     }

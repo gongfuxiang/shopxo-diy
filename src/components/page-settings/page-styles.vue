@@ -54,7 +54,7 @@
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item v-if="['1', '2'].includes(search_content.theme)" label="标题名称">
-                    <color-text-size-group v-model:color="form.background_title_color" v-model:typeface="form.background_title_typeface" v-model:size="form.background_title_size" default-color="#000000"></color-text-size-group>
+                    <color-text-size-group v-model:color="form.header_background_title_color" v-model:typeface="form.header_background_title_typeface" v-model:size="form.header_background_title_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
             </card-container>
         </el-form>
@@ -91,8 +91,8 @@ const common_styles_update = (val: Object) => {
     form.value.common_style = val;
 };
 const mult_color_picker_event = (arry: color_list[], type: number) => {
-    form.value.background_color_list = arry;
-    form.value.background_direction = type.toString();
+    form.value.header_background_color_list = arry;
+    form.value.header_background_direction = type.toString();
 };
 </script>
 <style lang="scss" scoped>
