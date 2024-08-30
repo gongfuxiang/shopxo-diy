@@ -255,7 +255,10 @@
         width: 12.8rem;
         height: 100%;
         background: #fff;
-        transition: left 0.3s ease;
+        transition: left 0.5s ease;
+    }
+    .drawer-drag-bg {
+        background: #F2F8FF;
     }
     .drawer-drag-area {
         height: calc(100% - 6rem);

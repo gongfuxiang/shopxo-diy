@@ -17,11 +17,11 @@
     </div>
     <div class="drawer-container">
         <div class="drawer-content" :style="{ left: diy_data.length > 0 ? '0' : '-100%' }">
-            <div class="size-14 cr-3 fw ptb-20 pl-12">已选组件</div>
-            <div class="drawer-drag-area">
+            <div class="size-14 cr-3 fw ptb-20 pl-12">已选组件({{ diy_data.length }})</div>
+            <div ref="left_scrollTop" class="drawer-drag-area">
                 <VueDraggable v-model="diy_data" :animation="500" target=".sort-target" :scroll="true" :on-sort="on_sort">
                     <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col">
-                        <li v-for="(item, index) in diy_data" :key="index" class="flex ptb-12 plr-10 gap-y-8 re align-c drawer-drag" :style="[item.show_tabs ? 'background: #F2F8FF;' : '']" @click="on_choose(index, item.show_tabs)">
+                        <li v-for="(item, index) in diy_data" :key="index" :class="['flex ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-drag-bg': item.show_tabs }]" @click="on_choose(index, item.show_tabs)">
                             <el-icon class="iconfont icon-drag size-16 cr-d" />
                             <span class="size-12 cr-6">{{ item.name }}</span>
                             <el-icon class="iconfont icon-close-b size-16 abs" :style="[ item.show_tabs ? '' : 'display:none']" @click.stop="del(index)" />
@@ -186,6 +186,14 @@ const props = defineProps({
 const diy_data = ref(props.diyData);
 const page_data = ref(props.header);
 const footer_nav = ref(props.footer);
+const drawer_visiable = ref(false);
+watch(diy_data, (val) => {
+    if (val.length > 0) {
+        drawer_visiable.value = true;
+    } else {
+        drawer_visiable.value = false;
+    }
+})
 // 监听
 watch(
     () => props.diyData,
@@ -513,12 +521,16 @@ const set_show_tabs = (index: number) => {
         }
     });
 };
+// 中间区域的滚动效果
 const scrollTop = ref<HTMLElement | null>(null);
 const activeCard = ref<HTMLElement | null>(null);
+// 左边已选组件的滚动效果
+const left_scrollTop = ref<HTMLElement | null>(null);
+const left_activeCard = ref<HTMLElement | null>(null);
 // 滚动到指定位置
 const scroll = () => {
     nextTick(() => {
-        // 获取当前选中的内容
+        // 获取当前选中的内容 --中间区域的滚动效果
         activeCard.value = document.querySelector('.plug-in-table.plug-in-border');
         if (activeCard.value) {
             // 获取选中内容的位置
@@ -526,6 +538,16 @@ const scroll = () => {
             if (scrollTop.value) {
                 // 选中的滚动到指定位置
                 scrollTop.value.scrollTo({ top: scrollY - 200, behavior: 'smooth' });
+            }
+        }
+        // 左边已选组件的滚动效果
+        left_activeCard.value = document.querySelector('.drawer-drag-bg');
+        if (left_activeCard.value) {
+            // 获取选中内容的位置
+            const left_scrollY = left_activeCard.value.offsetTop;
+            if (left_scrollTop.value) {
+                // 选中的滚动到指定位置
+                left_scrollTop.value.scrollTo({ top: left_scrollY - 200, behavior: 'smooth' });
             }
         }
     });
