@@ -38,9 +38,12 @@
         display: none;
     }
 }
-@media screen and (max-width: 1540px) {
+@media screen and (max-width: 1560px) {
     .siderbar {
         width: 32rem;
+    }
+    .drawer-container {
+        display: none;
     }
 }
 .main {
@@ -247,15 +250,18 @@
 .drawer-container {
     position: relative;
     overflow: hidden;
-    width: 12.8rem;
     margin-left: 0.1rem;
+    transition: 0.8s ease;
     .drawer-content {
         position: absolute;
         top: 0;
         width: 12.8rem;
         height: 100%;
         background: #fff;
-        transition: left 0.5s ease;
+        transition: left 0.8s ease;
+    }
+    .drawer-title {
+        transition: 0.4s ease;
     }
     .drawer-drag-bg {
         background: #F2F8FF;
