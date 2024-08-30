@@ -1,5 +1,5 @@
 import { isEmpty } from 'lodash';
-export const predefine_colors = [ '#fff', '#ddd', '#ccc', '#999', '#666', '#333', '#000', '#ff4500', '#ff8c00', '#ffd700', '#90ee90', '#00ced1', '#c71585', 'rgba(255, 69, 0, 0.68)', 'rgb(255, 120, 0)', 'hsv(51, 100, 98)', 'hsva(120, 40, 94, 0.5)', 'hsl(181, 100%, 37%)', '#1F93FF', '#c7158577'];
+export const predefine_colors = ['#fff', '#ddd', '#ccc', '#999', '#666', '#333', '#000', '#ff4500', '#ff8c00', '#ffd700', '#90ee90', '#00ced1', '#c71585', 'rgba(255, 69, 0, 0.68)', 'rgb(255, 120, 0)', 'hsv(51, 100, 98)', 'hsva(120, 40, 94, 0.5)', 'hsl(181, 100%, 37%)', '#1F93FF', '#c7158577'];
 /**
  * 判断一个对象是否为空。
  *
@@ -40,22 +40,26 @@ export function is_obj(obj: unknown): boolean {
  * @param {string[], string} path
  * @returns {string}
  */
-export function gradient_computer(new_style: gradientStyle) {
+export function gradient_computer(new_style: gradientStyle, is_return_all: boolean = true) {
     let color_list = new_style.color_list;
     let direction = new_style.direction;
-    return gradient_handle(color_list, direction);
+    return gradient_handle(color_list, direction, is_return_all);
 }
 /**
  * 根据给定的颜色列表和方向生成一个线性渐变的CSS样式字符串。
  *
  * @param color_list 颜色列表，包含渐变中的各个颜色值。
  * @param direction 渐变的方向，可以是角度或其他CSS支持的渐变方向。
+ * @param is_return_all 是否返回所有样式，包括渐变类型、颜色列表和方向。默认为false，只返回渐变样式。
  * @returns 返回一个字符串，包含生成的线性渐变样式。
  */
-export function gradient_handle(color_list: color_list[], direction: string) {
+export function gradient_handle(color_list: color_list[], direction: string, is_return_all: boolean = true) {
     let container_common_styles = ``;
     if (color_list && color_list.length > 0) {
-        container_common_styles += `background: linear-gradient(${direction || '180deg'},`;
+        if (is_return_all) {
+            container_common_styles += `background:`;
+        }
+        container_common_styles += `linear-gradient(${direction || '180deg'},`;
 
         const new_color_list = JSON.parse(JSON.stringify(color_list));
         new_color_list.forEach((item: any, index: number) => {
@@ -80,9 +84,11 @@ export function gradient_handle(color_list: color_list[], direction: string) {
                 }
             }
         });
-        container_common_styles += `);`;
+        container_common_styles += `)`;
+        if (is_return_all) {
+            container_common_styles += `;`;
+        }
     }
-
     return container_common_styles;
 }
 

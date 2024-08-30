@@ -18,8 +18,15 @@ interface DefaultCoupon {
         btn_color: string;
         background: color_list[];
         direction: string;
+        background_inside: color_list[];
+        direction_inside: string;
         spacing: number;
         common_style: object;
+        // 风格4字段
+        type_color: string;
+        type_background: string;
+        content_title_color: string;
+        content_desc_color: string;
     };
 }
 const defaultCoupoin: DefaultCoupon = {
@@ -41,10 +48,19 @@ const defaultCoupoin: DefaultCoupon = {
         btn_background: [{ color: '#FFF1E1', color_percentage: undefined }],
         btn_direction: '90deg',
         btn_color: '#FF3830',
-        background: [{ color: '#FFF1E1', color_percentage: undefined }],
+        background: [{ color: '#FF3830', color_percentage: undefined }],
         direction: '90deg',
-        spacing: 10,
+        // 内背景
+        background_inside: [{ color: '#FFF1E1', color_percentage: undefined }],
+        direction_inside: '90deg',
+        spacing: 20,
         common_style: { ...defaultCommon, padding_left: 18, padding_right: 18, padding_top: 18, padding_bottom: 18, color_list: [{ color: '#fff', color_percentage: undefined }] },
+
+        // 风格4字段
+        type_color: '#FF3830',
+        type_background: '#FFF1E1',
+        content_title_color: '#fff',
+        content_desc_color: '#fff',
     },
 };
 
