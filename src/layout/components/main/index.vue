@@ -186,14 +186,6 @@ const props = defineProps({
 const diy_data = ref(props.diyData);
 const page_data = ref(props.header);
 const footer_nav = ref(props.footer);
-const drawer_visiable = ref(false);
-watch(diy_data, (val) => {
-    if (val.length > 0) {
-        drawer_visiable.value = true;
-    } else {
-        drawer_visiable.value = false;
-    }
-})
 // 监听
 watch(
     () => props.diyData,
