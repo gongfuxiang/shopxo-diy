@@ -141,7 +141,7 @@ watchEffect(() => {
 </script>
 <style lang="scss" scoped>
 .news-box {
-    min-height: 4.4rem;
+    height: v-bind(container_height);
     overflow: hidden;
     padding: 0 1rem;
     background: #fff;

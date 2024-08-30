@@ -31,6 +31,7 @@ interface defaultSearch {
         topic_size: number;
         topic_width: number;
         topic_height: number;
+        container_height: number;
         icon_size: number;
         icon_color: string;
         container_color_list: color_list[],
@@ -80,6 +81,7 @@ const defaultSearch: defaultSearch = {
         topic_size: 14,
         topic_width: 24,
         topic_height: 24,
+        container_height: 44,
         icon_size: 12,
         icon_color: '#999',
         button_color: '#999',

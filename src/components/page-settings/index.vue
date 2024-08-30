@@ -5,13 +5,23 @@
                 <img class="img" :style="`Filter: brightness(${ new_style.function_buttons_type == 'black' ? 0 : 100 })`" src="@/assets/images/layout/main/main-top.png" />
             </div>
             <div class="model-head tc re">
-                <div class="flex align-c jc-c h gap-16" :style="[{ 'justify-content': form?.indicator_location || 'center', 'padding-right': form?.indicator_location == 'flex-end' ? '90px' : '0'}, text_style]">
-                    <template v-if="form.theme == '2' || form.theme == '3'">
+                <div v-if="['1', '2', '3'].includes(form.theme)" class="flex align-c jc-c h gap-16" :style="[{ 'justify-content': form?.indicator_location || 'center', 'padding-right': form?.indicator_location == 'flex-end' ? '90px' : '0'}, text_style]">
+                    <template v-if="['2', '3'].includes(form.theme)">
                         <div class="logo-outer-style"><image-empty v-model="form.logo[0]" class="logo-style" error-img-style="width:2rem;height:2rem;"></image-empty></div>
                     </template>
-                    <div v-if="form.theme == '1' || form.theme == '2'">{{ form?.title || '新建页面' }}</div>
-                    <template v-if="form.theme == '3'">
-                        <model-search :value="pageData.com_data"></model-search>
+                    <div v-if="['1', '2'].includes(form.theme)">{{ form?.title || '新建页面' }}</div>
+                    <template v-if="['3', '5'].includes(form.theme)">
+                        <div class="flex-1" style="padding-right:90px">
+                            <model-search :value="pageData.com_data" :is-page-settings="true"></model-search>
+                        </div>
+                    </template>
+                </div>
+                <div class="flex align-c h gap-10">
+                    <div class="flex-row gap-2"><icon name="position" size="12" color="0"></icon><span class="size-14 cr-3 text-line-1">{{ form.positioning_name || '默认定位名称' }}</span><icon v-if="form.is_arrows_show" name="arrow-right" size="12" color="0"></icon></div>
+                    <template v-if="['5'].includes(form.theme)">
+                        <div class="flex-1" style="padding-right:90px">
+                            <model-search :value="pageData.com_data" :is-page-settings="true"></model-search>
+                        </div>
                     </template>
                 </div>
                 <div class="model-head-icon">
@@ -41,8 +51,13 @@ const new_style = computed(() => props.pageData.com_data.style);
 const position = computed(() => new_style.value.up_slide_display ? 'absolute' : 'relative');
 const roll_style = computed(() => {
     let style = ``;
-    if (new_style.value.background_type === 'color_image') {
-        style += gradient_computer({ color_list: new_style.value.background_color_list, direction: new_style.value.background_direction }) + background_computer(new_style.value);
+    if (new_style.value.header_background_type === 'color_image') {
+        const { header_background_img_url, header_background_img_style, header_background_color_list, header_background_direction } = new_style.value;
+        // 渐变
+        const gradient = { color_list: header_background_color_list, direction: header_background_direction };
+        // 背景图
+        const back = { background_img_url: header_background_img_url, background_img_style: header_background_img_style };
+        style += gradient_computer(gradient) + background_computer(back);
     } else {
         style += `background: transparent;`;
     }
@@ -52,7 +67,7 @@ const url_computer = (name: string) => {
     const new_url = ref(new URL(`../../assets/images/layout/main/${name}.png`, import.meta.url).href).value;
     return new_url;
 };
-const text_style = computed(() => `font-weight:${ new_style.value.background_title_typeface }; font-size: ${ new_style.value.background_title_size }px; color: ${ new_style.value.background_title_color };`);
+const text_style = computed(() => `font-weight:${ new_style.value.header_background_title_typeface }; font-size: ${ new_style.value.header_background_title_size }px; color: ${ new_style.value.header_background_title_color };`);
 </script>
 <style lang="scss" scoped>
 .model-top {
