@@ -32,7 +32,7 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
     (response: AxiosResponse) => {
-        const { code, msg, data } = response.data;
+        const { code, msg, message, data } = response.data;
         if (code == 0) {
             return response.data;
         } else if (code == -400) {
@@ -45,14 +45,14 @@ service.interceptors.response.use(
                 window.location.href = data;
             });
         } else {
-            ElMessage.error(msg || '系统出错');
+            ElMessage.error(msg || message || '系统出错');
             return Promise.reject(new Error(msg || 'Error'));
         }
     },
     (error: any) => {
         if (error.response.data) {
-            const { msg } = error.response.data;
-            ElMessage.error(msg || '系统出错');
+            const { msg, message } = error.response.data;
+            ElMessage.error(msg || message || '系统出错');
         }
         return Promise.reject(error.message);
     }

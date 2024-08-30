@@ -91,6 +91,31 @@ const default_data_list: ArticleList = {
     new_title: '测试文章标题',
     new_cover: [],
 };
+const get_auto_data_list = async (new_content: any) => {
+    const { category, number, sort, sort_rules, is_cover } = new_content;
+    const new_data = {
+        article_keywords: '',
+        article_category_ids: category.join(','),
+        article_order_by_type: sort,
+        article_order_by_rule: sort_rules,
+        article_number: number,
+        article_is_cover: is_cover ? 1 : 0,
+    };
+    const res = await ArticleAPI.getAutoList(new_data);
+    if (!isEmpty(res.data)) {
+        data_list.value = [];
+        res.data.forEach((child: any) => {
+            data_list.value.push({
+                id: get_math(),
+                new_title: '',
+                new_cover: [],
+                data: child,
+            });
+        });
+    } else {
+        data_list.value = Array(4).fill(default_data_list);
+    }
+};
 watch(
     props.value,
     (newVal, oldValue) => {
@@ -160,31 +185,6 @@ const article_theme_class = computed(() => {
     }
     return `style${article_theme.value}`;
 });
-const get_auto_data_list = async (new_content: any) => {
-    const { category, number, sort, sort_rules, is_cover } = new_content;
-    const new_data = {
-        article_keywords: '',
-        article_category_ids: category.join(','),
-        article_order_by_type: sort,
-        article_order_by_rule: sort_rules,
-        article_number: number,
-        article_is_cover: is_cover ? 1 : 0,
-    };
-    const res = await ArticleAPI.getAutoList(new_data);
-    if (!isEmpty(res.data)) {
-        data_list.value = [];
-        res.data.forEach((child: any) => {
-            data_list.value.push({
-                id: get_math(),
-                new_title: '',
-                new_cover: [],
-                data: child,
-            });
-        });
-    } else {
-        data_list.value = Array(4).fill(default_data_list);
-    }
-};
 </script>
 <style lang="scss" scoped>
 .style1 {
