@@ -1,5 +1,5 @@
 <template>
-    <div class="tabs flex-row oh">
+    <div class="tabs flex-row oh" :style="`column-gap: ${ new_style.tabs_spacing }px;`">
         <template v-for="(item, index) in form.tabs_list" :key="index">
             <div class="item nowrap flex-col jc-c gap-4" :class="tabs_theme + (index == 0 ? ' active' : '')">
                 <template v-if="!isEmpty(item.img)">
@@ -92,7 +92,7 @@ const icon_tabs_check = () => {
     max-width: 39rem;
     .item {
         padding: 0 0 0.5rem 0;
-        margin: 0 1rem;
+        // margin: 0 1rem;
         position: relative;
         &:first-of-type {
             margin-left: 0;

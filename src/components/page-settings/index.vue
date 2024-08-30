@@ -61,7 +61,6 @@ const roll_style = computed(() => {
     } else {
         style += `background: transparent;`;
     }
-    console.log(style);
     return style
 });
 const url_computer = (name: string) => {
