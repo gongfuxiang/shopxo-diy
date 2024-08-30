@@ -106,7 +106,7 @@
                             <div class="name">满200元使用</div>
                         </div>
                         <div class="bottom">
-                            <div class="coupon-btn">领取</div>
+                            <div class="coupon-btn">立即领取</div>
                         </div>
                     </div>
                 </div>

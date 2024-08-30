@@ -277,6 +277,7 @@
         width: 14rem;
         height: 10rem;
         position: relative;
+        background-color: #ff3030;
         .top {
             width: 100%;
             padding: 0.4rem;
@@ -285,6 +286,32 @@
             align-items: center;
             justify-content: center;
             z-index: 1;
+            background-color: #fff;
+            border-radius: 0.6rem;
+            position: relative;
+            overflow: hidden;
+            &::before {
+                content: '';
+                position: absolute;
+                left: -0.7rem;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 1.4rem;
+                height: 1.4rem;
+                background-color: #ff531b;
+                border-radius: 50%;
+            }
+            &::after {
+                content: '';
+                position: absolute;
+                right: -0.7rem;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 1.4rem;
+                height: 1.4rem;
+                background-color: #ff531b;
+                border-radius: 50%;
+            }
             .price {
                 text-align: center;
                 position: relative;
@@ -309,27 +336,15 @@
             }
         }
         .bottom {
-            width: 4.6rem;
-            padding-left: 2rem;
-            border-radius: 0.6rem;
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            right: 0;
-            height: 100%;
-            background: linear-gradient(180deg, #ffa273 0%, #ff3030 100%);
+            margin-top: 0.6rem;
             text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
             .coupon-btn {
                 color: #fff;
                 position: relative;
-                font-size: 1.2rem;
+                font-size: 1.6rem;
+                line-height: 2.2rem;
                 font-weight: 500;
                 text-align: center;
-                writing-mode: vertical-lr;
-                letter-spacing: 5px;
             }
         }
     }
