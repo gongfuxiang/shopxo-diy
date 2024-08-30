@@ -54,7 +54,7 @@ let state = reactive({
             color: item.color,
             color_percentage: item.color_percentage,
         };
-    })
+    }),
 });
 const { color_list } = toRefs(state);
 const emit = defineEmits(['update:value']);
@@ -141,7 +141,8 @@ const update_value = () => {
 }
 .mo-input-number {
     :deep(.el-input-number) {
-        .el-input-number__decrease, .el-input-number__increase {
+        .el-input-number__decrease,
+        .el-input-number__increase {
             right: 3.4rem;
         }
     }
@@ -163,5 +164,4 @@ const update_value = () => {
         border-bottom-right-radius: 0.4rem;
     }
 }
-
 </style>

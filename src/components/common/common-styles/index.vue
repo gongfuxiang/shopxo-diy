@@ -5,7 +5,7 @@
             <el-form :model="form" label-width="70">
                 <div class="mb-12">通用</div>
                 <el-form-item label="底部背景">
-                    <div class="flex-col gap-10 w">
+                    <div v-if="isMultBackground" class="flex-col gap-10 w">
                         <div class="size-12">背景色</div>
                         <mult-color-picker :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
                         <div class="flex-row jc-sb align-c">
@@ -23,6 +23,9 @@
                             </el-radio-group>
                         </div>
                         <upload v-model="form.background_img_url" :limit="1" @update:model-value="background_img_url_change"></upload>
+                    </div>
+                    <div v-else>
+                        <color-picker v-model="form.color_list[0].color"></color-picker>
                     </div>
                 </el-form-item>
                 <el-form-item label="内边距">
@@ -73,6 +76,10 @@ const props = defineProps({
         default: true,
     },
     isShadow: {
+        type: Boolean,
+        default: true,
+    },
+    isMultBackground: {
         type: Boolean,
         default: true,
     },

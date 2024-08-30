@@ -29,10 +29,21 @@ const default_config = {
             desc_color: '#FF3830',
             // 主题1时不显示
             limit_send_count: '#999',
-            btn_background: [{ color: '#FF3830', color_percentage: undefined }],
+            btn_background: [{ color: '#FFF1E1', color_percentage: undefined }],
+            btn_direction: '90deg',
             btn_color: '#FF3830',
-            background: [{ color: '#FFF1E1', color_percentage: undefined }],
+            background: [{ color: '#FF3830', color_percentage: undefined }],
+            direction: '90deg',
+            // 主题1时不显示
+            background_inside: [{ color: '#FFF1E1', color_percentage: undefined }],
+            // 主题1时不显示
+            direction_inside: '90deg',
             spacing: 20,
+            // 风格4字段
+            type_color: '#FF3830',
+            type_background: '#FFF1E1',
+            content_title_color: '#fff',
+            content_desc_color: '#fff',
         },
         theme_2: {
             price_color: '#FF3830',
@@ -40,22 +51,44 @@ const default_config = {
             desc_color: '#999',
             // 主题2时不显示
             limit_send_count: '#999',
-            btn_background: [{ color: '#FFF1E1', color_percentage: undefined }],
+            btn_background: [{ color: '#FF3830', color_percentage: undefined }],
+            btn_direction: '90deg',
             btn_color: '#fff',
             // 当为主题2时，不显示
             background: [{ color: '#fff', color_percentage: undefined }],
+            // 当为主题2时，不显示
+            direction: '90deg',
+            // 主题2时不显示
+            background_inside: [{ color: '#FFF1E1', color_percentage: undefined }],
+            // 主题2时不显示
+            direction_inside: '90deg',
             spacing: 15,
+            // 风格4字段
+            type_color: '#FF3830',
+            type_background: '#FFF1E1',
+            content_title_color: '#fff',
+            content_desc_color: '#fff',
         },
         theme_3: {
             price_color: '#FF3830',
             name_color: '#FF3830',
             desc_color: '#FF3830',
             limit_send_count: '#999',
+            // 主题3时不显示
             btn_background: [{ color: '#FF3830', color_percentage: undefined }],
-            btn_color: '#FF3830',
-            background: [{ color: '#FFF1E1', color_percentage: undefined }],
-            // 当为主题34时，间距不给予修改，优惠券沾满整行
-            spacing: 0,
+            // 主题3时不显示
+            btn_direction: '90deg',
+            btn_color: '#fff',
+            background: [{ color: '#FF3830', color_percentage: undefined }],
+            direction: '90deg',
+            background_inside: [{ color: '#FFF1E1', color_percentage: undefined }],
+            direction_inside: '90deg',
+            spacing: 8,
+            // 风格4字段
+            type_color: '#FF3830',
+            type_background: '#FFF1E1',
+            content_title_color: '#fff',
+            content_desc_color: '#fff',
         },
         theme_4: {
             price_color: '#FF3830',
@@ -64,10 +97,18 @@ const default_config = {
             // 主题4时不显示
             limit_send_count: '#999',
             btn_background: [{ color: '#fff', color_percentage: undefined }],
+            btn_direction: '90deg',
             btn_color: '#FF3830',
-            background: [{ color: '#FFF1E1', color_percentage: undefined }],
-            // 当为主题34时，间距不给予修改，优惠券沾满整行
-            spacing: 0,
+            background: [{ color: '#ff3830', color_percentage: undefined }],
+            direction: '90deg',
+            background_inside: [{ color: '#fff', color_percentage: undefined }],
+            direction_inside: '90deg',
+            spacing: 8,
+            // 风格4字段
+            type_color: '#FF3830',
+            type_background: '#FFF1E1',
+            content_title_color: '#fff',
+            content_desc_color: '#fff',
         },
         theme_5: {
             price_color: '#FF3830',
@@ -78,9 +119,24 @@ const default_config = {
             limit_send_count: '#999',
             // 主题5时不显示
             btn_background: [{ color: '#fff', color_percentage: undefined }],
+            // 主题5时不显示
+            btn_direction: '90deg',
             btn_color: '#fff',
-            background: [{ color: '#FFF1E1', color_percentage: undefined }],
+            background: [
+                { color: '#FFA273', color_percentage: undefined },
+                { color: '#FF3030', color_percentage: undefined },
+            ],
+            direction: '90deg',
+            // 主题5时不显示
+            background_inside: [{ color: '#FFF1E1', color_percentage: undefined }],
+            // 主题5时不显示
+            direction_inside: '90deg',
             spacing: 10,
+            // 风格4字段
+            type_color: '#FF3830',
+            type_background: '#FFF1E1',
+            content_title_color: '#fff',
+            content_desc_color: '#fff',
         },
         theme_6: {
             price_color: '#FF3830',
@@ -91,9 +147,19 @@ const default_config = {
             limit_send_count: '#999',
             // 主题6时不显示
             btn_background: [{ color: '#fff', color_percentage: undefined }],
+            // 主题6时不显示
+            btn_direction: '90deg',
             btn_color: '#fff',
             background: [{ color: '#FF3830', color_percentage: undefined }],
+            direction: '90deg',
+            background_inside: [{ color: '#fff', color_percentage: undefined }],
+            direction_inside: '90deg',
             spacing: 10,
+            // 风格4字段
+            type_color: '#FF3830',
+            type_background: '#FFF1E1',
+            content_title_color: '#fff',
+            content_desc_color: '#fff',
         },
         theme_7: {
             price_color: '#fff',
@@ -104,13 +170,23 @@ const default_config = {
             limit_send_count: '#999',
             // 主题7时不显示
             btn_background: [{ color: '#E1B47A', color_percentage: undefined }],
+            btn_direction: '90deg',
             btn_color: '#fff',
             background: [
-                { color: '#FF3830', color_percentage: undefined },
+                { color: '#F4DBA5', color_percentage: undefined },
                 { color: '#E1B47A', color_percentage: undefined },
             ],
             direction: '90deg',
+            // 主题7时不显示
+            background_inside: [{ color: '#FFF1E1', color_percentage: undefined }],
+            // 主题7时不显示
+            direction_inside: '90deg',
             spacing: 10,
+            // 风格4字段
+            type_color: '#FF3830',
+            type_background: '#FFF1E1',
+            content_title_color: '#fff',
+            content_desc_color: '#fff',
         },
     },
     common_style: {

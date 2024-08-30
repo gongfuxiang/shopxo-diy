@@ -3,7 +3,7 @@
         <el-form :model="form" label-width="70">
             <card-container>
                 <el-form-item label="选择风格">
-                    <theme-select v-model="form.theme" :data="base_list.themeList" :not-cleard-button="true" @update:model-value="themeChange"></theme-select>
+                    <theme-select v-model="form.theme" :data="base_list.themeList" @update:model-value="themeChange"></theme-select>
                 </el-form-item>
                 <template v-if="['1', '2', '3'].includes(form.theme)">
                     <el-form-item v-if="['2', '3'].includes(form.theme)" label="logo">

@@ -39,10 +39,12 @@
                 <el-form-item label="内间距">
                     <padding :value="form.padding"></padding>
                 </el-form-item>
-                <template v-if="theme !== '3'">
+                <template v-if="theme == '0'">
                     <el-form-item label="内容间距">
                         <slider v-model="form.content_spacing"></slider>
                     </el-form-item>
+                </template>
+                <template v-if="theme !== '3'">
                     <el-form-item label="文章间距">
                         <slider v-model="form.article_spacing"></slider>
                     </el-form-item>
