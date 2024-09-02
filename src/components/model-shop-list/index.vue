@@ -56,7 +56,7 @@
                                     </div>
                                     <div v-if="form.is_shop_show">
                                         <template v-if="form.shop_type == 'text'">
-                                            <div class="plr-11 ptb-3 round cr-f" :style="trends_config('button', 'gradient') + `color: ${ new_style.shop_button_text_color };`">{{ form.shop_button_text }}</div>
+                                            <div class="plr-11 ptb-3 round cr-f" :style="trends_config('button', 'gradient') + `color: ${new_style.shop_button_text_color};`">{{ form.shop_button_text }}</div>
                                         </template>
                                         <template v-else>
                                             <icon class="round plr-6 ptb-5" :name="!isEmpty(form.shop_button_icon_class) ? form.shop_button_icon_class : 'cart'" :color="new_style.shop_icon_color" :size="new_style.shop_icon_size + ''" :styles="button_gradient()"></icon>
@@ -83,7 +83,7 @@
                                 </div>
                                 <div v-if="form.is_shop_show">
                                     <template v-if="form.shop_type == 'text'">
-                                        <div class="plr-11 ptb-3 round cr-f" :style="trends_config('button', 'gradient') + `color: ${ new_style.shop_button_text_color };`">{{ form.shop_button_text }}</div>
+                                        <div class="plr-11 ptb-3 round cr-f" :style="trends_config('button', 'gradient') + `color: ${new_style.shop_button_text_color};`">{{ form.shop_button_text }}</div>
                                     </template>
                                     <template v-else>
                                         <icon class="round plr-6 ptb-5" :name="!isEmpty(form.shop_button_icon_class) ? form.shop_button_icon_class : 'cart'" :color="new_style.shop_icon_color" :size="new_style.shop_icon_size + ''" :styles="button_gradient()"></icon>
@@ -132,7 +132,7 @@
                                     </div>
                                     <div v-if="form.is_shop_show">
                                         <template v-if="form.shop_type == 'text'">
-                                            <div class="plr-11 ptb-3 round cr-f" :style="trends_config('button', 'gradient') + `color: ${ new_style.shop_button_text_color };`">{{ form.shop_button_text }}</div>
+                                            <div class="plr-11 ptb-3 round cr-f" :style="trends_config('button', 'gradient') + `color: ${new_style.shop_button_text_color};`">{{ form.shop_button_text }}</div>
                                         </template>
                                         <template v-else>
                                             <icon class="round plr-6 ptb-5" :name="!isEmpty(form.shop_button_icon_class) ? form.shop_button_icon_class : 'cart'" :color="new_style.shop_icon_color" :size="new_style.shop_icon_size + ''" :styles="button_gradient()"></icon>
@@ -206,23 +206,23 @@ const default_list = {
             bg_color: '#EA3323',
             br_color: '',
             color: '#fff',
-            url: ''
+            url: '',
         },
         {
             name: '包邮',
             bg_color: '',
             br_color: '#EA3323',
             color: '#EA3323',
-            url: ''
+            url: '',
         },
         {
             name: '领劵',
             bg_color: '',
             br_color: '#EA9223',
             color: '#EA9223',
-            url: ''
-        }
-    ]
+            url: '',
+        },
+    ],
 };
 const list = ref<data_list[]>([]);
 
@@ -369,15 +369,15 @@ const button_gradient = () => {
     return gradient_handle(new_style.value.shop_button_color, '90deg');
 };
 // icon标志显示样式
-const icon_style = (item: { bg_color: string; color: string; br_color: string; }) => {
+const icon_style = (item: { bg_color: string; color: string; br_color: string }) => {
     let style = `background: ${item.bg_color};color: ${item.color};`;
     if (!isEmpty(item.br_color)) {
-        style += `border: 1px solid ${item.br_color};`
+        style += `border: 1px solid ${item.br_color};`;
     } else {
-        style += `border: 1px solid ${item.bg_color};`
+        style += `border: 1px solid ${item.bg_color};`;
     }
     return style;
-}
+};
 // 公共样式
 const style_container = computed(() => {
     if (props.isCommonStyle) {
@@ -391,16 +391,16 @@ const style_container = computed(() => {
 // 记录当前显示的轮播图的数据
 // 不换行显示
 const multicolumn_columns_width = computed(() => {
-    const { single_line_number } = toRefs(form.value);
-    // 计算间隔的空间。(gap * gap数量) / 模块数量 
-    let gap = (new_style.value.content_outer_spacing * (single_line_number.value - 1)) / single_line_number.value;
-    return `calc(${ 100 / single_line_number.value }% - ${ gap }px)` ;
+    const { carousel_col } = toRefs(form.value);
+    // 计算间隔的空间。(gap * gap数量) / 模块数量
+    let gap = (new_style.value.content_outer_spacing * (carousel_col.value - 1)) / carousel_col.value;
+    return `calc(${100 / carousel_col.value}% - ${gap}px)`;
 });
 const multicolumn_columns_height = computed(() => new_style.value.content_outer_height + 'px');
 const interval_list = ref({
     time: 2000,
     is_roll: true,
-    notice_length: 1
+    notice_length: 1,
 });
 interface nav_list {
     split_list: data_list[];
@@ -411,7 +411,7 @@ const shop_content_list = computed(() => {
     // 如果是分页滑动情况下，根据选择的行数和每行显示的个数来区分具体是显示多少个
     if (cloneList.length > 0) {
         // 每页显示的数量
-        const num = form.value.single_line_number;
+        const num = form.value.carousel_col;
         // 存储数据显示
         let nav_list: nav_list[] = [];
         // 拆分的数量
@@ -424,7 +424,7 @@ const shop_content_list = computed(() => {
         // 否则的话，就返回全部的信息
         return [{ split_list: cloneList }];
     }
-})
+});
 // 轮播图定时显示
 const interval_time = ref(2000);
 // 轮播图是否滚动
@@ -447,7 +447,7 @@ watchEffect(() => {
         interval_list.value = {
             time: time,
             is_roll: display_is_roll,
-            notice_length: notice_length
+            notice_length: notice_length,
         };
         // 更新轮播图的key，确保更换时能重新更新轮播图
         carouselKey.value = get_math();

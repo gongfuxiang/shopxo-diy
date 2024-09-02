@@ -22,6 +22,7 @@ interface DefaultArticleTabs {
         tabs_theme: string;
         tabs_top_up: boolean;
         article_theme: string;
+        article_carousel_col: string;
         tabs_list: articleTabsList[];
         field_show: string[];
     };
@@ -49,8 +50,9 @@ interface DefaultArticleTabs {
         padding: paddingStyle;
         article_spacing: number;
         content_spacing: number;
-        article_width: number;
         article_height: number;
+        interval_time: number; //滚动时间
+        is_roll: number;
         common_style: object;
     };
 }
@@ -59,6 +61,7 @@ const defaultArticleTabs: DefaultArticleTabs = {
         tabs_theme: '0',
         tabs_top_up: true,
         article_theme: '0',
+        article_carousel_col: '2',
         tabs_list: [
             { id: '1', title: '热门推荐', desc: '简介', data_type: '0', category: [], number: 4, sort: '0', sort_rules: '0', is_cover: true, data_list: [] },
             { id: '2', title: '测试一', desc: '简介', data_type: '0', category: [], number: 4, sort: '0', sort_rules: '0', is_cover: true, data_list: [] },
@@ -70,7 +73,10 @@ const defaultArticleTabs: DefaultArticleTabs = {
         field_show: ['0', '1'],
     },
     style: {
-        tabs_checked: [{ color: '#FF2222', color_percentage: undefined }, { color: '#FF9898', color_percentage: undefined }],
+        tabs_checked: [
+            { color: '#FF2222', color_percentage: undefined },
+            { color: '#FF9898', color_percentage: undefined },
+        ],
         tabs_direction: '90deg',
         tabs_weight_checked: '500',
         tabs_size_checked: 14,
@@ -114,8 +120,9 @@ const defaultArticleTabs: DefaultArticleTabs = {
         },
         content_spacing: 10, // 内容间距
         article_spacing: 10, // 文章间距
-        article_width: 155, // 文章宽度
-        article_height: 155, // 文章宽度
+        article_height: 155, // 文章高度
+        interval_time: 2, //滚动时间
+        is_roll: 1, // 是否轮播
         common_style: { ...defaultCommon, padding: 10, padding_top: 10, padding_left: 10, padding_right: 10, padding_bottom: 10 },
     },
 };

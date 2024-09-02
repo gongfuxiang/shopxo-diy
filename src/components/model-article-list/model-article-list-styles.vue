@@ -23,7 +23,6 @@
                 <el-form-item label="内间距">
                     <padding :value="form.padding"></padding>
                 </el-form-item>
-
                 <template v-if="theme == '0'">
                     <el-form-item label="内容间距">
                         <slider v-model="form.content_spacing"></slider>
@@ -35,14 +34,24 @@
                     </el-form-item>
                 </template>
                 <template v-if="theme == '4'">
-                    <el-form-item label="内容宽度">
-                        <slider v-model="form.article_width" :max="1000"></slider>
-                    </el-form-item>
                     <el-form-item label="内容高度">
                         <slider v-model="form.article_height" :max="1000"></slider>
                     </el-form-item>
                 </template>
             </card-container>
+            <div class="divider-line"></div>
+            <template v-if="theme == '4'">
+                <card-container>
+                    <div class="mb-12">轮播设置</div>
+                    <el-form-item label="自动轮播">
+                        <el-switch v-model="form.is_roll" :active-value="1" :inactive-value="0" />
+                    </el-form-item>
+                    <el-form-item label="间隔时间">
+                        <slider v-model="form.interval_time" :min="1" :max="100"></slider>
+                    </el-form-item>
+                </card-container>
+                <div class="divider-line"></div>
+            </template>
         </el-form>
         <div class="divider-line"></div>
         <common-styles :value="form.common_style" @update:value="common_style_update" />

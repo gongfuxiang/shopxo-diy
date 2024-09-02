@@ -16,6 +16,11 @@
                         <el-radio v-for="item in base_list.article_theme_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
+                <el-form-item v-if="form.theme == '4'" label="轮播列数">
+                    <el-radio-group v-model="form.article_carousel_col">
+                        <el-radio v-for="item in base_list.carousel_col_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                    </el-radio-group>
+                </el-form-item>
             </card-container>
             <div class="divider-line"></div>
             <card-container>
@@ -122,6 +127,12 @@ const base_list = reactive({
         { name: '大图展示', value: '2' },
         { name: '无图模式', value: '3' },
         { name: '左右滑动展示', value: '4' },
+    ],
+    carousel_col_list: [
+        { name: '单列展示', value: '0' },
+        { name: '两列展示', value: '1' },
+        { name: '三列展示', value: '2' },
+        { name: '四列展示', value: '3' },
     ],
     data_type_list: [
         { name: '选择文章', value: '0' },

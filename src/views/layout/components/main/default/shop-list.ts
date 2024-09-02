@@ -3,7 +3,7 @@ interface DefaultProductList {
     content: {
         theme: string;
         data_type: string;
-        single_line_number: number;
+        carousel_col: number;
         category: string[];
         data_ids: string[];
         product_show_list: string[];
@@ -54,7 +54,7 @@ const defaultProductList: DefaultProductList = {
     content: {
         theme: '0',
         data_type: '0',
-        single_line_number: 3,
+        carousel_col: 3,
         product_show_list: [],
         data_list: [],
         category: [],
