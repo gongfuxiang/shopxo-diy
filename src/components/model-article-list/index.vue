@@ -252,7 +252,6 @@ const article_carousel_list = computed(() => {
     if (cloneList.length > 0) {
         // 每页显示的数量
         const num = Number(carousel_col.value) + 1;
-        console.log(num);
         // 存储数据显示
         let nav_list: ArticleCarouselList[] = [];
         // 拆分的数量
