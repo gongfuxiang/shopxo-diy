@@ -15,7 +15,7 @@
             </el-collapse-item>
         </el-collapse>
     </div>
-    <div class="drawer-container" :style="`width: ${ diy_data.length > 0 ? '12.8rem' : '0px' }`">
+    <div class="drawer-container" :style="`width: ${diy_data.length > 0 ? '12.8rem' : '0px'}`">
         <div class="drawer-content" :style="{ left: diy_data.length > 0 ? '0' : '-100%' }">
             <div class="size-14 cr-3 fw ptb-20 pl-12 drawer-title" :style="{ opacity: diy_data.length > 0 ? '1' : '0' }">已选组件({{ diy_data.length }})</div>
             <div ref="left_scrollTop" class="drawer-drag-area">
@@ -293,7 +293,7 @@ const components = reactive([
     },
 ]);
 const url_computer = (name: string) => {
-    const new_url = ref(new URL(`../../../assets/images/layout/siderbar/${name}.png`, import.meta.url).href).value;
+    const new_url = ref(new URL(`../../../../../assets/images/layout/siderbar/${name}.png`, import.meta.url).href).value;
     return new_url;
 };
 
