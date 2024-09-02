@@ -55,6 +55,7 @@ const defaultSearch: defaultSearch = {
         right_size: 12, 
         common_style: {
             ...defaultCommon,
+            color_list: [{ color: '#fff', color_percentage: undefined }],
             padding: 15,
             padding_top: 15,
             padding_bottom: 15,

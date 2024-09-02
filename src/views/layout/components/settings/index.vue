@@ -151,7 +151,7 @@ const radio = ref('1'); // 创建一个响应式的数字变量，初始值为0
         background-color: #fff;
     }
 }
-@media screen and (max-width: 1540px) {
+@media screen and (max-width: 1560px) {
     .settings {
         width: 40rem;
     }

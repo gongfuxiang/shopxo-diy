@@ -15,9 +15,9 @@
             </el-collapse-item>
         </el-collapse>
     </div>
-    <div class="drawer-container">
+    <div class="drawer-container" :style="`width: ${ diy_data.length > 0 ? '12.8rem' : '0px' }`">
         <div class="drawer-content" :style="{ left: diy_data.length > 0 ? '0' : '-100%' }">
-            <div class="size-14 cr-3 fw ptb-20 pl-12">已选组件({{ diy_data.length }})</div>
+            <div class="size-14 cr-3 fw ptb-20 pl-12 drawer-title" :style="{ opacity: diy_data.length > 0 ? '1' : '0' }">已选组件({{ diy_data.length }})</div>
             <div ref="left_scrollTop" class="drawer-drag-area">
                 <VueDraggable v-model="diy_data" :animation="500" target=".sort-target" :scroll="true" :on-sort="on_sort">
                     <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col">
@@ -600,22 +600,7 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
 
 <style lang="scss" scoped>
 @import 'index.scss';
-.model-wall {
-    width: 39rem;
-    background: #f5f5f5;
-    margin: 0 auto;
-    .drag-area {
-        min-height: v-bind(height);
-    }
-    .drag-area .float-window {
-        position: fixed;
-        max-width: 39rem;
-        margin: 0 auto;
-        z-index: 3;
-    }
-    .main-content {
-        max-width: 39rem;
-        overflow: hidden;
-    }
+.drag-area {
+    min-height: v-bind(height);
 }
 </style>

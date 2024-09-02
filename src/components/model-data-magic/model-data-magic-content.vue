@@ -144,7 +144,7 @@ onUnmounted(() => {
 });
 
 const handleResize = () => {
-    if (window.innerWidth <= 1540) {
+    if (window.innerWidth <= 1560) {
         cubeWidth.value = 330;
         cubeHeight.value = 330;
     } else {
