@@ -12,4 +12,5 @@ export * from './modules/upload';
 export * from './modules/shop';
 export * from './modules/url-value';
 export * from './modules/custom';
+export * from './modules/article';
 export { store };

@@ -24,7 +24,7 @@
                         <li v-for="(item, index) in diy_data" :key="index" :class="['flex ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-drag-bg': item.show_tabs }]" @click="on_choose(index, item.show_tabs)">
                             <el-icon class="iconfont icon-drag size-16 cr-d" />
                             <span class="size-12 cr-6">{{ item.name }}</span>
-                            <el-icon class="iconfont icon-close-b size-16 abs" :style="[ item.show_tabs ? '' : 'display:none']" @click.stop="del(index)" />
+                            <el-icon class="iconfont icon-close-b size-16 abs" :style="[item.show_tabs ? '' : 'display:none']" @click.stop="del(index)" />
                         </li>
                     </TransitionGroup>
                 </VueDraggable>
@@ -46,7 +46,7 @@
                     <!-- 页面设置 -->
                     <page-settings :show-page="page_data.show_tabs" :page-data="page_data" @page_settings="page_settings"></page-settings>
                     <div class="model-wall" :style="content_style">
-                        <div :style="`padding-top:${ top_padding }px; margin-top: ${ top_margin }px;padding-bottom:${ bottom_navigation_show ? footer_nav_counter_store.padding_footer : 0 }px;`">
+                        <div :style="`padding-top:${top_padding}px; margin-top: ${top_margin}px;padding-bottom:${bottom_navigation_show ? footer_nav_counter_store.padding_footer : 0}px;`">
                             <VueDraggable v-model="diy_data" :animation="500" :touch-start-threshold="2" group="people" class="drag-area re" ghost-class="ghost" :on-sort="on_sort" :on-start="on_start" :on-end="on_end">
                                 <div v-for="(item, index) in diy_data" :key="item.id" :class="model_class(item)" :style="model_style(item)" @click="on_choose(index, item.show_tabs)">
                                     <div v-if="item.show_tabs" class="plug-in-right" chosenClass="close">
@@ -165,7 +165,7 @@ import { background_computer, get_math, gradient_computer, padding_computer, rad
 import { cloneDeep } from 'lodash';
 import { SortableEvent, VueDraggable } from 'vue-draggable-plus';
 import defaultSettings from './index';
-import { footerNavCounterStore } from '@/store/modules/footer-nav-content';
+import { footerNavCounterStore } from '@/store';
 const footer_nav_counter_store = footerNavCounterStore();
 const app = getCurrentInstance();
 import { isEmpty } from 'lodash';
@@ -213,12 +213,12 @@ watchEffect(() => {
     if (data) {
         // 底部按钮显示
         const content = data.content;
-        bottom_navigation_show.value = content.bottom_navigation_show == '1' ? true: false;
+        bottom_navigation_show.value = content.bottom_navigation_show == '1' ? true : false;
         // 通用样式设置
         const new_style = data.style;
         content_style.value = gradient_computer(new_style.common_style) + background_computer(new_style.common_style);
         main_content_style.value = padding_computer(new_style.common_style);
-        
+
         const { immersive_style, up_slide_display } = new_style;
         // 不开启沉浸式 和 上滑显示
         if (immersive_style || !up_slide_display) {
