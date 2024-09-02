@@ -213,7 +213,7 @@ watch(
         } else if (article_theme.value == '4') {
             // 更新轮播图的key，确保更换时能重新更新轮播图
             carousel_col.value = new_content.carousel_col || '1';
-            carousel_key.value = get_math();
+            carousel_key.value = new_style.interval_time + new_style.is_roll;
             // 滚动时间
             interval_time.value = (new_style.interval_time || 2) * 1000;
             // 是否滚动修改
