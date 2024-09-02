@@ -37,9 +37,6 @@
                         <slider v-model="form.content_outer_spacing" :max="100"></slider>
                     </el-form-item>
                     <template v-if="theme == '5'">
-                        <el-form-item label="内容宽度">
-                            <slider v-model="form.content_outer_width" :max="1000"></slider>
-                        </el-form-item>
                         <el-form-item label="内容高度">
                             <slider v-model="form.content_outer_height" :max="1000"></slider>
                         </el-form-item>
@@ -47,6 +44,18 @@
                 </template>
             </card-container>
             <div class="divider-line"></div>
+            <template v-if="theme == '5'">
+                <card-container>
+                    <div class="mb-12">轮播设置</div>
+                    <el-form-item label="自动轮播">
+                        <el-switch v-model="form.is_roll" />
+                    </el-form-item>
+                    <el-form-item label="间隔时间">
+                        <slider v-model="form.interval_time" :max="100"></slider>
+                    </el-form-item>
+                </card-container>
+                <div class="divider-line"></div>
+            </template>
             <card-container>
                 <div class="mb-12">购物车按钮</div>
                 <el-form-item label="按钮颜色" class="topic">
