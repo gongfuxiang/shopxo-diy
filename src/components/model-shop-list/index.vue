@@ -434,13 +434,15 @@ const carouselKey = ref('0');
 // 内容参数的集合
 watchEffect(() => {
     const time = (new_style.value.interval_time || 2) * 1000;
-    const display_is_roll =  new_style.value.is_roll;
+    const display_is_roll = new_style.value.is_roll;
     // 判断长度是否相等
     const notice_length = shop_content_list.value.length;
     // 判断跟历史的是否相等，不相等更新组件时间
     if (interval_list.value.time != time || interval_list.value.is_roll != display_is_roll || notice_length != interval_list.value.notice_length) {
         // 滚动时间
         interval_time.value = time;
+        // 是否滚动修改
+        is_roll.value = display_is_roll;
         // 记录历史保存的时间
         interval_list.value = {
             time: time,

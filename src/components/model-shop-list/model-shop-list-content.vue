@@ -66,9 +66,8 @@
 </template>
 <script setup lang="ts">
 import { get_math } from '@/utils';
-import ShopAPI from '@/api/shop';
-import { shopStore } from '@/store';
-const shop_store = shopStore();
+import { commonStore } from '@/store';
+const common_store = commonStore();
 
 const props = defineProps({
     value: {
@@ -124,27 +123,17 @@ const base_list = reactive({
     ],
 });
 
-const init = () => {
-    if (!shop_store.is_shop_api) {
-        shop_store.set_is_shop_api(true);
-        ShopAPI.getShop()
-            .then((res) => {
-                const { goods_category, brand_list } = res.data;
-                base_list.product_category_list = goods_category;
-                base_list.product_brand_list = brand_list;
-                shop_store.set_category_brand(goods_category, brand_list);
-            })
-            .catch((err) => {
-                shop_store.set_is_shop_api(false);
-            });
-    } else {
-        base_list.product_category_list = shop_store.category_list;
-        base_list.product_brand_list = shop_store.brand_list;
-    }
-};
-
 onBeforeMount(() => {
-    init();
+    nextTick(() => {
+        // 定时获取common_store.common.article_category的数据，直到拿到值或者关闭页面为止
+        const interval = setInterval(() => {
+            if (common_store.common.goods_category.length > 0 || common_store.common.brand_list.length > 0) {
+                base_list.product_category_list = common_store.common.goods_category;
+                base_list.product_brand_list = common_store.common.brand_list;
+                clearInterval(interval);
+            }
+        }, 1000);
+    });
 });
 
 const goods_list_remove = (index: number) => {

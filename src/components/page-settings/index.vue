@@ -1,7 +1,7 @@
 <template>
     <div class="model-top">
         <div :class="['roll', { 'page-settings-border': showPage }]" :style="roll_style" @click="page_settings">
-            <div class="pt-15 pl-18 pr-22 w pb-6" :style="[!isEmpty(roll_style) ? '' : 'background-color: #fff']">
+            <div class="pt-15 pl-18 pr-22 w pb-6">
                 <img class="img" :style="`Filter: brightness(${ new_style.function_buttons_type == 'black' ? 0 : 100 })`" src="@/assets/images/layout/main/main-top.png" />
             </div>
             <div class="model-head tc re mlr-12 mt-6">
@@ -11,7 +11,7 @@
                     </template>
                     <div v-if="['1', '2'].includes(form.theme)">{{ form.title }}</div>
                     <template v-if="['3', '5'].includes(form.theme)">
-                        <div class="flex-1" style="padding-right:90px">
+                        <div class="flex-1">
                             <model-search :value="pageData.com_data" :is-page-settings="true"></model-search>
                         </div>
                     </template>
@@ -51,8 +51,8 @@ const new_style = computed(() => props.pageData.com_data.style);
 const position = computed(() => new_style.value.up_slide_display ? 'absolute' : 'relative');
 const roll_style = computed(() => {
     let style = ``;
-    if (new_style.value.header_background_type === 'color_image') {
-        const { header_background_img_url, header_background_img_style, header_background_color_list, header_background_direction } = new_style.value;
+    const { header_background_img_url, header_background_img_style, header_background_color_list, header_background_direction, header_background_type } = new_style.value;
+    if (header_background_type === 'color_image') {
         // 渐变
         const gradient = { color_list: header_background_color_list, direction: header_background_direction };
         // 背景图
@@ -61,7 +61,7 @@ const roll_style = computed(() => {
     } else {
         style += `background: transparent;`;
     }
-    return style
+    return style;
 });
 const url_computer = (name: string) => {
     const new_url = ref(new URL(`../../assets/images/layout/main/${name}.png`, import.meta.url).href).value;
