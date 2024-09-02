@@ -119,12 +119,9 @@ const base_list = reactive({
 onMounted(() => {
     nextTick(() => {
         // 定时获取common_store.common.article_category的数据，直到拿到值或者关闭页面为止
-        const interval = setInterval(() => {
-            if (common_store.common.article_category.length > 0) {
-                base_list.article_category_list = common_store.common.article_category;
-                clearInterval(interval);
-            }
-        }, 1000);
+        if (common_store.common.article_category.length > 0) {
+            base_list.article_category_list = common_store.common.article_category;
+        }
     });
 });
 const theme_change = (val: any) => {

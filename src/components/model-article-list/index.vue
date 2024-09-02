@@ -14,8 +14,8 @@
                             <div class="title" :class="article_theme == '3' ? 'text-line-1 flex-1 flex-width' : 'text-line-2'" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
                             <div class="flex-row jc-sb gap-8" :class="article_theme == '3' ? 'ml-10' : 'align-e mt-10'">
                                 <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
-                                <div class="flex-row align-c gap-3" :style="article_page_view">
-                                    <icon v-show="field_show.includes('1')" name="eye"></icon>
+                                <div v-show="field_show.includes('1')" class="flex-row align-c gap-3" :style="article_page_view">
+                                    <icon name="eye"></icon>
                                     <div>
                                         {{ item.data.access_count ? item.data.access_count : '16' }}
                                     </div>
@@ -116,21 +116,30 @@ const get_auto_data_list = async (new_content: any) => {
         data_list.value = Array(4).fill(default_data_list);
     }
 };
+const data_type_is_change = ref(0);
+watch(
+    () => data_type_is_change.value,
+    (newVal, oldValue) => {
+        if (newVal !== oldValue && String(newVal) === '1') {
+            get_auto_data_list(props.value?.content);
+        }
+    },
+    { deep: true }
+);
 watch(
     props.value,
     (newVal, oldValue) => {
         const new_content = newVal?.content;
         const new_style = newVal?.style;
         // 内容
-        if (new_content.data_type === '0') {
+        data_type_is_change.value = new_content.data_type;
+        if (String(new_content.data_type) === '0') {
             if (!isEmpty(new_content.data_list)) {
                 data_list.value = new_content.data_list;
                 data_list.value = cloneDeep(new_content.data_list);
             } else {
                 data_list.value = Array(4).fill(default_data_list);
             }
-        } else {
-            get_auto_data_list(new_content);
         }
 
         article_theme.value = new_content.theme;
