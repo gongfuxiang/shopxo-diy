@@ -70,6 +70,10 @@ div:focus {
     outline: none;
 }
 
+p {
+    margin: 0;
+}
+
 // 全局form表单样式
 :root {
     --el-font-size-base: 12px;

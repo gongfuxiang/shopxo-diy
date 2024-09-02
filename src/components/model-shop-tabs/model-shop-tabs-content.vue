@@ -3,17 +3,25 @@
         <el-form :model="form" label-width="74" class="m-h">
             <card-container>
                 <div class="mb-12">展示设置</div>
+                <el-form-item label="选项卡置顶">
+                    <el-switch v-model="form.tabs_top_up" />
+                </el-form-item>
                 <el-form-item label="选项卡风格">
                     <el-radio-group v-model="form.tabs_theme" @change="tabs_theme_change">
                         <el-radio v-for="item in base_list.tabs_style_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="选项卡置顶">
-                    <el-switch v-model="form.tabs_top_up" />
-                </el-form-item>
                 <el-form-item label="商品风格">
                     <el-radio-group v-model="form.theme" @change="change_style">
                         <el-radio v-for="item in base_list.product_style_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item v-if="form.theme == '5'" label="单行显示">
+                    <el-radio-group v-model="form.single_line_number" class="ml-4">
+                        <el-radio :value="1">1个</el-radio>
+                        <el-radio :value="2">2个</el-radio>
+                        <el-radio :value="3">3个</el-radio>
+                        <el-radio :value="4">4个</el-radio>
                     </el-radio-group>
                 </el-form-item>
             </card-container>

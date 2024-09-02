@@ -3,6 +3,7 @@ interface DefaultProductList {
     content: {
         theme: string;
         data_type: string;
+        single_line_number: number;
         category: string[];
         data_ids: string[];
         product_show_list: string[];
@@ -24,8 +25,9 @@ interface DefaultProductList {
         shop_img_radius: radiusStyle;
         shop_radius: radiusStyle;
         content_outer_spacing: number;
-        content_outer_width: number;
         content_outer_height: number;
+        is_roll: boolean,
+        interval_time: number,
         content_spacing: number;
         shop_title_typeface: string;
         shop_title_size: number;
@@ -52,6 +54,7 @@ const defaultProductList: DefaultProductList = {
     content: {
         theme: '0',
         data_type: '0',
+        single_line_number: 1,
         product_show_list: [],
         data_list: [],
         category: [],
@@ -92,8 +95,9 @@ const defaultProductList: DefaultProductList = {
         },
         content_outer_spacing: 10, // 商品间距
         content_spacing: 10,
-        content_outer_width: 140,
         content_outer_height: 232,
+        is_roll: true,
+        interval_time: 2,
         shop_title_typeface: '500',
         shop_title_size: 14,    
         shop_title_color: "#333333",

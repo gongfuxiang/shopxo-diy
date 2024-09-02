@@ -8,6 +8,14 @@
                         <el-radio v-for="item in base_list.product_style_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
+                <el-form-item v-if="form.theme == '5'" label="单行显示">
+                    <el-radio-group v-model="form.single_line_number" class="ml-4">
+                        <el-radio :value="1">1个</el-radio>
+                        <el-radio :value="2">2个</el-radio>
+                        <el-radio :value="3">3个</el-radio>
+                        <el-radio :value="4">4个</el-radio>
+                    </el-radio-group>
+                </el-form-item>
             </card-container>
             <div class="divider-line"></div>
             <card-container>
