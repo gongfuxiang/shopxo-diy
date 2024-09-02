@@ -54,7 +54,7 @@ const defaultProductList: DefaultProductList = {
     content: {
         theme: '0',
         data_type: '0',
-        single_line_number: 1,
+        single_line_number: 3,
         product_show_list: [],
         data_list: [],
         category: [],

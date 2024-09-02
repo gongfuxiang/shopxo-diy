@@ -72,7 +72,7 @@ const defaultProductList: DefaultProductList = {
         tabs_theme: '0',
         tabs_top_up: false,
         theme: '0',
-        single_line_number: 1,
+        single_line_number: 3,
         tabs_list: [
             { id: '1', title: '热门推荐', img: [], desc: '简介', data_type: '0', category: [], data_ids: [], number: 4,  sort: '0', sort_rules: '0', data_list: [] },
             { id: '2', title: '测试一', img: [], desc: '简介', data_type: '0', category: [], data_ids: [], number: 4,  sort: '0', sort_rules: '0', data_list: [] },
