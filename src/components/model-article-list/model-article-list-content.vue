@@ -63,7 +63,7 @@
 <script setup lang="ts">
 import { get_math } from '@/utils';
 import ArticleAPI from '@/api/article';
-import { articleStore } from '@/store/article';
+import { articleStore } from '@/store';
 const article_store = articleStore();
 const props = defineProps({
     value: {
