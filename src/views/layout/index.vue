@@ -18,6 +18,9 @@ import { Navbar, Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
 import { cloneDeep } from 'lodash';
 import DiyAPI, { diyData } from '@/api/diy';
+import CommonAPI from '@/api/common';
+import { commonStore } from '@/store';
+const common_store = commonStore();
 interface headerAndFooter {
     name: string;
     show_tabs: boolean;
@@ -74,14 +77,10 @@ const right_update = (item: any, diy: [Array<any>], header: headerAndFooter, foo
 // 页面加载
 onMounted(() => {
     init();
+    common_init();
 });
 const is_empty = ref(false);
 const init = () => {
-    // 获取localStorage数据
-    // const diy_data = localStorage.getItem('diy_data');
-    // if (diy_data) {
-    //     form.value = JSON.parse(diy_data);
-    // }
     // 截取document.location.search字符串内id/后面的所有字段
     let new_data = { id: '' };
     if (document.location.search.indexOf('id/') !== -1) {
@@ -101,6 +100,20 @@ const init = () => {
             }
         });
     }
+};
+
+// 初始化公共数据
+const common_init = () => {
+    CommonAPI.getInit().then((res: any) => {
+        // article_category ---- 文章分类
+        // attachment_category ---- 附件分类
+        // brand_category; ---- 品牌分类
+        // brand_list ---- 品牌列表
+        // goods_category ---- 商品分类
+        // module_list ---- 模块列表
+        //page_link_list ---- 页面链接
+        common_store.set_common(res.data);
+    });
 };
 //#endregion 页面初始化数据 ---------------------end
 

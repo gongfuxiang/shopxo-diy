@@ -30,8 +30,8 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { urlValueStore } from '@/store';
-const url_value_store = urlValueStore();
+import { commonStore } from '@/store';
+const common_store = commonStore();
 const props = defineProps({
     // 重置
     reset: {
@@ -55,8 +55,8 @@ onMounted(() => {
 });
 const init = () => {
     search_value.value = '';
-    table_data.value = url_value_store.url_value.goods_category;
-    new_table_data.value = url_value_store.url_value.goods_category;
+    table_data.value = common_store.common.goods_category;
+    new_table_data.value = common_store.common.goods_category;
 };
 // 筛选
 const handle_search = () => {

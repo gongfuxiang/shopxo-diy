@@ -62,9 +62,8 @@
 </template>
 <script setup lang="ts">
 import { get_math } from '@/utils';
-import ArticleAPI from '@/api/article';
-import { articleStore } from '@/store';
-const article_store = articleStore();
+import { commonStore } from '@/store';
+const common_store = commonStore();
 const props = defineProps({
     value: {
         type: Object,
@@ -118,25 +117,16 @@ const base_list = reactive({
     ],
 });
 onMounted(() => {
-    init();
+    nextTick(() => {
+        // 定时获取common_store.common.article_category的数据，直到拿到值或者关闭页面为止
+        const interval = setInterval(() => {
+            if (common_store.common.article_category.length > 0) {
+                base_list.article_category_list = common_store.common.article_category;
+                clearInterval(interval);
+            }
+        }, 1000);
+    });
 });
-const init = () => {
-    // 判断是否有历史数据
-    if (!article_store.is_article_api) {
-        article_store.set_is_article_api(true);
-        ArticleAPI.getInit()
-            .then((res: any) => {
-                const { article_category_list } = res.data;
-                base_list.article_category_list = article_category_list;
-                article_store.set_article(article_category_list);
-            })
-            .catch((err: any) => {
-                article_store.set_is_article_api(false);
-            });
-    } else {
-        base_list.article_category_list = article_store.article;
-    }
-};
 const theme_change = (val: any) => {
     if (val == '3' || val == '4') {
         form.value.field_show = ['1'];

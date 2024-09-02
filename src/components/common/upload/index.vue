@@ -1,6 +1,6 @@
 <!-- 上传组件 -->
 <template>
-    <el-dialog v-model="dialog_visible" class="radius-lg" width="1168" draggable append-to-body>
+    <el-dialog v-model="dialog_visible" class="radius-lg" width="1168" draggable :close-on-click-modal="false" append-to-body>
         <template #header>
             <div class="title re">
                 <el-radio-group v-model="upload_type" is-button @change="upload_type_change">
@@ -70,7 +70,7 @@
                         <el-scrollbar v-loading="img_loading" height="440px">
                             <div v-if="upload_list.length > 0" class="flex-row flex-wrap align-c gap-y-15 gap-x-10 pa-10">
                                 <div v-for="(item, index) in upload_list" :key="index" class="item" @click="check_img_event(item)">
-                                    <el-badge :value="view_list_value.findIndex((i) => i.id === item.id) == -1 ? '' : view_list_value.findIndex((i) => i.id === item.id) + 1" class="badge flex-col gap-5 w" :hidden="view_list_value.findIndex((i) => i.id === item.id) == -1">
+                                    <el-badge :value="view_list_value.findIndex((i) => i.id === item.id) == -1 ? '' : view_list_value.findIndex((i) => i.id === item.id) + 1" class="badge flex-col gap-5 w" :hidden="view_list_value.findIndex((i) => i.id === item.id) == -1 || limit == 1">
                                         <div class="item-content re br-f5 radius">
                                             <template v-if="upload_type == 'video'">
                                                 <video :src="item.url" class="w h" @error="handle_error(index)"></video>
@@ -223,10 +223,11 @@
 <script lang="ts" setup>
 import { ext_img_name_list, ext_video_name_list, ext_file_name_list, ext_file_name_list_map } from './index';
 import UploadAPI, { Tree } from '@/api/upload';
-import { uploadStore } from '@/store';
+import { uploadStore, commonStore } from '@/store';
 import { isEmpty } from 'lodash';
 import searchIcons from '@/assets/search-icons/iconfont.json';
 const upload_store = uploadStore();
+const common_store = commonStore();
 const app = getCurrentInstance();
 /**
  * @description: 图片上传
@@ -297,9 +298,7 @@ watch(
                 } else {
                     upload_type.value = props.type;
                 }
-                // upload_type.value = props.type;
-                // 获取分类
-                get_tree();
+
                 // 获取附件列表
                 get_attachment_list();
 
@@ -373,9 +372,9 @@ const get_tree = (bool: boolean = false) => {
         tree_loading.value = true;
         UploadAPI.getTree()
             .then((res) => {
-                // 将all_tree和res.data.category_list全部插入到type_data.value,all_tree放在数组最前面
-                type_data.value = [all_tree, ...res.data.category_list];
-                type_data_list.value = res.data.category_list;
+                // 将all_tree和res.data.attachment_category全部插入到type_data.value,all_tree放在数组最前面
+                type_data.value = [all_tree, ...res.data.attachment_category];
+                type_data_list.value = res.data.attachment_category;
                 upload_store.set_category(type_data_list.value);
                 tree_loading.value = false;
             })
@@ -700,8 +699,21 @@ const close_upload_model = (data: any) => {
 onMounted(() => {
     // 监听点击事件
     document.addEventListener('click', video_show);
-    get_tree();
+    nextTick(() => {
+        setTimeout(() => {
+            // 获取分类
+            if (common_store.common.attachment_category.length > 0) {
+                type_data_list.value = common_store.common.attachment_category;
+                type_data.value = [all_tree, ...common_store.common.attachment_category];
+                upload_store.set_category(common_store.common.attachment_category);
+                upload_store.set_is_upload_api(true);
+            } else {
+                get_tree();
+            }
+        }, 1000);
+    });
 });
+
 onUnmounted(() => {
     // 移除监听事件
     document.removeEventListener('click', video_show);

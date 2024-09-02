@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body @close="close_event">
+    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body :close-on-click-modal="false" @close="close_event">
         <template #header>
             <div class="title center re">
                 <div class="tc size-16 fw">{{ dialog_title }}</div>
@@ -60,9 +60,8 @@
 <script lang="ts" setup>
 import { MenuItemClicked } from 'element-plus/es/components/menu/src/types';
 import { PropType } from 'vue';
-import UrlValueAPI from '@/api/url-value';
-import { urlValueStore } from '@/store';
-const url_value_store = urlValueStore();
+import { commonStore } from '@/store';
+const common_store = commonStore();
 const app = getCurrentInstance();
 /**
  * @description: 页面链接
@@ -88,49 +87,25 @@ const link_value = ref<any[]>([]);
 const reset_compontent = ref(false);
 const custom_link_type = ref(props.type);
 const base_data = ref<any[]>([]);
-const init_data = ref({});
-watch(
-    () => dialogVisible.value,
-    (val) => {
-        if (val) {
-            init();
-        }
-    }
-);
 onMounted(() => {
-    init();
-});
-const init = () => {
-    if (!url_value_store.is_url_value_api) {
-        url_value_store.set_is_url_value_api(true);
-        UrlValueAPI.getInit()
-            .then((res: any) => {
-                init_data.value = res.data;
-                base_data.value = res.data.page_link_list;
-                if (res.data.page_link_list.length > 0) {
+    nextTick(() => {
+        // 定时获取common_store.common.article_category的数据，直到拿到值或者关闭页面为止
+        const interval = setInterval(() => {
+            // 获取分类
+            if (common_store.common.page_link_list.length > 0) {
+                base_data.value = common_store.common.page_link_list;
+                if (common_store.common.page_link_list.length > 0) {
                     if (props.type.length == 0) {
-                        link_select.value = res.data.page_link_list[0].type;
+                        link_select.value = common_store.common.page_link_list[0].type || '';
                     } else {
                         link_select.value = props.type[0];
                     }
+                    clearInterval(interval);
                 }
-                url_value_store.set_url_value(res.data);
-            })
-            .catch(() => {
-                url_value_store.set_is_url_value_api(false);
-            });
-    } else {
-        init_data.value = url_value_store.url_value;
-        base_data.value = url_value_store.url_value.page_link_list;
-        if (url_value_store.url_value.page_link_list.length > 0) {
-            if (props.type.length == 0) {
-                link_select.value = url_value_store.url_value.page_link_list[0].type || '';
-            } else {
-                link_select.value = props.type[0];
             }
-        }
-    }
-};
+        }, 1000);
+    });
+});
 const dialog_title = computed(() => {
     if (props.type.length == 1) {
         let name = '';

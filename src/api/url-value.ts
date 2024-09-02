@@ -1,13 +1,6 @@
 import request from '@/utils/request';
 
 class UrlValueAPI {
-    /**  链接初始化接口 */
-    static getInit() {
-        return request({
-            url: `diyapi/linkinit`,
-            method: 'post',
-        });
-    }
     /**  获取商品列表 */
     static getGoodsList(data: any) {
         return request({
