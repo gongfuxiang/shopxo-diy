@@ -124,6 +124,9 @@
                                         <template v-else-if="item.key == 'coupon'">
                                             <model-coupon :key="item.com_data" :value="item.com_data"></model-coupon>
                                         </template>
+                                        <template v-else-if="item.key == 'seckill'">
+                                            <model-seckill :key="item.com_data" :value="item.com_data"></model-seckill>
+                                        </template>
                                         <!-- 工具组件 -->
                                         <!-- 辅助线 -->
                                         <template v-else-if="item.key == 'row-line'">
@@ -278,7 +281,10 @@ const components = reactive([
     {
         title: '营销组件',
         key: '2',
-        item: [{ key: 'coupon', name: '优惠券' }],
+        item: [
+            { key: 'coupon', name: '优惠券' },
+            { key: 'seckill', name: '秒杀' }
+        ],
     },
     {
         title: '工具组件',

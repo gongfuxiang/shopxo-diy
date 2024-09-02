@@ -83,6 +83,9 @@
             <template v-else-if="value.key == 'coupon'">
                 <model-coupon-setting :type="radio" :value="value.com_data"></model-coupon-setting>
             </template>
+            <template v-else-if="value.key == 'seckill'">
+                <model-seckill-setting :type="radio" :value="value.com_data"></model-seckill-setting>
+            </template>
             <!-- 工具组件 -->
             <!-- 辅助空白 -->
             <template v-else-if="value.key == 'auxiliary-blank'">
