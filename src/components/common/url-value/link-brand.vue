@@ -41,8 +41,8 @@
 </template>
 <script lang="ts" setup>
 import UrlValueAPI from '@/api/url-value';
-import { urlValueStore } from '@/store';
-const url_value_store = urlValueStore();
+import { commonStore } from '@/store';
+const common_store = commonStore();
 const props = defineProps({
     // 重置
     reset: {
@@ -78,7 +78,7 @@ const init = () => {
     category_ids.value = [];
     brand_ids.value = '';
     search_value.value = '';
-    brand_category.value = url_value_store.url_value.brand_category;
+    brand_category.value = common_store.common.brand_category;
     get_list(1);
 };
 const handle_search = () => {

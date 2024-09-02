@@ -62,8 +62,8 @@
 </template>
 <script lang="ts" setup>
 import type { FormInstance, FormRules } from 'element-plus';
-import { urlValueStore } from '@/store';
-const url_value_store = urlValueStore();
+import { commonStore } from '@/store';
+const common_store = commonStore();
 const props = defineProps({
     status: {
         type: Boolean,
@@ -110,8 +110,8 @@ const brand_data = ref<pageLinkList[]>([]);
 const init = () => {
     reset_data();
     custom_type_active.value = 0;
-    goods_category_data.value = url_value_store.url_value.goods_category;
-    brand_data.value = url_value_store.url_value.brand_list;
+    goods_category_data.value = common_store.common.goods_category;
+    brand_data.value = common_store.common.brand_list;
 };
 const custom_type = [
     { id: 0, name: '商品分类' },

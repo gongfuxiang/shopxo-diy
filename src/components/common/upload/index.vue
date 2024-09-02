@@ -223,10 +223,11 @@
 <script lang="ts" setup>
 import { ext_img_name_list, ext_video_name_list, ext_file_name_list, ext_file_name_list_map } from './index';
 import UploadAPI, { Tree } from '@/api/upload';
-import { uploadStore } from '@/store';
+import { uploadStore, commonStore } from '@/store';
 import { isEmpty } from 'lodash';
 import searchIcons from '@/assets/search-icons/iconfont.json';
 const upload_store = uploadStore();
+const common_store = commonStore();
 const app = getCurrentInstance();
 /**
  * @description: 图片上传
@@ -297,9 +298,7 @@ watch(
                 } else {
                     upload_type.value = props.type;
                 }
-                // upload_type.value = props.type;
-                // 获取分类
-                get_tree();
+
                 // 获取附件列表
                 get_attachment_list();
 
@@ -373,9 +372,9 @@ const get_tree = (bool: boolean = false) => {
         tree_loading.value = true;
         UploadAPI.getTree()
             .then((res) => {
-                // 将all_tree和res.data.category_list全部插入到type_data.value,all_tree放在数组最前面
-                type_data.value = [all_tree, ...res.data.category_list];
-                type_data_list.value = res.data.category_list;
+                // 将all_tree和res.data.attachment_category全部插入到type_data.value,all_tree放在数组最前面
+                type_data.value = [all_tree, ...res.data.attachment_category];
+                type_data_list.value = res.data.attachment_category;
                 upload_store.set_category(type_data_list.value);
                 tree_loading.value = false;
             })
@@ -700,8 +699,21 @@ const close_upload_model = (data: any) => {
 onMounted(() => {
     // 监听点击事件
     document.addEventListener('click', video_show);
-    get_tree();
+    nextTick(() => {
+        setTimeout(() => {
+            // 获取分类
+            if (common_store.common.attachment_category.length > 0) {
+                type_data_list.value = common_store.common.attachment_category;
+                type_data.value = [all_tree, ...common_store.common.attachment_category];
+                upload_store.set_category(common_store.common.attachment_category);
+                upload_store.set_is_upload_api(true);
+            } else {
+                get_tree();
+            }
+        }, 1000);
+    });
 });
+
 onUnmounted(() => {
     // 移除监听事件
     document.removeEventListener('click', video_show);

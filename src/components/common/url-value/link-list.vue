@@ -32,8 +32,8 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { urlValueStore } from '@/store';
-const url_value_store = urlValueStore();
+import { commonStore } from '@/store';
+const common_store = commonStore();
 const props = defineProps({
     // 类型
     type: {
@@ -64,8 +64,8 @@ onMounted(() => {
 const init = () => {
     menu_active.value = '';
     search_value.value = '';
-    // 过滤url_value_store.url_value.page_link_list中的type为shop的data的数据，只保留data数组
-    base_data.value = url_value_store.url_value.page_link_list.filter((item: any) => {
+    // 过滤common_store.common.page_link_list中的type为shop的data的数据，只保留data数组
+    base_data.value = common_store.common.page_link_list.filter((item: any) => {
         if (item.type == props.type) {
             return item.data;
         }

@@ -4,7 +4,7 @@ class UploadAPI {
     /**  分类查询接口*/
     static getTree() {
         return request({
-            url: `diyapi/attachmentinit`,
+            url: `diyapi/attachmentcategory`,
             method: 'post',
         });
     }
