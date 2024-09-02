@@ -10,6 +10,7 @@ interface DefaultArticleList {
     content: {
         // 风格
         theme: string;
+        carousel_col: string;
         data_type: string;
         category: string[];
         data_list: ArticleList[];
@@ -43,6 +44,7 @@ interface DefaultArticleList {
 const defaultArticleList: DefaultArticleList = {
     content: {
         theme: '0',
+        carousel_col: '2',
         data_type: '0',
         category: [],
         data_list: [],
