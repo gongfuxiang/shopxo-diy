@@ -1,6 +1,6 @@
 <!-- 上传组件 -->
 <template>
-    <el-dialog v-model="dialog_visible" fullscreen @close="close_event">
+    <el-dialog v-model="dialog_visible" fullscreen :close-on-click-modal="false" @close="close_event">
         <template #header>
             <div class="title re">
                 <div class="tc size-16 fw">编辑热区</div>
@@ -57,7 +57,7 @@
             </span>
         </template>
     </el-dialog>
-    <el-dialog v-model="hot_dialog_visible" width="560" append-to-body draggable @close="hot_close_event">
+    <el-dialog v-model="hot_dialog_visible" width="560" append-to-body draggable :close-on-click-modal="false" @close="hot_close_event">
         <template #header>
             <div class="title re">
                 <div class="tc size-16 fw">设置热区</div>

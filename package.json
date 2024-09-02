@@ -13,6 +13,7 @@
     },
     "dependencies": {
         "@types/dompurify": "^3.0.5",
+        "@types/qrcode": "^1.5.5",
         "@vueuse/core": "^10.2.1",
         "@wangeditor/editor": "^5.1.23",
         "@wangeditor/editor-for-vue": "^5.1.12",
@@ -20,7 +21,7 @@
         "dompurify": "^3.1.6",
         "element-plus": "^2.3.7",
         "pinia": "^2.1.3",
-        "qrcode": "^1.5.3",
+        "qrcode": "^1.5.4",
         "swiper": "^11.1.5",
         "terser": "^5.31.5",
         "tsparticles": "^2.11.0",

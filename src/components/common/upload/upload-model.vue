@@ -1,6 +1,6 @@
 <!-- 上传组件 -->
 <template>
-    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body @close="close_dialog">
+    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body :close-on-click-modal="false" @close="close_dialog">
         <template #header>
             <div class="title center re">
                 <div class="tc size-16 fw">{{ upload_type_name }}上传</div>
@@ -17,7 +17,7 @@
                 </el-form-item>
                 <el-form-item label="上传至分组" prop="category_id">
                     <div class="form-item-width">
-                        <el-cascader v-model="form.category_id" class="w" :options="cascader_data" placeholder="请选择" :show-all-levels="false" filterable clearable change="category_id_change"></el-cascader>
+                        <el-cascader v-model="form.category_id" class="w" :options="cascader_data" placeholder="请选择" :show-all-levels="false" filterable clearable @change="category_id_change"></el-cascader>
                     </div>
                 </el-form-item>
                 <template v-if="form.type == 'loc'">
@@ -101,8 +101,8 @@
                                 <div class="table-cell-operate">操作</div>
                             </div>
                         </div>
-                        <div v-if="scan_file_list.length > 0">
-                            <el-scrollbar height="224px">
+                        <el-scrollbar height="224px">
+                            <div v-if="scan_file_list.length > 0">
                                 <div class="table-body">
                                     <div v-for="(item, index) in scan_file_list" :key="index" class="table-row">
                                         <div class="table-cell">
@@ -133,17 +133,17 @@
                                         <div class="table-cell-operate" @click="del_already_upload(item.id, index)">删除</div>
                                     </div>
                                 </div>
-                            </el-scrollbar>
-                        </div>
-                        <div v-else>
-                            <no-data height="280px"></no-data>
-                        </div>
+                            </div>
+                            <div v-else>
+                                <no-data height="280px"></no-data>
+                            </div>
+                        </el-scrollbar>
                     </div>
                 </template>
                 <template v-else-if="form.type == 'web'">
                     <el-form-item label="网络图片">
                         <div class="flex-row align-c gap-10">
-                            <el-input v-model="form.web_image" class="form-item-width" placeholder="请输入网络图片地址" />
+                            <el-input v-model="form.web_image" class="form-item-width" placeholder="请输入网络图片地址" clearable />
                             <div class="c-pointer cr-primary size-12" @click="extract_images(ruleFormRef)">提取图片</div>
                         </div>
                     </el-form-item>
@@ -224,7 +224,8 @@ const rules = reactive<FormRules>({
 });
 // 是否给二维码加模糊效果
 const is_mask = ref(true);
-const timer = ref<number | null>(null);
+const timer = ref<any>(null);
+const scan_uuid = ref('');
 // 上传方式
 const upload_type_change = (type: any) => {
     // 清除之前的定时器（如果存在）
@@ -235,20 +236,19 @@ const upload_type_change = (type: any) => {
     }
     if (type == 'scan') {
         timer.value = setInterval(async () => {
-            if (scan_uuid.value.toString().length > 0) {
+            if (scan_uuid.value.length > 0) {
                 const { data } = await UploadAPI.uploadQrcode({ key: scan_uuid.value });
-                scan_file_list.value = data;
+                scan_file_list.value = data || [];
             }
         }, 3000);
     }
 };
-const scan_uuid = ref('');
 // 选择分组
 const category_id_change = (val: any) => {
     if (val && val.length > 0) {
         scan_file_list.value = [];
         is_mask.value = false;
-        scan_uuid.value = get_math();
+        scan_uuid.value = get_math() + '';
         let new_url = '';
         if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
             new_url = get_before_string(import.meta.env.VITE_APP_BASE_API_URL);

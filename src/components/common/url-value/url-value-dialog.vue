@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body @close="close_event">
+    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body :close-on-click-modal="false" @close="close_event">
         <template #header>
             <div class="title center re">
                 <div class="tc size-16 fw">{{ dialog_title }}</div>

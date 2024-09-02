@@ -20,7 +20,7 @@
             <el-button class="btn-white" @click="save_close_event">保存关闭</el-button>
         </div>
     </div>
-    <el-dialog v-model="dialog_visible" class="radius-lg" width="650" draggable append-to-body>
+    <el-dialog v-model="dialog_visible" class="radius-lg" width="650" draggable :close-on-click-modal="false" append-to-body>
         <template #header>
             <div class="title re">
                 <div class="middle size-16 fw">附件管理</div>
@@ -148,17 +148,18 @@ const confirm_event = async (formEl: FormInstance | undefined) => {
             border-color: #fff;
             color: #fff;
             &:hover {
-                background-color: #666;
+                background-color: #fff;
+                border-color: #fff;
+                color: $cr-primary;
             }
         }
         .btn-white {
             background-color: #fff;
             border-color: #fff;
-            // color: #{$cr-primary};
             color: $cr-primary;
             &:hover {
-                background-color: $cr-primary;
-                border-color: $cr-primary;
+                background-color: #1e7ede;
+                border-color: #1e7ede;
                 color: #fff;
             }
         }

@@ -1,6 +1,6 @@
 <!-- 上传组件 -->
 <template>
-    <el-dialog v-model="dialog_visible" class="radius-lg" width="1168" draggable append-to-body>
+    <el-dialog v-model="dialog_visible" class="radius-lg" width="1168" draggable :close-on-click-modal="false" append-to-body>
         <template #header>
             <div class="title re">
                 <el-radio-group v-model="upload_type" is-button @change="upload_type_change">
@@ -70,7 +70,7 @@
                         <el-scrollbar v-loading="img_loading" height="440px">
                             <div v-if="upload_list.length > 0" class="flex-row flex-wrap align-c gap-y-15 gap-x-10 pa-10">
                                 <div v-for="(item, index) in upload_list" :key="index" class="item" @click="check_img_event(item)">
-                                    <el-badge :value="view_list_value.findIndex((i) => i.id === item.id) == -1 ? '' : view_list_value.findIndex((i) => i.id === item.id) + 1" class="badge flex-col gap-5 w" :hidden="view_list_value.findIndex((i) => i.id === item.id) == -1">
+                                    <el-badge :value="view_list_value.findIndex((i) => i.id === item.id) == -1 ? '' : view_list_value.findIndex((i) => i.id === item.id) + 1" class="badge flex-col gap-5 w" :hidden="view_list_value.findIndex((i) => i.id === item.id) == -1 || limit == 1">
                                         <div class="item-content re br-f5 radius">
                                             <template v-if="upload_type == 'video'">
                                                 <video :src="item.url" class="w h" @error="handle_error(index)"></video>
