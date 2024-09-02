@@ -3,13 +3,13 @@
         <el-form :model="form" label-width="74" class="m-h">
             <card-container>
                 <div class="mb-12">展示设置</div>
+                <el-form-item label="选项卡置顶">
+                    <el-switch v-model="form.tabs_top_up" />
+                </el-form-item>
                 <el-form-item label="选项卡风格">
                     <el-radio-group v-model="form.tabs_theme" @change="tabs_theme_change">
                         <el-radio v-for="item in base_list.tabs_theme_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
-                </el-form-item>
-                <el-form-item label="选项卡置顶">
-                    <el-switch v-model="form.tabs_top_up" />
                 </el-form-item>
                 <el-form-item label="文章风格">
                     <el-radio-group v-model="form.article_theme" @change="article_theme_change">
