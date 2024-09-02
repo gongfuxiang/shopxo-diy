@@ -1,0 +1,176 @@
+<template>
+    <div class="w">
+        <el-form :model="form" label-width="70">
+            <card-container>
+                <div class="mb-12">头部样式</div>
+                <el-form-item label="标题设置">
+                    <color-text-size-group v-model:color="form.topic_color" v-model:size="form.topic_size" :type-list="['color', 'size']"></color-text-size-group>
+                </el-form-item>
+                <el-form-item label="按钮设置">
+                    <color-text-size-group v-model:color="form.head_button_color" v-model:size="form.head_button_size" :type-list="['color', 'size']"></color-text-size-group>
+                </el-form-item>
+                <el-form-item label="距离结束">
+                    <color-picker v-model="form.end_text_color"></color-picker>
+                </el-form-item>
+                <el-form-item label="数字背景">
+                    <mult-color-picker :value="form.countdown_bg_color_list" :type="form.countdown_direction" @update:value="countdown_color_picker_event"></mult-color-picker>
+                </el-form-item>
+                <el-form-item label="数字">
+                    <color-picker v-model="form.countdown_color"></color-picker>
+                </el-form-item>
+                <el-form-item label="顶部背景">
+                    <mult-color-picker :value="form.header_background_color_list" :type="form.header_background_direction" @update:value="mult_color_picker_event"></mult-color-picker>
+                    <div class="flex-row jc-sb align-c">
+                        <div class="size-12">背景图</div>
+                        <el-radio-group v-model="form.header_background_img_style" is-button>
+                            <el-tooltip content="单张" placement="top" effect="light">
+                                <el-radio-button value="0">
+                                    <icon name="single-sheet"></icon>
+                                </el-radio-button>
+                            </el-tooltip>
+                            <el-tooltip content="平铺" placement="top" effect="light">
+                                <el-radio-button value="1">
+                                    <icon name="tile"></icon>
+                                </el-radio-button>
+                            </el-tooltip>
+                            <el-tooltip content="铺满" placement="top" effect="light">
+                                <el-radio-button value="2">
+                                    <icon name="spread-over"></icon>
+                                </el-radio-button>
+                            </el-tooltip>
+                        </el-radio-group>
+                    </div>
+                    <upload v-model="form.header_background_img_url" :limit="1"></upload>
+                </el-form-item>
+            </card-container>
+            <div class="divider-line"></div>
+            <card-container>
+                <div class="mb-12">商品样式</div>
+                <el-form-item label="内容圆角">
+                    <radius :value="form.shop_radius"></radius>
+                </el-form-item>
+                <el-form-item label="图片圆角">
+                    <radius :value="form.shop_img_radius"></radius>
+                </el-form-item>
+                <el-form-item label="商品名称">
+                    <color-text-size-group v-model:color="form.shop_title_color" v-model:typeface="form.shop_title_typeface" v-model:size="form.shop_title_size" default-color="#000000"></color-text-size-group>
+                </el-form-item>
+                <el-form-item label="销售价格">
+                    <color-picker v-model="form.price_color"></color-picker>
+                </el-form-item>
+                <el-form-item label="原价价格">
+                    <color-picker v-model="form.original_price_color"></color-picker>
+                </el-form-item>
+                <el-form-item label="秒杀角标">
+                    <div class="flex-col gap-10">
+                        <el-radio-group v-model="form.seckill_subscript_location">
+                            <el-radio v-for="item in base_list.location_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                        </el-radio-group>
+                        <el-form-item label="文字" style="color: #333;">
+                            <color-picker v-model="form.seckill_subscript_text_color"></color-picker>
+                        </el-form-item>
+                        <el-form-item label="背景" style="color: #333;">
+                            <color-picker v-model="form.seckill_subscript_bg_color"></color-picker>
+                        </el-form-item>
+                    </div>
+                </el-form-item>
+            </card-container>
+            <div class="divider-line"></div>
+            <card-container>
+                <div class="mb-12">进度条设置</div>
+                <el-form-item label="背景色">
+                    <color-picker v-model="form.progress_bg_color"></color-picker>
+                </el-form-item>
+                <el-form-item label="选中色">
+                    <mult-color-picker :value="form.progress_actived_color" :type="form.progress_actived_direction" @update:value="progress_color_picker_event"></mult-color-picker>
+                </el-form-item>
+                <el-form-item label="按钮背景">
+                    <color-picker v-model="form.progress_button_color"></color-picker>
+                </el-form-item>
+                <el-form-item label="图标颜色">
+                    <color-picker v-model="form.progress_button_icon_color"></color-picker>
+                </el-form-item>
+                <el-form-item label="文字颜色">
+                    <color-picker v-model="form.progress_text_color"></color-picker>
+                </el-form-item>
+            </card-container>
+            <div class="divider-line"></div>
+            <card-container>
+                <div class="mb-12">轮播设置</div>
+                <el-form-item label="自动轮播">
+                    <el-switch v-model="form.is_roll" />
+                </el-form-item>
+                <el-form-item label="间隔时间">
+                    <slider v-model="form.interval_time" :min="1" :max="100"></slider>
+                </el-form-item>
+                <el-form-item label="滚动方式">
+                    <el-radio-group v-model="form.rolling_fashion">
+                        <el-radio v-for="item in base_list.rolling_fashion_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+            </card-container>
+        </el-form>
+        <div class="divider-line"></div>
+        <common-styles :value="form.common_style" @update:value="common_style_update" />
+    </div>
+</template>
+<script setup lang="ts">
+import { pick } from 'lodash';
+const props = defineProps({
+    value: {
+        type: Object,
+        default: () => ({}),
+    },
+    content: {
+        type: Object,
+        default: () => ({}),
+    }
+});
+
+// 默认值
+const state = reactive({
+    form: props.value,
+    data: props.content,
+});
+// 如果需要解构，确保使用toRefs
+const { form, data } = toRefs(state);
+
+const base_list = {
+    location_list: [
+        { name: '左上', value: 'left-top' },
+        { name: '右上', value: 'right-top' },
+        { name: '左下', value: 'left-buttom' },
+        { name: '右下', value: 'right-buttom' },
+    ],
+    rolling_fashion_list: [
+        { name: '平移', value: 'translation' },
+        { name: '切屏', value: 'cut-screen' },
+    ]
+};
+
+const common_style_update = (value: any) => {
+    form.value.common_style = value;
+};
+// 顶部背景设置
+const mult_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.header_background_color_list = arry;
+    form.value.header_background_direction = type.toString();
+};
+// 倒计时背景设置
+const countdown_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.countdown_bg_color_list = arry;
+    form.value.countdown_direction = type.toString();
+};
+// 进度条选中的设置
+const progress_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.progress_actived_color = arry;
+    form.value.progress_actived_direction = type.toString();
+};
+</script>
+<style lang="scss" scoped>
+.card.mb-8 {
+    .el-form-item:last-child {
+        margin-bottom: 0;
+    }
+}
+</style>
