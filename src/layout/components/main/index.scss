@@ -98,6 +98,21 @@
                 &::-webkit-scrollbar {
                     display: none;
                 }
+                .model-wall {
+                    width: 39rem;
+                    background: #f5f5f5;
+                    margin: 0 auto;
+                    .drag-area .float-window {
+                        position: fixed;
+                        max-width: 39rem;
+                        margin: 0 auto;
+                        z-index: 3;
+                    }
+                    .main-content {
+                        max-width: 39rem;
+                        overflow: hidden;
+                    }
+                }
             }
             // 悬浮按钮控制， 未选中情况下宽度自适应
             .plug-in-table.float-window {

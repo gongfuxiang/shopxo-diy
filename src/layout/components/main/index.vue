@@ -600,22 +600,7 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
 
 <style lang="scss" scoped>
 @import 'index.scss';
-.model-wall {
-    width: 39rem;
-    background: #f5f5f5;
-    margin: 0 auto;
-    .drag-area {
-        min-height: v-bind(height);
-    }
-    .drag-area .float-window {
-        position: fixed;
-        max-width: 39rem;
-        margin: 0 auto;
-        z-index: 3;
-    }
-    .main-content {
-        max-width: 39rem;
-        overflow: hidden;
-    }
+.drag-area {
+    min-height: v-bind(height);
 }
 </style>
