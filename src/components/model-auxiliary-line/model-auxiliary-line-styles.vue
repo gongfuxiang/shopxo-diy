@@ -1,6 +1,6 @@
 <template>
     <div class="auxiliary-line-styles">
-        <el-form :model="form" label-width="70">
+        <el-form :model="form" label-width="70" @submit.prevent>
             <card-container>
                 <div class="mb-12">线条样式</div>
                 <el-form-item label="线条颜色">
