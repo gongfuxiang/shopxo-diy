@@ -109,7 +109,7 @@ const confirm_event = async (formEl: FormInstance | undefined) => {
 </script>
 <style lang="scss" scoped>
 .navbar {
-    height: 8rem;
+    height: 6rem;
     padding: 0 3rem;
     display: flex;
     justify-content: space-between;

@@ -5,7 +5,7 @@
                 <template v-if="theme == '1'">
                     <div class="coupon-theme-1">
                         <div v-for="item in list" :key="item" class="item">
-                            <div class="coupon-theme-1-content tc">
+                            <div class="coupon-theme-1-content tc" :style="'background-image: url(' + theme_bg_img.url_1 + ');background-size: 100% 100%;'">
                                 <div class="name">满200元使用</div>
                                 <div class="price">
                                     <span class="symbol">¥</span>
@@ -18,7 +18,7 @@
                 </template>
                 <template v-else-if="theme == '2'">
                     <div class="coupon-theme-2">
-                        <div v-for="item in list" :key="item" class="item">
+                        <div v-for="item in list" :key="item" class="item" :style="'background-image: url(' + theme_bg_img.url_2 + ');background-size: 100% 100%;'">
                             <div class="tc">
                                 <div class="price">
                                     <span class="symbol">¥</span>
@@ -80,7 +80,7 @@
                 <template v-else-if="theme == '5'">
                     <div class="coupon-theme-5">
                         <div v-for="item in list" :key="item" class="item">
-                            <div class="left">
+                            <div class="left" :style="'background-image: url(' + theme_bg_img.url_3 + ');background-size: 100% 100%;'">
                                 <div class="price">
                                     <span class="symbol">¥</span>
                                     <span class="number">30</span>
@@ -130,7 +130,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, gradient_computer } from '@/utils';
+import { common_styles_computer, gradient_computer, online_url } from '@/utils';
 const props = defineProps({
     value: {
         type: Object,
@@ -145,7 +145,6 @@ watch(
     (newVal, oldValue) => {
         const new_content = newVal?.content || {};
         const new_style = newVal?.style || {};
-        console.log(new_style.common_style);
         style_container.value = common_styles_computer(new_style.common_style);
     },
     { immediate: true, deep: true }
@@ -155,18 +154,6 @@ const theme_style = computed(() => {
     const new_background = gradient_computer({ color_list: props.value?.style?.background, direction: props.value?.style?.direction }, false);
     const new_background_inside = gradient_computer({ color_list: props.value?.style?.background_inside, direction: props.value?.style?.direction_inside }, false);
     const new_btn_background = gradient_computer({ color_list: props.value?.style?.btn_background, direction: props.value?.style?.btn_direction }, false);
-    console.log({
-        price_color: props.value?.style?.price_color,
-        name_color: props.value?.style?.name_color,
-        // 判断是否向对象添加desc_color属性
-        ...(!['1', '5', '6', '7'].includes(theme.value) && { desc_color: props.value?.style?.desc_color }),
-        ...(!['1', '2', '4', '5', '6', '7'].includes(theme.value) && { limit_send_count: props.value?.style?.limit_send_count }),
-        ...(!['3', '5', '6', '7'].includes(theme.value) && { btn_background: new_btn_background }),
-        btn_color: props.value?.style?.btn_color,
-        ...(!['2'].includes(theme.value) && { background: new_background }),
-        ...(!['1', '2', '5', '7'].includes(theme.value) && { background_inside: new_background_inside }),
-        ...(!['3', '4'].includes(theme.value) && { spacing: props.value?.style?.spacing + 'px' }),
-    });
     return {
         price_color: props.value?.style?.price_color,
         name_color: props.value?.style?.name_color,
@@ -193,6 +180,26 @@ const theme_7_background_style = computed(() => {
     } else {
         return '#fff';
     }
+});
+const new_url = ref('');
+interface themeBgImg {
+    url_1: string;
+    url_2: string;
+    url_3: string;
+}
+const theme_bg_img = ref<themeBgImg>({
+    url_1: ``,
+    url_2: ``,
+    url_3: ``,
+});
+onBeforeMount(() => {
+    online_url('/static/plugins/coupon/images/diy/').then((res) => {
+        theme_bg_img.value = {
+            url_1: `${res}theme-1-bg.png`,
+            url_2: `${res}theme-2-content-bg.png`,
+            url_3: `${res}theme-5-bg.png`,
+        };
+    });
 });
 </script>
 <style lang="scss" scoped>
@@ -231,7 +238,7 @@ const theme_7_background_style = computed(() => {
         .coupon-theme-1-content {
             width: calc(100% - 1rem);
             margin: 0 0.5rem;
-            background-image: url('../../assets/images/components/model-coupon/theme-1-bg.png');
+            background-image: v-bind('theme_bg_img.url_1');
             background-size: 100% 100%;
             position: relative;
             top: -1rem;
@@ -259,7 +266,6 @@ const theme_7_background_style = computed(() => {
     .item {
         flex-basis: auto;
         flex-shrink: 0;
-        background-image: url('../../assets/images/components/model-coupon/theme-2-content-bg.png');
         background-size: 100% 100%;
         width: 8.5rem;
         height: 10rem;
@@ -541,8 +547,6 @@ const theme_7_background_style = computed(() => {
             left: 0;
             width: 10rem;
             height: 100%;
-            background-image: url('../../assets/images/components/model-coupon/theme-5-bg.png');
-            background-size: 100% 100%;
             padding: 0.6rem;
             display: flex;
             flex-direction: column;

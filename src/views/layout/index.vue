@@ -220,7 +220,7 @@ const form_data_transfor_diy_data = (clone_form: diyData) => {
 .app-wrapper {
     background-color: #f0f2f5;
     .app-wrapper-content {
-        height: calc(100vh - 8rem);
+        height: calc(100vh - 6rem);
     }
 }
 .no-copy {
