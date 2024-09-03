@@ -1,51 +1,53 @@
 <template>
     <div class="w">
         <el-form :model="form" label-width="70">
-            <card-container>
-                <div class="mb-12">头部样式</div>
-                <el-form-item label="标题设置">
-                    <color-text-size-group v-model:color="form.topic_color" v-model:size="form.topic_size" :type-list="['color', 'size']"></color-text-size-group>
-                </el-form-item>
-                <el-form-item label="按钮设置">
-                    <color-text-size-group v-model:color="form.head_button_color" v-model:size="form.head_button_size" :type-list="['color', 'size']"></color-text-size-group>
-                </el-form-item>
-                <el-form-item v-if="data.theme != '4'" label="距离结束">
-                    <color-picker v-model="form.end_text_color"></color-picker>
-                </el-form-item>
-                <el-form-item label="数字背景">
-                    <mult-color-picker :value="form.countdown_bg_color_list" :type="form.countdown_direction" @update:value="countdown_color_picker_event"></mult-color-picker>
-                </el-form-item>
-                <el-form-item label="数字">
-                    <color-picker v-model="form.countdown_color"></color-picker>
-                </el-form-item>
-                <el-form-item label="顶部背景">
-                    <div class="flex-col gap-10">
-                        <mult-color-picker :value="form.header_background_color_list" :type="form.header_background_direction" @update:value="mult_color_picker_event"></mult-color-picker>
-                        <div class="flex-row jc-sb align-c">
-                            <div class="size-12">背景图</div>
-                            <el-radio-group v-model="form.header_background_img_style" is-button>
-                                <el-tooltip content="单张" placement="top" effect="light">
-                                    <el-radio-button value="0">
-                                        <icon name="single-sheet"></icon>
-                                    </el-radio-button>
-                                </el-tooltip>
-                                <el-tooltip content="平铺" placement="top" effect="light">
-                                    <el-radio-button value="1">
-                                        <icon name="tile"></icon>
-                                    </el-radio-button>
-                                </el-tooltip>
-                                <el-tooltip content="铺满" placement="top" effect="light">
-                                    <el-radio-button value="2">
-                                        <icon name="spread-over"></icon>
-                                    </el-radio-button>
-                                </el-tooltip>
-                            </el-radio-group>
+            <template v-if="form.head_state == '1'">
+                <card-container>
+                    <div class="mb-12">头部样式</div>
+                    <el-form-item v-if="form.topic_type == 'text'" label="标题设置">
+                        <color-text-size-group v-model:color="form.topic_color" v-model:size="form.topic_size" :default-color="clone_form.topic_color" :type-list="['color', 'size']"></color-text-size-group>
+                    </el-form-item>
+                    <el-form-item v-if="form.button_status == '1'" label="按钮设置">
+                        <color-text-size-group v-model:color="form.head_button_color" v-model:size="form.head_button_size" :default-color="clone_form.head_button_color" :type-list="['color', 'size']"></color-text-size-group>
+                    </el-form-item>
+                    <el-form-item label="秒杀提示">
+                        <color-picker v-model="form.end_text_color" :default-color="clone_form.end_text_color"></color-picker>
+                    </el-form-item>
+                    <el-form-item label="数字背景">
+                        <mult-color-picker :value="form.countdown_bg_color_list" :type="form.countdown_direction" @update:value="countdown_color_picker_event"></mult-color-picker>
+                    </el-form-item>
+                    <el-form-item label="数字">
+                        <color-picker v-model="form.countdown_color" :default-color="clone_form.countdown_color"></color-picker>
+                    </el-form-item>
+                    <el-form-item label="顶部背景">
+                        <div class="flex-col gap-10">
+                            <mult-color-picker :value="form.header_background_color_list" :type="form.header_background_direction" @update:value="mult_color_picker_event"></mult-color-picker>
+                            <div class="flex-row jc-sb align-c">
+                                <div class="size-12">背景图</div>
+                                <el-radio-group v-model="form.header_background_img_style" is-button>
+                                    <el-tooltip content="单张" placement="top" effect="light">
+                                        <el-radio-button value="0">
+                                            <icon name="single-sheet"></icon>
+                                        </el-radio-button>
+                                    </el-tooltip>
+                                    <el-tooltip content="平铺" placement="top" effect="light">
+                                        <el-radio-button value="1">
+                                            <icon name="tile"></icon>
+                                        </el-radio-button>
+                                    </el-tooltip>
+                                    <el-tooltip content="铺满" placement="top" effect="light">
+                                        <el-radio-button value="2">
+                                            <icon name="spread-over"></icon>
+                                        </el-radio-button>
+                                    </el-tooltip>
+                                </el-radio-group>
+                            </div>
+                            <upload v-model="form.header_background_img_url" :limit="1"></upload>
                         </div>
-                        <upload v-model="form.header_background_img_url" :limit="1"></upload>
-                    </div>
-                </el-form-item>
-            </card-container>
-            <div class="divider-line"></div>
+                    </el-form-item>
+                </card-container>
+                <div class="divider-line"></div>
+            </template>
             <card-container>
                 <div class="mb-12">商品样式</div>
                 <el-form-item label="内容圆角">
@@ -63,6 +65,20 @@
                 <el-form-item label="原价价格">
                     <color-picker v-model="form.original_price_color"></color-picker>
                 </el-form-item>
+                <el-form-item label="内间距">
+                    <padding :value="form.shop_padding"></padding>
+                </el-form-item>
+                <el-form-item v-if="form.shop_style_type == '1'" label="内容间距">
+                    <slider v-model="form.content_spacing" :max="100"></slider>
+                </el-form-item>
+                <el-form-item label="商品间距">
+                    <slider v-model="form.content_outer_spacing" :max="100"></slider>
+                </el-form-item>
+                <template v-if="form.shop_style_type == '3'">
+                    <el-form-item label="内容高度">
+                        <slider v-model="form.content_outer_height" :max="1000"></slider>
+                    </el-form-item>
+                </template>
                 <el-form-item label="秒杀角标">
                     <div class="flex-col gap-10">
                         <el-radio-group v-model="form.seckill_subscript_location">
@@ -77,46 +93,51 @@
                     </div>
                 </el-form-item>
             </card-container>
-            <div class="divider-line"></div>
-            <card-container>
-                <div class="mb-12">进度条设置</div>
-                <el-form-item label="背景色">
-                    <color-picker v-model="form.progress_bg_color"></color-picker>
-                </el-form-item>
-                <el-form-item label="选中色">
-                    <mult-color-picker :value="form.progress_actived_color_list" :type="form.progress_actived_direction" @update:value="progress_color_picker_event"></mult-color-picker>
-                </el-form-item>
-                <el-form-item label="按钮背景">
-                    <color-picker v-model="form.progress_button_color"></color-picker>
-                </el-form-item>
-                <el-form-item label="图标颜色">
-                    <color-picker v-model="form.progress_button_icon_color"></color-picker>
-                </el-form-item>
-                <el-form-item label="文字颜色">
-                    <color-picker v-model="form.progress_text_color"></color-picker>
-                </el-form-item>
-            </card-container>
-            <div class="divider-line"></div>
-            <card-container>
-                <div class="mb-12">轮播设置</div>
-                <el-form-item label="自动轮播">
-                    <el-switch v-model="form.is_roll" />
-                </el-form-item>
-                <el-form-item label="间隔时间">
-                    <slider v-model="form.interval_time" :min="1" :max="100"></slider>
-                </el-form-item>
-                <el-form-item label="滚动方式">
-                    <el-radio-group v-model="form.rolling_fashion">
-                        <el-radio v-for="item in base_list.rolling_fashion_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                    </el-radio-group>
-                </el-form-item>
-            </card-container>
+            <template v-if="form.shop_style_type == '1'">
+                <div class="divider-line"></div>
+                <card-container>
+                    <div class="mb-12">进度条设置</div>
+                    <el-form-item label="背景色">
+                        <color-picker v-model="form.progress_bg_color"></color-picker>
+                    </el-form-item>
+                    <el-form-item label="选中色">
+                        <mult-color-picker :value="form.progress_actived_color_list" :type="form.progress_actived_direction" @update:value="progress_color_picker_event"></mult-color-picker>
+                    </el-form-item>
+                    <el-form-item label="按钮背景">
+                        <color-picker v-model="form.progress_button_color"></color-picker>
+                    </el-form-item>
+                    <el-form-item label="图标颜色">
+                        <color-picker v-model="form.progress_button_icon_color"></color-picker>
+                    </el-form-item>
+                    <el-form-item label="文字颜色">
+                        <color-picker v-model="form.progress_text_color"></color-picker>
+                    </el-form-item>
+                </card-container>
+            </template>
+            <template v-if="form.shop_style_type == '3'">
+                <div class="divider-line"></div>
+                <card-container>
+                    <div class="mb-12">轮播设置</div>
+                    <el-form-item label="自动轮播">
+                        <el-switch v-model="form.is_roll" />
+                    </el-form-item>
+                    <el-form-item label="间隔时间">
+                        <slider v-model="form.interval_time" :min="1" :max="100"></slider>
+                    </el-form-item>
+                    <el-form-item label="滚动方式">
+                        <el-radio-group v-model="form.rolling_fashion">
+                            <el-radio v-for="item in base_list.rolling_fashion_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                </card-container>
+            </template>
         </el-form>
         <div class="divider-line"></div>
         <common-styles :value="form.common_style" @update:value="common_style_update" />
     </div>
 </template>
 <script setup lang="ts">
+import { cloneDeep } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
@@ -135,6 +156,8 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, data } = toRefs(state);
+
+let clone_form = cloneDeep(props.value);
 
 const base_list = {
     location_list: [

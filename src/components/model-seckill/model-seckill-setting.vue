@@ -62,6 +62,16 @@ onBeforeMount(async () => {
                 radius_bottom_left: 4,
                 radius_bottom_right: 4,
             },
+            shop_padding: {
+                padding: 10, 
+                padding_top: 10, 
+                padding_bottom: 10, 
+                padding_left: 10, 
+                padding_right: 10,
+            },
+            content_outer_spacing: 10, // 商品间距
+            content_spacing: 10,
+            content_outer_height: 232,
             shop_title_color: '',
             shop_title_typeface: '',
             shop_title_size: 12,

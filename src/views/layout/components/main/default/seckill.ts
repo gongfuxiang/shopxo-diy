@@ -33,6 +33,10 @@ interface DefaultSeckill {
         header_background_img_url: uploadList[];
         shop_radius: radiusStyle;
         shop_img_radius: radiusStyle;
+        shop_padding: paddingStyle;
+        content_outer_spacing: number;
+        content_spacing: number;
+        content_outer_height: number;
         shop_title_color: string;
         shop_title_typeface: string;
         shop_title_size: number;
@@ -97,6 +101,16 @@ const defaultSeckill: DefaultSeckill = {
             radius_bottom_left: 4,
             radius_bottom_right: 4,
         },
+        shop_padding: {
+            padding: 10, 
+            padding_top: 10, 
+            padding_bottom: 10, 
+            padding_left: 10, 
+            padding_right: 10,
+        },
+        content_outer_spacing: 10, // 商品间距
+        content_spacing: 10,
+        content_outer_height: 232,
         shop_title_color: '',
         shop_title_typeface: '',
         shop_title_size: 12,
