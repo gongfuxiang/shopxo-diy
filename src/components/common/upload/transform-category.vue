@@ -38,6 +38,10 @@ const props = defineProps({
         type: String,
         default: () => '',
     },
+    type: {
+        type: String,
+        default: '图片', // tree/list
+    },
 });
 interface cascaderData {
     value: string;
@@ -153,7 +157,7 @@ const confirm = () => {
         });
     } else {
         if (!props.checkImgIds) {
-            ElMessage.warning('请先选择图片!');
+            ElMessage.warning('请先选择' + props.type + '!');
         }
         if (!category_id.value) {
             ElMessage.warning('请先选择分组!');
