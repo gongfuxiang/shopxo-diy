@@ -143,6 +143,7 @@ const save = () => {
 };
 const save_close = () => {
     formmat_form_data(form.value);
+    window.close();
 };
 const formmat_form_data = (data: diy_data_item) => {
     const clone_form = cloneDeep(data);
