@@ -9,7 +9,7 @@
                 <el-form-item label="按钮设置">
                     <color-text-size-group v-model:color="form.head_button_color" v-model:size="form.head_button_size" :type-list="['color', 'size']"></color-text-size-group>
                 </el-form-item>
-                <el-form-item label="距离结束">
+                <el-form-item v-if="data.theme != '4'" label="距离结束">
                     <color-picker v-model="form.end_text_color"></color-picker>
                 </el-form-item>
                 <el-form-item label="数字背景">

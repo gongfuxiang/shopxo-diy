@@ -72,7 +72,7 @@ const defaultSeckill: DefaultSeckill = {
     },
     style: {
         topic_color: '#fff',
-        topic_size: 14,
+        topic_size: 18,
         head_button_color: '#fff',
         head_button_size: 12,
         end_text_color: '#fff',

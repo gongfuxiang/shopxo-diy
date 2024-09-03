@@ -28,14 +28,17 @@
                             <el-input v-model="form.topic_text" placeholder="请输入标题文字"></el-input>
                         </el-form-item>
                     </template>
-                    <el-form-item label="按钮状态">
-                        <el-radio-group v-model="form.button_status">
-                            <el-radio v-for="item in base_list.state_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                    <el-form-item v-if="form.button_status == '1'" label="按钮文字">
-                        <el-input v-model="form.button_text" placeholder="请输入按钮文字"></el-input>
-                    </el-form-item>
+                    <template v-if="form.theme != '2'">
+                        <el-form-item label="按钮状态">
+                            <el-radio-group v-model="form.button_status">
+                                <el-radio v-for="item in base_list.state_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item v-if="form.button_status == '1'" label="按钮文字">
+                            <el-input v-model="form.button_text" placeholder="请输入按钮文字"></el-input>
+                        </el-form-item>
+                    </template>
+                    
                 </template>
             </card-container>
             <div class="divider-line"></div>
@@ -112,6 +115,10 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, data } = toRefs(state);
+
+watchEffect(() => {
+    form.value = props.value;
+});
 
 const base_list = {
     state_list: [

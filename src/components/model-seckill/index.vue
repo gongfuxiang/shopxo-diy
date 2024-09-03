@@ -2,18 +2,27 @@
     <div :style="style">
         <div class="flex-col gap-10">
             <div v-if="form.head_state == '1'" class="seckill-head flex-row align-c jc-sb oh" :style="seckill_head_style">
-                <div class="flex-row align-c">
+                <div :class="['flex-row align-c', {'gap-10': form.theme != '1', 'jc-sb w': form.theme == '2'}]">
                     <div class="seckill-title">
                         <image-empty v-if="form.topic_type == 'image'" v-model="form.topic_src[0]" error-img-style="width:2.1rem; height: 1rem;"></image-empty>
-                        <span v-else :style="`color: ${ new_style.topic_color };font-size: ${ new_style.topic_size }px;`">{{ form.topic_text }}</span>
+                        <span v-else :style="`color: ${ new_style.topic_color };font-size: ${ new_style.topic_size }px;line-height:21px;font-weight:600;`">{{ form.topic_text }}</span>
                     </div>
-                    <div class="pl-6 pr-6 cr-f">|</div>
-                    <span class="size-10 pr-4" :style="`color: ${ new_style.end_text_color }`">距离结束</span>
-                    <div class="flex-row gap-3 jc-c align-c">
+                    <div v-if="form.theme == '1'" class="pl-6 pr-6 cr-f">|</div>
+                    <div class="flex-row align-c gap-4">
+                        <span v-if="form.theme != '4'" class="size-10" :style="`color: ${ new_style.end_text_color }`">距离结束</span>
+                        <div class="flex-row gap-3 jc-c align-c" :style="[form.theme == '4'? `${ time_bg };padding: 0.3rem 0.4rem;border-radius: 1.1rem;` : '']">
+                        <img v-if="form.theme == '4'" class="seckill-head-icon radius-xs" :src="url_computer('time')" />
                         <template v-for="(item, index) in time_config" :key="item.key">
-                            <div class="time-config size-12" :style="`${ time_bg };color: ${ new_style.countdown_color }`">{{ item.value }}</div>
-                            <div v-if="[0, 1].includes(index)" :style="icon_time_check()">:</div>
+                            <template v-if="form.theme == '4'">
+                                <div class="size-12" :style="`color: ${ new_style.countdown_color }`">{{ item.value }}</div>
+                                <span v-if="[0, 1].includes(index)" class="colon" :style="`color: ${ new_style.countdown_color }`">:</span>
+                            </template>
+                            <template v-else>
+                                <div class="time-config size-12" :style="`${ time_bg };color: ${ new_style.countdown_color }`">{{ item.value }}</div>
+                                <span v-if="[0, 1].includes(index)" class="colon" :style="icon_time_check()">:</span>
+                            </template>
                         </template>
+                        </div>
                     </div>
                 </div>
                 <div v-if="form.button_status == '1'" class="flex-row align-c" :style="`color: ${ new_style.head_button_color }`">
@@ -65,18 +74,33 @@ const seckill_head_style = computed(() => {
 });
 
 const style = computed(() => common_styles_computer(props.value.style.common_style));
+
+const url_computer = (name: string) => {
+    const new_url = ref(new URL(`../../assets/images/components/model-seckill/${name}.png`, import.meta.url).href).value;
+    return new_url;
+};
 </script>
 <style lang="scss" scoped>
 .seckill-head {
     padding: 1.5rem 1.3rem;
     width: 100%;
     height: 5.1rem;
+    border-radius: 0.8rem 0.8rem 0 0;
     .seckill-title {
         height: 2.1rem;
     }
     .time-config {
         padding: 0.1rem 0.5rem;
         line-height: 1.7rem;
+        border-radius: 0.4rem;
     }
+}
+.seckill-head-icon {
+    width: 1.6rem;
+    height: 1.6rem;
+}
+.colon {
+    position: relative;
+    top: -0.1rem;
 }
 </style>

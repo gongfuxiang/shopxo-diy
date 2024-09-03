@@ -79,7 +79,7 @@ const change_color = (index: number, color: string | null) => {
     update_value();
 };
 const change_color_percentage = (index: number, percentage: number | undefined) => {
-    color_list.value[index].color_percentage = percentage?.toString();
+    color_list.value[index].color_percentage = percentage;
     update_value();
 };
 const update_value = () => {
