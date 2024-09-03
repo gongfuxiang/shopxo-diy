@@ -328,14 +328,14 @@ export const tabs_style = (color: string, style: string | number | boolean | und
  * 如果环境变量VITE_APP_BASE_API被设置为'/dev-api'，则从本地开发环境中导入临时数据
  * 否则，从cookie中获取资源主机地址
  * 这种设计允许开发者在不同的环境中灵活切换资源URL的来源，以适应不同的开发和生产需求
- *
+ * @param directory {string} - 资源目录名称
  * @returns {Promise<string>} 返回一个Promise，解析为包含资源URL的字符串
  */
-export const online_url = async () => {
+export const online_url = async (directory: string) => {
     if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
         let temp_data = await import(import.meta.env.VITE_APP_BASE_API == '/dev-api' ? '../../temp.d' : '../../temp_pro.d');
-        return temp_data.default.temp_attachment_host + '/static/app/tabbar/';
+        return temp_data.default.temp_attachment_host + directory;
     } else {
-        return get_cookie('attachment_host') + '/static/app/tabbar/';
+        return get_cookie('attachment_host') + directory;
     }
 };
