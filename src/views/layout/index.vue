@@ -142,10 +142,9 @@ const save = () => {
     formmat_form_data(form.value);
 };
 const save_close = () => {
-    formmat_form_data(form.value);
-    window.close();
+    formmat_form_data(form.value, true);
 };
-const formmat_form_data = (data: diy_data_item) => {
+const formmat_form_data = (data: diy_data_item, close: boolean = false) => {
     const clone_form = cloneDeep(data);
     clone_form.header.show_tabs = true;
     clone_form.footer.show_tabs = false;
@@ -161,6 +160,13 @@ const formmat_form_data = (data: diy_data_item) => {
     const new_data = diy_data_transfor_form_data(clone_form);
     DiyAPI.save(new_data).then((res) => {
         ElMessage.success('保存成功');
+        if (!close) return;
+        ElMessageBox.confirm('您确定要关闭本页吗？', '提示')
+            .then(() => {
+                // 关闭页面
+                window.close();
+            })
+            .catch(() => {});
     });
 };
 //#endregion 顶部导航回调方法 ---------------------end

@@ -2,7 +2,7 @@
     <!-- 顶部导航栏 -->
     <div class="navbar">
         <div class="nav-left">
-            <icon name="arrow-left" color="f">返回</icon>
+            <!-- <icon name="arrow-left" color="f">返回</icon> -->
             <div class="flex-row align-c">
                 <div class="name">
                     <div class="flex-row align-c gap-10 c-pointer" @click="dialog_visible = true">
@@ -27,17 +27,17 @@
             </div>
         </template>
         <div class="content pa-20">
-            <el-form ref="ruleFormRef" :model="form" :rules="rules" label-width="70" status-icon>
-                <el-form-item label="上传头像">
+            <el-form ref="ruleFormRef" :model="form" :rules="rules" label-width="50" status-icon>
+                <el-form-item label="封面">
                     <upload v-model="form.logo" :limit="1"></upload>
                 </el-form-item>
-                <el-form-item label="模版名称" prop="name">
-                    <el-input v-model="form.name" placeholder="请输入模版名称" />
+                <el-form-item label="名称" prop="name">
+                    <el-input v-model="form.name" placeholder="请输入名称" />
                 </el-form-item>
-                <el-form-item label="模版描述">
-                    <el-input v-model="form.describe" placeholder="请输入模版描述" :rows="4" type="textarea" />
+                <el-form-item label="描述">
+                    <el-input v-model="form.describe" placeholder="请输入描述" :rows="4" type="textarea" />
                 </el-form-item>
-                <el-form-item label="模版开关">
+                <el-form-item label="开关">
                     <el-switch v-model="form.is_enable" active-value="1" inactive-value="0"></el-switch>
                 </el-form-item>
             </el-form>
@@ -110,7 +110,7 @@ const confirm_event = async (formEl: FormInstance | undefined) => {
 <style lang="scss" scoped>
 .navbar {
     height: 8rem;
-    padding: 0 3.7rem;
+    padding: 0 3rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -119,21 +119,21 @@ const confirm_event = async (formEl: FormInstance | undefined) => {
         display: flex;
         align-items: center;
         .name {
-            padding-left: 2rem;
-            margin: 0 2rem;
+            // padding-left: 2rem;
+            // margin: 0 2rem;
             color: #fff;
             position: relative;
-            &::before {
-                content: '';
-                display: inline-block;
-                width: 0.1rem;
-                height: 65%;
-                background-color: #fff;
-                position: absolute;
-                left: 0;
-                top: 50%;
-                transform: translateY(-50%);
-            }
+            // &::before {
+            //     content: '';
+            //     display: inline-block;
+            //     width: 0.1rem;
+            //     height: 65%;
+            //     background-color: #fff;
+            //     position: absolute;
+            //     left: 0;
+            //     top: 50%;
+            //     transform: translateY(-50%);
+            // }
             .img {
                 width: 2.2rem;
                 height: 2.2rem;
