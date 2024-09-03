@@ -1,7 +1,7 @@
 import defaultCommon from './index';
 import { online_url } from '@/utils';
 
-const new_url = await online_url();
+const new_url = await online_url('/static/app/tabbar/');
 interface DefaultFooterNav {
     content: {
         nav_style: string;

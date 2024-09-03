@@ -2,9 +2,9 @@
     <!-- 左侧模块 -->
     <div class="siderbar flex-col">
         <el-collapse v-model="activeNames">
-            <el-collapse-item v-for="(com, i) in components" :key="i" :title="com.title" :name="com.key">
-                <VueDraggable v-model="com.item" :animation="500" ghost-class="ghost" :group="{ name: 'people', pull: 'clone', put: false }" class="component flex-row flex-wrap" :clone="clone_item_com_data" :on-start="onStart" :sort="false" :force-fallback="true">
-                    <div v-for="item in com.item" :key="item.key" class="item">
+            <el-collapse-item v-for="(com, i) in components" :key="i" :title="com.name" :name="com.key">
+                <VueDraggable v-model="com.data" :animation="500" ghost-class="ghost" :group="{ name: 'people', pull: 'clone', put: false }" class="component flex-row flex-wrap" :clone="clone_item_com_data" :on-start="onStart" :sort="false" :force-fallback="true">
+                    <div v-for="item in com.data" :key="item.key" class="item">
                         <div class="main-border siderbar-hidden main-show tc">释放鼠标将组件添加到此处</div>
                         <div class="siderbar-show main-hidden flex-col jc-c align-c gap-4">
                             <img class="img radius-xs" :src="url_computer(item.key)" />
@@ -168,8 +168,9 @@ import { background_computer, get_math, gradient_computer, padding_computer, rad
 import { cloneDeep } from 'lodash';
 import { SortableEvent, VueDraggable } from 'vue-draggable-plus';
 import defaultSettings from './index';
-import { footerNavCounterStore } from '@/store';
+import { footerNavCounterStore, commonStore } from '@/store';
 const footer_nav_counter_store = footerNavCounterStore();
+const common_store = commonStore();
 const app = getCurrentInstance();
 import { isEmpty } from 'lodash';
 const props = defineProps({
@@ -255,48 +256,50 @@ watch(
 
 // 父组件调用的方法
 const emits = defineEmits(['rightUpdate']);
-const activeNames = reactive(['1', '2', '3']);
-const components = reactive([
-    {
-        title: '基础组件',
-        key: '1',
-        item: [
-            { key: 'carousel', name: '轮播图' },
-            { key: 'search', name: '搜索框' },
-            { key: 'nav-group', name: '导航组' },
-            { key: 'notice', name: '公告' },
-            { key: 'video', name: '视频' },
-            { key: 'user-info', name: '用户信息' },
-            { key: 'tabs', name: '选项卡' },
-            { key: 'article-tabs', name: '文章选项卡' },
-            { key: 'shop-tabs', name: '商品选项卡' },
-            { key: 'article-list', name: '文章列表' },
-            { key: 'shop-list', name: '商品列表' },
-            { key: 'img-magic', name: '图片魔方' },
-            { key: 'data-magic', name: '数据魔方' },
-            { key: 'hot-zone', name: '热区' },
-            { key: 'custom', name: '自定义' },
-        ],
-    },
-    {
-        title: '营销组件',
-        key: '2',
-        item: [
-            { key: 'coupon', name: '优惠券' },
-            { key: 'seckill', name: '秒杀' }
-        ],
-    },
-    {
-        title: '工具组件',
-        key: '3',
-        item: [
-            { key: 'float-window', name: '悬浮按钮' },
-            { key: 'text-title', name: '文本标题' },
-            { key: 'auxiliary-blank', name: '辅助空白' },
-            { key: 'row-line', name: '横线' },
-            { key: 'rich-text', name: '富文本' },
-        ],
-    },
+const activeNames = reactive(['base', 'plugins', 'tool']);
+interface componentsData {
+    name: string;
+    key: string;
+    data: componentsData[];
+}
+const components = ref<componentsData[]>([
+    // {
+    //     name: '基础组件',
+    //     key: 'base',
+    //     data: [
+    //         { key: 'carousel', name: '轮播图' },
+    //         { key: 'search', name: '搜索框' },
+    //         { key: 'nav-group', name: '导航组' },
+    //         { key: 'notice', name: '公告' },
+    //         { key: 'video', name: '视频' },
+    //         { key: 'user-info', name: '用户信息' },
+    //         { key: 'tabs', name: '选项卡' },
+    //         { key: 'article-tabs', name: '文章选项卡' },
+    //         { key: 'shop-tabs', name: '商品选项卡' },
+    //         { key: 'article-list', name: '文章列表' },
+    //         { key: 'shop-list', name: '商品列表' },
+    //         { key: 'img-magic', name: '图片魔方' },
+    //         { key: 'data-magic', name: '数据魔方' },
+    //         { key: 'hot-zone', name: '热区' },
+    //         { key: 'custom', name: '自定义' },
+    //     ],
+    // },
+    // {
+    //     name: '营销组件',
+    //     key: 'plugins',
+    //     data: [{ key: 'coupon', name: '优惠券' }],
+    // },
+    // {
+    //     name: '工具组件',
+    //     key: 'tool',
+    //     data: [
+    //         { key: 'float-window', name: '悬浮按钮' },
+    //         { key: 'text-title', name: '文本标题' },
+    //         { key: 'auxiliary-blank', name: '辅助空白' },
+    //         { key: 'row-line', name: '横线' },
+    //         { key: 'rich-text', name: '富文本' },
+    //     ],
+    // },
 ]);
 const url_computer = (name: string) => {
     const new_url = ref(new URL(`../../../../assets/images/layout/siderbar/${name}.png`, import.meta.url).href).value;
@@ -555,6 +558,15 @@ const scroll = () => {
 // 在组件挂载时默认执行
 onMounted(() => {
     page_settings();
+    nextTick(() => {
+        const interval = setInterval(() => {
+            // 获取分类
+            if (common_store.common.module_list.length > 0) {
+                components.value = common_store.common.module_list;
+                clearInterval(interval);
+            }
+        }, 1000);
+    });
 });
 //页面设置
 const page_settings = () => {

@@ -54,7 +54,7 @@
                             <el-button @click="mult_del_event">删除{{ upload_type_name }}</el-button>
                             <!-- <el-cascader :show-all-levels="false" clearable></el-cascader> -->
                             <div class="right-classify ml-12">
-                                <transform-category :data="type_data_list" :check-img-ids="check_img_ids" :placeholder="upload_type_name + '移动至'" @call-back="transform_category_event"></transform-category>
+                                <transform-category :data="type_data_list" :check-img-ids="check_img_ids" :type="upload_type_name" :placeholder="upload_type_name + '移动至'" @call-back="transform_category_event"></transform-category>
                             </div>
                         </div>
                         <div class="right-search">

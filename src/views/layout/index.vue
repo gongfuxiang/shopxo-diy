@@ -1,5 +1,5 @@
 <template>
-    <div class="app-wrapper no-copy">
+    <div v-loading.fullscreen.lock="loading" class="app-wrapper no-copy" element-loading-background="rgba(255,255,255,1)" element-loading-custom-class="loading-custom">
         <template v-if="!is_empty">
             <navbar v-model="form.model" @preview="preview" @save="save" @save-close="save_close" />
             <div class="app-wrapper-content flex-row">
@@ -64,6 +64,7 @@ const form = ref<diy_data_item>({
 const diy_data_item = ref({});
 
 const key = ref('');
+const api_count = ref(0);
 
 const right_update = (item: any, diy: [Array<any>], header: headerAndFooter, footer: headerAndFooter) => {
     diy_data_item.value = item;
@@ -90,15 +91,20 @@ const init = () => {
         if (html_index !== -1) {
             new_data.id = new_data.id.substring(0, html_index);
         }
-    }
-    if (new_data.id) {
-        DiyAPI.getInit(new_data).then((res: any) => {
-            if (res.data) {
-                form.value = form_data_transfor_diy_data(res.data);
-            } else {
-                is_empty.value = true;
-            }
-        });
+        if (new_data.id) {
+            DiyAPI.getInit(new_data).then((res: any) => {
+                if (res.data) {
+                    form.value = form_data_transfor_diy_data(res.data);
+                    api_count.value += 1;
+                    loading_event(api_count.value);
+                } else {
+                    is_empty.value = true;
+                }
+            });
+        }
+    } else {
+        api_count.value = 1;
+        loading_event(api_count.value);
     }
 };
 
@@ -113,7 +119,18 @@ const common_init = () => {
         // module_list ---- 模块列表
         //page_link_list ---- 页面链接
         common_store.set_common(res.data);
+        api_count.value += 1;
+        loading_event(api_count.value);
     });
+};
+// 加载动画
+const loading = ref(true);
+const loading_event = (count: number) => {
+    if (count == 2) {
+        setTimeout(() => {
+            loading.value = false;
+        }, 500);
+    }
 };
 //#endregion 页面初始化数据 ---------------------end
 
@@ -125,9 +142,9 @@ const save = () => {
     formmat_form_data(form.value);
 };
 const save_close = () => {
-    formmat_form_data(form.value);
+    formmat_form_data(form.value, true);
 };
-const formmat_form_data = (data: diy_data_item) => {
+const formmat_form_data = (data: diy_data_item, close: boolean = false) => {
     const clone_form = cloneDeep(data);
     clone_form.header.show_tabs = true;
     clone_form.footer.show_tabs = false;
@@ -143,6 +160,13 @@ const formmat_form_data = (data: diy_data_item) => {
     const new_data = diy_data_transfor_form_data(clone_form);
     DiyAPI.save(new_data).then((res) => {
         ElMessage.success('保存成功');
+        if (!close) return;
+        ElMessageBox.confirm('您确定要关闭本页吗？', '提示')
+            .then(() => {
+                // 关闭页面
+                window.close();
+            })
+            .catch(() => {});
     });
 };
 //#endregion 顶部导航回调方法 ---------------------end

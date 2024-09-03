@@ -24,6 +24,7 @@ watch(
         new_data.content.theme = new_data.content.article_theme;
         new_data.content.data_type = new_data.content.tabs_list[0].data_type;
         new_data.content.category = new_data.content.tabs_list[0].category;
+        new_data.content.carousel_col = new_data.content.article_carousel_col;
         new_data.content.data_list = new_data.content.tabs_list[0].data_list;
         new_data.content.data_ids = new_data.content.tabs_list[0].data_ids;
         new_data.content.number = new_data.content.tabs_list[0].number;

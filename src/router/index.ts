@@ -24,16 +24,6 @@ export const constantRoutes: RouteRecordRaw[] = [
                 name: 'Dashboard',
                 meta: { title: 'dashboard', icon: 'homepage', affix: true },
             },
-            {
-                path: '401',
-                component: () => import('@/views/error-page/401.vue'),
-                meta: { hidden: true },
-            },
-            {
-                path: '404',
-                component: () => import('@/views/error-page/404.vue'),
-                meta: { hidden: true },
-            },
         ],
     },
 ];
@@ -52,7 +42,16 @@ const router = createRouter({
  * 重置路由
  */
 export function resetRouter() {
-    router.replace({ path: '/login' });
+    router.replace({ path: '/dashboard' });
 }
+// 重定向到首页的守卫
+router.beforeEach((to, from, next) => {
+    if (to.matched.length === 0) {
+        //如果未匹配到路由
+        from.name ? next({ name: from.name }) : next({ path: '/' });
+    } else {
+        next();
+    }
+});
 
 export default router;

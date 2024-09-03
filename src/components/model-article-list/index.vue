@@ -1,7 +1,7 @@
 <template>
     <div class="oh" :style="style_container">
         <div class="re oh" :style="style">
-            <div class="flex-warp" :class="article_theme_class" :style="article_theme !== '3' ? article_spacing : ''">
+            <div v-if="!['4'].includes(article_theme)" class="flex-warp" :class="article_theme_class" :style="article_theme !== '3' ? article_spacing : ''">
                 <template v-for="(item, index) in data_list" :key="index">
                     <div class="item bg-f oh" :class="article_theme == '0' ? 'flex-row' : 'flex-col'" :style="article_style">
                         <template v-if="article_theme !== '3'">
@@ -24,6 +24,30 @@
                         </div>
                     </div>
                 </template>
+            </div>
+            <div v-else class="oh" :class="article_theme_class">
+                <el-carousel :key="carousel_key" indicator-position="none" :interval="interval_time" arrow="never" :autoplay="is_roll ? true : false">
+                    <el-carousel-item v-for="(item1, index1) in article_carousel_list" :key="index1" class="flex" :style="article_spacing">
+                        <div v-for="(item, index) in item1.carousel_list" :key="index" class="item bg-f oh flex-col" :style="article_style">
+                            <template v-if="item.new_cover.length > 0">
+                                <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
+                            </template>
+                            <template v-else> <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty> </template>
+                            <div class="jc-sb flex-1 flex-col" :style="article_theme !== '0' ? content_padding : ''">
+                                <div class="title text-line-2" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                                <div class="flex-row jc-sb gap-8 align-e mt-10">
+                                    <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
+                                    <div v-show="field_show.includes('1')" class="flex-row align-c gap-3" :style="article_page_view">
+                                        <icon name="eye"></icon>
+                                        <div>
+                                            {{ item.data.access_count ? item.data.access_count : '16' }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </el-carousel-item>
+                </el-carousel>
             </div>
         </div>
     </div>
@@ -57,7 +81,6 @@ interface ArticleList {
     new_title: string;
     new_cover: uploadList[];
 }
-const containerRef = ref<HTMLElement | null>(null);
 // 数据
 const data_list = ref<ArticleList[]>([]);
 // 风格
@@ -81,8 +104,7 @@ const content_spacing = ref('');
 // 文章间距
 const article_spacing = ref('');
 const article_spacing_children = ref('');
-const article_item_width = ref('104');
-const article_item_height = ref('104');
+const article_item_height = ref('155');
 
 const article_style = ref({});
 const default_data_list: ArticleList = {
@@ -91,8 +113,16 @@ const default_data_list: ArticleList = {
     new_title: '测试文章标题',
     new_cover: [],
 };
-const get_auto_data_list = async (new_content: any) => {
-    const { category, number, sort, sort_rules, is_cover } = new_content;
+// 轮播图列数
+const carousel_col = ref('2');
+// 轮播图key值
+const carousel_key = ref('0');
+// 轮播图定时轮播
+const interval_time = ref(2000);
+// 轮播图是否滚动
+const is_roll = ref(1);
+const get_auto_data_list = async () => {
+    const { category, number, sort, sort_rules, is_cover } = new_content.value;
     const new_data = {
         article_keywords: '',
         article_category_ids: category.join(','),
@@ -116,32 +146,44 @@ const get_auto_data_list = async (new_content: any) => {
         data_list.value = Array(4).fill(default_data_list);
     }
 };
-const data_type_is_change = ref(0);
-watch(
-    () => data_type_is_change.value,
-    (newVal, oldValue) => {
-        if (newVal !== oldValue && String(newVal) === '1') {
-            get_auto_data_list(props.value?.content);
+
+const new_content = computed(() => props.value?.content || {});
+const new_style = computed(() => props.value?.style || {});
+watchEffect(() => {
+    if (new_content.value.data_type == '0') {
+        if (!isEmpty(new_content.value.data_list)) {
+            data_list.value = new_content.value.data_list;
+            data_list.value = cloneDeep(new_content.value.data_list);
+        } else {
+            data_list.value = Array(4).fill(default_data_list);
         }
-    },
-    { deep: true }
-);
+    } else {
+        get_auto_data_list();
+    }
+});
+// 轮播宽度
+const multicolumn_columns_width = computed(() => {
+    const { carousel_col } = toRefs(new_content.value);
+    // 计算间隔的空间。(gap * gap数量) / 模块数量
+    let gap = carousel_col.value !== '0' ? (new_style.value.article_spacing * carousel_col.value) / (Number(carousel_col.value) + 1) : '0';
+    return `calc(${100 / (Number(carousel_col.value) + 1)}% - ${gap}px)`;
+});
+// 文章内容高度
+const article_name_height_computer = computed(() => {
+    return new_style.value.name_size * 2.4 + 'px';
+});
+const article_name_line_height_computer = computed(() => {
+    return new_style.value.name_size * 1.2 + 'px';
+});
+// 轮播高度
+const carousel_height_computer = computed(() => {
+    return new_style.value.name_size * 2 + new_style.value.article_height + 'px';
+});
 watch(
     props.value,
     (newVal, oldValue) => {
         const new_content = newVal?.content;
         const new_style = newVal?.style;
-        // 内容
-        data_type_is_change.value = new_content.data_type;
-        if (String(new_content.data_type) === '0') {
-            if (!isEmpty(new_content.data_list)) {
-                data_list.value = new_content.data_list;
-                data_list.value = cloneDeep(new_content.data_list);
-            } else {
-                data_list.value = Array(4).fill(default_data_list);
-            }
-        }
-
         article_theme.value = new_content.theme;
         field_show.value = new_content.field_show;
         // 样式
@@ -169,7 +211,13 @@ watch(
         } else if (article_theme.value == '3') {
             style.value = `padding: 0 ${new_style.content_spacing}px;background:#fff;` + content_radius.value;
         } else if (article_theme.value == '4') {
-            article_item_width.value = `${new_style.article_width}px`;
+            // 更新轮播图的key，确保更换时能重新更新轮播图
+            carousel_col.value = new_content.carousel_col || '1';
+            carousel_key.value = new_style.interval_time + new_style.is_roll;
+            // 滚动时间
+            interval_time.value = (new_style.interval_time || 2) * 1000;
+            // 是否滚动修改
+            is_roll.value = new_style.is_roll;
             article_item_height.value = `${new_style.article_height}px`;
             article_style.value += content_radius.value;
         }
@@ -177,7 +225,7 @@ watch(
             style_container.value = common_styles_computer(new_style.common_style);
         }
     },
-    { immediate: true, deep: true }
+    { deep: true, immediate: true }
 );
 const article_theme_class = computed(() => {
     switch (article_theme.value) {
@@ -189,10 +237,33 @@ const article_theme_class = computed(() => {
             return 'style3 flex-col';
         case '3':
             return 'style4 flex-col';
-        case '4':
-            return 'style5 flex-row';
+        default:
+            return 'style5';
     }
-    return `style${article_theme.value}`;
+});
+
+interface ArticleCarouselList {
+    carousel_list: ArticleList[];
+}
+const article_carousel_list = computed(() => {
+    // 深拷贝一下，确保不会出现问题
+    const cloneList = cloneDeep(data_list.value);
+    // 如果是分页滑动情况下，根据选择的行数和每行显示的个数来区分具体是显示多少个
+    if (cloneList.length > 0) {
+        // 每页显示的数量
+        const num = Number(carousel_col.value) + 1;
+        // 存储数据显示
+        let nav_list: ArticleCarouselList[] = [];
+        // 拆分的数量
+        const split_num = Math.ceil(cloneList.length / num);
+        for (let i = 0; i < split_num; i++) {
+            nav_list.push({ carousel_list: cloneList.slice(i * num, (i + 1) * num) });
+        }
+        return nav_list;
+    } else {
+        // 否则的话，就返回全部的信息
+        return [{ carousel_list: cloneList }];
+    }
 });
 </script>
 <style lang="scss" scoped>
@@ -232,12 +303,24 @@ const article_theme_class = computed(() => {
 }
 .style5 {
     .item {
-        min-width: v-bind(article_item_width);
-        width: v-bind(article_item_width);
+        width: v-bind(multicolumn_columns_width);
+        min-width: v-bind(multicolumn_columns_width);
         .img {
             width: 100%;
-            height: v-bind(article_item_height);
+            max-height: v-bind(article_item_height);
         }
+        .title {
+            height: v-bind(article_name_height_computer);
+            line-height: v-bind(article_name_line_height_computer);
+        }
+    }
+}
+
+:deep(.el-carousel) {
+    width: 100%;
+    .el-carousel__container {
+        // height: v-bind(article_item_height);
+        height: v-bind(carousel_height_computer);
     }
 }
 </style>
