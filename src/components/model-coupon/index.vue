@@ -130,7 +130,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, gradient_computer } from '@/utils';
+import { common_styles_computer, gradient_computer, online_url } from '@/utils';
 const props = defineProps({
     value: {
         type: Object,
@@ -194,6 +194,7 @@ const theme_7_background_style = computed(() => {
         return '#fff';
     }
 });
+const new_url = await online_url('/static/plugins/coupon/images/diy/');
 </script>
 <style lang="scss" scoped>
 .coupon-theme-1 {
@@ -259,6 +260,7 @@ const theme_7_background_style = computed(() => {
     .item {
         flex-basis: auto;
         flex-shrink: 0;
+        // background-image: url('../../assets/images/components/model-coupon/theme-2-content-bg.png');
         background-image: url('../../assets/images/components/model-coupon/theme-2-content-bg.png');
         background-size: 100% 100%;
         width: 8.5rem;
