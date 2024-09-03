@@ -19,28 +19,30 @@
                     <color-picker v-model="form.countdown_color"></color-picker>
                 </el-form-item>
                 <el-form-item label="顶部背景">
-                    <mult-color-picker :value="form.header_background_color_list" :type="form.header_background_direction" @update:value="mult_color_picker_event"></mult-color-picker>
-                    <div class="flex-row jc-sb align-c">
-                        <div class="size-12">背景图</div>
-                        <el-radio-group v-model="form.header_background_img_style" is-button>
-                            <el-tooltip content="单张" placement="top" effect="light">
-                                <el-radio-button value="0">
-                                    <icon name="single-sheet"></icon>
-                                </el-radio-button>
-                            </el-tooltip>
-                            <el-tooltip content="平铺" placement="top" effect="light">
-                                <el-radio-button value="1">
-                                    <icon name="tile"></icon>
-                                </el-radio-button>
-                            </el-tooltip>
-                            <el-tooltip content="铺满" placement="top" effect="light">
-                                <el-radio-button value="2">
-                                    <icon name="spread-over"></icon>
-                                </el-radio-button>
-                            </el-tooltip>
-                        </el-radio-group>
+                    <div class="flex-col gap-10">
+                        <mult-color-picker :value="form.header_background_color_list" :type="form.header_background_direction" @update:value="mult_color_picker_event"></mult-color-picker>
+                        <div class="flex-row jc-sb align-c">
+                            <div class="size-12">背景图</div>
+                            <el-radio-group v-model="form.header_background_img_style" is-button>
+                                <el-tooltip content="单张" placement="top" effect="light">
+                                    <el-radio-button value="0">
+                                        <icon name="single-sheet"></icon>
+                                    </el-radio-button>
+                                </el-tooltip>
+                                <el-tooltip content="平铺" placement="top" effect="light">
+                                    <el-radio-button value="1">
+                                        <icon name="tile"></icon>
+                                    </el-radio-button>
+                                </el-tooltip>
+                                <el-tooltip content="铺满" placement="top" effect="light">
+                                    <el-radio-button value="2">
+                                        <icon name="spread-over"></icon>
+                                    </el-radio-button>
+                                </el-tooltip>
+                            </el-radio-group>
+                        </div>
+                        <upload v-model="form.header_background_img_url" :limit="1"></upload>
                     </div>
-                    <upload v-model="form.header_background_img_url" :limit="1"></upload>
                 </el-form-item>
             </card-container>
             <div class="divider-line"></div>
@@ -82,7 +84,7 @@
                     <color-picker v-model="form.progress_bg_color"></color-picker>
                 </el-form-item>
                 <el-form-item label="选中色">
-                    <mult-color-picker :value="form.progress_actived_color" :type="form.progress_actived_direction" @update:value="progress_color_picker_event"></mult-color-picker>
+                    <mult-color-picker :value="form.progress_actived_color_list" :type="form.progress_actived_direction" @update:value="progress_color_picker_event"></mult-color-picker>
                 </el-form-item>
                 <el-form-item label="按钮背景">
                     <color-picker v-model="form.progress_button_color"></color-picker>
@@ -115,7 +117,6 @@
     </div>
 </template>
 <script setup lang="ts">
-import { pick } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
@@ -163,7 +164,7 @@ const countdown_color_picker_event = (arry: color_list[], type: number) => {
 };
 // 进度条选中的设置
 const progress_color_picker_event = (arry: color_list[], type: number) => {
-    form.value.progress_actived_color = arry;
+    form.value.progress_actived_color_list = arry;
     form.value.progress_actived_direction = type.toString();
 };
 </script>

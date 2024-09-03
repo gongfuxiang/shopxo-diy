@@ -262,45 +262,7 @@ interface componentsData {
     key: string;
     data: componentsData[];
 }
-const components = ref<componentsData[]>([
-    // {
-    //     name: '基础组件',
-    //     key: 'base',
-    //     data: [
-    //         { key: 'carousel', name: '轮播图' },
-    //         { key: 'search', name: '搜索框' },
-    //         { key: 'nav-group', name: '导航组' },
-    //         { key: 'notice', name: '公告' },
-    //         { key: 'video', name: '视频' },
-    //         { key: 'user-info', name: '用户信息' },
-    //         { key: 'tabs', name: '选项卡' },
-    //         { key: 'article-tabs', name: '文章选项卡' },
-    //         { key: 'shop-tabs', name: '商品选项卡' },
-    //         { key: 'article-list', name: '文章列表' },
-    //         { key: 'shop-list', name: '商品列表' },
-    //         { key: 'img-magic', name: '图片魔方' },
-    //         { key: 'data-magic', name: '数据魔方' },
-    //         { key: 'hot-zone', name: '热区' },
-    //         { key: 'custom', name: '自定义' },
-    //     ],
-    // },
-    // {
-    //     name: '营销组件',
-    //     key: 'plugins',
-    //     data: [{ key: 'coupon', name: '优惠券' }],
-    // },
-    // {
-    //     name: '工具组件',
-    //     key: 'tool',
-    //     data: [
-    //         { key: 'float-window', name: '悬浮按钮' },
-    //         { key: 'text-title', name: '文本标题' },
-    //         { key: 'auxiliary-blank', name: '辅助空白' },
-    //         { key: 'row-line', name: '横线' },
-    //         { key: 'rich-text', name: '富文本' },
-    //     ],
-    // },
-]);
+const components = ref<componentsData[]>([]);
 const url_computer = (name: string) => {
     const new_url = ref(new URL(`../../../../assets/images/layout/siderbar/${name}.png`, import.meta.url).href).value;
     return new_url;
