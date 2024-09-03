@@ -1,5 +1,5 @@
-import { get_math, padding_computer } from "@/utils";
-import defaultCommon from "./index";
+import { get_math, padding_computer } from '@/utils';
+import defaultCommon from './index';
 
 interface carousel_list {
     id: string;
@@ -9,22 +9,23 @@ interface carousel_list {
 }
 interface defaultSearch {
     content: {
-        title: string,
-        title_link: object,
-        keyword_show: true,
-        keyword_list: carousel_list[]
-        right_show: true,
-        right_title: string,
-        right_link: object,
+        title: string;
+        title_link: object;
+        is_title_center: number;
+        keyword_show: true;
+        keyword_list: carousel_list[];
+        right_show: true;
+        right_title: string;
+        right_link: object;
     };
     style: {
-        title_color: string,
-        title_size: number,
-        title_weight: string,
-        keyword_color: string,
-        keyword_size: number,
-        right_color: string,
-        right_size: number, 
+        title_color: string;
+        title_size: number;
+        title_weight: string;
+        keyword_color: string;
+        keyword_size: number;
+        right_color: string;
+        right_size: number;
         common_style: object;
     };
 }
@@ -32,6 +33,7 @@ const defaultSearch: defaultSearch = {
     content: {
         title: '',
         title_link: {},
+        is_title_center: 0,
         keyword_show: true,
         right_show: true,
         right_title: '更多',
@@ -41,9 +43,9 @@ const defaultSearch: defaultSearch = {
                 id: get_math(),
                 title: '',
                 link: {},
-                is_show: true
-            }
-        ]
+                is_show: true,
+            },
+        ],
     },
     style: {
         title_color: '#000',
@@ -52,7 +54,7 @@ const defaultSearch: defaultSearch = {
         keyword_color: '#000',
         keyword_size: 12,
         right_color: '#999',
-        right_size: 12, 
+        right_size: 12,
         common_style: {
             ...defaultCommon,
             color_list: [{ color: '#fff', color_percentage: undefined }],
@@ -61,7 +63,7 @@ const defaultSearch: defaultSearch = {
             padding_bottom: 15,
             padding_left: 15,
             padding_right: 15,
-        }
+        },
     },
 };
 

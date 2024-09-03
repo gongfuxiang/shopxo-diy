@@ -1,9 +1,9 @@
 <template>
-    <!-- 品牌 -->
+    <!-- 优惠券 -->
     <div class="container">
         <div class="flex-row jc-e gap-20 mb-20">
-            <el-select v-model="brand_ids" class="search-w" placeholder="品牌" clearable @change="handle_search">
-                <el-option v-for="item in brand_category" :key="item.id" :label="item.name" :value="item.id" />
+            <el-select v-model="category_ids" class="search-w" placeholder="请选择" clearable @change="handle_search">
+                <el-option v-for="item in coupon_category_list" :key="item.id" :label="item.name" :value="item.id" />
             </el-select>
             <el-input v-model="search_value" placeholder="请输入搜索内容" class="search-w" @change="handle_search">
                 <template #suffix>
@@ -19,16 +19,31 @@
                         <el-radio v-model="template_selection" :label="scope.$index + ''">&nbsp;</el-radio>
                     </template>
                 </el-table-column>
-                <el-table-column prop="id" label="ID" width="80" type="" />
-                <el-table-column prop="images" label="品牌">
+                <el-table-column prop="id" label="ID" type="" />
+                <el-table-column prop="cover" label="名称">
                     <template #default="scope">
                         <div class="flex-row align-c gap-10">
-                            <image-empty v-if="scope.row.logo" v-model="scope.row.logo" class="img"></image-empty>
-                            <div class="flex-1">{{ scope.row.name }}</div>
+                            <image-empty v-if="scope.row.cover" v-model="scope.row.cover" class="img"></image-empty>
+                            <div class="flex-1">{{ scope.row.title }}</div>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="brand_category_text" label="分类名称" />
+                <el-table-column prop="cover" label="类型">
+                    <template #default="scope">
+                        <div class="flex-row align-c gap-10">
+                            <image-empty v-if="scope.row.cover" v-model="scope.row.cover" class="img"></image-empty>
+                            <div class="flex-1">{{ scope.row.title }}</div>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="cover" label="优惠信息">
+                    <template #default="scope">
+                        <div class="flex-row align-c gap-10">
+                            <image-empty v-if="scope.row.cover" v-model="scope.row.cover" class="img"></image-empty>
+                            <div class="flex-1">{{ scope.row.title }}</div>
+                        </div>
+                    </template>
+                </el-table-column>
                 <template #empty>
                     <no-data></no-data>
                 </template>
@@ -68,26 +83,23 @@ onMounted(() => {
 const modelValue = defineModel({ type: Object, default: {} });
 const tableData = ref<pageLinkList[]>([]);
 const search_value = ref('');
-const cascader_config = {
-    value: 'id',
-    label: 'name',
-    children: 'items',
-};
 const init = () => {
     template_selection.value = '';
-    category_ids.value = [];
-    brand_ids.value = '';
+    category_ids.value = '';
     search_value.value = '';
-    brand_category.value = common_store.common.brand_category;
+    coupon_category_list.value = common_store.common.plugins.coupon.coupon.coupon_type_list;
     get_list(1);
 };
 const handle_search = () => {
     get_list(1);
 };
-const category_ids = ref([]);
-const brand_ids = ref('');
-const brand_category = ref<any[]>([]);
-const emit = defineEmits(['update:link']);
+const category_ids = ref('');
+interface articleCategory {
+    id: string;
+    name: string;
+    url: string;
+}
+const coupon_category_list = ref<articleCategory[]>([]);
 const template_selection = ref('');
 //#region 分页 -----------------------------------------------start
 // 当前页
@@ -96,16 +108,15 @@ const page = ref(1);
 const page_size = ref(30);
 // 总数量
 const data_total = ref(0);
-
 // 查询文件
 const get_list = (new_page: number) => {
     let new_data = {
         page: new_page,
         keywords: search_value.value,
+        category_ids: category_ids.value,
         page_size: page_size.value,
-        category_ids: brand_ids.value,
     };
-    UrlValueAPI.getBrandList(new_data).then((res: any) => {
+    UrlValueAPI.getArticleList(new_data).then((res: any) => {
         tableData.value = res.data.data_list;
         data_total.value = res.data.data_total;
         page.value = res.data.page;

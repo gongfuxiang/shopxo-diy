@@ -19,7 +19,7 @@
                 <el-table-column prop="name" label="分类名称"></el-table-column>
                 <el-table-column prop="icon" label="分类图标">
                     <template #default="scope">
-                        <image-empty v-model="scope.row.icon" class="img"></image-empty>
+                        <image-empty v-if="scope.row.icon" v-model="scope.row.icon" class="img"></image-empty>
                     </template>
                 </el-table-column>
                 <template #empty>

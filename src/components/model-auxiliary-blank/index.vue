@@ -22,7 +22,7 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form, new_style } = toRefs(state);
 
-const style = computed(() => `height: ${form.value.height}px;background: ${new_style.value.line_color || '#fff'};`);
+const style = computed(() => `height: ${form.value.height}px;background: ${new_style.value.line_color || 'transparent'};`);
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));
 </script>
 <style lang="scss" scoped></style>

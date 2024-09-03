@@ -138,7 +138,8 @@ const props = defineProps({
     },
 });
 const list = 10;
-
+const form = computed(() => props.value?.content || {});
+const new_style = computed(() => props.value?.style || {});
 const style_container = ref('');
 watch(
     props.value,
@@ -149,6 +150,21 @@ watch(
     },
     { immediate: true, deep: true }
 );
+// watchEffect(() => {
+//     if (form.value.data_type == '0') {
+//         if (!isEmpty(form.value.data_list)) {
+//             list.value = cloneDeep(form.value.data_list).map((item: any) => ({
+//                 ...item.data,
+//                 title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
+//                 new_cover: item.new_cover,
+//             }));
+//         } else {
+//             list.value = Array(4).fill(default_list);
+//         }
+//     } else {
+//         get_products();
+//     }
+// });
 const theme = computed(() => props.value?.content?.theme);
 const theme_style = computed(() => {
     const new_background = gradient_computer({ color_list: props.value?.style?.background, direction: props.value?.style?.direction }, false);

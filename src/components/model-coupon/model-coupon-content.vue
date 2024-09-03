@@ -43,7 +43,7 @@
             </card-container>
         </el-form>
     </div>
-    <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['article']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
+    <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['coupon']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
 </template>
 <script setup lang="ts">
 import { online_url } from '@/utils';

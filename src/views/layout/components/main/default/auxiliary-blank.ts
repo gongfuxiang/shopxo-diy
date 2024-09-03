@@ -13,7 +13,7 @@ const defaultSearch: defaultSearch = {
         height: 50
     },
     style: {
-        line_color: 'rgba(204, 204, 204, 1)',
+        line_color: '',
         common_style: defaultCommon,
     },
 };

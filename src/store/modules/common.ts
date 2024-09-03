@@ -11,6 +11,7 @@ export const commonStore = defineStore('common', () => {
         goods_category: [] as any[], //---- 商品分类
         module_list: [] as any[], //---- 模块列表
         page_link_list: [] as any[], //---- 页面链接
+        plugins: {} as any, //---- 插件
     });
     // 存储链接数据
     const set_common = (data: any) => {
