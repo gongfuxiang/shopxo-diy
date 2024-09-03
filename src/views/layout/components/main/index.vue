@@ -46,7 +46,7 @@
                     <!-- 页面设置 -->
                     <page-settings :show-page="page_data.show_tabs" :page-data="page_data" @page_settings="page_settings"></page-settings>
                     <div class="model-wall" :style="content_style">
-                        <div :style="`padding-top:${top_padding}px; margin-top: ${top_margin}px;padding-bottom:${bottom_navigation_show ? footer_nav_counter_store.padding_footer : 0}px;`">
+                        <div class="model-wall-content" :style="`padding-top:${top_padding}px; margin-top: ${top_margin}px;padding-bottom:${bottom_navigation_show ? footer_nav_counter_store.padding_footer : 0}px;`">
                             <VueDraggable v-model="diy_data" :animation="500" :touch-start-threshold="2" group="people" class="drag-area re" ghost-class="ghost" :on-sort="on_sort" :on-start="on_start" :on-end="on_end">
                                 <div v-for="(item, index) in diy_data" :key="item.id" :class="model_class(item)" :style="model_style(item)" @click="on_choose(index, item.show_tabs)">
                                     <div v-if="item.show_tabs" class="plug-in-right" chosenClass="close">
@@ -207,8 +207,6 @@ const top_margin = ref(0);
 const content_style = ref('');
 const main_content_style = ref('');
 const bottom_navigation_show = ref(true);
-const container_min_height = ref(681);
-const height = computed(() => container_min_height.value + 'px');
 watchEffect(() => {
     const data = page_data.value.com_data;
     if (data) {
@@ -223,23 +221,15 @@ watchEffect(() => {
         const { immersive_style, up_slide_display } = new_style;
         // 不开启沉浸式 和 上滑显示
         if (immersive_style || !up_slide_display) {
-            top_padding.value = 2;
-            container_min_height.value = 681 + 88;
+            top_padding.value = 0;
         } else {
             top_padding.value = 90;
-            container_min_height.value = 681;
         }
         // 开启沉浸式并且没有开通上滑显示
         if (immersive_style && !up_slide_display) {
             top_margin.value = -90;
         } else {
             top_margin.value = 0;
-        }
-        // 开启沉浸式时要加上顶部的高度，关闭底部导航的时候要加上底部的高度
-        if (bottom_navigation_show.value) {
-            container_min_height.value = container_min_height.value - footer_nav_counter_store.padding_footer;
-        } else {
-            container_min_height.value = container_min_height.value + footer_nav_counter_store.padding_footer;
         }
     }
 });
@@ -616,6 +606,10 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
 <style lang="scss" scoped>
 @import 'index.scss';
 .drag-area {
-    min-height: v-bind(height);
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex: 1;
 }
 </style>
