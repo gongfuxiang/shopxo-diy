@@ -2,8 +2,8 @@
     <!-- 优惠券 -->
     <div class="container">
         <div class="flex-row jc-e gap-20 mb-20">
-            <el-select v-model="category_ids" class="search-w" placeholder="请选择" clearable @change="handle_search">
-                <el-option v-for="item in coupon_category_list" :key="item.id" :label="item.name" :value="item.id" />
+            <el-select v-model="type" class="search-w" placeholder="请选择" clearable @change="handle_search">
+                <el-option v-for="item in coupon_category_list" :key="item.name" :label="item.name" :value="item.name" />
             </el-select>
             <el-input v-model="search_value" placeholder="请输入搜索内容" class="search-w" @change="handle_search">
                 <template #suffix>
@@ -85,15 +85,15 @@ const tableData = ref<pageLinkList[]>([]);
 const search_value = ref('');
 const init = () => {
     template_selection.value = '';
-    category_ids.value = '';
+    type.value = '';
     search_value.value = '';
-    coupon_category_list.value = common_store.common.plugins.coupon.coupon.coupon_type_list;
+    coupon_category_list.value = common_store.common.plugins.coupon.coupon_type_list;
     get_list(1);
 };
 const handle_search = () => {
     get_list(1);
 };
-const category_ids = ref('');
+const type = ref('');
 interface articleCategory {
     id: string;
     name: string;
@@ -113,10 +113,10 @@ const get_list = (new_page: number) => {
     let new_data = {
         page: new_page,
         keywords: search_value.value,
-        category_ids: category_ids.value,
+        type: type.value,
         page_size: page_size.value,
     };
-    UrlValueAPI.getArticleList(new_data).then((res: any) => {
+    UrlValueAPI.getCouponList(new_data).then((res: any) => {
         tableData.value = res.data.data_list;
         data_total.value = res.data.data_total;
         page.value = res.data.page;

@@ -50,6 +50,14 @@ class UrlValueAPI {
             data,
         });
     }
+    /** 获取优惠券列表 */
+    static getCouponList(data: any) {
+        return request({
+            url: `?s=plugins/index/pluginsname/coupon/pluginscontrol/diyapi/pluginsaction/couponlist`,
+            method: 'post',
+            data,
+        });
+    }
 }
 
 export default UrlValueAPI;
