@@ -63,21 +63,23 @@ const props = defineProps({
 });
 const form = reactive(props.value);
 const url_value_dialog_visible = ref(false);
-const new_url = await online_url('/static/plugins/coupon/images/diy/');
+const new_url = ref('');
 const base_list = reactive({
     data_type_list: [
         { name: '默认', value: '0' },
         { name: '手动', value: '1' },
     ],
-    themeList: [
-        { id: '1', name: '风格1', url: new_url + 'theme-1.png' },
-        { id: '2', name: '风格2', url: new_url + 'theme-2.png' },
-        { id: '3', name: '风格3', url: new_url + 'theme-3.png' },
-        { id: '4', name: '风格4', url: new_url + 'theme-4.png' },
-        { id: '5', name: '风格5', url: new_url + 'theme-5.png' },
-        { id: '6', name: '风格6', url: new_url + 'theme-6.png' },
-        { id: '7', name: '风格7', url: new_url + 'theme-7.png' },
-    ],
+    themeList: Array.from({ length: 7 }, (_, index) => ({
+        id: String(index + 1),
+        name: `风格${index + 1}`,
+        url: `${new_url.value}theme-${index + 1}.png`,
+    })),
+});
+onMounted(async () => {
+    new_url.value = await online_url('/static/plugins/coupon/images/diy/').then((res) => res);
+    base_list.themeList.forEach((item) => {
+        item.url = `${new_url.value}${item.url}`;
+    });
 });
 const emit = defineEmits(['update:change-theme']);
 const themeChange = (val: string) => {
