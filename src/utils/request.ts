@@ -21,7 +21,7 @@ service.interceptors.request.use(
             config.url = config.url + symbol + 'token=' + temp_data.default.temp_token;
         } else {
             if (cookie) {
-                config.url = config.url + symbol + 'token=' + JSON.parse(cookie).token;
+                config.url = config.url + '&token=' + JSON.parse(cookie).token;
             }
         }
         return config;
