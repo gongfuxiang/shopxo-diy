@@ -33,7 +33,6 @@
 </template>
 <script setup lang="ts">
 import { background_computer, gradient_computer } from '@/utils';
-import { isEmpty } from 'lodash';
 interface Props {
     pageData: any;
     showPage: boolean;

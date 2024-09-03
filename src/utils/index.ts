@@ -67,7 +67,7 @@ export function gradient_handle(color_list: color_list[], direction: string, is_
             if (color_list.length == 1) {
                 container_common_styles += ` ${item.color_percentage || 0}%, ${item.color} 100%`;
             } else {
-                if (!isEmpty(item.color_percentage)) {
+                if (typeof item.color_percentage === "number") {
                     if (index == color_list.length - 1) {
                         container_common_styles += ` ${item.color_percentage}%`;
                     } else {
