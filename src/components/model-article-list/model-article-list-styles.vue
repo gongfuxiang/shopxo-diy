@@ -39,8 +39,8 @@
                     </el-form-item>
                 </template>
             </card-container>
-            <div class="divider-line"></div>
             <template v-if="theme == '4'">
+                <div class="divider-line"></div>
                 <card-container>
                     <div class="mb-12">轮播设置</div>
                     <el-form-item label="自动轮播">
@@ -50,7 +50,6 @@
                         <slider v-model="form.interval_time" :min="1" :max="100"></slider>
                     </el-form-item>
                 </card-container>
-                <div class="divider-line"></div>
             </template>
         </el-form>
         <div class="divider-line"></div>

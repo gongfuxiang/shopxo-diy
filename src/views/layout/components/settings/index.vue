@@ -146,7 +146,7 @@ const radio = ref('1'); // 创建一个响应式的数字变量，初始值为0
         }
     }
     .setting-content {
-        height: calc(100vh - 16.8rem);
+        height: calc(100vh - 14.8rem);
         overflow: auto;
         background-color: #fff;
     }

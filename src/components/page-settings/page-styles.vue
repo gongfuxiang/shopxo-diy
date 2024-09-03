@@ -58,8 +58,8 @@
                 </el-form-item>
             </card-container>
         </el-form>
-        <div class="bg-f5 divider-line" />
         <template v-if="['3', '5'].includes(content.theme)">
+            <div class="bg-f5 divider-line" />
             <model-search-styles :value="form" :content="props.content" :is-show-common="false"></model-search-styles>
         </template>
         <div class="bg-f5 divider-line" />
@@ -76,7 +76,7 @@ const props = defineProps({
     },
     content: {
         type: Object,
-        default: () => { },
+        default: () => {},
     },
 });
 const emit = defineEmits(['update:value']);
