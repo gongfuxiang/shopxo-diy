@@ -136,7 +136,7 @@ onBeforeMount(async () => {
                 style: {
                     topic_color: '#000',
                     head_button_color: '#000',
-                    end_text_color: '',
+                    end_text_color: '#666',
                     header_background_color_list: [{ color: '#fff', color_percentage: undefined }],
                     header_background_img_url: [],
                     countdown_bg_color_list: [{ color: '#FF5000', color_percentage: undefined }],

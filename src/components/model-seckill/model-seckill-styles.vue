@@ -1,13 +1,13 @@
 <template>
     <div class="w">
         <el-form :model="form" label-width="70">
-            <template v-if="form.head_state == '1'">
+            <template v-if="data.head_state == '1'">
                 <card-container>
                     <div class="mb-12">头部样式</div>
-                    <el-form-item v-if="form.topic_type == 'text'" label="标题设置">
+                    <el-form-item v-if="data.topic_type == 'text'" label="标题设置">
                         <color-text-size-group v-model:color="form.topic_color" v-model:size="form.topic_size" :default-color="clone_form.topic_color" :type-list="['color', 'size']"></color-text-size-group>
                     </el-form-item>
-                    <el-form-item v-if="form.button_status == '1'" label="按钮设置">
+                    <el-form-item v-if="data.button_status == '1'" label="按钮设置">
                         <color-text-size-group v-model:color="form.head_button_color" v-model:size="form.head_button_size" :default-color="clone_form.head_button_color" :type-list="['color', 'size']"></color-text-size-group>
                     </el-form-item>
                     <el-form-item label="秒杀提示">
@@ -68,13 +68,13 @@
                 <el-form-item label="内间距">
                     <padding :value="form.shop_padding"></padding>
                 </el-form-item>
-                <el-form-item v-if="form.shop_style_type == '1'" label="内容间距">
+                <el-form-item v-if="data.shop_style_type == '1'" label="内容间距">
                     <slider v-model="form.content_spacing" :max="100"></slider>
                 </el-form-item>
                 <el-form-item label="商品间距">
                     <slider v-model="form.content_outer_spacing" :max="100"></slider>
                 </el-form-item>
-                <template v-if="form.shop_style_type == '3'">
+                <template v-if="data.shop_style_type == '3'">
                     <el-form-item label="内容高度">
                         <slider v-model="form.content_outer_height" :max="1000"></slider>
                     </el-form-item>
@@ -93,7 +93,7 @@
                     </div>
                 </el-form-item>
             </card-container>
-            <template v-if="form.shop_style_type == '1'">
+            <template v-if="data.shop_style_type == '1'">
                 <div class="divider-line"></div>
                 <card-container>
                     <div class="mb-12">进度条设置</div>
@@ -114,7 +114,7 @@
                     </el-form-item>
                 </card-container>
             </template>
-            <template v-if="form.shop_style_type == '3'">
+            <template v-if="data.shop_style_type == '3'">
                 <div class="divider-line"></div>
                 <card-container>
                     <div class="mb-12">轮播设置</div>

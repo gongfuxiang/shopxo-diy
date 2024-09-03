@@ -11,7 +11,7 @@
                     <div class="flex-row align-c gap-4">
                         <span class="size-10" :style="`color: ${ new_style.end_text_color }`">距离结束</span>
                         <div class="flex-row gap-3 jc-c align-c" :style="[form.theme == '4'? `${ time_bg };padding: 0.3rem 0.4rem;border-radius: 1.1rem;` : '']">
-                        <img v-if="form.theme == '4'" class="seckill-head-icon radius-xs" :src="url_computer('time')" />
+                        <img v-if="form.theme == '4'" class="seckill-head-icon radius-xs" :src="new_url" />
                         <template v-for="(item, index) in time_config" :key="item.key">
                             <template v-if="form.theme == '4'">
                                 <div class="size-12" :style="`color: ${ new_style.countdown_color }`">{{ item.value }}</div>
@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="flex flex-wrap" :style="`gap: ${ content_outer_spacing }px;`">
-                <div v-for="(item, index) in list" :key="index" :class="layout_type" :style="`${ content_radius }; ${ content_padding }`">
+                <div v-for="(item, index) in list" :key="index" :class="layout_type" :style="`${ content_radius }; ${ shop_style_type == '1' ? content_padding : '' }`">
                     <template v-if="!isEmpty(item)">
                         <template v-if="!isEmpty(item.new_cover)">
                             <image-empty v-model="item.new_cover[0]" :class="`flex-img${shop_style_type}`" :style="content_img_radius"></image-empty>
@@ -40,8 +40,8 @@
                             <image-empty v-model="item.images" :class="`flex-img${shop_style_type}`" :style="content_img_radius"></image-empty>
                         </template>
                     </template>
-                    <div class="flex-col gap-10">
-
+                    <div class="flex-col gap-10" :style="content_style">
+                        <div>{{ item.title }}</div>
                     </div>
                 </div>
             </div>
@@ -51,6 +51,7 @@
 <script setup lang="ts">
 import { background_computer, common_styles_computer, gradient_computer, padding_computer, radius_computer } from '@/utils';
 import { isEmpty } from 'lodash';
+import { online_url } from '@/utils';
 
 const props = defineProps({
     value: {
@@ -60,6 +61,12 @@ const props = defineProps({
         },
     },
 });
+const new_url = ref('');
+onBeforeMount(async () => {
+    const url = await online_url('/static/plugins/seckill/images/diy/').then(res => res);
+    new_url.value = url + 'time.png';
+})
+
 const form = computed(() => props.value?.content || {});
 const new_style = computed(() => props.value?.style || {});
 const time_config = [
@@ -157,6 +164,17 @@ const content_radius = computed(() => radius_computer(new_style.value.shop_radiu
 const shop_style_type = computed(() => form.value.shop_style_type);
 // 内边距设置
 const content_padding = computed(() => padding_computer(new_style.value.shop_padding));
+// 内容区域的样式
+const content_style = computed(() => {
+    const spacing_value = new_style.value.content_spacing;
+    let spacing = '';
+    if (shop_style_type.value == '1') {
+        spacing = `margin-left: ${spacing_value}px;`;
+    } else {
+        spacing = content_padding.value;
+    }
+    return `${spacing}`;
+});
 // 不同风格下的样式
 const layout_type = computed(() => {
     let class_type = '';
@@ -190,11 +208,6 @@ const multicolumn_columns_width = computed(() => {
 });
 // 图片圆角设置
 const content_img_radius = computed(() => radius_computer(new_style.value.shop_img_radius));
-
-const url_computer = (name: string) => {
-    const new_url = ref(new URL(`../../assets/images/components/model-seckill/${name}.png`, import.meta.url).href).value;
-    return new_url;
-};
 </script>
 <style lang="scss" scoped>
 :deep(.el-image) {
