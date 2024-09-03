@@ -7,7 +7,7 @@
                     <color-picker v-model="form.title_color" default-color="#000000"></color-picker>
                 </el-form-item>
                 <el-form-item label="标题文字">
-                    <el-radio-group v-model="form.title_weight" class="ml-4">
+                    <el-radio-group v-model="form.title_weight">
                         <el-radio value="500">加粗</el-radio>
                         <el-radio value="normal">正常</el-radio>
                         <el-radio value="italic">倾斜</el-radio>

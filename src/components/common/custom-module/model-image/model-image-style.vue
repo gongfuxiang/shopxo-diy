@@ -34,7 +34,7 @@
             <card-container class="h">
                 <div class="mb-12">边框设置</div>
                 <el-form-item label="边框显示">
-                    <el-radio-group v-model="form.border_show" class="ml-4">
+                    <el-radio-group v-model="form.border_show">
                         <el-radio :value="true">显示</el-radio>
                         <el-radio :value="false">隐藏</el-radio>
                     </el-radio-group>
@@ -44,7 +44,7 @@
                         <color-picker v-model="form.border_color" default-color="#FF3F3F"></color-picker>
                     </el-form-item>
                     <el-form-item label="边框样式">
-                        <el-radio-group v-model="form.border_style" class="ml-4">
+                        <el-radio-group v-model="form.border_style">
                             <el-radio value="dashed"><div class="border-style-item" style="border: 1px dashed #979797"></div></el-radio>
                             <el-radio value="solid"><div class="border-style-item" style="border: 1px solid #979797"></div></el-radio>
                             <el-radio value="dotted"><div class="border-style-item" style="border: 1px dotted #979797"></div></el-radio>

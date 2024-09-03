@@ -1,7 +1,7 @@
 <template>
     <div class="flex-col w h gap-10">
         <color-picker v-if="typeList.includes('color')" v-model="color" :default-color="props.defaultColor"></color-picker>
-        <el-radio-group v-if="typeList.includes('typeface')" v-model="typeface" class="ml-4">
+        <el-radio-group v-if="typeList.includes('typeface')" v-model="typeface">
             <el-radio v-for="item in font_weight" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
         </el-radio-group>
         <el-form-item v-if="typeList.includes('size')" label="字号" label-width="40" class="mb-0 w word-size">

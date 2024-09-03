@@ -4,13 +4,13 @@
             <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="样式设置">
-                    <el-radio-group v-model="form.carousel_type" class="ml-4">
+                    <el-radio-group v-model="form.carousel_type">
                         <el-radio value="inherit">样式一</el-radio>
                         <el-radio value="card">样式二</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="图片设置">
-                    <el-radio-group v-model="form.img_fit" class="ml-4">
+                    <el-radio-group v-model="form.img_fit">
                         <el-radio value="contain">等比缩放</el-radio>
                         <el-radio value="inherit">铺满</el-radio>
                         <el-radio value="cover">等比剪切</el-radio>

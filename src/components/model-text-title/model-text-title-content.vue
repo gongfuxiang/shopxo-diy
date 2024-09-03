@@ -14,7 +14,7 @@
             <card-container>
                 <div class="mb-12">关键字设置</div>
                 <el-form-item label="关键字">
-                    <el-radio-group v-model="form.keyword_show" class="ml-4">
+                    <el-radio-group v-model="form.keyword_show">
                         <el-radio :value="true">显示</el-radio>
                         <el-radio :value="false">隐藏</el-radio>
                     </el-radio-group>
@@ -42,7 +42,7 @@
             <card-container>
                 <div class="mb-12">更多设置</div>
                 <el-form-item label="右侧按钮">
-                    <el-radio-group v-model="form.right_show" class="ml-4">
+                    <el-radio-group v-model="form.right_show">
                         <el-radio :value="true">显示</el-radio>
                         <el-radio :value="false">隐藏</el-radio>
                     </el-radio-group>

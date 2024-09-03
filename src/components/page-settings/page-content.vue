@@ -59,7 +59,7 @@
             </template>
             <card-container>
                 <el-form-item label="底部导航">
-                    <el-radio-group v-model="form.bottom_navigation_show" class="ml-4">
+                    <el-radio-group v-model="form.bottom_navigation_show">
                         <el-radio v-for="item in base_list.bottom_navigation" :key="item.value" :value="item.value">{{item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>

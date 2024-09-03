@@ -4,27 +4,27 @@
             <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="导航样式">
-                    <el-radio-group v-model="form.nav_style" class="ml-4">
+                    <el-radio-group v-model="form.nav_style">
                         <el-radio value="image_with_text">图片加文字</el-radio>
                         <el-radio value="image">图片</el-radio>
                         <el-radio value="text">文字</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="单行显示">
-                    <el-radio-group v-model="form.single_line" class="ml-4">
+                    <el-radio-group v-model="form.single_line">
                         <el-radio :value="3">3个</el-radio>
                         <el-radio :value="4">4个</el-radio>
                         <el-radio :value="5">5个</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="展示样式">
-                    <el-radio-group v-model="form.display_style" class="ml-4">
+                    <el-radio-group v-model="form.display_style">
                         <el-radio value="fixed">固定显示</el-radio>
                         <el-radio value="slide">分页滑动</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item v-if="form.display_style === 'slide'" label="显示行数">
-                    <el-radio-group v-model="form.row" class="ml-4">
+                    <el-radio-group v-model="form.row">
                         <el-radio :value="1">1行</el-radio>
                         <el-radio :value="2">2行</el-radio>
                         <el-radio :value="3">3行</el-radio>
