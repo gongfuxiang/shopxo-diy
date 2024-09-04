@@ -1,6 +1,6 @@
 .siderbar {
     width: 34rem;
-    padding: 2rem 3rem;
+    padding: 0.5rem 3rem;
     background-color: #fff;
     overflow: auto;
     .el-collapse {
@@ -9,6 +9,7 @@
             border: 0;
         }
         :deep(.el-collapse-item__header) {
+            font-size: 1.4rem;
             border: 0;
         }
     }
@@ -291,13 +292,14 @@
         transition: left 0.8s ease;
     }
     .drawer-title {
+        line-height: 4.8rem;
         transition: 0.4s ease;
     }
     .drawer-drag-bg {
         background: #f2f8ff;
     }
     .drawer-drag-area {
-        height: calc(100% - 6rem);
+        height: calc(100% - 4.5rem);
         overflow-y: auto;
     }
     .drawer-drag {
