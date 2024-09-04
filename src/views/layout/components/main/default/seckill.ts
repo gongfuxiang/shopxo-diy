@@ -1,6 +1,13 @@
 import defaultCommon from './index';
 import { online_url } from '@/utils';
-const new_url = await online_url('/static/plugins/seckill/images/diy/');
+import { onMounted } from 'vue';
+
+const new_url = ref('');
+onMounted(() => {
+    online_url('/static/app/tabbar/').then((res) => {
+        new_url.value = res;
+    });
+});
 interface DefaultSeckill {
     content: {
         head_state: string;
@@ -12,7 +19,7 @@ interface DefaultSeckill {
         button_text: string;
         shop_style_type: string;
         single_line_number: number;
-        shop_number: number,
+        shop_number: number;
         is_show: string[];
         seckill_button_show: string;
         seckill_subscript_show: string;
@@ -47,12 +54,12 @@ interface DefaultSeckill {
         seckill_subscript_location: string;
         seckill_subscript_text_color: string;
         seckill_subscript_bg_color: string;
-        progress_bg_color: string,
-        progress_actived_color_list: color_list[],
-        progress_actived_direction: string,
-        progress_button_color: string,
-        progress_button_icon_color: string,
-        progress_text_color: string,
+        progress_bg_color: string;
+        progress_actived_color_list: color_list[];
+        progress_actived_direction: string;
+        progress_button_color: string;
+        progress_button_icon_color: string;
+        progress_text_color: string;
         is_roll: boolean;
         interval_time: number;
         rolling_fashion: string;
@@ -64,7 +71,7 @@ const defaultSeckill: DefaultSeckill = {
         head_state: '1',
         theme: '1',
         topic_type: 'image',
-        topic_src: [{ id: 1, url: new_url + 'header-title.png', original: '标题', title: '标题', ext: '.png', type: 'img' }],
+        topic_src: [{ id: 1, url: new_url.value + 'header-title.png', original: '标题', title: '标题', ext: '.png', type: 'img' }],
         topic_text: '限时秒杀',
         button_status: '1',
         button_text: '更多',
@@ -74,7 +81,7 @@ const defaultSeckill: DefaultSeckill = {
         is_show: ['title', 'price', 'original_price'],
         seckill_button_show: '1',
         seckill_subscript_show: '1',
-        subscript_text: '秒杀'
+        subscript_text: '秒杀',
     },
     style: {
         topic_color: '#fff',
@@ -88,14 +95,14 @@ const defaultSeckill: DefaultSeckill = {
         header_background_color_list: [{ color: '', color_percentage: undefined }],
         header_background_direction: '180deg',
         header_background_img_style: '2',
-        header_background_img_url: [{ id: 1, url: new_url + 'header-bg.png', original: '背景', title: '背景1', ext: '.png', type: 'img' }],
+        header_background_img_url: [{ id: 1, url: new_url.value + 'header-bg.png', original: '背景', title: '背景1', ext: '.png', type: 'img' }],
         shop_radius: {
             radius: 8,
             radius_top_left: 8,
             radius_top_right: 8,
             radius_bottom_left: 8,
             radius_bottom_right: 8,
-        } ,
+        },
         shop_img_radius: {
             radius: 4,
             radius_top_left: 4,
@@ -104,27 +111,30 @@ const defaultSeckill: DefaultSeckill = {
             radius_bottom_right: 4,
         },
         shop_padding: {
-            padding: 10, 
-            padding_top: 10, 
-            padding_bottom: 10, 
-            padding_left: 10, 
+            padding: 10,
+            padding_top: 10,
+            padding_bottom: 10,
+            padding_left: 10,
             padding_right: 10,
         },
         content_outer_spacing: 10, // 商品间距
         content_spacing: 10,
         content_outer_height: 232,
         shop_title_typeface: '500',
-        shop_title_size: 14,    
-        shop_title_color: "#333333",
+        shop_title_size: 14,
+        shop_title_color: '#333333',
         shop_price_typeface: '500',
         shop_price_size: 18,
-        shop_price_color: "#EA3323;",
+        shop_price_color: '#EA3323;',
         original_price_color: '',
         seckill_subscript_location: '',
         seckill_subscript_text_color: '',
         seckill_subscript_bg_color: '',
         progress_bg_color: '#FFEDED',
-        progress_actived_color_list: [{ color: '#FF3131', color_percentage: undefined }, { color: '#FF973D', color_percentage: undefined }],
+        progress_actived_color_list: [
+            { color: '#FF3131', color_percentage: undefined },
+            { color: '#FF973D', color_percentage: undefined },
+        ],
         progress_actived_direction: '180deg',
         progress_button_color: '#FFDE81',
         progress_button_icon_color: '#FF2525',

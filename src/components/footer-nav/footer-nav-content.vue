@@ -61,19 +61,19 @@ const props = defineProps({
 const form = reactive(props.value);
 const emit = defineEmits(['update:value']);
 const nav_style_change = (style: any) => {
-    form.nav_style = style;
+    form.value.nav_style = style;
     emit('update:value', form);
 };
 const nav_type_change = (type: any) => {
-    form.nav_type = type;
+    form.value.nav_type = type;
     emit('update:value', form);
 };
 const nav_content_remove = (index: number) => {
-    form.nav_content.splice(index, 1);
+    form.value.nav_content.splice(index, 1);
     emit('update:value', form);
 };
 const add = () => {
-    form.nav_content.push({
+    form.value.nav_content.push({
         id: get_math(),
         name: '',
         src: [],
