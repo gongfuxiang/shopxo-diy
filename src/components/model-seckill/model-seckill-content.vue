@@ -45,12 +45,12 @@
             <card-container>
                 <div class="mb-12">商品风格</div>
                 <el-form-item label="风格类型">
-                    <el-radio-group v-model="form.shop_style_type">
+                    <el-radio-group v-model="form.shop_style_type" @change="change_style">
                         <el-radio v-for="item in base_list.shop_style_type_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item v-if="form.shop_style_type == '3'" label="单行显示">
-                    <el-radio-group v-model="form.single_line_number">
+                    <el-radio-group v-model="form.carousel_col">
                         <el-radio :value="1">1个</el-radio>
                         <el-radio :value="2">2个</el-radio>
                         <el-radio :value="3">3个</el-radio>
@@ -61,18 +61,29 @@
             <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">商品设置</div>
-                <el-form-item label="商品数量">
+                <!-- <el-form-item label="商品数量">
                     <slider v-model="form.shop_number" :max="50"></slider>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item label="展示信息">
                     <el-checkbox-group v-model="form.is_show">
                         <el-checkbox v-for="item in base_list.list_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
                 <el-form-item label="秒杀按钮">
-                    <el-radio-group v-model="form.seckill_button_show">
-                        <el-radio v-for="item in base_list.state_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                    </el-radio-group>
+                    <div class="flex-col gap-10 w">
+                        <el-switch v-model="form.is_shop_show" active-value="1" inactive-value="0"></el-switch>
+                        <template v-if="form.is_shop_show == '1'">
+                            <el-radio-group v-model="form.shop_type" @change="change_shop_type">
+                                <el-radio v-for="item in base_list.shopping_button_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                            </el-radio-group>
+                            <template v-if="form.shop_type == 'text'">
+                                <el-input v-model="form.shop_button_text" placeholder="请输入按钮文字"></el-input>
+                            </template>
+                            <template v-else>
+                                <upload v-model:icon-value="form.shop_button_icon_class" is-icon type="icon" :limit="1" size="50"></upload>
+                            </template>
+                        </template>
+                    </div>
                 </el-form-item>
                 <el-form-item label="秒杀角标">
                     <div class="flex-col gap-10 w">
@@ -143,6 +154,42 @@ const base_list = {
         { name: '售价单位', value: 'price_unit' },
         { name: '原价单位', value: 'original_price_unit' },
     ],
+    shopping_button_list: [
+        { name: '文字', value: 'text' },
+        { name: '图标', value: 'icon' },
+    ],
+};
+const is_revise = ref(false);
+const change_shop_type = () => {
+    is_revise.value = true;
+};
+// 选择某些风格时， 切换到对应的按钮
+const change_style = (val: any): void => {
+    form.value.theme = val;
+    if (!is_revise.value) {
+        if (['3'].includes(val) && form.value.shop_type == 'text') {
+            form.value.shop_type = 'icon';
+        } else if (['1', '2'].includes(val) && form.value.shop_type == 'icon') {
+            form.value.shop_type = 'text';
+        }
+    }
+    if (['1'].includes(val)) {
+        if (data.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (data.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+            data.value.shop_img_radius.radius = props.defaultConfig.img_radius_0;
+            data.value.shop_img_radius.radius_bottom_left = props.defaultConfig.img_radius_0;
+            data.value.shop_img_radius.radius_bottom_right = props.defaultConfig.img_radius_0;
+            data.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_0;
+            data.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_0;
+        }
+    } else {
+        if (data.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (data.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+            data.value.shop_img_radius.radius = props.defaultConfig.img_radius_1;
+            data.value.shop_img_radius.radius_bottom_left = props.defaultConfig.img_radius_1;
+            data.value.shop_img_radius.radius_bottom_right = props.defaultConfig.img_radius_1;
+            data.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_1;
+            data.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_1;
+        }
+    }
 };
 
 const emit = defineEmits(['update:change-theme']);

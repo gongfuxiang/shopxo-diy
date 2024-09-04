@@ -25,12 +25,12 @@
         >
             <swiper-slide v-for="(item, index) in form.carousel_list" :key="index">
                 <div class="item-image flex jc-c align-c w h" :style="img_style">
-                    <image-empty v-model="item.carousel_img[0]" :style="img_style" error-style="width:5rem;height:5rem"></image-empty>
+                    <image-empty v-model="item.carousel_img[0]" :style="img_style" :fit="img_fit" error-style="width:5rem;height:5rem"></image-empty>
                 </div>
             </swiper-slide>
             <swiper-slide v-for="(item, index1) in seat_list" :key="index1">
                 <div class="item-image flex jc-c align-c w h" :style="img_style">
-                    <image-empty v-model="item.carousel_img[0]" :style="img_style" error-style="width:5rem;height:5rem"></image-empty>
+                    <image-empty v-model="item.carousel_img[0]" :style="img_style" :fit="img_fit" error-style="width:5rem;height:5rem"></image-empty>
                 </div>
             </swiper-slide>
             <div v-if="new_style.is_show" :class="{'dot-center': new_style.indicator_location == 'center', 'dot-right': new_style.indicator_location == 'flex-end' }" class="dot flex abs">
@@ -221,9 +221,6 @@ const slideChange = (swiper: { realIndex: number }) => {
     .item-image {
         background: #F8FDFF;
         height: v-bind(newHeight);
-        :deep(.el-image__inner) {
-            object-fit: v-bind(img_fit);
-        }
     }
 }
 </style>

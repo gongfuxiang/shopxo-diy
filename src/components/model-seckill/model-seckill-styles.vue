@@ -59,8 +59,8 @@
                 <el-form-item label="商品名称">
                     <color-text-size-group v-model:color="form.shop_title_color" v-model:typeface="form.shop_title_typeface" v-model:size="form.shop_title_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
-                <el-form-item label="销售价格">
-                    <color-picker v-model="form.price_color"></color-picker>
+                <el-form-item label="商品价格">
+                    <color-text-size-group v-model:color="form.shop_price_color" v-model:typeface="form.shop_price_typeface" v-model:size="form.shop_price_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
                 <el-form-item label="原价价格">
                     <color-picker v-model="form.original_price_color"></color-picker>
@@ -84,15 +84,36 @@
                         <el-radio-group v-model="form.seckill_subscript_location">
                             <el-radio v-for="item in base_list.location_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                         </el-radio-group>
-                        <el-form-item label="文字" style="color: #333;">
+                        <el-form-item label="文字" style="color: #333;" label-width="40">
                             <color-picker v-model="form.seckill_subscript_text_color"></color-picker>
                         </el-form-item>
-                        <el-form-item label="背景" style="color: #333;">
+                        <el-form-item label="背景" style="color: #333;" label-width="40">
                             <color-picker v-model="form.seckill_subscript_bg_color"></color-picker>
                         </el-form-item>
                     </div>
                 </el-form-item>
             </card-container>
+            <!-- 秒杀按钮 -->
+            <template v-if="data.is_shop_show == '1'">
+                <div class="divider-line"></div>
+                <card-container>
+                    <div class="mb-12">秒杀按钮</div>
+                    <el-form-item label="按钮颜色" class="topic">
+                        <flex-gradients-create :color-list="form.shop_button_color" default-color="#FF3D53"></flex-gradients-create>
+                    </el-form-item>
+                    <template v-if="data.shop_type == 'text'">
+                        <el-form-item label="文字设置">
+                            <color-text-size-group v-model:color="form.shop_button_text_color" v-model:typeface="form.shop_button_typeface" v-model:size="form.shop_button_size" default-color="#fff"></color-text-size-group>
+                        </el-form-item>
+                    </template>
+                    <template v-else>
+                        <el-form-item label="图标设置">
+                            <color-text-size-group v-model:color="form.shop_icon_color" v-model:size="form.shop_icon_size" default-color="#fff" :type-list="['color', 'size']"></color-text-size-group>
+                        </el-form-item>
+                    </template>
+                </card-container>
+            </template>
+            <!-- 进度条设置 -->
             <template v-if="data.shop_style_type == '1'">
                 <div class="divider-line"></div>
                 <card-container>
@@ -114,6 +135,7 @@
                     </el-form-item>
                 </card-container>
             </template>
+            <!-- 轮播设置 -->
             <template v-if="data.shop_style_type == '3'">
                 <div class="divider-line"></div>
                 <card-container>
@@ -161,10 +183,10 @@ let clone_form = cloneDeep(props.value);
 
 const base_list = {
     location_list: [
-        { name: '左上', value: 'left-top' },
-        { name: '右上', value: 'right-top' },
-        { name: '左下', value: 'left-buttom' },
-        { name: '右下', value: 'right-buttom' },
+        { name: '左上', value: 'top-left' },
+        { name: '右上', value: 'top-right' },
+        { name: '左下', value: 'bottom-left' },
+        { name: '右下', value: 'bottom-right' },
     ],
     rolling_fashion_list: [
         { name: '平移', value: 'translation' },
@@ -195,6 +217,12 @@ const progress_color_picker_event = (arry: color_list[], type: number) => {
 .card.mb-8 {
     .el-form-item:last-child {
         margin-bottom: 0;
+    }
+}
+.topic {
+    :deep(.el-form-item__content) {
+        align-items: flex-start;
+        flex-direction: column;
     }
 }
 </style>

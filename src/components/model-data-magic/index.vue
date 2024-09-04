@@ -174,6 +174,42 @@ const background_style = (item: any) => {
 const style_actived_color = (item: any, index: number) => {
    return item.actived_index == index ? `background: ${ item.data_style.actived_color };` : ''
 }
+// 设置默认值
+const default_list = {
+    title: '测试商品标题',
+    min_original_price: '41.2',
+    show_original_price_symbol: '￥',
+    show_original_price_unit: '/ 台',
+    min_price: '51',
+    show_price_symbol: '￥',
+    show_price_unit: '/ 台',
+    sales_count: '1000',
+    images: '',
+    new_cover: [],
+    plugins_view_icon_data: [
+        {
+            name: '满减活动',
+            bg_color: '#EA3323',
+            br_color: '',
+            color: '#fff',
+            url: '',
+        },
+        {
+            name: '包邮',
+            bg_color: '',
+            br_color: '#EA3323',
+            color: '#EA3323',
+            url: '',
+        },
+        {
+            name: '领劵',
+            bg_color: '',
+            br_color: '#EA9223',
+            color: '#EA9223',
+            url: '',
+        },
+    ],
+};
 /*
 ** 组装产品的数据
 ** @param {Array} list 商品列表
@@ -197,7 +233,7 @@ const commodity_list = (list: any[], num: number) => {
         }
         return nav_list;
     } else {
-        return [];
+        return [{ split_list: Array(num).fill(default_list)}];
     }
 }
 const old_list = ref<any>({});

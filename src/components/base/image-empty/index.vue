@@ -1,5 +1,5 @@
 <template>
-    <el-image :src="is_obj(image) ? image?.url || '' : image" class="flex align-c jc-c w h radius-sm" fit="cover" @load="on_load">
+    <el-image :src="is_obj(image) ? image?.url || '' : image" class="flex align-c jc-c w h radius-sm" :fit="fit" @load="on_load">
         <template #error>
             <div class="image-slot" :style="errorStyle">
                 <img :src="error_image" :style="errorImgStyle" />
@@ -9,6 +9,7 @@
 </template>
 <script setup lang="ts">
 import { is_obj } from '@/utils';
+import type { ImageProps } from 'element-plus';
 const props = defineProps({
     errorImgStyle: {
         type: String,
@@ -17,6 +18,10 @@ const props = defineProps({
     errorStyle: {
         type: String,
         default: () => '',
+    },
+    fit: {
+        type: String as PropType<ImageProps['fit']>,
+        default: () => 'cover',
     },
 });
 const image = defineModel({ type: [Object, String], default: () => {} });
