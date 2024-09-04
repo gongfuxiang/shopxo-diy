@@ -41,7 +41,7 @@
                         <el-radio value="white">白色</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="沉浸样式">
+                <el-form-item v-if="form.header_background_type == 'transparent'" label="沉浸样式">
                     <el-radio-group v-model="form.immersive_style">
                         <el-radio :value="true">开启</el-radio>
                         <el-radio :value="false">关闭</el-radio>

@@ -61,9 +61,9 @@
             <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">商品设置</div>
-                <el-form-item label="商品数量">
+                <!-- <el-form-item label="商品数量">
                     <slider v-model="form.shop_number" :max="50"></slider>
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item label="展示信息">
                     <el-checkbox-group v-model="form.is_show">
                         <el-checkbox v-for="item in base_list.list_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>

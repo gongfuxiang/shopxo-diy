@@ -159,11 +159,13 @@
 </template>
 <script setup lang="ts">
 import { background_computer, common_styles_computer, get_math, gradient_computer, gradient_handle, padding_computer, radius_computer } from '@/utils';
-import { isEmpty, cloneDeep } from 'lodash';
+import { isEmpty, cloneDeep, throttle } from 'lodash';
+import SeckillAPI from '@/api/seckill';
 import { online_url } from '@/utils';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
+import { da } from 'element-plus/es/locale';
 const modules = [Autoplay];
 
 const props = defineProps({
@@ -274,7 +276,15 @@ const default_list = {
 };
 const list = ref<data_list[]>([]);
 onBeforeMount(() => {
-    list.value = Array(4).fill(default_list);
+    SeckillAPI.getSeckillList((res: any) => {
+        const data = res.data;
+        console.log(data);
+        if (!isEmpty(data.current)) {
+            list.value = data.current.goods;
+        } else {
+            list.value = Array(4).fill(default_list);
+        }
+    });
 })
 // 商品间距
 const content_outer_spacing = computed(() => new_style.value.content_outer_spacing);
@@ -354,6 +364,7 @@ const autoplay = ref<boolean | object>(false);
 const slides_per_group = ref(1);
 // 内容参数的集合
 watchEffect(() => {
+    
     // 是否滚动
     if (new_style.value.is_roll) {
         autoplay.value = {

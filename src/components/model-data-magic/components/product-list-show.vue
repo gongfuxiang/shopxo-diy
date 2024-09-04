@@ -63,7 +63,7 @@
     <template v-else>
         <div class="flex-col gap-20 align-c w h">
             <template v-if="props.flex === 'row'">
-                <div v-for="(item, index) in split_list" :key="index" class="flex-row gap-10 align-c w h">
+                <div v-for="(item, index) in split_list" :key="index" class="flex-row gap-10 align-c w h shop-max-height">
                     <template v-if="!isEmpty(item.new_cover)">
                         <image-empty v-model="item.new_cover[0]" :style="contentImgRadius"></image-empty>
                     </template>
@@ -141,6 +141,9 @@ watchEffect(() => {
     position: absolute;
     bottom: 0.4rem;
     border-radius: 0.8rem;
+}
+.shop-max-height{
+    max-height: 33%;
 }
 .half-width {
     width: 50%;
