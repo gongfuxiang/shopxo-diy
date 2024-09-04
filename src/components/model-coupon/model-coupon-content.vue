@@ -28,7 +28,7 @@
                     </el-form-item>
                 </template>
                 <template v-else>
-                    <el-form-item label="文章分类">
+                    <el-form-item label="类型">
                         <el-select v-model="form.type" multiple collapse-tags placeholder="请选择优惠券类型">
                             <el-option v-for="item in base_list.coupon_type_list" :key="item.value" :label="item.name" :value="item.value" />
                         </el-select>
@@ -74,7 +74,7 @@ const new_url = ref('');
 const base_list = reactive({
     data_type_list: [
         { name: '默认', value: '0' },
-        { name: '手动', value: '1' },
+        { name: '自动', value: '1' },
     ],
     themeList: Array.from({ length: 7 }, (_, index) => ({
         id: String(index + 1),
