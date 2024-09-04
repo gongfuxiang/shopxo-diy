@@ -57,11 +57,21 @@ const modelValue = defineModel({ type: Object, default: {} });
 // #region 变量 --------------------start
 const is_custom_dialog = ref(false);
 const dialog_visible = ref(false);
+watch(dialog_visible, (val) => {
+    if (val) {
+        form.value = {
+            logo: modelValue.value.logo.length > 0 ? [{ url: modelValue.value.logo }] : [],
+            name: modelValue.value.name,
+            describe: modelValue.value.describe,
+            is_enable: modelValue.value.is_enable,
+        };
+    }
+});
 const form = ref({
-    logo: modelValue.value.logo.length > 0 ? [{ url: modelValue.value.logo }] : [],
-    name: modelValue.value.name,
-    describe: modelValue.value.describe,
-    is_enable: modelValue.value.is_enable,
+    logo: [] as any[],
+    name: '',
+    describe: '',
+    is_enable: '',
 });
 const ruleFormRef = ref<FormInstance>();
 const rules = reactive<FormRules>({
