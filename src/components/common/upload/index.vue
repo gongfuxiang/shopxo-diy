@@ -69,7 +69,7 @@
                         <!-- 574px -->
                         <el-scrollbar v-loading="img_loading" height="440px">
                             <div v-if="upload_list.length > 0" class="flex-row flex-wrap align-c gap-y-15 gap-x-10 pa-10">
-                                <div v-for="(item, index) in upload_list" :key="index" class="item" @click="check_img_event(item)">
+                                <div v-for="(item, index) in upload_list" :key="index" class="item" @click.prevent="check_img_event(item)">
                                     <el-badge :value="view_list_value.findIndex((i) => i.id === item.id) == -1 ? '' : view_list_value.findIndex((i) => i.id === item.id) + 1" class="badge flex-col gap-5 w" :hidden="view_list_value.findIndex((i) => i.id === item.id) == -1 || limit == 1">
                                         <div class="item-content re br-f5 radius">
                                             <template v-if="upload_type == 'video'">
@@ -109,12 +109,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="text-line-1 name">
+                                        <div class="text-line-1 name" @click.stop>
                                             <template v-if="edit_index !== -1 && edit_index === index">
                                                 <el-input v-model="item.original" v-focus type="text" placeholder="请输入内容" size="small" @blur="edit_index = -1" @keydown="edit_input_keydown" @change="edit_input_change" />
                                             </template>
                                             <template v-else>
-                                                <div class="ptb-1 plr-7 c-pointer no-select" @dblclick="edit_index = index">
+                                                <div class="ptb-1 plr-7 c-pointer no-select" @dblclick.prevent="edit_index = index">
                                                     {{ item.original }}
                                                 </div>
                                             </template>
