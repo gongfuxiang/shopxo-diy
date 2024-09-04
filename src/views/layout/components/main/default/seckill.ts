@@ -11,10 +11,13 @@ interface DefaultSeckill {
         button_status: string;
         button_text: string;
         shop_style_type: string;
-        single_line_number: number;
+        carousel_col: number;
         shop_number: number,
         is_show: string[];
-        seckill_button_show: string;
+        shop_type: string;
+        shop_button_text: string;
+        shop_button_icon_class: string;
+        is_shop_show: string;
         seckill_subscript_show: string;
         subscript_text: string;
     };
@@ -43,6 +46,12 @@ interface DefaultSeckill {
         shop_price_typeface: string;
         shop_price_size: number;
         shop_price_color: string;
+        shop_button_typeface:string;
+        shop_button_size: number;
+        shop_button_color: color_list[];
+        shop_button_text_color: string,
+        shop_icon_size: number;
+        shop_icon_color: string;
         original_price_color: string;
         seckill_subscript_location: string;
         seckill_subscript_text_color: string;
@@ -69,10 +78,13 @@ const defaultSeckill: DefaultSeckill = {
         button_status: '1',
         button_text: '更多',
         shop_style_type: '1',
-        single_line_number: 3,
+        carousel_col: 3,
         shop_number: 10,
         is_show: ['title', 'price', 'original_price'],
-        seckill_button_show: '1',
+        is_shop_show: '1',
+        shop_type: 'text',
+        shop_button_text: '去抢购',
+        shop_button_icon_class: '',
         seckill_subscript_show: '1',
         subscript_text: '秒杀'
     },
@@ -119,10 +131,25 @@ const defaultSeckill: DefaultSeckill = {
         shop_price_typeface: '500',
         shop_price_size: 18,
         shop_price_color: "#EA3323;",
-        original_price_color: '',
-        seckill_subscript_location: '',
-        seckill_subscript_text_color: '',
-        seckill_subscript_bg_color: '',
+        shop_button_typeface:'400',
+        shop_button_size: 12,
+        shop_button_color: [
+            {
+                color: '#FF3D53',
+                color_percentage: undefined
+            },
+            {
+                color: '#D73A3A',
+                color_percentage: undefined
+            }
+        ],
+        shop_button_text_color: '#fff',
+        shop_icon_size: 10,
+        shop_icon_color: "#fff",
+        original_price_color: '#999',
+        seckill_subscript_location: 'top-left',
+        seckill_subscript_text_color: '#fff',
+        seckill_subscript_bg_color: '#FF7607',
         progress_bg_color: '#FFEDED',
         progress_actived_color_list: [{ color: '#FF3131', color_percentage: undefined }, { color: '#FF973D', color_percentage: undefined }],
         progress_actived_direction: '180deg',
