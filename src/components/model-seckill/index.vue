@@ -47,7 +47,7 @@
                         <div class="flex-col gap-10 w flex-1 jc-sb" :style="content_style">
                             <div class="flex-col gap-10 w">
                                 <!-- 标题 -->
-                                <div :style="trends_config('title')">{{ item.title }}</div>
+                                <div :style="trends_config('title')" class="text-line-2">{{ item.title }}</div>
                                 <!-- 进度条 -->
                                 <div v-if="form.shop_style_type == '1'" class="flex-row align-c gap-6">
                                     <div class="re flex-1">
@@ -115,7 +115,7 @@
                         <div class="flex-col gap-10 w flex-1 jc-sb" :style="content_style">
                             <div class="flex-col gap-10 w">
                                 <!-- 标题 -->
-                                <div :style="trends_config('title')">{{ item.title }}</div>
+                                <div :style="trends_config('title')" class="text-line-2">{{ item.title }}</div>
                                 <!-- 进度条 -->
                                 <div v-if="form.shop_style_type == '1'" class="flex-row align-c gap-6">
                                     <div class="re flex-1">
@@ -275,10 +275,11 @@ const default_list = {
     ],
 };
 const list = ref<data_list[]>([]);
-onBeforeMount(() => {
-    SeckillAPI.getSeckillList((res: any) => {
+onMounted(() => {
+    console.log('aaaa');
+    SeckillAPI.getSeckillList({}).then((res: any) => {
         const data = res.data;
-        console.log(data);
+        console.log(res.data);
         if (!isEmpty(data.current)) {
             list.value = data.current.goods;
         } else {
