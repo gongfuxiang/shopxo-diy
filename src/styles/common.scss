@@ -263,3 +263,11 @@
     height: 0.8rem;
     background-color: #f0f2f5;
 }
+
+// 禁止双击选中
+.no-select {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

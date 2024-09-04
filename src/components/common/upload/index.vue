@@ -111,10 +111,10 @@
                                         </div>
                                         <div class="text-line-1 name">
                                             <template v-if="edit_index !== -1 && edit_index === index">
-                                                <el-input v-model="item.original" type="text" placeholder="请输入内容" size="small" @change="edit_input_change" />
+                                                <el-input v-model="item.original" v-focus type="text" placeholder="请输入内容" size="small" @blur="edit_index = -1" @keydown="edit_input_keydown" @change="edit_input_change" />
                                             </template>
                                             <template v-else>
-                                                <div class="ptb-1 plr-7">
+                                                <div class="ptb-1 plr-7 c-pointer no-select" @dblclick="edit_index = index">
                                                     {{ item.original }}
                                                 </div>
                                             </template>
@@ -555,9 +555,15 @@ const edit_event = (item: any, index: number) => {
 // 输入框 输入完成
 const edit_input_change = (val: string) => {
     edit_index.value = -1;
-    UploadAPI.saveAttachmentName({ id: edit_id.value, original: val }).then((res) => {
+    UploadAPI.saveAttachmentName({ id: edit_id.value, original: val || '' }).then((res) => {
         ElMessage.success('修改成功!');
     });
+};
+const edit_input_keydown = (event: any) => {
+    // 阻止回车键默认事件
+    if (event.keyCode === 13) {
+        edit_index.value = -1;
+    }
 };
 
 // 删除图片/视频/文件
