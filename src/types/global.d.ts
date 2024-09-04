@@ -7,6 +7,11 @@ declare global {
         id: string | number;
         name: string;
     }
+    interface select_2 {
+        value: string | number;
+        name: string;
+        checked?: boolean;
+    }
     // 可视化数据
     interface commonComponentData {
         src: string;

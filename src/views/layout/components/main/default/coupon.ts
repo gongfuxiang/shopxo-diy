@@ -3,6 +3,7 @@ interface DefaultCoupon {
     content: {
         theme: string;
         data_type: string;
+        type: string[];
         number: number;
         title: string;
         desc: string;
@@ -33,6 +34,7 @@ const defaultCoupoin: DefaultCoupon = {
     content: {
         theme: '1',
         data_type: '0',
+        type: [],
         number: 4,
         // 只有主题4用到
         title: '先领券 再购物',

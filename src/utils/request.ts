@@ -15,9 +15,10 @@ service.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
         // 如果是本地则使用静态tonken如果是线上则使用cookie的token
         const cookie = get_cookie('admin_info');
+        const symbol = config.url?.includes('?') ? '&' : '?';
         if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
             let temp_data = await import(import.meta.env.VITE_APP_BASE_API == '/dev-api' ? '../../temp.d' : '../../temp_pro.d');
-            config.url = config.url + '?token=' + temp_data.default.temp_token;
+            config.url = config.url + symbol + 'token=' + temp_data.default.temp_token;
         } else {
             if (cookie) {
                 config.url = config.url + '&token=' + JSON.parse(cookie).token;

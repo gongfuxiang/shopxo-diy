@@ -24,7 +24,7 @@
                 <el-table-column prop="images" label="商品">
                     <template #default="scope">
                         <div class="flex-row align-c gap-10">
-                            <image-empty v-model="scope.row.images" class="img"></image-empty>
+                            <image-empty v-if="scope.row.images" v-model="scope.row.images" class="img"></image-empty>
                             <div class="flex-1">{{ scope.row.title }}</div>
                         </div>
                     </template>

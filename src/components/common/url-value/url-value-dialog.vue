@@ -46,6 +46,10 @@
                 <template v-else-if="link_select == 'custom-url'">
                     <link-custom :reset="reset_compontent" :status="component_status" @update:link="custom_link"></link-custom>
                 </template>
+                <!-- 优惠券链接 -->
+                <template v-else-if="link_select == 'coupon'">
+                    <link-coupon v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-coupon>
+                </template>
             </div>
         </div>
         <template #footer>
@@ -131,6 +135,8 @@ const dialog_title = computed(() => {
             name = '品牌';
         } else if (props.type[0] == 'plugins') {
             name = '插件';
+        } else if (props.type[0] == 'coupon') {
+            name = '优惠券';
         }
         return name + '链接';
     } else {

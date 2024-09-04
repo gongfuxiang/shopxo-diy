@@ -23,7 +23,7 @@
                 <el-table-column prop="cover" label="文章">
                     <template #default="scope">
                         <div class="flex-row align-c gap-10">
-                            <image-empty v-model="scope.row.cover" class="img"></image-empty>
+                            <image-empty v-if="scope.row.cover" v-model="scope.row.cover" class="img"></image-empty>
                             <div class="flex-1">{{ scope.row.title }}</div>
                         </div>
                     </template>

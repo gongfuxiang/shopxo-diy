@@ -17,10 +17,10 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="id" label="ID" width="80" type="" />
-                <el-table-column prop="logo" label="logo" width="100" type="">
+                <el-table-column prop="logo" label="封面" width="100" type="">
                     <template #default="scope">
                         <div class="flex-row align-c gap-10">
-                            <image-empty v-model="scope.row.logo" class="img"></image-empty>
+                            <image-empty v-if="scope.row.logo" v-model="scope.row.logo" class="img"></image-empty>
                             <div class="flex-1">{{ scope.row.title }}</div>
                         </div>
                     </template>

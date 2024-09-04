@@ -1,15 +1,16 @@
 <template>
     <div class="coupon-theme-container">
         <div class="re" :style="style_container">
-            <el-scrollbar>
+            <el-scrollbar class="hide-scrollbar">
                 <template v-if="theme == '1'">
                     <div class="coupon-theme-1">
-                        <div v-for="item in list" :key="item" class="item">
+                        <div v-for="item in data_list" :key="item" class="item">
                             <div class="coupon-theme-1-content tc" :style="'background-image: url(' + theme_bg_img.url_1 + ');background-size: 100% 100%;'">
-                                <div class="name">满200元使用</div>
+                                <div class="name text-line-1">{{ item.name }}</div>
                                 <div class="price">
-                                    <span class="symbol">¥</span>
-                                    <span class="number">30</span>
+                                    <span v-if="item.type == '0'" class="symbol">¥</span>
+                                    <span class="number">{{ item.discount_value }}</span>
+                                    <span v-if="item.type == '1'" class="symbol">折</span>
                                 </div>
                             </div>
                             <div class="coupon-btn">立即领取</div>
@@ -18,14 +19,15 @@
                 </template>
                 <template v-else-if="theme == '2'">
                     <div class="coupon-theme-2">
-                        <div v-for="item in list" :key="item" class="item" :style="'background-image: url(' + theme_bg_img.url_2 + ');background-size: 100% 100%;'">
+                        <div v-for="item in data_list" :key="item" class="item" :style="'background-image: url(' + theme_bg_img.url_2 + ');background-size: 100% 100%;'">
                             <div class="tc">
                                 <div class="price">
-                                    <span class="symbol">¥</span>
-                                    <span class="number">30</span>
+                                    <span v-if="item.type == '0'" class="symbol">¥</span>
+                                    <span class="number">{{ item.discount_value }}</span>
+                                    <span v-if="item.type == '1'" class="symbol">折</span>
                                 </div>
-                                <div class="name">满200元使用</div>
-                                <div class="desc">指定商品可用</div>
+                                <div class="name text-line-1">{{ item.name }}</div>
+                                <div class="desc text-line-1">{{ item.desc }}</div>
                             </div>
                             <div class="coupon-btn">立即领取</div>
                         </div>
@@ -33,16 +35,17 @@
                 </template>
                 <template v-else-if="theme == '3'">
                     <div class="coupon-theme-3">
-                        <div v-for="item in list" :key="item" class="item">
+                        <div v-for="item in data_list" :key="item" class="item">
                             <div class="left">
                                 <div class="price">
-                                    <span class="symbol">¥</span>
-                                    <span class="number">30</span>
+                                    <span v-if="item.type == '0'" class="symbol">¥</span>
+                                    <span class="number">{{ item.discount_value }}</span>
+                                    <span v-if="item.type == '1'" class="symbol self-e">折</span>
                                 </div>
-                                <div class="text">
-                                    <div class="name">满200元使用</div>
-                                    <div class="desc">指定商品可用</div>
-                                    <div class="limit">(限领一张)</div>
+                                <div class="text pl-3 pr-8">
+                                    <div class="name text-line-1">{{ item.name }}</div>
+                                    <div class="desc text-line-1">{{ item.use_limit_type_name }}</div>
+                                    <div v-if="item.limit_send_count && item.limit_send_count > 0" class="limit text-line-1">(限领{{ item.limit_send_count }}张)</div>
                                 </div>
                             </div>
                             <div class="right">
@@ -56,22 +59,23 @@
                 </template>
                 <template v-else-if="theme == '4'">
                     <div class="coupon-theme-4">
-                        <el-scrollbar>
+                        <el-scrollbar class="hide-scrollbar">
                             <div class="left">
-                                <div v-for="item in list" :key="item" class="item">
+                                <div v-for="item in data_list" :key="item" class="item">
                                     <div class="type">通用券</div>
                                     <div class="price">
-                                        <span class="symbol">¥</span>
-                                        <span class="number">30</span>
+                                        <span v-if="item.type == '0'" class="symbol">¥</span>
+                                        <span class="number">{{ item.discount_value }}</span>
+                                        <span v-if="item.type == '1'" class="symbol">折</span>
                                     </div>
-                                    <div class="name">满200元使用</div>
+                                    <div class="name text-line-1">{{ item.name }}</div>
                                 </div>
                             </div>
                         </el-scrollbar>
                         <div class="right">
                             <div class="re z-i flex-col jc-c align-c">
-                                <div class="title">先领券 再购物</div>
-                                <div class="desc">领券下单·享购物优惠</div>
+                                <div class="title text-line-1">{{ content_title }}</div>
+                                <div class="desc text-line-1">{{ content_desc }}</div>
                                 <div class="coupon-btn">领取全部</div>
                             </div>
                         </div>
@@ -79,13 +83,14 @@
                 </template>
                 <template v-else-if="theme == '5'">
                     <div class="coupon-theme-5">
-                        <div v-for="item in list" :key="item" class="item">
+                        <div v-for="item in data_list" :key="item" class="item">
                             <div class="left" :style="'background-image: url(' + theme_bg_img.url_3 + ');background-size: 100% 100%;'">
                                 <div class="price">
-                                    <span class="symbol">¥</span>
-                                    <span class="number">30</span>
+                                    <span v-if="item.type == '0'" class="symbol">¥</span>
+                                    <span class="number">{{ item.discount_value }}</span>
+                                    <span v-if="item.type == '1'" class="symbol">折</span>
                                 </div>
-                                <div class="name">满200元使用</div>
+                                <div class="name text-line-1">{{ item.name }}</div>
                             </div>
                             <div class="right">
                                 <div class="coupon-btn">领取</div>
@@ -95,13 +100,14 @@
                 </template>
                 <template v-else-if="theme == '6'">
                     <div class="coupon-theme-6">
-                        <div v-for="item in list" :key="item" class="item">
+                        <div v-for="item in data_list" :key="item" class="item">
                             <div class="top">
                                 <div class="price">
-                                    <span class="symbol">¥</span>
-                                    <span class="number">30</span>
+                                    <span v-if="item.type == '0'" class="symbol">¥</span>
+                                    <span class="number">{{ item.discount_value }}</span>
+                                    <span v-if="item.type == '1'" class="symbol">折</span>
                                 </div>
-                                <div class="name">满200元使用</div>
+                                <div class="name text-line-1">{{ item.name }}</div>
                             </div>
                             <div class="bottom">
                                 <div class="coupon-btn">立即领取</div>
@@ -111,13 +117,14 @@
                 </template>
                 <template v-else-if="theme == '7'">
                     <div class="coupon-theme-7">
-                        <div v-for="item in list" :key="item" class="item">
+                        <div v-for="item in data_list" :key="item" class="item">
                             <div class="left">
                                 <div class="price">
-                                    <span class="symbol">¥</span>
-                                    <span class="number">30</span>
+                                    <span v-if="item.type == '0'" class="symbol">¥</span>
+                                    <span class="number">{{ item.discount_value }}</span>
+                                    <span v-if="item.type == '1'" class="symbol">折</span>
                                 </div>
-                                <div class="name">满200元使用</div>
+                                <div class="name text-line-1">{{ item.name }}</div>
                             </div>
                             <div class="right">
                                 <div class="coupon-btn">立即领取</div>
@@ -131,24 +138,63 @@
 </template>
 <script setup lang="ts">
 import { common_styles_computer, gradient_computer, online_url } from '@/utils';
+import { isEmpty, cloneDeep } from 'lodash';
+import CouponAPI from '@/api/coupon';
 const props = defineProps({
     value: {
         type: Object,
         default: () => ({}),
     },
 });
-const list = 10;
+const form = computed(() => props.value?.content || {});
+const new_style = computed(() => props.value?.style || {});
+const data_list = ref<any[]>([]);
 
-const style_container = ref('');
-watch(
-    props.value,
-    (newVal, oldValue) => {
-        const new_content = newVal?.content || {};
-        const new_style = newVal?.style || {};
-        style_container.value = common_styles_computer(new_style.common_style);
-    },
-    { immediate: true, deep: true }
-);
+const default_list = {
+    name: '满100减50',
+    type: '0',
+    discount_value: '30',
+    desc: '指定商品可用',
+    use_limit_type_name: '限领一张',
+};
+// 公共样式
+const style_container = computed(() => {
+    return common_styles_computer(new_style.value.common_style);
+});
+// 内容标题
+const content_title = computed(() => {
+    return form.value.title;
+});
+// 内容描述
+const content_desc = computed(() => {
+    return form.value.desc;
+});
+const get_coupon = () => {
+    const { number, type } = form.value;
+    const params = {
+        number: number,
+        type: type.length > 0 ? type.join(',') : '',
+    };
+    // 获取商品列表
+    CouponAPI.getCoupon(params).then((res: any) => {
+        if (!isEmpty(res.data)) {
+            data_list.value = res.data;
+        } else {
+            data_list.value = Array(4).fill(default_list);
+        }
+    });
+};
+watchEffect(() => {
+    if (form.value.data_type == '0') {
+        if (!isEmpty(form.value.data_list)) {
+            data_list.value = cloneDeep(form.value.data_list);
+        } else {
+            data_list.value = Array(4).fill(default_list);
+        }
+    } else {
+        get_coupon();
+    }
+});
 const theme = computed(() => props.value?.content?.theme);
 const theme_style = computed(() => {
     const new_background = gradient_computer({ color_list: props.value?.style?.background, direction: props.value?.style?.direction }, false);
@@ -216,7 +262,8 @@ onBeforeMount(() => {
         border-radius: 1rem;
         margin-top: 1rem;
         .name {
-            padding: 0.5rem;
+            padding: 0.5rem 0.5rem 0 0.5rem;
+            margin-bottom: 0.5rem;
             font-size: 1rem;
             color: v-bind('theme_style.name_color');
         }
@@ -229,10 +276,10 @@ onBeforeMount(() => {
                 bottom: 0.3rem;
             }
             .number {
-                font-size: 3.8rem;
+                font-size: 3rem;
                 line-height: 2.4rem;
                 font-weight: 500;
-                padding-left: 0.4rem;
+                padding: 0 0.4rem;
             }
         }
         .coupon-theme-1-content {
@@ -270,6 +317,9 @@ onBeforeMount(() => {
         width: 8.5rem;
         height: 10rem;
         padding: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         .price {
             color: v-bind('theme_style.price_color');
             padding: 0.3rem 0;
@@ -279,7 +329,7 @@ onBeforeMount(() => {
             .number {
                 font-size: 2.6rem;
                 font-weight: 500;
-                padding-left: 0.4rem;
+                padding: 0 0.4rem;
             }
         }
         .name {
@@ -304,6 +354,7 @@ onBeforeMount(() => {
             background: v-bind('theme_style.btn_background');
             border-radius: 2.3rem;
             margin-top: 0.5rem;
+            margin-bottom: 0.2rem;
         }
     }
 }
@@ -345,14 +396,14 @@ onBeforeMount(() => {
                     border-left: 0.1rem dashed v-bind('theme_3_border_style');
                 }
                 .symbol {
-                    font-size: 2.4rem;
+                    font-size: 1.8rem;
                     font-weight: 600;
                 }
                 .number {
-                    font-size: 4.6rem;
+                    font-size: 3.2rem;
                     font-weight: 600;
-                    padding-left: 0.4rem;
-                    line-height: 4rem;
+                    padding: 0 0.4rem;
+                    line-height: 3rem;
                 }
             }
             .text {
@@ -361,6 +412,7 @@ onBeforeMount(() => {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                text-align: center;
                 .name {
                     font-size: 1.8rem;
                     color: v-bind('theme_style.name_color');
@@ -376,7 +428,6 @@ onBeforeMount(() => {
                 .limit {
                     color: v-bind('theme_style.limit_send_count');
                     font-size: 1.2rem;
-                    line-height: 1.4rem;
                 }
             }
         }
@@ -777,5 +828,8 @@ onBeforeMount(() => {
             }
         }
     }
+}
+.hide-scrollbar .el-scrollbar__bar {
+    display: none;
 }
 </style>

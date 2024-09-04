@@ -1,9 +1,9 @@
 <template>
-    <!-- 品牌 -->
+    <!-- 优惠券 -->
     <div class="container">
         <div class="flex-row jc-e gap-20 mb-20">
-            <el-select v-model="brand_ids" class="search-w" placeholder="品牌" clearable @change="handle_search">
-                <el-option v-for="item in brand_category" :key="item.id" :label="item.name" :value="item.id" />
+            <el-select v-model="type" class="search-w" placeholder="请选择" clearable @change="handle_search">
+                <el-option v-for="item in coupon_type_list" :key="item.value" :label="item.name" :value="item.value" />
             </el-select>
             <el-input v-model="search_value" placeholder="请输入搜索内容" class="search-w" @change="handle_search">
                 <template #suffix>
@@ -20,15 +20,17 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="id" label="ID" width="80" type="" />
-                <el-table-column prop="images" label="品牌">
+                <el-table-column prop="name" label="名称"></el-table-column>
+                <el-table-column prop="type_name" label="类型"></el-table-column>
+                <el-table-column prop="cover" label="优惠信息">
                     <template #default="scope">
-                        <div class="flex-row align-c gap-10">
-                            <image-empty v-if="scope.row.logo" v-model="scope.row.logo" class="img"></image-empty>
-                            <div class="flex-1">{{ scope.row.name }}</div>
+                        <div class="flex-row align-c gap-3">
+                            <div>{{ scope.row.type == '0' ? '减' : '打' }}</div>
+                            <div>{{ scope.row.discount_value }}</div>
+                            <div>{{ scope.row.type_unit }}</div>
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="brand_category_text" label="分类名称" />
                 <template #empty>
                     <no-data></no-data>
                 </template>
@@ -40,6 +42,7 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { is_obj_empty } from '@/utils';
 import UrlValueAPI from '@/api/url-value';
 import { commonStore } from '@/store';
 const common_store = commonStore();
@@ -68,26 +71,25 @@ onMounted(() => {
 const modelValue = defineModel({ type: Object, default: {} });
 const tableData = ref<pageLinkList[]>([]);
 const search_value = ref('');
-const cascader_config = {
-    value: 'id',
-    label: 'name',
-    children: 'items',
-};
 const init = () => {
     template_selection.value = '';
-    category_ids.value = [];
-    brand_ids.value = '';
+    type.value = '';
     search_value.value = '';
-    brand_category.value = common_store.common.brand_category;
+    if (!is_obj_empty(common_store.common.plugins) && !is_obj_empty(common_store.common.plugins.coupon) && common_store.common.plugins.coupon.coupon_type_list.length > 0) {
+        coupon_type_list.value = common_store.common.plugins.coupon.coupon_type_list;
+    }
     get_list(1);
 };
 const handle_search = () => {
     get_list(1);
 };
-const category_ids = ref([]);
-const brand_ids = ref('');
-const brand_category = ref<any[]>([]);
-const emit = defineEmits(['update:link']);
+const type = ref('');
+interface couponType {
+    value: string;
+    name: string;
+    checked?: boolean;
+}
+const coupon_type_list = ref<couponType[]>([]);
 const template_selection = ref('');
 //#region 分页 -----------------------------------------------start
 // 当前页
@@ -96,16 +98,15 @@ const page = ref(1);
 const page_size = ref(30);
 // 总数量
 const data_total = ref(0);
-
 // 查询文件
 const get_list = (new_page: number) => {
     let new_data = {
         page: new_page,
         keywords: search_value.value,
+        type: type.value,
         page_size: page_size.value,
-        category_ids: brand_ids.value,
     };
-    UrlValueAPI.getBrandList(new_data).then((res: any) => {
+    UrlValueAPI.getCouponList(new_data).then((res: any) => {
         tableData.value = res.data.data_list;
         data_total.value = res.data.data_total;
         page.value = res.data.page;
