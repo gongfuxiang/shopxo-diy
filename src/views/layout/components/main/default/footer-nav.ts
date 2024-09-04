@@ -1,7 +1,5 @@
 import defaultCommon from './index';
 import { online_url } from '@/utils';
-import { onActivated } from 'vue';
-
 const new_url = await online_url('/static/app/tabbar/').then((res) => res);
 interface DefaultFooterNav {
     content: {
