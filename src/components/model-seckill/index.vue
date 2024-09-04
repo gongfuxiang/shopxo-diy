@@ -9,9 +9,9 @@
                     </div>
                     <div v-if="form.theme == '1'" class="pl-6 pr-6 cr-f">|</div>
                     <div class="flex-row align-c gap-4">
-                        <span v-if="form.theme != '4'" class="size-10" :style="`color: ${ new_style.end_text_color }`">距离结束</span>
+                        <span class="size-10" :style="`color: ${ new_style.end_text_color }`">距离结束</span>
                         <div class="flex-row gap-3 jc-c align-c" :style="[form.theme == '4'? `${ time_bg };padding: 0.3rem 0.4rem;border-radius: 1.1rem;` : '']">
-                        <img v-if="form.theme == '4'" class="seckill-head-icon radius-xs" :src="url_computer('time')" />
+                        <img v-if="form.theme == '4'" class="seckill-head-icon radius-xs" :src="new_url" />
                         <template v-for="(item, index) in time_config" :key="item.key">
                             <template v-if="form.theme == '4'">
                                 <div class="size-12" :style="`color: ${ new_style.countdown_color }`">{{ item.value }}</div>
@@ -30,11 +30,28 @@
                     <el-icon class="iconfont icon-arrow-right" :color="new_style.head_button_color"></el-icon>
                 </div>
             </div>
+            <div class="flex flex-wrap" :style="`gap: ${ content_outer_spacing }px;`">
+                <div v-for="(item, index) in list" :key="index" :class="layout_type" :style="`${ content_radius }; ${ shop_style_type == '1' ? content_padding : '' }`">
+                    <template v-if="!isEmpty(item)">
+                        <template v-if="!isEmpty(item.new_cover)">
+                            <image-empty v-model="item.new_cover[0]" :class="`flex-img${shop_style_type}`" :style="content_img_radius"></image-empty>
+                        </template>
+                        <template v-else>
+                            <image-empty v-model="item.images" :class="`flex-img${shop_style_type}`" :style="content_img_radius"></image-empty>
+                        </template>
+                    </template>
+                    <div class="flex-col gap-10" :style="content_style">
+                        <div>{{ item.title }}</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, common_styles_computer, gradient_computer } from '@/utils';
+import { background_computer, common_styles_computer, gradient_computer, padding_computer, radius_computer } from '@/utils';
+import { isEmpty } from 'lodash';
+import { online_url } from '@/utils';
 
 const props = defineProps({
     value: {
@@ -44,6 +61,12 @@ const props = defineProps({
         },
     },
 });
+const new_url = ref('');
+onBeforeMount(async () => {
+    const url = await online_url('/static/plugins/seckill/images/diy/').then(res => res);
+    new_url.value = url + 'time.png';
+})
+
 const form = computed(() => props.value?.content || {});
 const new_style = computed(() => props.value?.style || {});
 const time_config = [
@@ -74,13 +97,125 @@ const seckill_head_style = computed(() => {
 });
 
 const style = computed(() => common_styles_computer(props.value.style.common_style));
-
-const url_computer = (name: string) => {
-    const new_url = ref(new URL(`../../assets/images/components/model-seckill/${name}.png`, import.meta.url).href).value;
-    return new_url;
+interface plugins_icon_data {
+    name: string;
+    bg_color: string;
+    br_color: string;
+    color: string;
+    url: string;
+}
+interface data_list {
+    title: string;
+    images: string;
+    new_cover: string[];
+    min_original_price: string;
+    show_original_price_symbol: string;
+    show_original_price_unit: string;
+    min_price: string;
+    show_price_symbol: string;
+    show_price_unit: string;
+    sales_count: string;
+    plugins_view_icon_data: plugins_icon_data[];
+}
+const default_list = {
+    title: '测试商品标题',
+    min_original_price: '41.2',
+    show_original_price_symbol: '￥',
+    show_original_price_unit: '/ 台',
+    min_price: '51',
+    show_price_symbol: '￥',
+    show_price_unit: '/ 台',
+    sales_count: '1000',
+    images: '',
+    new_cover: [],
+    plugins_view_icon_data: [
+        {
+            name: '满减活动',
+            bg_color: '#EA3323',
+            br_color: '',
+            color: '#fff',
+            url: '',
+        },
+        {
+            name: '包邮',
+            bg_color: '',
+            br_color: '#EA3323',
+            color: '#EA3323',
+            url: '',
+        },
+        {
+            name: '领劵',
+            bg_color: '',
+            br_color: '#EA9223',
+            color: '#EA9223',
+            url: '',
+        },
+    ],
 };
+const list = ref<data_list[]>([]);
+onBeforeMount(() => {
+    list.value = Array(4).fill(default_list);
+})
+// 商品间距
+const content_outer_spacing = computed(() => new_style.value.content_outer_spacing);
+// 圆角设置
+const content_radius = computed(() => radius_computer(new_style.value.shop_radius));
+// 选择的风格
+const shop_style_type = computed(() => form.value.shop_style_type);
+// 内边距设置
+const content_padding = computed(() => padding_computer(new_style.value.shop_padding));
+// 内容区域的样式
+const content_style = computed(() => {
+    const spacing_value = new_style.value.content_spacing;
+    let spacing = '';
+    if (shop_style_type.value == '1') {
+        spacing = `margin-left: ${spacing_value}px;`;
+    } else {
+        spacing = content_padding.value;
+    }
+    return `${spacing}`;
+});
+// 不同风格下的样式
+const layout_type = computed(() => {
+    let class_type = '';
+    switch (shop_style_type.value) {
+        case '1':
+            class_type = `flex-row bg-f oh multicolumn-columns`;
+            break;
+        case '2':
+            class_type = `flex-col bg-f oh multicolumn-columns`;
+            break;
+        case '3':
+            class_type = `flex-col bg-f oh multicolumn-columns`;
+            break;
+        default:
+            break;
+    }
+    return class_type;
+});
+// 不换行显示
+const multicolumn_columns_width = computed(() => {
+    const { single_line_number } = toRefs(form.value);
+    let model_number = single_line_number.value;
+    if (shop_style_type.value == '1') {
+        model_number = 1;
+    } else if (shop_style_type.value == '2') {
+        model_number = 2;
+    }
+    // 计算间隔的空间。(gap * gap数量) / 模块数量
+    let gap = (new_style.value.content_outer_spacing * (model_number - 1)) / model_number;
+    return `calc(${100 / model_number}% - ${gap}px)`;
+});
+// 图片圆角设置
+const content_img_radius = computed(() => radius_computer(new_style.value.shop_img_radius));
 </script>
 <style lang="scss" scoped>
+:deep(.el-image) {
+    .image-slot img {
+        width: 5rem;
+        height: 5rem;
+    }
+}
 .seckill-head {
     padding: 1.5rem 1.3rem;
     width: 100%;
@@ -102,5 +237,24 @@ const url_computer = (name: string) => {
 .colon {
     position: relative;
     top: -0.1rem;
+}
+.multicolumn-columns {
+    height: 100%;
+    width: v-bind(multicolumn_columns_width);
+    min-width: v-bind(multicolumn_columns_width);
+}
+.flex-img1 {
+    height: auto;
+    min-height: 11rem;
+    max-height: 12rem;
+    width: 11rem;
+}
+.flex-img2 {
+    width: 100%;
+    height: 18rem;
+}
+.flex-img3 {
+    width: 100%;
+    min-height: 10.4rem;
 }
 </style>

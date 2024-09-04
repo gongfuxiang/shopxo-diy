@@ -25,7 +25,7 @@
             <el-switch v-model="form.is_roll" />
         </el-form-item>
         <el-form-item label="轮播方向">
-            <el-radio-group v-model="form.rotation_direction" class="ml-4">
+            <el-radio-group v-model="form.rotation_direction">
                 <el-radio value="horizontal">横向</el-radio>
                 <el-radio value="vertical">纵向</el-radio>
             </el-radio-group>

@@ -4,7 +4,7 @@
             <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选择风格">
-                    <el-radio-group v-model="form.notice_style" class="ml-4">
+                    <el-radio-group v-model="form.notice_style">
                         <el-radio value="inherit">样式一</el-radio>
                         <el-radio value="card">样式二</el-radio>
                     </el-radio-group>
@@ -14,7 +14,7 @@
             <card-container>
                 <div class="mb-12">公告风格</div>
                 <el-form-item label="标题类型">
-                    <el-radio-group v-model="form.title_type" class="ml-4">
+                    <el-radio-group v-model="form.title_type">
                         <el-radio value="img-icon">图片/图标</el-radio>
                         <el-radio value="text">文字</el-radio>
                     </el-radio-group>
@@ -27,7 +27,7 @@
                 </el-form-item>
                 <template v-if="!is_card">
                     <el-form-item label="滚动方式">
-                        <el-radio-group v-model="form.direction" class="ml-4">
+                        <el-radio-group v-model="form.direction">
                             <el-radio value="vertical">上下滚动</el-radio>
                             <el-radio value="horizontal">左右滚动</el-radio>
                         </el-radio-group>
@@ -41,7 +41,7 @@
             <card-container>
                 <div class="mb-12">按钮设置</div>
                 <el-form-item label="右侧按钮">
-                    <el-radio-group v-model="form.is_right_button" class="ml-4">
+                    <el-radio-group v-model="form.is_right_button">
                         <el-radio value="show">显示</el-radio>
                         <el-radio value="hidden">隐藏</el-radio>
                     </el-radio-group>

@@ -1,7 +1,7 @@
 <template>
     <card-container class="mb-8">
         <el-form-item label="数据类型">
-            <el-radio-group v-model="form.data_type" class="ml-4">
+            <el-radio-group v-model="form.data_type">
                 <el-radio value="goods">商品</el-radio>
                 <el-radio value="images">图片</el-radio>
             </el-radio-group>

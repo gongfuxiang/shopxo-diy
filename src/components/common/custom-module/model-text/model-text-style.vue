@@ -24,7 +24,7 @@
                     <color-picker v-model="form.text_color" default-color="#FF3F3F"></color-picker>
                 </el-form-item>
                 <el-form-item label="文字大小">
-                    <el-radio-group v-model="form.text_weight" class="ml-4">
+                    <el-radio-group v-model="form.text_weight">
                         <el-radio value="500">加粗</el-radio>
                         <el-radio value="normal">正常</el-radio>
                         <el-radio value="italic">倾斜</el-radio>
@@ -34,7 +34,7 @@
                     </el-form-item>
                 </el-form-item>
                 <el-form-item label="字符选项">
-                    <el-radio-group v-model="form.text_option" class="ml-4">
+                    <el-radio-group v-model="form.text_option">
                         <el-radio value="none"><span style="text-decoration: none">Aa</span></el-radio>
                         <el-radio value="underline"><span style="text-decoration: underline">Aa</span></el-radio>
                         <el-radio value="line-through"><span style="text-decoration: line-through">Aa</span></el-radio>
@@ -83,7 +83,7 @@
             <card-container>
                 <div class="mb-12">边框设置</div>
                 <el-form-item label="边框显示">
-                    <el-radio-group v-model="form.border_show" class="ml-4">
+                    <el-radio-group v-model="form.border_show">
                         <el-radio :value="true">显示</el-radio>
                         <el-radio :value="false">隐藏</el-radio>
                     </el-radio-group>
@@ -93,7 +93,7 @@
                         <color-picker v-model="form.border_color" default-color="#FF3F3F"></color-picker>
                     </el-form-item>
                     <el-form-item label="边框样式">
-                        <el-radio-group v-model="form.border_style" class="ml-4">
+                        <el-radio-group v-model="form.border_style">
                             <el-radio value="dashed"><div class="border-style-item" style="border: 1px dashed #979797"></div></el-radio>
                             <el-radio value="solid"><div class="border-style-item" style="border: 1px solid #979797"></div></el-radio>
                             <el-radio value="dotted"><div class="border-style-item" style="border: 1px dotted #979797"></div></el-radio>

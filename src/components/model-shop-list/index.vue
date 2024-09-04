@@ -168,7 +168,6 @@ const props = defineProps({
 const form = computed(() => props.value?.content || {});
 const new_style = computed(() => props.value?.style || {});
 
-// 目前显示假数据，日后通过分类或者选择的商品来显示真实数据
 interface plugins_icon_data {
     name: string;
     bg_color: string;

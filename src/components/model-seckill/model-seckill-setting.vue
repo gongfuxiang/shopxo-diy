@@ -62,6 +62,16 @@ onBeforeMount(async () => {
                 radius_bottom_left: 4,
                 radius_bottom_right: 4,
             },
+            shop_padding: {
+                padding: 10, 
+                padding_top: 10, 
+                padding_bottom: 10, 
+                padding_left: 10, 
+                padding_right: 10,
+            },
+            content_outer_spacing: 10, // 商品间距
+            content_spacing: 10,
+            content_outer_height: 232,
             shop_title_color: '',
             shop_title_typeface: '',
             shop_title_size: 12,
@@ -126,7 +136,7 @@ onBeforeMount(async () => {
                 style: {
                     topic_color: '#000',
                     head_button_color: '#000',
-                    end_text_color: '',
+                    end_text_color: '#666',
                     header_background_color_list: [{ color: '#fff', color_percentage: undefined }],
                     header_background_img_url: [],
                     countdown_bg_color_list: [{ color: '#FF5000', color_percentage: undefined }],

@@ -9,7 +9,7 @@
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item v-if="form.theme == '5'" label="轮播列数">
-                    <el-radio-group v-model="form.carousel_col" class="ml-4">
+                    <el-radio-group v-model="form.carousel_col">
                         <el-radio :value="1">1个</el-radio>
                         <el-radio :value="2">2个</el-radio>
                         <el-radio :value="3">3个</el-radio>

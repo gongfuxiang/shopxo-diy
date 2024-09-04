@@ -36,19 +36,19 @@
                     </div>
                 </el-form-item>
                 <el-form-item label="功能按钮">
-                    <el-radio-group v-model="form.function_buttons_type" class="ml-4">
+                    <el-radio-group v-model="form.function_buttons_type">
                         <el-radio value="black">黑色</el-radio>
                         <el-radio value="white">白色</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="沉浸样式">
-                    <el-radio-group v-model="form.immersive_style" class="ml-4">
+                    <el-radio-group v-model="form.immersive_style">
                         <el-radio :value="true">开启</el-radio>
                         <el-radio :value="false">关闭</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="上滑展示">
-                    <el-radio-group v-model="form.up_slide_display" class="ml-4">
+                    <el-radio-group v-model="form.up_slide_display">
                         <el-radio :value="true">保留</el-radio>
                         <el-radio :value="false">关闭</el-radio>
                     </el-radio-group>
