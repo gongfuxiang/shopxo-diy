@@ -6,6 +6,13 @@
   "description": "web端",
   "glyphs": [
     {
+      "icon_id": "41708758",
+      "name": "秒杀",
+      "font_class": "a-miaosha",
+      "unicode": "e797",
+      "unicode_decimal": 59287
+    },
+    {
       "icon_id": "40047116",
       "name": "进销存关闭2",
       "font_class": "close-b",
@@ -14,17 +21,10 @@
     },
     {
       "icon_id": "41674274",
-      "name": "优惠券箭头",
-      "font_class": "youhuiquanjiantou",
+      "name": "右箭头",
+      "font_class": "arrow-right-o",
       "unicode": "e796",
       "unicode_decimal": 59286
-    },
-    {
-      "icon_id": "36882570",
-      "name": "右箭头-2",
-      "font_class": "arrow-right-o",
-      "unicode": "e6aa",
-      "unicode_decimal": 59050
     },
     {
       "icon_id": "39793709",

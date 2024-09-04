@@ -365,7 +365,7 @@ const style_config = (typeface: string, size: number, color: string | object, ty
 };
 // 按钮渐变色处理
 const button_gradient = () => {
-    return gradient_handle(new_style.value.shop_button_color, '90deg');
+    return gradient_handle(new_style.value.shop_button_color, '180deg');
 };
 // icon标志显示样式
 const icon_style = (item: { bg_color: string; color: string; br_color: string }) => {
