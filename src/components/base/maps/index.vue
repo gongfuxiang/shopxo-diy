@@ -56,21 +56,21 @@ export default defineComponent({
             let script = document.createElement('script');
             script.type = 'text/javascript';
             script.className = 'loadmap'; // 给script一个类名
-            if (props.type === '1') {
+            if (props.type === 'tianditu') {
                 // 天地图
                 script.src = `https://api.tianditu.gov.cn/api?v=4.0&tk=${common_tianditu_map_ak || 'bf0676d6b99ee6f7f917640a54af0415'}`;
-            } else if (props.type === '2') {
+            } else if (props.type === 'baidu') {
                 // 百度地图
                 script.src = `https://api.map.baidu.com/getscript?v=3.0&ak=${common_baidu_map_ak || 'XSdiGjfg3wOHiKjpYEMG6CYA'}`;
-            } else if (props.type === '3') {
+            } else if (props.type === 'tencent') {
                 // 腾讯地图
                 script.src = `https://map.qq.com/api/js?v=2.exp&key=${common_tencent_map_ak || 'IMYBZ-QJ6C3-QPZ3Y-OUKL6-IVU5S-ZYBKA'}&callback=init`;
-            } else if (props.type === '4') {
+            } else if (props.type === 'amap') {
                 // 高德地图
                 script.src = `https://webapi.amap.com/maps?v=2.0&key=${common_amap_map_ak || '3e92c6bfdd5ddb4aac39ed5e4d0db663'}`;
             }
             // 使用script.onload，待资源加载完成，再初始化地图
-            if (props.type === '3') {
+            if (props.type === 'tencent') {
                 window.init = () => {
                     init();
                 };
@@ -87,7 +87,7 @@ export default defineComponent({
                     document.body.removeChild(loadmap[i]);
                 }
             }
-            if (props.type === '4') {
+            if (props.type === 'amap') {
                 window._AMapSecurityConfig = {
                     securityJsCode: common_amap_map_safety_ak || '6d68c17c7b2a96a0616b1b8c371f391f',
                 };
@@ -100,7 +100,7 @@ export default defineComponent({
             let script = document.createElement('script');
             script.type = 'text/javascript';
             script.className = 'loadmap2'; // 给script一个类名
-            script.src = 'https://map.qq.com/api/gljs?v=1.exp&key=IMYBZ-QJ6C3-QPZ3Y-OUKL6-IVU5S-ZYBKA&libraries=service';
+            script.src = `https://map.qq.com/api/gljs?v=1.exp&key=${common_tencent_map_ak || 'IMYBZ-QJ6C3-QPZ3Y-OUKL6-IVU5S-ZYBKA'}&libraries=service`;
             let loadmap2 = document.getElementsByClassName('loadmap2');
             if (loadmap2) {
                 // 每次append script之前判断一下，避免重复添加script资源标签
@@ -113,7 +113,7 @@ export default defineComponent({
         // 初始化地图
         const init = () => {
             switch (props.type) {
-                case '1':
+                case 'tianditu':
                     const T = window.T;
                     // 坐标
                     map.value = new T.Map('map');
@@ -142,7 +142,7 @@ export default defineComponent({
                         });
                     }
                     break;
-                case '2':
+                case 'baidu':
                     const BMap = window.BMap;
                     map.value = new BMap.Map('map', {
                         enableMapClick: false,
@@ -176,7 +176,7 @@ export default defineComponent({
                         cr.addCopyright({ id: 1, content: '<div class="map-dragging-tips"><span>' + '拖动红色图标直接定位' + '</span></div>', bounds: bs });
                     }
                     break;
-                case '3':
+                case 'tencent':
                     const qq_maps = window.qq.maps;
                     let point3 = new qq_maps.LatLng(lat.value, lng.value);
                     map.value = new qq_maps.Map('map', {
@@ -195,7 +195,7 @@ export default defineComponent({
                         context.emit('point', lng, lat);
                     });
                     break;
-                case '4':
+                case 'amap':
                     const AMap = window.AMap;
                     map.value = new AMap.Map('map', {
                         zoomEnable: true,
@@ -231,7 +231,7 @@ export default defineComponent({
         };
         const map_event = (value) => {
             switch (props.type) {
-                case '1':
+                case 'tianditu':
                     let geo = new T.Geocoder();
                     geo.getPoint(value, function (result) {
                         let point = result.getLocationPoint();
@@ -246,7 +246,7 @@ export default defineComponent({
                         }
                     });
                     break;
-                case '2':
+                case 'baidu':
                     // 创建地址解析器实例
                     let geo2 = new window.BMap.Geocoder();
                     // 将地址解析结果显示在地图上,并调整地图视野
@@ -265,7 +265,7 @@ export default defineComponent({
                         '全国'
                     );
                     break;
-                case '3':
+                case 'tencent':
                     let geo3 = new TMap.service.Geocoder();
                     geo3.getLocation({ address: value }).then((result) => {
                         let lnglat = result.result.location;
@@ -275,7 +275,7 @@ export default defineComponent({
                         context.emit('point', lng.value, lat.value);
                     });
                     break;
-                case '4':
+                case 'amap':
                     AMap.plugin('AMap.Geocoder', () => {
                         new AMap.Geocoder().getLocation(value, (status, result) => {
                             if (status === 'complete' && result.geocodes.length) {
