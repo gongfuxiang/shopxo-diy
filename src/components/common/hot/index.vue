@@ -14,7 +14,7 @@
                             <div class="re">
                                 <div ref="imgBoxRef" class="oh" @mousedown.prevent="start_drag" @mousemove.prevent="move_drag" @mouseup.prevent="end_drag">
                                     <div ref="imgRef">
-                                        <el-image :src="hot_list.img" class="w img block" @selectstart.prevent @contextmenu.prevent @dragstart.prevent></el-image>
+                                        <el-image v-if="img_url.length > 0" :src="img_url[0].url" class="w img block" @selectstart.prevent @contextmenu.prevent @dragstart.prevent></el-image>
                                     </div>
                                     <div ref="areaRef" class="area" :style="init_drag_style"></div>
                                     <div v-for="(item, index) in hot_list.data" :key="index" class="area-box" :style="rect_style(item.drag_start, item.drag_end)" @mousedown.stop="start_drag_area_box(index, $event)" @dblclick="dbl_drag_event(item, index)">
@@ -89,15 +89,16 @@ const app = getCurrentInstance();
 /**
  * @description: 热区
  * @param modelValue{Object} 默认值
+ * @param img_url {Array} 图片列表
  * @param dialog_visible {Boolean} 弹窗显示
  * @return {*} update:modelValue
  */
 const props = defineProps({});
 const modelValue = defineModel({ type: Object as PropType<hotData>, default: {} });
+const img_url = defineModel('img', { type: Array as PropType<uploadList[]>, default: [] });
 const dialog_visible = defineModel('visibleDialog', { type: Boolean, default: false });
 
 const hot_list = ref<hotData>({
-    img: '',
     img_height: 1,
     img_width: 1,
     data: [],
@@ -381,9 +382,8 @@ const hot_confirm_event = () => {
 //#region 热区开启关闭确认取消回调 -----------------------------------------------start
 // 打开热区弹窗
 const open_hot_event = () => {
-    if (modelValue.value.img.length > 0) {
+    if (img_url.value.length > 0) {
         dialog_visible.value = true;
-        hot_list.value.img = modelValue.value.img;
         setTimeout(() => {
             // 创建临时变量储存传过来的数据
             let temp_data = cloneDeep(modelValue.value);

@@ -140,7 +140,6 @@ declare global {
      * 热区参数
      */
     type hotData = {
-        img: string;
         img_width: number;
         img_height: number;
         data: hotListData[];

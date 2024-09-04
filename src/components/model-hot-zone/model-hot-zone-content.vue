@@ -6,7 +6,7 @@
                 <el-form-item label="上传照片">
                     <upload v-model="form.img" :limit="1" is-tips tips-text="请先选择照片，图片宽度750px，高度不限" @update:model-value="update_upload_data"></upload>
                 </el-form-item>
-                <hot v-model="form.hot"></hot>
+                <hot v-model="form.hot" v-model:img="form.img"></hot>
             </card-container>
         </el-form>
     </div>
