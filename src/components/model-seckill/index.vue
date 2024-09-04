@@ -276,7 +276,6 @@ const default_list = {
 };
 const list = ref<data_list[]>([]);
 onMounted(() => {
-    console.log('aaaa');
     SeckillAPI.getSeckillList({}).then((res: any) => {
         const data = res.data;
         console.log(res.data);
