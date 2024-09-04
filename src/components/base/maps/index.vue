@@ -5,6 +5,7 @@
     </div>
 </template>
 <script>
+import { commonStore } from '@/store';
 export default defineComponent({
     props: {
         modelValue: {
@@ -26,11 +27,17 @@ export default defineComponent({
         },
         type: {
             type: String,
-            default: '1', // 地图类型 默认1.天地图/2.百度地图/3.腾讯地图/4.高德地图
+            default: 'baidu', // 地图类型 默认1.tianditu天地图/2.baidu百度地图/3.tencent腾讯地图/4.amap高德地图
         },
     },
     emits: ['point'],
     setup(props, context) {
+        const common_store = commonStore();
+        const common_amap_map_ak = common_store.common.config.common_amap_map_ak;
+        const common_amap_map_safety_ak = common_store.common.config.common_amap_map_safety_ak;
+        const common_baidu_map_ak = common_store.common.config.common_baidu_map_ak;
+        const common_tencent_map_ak = common_store.common.config.common_tencent_map_ak;
+        const common_tianditu_map_ak = common_store.common.config.common_tianditu_map_ak;
         const map = ref(null);
         const lng = ref(121.47894);
         const lat = ref(31.223);
@@ -51,16 +58,16 @@ export default defineComponent({
             script.className = 'loadmap'; // 给script一个类名
             if (props.type === '1') {
                 // 天地图
-                script.src = 'https://api.tianditu.gov.cn/api?v=4.0&tk=bf0676d6b99ee6f7f917640a54af0415';
+                script.src = `https://api.tianditu.gov.cn/api?v=4.0&tk=${common_tianditu_map_ak || 'bf0676d6b99ee6f7f917640a54af0415'}`;
             } else if (props.type === '2') {
                 // 百度地图
-                script.src = 'https://api.map.baidu.com/getscript?v=3.0&ak=XSdiGjfg3wOHiKjpYEMG6CYA';
+                script.src = `https://api.map.baidu.com/getscript?v=3.0&ak=${common_baidu_map_ak || 'XSdiGjfg3wOHiKjpYEMG6CYA'}`;
             } else if (props.type === '3') {
                 // 腾讯地图
-                script.src = 'https://map.qq.com/api/js?v=2.exp&key=IMYBZ-QJ6C3-QPZ3Y-OUKL6-IVU5S-ZYBKA&callback=init';
+                script.src = `https://map.qq.com/api/js?v=2.exp&key=${common_tencent_map_ak || 'IMYBZ-QJ6C3-QPZ3Y-OUKL6-IVU5S-ZYBKA'}&callback=init`;
             } else if (props.type === '4') {
                 // 高德地图
-                script.src = 'https://webapi.amap.com/maps?v=2.0&key=3e92c6bfdd5ddb4aac39ed5e4d0db663';
+                script.src = `https://webapi.amap.com/maps?v=2.0&key=${common_amap_map_ak || '3e92c6bfdd5ddb4aac39ed5e4d0db663'}`;
             }
             // 使用script.onload，待资源加载完成，再初始化地图
             if (props.type === '3') {
@@ -82,7 +89,7 @@ export default defineComponent({
             }
             if (props.type === '4') {
                 window._AMapSecurityConfig = {
-                    securityJsCode: '6d68c17c7b2a96a0616b1b8c371f391f',
+                    securityJsCode: common_amap_map_safety_ak || '6d68c17c7b2a96a0616b1b8c371f391f',
                 };
             }
             document.body.appendChild(script);

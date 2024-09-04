@@ -12,6 +12,15 @@ export const commonStore = defineStore('common', () => {
         module_list: [] as any[], //---- 模块列表
         page_link_list: [] as any[], //---- 页面链接
         plugins: {} as any, //---- 插件
+        config: {
+            common_amap_map_ak: '',
+            common_amap_map_safety_ak: '',
+            common_baidu_map_ak: '',
+            common_map_type: '',
+            common_tencent_map_ak: '',
+            common_tianditu_map_ak: '',
+            currency_symbol: '',
+        } as any, // 基础数据配置参数
     });
     // 存储链接数据
     const set_common = (data: any) => {
