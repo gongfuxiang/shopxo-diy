@@ -1,13 +1,6 @@
 import defaultCommon from './index';
 import { online_url } from '@/utils';
-import { onMounted } from 'vue';
-
-const new_url = ref('');
-onMounted(() => {
-    online_url('/static/app/tabbar/').then((res) => {
-        new_url.value = res;
-    });
-});
+const new_url = await online_url('/static/plugins/seckill/images/diy/').then((res) => res);
 interface DefaultSeckill {
     content: {
         head_state: string;
@@ -19,7 +12,7 @@ interface DefaultSeckill {
         button_text: string;
         shop_style_type: string;
         carousel_col: number;
-        shop_number: number,
+        shop_number: number;
         is_show: string[];
         shop_type: string;
         shop_button_text: string;
@@ -53,10 +46,10 @@ interface DefaultSeckill {
         shop_price_typeface: string;
         shop_price_size: number;
         shop_price_color: string;
-        shop_button_typeface:string;
+        shop_button_typeface: string;
         shop_button_size: number;
         shop_button_color: color_list[];
-        shop_button_text_color: string,
+        shop_button_text_color: string;
         shop_icon_size: number;
         shop_icon_color: string;
         original_price_color: string;
@@ -80,7 +73,7 @@ const defaultSeckill: DefaultSeckill = {
         head_state: '1',
         theme: '1',
         topic_type: 'image',
-        topic_src: [{ id: 1, url: new_url.value + 'header-title.png', original: '标题', title: '标题', ext: '.png', type: 'img' }],
+        topic_src: [{ id: 1, url: new_url + 'header-title.png', original: '标题', title: '标题', ext: '.png', type: 'img' }],
         topic_text: '限时秒杀',
         button_status: '1',
         button_text: '更多',
@@ -107,7 +100,7 @@ const defaultSeckill: DefaultSeckill = {
         header_background_color_list: [{ color: '', color_percentage: undefined }],
         header_background_direction: '180deg',
         header_background_img_style: '2',
-        header_background_img_url: [{ id: 1, url: new_url.value + 'header-bg.png', original: '背景', title: '背景1', ext: '.png', type: 'img' }],
+        header_background_img_url: [{ id: 1, url: new_url + 'header-bg.png', original: '背景', title: '背景1', ext: '.png', type: 'img' }],
         shop_radius: {
             radius: 8,
             radius_top_left: 8,
@@ -137,22 +130,22 @@ const defaultSeckill: DefaultSeckill = {
         shop_title_color: '#333333',
         shop_price_typeface: '500',
         shop_price_size: 18,
-        shop_price_color: "#EA3323;",
-        shop_button_typeface:'400',
+        shop_price_color: '#EA3323;',
+        shop_button_typeface: '400',
         shop_button_size: 12,
         shop_button_color: [
             {
                 color: '#FF3D53',
-                color_percentage: undefined
+                color_percentage: undefined,
             },
             {
                 color: '#D73A3A',
-                color_percentage: undefined
-            }
+                color_percentage: undefined,
+            },
         ],
         shop_button_text_color: '#fff',
         shop_icon_size: 10,
-        shop_icon_color: "#fff",
+        shop_icon_color: '#fff',
         original_price_color: '#999',
         seckill_subscript_location: 'top-left',
         seckill_subscript_text_color: '#fff',
