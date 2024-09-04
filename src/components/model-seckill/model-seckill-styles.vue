@@ -59,8 +59,8 @@
                 <el-form-item label="商品名称">
                     <color-text-size-group v-model:color="form.shop_title_color" v-model:typeface="form.shop_title_typeface" v-model:size="form.shop_title_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
-                <el-form-item label="销售价格">
-                    <color-picker v-model="form.price_color"></color-picker>
+                <el-form-item label="商品价格">
+                    <color-text-size-group v-model:color="form.shop_price_color" v-model:typeface="form.shop_price_typeface" v-model:size="form.shop_price_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
                 <el-form-item label="原价价格">
                     <color-picker v-model="form.original_price_color"></color-picker>

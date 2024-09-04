@@ -34,7 +34,7 @@
                 <div class="flex flex-wrap" :style="`gap: ${ content_outer_spacing }px;`">
                     <div v-for="(item, index) in list" :key="index" :class="layout_type" :style="`${ content_radius }; ${ shop_style_type == '1' ? content_padding : '' }`">
                         <template v-if="!isEmpty(item)">
-                            <div class="oh re">
+                            <div class="oh re" :class="`flex-img${shop_style_type}`">
                                 <template v-if="!isEmpty(item.new_cover)">
                                     <image-empty v-model="item.new_cover[0]" :class="`flex-img${shop_style_type}`" :style="content_img_radius"></image-empty>
                                 </template>
@@ -60,7 +60,7 @@
                             <div class="flex-row align-e gap-10 jc-sb">
                                 <div class="flex-col gap-5">
                                     <div v-if="is_show('price')" class="num" :style="`color: ${new_style.shop_price_color}`">
-                                        <span v-if="form.shop_style_type == '1'" class="size-10 pl-4">秒杀价</span>
+                                        <span v-if="form.shop_style_type == '1'" class="size-10 pr-4">秒杀价</span>
                                         <span class="identifying">{{ item.show_price_symbol }}</span
                                         ><span :style="trends_config('price')">{{ item.min_price }}</span>
                                         <span v-if="is_show('price_unit')" class="identifying">{{ item.show_price_unit }}</span>
@@ -102,7 +102,7 @@
                 >
                     <swiper-slide v-for="(item, index) in list" :key="index" :class="layout_type" :style="`${ content_radius }; ${ shop_style_type == '1' ? content_padding : '' }`">
                         <template v-if="!isEmpty(item)">
-                            <div class="oh re">
+                            <div class="oh re w h">
                                 <template v-if="!isEmpty(item.new_cover)">
                                     <image-empty v-model="item.new_cover[0]" :class="`flex-img${shop_style_type}`" :style="content_img_radius"></image-empty>
                                 </template>
@@ -128,7 +128,7 @@
                             <div class="flex-row align-e gap-10 jc-sb">
                                 <div class="flex-col gap-5">
                                     <div v-if="is_show('price')" class="num" :style="`color: ${new_style.shop_price_color}`">
-                                        <span v-if="form.shop_style_type == '1'" class="size-10 pl-4">秒杀价</span>
+                                        <span v-if="form.shop_style_type == '1'" class="size-10 pr-4">秒杀价</span>
                                         <span class="identifying">{{ item.show_price_symbol }}</span
                                         ><span :style="trends_config('price')">{{ item.min_price }}</span>
                                         <span v-if="is_show('price_unit')" class="identifying">{{ item.show_price_unit }}</span>
@@ -439,7 +439,6 @@ const corner_marker = computed(() => {
 .flex-img3 {
     background: #f4fcff;
     width: 100%;
-    min-height: 10.4rem;
 }
 .slide-bottom {
     height: 1rem;
