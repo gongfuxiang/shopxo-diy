@@ -8,8 +8,8 @@
                         <span v-else :style="`color: ${ new_style.topic_color };font-size: ${ new_style.topic_size }px;line-height:21px;font-weight:600;`">{{ form.topic_text }}</span>
                     </div>
                     <div v-if="form.theme == '1'" class="pl-6 pr-6 cr-f">|</div>
-                    <div v-if="!isEmpty(intervalId)" class="flex-row align-c gap-4">
-                        <span class="size-10" :style="`color: ${ new_style.end_text_color }`">距离结束</span>
+                    <div v-if="intervalId != undefined" class="flex-row align-c gap-4">
+                        <span class="size-10" :style="`color: ${ new_style.end_text_color }`">{{ seckill_time.time_first_text }}</span>
                         <div class="flex-row gap-3 jc-c align-c" :style="[form.theme == '4'? `${ time_bg };padding: 0.3rem 0.4rem;border-radius: 1.1rem;` : '']">
                         <img v-if="form.theme == '4'" class="seckill-head-icon radius-xs" :src="new_url" />
                         <template v-for="(item, index) in time_config" :key="item.key">
@@ -25,7 +25,7 @@
                         </div>
                     </div>
                     <div v-else class="flex-row align-c gap-4">
-                        <span class="size-10" :style="`color: ${ new_style.end_text_color }`">活动已结束</span>
+                        <span class="size-10" :style="`color: ${ new_style.end_text_color }`">已结束</span>
                     </div>
                 </div>
                 <div v-if="form.button_status == '1'" class="flex-row align-c" :style="`color: ${ new_style.head_button_color }`">
@@ -273,18 +273,33 @@ const default_list = {
 };
 const list = ref<data_list[]>([]);
 const time_config = reactive([
-    { key: 'hour', value: '12' },
-    { key: 'minute', value: '30' },
-    { key: 'second', value: '52' },
+    { key: 'hour', value: '00' },
+    { key: 'minute', value: '00' },
+    { key: 'second', value: '00' },
 ]);
-const endTime = ref('2024-09-07 12:30:52');
 const intervalId = ref<number | undefined>(undefined);
+const seckill_time = ref({
+    endTime: '2024-09-04 18:51:00',
+    startTime: '2024-09-04 18:51:00',
+    status: 0,
+    time_first_text: '距结束'
+});
 const updateCountdown = () => {
     const now = new Date();
-    const distance = new Date(endTime.value).getTime() - now.getTime();
+    let endTime = seckill_time.value.endTime;
+    if (seckill_time.value.status === 0) {
+        endTime = seckill_time.value.startTime;
+    }
+    const distance = new Date(endTime).getTime() - now.getTime();
     // 如果倒计时结束，显示结束信息
     if (distance < 0) {
         clearInterval(intervalId.value);
+        // 如果是待开始状态，则显示开始倒计时，并且在结束的时候根据结束时候再执行一个定时器
+        if (seckill_time.value.status === 0) {
+            seckill_time.value.status = 1;
+            seckill_time.value.time_first_text = '距结束';
+            intervalId.value = setInterval(updateCountdown, 1000);
+        }
         return;
     }
     // 计算时间
@@ -302,12 +317,22 @@ const updateCountdown = () => {
     });
 }
 // 更新倒计时函数
-onMounted(() => {
+onBeforeMount(() => {
     SeckillAPI.getSeckillList({}).then((res: any) => {
         const data = res.data;
         if (!isEmpty(data.current)) {
-            list.value = data.current.goods;
-            endTime.value = data.current.time_end;
+            if (!isEmpty(data.current.goods)) {
+                list.value = data.current.goods;
+            } else {
+                list.value = Array(4).fill(default_list);
+            }
+            const { status, time_first_text } = data.current.time;
+            seckill_time.value = {
+                endTime: data.current.time_end,
+                startTime: data.current.time_start,
+                status: status,
+                time_first_text: time_first_text
+            }
             intervalId.value = setInterval(updateCountdown, 1000);
         } else {
             list.value = Array(4).fill(default_list);
@@ -392,7 +417,6 @@ const autoplay = ref<boolean | object>(false);
 const slides_per_group = ref(1);
 // 内容参数的集合
 watchEffect(() => {
-    
     // 是否滚动
     if (new_style.value.is_roll) {
         autoplay.value = {
