@@ -8,7 +8,7 @@
                         <span v-else :style="`color: ${ new_style.topic_color };font-size: ${ new_style.topic_size }px;line-height:21px;font-weight:600;`">{{ form.topic_text }}</span>
                     </div>
                     <div v-if="form.theme == '1'" class="pl-6 pr-6 cr-f">|</div>
-                    <div class="flex-row align-c gap-4">
+                    <div v-if="!isEmpty(intervalId)" class="flex-row align-c gap-4">
                         <span class="size-10" :style="`color: ${ new_style.end_text_color }`">距离结束</span>
                         <div class="flex-row gap-3 jc-c align-c" :style="[form.theme == '4'? `${ time_bg };padding: 0.3rem 0.4rem;border-radius: 1.1rem;` : '']">
                         <img v-if="form.theme == '4'" class="seckill-head-icon radius-xs" :src="new_url" />
@@ -23,6 +23,9 @@
                             </template>
                         </template>
                         </div>
+                    </div>
+                    <div v-else class="flex-row align-c gap-4">
+                        <span class="size-10" :style="`color: ${ new_style.end_text_color }`">活动已结束</span>
                     </div>
                 </div>
                 <div v-if="form.button_status == '1'" class="flex-row align-c" :style="`color: ${ new_style.head_button_color }`">
@@ -181,14 +184,8 @@ onBeforeMount(async () => {
     const url = await online_url('/static/plugins/seckill/images/diy/').then(res => res);
     new_url.value = url + 'time.png';
 })
-
 const form = computed(() => props.value?.content || {});
 const new_style = computed(() => props.value?.style || {});
-const time_config = [
-    { key: 'hour', value: 12 },
-    { key: 'minute', value: 30 },
-    { key: 'second', value: 52 },
-]
 const time_bg = computed(() => {
     const { countdown_bg_color_list, countdown_direction } = new_style.value;
     // 渐变
@@ -275,12 +272,43 @@ const default_list = {
     ],
 };
 const list = ref<data_list[]>([]);
+const time_config = reactive([
+    { key: 'hour', value: '12' },
+    { key: 'minute', value: '30' },
+    { key: 'second', value: '52' },
+]);
+const endTime = ref('2024-09-07 12:30:52');
+const intervalId = ref<number | undefined>(undefined);
+const updateCountdown = () => {
+    const now = new Date();
+    const distance = new Date(endTime.value).getTime() - now.getTime();
+    // 如果倒计时结束，显示结束信息
+    if (distance < 0) {
+        clearInterval(intervalId.value);
+        return;
+    }
+    // 计算时间
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    time_config.forEach((item) => {
+        if (item.key == 'hour') {
+            item.value = hours < 10 ? '0' + hours : hours.toString();
+        } else if (item.key == 'minute') {
+            item.value = minutes < 10 ? '0' + minutes : minutes.toString();
+        } else if (item.key == 'second') {
+            item.value = seconds < 10 ? '0' + seconds : seconds.toString();
+        }
+    });
+}
+// 更新倒计时函数
 onMounted(() => {
     SeckillAPI.getSeckillList({}).then((res: any) => {
         const data = res.data;
-        console.log(res.data);
         if (!isEmpty(data.current)) {
             list.value = data.current.goods;
+            endTime.value = data.current.time_end;
+            intervalId.value = setInterval(updateCountdown, 1000);
         } else {
             list.value = Array(4).fill(default_list);
         }
