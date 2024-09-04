@@ -20,6 +20,7 @@ export const commonStore = defineStore('common', () => {
             common_tencent_map_ak: '',
             common_tianditu_map_ak: '',
             currency_symbol: '',
+            attachment_host: '',
         } as any, // 基础数据配置参数
     });
     // 存储链接数据
