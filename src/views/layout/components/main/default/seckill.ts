@@ -73,7 +73,7 @@ const defaultSeckill: DefaultSeckill = {
         head_state: '1',
         theme: '1',
         topic_type: 'image',
-        topic_src: [{ id: 1, url: new_url.value + 'header-title.png', original: '标题', title: '标题', ext: '.png', type: 'img' }],
+        topic_src: [{ id: 1, url: new_url + 'header-title.png', original: '标题', title: '标题', ext: '.png', type: 'img' }],
         topic_text: '限时秒杀',
         button_status: '1',
         button_text: '更多',
@@ -100,7 +100,7 @@ const defaultSeckill: DefaultSeckill = {
         header_background_color_list: [{ color: '', color_percentage: undefined }],
         header_background_direction: '180deg',
         header_background_img_style: '2',
-        header_background_img_url: [{ id: 1, url: new_url.value + 'header-bg.png', original: '背景', title: '背景1', ext: '.png', type: 'img' }],
+        header_background_img_url: [{ id: 1, url: new_url + 'header-bg.png', original: '背景', title: '背景1', ext: '.png', type: 'img' }],
         shop_radius: {
             radius: 8,
             radius_top_left: 8,
