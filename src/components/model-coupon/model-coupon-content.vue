@@ -20,7 +20,7 @@
                         <div class="flex-col gap-20 w">
                             <drag v-if="form.data_list.length > 0" :data="form.data_list" :space-col="20" @remove="remove" @on-sort="on_sort">
                                 <template #default="{ row }">
-                                    <div class="flex-1 cr-6 size-12">{{ row.title }}</div>
+                                    <div class="flex-1 cr-6 size-12">{{ row.name }}</div>
                                 </template>
                             </drag>
                             <el-button class="w" @click="add">+添加</el-button>
@@ -28,6 +28,11 @@
                     </el-form-item>
                 </template>
                 <template v-else>
+                    <el-form-item label="文章分类">
+                        <el-select v-model="form.type" multiple collapse-tags placeholder="请选择优惠券类型">
+                            <el-option v-for="item in base_list.coupon_type_list" :key="item.value" :label="item.name" :value="item.value" />
+                        </el-select>
+                    </el-form-item>
                     <el-form-item label="展示数量">
                         <slider v-model="form.number"></slider>
                     </el-form-item>
@@ -46,7 +51,9 @@
     <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['coupon']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
 </template>
 <script setup lang="ts">
-import { online_url } from '@/utils';
+import { online_url, is_obj_empty } from '@/utils';
+import { commonStore } from '@/store';
+const common_store = commonStore();
 const props = defineProps({
     value: {
         type: Object,
@@ -74,11 +81,18 @@ const base_list = reactive({
         name: `风格${index + 1}`,
         url: `${new_url.value}theme-${index + 1}.png`,
     })),
+    coupon_type_list: [] as select_2[],
 });
 onMounted(async () => {
     new_url.value = await online_url('/static/plugins/coupon/images/diy/').then((res) => res);
     base_list.themeList.forEach((item) => {
         item.url = `${new_url.value}${item.url}`;
+    });
+    nextTick(() => {
+        // 定时获取common_store.common.article_category的数据，直到拿到值或者关闭页面为止
+        if (!is_obj_empty(common_store.common.plugins) && !is_obj_empty(common_store.common.plugins.coupon) && common_store.common.plugins.coupon.coupon_type_list.length > 0) {
+            base_list.coupon_type_list = common_store.common.plugins.coupon.coupon_type_list;
+        }
     });
 });
 const emit = defineEmits(['update:change-theme']);

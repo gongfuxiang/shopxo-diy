@@ -3,7 +3,7 @@
     <div class="container">
         <div class="flex-row jc-e gap-20 mb-20">
             <el-select v-model="type" class="search-w" placeholder="请选择" clearable @change="handle_search">
-                <el-option v-for="item in coupon_category_list" :key="item.name" :label="item.name" :value="item.name" />
+                <el-option v-for="item in coupon_type_list" :key="item.value" :label="item.name" :value="item.value" />
             </el-select>
             <el-input v-model="search_value" placeholder="请输入搜索内容" class="search-w" @change="handle_search">
                 <template #suffix>
@@ -19,28 +19,15 @@
                         <el-radio v-model="template_selection" :label="scope.$index + ''">&nbsp;</el-radio>
                     </template>
                 </el-table-column>
-                <el-table-column prop="id" label="ID" type="" />
-                <el-table-column prop="cover" label="名称">
-                    <template #default="scope">
-                        <div class="flex-row align-c gap-10">
-                            <image-empty v-if="scope.row.cover" v-model="scope.row.cover" class="img"></image-empty>
-                            <div class="flex-1">{{ scope.row.title }}</div>
-                        </div>
-                    </template>
-                </el-table-column>
-                <el-table-column prop="cover" label="类型">
-                    <template #default="scope">
-                        <div class="flex-row align-c gap-10">
-                            <image-empty v-if="scope.row.cover" v-model="scope.row.cover" class="img"></image-empty>
-                            <div class="flex-1">{{ scope.row.title }}</div>
-                        </div>
-                    </template>
-                </el-table-column>
+                <el-table-column prop="id" label="ID" width="80" type="" />
+                <el-table-column prop="name" label="名称"></el-table-column>
+                <el-table-column prop="type_name" label="类型"></el-table-column>
                 <el-table-column prop="cover" label="优惠信息">
                     <template #default="scope">
-                        <div class="flex-row align-c gap-10">
-                            <image-empty v-if="scope.row.cover" v-model="scope.row.cover" class="img"></image-empty>
-                            <div class="flex-1">{{ scope.row.title }}</div>
+                        <div class="flex-row align-c gap-3">
+                            <div>{{ scope.row.type == '0' ? '减' : '打' }}</div>
+                            <div>{{ scope.row.discount_value }}</div>
+                            <div>{{ scope.row.type_unit }}</div>
                         </div>
                     </template>
                 </el-table-column>
@@ -55,6 +42,7 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { is_obj_empty } from '@/utils';
 import UrlValueAPI from '@/api/url-value';
 import { commonStore } from '@/store';
 const common_store = commonStore();
@@ -87,19 +75,21 @@ const init = () => {
     template_selection.value = '';
     type.value = '';
     search_value.value = '';
-    coupon_category_list.value = common_store.common.plugins.coupon.coupon_type_list;
+    if (!is_obj_empty(common_store.common.plugins) && !is_obj_empty(common_store.common.plugins.coupon) && common_store.common.plugins.coupon.coupon_type_list.length > 0) {
+        coupon_type_list.value = common_store.common.plugins.coupon.coupon_type_list;
+    }
     get_list(1);
 };
 const handle_search = () => {
     get_list(1);
 };
 const type = ref('');
-interface articleCategory {
-    id: string;
+interface couponType {
+    value: string;
     name: string;
-    url: string;
+    checked?: boolean;
 }
-const coupon_category_list = ref<articleCategory[]>([]);
+const coupon_type_list = ref<couponType[]>([]);
 const template_selection = ref('');
 //#region 分页 -----------------------------------------------start
 // 当前页
