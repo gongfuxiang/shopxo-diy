@@ -40,8 +40,15 @@
                             <image-empty v-model="item.images" :class="`flex-img${shop_style_type}`" :style="content_img_radius"></image-empty>
                         </template>
                     </template>
-                    <div class="flex-col gap-10" :style="content_style">
-                        <div>{{ item.title }}</div>
+                    <div class="flex-col gap-10 w flex-1" :style="content_style">
+                        <div >{{ item.title }}</div>
+                        <div class="flex-row align-c gap-6">
+                            <div class="re flex-1">
+                                <div class="slide-bottom" :style="`background: ${ new_style.progress_bg_color }`"></div>
+                                <div class="slide-top" :style="` width: 51%; ${ slide_active_color }`"><div class="slide-top-icon round" :style="`background: ${ new_style.progress_button_color }`"><icon name="a-miaosha" :color="new_style.progress_button_icon_color" size="9"></icon></div></div>
+                            </div>
+                            <span class="size-10" :style="`color: ${ new_style.progress_text_color }`">已抢51%</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -49,7 +56,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, common_styles_computer, gradient_computer, padding_computer, radius_computer } from '@/utils';
+import { background_computer, common_styles_computer, gradient_computer, gradient_handle, padding_computer, radius_computer } from '@/utils';
 import { isEmpty } from 'lodash';
 import { online_url } from '@/utils';
 
@@ -84,6 +91,13 @@ const time_bg = computed(() => {
 const icon_time_check = () => {
     return `${ time_bg.value };line-height: 1;background-clip: text;-webkit-background-clip: text;-webkit-text-fill-color: transparent;`;
 }
+
+const slide_active_color = computed(() => {
+    const { progress_actived_color_list, progress_actived_direction } = new_style.value;
+    // 渐变
+    const gradient = { color_list: progress_actived_color_list, direction: progress_actived_direction };
+    return gradient_computer(gradient);
+});
 
 const seckill_head_style = computed(() => {
     let style = ``;
@@ -193,6 +207,24 @@ const layout_type = computed(() => {
     }
     return class_type;
 });
+// 根据传递的参数，从对象中取值
+const trends_config = (key: string, type?: string) => {
+    return style_config(new_style.value[`shop_${key}_typeface`], new_style.value[`shop_${key}_size`], new_style.value[`shop_${key}_color`], type);
+};
+// 根据传递的值，显示不同的内容
+const style_config = (typeface: string, size: number, color: string | object, type?: string) => {
+    let style = `font-weight:${typeface}; font-size: ${size}px;`;
+    if (type == 'gradient') {
+        style += button_gradient();
+    } else {
+        style += `color: ${color};`;
+    }
+    return style;
+};
+// 按钮渐变色处理
+const button_gradient = () => {
+    return gradient_handle(new_style.value.shop_button_color, '180deg');
+};
 // 不换行显示
 const multicolumn_columns_width = computed(() => {
     const { single_line_number } = toRefs(form.value);
@@ -256,5 +288,27 @@ const content_img_radius = computed(() => radius_computer(new_style.value.shop_i
 .flex-img3 {
     width: 100%;
     min-height: 10.4rem;
+}
+.slide-bottom {
+    height: 1rem;
+    border-radius: 0.5rem;
+    background: red;
+}
+.slide-top {
+    position: absolute;
+    height: 1rem;
+    top: 0;
+    left: 0;
+    border-radius: 0.5rem;
+    .slide-top-icon {
+        position: absolute;
+        top: -0.3rem;
+        right: 0;
+        width: 1.6rem;
+        height: 1.6rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
 </style>
