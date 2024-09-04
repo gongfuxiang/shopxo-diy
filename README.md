@@ -1,4 +1,4 @@
-![输入图片说明](%E8%A3%85%E4%BF%AE-%E6%A0%87%E9%A2%981-%E9%A1%B5%E9%9D%A2%E8%AE%BE%E7%BD%AE.png)
+![输入图片说明](md-demo.png)
 # vue3-vite
 
 This template should help get you started developing with Vue 3 in Vite.

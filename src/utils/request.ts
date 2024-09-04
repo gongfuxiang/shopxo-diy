@@ -1,6 +1,20 @@
 import axios, { InternalAxiosRequestConfig, AxiosResponse } from 'axios';
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { ElMessage, ElMessageBox, type MessageHandler } from 'element-plus';
 import { get_cookie } from './index';
+
+// 提示拦截
+
+let messageInstance: MessageHandler;
+const message_error = (info: string) => {
+    if (messageInstance) {
+        messageInstance.close();
+    }
+    messageInstance = ElMessage.error(info);
+};
+
+// 创建一个状态变量来跟踪是否已经弹出了退出登录的弹窗
+const isLogoutModalShown = ref(true);
+
 // 创建 axios 实例
 const index = window.location.href.lastIndexOf('?s=');
 const pro_url = window.location.href.substring(0, index);
@@ -37,23 +51,26 @@ service.interceptors.response.use(
         if (code == 0) {
             return response.data;
         } else if (code == -400) {
-            ElMessageBox.alert(msg, '温馨提示', {
-                confirmButtonText: '确定',
-                showClose: false,
-                type: 'warning',
-            }).then(() => {
-                localStorage.clear(); // @vueuse/core 自动导入
-                window.location.href = data;
-            });
+            if (isLogoutModalShown.value) {
+                isLogoutModalShown.value = false;
+                ElMessageBox.alert(msg, '温馨提示', {
+                    confirmButtonText: '确定',
+                    showClose: false,
+                    type: 'warning',
+                }).then(() => {
+                    localStorage.clear(); // @vueuse/core 自动导入
+                    window.location.href = data;
+                });
+            }
         } else {
-            ElMessage.error(msg || message || '系统出错');
+            message_error(msg || message || '系统出错');
             return Promise.reject(new Error(msg || 'Error'));
         }
     },
     (error: any) => {
         if (error.response.data) {
             const { msg, message } = error.response.data;
-            ElMessage.error(msg || message || '系统出错');
+            message_error(msg || message || '系统出错');
         }
         return Promise.reject(error.message);
     }

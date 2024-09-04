@@ -8,7 +8,7 @@
                             <div class="coupon-theme-1-content tc" :style="'background-image: url(' + theme_bg_img.url_1 + ');background-size: 100% 100%;'">
                                 <div class="name text-line-1">{{ item.name }}</div>
                                 <div class="price">
-                                    <span v-if="item.type == '0'" class="symbol">¥</span>
+                                    <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
                                     <span class="number">{{ item.discount_value }}</span>
                                     <span v-if="item.type == '1'" class="symbol">折</span>
                                 </div>
@@ -22,7 +22,7 @@
                         <div v-for="item in data_list" :key="item" class="item" :style="'background-image: url(' + theme_bg_img.url_2 + ');background-size: 100% 100%;'">
                             <div class="tc">
                                 <div class="price">
-                                    <span v-if="item.type == '0'" class="symbol">¥</span>
+                                    <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
                                     <span class="number">{{ item.discount_value }}</span>
                                     <span v-if="item.type == '1'" class="symbol">折</span>
                                 </div>
@@ -38,7 +38,7 @@
                         <div v-for="item in data_list" :key="item" class="item">
                             <div class="left">
                                 <div class="price">
-                                    <span v-if="item.type == '0'" class="symbol">¥</span>
+                                    <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
                                     <span class="number">{{ item.discount_value }}</span>
                                     <span v-if="item.type == '1'" class="symbol self-e">折</span>
                                 </div>
@@ -64,7 +64,7 @@
                                 <div v-for="item in data_list" :key="item" class="item">
                                     <div class="type">通用券</div>
                                     <div class="price">
-                                        <span v-if="item.type == '0'" class="symbol">¥</span>
+                                        <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
                                         <span class="number">{{ item.discount_value }}</span>
                                         <span v-if="item.type == '1'" class="symbol">折</span>
                                     </div>
@@ -86,7 +86,7 @@
                         <div v-for="item in data_list" :key="item" class="item">
                             <div class="left" :style="'background-image: url(' + theme_bg_img.url_3 + ');background-size: 100% 100%;'">
                                 <div class="price">
-                                    <span v-if="item.type == '0'" class="symbol">¥</span>
+                                    <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
                                     <span class="number">{{ item.discount_value }}</span>
                                     <span v-if="item.type == '1'" class="symbol">折</span>
                                 </div>
@@ -103,7 +103,7 @@
                         <div v-for="item in data_list" :key="item" class="item">
                             <div class="top">
                                 <div class="price">
-                                    <span v-if="item.type == '0'" class="symbol">¥</span>
+                                    <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
                                     <span class="number">{{ item.discount_value }}</span>
                                     <span v-if="item.type == '1'" class="symbol">折</span>
                                 </div>
@@ -120,7 +120,7 @@
                         <div v-for="item in data_list" :key="item" class="item">
                             <div class="left">
                                 <div class="price">
-                                    <span v-if="item.type == '0'" class="symbol">¥</span>
+                                    <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
                                     <span class="number">{{ item.discount_value }}</span>
                                     <span v-if="item.type == '1'" class="symbol">折</span>
                                 </div>
@@ -140,6 +140,9 @@
 import { common_styles_computer, gradient_computer, online_url } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 import CouponAPI from '@/api/coupon';
+import { commonStore } from '@/store';
+const common_store = commonStore();
+const currency_symbol = common_store.common.config.currency_symbol;
 const props = defineProps({
     value: {
         type: Object,

@@ -33,7 +33,7 @@
                             <el-input v-model="form.address" class="link-input" placeholder="请输入地址" type="1" @change="address_change" />
                         </el-form-item>
                         <el-form-item label="经纬度">
-                            <maps v-model="map_address" type="4" @point="map_point"></maps>
+                            <maps v-model="map_address" :type="common_map_type" @point="map_point"></maps>
                             <!-- <t-map v-model="map_address" @point="map_point"></t-map> -->
                             <!-- <bd-map v-model="map_address" @point="map_point"></bd-map> -->
                             <!-- <gd-map v-model="map_address" @point="map_point"></gd-map> -->
@@ -48,6 +48,9 @@
 </template>
 <script lang="ts" setup>
 import type { FormInstance } from 'element-plus';
+import { commonStore } from '@/store';
+const common_store = commonStore();
+const common_map_type = common_store.common.config.common_map_type || 'baidu';
 const props = defineProps({
     status: {
         type: Boolean,
