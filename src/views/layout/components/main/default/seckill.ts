@@ -1,6 +1,6 @@
 import defaultCommon from './index';
 import { online_url } from '@/utils';
-const new_url = await online_url('/static/app/tabbar/').then((res) => res);
+const new_url = await online_url('/static/plugins/seckill/images/diy/').then((res) => res);
 interface DefaultSeckill {
     content: {
         head_state: string;
