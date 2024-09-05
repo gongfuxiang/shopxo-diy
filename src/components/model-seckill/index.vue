@@ -2,40 +2,40 @@
     <div :style="style">
         <div class="flex-col gap-10">
             <div v-if="form.head_state == '1'" class="seckill-head flex-row align-c jc-sb oh" :style="seckill_head_style">
-                <div :class="['flex-row align-c', {'gap-10': form.theme != '1', 'jc-sb w': form.theme == '2'}]">
+                <div :class="['flex-row align-c', { 'gap-10': form.theme != '1', 'jc-sb w': form.theme == '2' }]">
                     <div class="seckill-title">
                         <image-empty v-if="form.topic_type == 'image'" v-model="form.topic_src[0]" error-img-style="width:2.1rem; height: 1rem;"></image-empty>
-                        <span v-else :style="`color: ${ new_style.topic_color };font-size: ${ new_style.topic_size }px;line-height:21px;font-weight:600;`">{{ form.topic_text }}</span>
+                        <span v-else :style="`color: ${new_style.topic_color};font-size: ${new_style.topic_size}px;line-height:21px;font-weight:600;`">{{ form.topic_text }}</span>
                     </div>
                     <div v-if="form.theme == '1'" class="pl-6 pr-6 cr-f">|</div>
                     <div v-if="intervalId != undefined" class="flex-row align-c gap-4">
-                        <span class="size-10" :style="`color: ${ new_style.end_text_color }`">{{ seckill_time.time_first_text }}</span>
-                        <div class="flex-row gap-3 jc-c align-c" :style="[form.theme == '4'? `${ time_bg };padding: 0.3rem 0.4rem;border-radius: 1.1rem;` : '']">
-                        <img v-if="form.theme == '4'" class="seckill-head-icon radius-xs" :src="new_url" />
-                        <template v-for="(item, index) in time_config" :key="item.key">
-                            <template v-if="form.theme == '4'">
-                                <div class="size-12" :style="`color: ${ new_style.countdown_color }`">{{ item.value }}</div>
-                                <span v-if="[0, 1].includes(index)" class="colon" :style="`color: ${ new_style.countdown_color }`">:</span>
+                        <span class="size-10" :style="`color: ${new_style.end_text_color}`">{{ seckill_time.time_first_text }}</span>
+                        <div class="flex-row gap-3 jc-c align-c" :style="[form.theme == '4' ? `${time_bg};padding: 0.3rem 0.4rem;border-radius: 1.1rem;` : '']">
+                            <img v-if="form.theme == '4'" class="seckill-head-icon radius-xs" :src="new_url" />
+                            <template v-for="(item, index) in time_config" :key="item.key">
+                                <template v-if="form.theme == '4'">
+                                    <div class="size-12" :style="`color: ${new_style.countdown_color}`">{{ item.value }}</div>
+                                    <span v-if="[0, 1].includes(index)" class="colon" :style="`color: ${new_style.countdown_color}`">:</span>
+                                </template>
+                                <template v-else>
+                                    <div class="time-config size-12" :style="`${time_bg};color: ${new_style.countdown_color}`">{{ item.value }}</div>
+                                    <span v-if="[0, 1].includes(index)" class="colon" :style="icon_time_check()">:</span>
+                                </template>
                             </template>
-                            <template v-else>
-                                <div class="time-config size-12" :style="`${ time_bg };color: ${ new_style.countdown_color }`">{{ item.value }}</div>
-                                <span v-if="[0, 1].includes(index)" class="colon" :style="icon_time_check()">:</span>
-                            </template>
-                        </template>
                         </div>
                     </div>
                     <div v-else class="flex-row align-c gap-4">
-                        <span class="size-10" :style="`color: ${ new_style.end_text_color }`">已结束</span>
+                        <span class="size-10" :style="`color: ${new_style.end_text_color}`">已结束</span>
                     </div>
                 </div>
-                <div v-if="form.button_status == '1'" class="flex-row align-c" :style="`color: ${ new_style.head_button_color }`">
-                    <span :style="`font-size: ${ new_style.head_button_size }px;`">{{ form.button_text }}</span>
+                <div v-if="form.button_status == '1'" class="flex-row align-c" :style="`color: ${new_style.head_button_color}`">
+                    <span :style="`font-size: ${new_style.head_button_size}px;`">{{ form.button_text }}</span>
                     <el-icon class="iconfont icon-arrow-right" :color="new_style.head_button_color"></el-icon>
                 </div>
             </div>
             <template v-if="form.shop_style_type != '3'">
-                <div class="flex flex-wrap" :style="`gap: ${ content_outer_spacing }px;`">
-                    <div v-for="(item, index) in list" :key="index" :class="layout_type" :style="`${ content_radius }; ${ shop_style_type == '1' ? content_padding : '' }`">
+                <div class="flex flex-wrap" :style="`gap: ${content_outer_spacing}px;`">
+                    <div v-for="(item, index) in list" :key="index" :class="layout_type" :style="`${content_radius}; ${shop_style_type == '1' ? content_padding : ''}`">
                         <template v-if="!isEmpty(item)">
                             <div class="oh re" :class="`flex-img${shop_style_type}`">
                                 <template v-if="!isEmpty(item.new_cover)">
@@ -44,7 +44,9 @@
                                 <template v-else>
                                     <image-empty v-model="item.images" :class="`flex-img${shop_style_type}`" :style="content_img_radius"></image-empty>
                                 </template>
-                                <div v-if="form.seckill_subscript_show == '1'" class="size-12 nowrap corner-marker" :style="corner_marker"><span class="text-line-1">{{ form.subscript_text }}</span></div>
+                                <div v-if="form.seckill_subscript_show == '1'" class="size-12 nowrap corner-marker" :style="corner_marker">
+                                    <span class="text-line-1">{{ form.subscript_text }}</span>
+                                </div>
                             </div>
                         </template>
                         <div class="flex-col gap-10 w flex-1 jc-sb" :style="content_style">
@@ -54,10 +56,12 @@
                                 <!-- 进度条 -->
                                 <div v-if="form.shop_style_type == '1'" class="flex-row align-c gap-6">
                                     <div class="re flex-1">
-                                        <div class="slide-bottom" :style="`background: ${ new_style.progress_bg_color }`"></div>
-                                        <div class="slide-top" :style="` width: 51%; ${ slide_active_color }`"><div class="slide-top-icon round" :style="`background: ${ new_style.progress_button_color }`"><icon name="a-miaosha" :color="new_style.progress_button_icon_color" size="9"></icon></div></div>
+                                        <div class="slide-bottom" :style="`background: ${new_style.progress_bg_color}`"></div>
+                                        <div class="slide-top" :style="` width: 51%; ${slide_active_color}`">
+                                            <div class="slide-top-icon round" :style="`background: ${new_style.progress_button_color}`"><icon name="a-miaosha" :color="new_style.progress_button_icon_color" size="9"></icon></div>
+                                        </div>
                                     </div>
-                                    <span class="size-10" :style="`color: ${ new_style.progress_text_color }`">已抢51%</span>
+                                    <span class="size-10" :style="`color: ${new_style.progress_text_color}`">已抢51%</span>
                                 </div>
                             </div>
                             <div class="flex-row align-e gap-10 jc-sb">
@@ -69,7 +73,8 @@
                                         <span v-if="is_show('price_unit')" class="identifying">{{ item.show_price_unit }}</span>
                                     </div>
                                     <div v-if="is_show('original_price')" class="size-11 flex" :style="`color: ${new_style.original_price_color}`">
-                                        <span class="original-price text-line-1 flex-1">{{ item.show_original_price_symbol }}{{ item.min_original_price }}
+                                        <span class="original-price text-line-1 flex-1"
+                                            >{{ item.show_original_price_symbol }}{{ item.min_original_price }}
                                             <template v-if="is_show('original_price_unit')">
                                                 {{ item.show_original_price_unit }}
                                             </template>
@@ -90,20 +95,8 @@
                 </div>
             </template>
             <template v-else>
-                <swiper
-                    :key="carouselKey"
-                    class="w flex"
-                    direction="horizontal"
-                    :loop="true"
-                    :autoplay="autoplay"
-                    :slides-per-view="form.carousel_col"
-                    :slides-per-group="slides_per_group"
-                    :allow-touch-move="false"
-                    :space-between="content_outer_spacing"
-                    :pause-on-mouse-enter="true"
-                    :modules="modules"
-                >
-                    <swiper-slide v-for="(item, index) in list" :key="index" :class="layout_type" :style="`${ content_radius }; ${ shop_style_type == '1' ? content_padding : '' }`">
+                <swiper :key="carouselKey" class="w flex" direction="horizontal" :loop="true" :autoplay="autoplay" :slides-per-view="form.carousel_col" :slides-per-group="slides_per_group" :allow-touch-move="false" :space-between="content_outer_spacing" :pause-on-mouse-enter="true" :modules="modules">
+                    <swiper-slide v-for="(item, index) in list" :key="index" :class="layout_type" :style="`${content_radius}; ${shop_style_type == '1' ? content_padding : ''}`">
                         <template v-if="!isEmpty(item)">
                             <div class="oh re w h">
                                 <template v-if="!isEmpty(item.new_cover)">
@@ -112,7 +105,9 @@
                                 <template v-else>
                                     <image-empty v-model="item.images" :class="`flex-img${shop_style_type}`" :style="content_img_radius"></image-empty>
                                 </template>
-                                <div v-if="form.seckill_subscript_show == '1'" class="size-12 nowrap corner-marker" :style="corner_marker"><span class="text-line-1">{{ form.subscript_text }}</span></div>
+                                <div v-if="form.seckill_subscript_show == '1'" class="size-12 nowrap corner-marker" :style="corner_marker">
+                                    <span class="text-line-1">{{ form.subscript_text }}</span>
+                                </div>
                             </div>
                         </template>
                         <div class="flex-col gap-10 w flex-1 jc-sb" :style="content_style">
@@ -122,10 +117,12 @@
                                 <!-- 进度条 -->
                                 <div v-if="form.shop_style_type == '1'" class="flex-row align-c gap-6">
                                     <div class="re flex-1">
-                                        <div class="slide-bottom" :style="`background: ${ new_style.progress_bg_color }`"></div>
-                                        <div class="slide-top" :style="` width: 51%; ${ slide_active_color }`"><div class="slide-top-icon round" :style="`background: ${ new_style.progress_button_color }`"><icon name="a-miaosha" :color="new_style.progress_button_icon_color" size="9"></icon></div></div>
+                                        <div class="slide-bottom" :style="`background: ${new_style.progress_bg_color}`"></div>
+                                        <div class="slide-top" :style="` width: 51%; ${slide_active_color}`">
+                                            <div class="slide-top-icon round" :style="`background: ${new_style.progress_button_color}`"><icon name="a-miaosha" :color="new_style.progress_button_icon_color" size="9"></icon></div>
+                                        </div>
                                     </div>
-                                    <span class="size-10" :style="`color: ${ new_style.progress_text_color }`">已抢51%</span>
+                                    <span class="size-10" :style="`color: ${new_style.progress_text_color}`">已抢51%</span>
                                 </div>
                             </div>
                             <div class="flex-row align-e gap-10 jc-sb">
@@ -137,7 +134,8 @@
                                         <span v-if="is_show('price_unit')" class="identifying">{{ item.show_price_unit }}</span>
                                     </div>
                                     <div v-if="is_show('original_price')" class="size-11 flex" :style="`color: ${new_style.original_price_color}`">
-                                        <span class="original-price text-line-1 flex-1">{{ item.show_original_price_symbol }}{{ item.min_original_price }}
+                                        <span class="original-price text-line-1 flex-1"
+                                            >{{ item.show_original_price_symbol }}{{ item.min_original_price }}
                                             <template v-if="is_show('original_price_unit')">
                                                 {{ item.show_original_price_unit }}
                                             </template>
@@ -181,9 +179,9 @@ const props = defineProps({
 });
 const new_url = ref('');
 onBeforeMount(async () => {
-    const url = await online_url('/static/plugins/seckill/images/diy/').then(res => res);
+    const url = await online_url('/static/plugins/seckill/images/diy/').then((res) => res);
     new_url.value = url + 'time.png';
-})
+});
 const form = computed(() => props.value?.content || {});
 const new_style = computed(() => props.value?.style || {});
 const time_bg = computed(() => {
@@ -194,8 +192,8 @@ const time_bg = computed(() => {
 });
 // icon的渐变色处理
 const icon_time_check = () => {
-    return `${ time_bg.value };line-height: 1;background-clip: text;-webkit-background-clip: text;-webkit-text-fill-color: transparent;`;
-}
+    return `${time_bg.value};line-height: 1;background-clip: text;-webkit-background-clip: text;-webkit-text-fill-color: transparent;`;
+};
 
 const slide_active_color = computed(() => {
     const { progress_actived_color_list, progress_actived_direction } = new_style.value;
@@ -277,12 +275,12 @@ const time_config = reactive([
     { key: 'minute', value: '00' },
     { key: 'second', value: '00' },
 ]);
-const intervalId = ref<number | undefined>(undefined);
+const intervalId = ref<any>(undefined);
 const seckill_time = ref({
     endTime: '2024-09-04 18:51:00',
     startTime: '2024-09-04 18:51:00',
     status: 0,
-    time_first_text: '距结束'
+    time_first_text: '距结束',
 });
 const updateCountdown = () => {
     const now = new Date();
@@ -299,7 +297,9 @@ const updateCountdown = () => {
             seckill_time.value.status = 1;
             seckill_time.value.time_first_text = '距结束';
             // 先执行一次倒计时，后续的等待倒计时执行
-            setTimeout(() => { updateCountdown();}, 0);
+            setTimeout(() => {
+                updateCountdown();
+            }, 0);
             intervalId.value = setInterval(updateCountdown, 1000);
         }
         return;
@@ -317,7 +317,7 @@ const updateCountdown = () => {
             item.value = seconds < 10 ? '0' + seconds : seconds.toString();
         }
     });
-}
+};
 // 更新倒计时函数
 onBeforeMount(() => {
     SeckillAPI.getSeckillList({}).then((res: any) => {
@@ -333,16 +333,18 @@ onBeforeMount(() => {
                 endTime: '2024-09-05 09:36:00',
                 startTime: '2024-09-05 09:33:00',
                 status: 0,
-                time_first_text: time_first_text
-            }
+                time_first_text: time_first_text,
+            };
             // 先执行一次倒计时，后续的等待倒计时执行
-            setTimeout(() => { updateCountdown();}, 0);
+            setTimeout(() => {
+                updateCountdown();
+            }, 0);
             intervalId.value = setInterval(updateCountdown, 1000);
         } else {
             list.value = Array(4).fill(default_list);
         }
     });
-})
+});
 // 商品间距
 const content_outer_spacing = computed(() => new_style.value.content_outer_spacing);
 // 圆角设置
@@ -443,16 +445,16 @@ const content_img_radius = computed(() => radius_computer(new_style.value.shop_i
 // 左上角，右上角，右下角，左下角
 const corner_marker = computed(() => {
     const { seckill_subscript_location, shop_img_radius, seckill_subscript_bg_color, seckill_subscript_text_color } = new_style.value;
-    let location = `background: ${ seckill_subscript_bg_color };color: ${seckill_subscript_text_color};`;
+    let location = `background: ${seckill_subscript_bg_color};color: ${seckill_subscript_text_color};`;
     // 圆角根据图片的圆角来计算 对角线是同样的圆角
     if (seckill_subscript_location == 'top-left') {
-        location += `top: 0;left: 0;border-radius: ${ shop_img_radius.radius_top_left }px 0 ${ shop_img_radius.radius_top_left }px 0;`;
+        location += `top: 0;left: 0;border-radius: ${shop_img_radius.radius_top_left}px 0 ${shop_img_radius.radius_top_left}px 0;`;
     } else if (seckill_subscript_location == 'top-right') {
-        location += `top: 0;right: 0;border-radius: 0 ${ shop_img_radius.radius_top_right }px 0 ${ shop_img_radius.radius_top_right }px;`;
+        location += `top: 0;right: 0;border-radius: 0 ${shop_img_radius.radius_top_right}px 0 ${shop_img_radius.radius_top_right}px;`;
     } else if (seckill_subscript_location == 'bottom-left') {
-        location += `bottom: 0;left: 0;border-radius: 0 ${ shop_img_radius.radius_bottom_left }px 0 ${ shop_img_radius.radius_bottom_left }px;`;
+        location += `bottom: 0;left: 0;border-radius: 0 ${shop_img_radius.radius_bottom_left}px 0 ${shop_img_radius.radius_bottom_left}px;`;
     } else if (seckill_subscript_location == 'bottom-right') {
-        location += `bottom: 0;right: 0;border-radius: ${ shop_img_radius.radius_bottom_right }px 0 ${ shop_img_radius.radius_bottom_right }px 0;`;
+        location += `bottom: 0;right: 0;border-radius: ${shop_img_radius.radius_bottom_right}px 0 ${shop_img_radius.radius_bottom_right}px 0;`;
     }
     return location;
 });
