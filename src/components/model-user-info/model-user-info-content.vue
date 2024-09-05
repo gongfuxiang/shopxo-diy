@@ -16,7 +16,7 @@
                 <div class="nav-list">
                     <drag :data="form.icon_setting" :space-col="20" @remove="icon_setting_remove" @on-sort="icon_setting_sort">
                         <template #default="{ row }">
-                            <upload v-model="row.src" v-model:icon-value="row.icon" is-icon type="img" :limit="1" :styles="2" :size="30"></upload>
+                            <upload v-model="row.img" v-model:icon-value="row.icon" is-icon type="img" :limit="1" :styles="2" :size="30"></upload>
                             <url-value v-model="row.href"></url-value>
                         </template>
                     </drag>
@@ -52,7 +52,7 @@ const icon_setting_sort = (item: any) => {
 const add = () => {
     form.icon_setting.push({
         id: get_math(),
-        src: [],
+        img: [],
         icon: '',
         href: {},
     });
