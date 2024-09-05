@@ -16,7 +16,7 @@ interface list_page {
 }
 interface Props {
     colorList: list_page[];
-    defaultColor: string;
+    defaultColor?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
     defaultColor: '',
