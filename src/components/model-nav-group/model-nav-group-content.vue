@@ -39,13 +39,13 @@
                 <drag :data="form.nav_content_list" type="card" :space-col="27" @remove="remove" @on-sort="on_sort">
                     <template #default="scoped">
                         <div class="flex-row align-c jc-c">
-                            <upload v-model="scoped.row.nav_image" :limit="1" size="72"></upload>
+                            <upload v-model="scoped.row.img" :limit="1" size="72"></upload>
                             <div class="flex-col align-c jc-c gap-20">
                                 <el-form-item label="标题" class="mb-0" label-width="50">
                                     <el-input v-model="scoped.row.title" placeholder="请输入标题" maxlength="4" show-word-limit></el-input>
                                 </el-form-item>
                                 <el-form-item label="链接" class="w mb-0" label-width="50">
-                                    <url-value v-model="scoped.row.title_link"></url-value>
+                                    <url-value v-model="scoped.row.link"></url-value>
                                 </el-form-item>
                             </div>
                         </div>
@@ -71,27 +71,27 @@ const props = withDefaults(defineProps<Props>(),{
         nav_content_list: [
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
-                nav_image: [],
+                img: [],
                 title: '',
-                title_link: {},
+                link: {},
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
-                nav_image: [],
+                img: [],
                 title: '',
-                title_link: {},
+                link: {},
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
-                nav_image: [],
+                img: [],
                 title: '',
-                title_link: {},
+                link: {},
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
-                nav_image: [],
+                img: [],
                 title: '',
-                title_link: {},
+                link: {},
             }
         ]
     })
@@ -104,9 +104,9 @@ const { form } = toRefs(state);
 const add = () => {
     form.value.nav_content_list.push({
         id: get_math(),
-        nav_image: [],
+        img: [],
         title: '',
-        title_link: {},
+        link: {},
     });
 }
 const remove = (index: number) => {

@@ -2,9 +2,9 @@ import { get_math } from '@/utils';
 import defaultCommon from './index';
 interface nav_group {
     id: string;
-    nav_image: uploadList[];
+    img: uploadList[];
     title: string;
-    title_link: object;
+    link: object;
 }
 interface defaultSearch {
     content: {
@@ -44,27 +44,27 @@ const defaultSearch: defaultSearch = {
         nav_content_list: [
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
-                nav_image: [],
+                img: [],
                 title: '测试标题',
-                title_link: {},
+                link: {},
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
-                nav_image: [],
+                img: [],
                 title: '测试标题',
-                title_link: {},
+                link: {},
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
-                nav_image: [],
+                img: [],
                 title: '测试标题',
-                title_link: {},
+                link: {},
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
-                nav_image: [],
+                img: [],
                 title: '测试标题',
-                title_link: {},
+                link: {},
             },
         ],
     },

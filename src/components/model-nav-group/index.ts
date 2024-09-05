@@ -1,8 +1,8 @@
 interface nav_group {
     id: string;
-    nav_image: uploadList[];
+    img: uploadList[];
     title: string;
-    title_link: object,
+    link: object,
 }
 
 interface nav_group_content {
