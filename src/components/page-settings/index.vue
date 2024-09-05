@@ -17,7 +17,7 @@
                     </template>
                 </div>
                 <div v-else-if="['4', '5'].includes(form.theme)" class="flex align-c h gap-10">
-                    <div class="flex-row gap-2"><icon name="position" size="12" color="0"></icon><span class="size-14 cr-3 text-line-1">{{ form.positioning_name }}</span><icon v-if="form.is_arrows_show" name="arrow-right" size="12" color="0"></icon></div>
+                    <div class="flex-row gap-2"><icon name="position" size="12" color="0"></icon><span class="size-14 cr-3 text-line-1">{{ form.positioning_name }}</span><icon v-if="form.is_arrows_show == '1'" name="arrow-right" size="12" color="0"></icon></div>
                     <template v-if="['5'].includes(form.theme)">
                         <div class="flex-1" style="padding-right:95px">
                             <model-search :value="pageData.com_data" :is-page-settings="true"></model-search>
@@ -47,7 +47,7 @@ const page_settings = () => {
 };
 const form = computed(() => props.pageData.com_data.content);
 const new_style = computed(() => props.pageData.com_data.style);
-const position = computed(() => new_style.value.up_slide_display ? 'absolute' : 'relative');
+const position = computed(() => new_style.value.up_slide_display == '1' ? 'absolute' : 'relative');
 const roll_style = computed(() => {
     let style = ``;
     const { header_background_img, header_background_img_style, header_background_color_list, header_background_direction, header_background_type } = new_style.value;

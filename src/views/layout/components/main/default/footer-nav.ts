@@ -5,7 +5,7 @@ interface DefaultFooterNav {
     content: {
         nav_style: string;
         nav_type: string;
-        nav_content: { id: string; name: string; src: uploadList[]; src_checked: uploadList[]; href: object }[];
+        nav_content: { id: string; name: string; img: uploadList[]; img_checked: uploadList[]; link: object }[];
     };
     style: {
         text_color_checked: string;
@@ -18,10 +18,10 @@ const defaultFooterNav = ref<DefaultFooterNav>({
         nav_style: '0',
         nav_type: '0',
         nav_content: [
-            { id: '1', name: '首页', src: [{ id: 1, url: new_url + 'home.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], src_checked: [{ id: 1, url: new_url + 'active/home.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], href: {} },
-            { id: '2', name: '分类', src: [{ id: 1, url: new_url + 'category.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], src_checked: [{ id: 1, url: new_url + 'active/category.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], href: {} },
-            { id: '3', name: '购物车', src: [{ id: 1, url: new_url + 'cart.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], src_checked: [{ id: 1, url: new_url + 'active/cart.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], href: {} },
-            { id: '4', name: '我的', src: [{ id: 1, url: new_url + 'user.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], src_checked: [{ id: 1, url: new_url + 'active/user.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], href: {} },
+            { id: '1', name: '首页', img: [{ id: 1, url: new_url + 'home.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], img_checked: [{ id: 1, url: new_url + 'active/home.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], link: {} },
+            { id: '2', name: '分类', img: [{ id: 1, url: new_url + 'category.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], img_checked: [{ id: 1, url: new_url + 'active/category.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], link: {} },
+            { id: '3', name: '购物车', img: [{ id: 1, url: new_url + 'cart.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], img_checked: [{ id: 1, url: new_url + 'active/cart.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], link: {} },
+            { id: '4', name: '我的', img: [{ id: 1, url: new_url + 'user.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], img_checked: [{ id: 1, url: new_url + 'active/user.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], link: {} },
         ],
     },
     style: {

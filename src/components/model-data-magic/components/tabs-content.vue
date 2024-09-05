@@ -1,5 +1,5 @@
 <template>
-    <card-container class="mb-8">
+    <card-container>
         <el-form-item label="数据类型">
             <el-radio-group v-model="form.data_type">
                 <el-radio value="goods">商品</el-radio>
@@ -15,34 +15,40 @@
             </el-form-item>
         </template>
     </card-container>
-    <card-container v-if="form.data_type == 'images'" class="mb-8">
-        <div class="mb-12">图片设置</div>
-        <div class="flex-col gap-20">
-            <div v-for="(item, index) in form.images_list" :key="index" class="card-background box-shadow-sm re">
-                <div class="flex-col align-c jc-c gap-20 w">
-                    <div class="upload_style">
-                        <upload v-model="item.carousel_img" :limit="1" size="100%"></upload>
+    <template v-if="form.data_type == 'images'">
+        <div class="bg-f5 divider-line" />
+        <card-container >
+            <div class="mb-12">图片设置</div>
+            <div class="flex-col gap-20">
+                <div v-for="(item, index) in form.images_list" :key="index" class="card-background box-shadow-sm re">
+                    <div class="flex-col align-c jc-c gap-20 w">
+                        <div class="upload_style">
+                            <upload v-model="item.carousel_img" :limit="1" size="100%"></upload>
+                        </div>
+                        <el-form-item label="图片链接" class="w mb-16" label-width="60">
+                            <url-value v-model="item.carousel_link"></url-value>
+                        </el-form-item>
                     </div>
-                    <el-form-item label="图片链接" class="w mb-16" label-width="60">
-                        <url-value v-model="item.carousel_link"></url-value>
-                    </el-form-item>
+                    <el-icon class="iconfont icon-close-o size-16 abs cr-c top-de-5 right-de-5" @click="img_remove(index)" />
                 </div>
-                <el-icon class="iconfont icon-close-o size-16 abs cr-c top-de-5 right-de-5" @click="img_remove(index)" />
             </div>
-        </div>
-        <el-button class="mt-20 mb-20 w" @click="img_add">+添加</el-button>
-    </card-container>
-    <card-container v-else class="mb-8">
-        <div class="mb-12">商品设置</div>
-        <drag-group :list="form.goods_list" img-params="images" @onsort="goods_list_sort" @remove="goods_list_remove"></drag-group>
-        <el-button class="mtb-20 w" @click="goods_list_add">+添加</el-button>
-        <el-form-item label="展示信息" label-width="60">
-            <el-checkbox-group v-model="form.is_show">
-                <el-checkbox v-for="item in list_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
-            </el-checkbox-group>
-        </el-form-item>
-        <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['goods']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
-    </card-container>
+            <el-button class="mt-20 mb-20 w" @click="img_add">+添加</el-button>
+        </card-container>
+    </template>
+    <template v-else>
+        <div class="bg-f5 divider-line" />
+        <card-container>
+            <div class="mb-12">商品设置</div>
+            <drag-group :list="form.goods_list" img-params="images" @onsort="goods_list_sort" @remove="goods_list_remove"></drag-group>
+            <el-button class="mtb-20 w" @click="goods_list_add">+添加</el-button>
+            <el-form-item label="展示信息" label-width="60">
+                <el-checkbox-group v-model="form.is_show">
+                    <el-checkbox v-for="item in list_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
+                </el-checkbox-group>
+            </el-form-item>
+            <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['goods']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
+        </card-container>
+    </template>
 </template>
 <script setup lang="ts">
 import { get_math } from '@/utils';

@@ -23,7 +23,7 @@
             <div class="mb-12 flex-row align-c jc-sb">已选组件<el-button @click="cancel">清除选中</el-button></div>
             <div class="assembly">
                 <div v-if="!isEmpty(diy_data)" class="flex-row flex-wrap gap-10">
-                    <div v-for="(item, index) in diy_data" :key="index" class="item flex jc-sb align-c size-14 cr-3" :class="{ 'item-active': item.show_tabs }" @click="on_choose(index, item.show_tabs)">{{ item.name }}<icon name="close" color="3" size="10" class="c-pointer" @click="del(index)"></icon></div>
+                    <div v-for="(item, index) in diy_data" :key="index" class="item flex jc-sb align-c size-14 cr-3" :class="{ 'item-active': item.show_tabs == '1' }" @click="on_choose(index, item.show_tabs)">{{ item.name }}<icon name="close" color="3" size="10" class="c-pointer" @click="del(index)"></icon></div>
                 </div>
                 <div v-else class="w h flex jc-c align-c">
                     <no-data></no-data>
@@ -41,12 +41,12 @@
                         <div class="w h" @mousedown.prevent="start_drag" @mousemove.prevent="move_drag" @mouseup.prevent="end_drag">
                             <DraggableContainer v-if="draggable_container" :reference-line-visible="true" :disabled="false" reference-line-color="#ddd" @selectstart.prevent @contextmenu.prevent @dragstart.prevent>
                                 <!-- @mouseover="on_choose(index)" -->
-                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="{ 'plug-in-show-tabs': item.show_tabs }" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index)" @resize-end="resizingHandle($event, item.key, index)">
-                                    <div v-if="item.show_tabs" class="plug-in-right" chosenClass="close">
+                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="{ 'plug-in-show-tabs': item.show_tabs == '1'}" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index)" @resize-end="resizingHandle($event, item.key, index)">
+                                    <div v-if="item.show_tabs == '1'" class="plug-in-right" chosenClass="close">
                                         <el-icon class="iconfont icon-del" @click.stop="del(index)" />
                                         <el-icon class="iconfont icon-copy" @click.stop="copy(index)" />
                                     </div>
-                                    <div :class="['main-content', { 'plug-in-border': item.show_tabs }]" :style="{ 'z-index': item.com_data.bottom_up ? 0 : 1 }">
+                                    <div :class="['main-content', { 'plug-in-border': item.show_tabs == '1' }]" :style="{ 'z-index': item.com_data.bottom_up == '1' ? 0 : 1 }">
                                         <template v-if="item.key == 'text'">
                                             <model-text :key="item.id" :value="item.com_data" :source-list="props.sourceList"></model-text>
                                         </template>
@@ -175,17 +175,17 @@ const get_diy_index_data = (index: number) => {
 const set_show_tabs = (index: number) => {
     diy_data.value.forEach((item, for_index) => {
         // 先将全部的设置为false,再将当前选中的设置为true
-        item.show_tabs = false;
+        item.show_tabs = '0';
         if (for_index == index) {
-            item.show_tabs = true;
+            item.show_tabs = '1';
             emits('rightUpdate', item);
         }
     });
 };
 // 选中和鼠标按下时候的效果
-const on_choose = (index: number, show_tabs: Boolean) => {
+const on_choose = (index: number, show_tabs: string) => {
     // 如果已经选中了, 设置为不可再次触发事件
-    if (!show_tabs) {
+    if (show_tabs != '1') {
         // 设置对应的位置为显示
         set_show_tabs(index);
     }
@@ -193,7 +193,7 @@ const on_choose = (index: number, show_tabs: Boolean) => {
 // 清除选中
 const cancel = () => {
     diy_data.value.forEach((item) => {
-        item.show_tabs = false;
+        item.show_tabs = '0';
     });
     emits('rightUpdate', {});
 };
@@ -212,7 +212,7 @@ watch(() => center_height.value, () => {
         // 在 DOM 中添加组件
         diy_data.value = data.map((item) => ({
             ...item,
-            show_tabs: false,
+            show_tabs: '0',
             location: {
                 x: item.location.x,
                 y: item.location.staging_y,
@@ -237,13 +237,13 @@ const dragStart = (item: any, event: any) => {
     // 初始化拖拽的数据
     draggedItem.value = {
         name: item.name,
-        show_tabs: true,
-        is_enable: true,
+        show_tabs: '1',
+        is_enable: '1',
         location: { x: 0, y: 0, record_x: 0, record_y: 0, staging_y: 0},
         src: item.src,
         id: get_math(),
         key: item.key,
-        is_hot: false,
+        is_hot: '0',
         com_data: cloneDeep(item.com_data),
     };
     // 拖拽的时候清空热区
@@ -393,7 +393,7 @@ const start_drag_area_box = (index: number, event: MouseEvent) => {
     const rect1 = { x: clone_drag_start.x, y: clone_drag_start.y, width: clone_drag_end.width, height: clone_drag_end.height }
     diy_data.value.forEach(item => {
         const rect2 = { x: item.location.x, y: item.location.y, width: item.com_data.com_width, height: item.com_data.com_height };
-        // 如果交集或者包裹，返回为true，否则为false
+        // 如果交集或者包裹，返回为1，否则为0
         item.is_hot = isRectangleIntersecting(rect1, rect2);
     });
 
@@ -425,7 +425,7 @@ const start_drag_area_box = (index: number, event: MouseEvent) => {
             const move_y = new_coordinate.y - clone_drag_start.y;
             // 遍历对象,包裹在区域内部的拖拽距离更新
             diy_data.value.forEach(item => {
-                if (item.is_hot) { // 只更新交集和包裹中的数据
+                if (item.is_hot == '1') { // 只更新交集和包裹中的数据
                     let { record_x, record_y} = cloneDeep(item.location);
                     item.location.x = Math.max(0, record_x + move_x);
                     item.location.y = Math.max(0, record_y + move_y);
@@ -442,7 +442,7 @@ const start_drag_area_box = (index: number, event: MouseEvent) => {
         drag_box_bool.value = false;
         // 鼠标抬起的时候将默认值重置为当前x、y坐标
         diy_data.value.forEach(item => {
-            if (item.is_hot) {
+            if (item.is_hot == '1') {
                 const { x, y } = cloneDeep(item.location);
                 item.location.record_x = x;
                 item.location.record_y = y;

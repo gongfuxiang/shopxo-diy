@@ -20,7 +20,7 @@
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item v-if="!is_text" label="上传图片">
-                    <upload v-model="form.img" v-model:icon-value="form.icon_class" is-icon :limit="1" size="50"></upload>
+                    <upload v-model="form.img_src" v-model:icon-value="form.icon_class" is-icon :limit="1" size="50"></upload>
                 </el-form-item>
                 <el-form-item v-if="is_text" label="标题文字">
                     <el-input v-model="form.title" placeholder="请输入标题" maxlength="4" show-word-limit></el-input>
@@ -33,7 +33,7 @@
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item label="间隔时间">
-                        <slider v-model="form.interval_time" :max="100"></slider>
+                        <slider v-model="form.interval_time" :min="1" :max="100"></slider>
                     </el-form-item>
                 </template>
             </card-container>
@@ -63,7 +63,7 @@
                                 <url-value v-model="scoped.row.notice_link"></url-value>
                             </el-form-item>
                             <el-form-item label="状态" class="w mb-0" label-width="40">
-                                <el-switch v-model="scoped.row.is_show"></el-switch>
+                                <el-switch v-model="scoped.row.is_show" active-value="1" inactive-value="0"></el-switch>
                             </el-form-item>
                         </div>
                     </template>
@@ -94,7 +94,7 @@ const add = () => {
         id: get_math(),
         notice_title: '',
         notice_link: '',
-        is_show: true
+        is_show: '1'
     })
 }
 const remove = (index: number) => {

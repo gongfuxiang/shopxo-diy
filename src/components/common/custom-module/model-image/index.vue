@@ -45,7 +45,7 @@ const image_style = computed(() => {
 
 const border_style = computed(() => {
     let style = ``;
-    if (form.border_show) {
+    if (form.border_show == '1') {
         style += `border: ${form.border_size}px ${form.border_style} ${form.border_color}; ${ radius_computer(form.border_radius) };`
     }
     return style;

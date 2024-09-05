@@ -27,7 +27,7 @@
                     <slider v-model="form.img_rotate" :max="1000"></slider>
                 </el-form-item>
                 <el-form-item label="是否置底">
-                    <el-switch v-model="form.bottom_up" />
+                    <el-switch v-model="form.bottom_up" active-value="1" inactive-value="0" />
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
@@ -35,11 +35,11 @@
                 <div class="mb-12">边框设置</div>
                 <el-form-item label="边框显示">
                     <el-radio-group v-model="form.border_show">
-                        <el-radio :value="true">显示</el-radio>
-                        <el-radio :value="false">隐藏</el-radio>
+                        <el-radio value="1">显示</el-radio>
+                        <el-radio value="0">隐藏</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <template v-if="form.border_show">
+                <template v-if="form.border_show == '1'">
                     <el-form-item label="边框颜色">
                         <color-picker v-model="form.border_color" default-color="#FF3F3F"></color-picker>
                     </el-form-item>
@@ -103,7 +103,7 @@ watch(
     (val) => {
         let width = form.value.img_width;
         let height = form.value.img_height;
-        if (form.value.border_show) {
+        if (form.value.border_show == '1') {
             width += form.value.border_size * 2;
             height += form.value.border_size * 2;
         }

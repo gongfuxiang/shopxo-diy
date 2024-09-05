@@ -17,7 +17,7 @@
                     <drag :data="form.icon_setting" :space-col="20" @remove="icon_setting_remove" @on-sort="icon_setting_sort">
                         <template #default="{ row }">
                             <upload v-model="row.img" v-model:icon-value="row.icon" is-icon type="img" :limit="1" :styles="2" :size="30"></upload>
-                            <url-value v-model="row.href"></url-value>
+                            <url-value v-model="row.link"></url-value>
                         </template>
                     </drag>
                     <el-button class="mtb-20 w" @click="add">+添加</el-button>
@@ -54,7 +54,7 @@ const add = () => {
         id: get_math(),
         img: [],
         icon: '',
-        href: {},
+        link: {},
     });
     emit('update:value', form);
 };

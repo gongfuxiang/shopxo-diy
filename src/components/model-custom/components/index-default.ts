@@ -8,8 +8,8 @@ export const text_com_data = {
     data_source_id: '',
     data_source_list: {},
     text_link: {},
-    is_rich_text: false,
-    is_up_down: true,
+    is_rich_text: '0',
+    is_up_down: '1',
     text_color: '#000',
     text_weight: 'normal',
     text_size: 12,
@@ -23,7 +23,7 @@ export const text_com_data = {
         padding_right: 0,
     },
     text_rotate: 0,
-    border_show: false,
+    border_show: '0',
     border_color: '#FF5D5D',
     border_style: 'solid',
     bg_radius: {
@@ -35,7 +35,7 @@ export const text_com_data = {
     },
     border_size: 1,
     com_bg: '',
-    bottom_up: true,
+    bottom_up: '1',
 }
 // 图片的默认值
 export const img_com_data = {
@@ -56,7 +56,7 @@ export const img_com_data = {
     img_width: 50,
     img_height: 50,
     img_rotate: 0,
-    border_show: false,
+    border_show: '0',
     border_color: '#FF3F3F',
     border_style: 'dashed',
     border_radius: {
@@ -67,7 +67,7 @@ export const img_com_data = {
         radius_bottom_right: 0,
     },
     border_size: 1,
-    bottom_up: true,
+    bottom_up: '1',
 }
 // 线条的默认值
 export const line_com_data = {
@@ -79,7 +79,7 @@ export const line_com_data = {
     line_width: 306,
     line_size: 1,
     line_color: '#000',
-    bottom_up: true,
+    bottom_up: '1',
 }
 
 // 判断两个矩形是否有交集或者被包裹
@@ -90,12 +90,12 @@ export const isRectangleIntersecting = (rect1: react1, rect2: react1) => {
 
     // 检查是否有交集
     if ((x1 < x2 + w2 && x1 + w1 > x2) && (y1 < y2 + h2 && y1 + h1 > y2)) {
-        return true; // 有交集
+        return '1'; // 有交集
     }
 
     // 检查是否一个包含另一个
     if (x1 >= x2 && y1 >= y2 && x1 + w1 <= x2 + w2 && y1 + h1 <= y2 + h2) {
-        return true; // rect1完全包含rect2
+        return '1'; // rect1完全包含rect2
     }
-    return false; // 无交集
+    return '0'; // 无交集
 }

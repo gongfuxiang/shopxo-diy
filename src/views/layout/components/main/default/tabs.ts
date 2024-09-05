@@ -13,7 +13,7 @@ interface tabs_page {
 interface defaultTabs {
     content: {
         tabs_theme: string;
-        tabs_top_up: boolean;
+        tabs_top_up: string;
         tabs_list: tabs_page[];
     };
     style: {
@@ -32,7 +32,7 @@ interface defaultTabs {
 const defaultTabs: defaultTabs = {
     content: {
         tabs_theme: '0',
-        tabs_top_up: true,
+        tabs_top_up: '1',
         tabs_list: [
             { id: get_math(), title: '热门推荐', desc: '简介', data_type: 'micro_page', classify: {}, micro_page: '', micro_page_list: [], category_list: [] },
             { id: get_math(), title: '测试一', desc: '简介',  data_type: 'micro_page', classify: {}, micro_page: '', micro_page_list: [],  category_list: [] },

@@ -12,7 +12,7 @@
                 </div>
             </el-carousel-item>
         </el-carousel>
-        <div v-if="form.display_style == 'slide' && new_style.is_show" :style="{ 'justify-content': new_style?.indicator_location || 'center'}" class="dot flex mt-10 mb-4">
+        <div v-if="form.display_style == 'slide' && new_style.is_show == '1'" :style="{ 'justify-content': new_style?.indicator_location || 'center'}" class="dot flex mt-10 mb-4">
             <template v-if="new_style.indicator_style == 'num'">
                 <div :style="indicator_style" class="dot-item">
                     <span class="num-active">{{ actived_index + 1 }}</span><span>/{{ nav_content_list.length }}</span>
@@ -87,7 +87,7 @@ const actived_color = computed(() => new_style.value?.actived_color || '#2A94FF'
 // 记录当前显示的轮播图的数据
 const interval_list = ref({
     time: 2000,
-    is_roll: false,
+    is_roll: '0',
 })
 
 //监听屏幕缩放事件
@@ -134,7 +134,7 @@ watch(props.value, (val) => {
         // 滚动时间
         interval_time.value = time;
         // 是否滚动
-        is_roll.value = display_is_roll;
+        is_roll.value = display_is_roll == '1' ? true : false;
         // 记录历史保存的时间
         interval_list.value = {
             time: time,

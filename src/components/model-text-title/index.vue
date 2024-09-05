@@ -3,12 +3,12 @@
         <div class="re flex" :class="title_center">
             <div class="z-i pr-15" :style="title_style">{{ form.title || '标题' }}</div>
             <div class="flex-row gap-10 align-c right-0 abs">
-                <template v-if="form.keyword_show">
+                <template v-if="form.keyword_show == '1'">
                     <div v-for="item in keyword_list" :key="item.id" :style="keyword_style">
                         {{ item.title }}
                     </div>
                 </template>
-                <div v-if="form.right_show" class="nowrap" :style="right_style">{{ form.right_title }}<el-icon class="iconfont icon-arrow-right" :color="new_style.right_color || '#999'"></el-icon></div>
+                <div v-if="form.right_show == '1'" class="nowrap" :style="right_style">{{ form.right_title }}<el-icon class="iconfont icon-arrow-right" :color="new_style.right_color || '#999'"></el-icon></div>
             </div>
         </div>
     </div>
@@ -37,7 +37,7 @@ const { form, new_style } = toRefs(state);
 const keyword_list = computed(() => {
     // 深拷贝一下，确保不会出现问题
     const arry_list = cloneDeep(form.value.keyword_list);
-    return arry_list.filter((item: { is_show: boolean }) => item.is_show);
+    return arry_list.filter((item: { is_show: string }) => item.is_show == '1');
 });
 // 标题的设置
 const title_style = computed(() => {

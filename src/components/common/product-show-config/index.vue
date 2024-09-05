@@ -7,14 +7,14 @@
             </el-checkbox-group>
         </el-form-item>
         <el-form-item v-if="['0', '1', '2'].includes(form.theme)" label="价格独行">
-            <el-switch v-model="form.is_price_solo"></el-switch>
+            <el-switch v-model="form.is_price_solo" active-value="1" inactive-value="0"></el-switch>
         </el-form-item>
     </card-container>
     <div class="bg-f5 divider-line" />
     <card-container>
         <div class="mb-12">购物车设置</div>
         <el-form-item label="是否显示">
-            <el-switch v-model="form.is_shop_show"></el-switch>
+            <el-switch v-model="form.is_shop_show" active-value="1" inactive-value="0" ></el-switch>
         </el-form-item>
         <el-form-item label="按钮样式">
             <div class="flex-col w gap-10">

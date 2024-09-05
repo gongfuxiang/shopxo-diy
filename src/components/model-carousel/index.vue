@@ -33,7 +33,7 @@
                     <image-empty v-model="item.carousel_img[0]" :style="img_style" :fit="img_fit" error-style="width:5rem;height:5rem"></image-empty>
                 </div>
             </swiper-slide>
-            <div v-if="new_style.is_show" :class="{'dot-center': new_style.indicator_location == 'center', 'dot-right': new_style.indicator_location == 'flex-end' }" class="dot flex abs">
+            <div v-if="new_style.is_show == '1'" :class="{'dot-center': new_style.indicator_location == 'center', 'dot-right': new_style.indicator_location == 'flex-end' }" class="dot flex abs">
                 <template v-if="new_style.indicator_style == 'num'">
                     <div :style="indicator_style" class="dot-item">
                         <span class="num-active">{{ actived_index + 1 }}</span><span>/{{ form.carousel_list.length }}</span>
@@ -129,7 +129,7 @@ const img_fit = computed(() => form.value.img_fit );
 // 记录当前显示的轮播图的数据
 const interval_list = ref({
     time: 2000,
-    is_roll: false,
+    is_roll: '0',
     interval_type: '',
     length: 0
 })
@@ -146,7 +146,7 @@ watchEffect(() => {
     // 判断跟历史的是否相等，不相等更新组件时间
     if (interval_list.value.time != time || interval_list.value.is_roll != display_is_roll || interval_list.value.interval_type != type || interval_list.value.length != carousel_length) {
         // 是否滚动
-        if (display_is_roll) {
+        if (display_is_roll == '1') {
             autoplay.value = {
                 delay: time,
                 pauseOnMouseEnter: true,

@@ -32,7 +32,7 @@
                     <color-picker v-model="form.line_color" default-color="#FF3F3F"></color-picker>
                 </el-form-item>
                 <el-form-item label="是否置底">
-                    <el-switch v-model="form.bottom_up" />
+                    <el-switch v-model="form.bottom_up" active-value="1" inactive-value="0" />
                 </el-form-item>
             </card-container>
         </el-form>

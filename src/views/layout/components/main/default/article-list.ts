@@ -19,7 +19,7 @@ interface DefaultArticleList {
         sort: string;
         sort_rules: string;
         field_show: string[];
-        is_cover: boolean;
+        is_cover: string;
     };
     style: {
         name_weight: string;
@@ -54,7 +54,7 @@ const defaultArticleList: DefaultArticleList = {
         sort: '0',
         sort_rules: '0',
         field_show: ['0', '1'],
-        is_cover: true,
+        is_cover: '1',
     },
     style: {
         name_weight: '500',

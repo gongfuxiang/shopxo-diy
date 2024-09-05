@@ -21,11 +21,11 @@
                 <div class="mb-12">关键字设置</div>
                 <el-form-item label="关键字">
                     <el-radio-group v-model="form.keyword_show">
-                        <el-radio :value="true">显示</el-radio>
-                        <el-radio :value="false">隐藏</el-radio>
+                        <el-radio value="1">显示</el-radio>
+                        <el-radio value="0">隐藏</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <template v-if="form.keyword_show">
+                <template v-if="form.keyword_show == '1'">
                     <drag :data="form.keyword_list" type="card" :space-col="25" @remove="remove" @on-sort="on_sort">
                         <template #default="scoped">
                             <div class="flex-col align-c jc-s gap-20 flex-1">
@@ -36,7 +36,7 @@
                                     <url-value v-model="scoped.row.link"></url-value>
                                 </el-form-item>
                                 <el-form-item label="状态" label-width="40" class="w mb-0">
-                                    <el-switch v-model="scoped.row.is_show"></el-switch>
+                                    <el-switch v-model="scoped.row.is_show" active-value="1" inactive-value="0"></el-switch>
                                 </el-form-item>
                             </div>
                         </template>
@@ -49,11 +49,11 @@
                 <div class="mb-12">更多设置</div>
                 <el-form-item label="右侧按钮">
                     <el-radio-group v-model="form.right_show">
-                        <el-radio :value="true">显示</el-radio>
-                        <el-radio :value="false">隐藏</el-radio>
+                        <el-radio value="1">显示</el-radio>
+                        <el-radio value="0">隐藏</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <template v-if="form.right_show">
+                <template v-if="form.right_show == '1'">
                     <el-form-item label="右侧文字">
                         <el-input v-model="form.right_title" placeholder="请输入标题"></el-input>
                     </el-form-item>
@@ -83,7 +83,7 @@ const add = () => {
         id: get_math(),
         notice_title: '',
         notice_link: '',
-        is_show: true,
+        is_show: '1',
     });
 };
 const remove = (index: number) => {

@@ -38,7 +38,7 @@ const visibleDialog = ref(false);
 const rich_upload_type = ref('img');
 // 编辑器配置
 interface InsertFnType {
-    (url: string, alt?: string, href?: string): void;
+    (url: string, alt?: string, link?: string): void;
 }
 const editor_config = ref({
     placeholder: '请输入内容...',

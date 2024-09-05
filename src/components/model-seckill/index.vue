@@ -160,13 +160,12 @@
 </template>
 <script setup lang="ts">
 import { background_computer, common_styles_computer, get_math, gradient_computer, gradient_handle, padding_computer, radius_computer } from '@/utils';
-import { isEmpty, cloneDeep, throttle } from 'lodash';
+import { isEmpty } from 'lodash';
 import SeckillAPI from '@/api/seckill';
 import { online_url } from '@/utils';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
-import { da } from 'element-plus/es/locale';
 const modules = [Autoplay];
 
 const props = defineProps({
@@ -330,9 +329,9 @@ onBeforeMount(() => {
             }
             const { status, time_first_text } = data.current.time;
             seckill_time.value = {
-                endTime: '2024-09-05 09:36:00',
-                startTime: '2024-09-05 09:33:00',
-                status: 0,
+                endTime: data.current.time_end,
+                startTime: data.current.time_start,
+                status: status,
                 time_first_text: time_first_text,
             };
             // 先执行一次倒计时，后续的等待倒计时执行
@@ -424,7 +423,7 @@ const slides_per_group = ref(1);
 // 内容参数的集合
 watchEffect(() => {
     // 是否滚动
-    if (new_style.value.is_roll) {
+    if (new_style.value.is_roll == '1') {
         autoplay.value = {
             delay: (new_style.value.interval_time || 2) * 1000,
             pauseOnMouseEnter: true,
@@ -432,6 +431,7 @@ watchEffect(() => {
     } else {
         autoplay.value = false;
     }
+    // 判断是平移还是整屏滚动
     slides_per_group.value = new_style.value.rolling_fashion == 'translation' ? 1 : form.value.carousel_col;
     // 更新轮播图的key，确保更换时能重新更新轮播图
     carouselKey.value = get_math();

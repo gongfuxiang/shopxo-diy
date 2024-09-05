@@ -15,13 +15,13 @@ interface articleTabsList {
 interface DefaultProductList {
     content: {
         tabs_theme: string;
-        tabs_top_up: boolean;
+        tabs_top_up: string;
         theme: string;
         carousel_col: number;
         tabs_list: articleTabsList[];
         is_show: string[];
-        is_shop_show: boolean;
-        is_price_solo: boolean;
+        is_shop_show: string;
+        is_price_solo: string;
         shop_type: string;
         shop_button_text: string;
         shop_button_icon_class: string;
@@ -43,7 +43,7 @@ interface DefaultProductList {
         shop_radius: radiusStyle;
         content_outer_spacing: number;
         content_outer_height: number;
-        is_roll: boolean;
+        is_roll: string;
         interval_time: number;
         content_spacing: number;
         shop_title_typeface: string;
@@ -70,7 +70,7 @@ interface DefaultProductList {
 const defaultProductList: DefaultProductList = {
     content: {
         tabs_theme: '0',
-        tabs_top_up: false,
+        tabs_top_up: '0',
         theme: '0',
         carousel_col: 3,
         tabs_list: [
@@ -80,8 +80,8 @@ const defaultProductList: DefaultProductList = {
             { id: '4', title: '测试三', img: [], desc: '简介', data_type: '0', category: [], data_ids: [], number: 4, sort: '0', sort_rules: '0', data_list: [] },
         ],
         is_show: ['title', 'plugins_view_icon', 'price', 'sales_count', 'original_price'],
-        is_shop_show: true,
-        is_price_solo: true,
+        is_shop_show: '1',
+        is_price_solo: '1',
         shop_type: 'text',
         shop_button_text: '购买',
         shop_button_icon_class: '',
@@ -125,7 +125,7 @@ const defaultProductList: DefaultProductList = {
         content_outer_spacing: 10,
         content_spacing: 10,
         content_outer_height: 232,
-        is_roll: true,
+        is_roll: '1',
         interval_time: 2,
         shop_title_typeface: '500',
         shop_title_size: 14,

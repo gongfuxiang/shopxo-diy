@@ -48,7 +48,7 @@
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item label="封面图片">
-                        <el-switch v-model="form.is_cover" />
+                        <el-switch v-model="form.is_cover" active-value="1" inactive-value="0" />
                     </el-form-item>
                 </template>
             </card-container>

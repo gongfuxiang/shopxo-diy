@@ -19,8 +19,8 @@ interface nav_group_styles {
     radius_top_right: number;
     radius_bottom_left: number;
     radius_bottom_right: number;
-    is_show: boolean;
-    is_roll: boolean;
+    is_show: string;
+    is_roll: string;
     interval_time: number;
     indicator_style: string;
     indicator_location: string;

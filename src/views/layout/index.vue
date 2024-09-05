@@ -24,7 +24,7 @@ import { commonStore } from '@/store';
 const common_store = commonStore();
 interface headerAndFooter {
     name: string;
-    show_tabs: boolean;
+    show_tabs: string;
     key: string;
     com_data: any;
 }
@@ -50,13 +50,13 @@ const form = ref<diy_data_item>({
     },
     header: {
         name: '页面设置',
-        show_tabs: true,
+        show_tabs: '1',
         key: 'page-settings',
         com_data: defaultSettings.header_nav,
     },
     footer: {
         name: '底部导航',
-        show_tabs: false,
+        show_tabs: '0',
         key: 'footer-nav',
         com_data: defaultSettings.footer_nav,
     },
@@ -166,12 +166,12 @@ const save_close = () => {
 };
 const formmat_form_data = (data: diy_data_item, close: boolean = false) => {
     const clone_form = cloneDeep(data);
-    clone_form.header.show_tabs = true;
-    clone_form.footer.show_tabs = false;
+    clone_form.header.show_tabs = '1';
+    clone_form.footer.show_tabs = '0';
     clone_form.diy_data = clone_form.diy_data.map((item: any) => {
         return {
             ...item,
-            show_tabs: false,
+            show_tabs: '0',
         };
     });
     // 将数据暂存到localStorage

@@ -20,8 +20,8 @@ interface defaultSearch {
         radius_top_right: number;
         radius_bottom_left: number;
         radius_bottom_right: number;
-        is_show: boolean;
-        is_roll: boolean;
+        is_show: string;
+        is_roll: string;
         interval_time: number;
         indicator_style: string;
         indicator_location: string;
@@ -74,8 +74,8 @@ const defaultSearch: defaultSearch = {
         radius_top_right: 0,
         radius_bottom_left: 0,
         radius_bottom_right: 0,
-        is_show: true,
-        is_roll: true,
+        is_show: '1',
+        is_roll: '1',
         interval_time: 2,
         indicator_style: 'dot',
         indicator_location: 'center',

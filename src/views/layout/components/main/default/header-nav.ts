@@ -14,17 +14,17 @@ interface DefaultFooterNav {
         indicator_location: string;
         bottom_navigation_show: string;
         positioning_name: string;
-        is_arrows_show: boolean;
-        is_center: boolean;
-        is_icon_show: boolean;
+        is_arrows_show: string;
+        is_center: string;
+        is_icon_show: string;
         icon_src: string;
         icon_img: uploadList[];
         icon_class: string;
         search_botton_img: uploadList[];
         search_botton_icon: string;
-        is_tips_show: boolean;
+        is_tips_show: string;
         tips: string;
-        is_search_show: boolean;
+        is_search_show: string;
         search_type: string;
         search_tips: string;
         hot_word_list: hot_word_list[];
@@ -39,8 +39,8 @@ interface DefaultFooterNav {
         header_background_title_typeface: string,
         header_background_title_size: number,
         function_buttons_type: string,
-        immersive_style: boolean,
-        up_slide_display: boolean,
+        immersive_style: string,
+        up_slide_display: string,
         icon_color: string;
         button_inner_color: string;
         search_botton_color_list: color_list[];
@@ -63,26 +63,20 @@ const defaultFooterNav: DefaultFooterNav = {
         link: {},
         indicator_location: 'center',
         positioning_name: '默认定位名称',
-        is_arrows_show: true,
-        is_center: false,
-        is_icon_show: true,
+        is_arrows_show: '1',
+        is_center: '0',
+        is_icon_show: '1',
         icon_src: '',
         icon_img: [],
         icon_class: '',
         search_botton_img: [],
         search_botton_icon: '',
-        is_tips_show: true,
+        is_tips_show: '1',
         tips: '请输入搜索内容',
-        is_search_show: false,
+        is_search_show: '0',
         search_type: 'text',
         search_tips: '搜索',
-        hot_word_list: [
-            {
-                id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
-                value: '',
-                color: '#000000',
-            }
-        ],
+        hot_word_list: [],
         bottom_navigation_show: '1'
     },
     style: {
@@ -95,8 +89,8 @@ const defaultFooterNav: DefaultFooterNav = {
         header_background_title_typeface: '500',
         header_background_title_size: 16,
         function_buttons_type: 'black',
-        immersive_style: false,
-        up_slide_display: true,
+        immersive_style: '0',
+        up_slide_display: '1',
         icon_color: '#ccc',
         button_inner_color: '#fff',
         search_botton_color_list: [{ color: '#FF973D', color_percentage: undefined }, { color: '#FF3131', color_percentage: undefined }],
@@ -112,7 +106,7 @@ const defaultFooterNav: DefaultFooterNav = {
         },
         tips_color: '#ccc',
         hot_words_color: '#000',
-        search_border: '#fff',
+        search_border: '#E4E4E4',
         search_border_radius: {
             radius: 16,
             radius_top_left: 16,

@@ -22,17 +22,19 @@
             </div>
         </el-form-item>
         <el-form-item label="自动轮播">
-            <el-switch v-model="form.is_roll" />
+            <el-switch v-model="form.is_roll" active-value="1" inactive-value="0" />
         </el-form-item>
-        <el-form-item label="轮播方向">
-            <el-radio-group v-model="form.rotation_direction">
-                <el-radio value="horizontal">横向</el-radio>
-                <el-radio value="vertical">纵向</el-radio>
-            </el-radio-group>
-        </el-form-item>
-        <el-form-item label="间隔时间">
-            <slider v-model="form.interval_time" :max="100"></slider>
-        </el-form-item>
+        <template v-if="form.is_roll == '1'">
+            <el-form-item label="轮播方向">
+                <el-radio-group v-model="form.rotation_direction">
+                    <el-radio value="horizontal">横向</el-radio>
+                    <el-radio value="vertical">纵向</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="间隔时间">
+                <slider v-model="form.interval_time" :min="1" :max="100"></slider>
+            </el-form-item>
+        </template>
         <template v-if="tabs_content.data_type === 'goods'">
             <template v-if="isShowTitle">
                 <el-form-item label="主标题">
@@ -47,7 +49,8 @@
             </el-form-item>
         </template>
     </card-container>
-    <card-container class="mb-8">
+    <div class="bg-f5 divider-line" />
+    <card-container>
         <carousel-indicator :key="form.carouselKey" :value="form"></carousel-indicator>
     </card-container>
 </template>
