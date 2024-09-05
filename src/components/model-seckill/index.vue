@@ -292,12 +292,14 @@ const updateCountdown = () => {
     }
     const distance = new Date(endTime).getTime() - now.getTime();
     // 如果倒计时结束，显示结束信息
-    if (distance < 0) {
+    if (distance <= 1000) {
         clearInterval(intervalId.value);
         // 如果是待开始状态，则显示开始倒计时，并且在结束的时候根据结束时候再执行一个定时器
         if (seckill_time.value.status === 0) {
             seckill_time.value.status = 1;
             seckill_time.value.time_first_text = '距结束';
+            // 先执行一次倒计时，后续的等待倒计时执行
+            setTimeout(() => { updateCountdown();}, 0);
             intervalId.value = setInterval(updateCountdown, 1000);
         }
         return;
@@ -328,11 +330,13 @@ onBeforeMount(() => {
             }
             const { status, time_first_text } = data.current.time;
             seckill_time.value = {
-                endTime: data.current.time_end,
-                startTime: data.current.time_start,
-                status: status,
+                endTime: '2024-09-05 09:36:00',
+                startTime: '2024-09-05 09:33:00',
+                status: 0,
                 time_first_text: time_first_text
             }
+            // 先执行一次倒计时，后续的等待倒计时执行
+            setTimeout(() => { updateCountdown();}, 0);
             intervalId.value = setInterval(updateCountdown, 1000);
         } else {
             list.value = Array(4).fill(default_list);
