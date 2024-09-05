@@ -14,8 +14,8 @@ import defaultNotice from './default/notice';
 import defaultTextTitle from './default/text-title';
 import defaultFloatWindow from './default/float-window';
 import defaultTabs from './default/tabs';
-import defaultProductList from './default/goods-list';
-import defaultShopTabs from './default/goods-tabs';
+import defaultGoodsList from './default/goods-list';
+import defaultGoodsTabs from './default/goods-tabs';
 import defaultImgMagic from './default/img-magic';
 import defaultHotZone from './default/hot-zone';
 import defaultCustom from './default/custom';
@@ -41,8 +41,8 @@ interface DefaultSettings {
     text_title: object;
     float_window: object;
     tabs: object;
-    shop_list: object;
-    shop_tabs: object;
+    goods_list: object;
+    goods_tabs: object;
     img_magic: object;
     data_magic: object;
     hot_zone: object;
@@ -68,8 +68,8 @@ const defaultSettings: DefaultSettings = {
     text_title: defaultTextTitle,
     float_window: defaultFloatWindow,
     tabs: defaultTabs,
-    shop_list: defaultProductList,
-    shop_tabs: defaultShopTabs,
+    goods_list: defaultGoodsList,
+    goods_tabs: defaultGoodsTabs,
     img_magic: defaultImgMagic,
     data_magic: defaultDataMagic,
     hot_zone: defaultHotZone,
