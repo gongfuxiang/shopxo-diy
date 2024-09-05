@@ -46,8 +46,8 @@
                     </el-form-item>
                     <el-form-item label="箭头按钮">
                         <el-radio-group v-model="form.is_arrows_show">
-                            <el-radio :value="true">显示</el-radio>
-                            <el-radio :value="false">隐藏</el-radio>
+                            <el-radio value="1">显示</el-radio>
+                            <el-radio value="0">隐藏</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </template>

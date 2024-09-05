@@ -43,14 +43,14 @@
                 </el-form-item>
                 <el-form-item v-if="form.header_background_type == 'transparent'" label="沉浸样式">
                     <el-radio-group v-model="form.immersive_style">
-                        <el-radio :value="true">开启</el-radio>
-                        <el-radio :value="false">关闭</el-radio>
+                        <el-radio value="1">开启</el-radio>
+                        <el-radio value="0">关闭</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="上滑展示">
                     <el-radio-group v-model="form.up_slide_display">
-                        <el-radio :value="true">保留</el-radio>
-                        <el-radio :value="false">关闭</el-radio>
+                        <el-radio value="1">保留</el-radio>
+                        <el-radio value="0">关闭</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item v-if="['1', '2'].includes(search_content.theme)" label="标题名称">

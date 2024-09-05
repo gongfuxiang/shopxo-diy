@@ -7,16 +7,16 @@ interface hot_word_list {
 }
 interface defaultSearch {
     content: {
-        is_center: boolean;
-        is_icon_show: boolean;
+        is_center: string;
+        is_icon_show: string;
         icon_src: string;
         icon_img: uploadList[];
         icon_class: string;
         search_botton_img: uploadList[];
         search_botton_icon: string;
-        is_tips_show: boolean;
+        is_tips_show: string;
         tips: string;
-        is_search_show: boolean;
+        is_search_show: string;
         search_type: string;
         search_tips: string;
         hot_word_list: hot_word_list[];
@@ -38,16 +38,16 @@ interface defaultSearch {
 }
 const defaultSearch: defaultSearch = {
     content: {
-        is_center: false,
-        is_icon_show: true,
+        is_center: '0',
+        is_icon_show: '1',
         icon_src: '',
         icon_img: [],
         icon_class: '',
         search_botton_img: [],
         search_botton_icon: '',
-        is_tips_show: true,
+        is_tips_show: '1',
         tips: '请输入搜索内容',
-        is_search_show: false,
+        is_search_show: '0',
         search_type: 'text',
         search_tips: '搜索',
         hot_word_list: [

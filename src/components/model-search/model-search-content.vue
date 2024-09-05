@@ -5,9 +5,9 @@
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="图标样式" class="align-s">
                     <el-row class="w">
-                        <el-col :span="24"><el-switch v-model="form.is_icon_show" width="40"></el-switch></el-col>
+                        <el-col :span="24"><el-switch v-model="form.is_icon_show" active-value="1" inactive-value="0"></el-switch></el-col>
                     </el-row>
-                    <el-row v-if="form.is_icon_show" class="mt-10 w">
+                    <el-row v-if="form.is_icon_show == '1'" class="mt-10 w">
                         <el-col :span="24">
                             <upload v-model="form.icon_img" v-model:icon-value="form.icon_class" is-icon :limit="1" size="50"></upload>
                         </el-col>
@@ -15,16 +15,16 @@
                 </el-form-item>
                 <el-form-item label="提示文字">
                     <el-row class="w">
-                        <el-col :span="24"><el-switch v-model="form.is_tips_show"></el-switch></el-col>
+                        <el-col :span="24"><el-switch v-model="form.is_tips_show" active-value="1" inactive-value="0"></el-switch></el-col>
                     </el-row>
-                    <el-row v-if="form.is_tips_show" class="mt-10 w">
+                    <el-row v-if="form.is_tips_show == '1'" class="mt-10 w">
                         <el-col :span="24">
                             <el-input v-model="form.tips" placeholder="请输入提示文字"></el-input>
                         </el-col>
                     </el-row>
                 </el-form-item>
-                <el-form-item v-if="form.is_tips_show || form.is_icon_show" label="是否居中">
-                    <el-switch v-model="form.is_center"></el-switch>
+                <el-form-item v-if="form.is_tips_show == '1' || form.is_icon_show == '1'" label="是否居中">
+                    <el-switch v-model="form.is_center" active-value="1" inactive-value="0"></el-switch>
                 </el-form-item>
                 <el-form-item label="搜索按钮" class="align-s">
                     <el-row class="w">
@@ -32,15 +32,15 @@
                     </el-row>
                     <el-row v-if="form.is_search_show" class="mt-10 w">
                         <el-col :span="24">
-                            <el-radio-group v-model="form.search_type">
+                            <el-radio-group v-model="form.search_type" class="mb-10">
                                 <el-radio value="img-icon">图片/图标</el-radio>
                                 <el-radio value="text">文字</el-radio>
                             </el-radio-group>
                             <template v-if="form.search_type === 'img-icon'">
-                                <upload v-model="form.search_botton_img" v-model:icon-value="form.search_botton_icon" is-icon :limit="1" size="50" class="mt-10"></upload>
+                                <upload v-model="form.search_botton_img" v-model:icon-value="form.search_botton_icon" is-icon :limit="1" size="50"></upload>
                             </template>
                             <template v-else>
-                                <el-input v-model="form.search_tips" placeholder="请输入文字内容" class="mt-10"></el-input>
+                                <el-input v-model="form.search_tips" placeholder="请输入文字内容"></el-input>
                             </template>
                         </el-col>
                     </el-row>
