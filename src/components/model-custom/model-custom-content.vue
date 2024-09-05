@@ -1,6 +1,5 @@
 <template>
     <div class="auxiliary-line">
-        {{ form.data_source }}
         <el-form :model="form" label-width="70">
             <card-container>
                 <div class="mb-20">数据源</div>

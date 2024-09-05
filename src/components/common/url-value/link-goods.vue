@@ -64,7 +64,6 @@ watch(
         }
     }
 );
-console.log(1);
 onMounted(() => {
     init();
 });
