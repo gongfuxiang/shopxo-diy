@@ -3,17 +3,18 @@
         <template v-if="!is_empty">
             <navbar v-model="form.model" @preview="preview" @save="save" @save-close="save_close" />
             <div class="app-wrapper-content flex-row">
-                <app-main :diy-data="form.diy_data" :header="form.header" :footer="form.footer" @right-update="right_update"></app-main>
+                <app-main :diy-data="form.diy_data" :header="form.header" :footer="form.footer" @right-update="right_update" @import="import_data_event" @export="export_data_event"></app-main>
                 <settings :key="key" :value="diy_data_item"></settings>
             </div>
         </template>
         <template v-else>
-            <no-data height="100vh" img-width="300" size="40px" text="编辑数据有误"></no-data>
+            <no-data height="100vh" img-width="260px" size="16px" text="编辑数据有误"></no-data>
         </template>
     </div>
 </template>
 
 <script setup lang="ts">
+import type { UploadFile, UploadFiles } from 'element-plus';
 import { Navbar, Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
 import { cloneDeep } from 'lodash';
@@ -74,6 +75,35 @@ const right_update = (item: any, diy: [Array<any>], header: headerAndFooter, foo
     // 生成随机id
     key.value = Math.random().toString(36).substring(2);
 };
+const import_data_event = (uploadFile: UploadFile) => {
+    // 截取document.location.search字符串内id/后面的所有字段
+    const form_data = new FormData();
+    if (get_id()) {
+        form_data.append('id', get_id());
+    }
+    if (uploadFile && uploadFile.raw) {
+        form_data.append('file', uploadFile?.raw);
+    }
+    DiyAPI.import(form_data).then((res: any) => {
+        ElMessage.success(res.msg);
+        history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
+        init();
+    });
+};
+const export_data_event = () => {
+    if (get_id()) {
+        ElMessageBox.confirm('导出前需先保存最新数据，是否继续？', '提示')
+            .then(() => {
+                const index = window.location.href.lastIndexOf('?s=');
+                const pro_url = window.location.href.substring(0, index);
+                const new_url = import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API_URL : pro_url;
+                window.open(new_url + '?s=diyapi/diydownload/id/' + get_id() + '.html', '_blank');
+            })
+            .catch(() => {});
+    } else {
+        ElMessage.warning('请先保存,再导出');
+    }
+};
 //#region 页面初始化数据 ---------------------start
 // 页面加载
 onMounted(() => {
@@ -82,26 +112,16 @@ onMounted(() => {
 });
 const is_empty = ref(false);
 const init = () => {
-    // 截取document.location.search字符串内id/后面的所有字段
-    let new_data = { id: '' };
-    if (document.location.search.indexOf('id/') !== -1) {
-        new_data.id = document.location.search.substring(document.location.search.indexOf('id/') + 3);
-        // 去除字符串的.html
-        let html_index = new_data.id.indexOf('.html');
-        if (html_index !== -1) {
-            new_data.id = new_data.id.substring(0, html_index);
-        }
-        if (new_data.id) {
-            DiyAPI.getInit(new_data).then((res: any) => {
-                if (res.data) {
-                    form.value = form_data_transfor_diy_data(res.data);
-                    api_count.value += 1;
-                    loading_event(api_count.value);
-                } else {
-                    is_empty.value = true;
-                }
-            });
-        }
+    if (get_id()) {
+        DiyAPI.getInit({ id: get_id() }).then((res: any) => {
+            if (res.data) {
+                form.value = form_data_transfor_diy_data(res.data);
+            } else {
+                is_empty.value = true;
+            }
+            api_count.value += 1;
+            loading_event(api_count.value);
+        });
     } else {
         api_count.value = 1;
         loading_event(api_count.value);
@@ -160,13 +180,16 @@ const formmat_form_data = (data: diy_data_item, close: boolean = false) => {
     const new_data = diy_data_transfor_form_data(clone_form);
     DiyAPI.save(new_data).then((res) => {
         ElMessage.success('保存成功');
-        if (!close) return;
-        ElMessageBox.confirm('您确定要关闭本页吗？', '提示')
-            .then(() => {
-                // 关闭页面
-                window.close();
-            })
-            .catch(() => {});
+        if (close) {
+            ElMessageBox.confirm('您确定要关闭本页吗？', '提示')
+                .then(() => {
+                    // 关闭页面
+                    window.close();
+                })
+                .catch(() => {});
+        } else {
+            history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
+        }
     });
 };
 //#endregion 顶部导航回调方法 ---------------------end
@@ -212,6 +235,22 @@ const form_data_transfor_diy_data = (clone_form: diyData) => {
             footer: form.value.footer,
             diy_data: form.value.diy_data,
         };
+    }
+};
+
+// 截取document.location.search字符串内id/后面的所有字段
+const get_id = () => {
+    let new_id = '';
+    if (document.location.search.indexOf('id/') !== -1) {
+        new_id = document.location.search.substring(document.location.search.indexOf('id/') + 3);
+        // 去除字符串的.html
+        let html_index = new_id.indexOf('.html');
+        if (html_index !== -1) {
+            new_id = new_id.substring(0, html_index);
+        }
+        return new_id;
+    } else {
+        return new_id;
     }
 };
 </script>

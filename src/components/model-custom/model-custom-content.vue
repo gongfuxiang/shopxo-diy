@@ -9,10 +9,10 @@
                     </el-select>
                     <div v-if="!isEmpty(form.data_source_content)" class="flex-row mt-20 gap-20">
                         <div class="re flex align-c">
-                            <image-empty v-model="form.data_source_content[form.img_key]" style="width: 10rem; height: 10rem;"></image-empty>
+                            <image-empty v-model="form.data_source_content[form.img_key]" style="width: 10rem; height: 10rem"></image-empty>
                             <div class="plr-15 bg-f abs replace-data size-14" @click="replace_data">替换数据</div>
                         </div>
-                        <div class="flex-1 size-14 text-line-3">{{ form.data_source_content.title ||  form.data_source_content.name }}</div>
+                        <div class="flex-1 size-14 text-line-3">{{ form.data_source_content.title || form.data_source_content.name }}</div>
                     </div>
                 </el-form-item>
                 <div class="mb-20">内容设置</div>
@@ -40,7 +40,7 @@
                 </div>
             </div>
         </Dialog>
-        <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="[ form.data_source ]" @update:model-value="url_value_dialog_call_back" @close="url_value_close"></url-value-dialog>
+        <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="[form.data_source]" @update:model-value="url_value_dialog_call_back" @close="url_value_close"></url-value-dialog>
     </div>
 </template>
 <script setup lang="ts">
@@ -70,12 +70,12 @@ interface data_list {
     name: string;
     field: string;
     type: string;
-};
+}
 interface data_source_content {
     name: string;
     data: data_list[];
     type: string;
-};
+}
 const getCustominit = () => {
     CustomAPI.getCustominit().then((res) => {
         const { data_source } = res.data;
@@ -84,7 +84,7 @@ const getCustominit = () => {
         // 数据处理
         processing_data(form.data_source);
     });
-}
+};
 
 onBeforeMount(() => {
     if (!data_source_store.is_data_source_api) {
@@ -97,13 +97,13 @@ onBeforeMount(() => {
     }
 });
 // 处理显示的图片和传递到下去的数据结构
-const model_data_source = ref<data_list[]>([])
+const model_data_source = ref<data_list[]>([]);
 const processing_data = (key: string) => {
-    const list = options.value.filter(item => item.type == key);
+    const list = options.value.filter((item) => item.type == key);
     if (list.length > 0) {
         model_data_source.value = list[0].data;
         // 从中取出包含图片的内容
-        const field_list = list[0].data.filter(item => item.type == 'images');
+        const field_list = list[0].data.filter((item) => item.type == 'images');
         // 取出图片的key
         if (field_list.length > 0) {
             form.img_key = field_list[0].field;
@@ -160,7 +160,7 @@ const changeDataSource = (key: string) => {
     if (!isEmpty(key)) {
         url_value_dialog_visible.value = true;
     }
-}
+};
 
 // 弹出框选择的内容
 const url_value_dialog_call_back = (item: any[]) => {
@@ -175,13 +175,13 @@ const url_value_close = () => {
     if (isEmpty(form.data_source_content)) {
         form.data_source = '';
     }
-}
+};
 // 替换数据
 const replace_data = () => {
     if (!isEmpty(form.data_source)) {
         url_value_dialog_visible.value = true;
     }
-}
+};
 //#endregion
 </script>
 <style lang="scss" scoped>
@@ -206,20 +206,20 @@ const replace_data = () => {
     padding: 0;
     overflow: hidden;
     .el-dialog__header {
-        padding: 3rem;
+        padding: 2.3rem 2rem;
         .el-dialog__title {
             font-size: 16px;
         }
         .el-dialog__headerbtn {
             font-size: 2.4rem;
-            padding: 3rem;
+            padding: 2rem;
             height: auto;
             width: auto;
         }
     }
     .el-dialog__body {
         background: #f5f5f5;
-        height: calc(100% - 16.4rem);
+        height: calc(100% - 15rem);
     }
     .el-dialog__footer {
         padding: 2.4rem 3rem;

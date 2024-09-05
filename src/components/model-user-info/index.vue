@@ -11,7 +11,7 @@
                 </div>
                 <div class="flex-row align-c" :class="'gap-' + base_data.img_space">
                     <div v-for="(item, index) in icon_setting" :key="index" :style="{ width: base_data.img_size + 'px', height: base_data.img_size + 'px' }">
-                        <image-empty v-if="item.src.length > 0" v-model="item.src[0]" :error-img-style="'width: ' + Number(base_data.img_size) / 2 + 'px;height:' + Number(base_data.img_size) / 2 + 'px;'"></image-empty>
+                        <image-empty v-if="item.img.length > 0" v-model="item.img[0]" :error-img-style="'width: ' + Number(base_data.img_size) / 2 + 'px;height:' + Number(base_data.img_size) / 2 + 'px;'"></image-empty>
                         <icon v-else :name="item.icon" :size="base_data.img_size + ''" color="6"></icon>
                     </div>
                 </div>
@@ -46,14 +46,14 @@ const stats_list = reactive([
 ]);
 interface icon_params {
     id: string;
-    src: uploadList[];
+    img: uploadList[];
     icon: string;
     link: string;
 }
 const user_info = ref<string[]>(['1', '2', '3', '4']);
 const icon_setting = ref<icon_params[]>([
-    { id: '1', src: [], icon: '', link: 'a' },
-    { id: '2', src: [], icon: '', link: 'a' },
+    { id: '1', img: [], icon: '', link: 'a' },
+    { id: '2', img: [], icon: '', link: 'a' },
 ]);
 const base_data = reactive({
     // 头像大小

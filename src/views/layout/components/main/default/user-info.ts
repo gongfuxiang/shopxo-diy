@@ -2,7 +2,7 @@ import defaultCommon from './index';
 interface DefaultUserInfo {
     content: {
         user_info: string[];
-        icon_setting: { id: string; src: uploadList[]; link: object; icon: string }[];
+        icon_setting: { id: string; img: uploadList[]; link: object; icon: string }[];
     };
     style: {
         user_avatar_size: string;
@@ -29,8 +29,8 @@ const defaultUserInfo: DefaultUserInfo = {
     content: {
         user_info: ['1', '2', '3', '4', '5'],
         icon_setting: [
-            { id: '1', src: [], icon: 'applet-me-settings-acquiesce', link: {} },
-            { id: '2', src: [], icon: 'applet-me-message-acquiesce', link: {} },
+            { id: '1', img: [], icon: 'applet-me-settings-acquiesce', link: {} },
+            { id: '2', img: [], icon: 'applet-me-message-acquiesce', link: {} },
         ],
     },
     style: {
