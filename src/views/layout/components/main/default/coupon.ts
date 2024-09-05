@@ -8,6 +8,7 @@ interface DefaultCoupon {
         title: string;
         desc: string;
         data_list: object[];
+        data_ids: string;
     };
     style: {
         price_color: string;
@@ -41,6 +42,7 @@ const defaultCoupoin: DefaultCoupon = {
         // 只有主题4用到
         desc: '领券下单·享购物优惠',
         data_list: [],
+        data_ids: '',
     },
     style: {
         price_color: '#FF3830',

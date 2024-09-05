@@ -97,6 +97,7 @@ const data_content = {
     heading_title: '主标题',
     subtitle: '副标题',
     goods_list:[],
+    goods_ids: '',
     is_show: ['title', 'price'],
     images_list:[
         {

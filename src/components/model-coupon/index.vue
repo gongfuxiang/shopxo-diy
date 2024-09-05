@@ -832,7 +832,9 @@ onBeforeMount(() => {
         }
     }
 }
-.hide-scrollbar .el-scrollbar__bar {
-    display: none;
+.hide-scrollbar {
+    :deep(.el-scrollbar__bar) {
+        display: none !important;
+    }
 }
 </style>

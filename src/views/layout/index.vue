@@ -131,13 +131,6 @@ const init = () => {
 // 初始化公共数据
 const common_init = () => {
     CommonAPI.getInit().then((res: any) => {
-        // article_category ---- 文章分类
-        // attachment_category ---- 附件分类
-        // brand_category; ---- 品牌分类
-        // brand_list ---- 品牌列表
-        // goods_category ---- 商品分类
-        // module_list ---- 模块列表
-        //page_link_list ---- 页面链接
         common_store.set_common(res.data);
         api_count.value += 1;
         loading_event(api_count.value);
@@ -159,16 +152,26 @@ const preview = () => {
     console.log('预览');
 };
 const save = () => {
-    formmat_form_data(form.value);
+    save_formmat_form_data(form.value);
 };
 const save_close = () => {
-    formmat_form_data(form.value, true);
+    save_formmat_form_data(form.value, true);
 };
-const formmat_form_data = (data: diy_data_item, close: boolean = false) => {
+const save_formmat_form_data = (data: diy_data_item, close: boolean = false) => {
     const clone_form = cloneDeep(data);
     clone_form.header.show_tabs = '1';
     clone_form.footer.show_tabs = '0';
+    // const new_array = ['goods-list', 'goods-tabs', 'article-list', 'article-tabs', 'coupon'];
     clone_form.diy_data = clone_form.diy_data.map((item: any) => {
+        // if (new_array.includes(item.key)) {
+        //     item.com_data.content.data_ids = item.com_data.content.data_list.map((item: any) => item.data.id).join(',') || '';
+        //     item.com_data.content.data_list = [];
+        // } else if (item.key == 'data-magic') {
+        //     item.com_data.content.data_magic_list.map((item1: any) => {
+        //         item1.goods_ids = item.goods_list.map((item2: any) => item2.data.id).join(',') || '';
+        //         item1.goods_list = [];
+        //     });
+        // }
         return {
             ...item,
             show_tabs: '0',
