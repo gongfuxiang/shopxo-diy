@@ -272,12 +272,12 @@ const model_class = computed(() => {
 
 const model_style = computed(() => {
     return (item: { id: string; key: string }) => {
-        // window.innerHeight(当前页面高度) - 80(顶部高度) - 844
-        const height = (window.innerHeight - 924) / 2;
+        // window.innerHeight(当前页面高度) - 60(顶部高度) - 846(中间高度)
+        const height = (window.innerHeight - 906) / 2;
         let bottom = parseInt(float_bottom[item.id]) + height;
-        // 容器自身高度是60 775-60 =  695
-        if (parseInt(float_bottom[item.id]) > 695) {
-            bottom = 695 + height;
+        // 容器自身高度是60 846-60 =  786
+        if (parseInt(float_bottom[item.id]) > 786) {
+            bottom = 786 + height;
         }
         return item.key == 'float-window' ? `bottom: ${((bottom / window.innerHeight) * 100).toFixed(4) + '%'};` : '';
     };
