@@ -9,7 +9,7 @@
                     </el-row>
                     <el-row v-if="form.is_icon_show" class="mt-10 w">
                         <el-col :span="24">
-                            <upload v-model="form.icon_img_src" v-model:icon-value="form.icon_class" is-icon :limit="1" size="50"></upload>
+                            <upload v-model="form.icon_img" v-model:icon-value="form.icon_class" is-icon :limit="1" size="50"></upload>
                         </el-col>
                     </el-row>
                 </el-form-item>
@@ -37,7 +37,7 @@
                                 <el-radio value="text">文字</el-radio>
                             </el-radio-group>
                             <template v-if="form.search_type === 'img-icon'">
-                                <upload v-model="form.search_botton_src" v-model:icon-value="form.search_botton_icon" is-icon :limit="1" size="50" class="mt-10"></upload>
+                                <upload v-model="form.search_botton_img" v-model:icon-value="form.search_botton_icon" is-icon :limit="1" size="50" class="mt-10"></upload>
                             </template>
                             <template v-else>
                                 <el-input v-model="form.search_tips" placeholder="请输入文字内容" class="mt-10"></el-input>

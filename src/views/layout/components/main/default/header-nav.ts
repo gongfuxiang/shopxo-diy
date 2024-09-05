@@ -18,9 +18,9 @@ interface DefaultFooterNav {
         is_center: boolean;
         is_icon_show: boolean;
         icon_src: string;
-        icon_img_src: uploadList[];
+        icon_img: uploadList[];
         icon_class: string;
-        search_botton_src: uploadList[];
+        search_botton_img: uploadList[];
         search_botton_icon: string;
         is_tips_show: boolean;
         tips: string;
@@ -43,10 +43,10 @@ interface DefaultFooterNav {
         up_slide_display: boolean,
         icon_color: string;
         button_inner_color: string;
-        color_list: color_list[];
-        direction: string;
-        background_img_style: string;
-        background_img: uploadList[];
+        search_botton_color_list: color_list[];
+        search_botton_direction: string;
+        search_botton_background_img_style: string;
+        search_botton_background_img: uploadList[];
         search_button_radius: object;
         tips_color: string;
         hot_words_color: string;
@@ -67,9 +67,9 @@ const defaultFooterNav: DefaultFooterNav = {
         is_center: false,
         is_icon_show: true,
         icon_src: '',
-        icon_img_src: [],
+        icon_img: [],
         icon_class: '',
-        search_botton_src: [],
+        search_botton_img: [],
         search_botton_icon: '',
         is_tips_show: true,
         tips: '请输入搜索内容',
@@ -99,10 +99,10 @@ const defaultFooterNav: DefaultFooterNav = {
         up_slide_display: true,
         icon_color: '#ccc',
         button_inner_color: '#fff',
-        color_list: [{ color: '#FF973D', color_percentage: undefined }, { color: '#FF3131', color_percentage: undefined }],
-        direction: '90deg',
-        background_img_style: '',
-        background_img: [],
+        search_botton_color_list: [{ color: '#FF973D', color_percentage: undefined }, { color: '#FF3131', color_percentage: undefined }],
+        search_botton_direction: '90deg',
+        search_botton_background_img_style: '',
+        search_botton_background_img: [],
         search_button_radius: {
             radius: 16,
             radius_top_left: 16,

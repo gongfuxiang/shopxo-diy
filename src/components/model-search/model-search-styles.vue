@@ -19,10 +19,10 @@
                     <el-form-item v-if="content.search_type != 'img'" label="背景设置">
                         <div class="flex-col gap-10 w">
                             <div class="size-12">背景色</div>
-                            <mult-color-picker :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
+                            <mult-color-picker :value="form.search_botton_color_list" :type="form.search_botton_direction" @update:value="mult_color_picker_event"></mult-color-picker>
                             <div class="flex-row jc-sb align-c">
                                 <div class="size-12">背景图</div>
-                                <el-radio-group v-model="form.background_img_style" is-button>
+                                <el-radio-group v-model="form.search_botton_background_img_style" is-button>
                                     <el-tooltip content="单张" placement="top" effect="light">
                                         <el-radio-button value="0"><icon name="single-sheet"></icon></el-radio-button>
                                     </el-tooltip>
@@ -34,7 +34,7 @@
                                     </el-tooltip>
                                 </el-radio-group>
                             </div>
-                            <upload v-model="form.background_img" :limit="1"></upload>
+                            <upload v-model="form.search_botton_background_img" :limit="1"></upload>
                         </div>
                     </el-form-item>
                     <el-form-item label="按钮圆角">
@@ -118,8 +118,8 @@ const border_radius_change = (radius: any) => {
 }
 
 const mult_color_picker_event = (arry: color_list[], type: number) => {
-    form.value.color_list = arry;
-    form.value.direction = type.toString();
+    form.value.search_botton_color_list = arry;
+    form.value.search_botton_direction = type.toString();
 };
 </script>
 <style lang="scss" scoped>
