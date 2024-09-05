@@ -48,12 +48,12 @@ interface icon_params {
     id: string;
     src: uploadList[];
     icon: string;
-    href: string;
+    link: string;
 }
 const user_info = ref<string[]>(['1', '2', '3', '4']);
 const icon_setting = ref<icon_params[]>([
-    { id: '1', src: [], icon: '', href: 'a' },
-    { id: '2', src: [], icon: '', href: 'a' },
+    { id: '1', src: [], icon: '', link: 'a' },
+    { id: '2', src: [], icon: '', link: 'a' },
 ]);
 const base_data = reactive({
     // 头像大小
