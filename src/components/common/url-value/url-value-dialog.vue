@@ -6,9 +6,9 @@
             </div>
         </template>
         <div class="url-value-content pa-20 flex-row">
-            <div v-if="type.length !== 1" class="left-content">
+            <div v-if="custom_link_type.length !== 1" class="left-content">
                 <el-menu :default-active="link_select" class="w br-none" @select="handle_select">
-                    <el-menu-item v-for="item in base_data" :key="item.type" :index="item.type" :disabled="!(custom_link_type.length == 0 || custom_link_type.includes(item.type))">
+                    <el-menu-item v-for="item in base_data" :key="item.type" :index="item.type" :disabled="!custom_link_type.includes(item.type)">
                         <span>{{ item.name }}</span>
                     </el-menu-item>
                 </el-menu>
@@ -91,6 +91,16 @@ const link_value = ref<any[]>([]);
 const reset_compontent = ref(false);
 const custom_link_type = ref(props.type);
 const base_data = ref<any[]>([]);
+watch(
+    () => props.type,
+    (new_val) => {
+        if (new_val.length > 0) {
+            link_select.value = props.type[0];
+        } else {
+            link_select.value = '';
+        }
+    }
+);
 onMounted(() => {
     nextTick(() => {
         // 定时获取common_store.common.article_category的数据，直到拿到值或者关闭页面为止

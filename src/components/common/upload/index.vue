@@ -134,7 +134,7 @@
                             </div>
                         </div>
                         <div class="mt-10 flex-row jc-e">
-                            <el-pagination :current-page="page" background :page-size="30" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="current_page_change" />
+                            <el-pagination :current-page="page" background :page-size="page_size" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="current_page_change" />
                         </div>
                     </div>
                 </div>
@@ -462,6 +462,7 @@ const remove_type_event = (node: any, data: Tree) => {
 // const page_total = ref(0);
 // 当前页
 const page = ref(1);
+const page_size = ref(21);
 // 总数量
 const data_total = ref(0);
 // 名称查询
@@ -477,6 +478,7 @@ const get_attachment_list = (type?: string) => {
     img_loading.value = true;
     const new_data = {
         page: page.value,
+        page_size: page_size.value,
         type: upload_type.value == 'img' ? 'image' : upload_type.value == 'video' ? 'video' : upload_type.value == 'file' ? 'file' : '',
         keywords: search_name.value,
         category_id: category_id.value,
