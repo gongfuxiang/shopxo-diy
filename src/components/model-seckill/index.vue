@@ -8,8 +8,8 @@
                         <span v-else :style="`color: ${ new_style.topic_color };font-size: ${ new_style.topic_size }px;line-height:21px;font-weight:600;`">{{ form.topic_text }}</span>
                     </div>
                     <div v-if="form.theme == '1'" class="pl-6 pr-6 cr-f">|</div>
-                    <div class="flex-row align-c gap-4">
-                        <span class="size-10" :style="`color: ${ new_style.end_text_color }`">距离结束</span>
+                    <div v-if="intervalId != undefined" class="flex-row align-c gap-4">
+                        <span class="size-10" :style="`color: ${ new_style.end_text_color }`">{{ seckill_time.time_first_text }}</span>
                         <div class="flex-row gap-3 jc-c align-c" :style="[form.theme == '4'? `${ time_bg };padding: 0.3rem 0.4rem;border-radius: 1.1rem;` : '']">
                         <img v-if="form.theme == '4'" class="seckill-head-icon radius-xs" :src="new_url" />
                         <template v-for="(item, index) in time_config" :key="item.key">
@@ -23,6 +23,9 @@
                             </template>
                         </template>
                         </div>
+                    </div>
+                    <div v-else class="flex-row align-c gap-4">
+                        <span class="size-10" :style="`color: ${ new_style.end_text_color }`">已结束</span>
                     </div>
                 </div>
                 <div v-if="form.button_status == '1'" class="flex-row align-c" :style="`color: ${ new_style.head_button_color }`">
@@ -47,7 +50,7 @@
                         <div class="flex-col gap-10 w flex-1 jc-sb" :style="content_style">
                             <div class="flex-col gap-10 w">
                                 <!-- 标题 -->
-                                <div :style="trends_config('title')">{{ item.title }}</div>
+                                <div :style="trends_config('title')" class="text-line-2">{{ item.title }}</div>
                                 <!-- 进度条 -->
                                 <div v-if="form.shop_style_type == '1'" class="flex-row align-c gap-6">
                                     <div class="re flex-1">
@@ -115,7 +118,7 @@
                         <div class="flex-col gap-10 w flex-1 jc-sb" :style="content_style">
                             <div class="flex-col gap-10 w">
                                 <!-- 标题 -->
-                                <div :style="trends_config('title')">{{ item.title }}</div>
+                                <div :style="trends_config('title')" class="text-line-2">{{ item.title }}</div>
                                 <!-- 进度条 -->
                                 <div v-if="form.shop_style_type == '1'" class="flex-row align-c gap-6">
                                     <div class="re flex-1">
@@ -181,14 +184,8 @@ onBeforeMount(async () => {
     const url = await online_url('/static/plugins/seckill/images/diy/').then(res => res);
     new_url.value = url + 'time.png';
 })
-
 const form = computed(() => props.value?.content || {});
 const new_style = computed(() => props.value?.style || {});
-const time_config = [
-    { key: 'hour', value: 12 },
-    { key: 'minute', value: 30 },
-    { key: 'second', value: 52 },
-]
 const time_bg = computed(() => {
     const { countdown_bg_color_list, countdown_direction } = new_style.value;
     // 渐变
@@ -275,12 +272,72 @@ const default_list = {
     ],
 };
 const list = ref<data_list[]>([]);
+const time_config = reactive([
+    { key: 'hour', value: '00' },
+    { key: 'minute', value: '00' },
+    { key: 'second', value: '00' },
+]);
+const intervalId = ref<number | undefined>(undefined);
+const seckill_time = ref({
+    endTime: '2024-09-04 18:51:00',
+    startTime: '2024-09-04 18:51:00',
+    status: 0,
+    time_first_text: '距结束'
+});
+const updateCountdown = () => {
+    const now = new Date();
+    let endTime = seckill_time.value.endTime;
+    if (seckill_time.value.status === 0) {
+        endTime = seckill_time.value.startTime;
+    }
+    const distance = new Date(endTime).getTime() - now.getTime();
+    // 如果倒计时结束，显示结束信息
+    if (distance <= 1000) {
+        clearInterval(intervalId.value);
+        // 如果是待开始状态，则显示开始倒计时，并且在结束的时候根据结束时候再执行一个定时器
+        if (seckill_time.value.status === 0) {
+            seckill_time.value.status = 1;
+            seckill_time.value.time_first_text = '距结束';
+            // 先执行一次倒计时，后续的等待倒计时执行
+            setTimeout(() => { updateCountdown();}, 0);
+            intervalId.value = setInterval(updateCountdown, 1000);
+        }
+        return;
+    }
+    // 计算时间
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    time_config.forEach((item) => {
+        if (item.key == 'hour') {
+            item.value = hours < 10 ? '0' + hours : hours.toString();
+        } else if (item.key == 'minute') {
+            item.value = minutes < 10 ? '0' + minutes : minutes.toString();
+        } else if (item.key == 'second') {
+            item.value = seconds < 10 ? '0' + seconds : seconds.toString();
+        }
+    });
+}
+// 更新倒计时函数
 onBeforeMount(() => {
-    SeckillAPI.getSeckillList((res: any) => {
+    SeckillAPI.getSeckillList({}).then((res: any) => {
         const data = res.data;
-        console.log(data);
         if (!isEmpty(data.current)) {
-            list.value = data.current.goods;
+            if (!isEmpty(data.current.goods)) {
+                list.value = data.current.goods;
+            } else {
+                list.value = Array(4).fill(default_list);
+            }
+            const { status, time_first_text } = data.current.time;
+            seckill_time.value = {
+                endTime: '2024-09-05 09:36:00',
+                startTime: '2024-09-05 09:33:00',
+                status: 0,
+                time_first_text: time_first_text
+            }
+            // 先执行一次倒计时，后续的等待倒计时执行
+            setTimeout(() => { updateCountdown();}, 0);
+            intervalId.value = setInterval(updateCountdown, 1000);
         } else {
             list.value = Array(4).fill(default_list);
         }
@@ -364,7 +421,6 @@ const autoplay = ref<boolean | object>(false);
 const slides_per_group = ref(1);
 // 内容参数的集合
 watchEffect(() => {
-    
     // 是否滚动
     if (new_style.value.is_roll) {
         autoplay.value = {

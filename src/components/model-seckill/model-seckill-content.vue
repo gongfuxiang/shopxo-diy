@@ -120,12 +120,9 @@ const props = defineProps({
         }),
     },
 });
-const state = reactive({
-    form: props.value,
-    data: props.styles,
-});
-// 如果需要解构，确保使用toRefs
-const { form, data } = toRefs(state);
+
+const form = ref(props.value);
+const data = ref(props.styles);
 
 watchEffect(() => {
     form.value = props.value;
