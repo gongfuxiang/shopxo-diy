@@ -30,7 +30,7 @@
                                 </div>
                             </div>
                             <div v-if="!['3', '4', '5'].includes(form.theme)" class="flex-col gap-5 oh">
-                                <div :class="[form.is_price_solo ? 'flex-row align-c nowrap' : 'flex-col gap-5']">
+                                <div :class="[form.is_price_solo == '1' ? 'flex-row align-c nowrap' : 'flex-col gap-5']">
                                     <div v-if="is_show('price')" class="num" :style="`color: ${new_style.shop_price_color}`">
                                         <span class="identifying">{{ item.show_price_symbol }}</span
                                         ><span :style="trends_config('price')">{{ item.min_price }}</span>
@@ -38,7 +38,7 @@
                                     </div>
                                     <div v-if="show_content && is_show('original_price')" class="size-10 flex">
                                         <span class="original-price-left"></span
-                                        ><span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo }]"
+                                        ><span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo == '1' }]"
                                             >{{ item.show_original_price_symbol }}{{ item.min_original_price }}
                                             <template v-if="is_show('original_price_unit')">
                                                 {{ item.show_original_price_unit }}
@@ -54,7 +54,7 @@
                                             <!-- <div v-if="is_show('4')" class="pl-5" :style="trends_config('score')">评分0</div> -->
                                         </div>
                                     </div>
-                                    <div v-if="form.is_shop_show">
+                                    <div v-if="form.is_shop_show == '1'">
                                         <template v-if="form.shop_type == 'text'">
                                             <div class="plr-11 ptb-3 round cr-f" :style="trends_config('button', 'gradient') + `color: ${new_style.shop_button_text_color};`">{{ form.shop_button_text }}</div>
                                         </template>
@@ -73,7 +73,7 @@
                                     </div>
                                     <div v-if="show_content && is_show('original_price')" class="size-10 flex">
                                         <span class="original-price-left"></span
-                                        ><span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo }]"
+                                        ><span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo == '1' }]"
                                             >{{ item.show_original_price_symbol }}{{ item.min_original_price }}
                                             <template v-if="is_show('original_price_unit')">
                                                 {{ item.show_original_price_unit }}
@@ -81,7 +81,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div v-if="form.is_shop_show">
+                                <div v-if="form.is_shop_show == '1'">
                                     <template v-if="form.shop_type == 'text'">
                                         <div class="plr-11 ptb-3 round cr-f" :style="trends_config('button', 'gradient') + `color: ${new_style.shop_button_text_color};`">{{ form.shop_button_text }}</div>
                                     </template>
@@ -122,7 +122,7 @@
                                         </div>
                                         <div v-if="show_content && is_show('original_price')" class="size-10 flex">
                                             <span class="original-price-left"></span
-                                            ><span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo }]"
+                                            ><span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo == '1' }]"
                                                 >{{ item.show_original_price_symbol }}{{ item.min_original_price }}
                                                 <template v-if="is_show('original_price_unit')">
                                                     {{ item.show_original_price_unit }}
@@ -130,7 +130,7 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div v-if="form.is_shop_show">
+                                    <div v-if="form.is_shop_show == '1'">
                                         <template v-if="form.shop_type == 'text'">
                                             <div class="plr-11 ptb-3 round cr-f" :style="trends_config('button', 'gradient') + `color: ${new_style.shop_button_text_color};`">{{ form.shop_button_text }}</div>
                                         </template>
@@ -396,11 +396,6 @@ const multicolumn_columns_width = computed(() => {
     return `calc(${100 / carousel_col.value}% - ${gap}px)`;
 });
 const multicolumn_columns_height = computed(() => new_style.value.content_outer_height + 'px');
-const interval_list = ref({
-    time: 2000,
-    is_roll: true,
-    notice_length: 1,
-});
 interface nav_list {
     split_list: data_list[];
 }
@@ -430,6 +425,11 @@ const interval_time = ref(2000);
 const is_roll = ref(true);
 // 轮播图key值
 const carouselKey = ref('0');
+const interval_list = ref({
+    time: 2000,
+    is_roll: '1',
+    notice_length: 1,
+});
 // 内容参数的集合
 watchEffect(() => {
     const time = (new_style.value.interval_time || 2) * 1000;
@@ -441,7 +441,7 @@ watchEffect(() => {
         // 滚动时间
         interval_time.value = time;
         // 是否滚动修改
-        is_roll.value = display_is_roll;
+        is_roll.value = display_is_roll == '1' ? true : false;
         // 记录历史保存的时间
         interval_list.value = {
             time: time,

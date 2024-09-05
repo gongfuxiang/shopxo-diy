@@ -33,7 +33,7 @@
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item label="间隔时间">
-                        <slider v-model="form.interval_time" :max="100"></slider>
+                        <slider v-model="form.interval_time" :min="1" :max="100"></slider>
                     </el-form-item>
                 </template>
             </card-container>
@@ -63,7 +63,7 @@
                                 <url-value v-model="scoped.row.notice_link"></url-value>
                             </el-form-item>
                             <el-form-item label="状态" class="w mb-0" label-width="40">
-                                <el-switch v-model="scoped.row.is_show"></el-switch>
+                                <el-switch v-model="scoped.row.is_show" active-value="1" inactive-value="0"></el-switch>
                             </el-form-item>
                         </div>
                     </template>

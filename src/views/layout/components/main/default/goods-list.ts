@@ -8,12 +8,12 @@ interface DefaultProductList {
         data_ids: string[];
         product_show_list: string[];
         data_list: string[];
-        is_price_solo: boolean;
+        is_price_solo: string;
         number: number;
         sort: string;
         sort_rules: string;
         is_show: string[];
-        is_shop_show: boolean;
+        is_shop_show: string;
         shop_type: string;
         shop_button_text: string;
         shop_button_icon_class: string;
@@ -26,7 +26,7 @@ interface DefaultProductList {
         shop_radius: radiusStyle;
         content_outer_spacing: number;
         content_outer_height: number;
-        is_roll: boolean,
+        is_roll: string,
         interval_time: number,
         content_spacing: number;
         shop_title_typeface: string;
@@ -59,12 +59,12 @@ const defaultProductList: DefaultProductList = {
         data_list: [],
         category: [],
         data_ids: [],
-        is_price_solo: true,
+        is_price_solo: '1',
         number: 4,
         sort: '0',
         sort_rules: '0',
         is_show: ['title', 'plugins_view_icon', 'price', 'sales_count', 'original_price'],
-        is_shop_show: true,
+        is_shop_show: '1',
         shop_type: 'text',
         shop_button_text: '购买',
         shop_button_icon_class: '',
@@ -96,7 +96,7 @@ const defaultProductList: DefaultProductList = {
         content_outer_spacing: 10, // 商品间距
         content_spacing: 10,
         content_outer_height: 232,
-        is_roll: true,
+        is_roll: '1',
         interval_time: 2,
         shop_title_typeface: '500',
         shop_title_size: 14,    

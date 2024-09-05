@@ -5,7 +5,7 @@ interface carousel_list {
     id: string;
     notice_title: string;
     notice_link: object;
-    is_show: boolean;
+    is_show: string;
 }
 interface defaultSearch {
     content: {
@@ -58,7 +58,7 @@ const defaultSearch: defaultSearch = {
                 id: get_math(),
                 notice_title: '公告栏',
                 notice_link: {},
-                is_show: true,
+                is_show: '1',
             },
         ],
     },

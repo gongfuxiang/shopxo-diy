@@ -1,5 +1,5 @@
 <template>
-    <el-carousel :key="form.data_style.carouselKey" indicator-position="none" :interval="form.data_style.interval_time * 1000" arrow="never" :direction="form.data_style.rotation_direction" :autoplay="form.data_style.is_roll" @change="carousel_change">
+    <el-carousel :key="form.data_style.carouselKey" indicator-position="none" :interval="form.data_style.interval_time * 1000" arrow="never" :direction="form.data_style.rotation_direction" :autoplay="form.data_style.is_roll == '1' ? true : false" @change="carousel_change">
         <el-carousel-item v-for="(item1, index1) in form.data_content.list" :key="index1">
             <template v-if="props.type === 'img'">
                 <image-empty v-model="item1.carousel_img[0]" :style="contentImgRadius"></image-empty>

@@ -3,7 +3,7 @@
         <div class="re flex" :class="title_center">
             <div class="z-i pr-15" :style="title_style">{{ form.title || '标题' }}</div>
             <div class="flex-row gap-10 align-c right-0 abs">
-                <template v-if="form.keyword_show">
+                <template v-if="form.keyword_show == '1'">
                     <div v-for="item in keyword_list" :key="item.id" :style="keyword_style">
                         {{ item.title }}
                     </div>

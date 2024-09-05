@@ -64,10 +64,10 @@
                 <card-container>
                     <div class="mb-12">轮播设置</div>
                     <el-form-item label="自动轮播">
-                        <el-switch v-model="form.is_roll" />
+                        <el-switch v-model="form.is_roll" active-value="1" inactive-value="0"/>
                     </el-form-item>
-                    <el-form-item label="间隔时间">
-                        <slider v-model="form.interval_time" :max="100"></slider>
+                    <el-form-item v-if="form.is_roll == '1'" label="间隔时间">
+                        <slider v-model="form.interval_time" :min="1" :max="100"></slider>
                     </el-form-item>
                 </card-container>
                 <div class="divider-line"></div>

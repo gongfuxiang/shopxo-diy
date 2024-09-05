@@ -103,7 +103,7 @@ const interval_list = ref({
 const notice_list = computed(() => {
     // 深拷贝一下，确保不会出现问题
     const arry_list = cloneDeep(form.value.notice_list);
-    return arry_list.filter((item: { is_show: boolean; }) => item.is_show);
+    return arry_list.filter((item: { is_show: string; }) => item.is_show == '1');
 })
 
 // 内容参数的集合

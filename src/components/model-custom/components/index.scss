@@ -66,6 +66,7 @@
             .vdr-handle.vdr-handle-bm,
             .vdr-handle.vdr-handle-br {
                 display: block !important;
+                z-index: 2;
             }
         }
         .plug-in-border {

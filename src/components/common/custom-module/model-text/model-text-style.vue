@@ -15,10 +15,10 @@
                     <url-value v-model="form.text_link"></url-value>
                 </el-form-item>
                 <el-form-item label="富文本">
-                    <el-switch v-model="form.is_rich_text" />
+                    <el-switch v-model="form.is_rich_text" active-value="1" inactive-value="0" />
                 </el-form-item>
-                <el-form-item v-if="form.is_rich_text" label="上下滚动">
-                    <el-switch v-model="form.is_up_down" />
+                <el-form-item v-if="form.is_rich_text == '1'" label="上下滚动">
+                    <el-switch v-model="form.is_up_down" active-value="1" inactive-value="0" />
                 </el-form-item>
                 <el-form-item label="文字颜色">
                     <color-picker v-model="form.text_color" default-color="#FF3F3F"></color-picker>
@@ -60,7 +60,7 @@
                     <slider v-model="form.text_rotate" :max="1000"></slider>
                 </el-form-item>
                 <el-form-item label="是否置底">
-                    <el-switch v-model="form.bottom_up" />
+                    <el-switch v-model="form.bottom_up" active-value="1" inactive-value="0" />
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />

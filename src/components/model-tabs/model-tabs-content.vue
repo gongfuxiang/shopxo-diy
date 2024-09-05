@@ -12,8 +12,8 @@
                 </el-form-item>
                 <el-form-item label="滑动置顶">
                     <el-radio-group v-model="form.tabs_top_up">
-                        <el-radio :value="true">启用</el-radio>
-                        <el-radio :value="false">不启用</el-radio>
+                        <el-radio value="1">启用</el-radio>
+                        <el-radio value="0">不启用</el-radio>
                     </el-radio-group>
                 </el-form-item>
             </card-container>

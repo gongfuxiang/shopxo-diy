@@ -50,13 +50,7 @@ const defaultSearch: defaultSearch = {
         is_search_show: '0',
         search_type: 'text',
         search_tips: '搜索',
-        hot_word_list: [
-            {
-                id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
-                value: '',
-                color: '#000000',
-            }
-        ],
+        hot_word_list: [],
     },
     style: {
         icon_color: '#ccc',

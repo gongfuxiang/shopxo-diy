@@ -14,10 +14,10 @@ interface diy_content extends diy{
     com_width: number,
     com_height: number,
     name: string,
-    show_tabs: Boolean,
-    is_enable: Boolean,
+    show_tabs: string,
+    is_enable: string,
     src: string,
-    is_hot: Boolean,
+    is_hot: string,
     id: string
 }
 

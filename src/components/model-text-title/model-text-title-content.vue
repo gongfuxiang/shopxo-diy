@@ -21,11 +21,11 @@
                 <div class="mb-12">关键字设置</div>
                 <el-form-item label="关键字">
                     <el-radio-group v-model="form.keyword_show">
-                        <el-radio :value="true">显示</el-radio>
-                        <el-radio :value="false">隐藏</el-radio>
+                        <el-radio value="1">显示</el-radio>
+                        <el-radio value="0">隐藏</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <template v-if="form.keyword_show">
+                <template v-if="form.keyword_show == '1'">
                     <drag :data="form.keyword_list" type="card" :space-col="25" @remove="remove" @on-sort="on_sort">
                         <template #default="scoped">
                             <div class="flex-col align-c jc-s gap-20 flex-1">
