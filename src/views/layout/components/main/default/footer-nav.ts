@@ -18,10 +18,10 @@ const defaultFooterNav = ref<DefaultFooterNav>({
         nav_style: '0',
         nav_type: '0',
         nav_content: [
-            { id: '1', name: '首页', img: [{ id: 1, url: new_url + 'home.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], img_checked: [{ id: 1, url: new_url + 'active/home.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], link: {} },
-            { id: '2', name: '分类', img: [{ id: 1, url: new_url + 'category.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], img_checked: [{ id: 1, url: new_url + 'active/category.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], link: {} },
-            { id: '3', name: '购物车', img: [{ id: 1, url: new_url + 'cart.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], img_checked: [{ id: 1, url: new_url + 'active/cart.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], link: {} },
-            { id: '4', name: '我的', img: [{ id: 1, url: new_url + 'user.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], img_checked: [{ id: 1, url: new_url + 'active/user.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }], link: {} },
+            { id: '1', name: '首页', img: [{ id: 1, url: new_url + 'home.png', original: '', title: '', ext: '.png', type: 'img' }], img_checked: [{ id: 1, url: new_url + 'active/home.png', original: '', title: '', ext: '.png', type: 'img' }], link: {} },
+            { id: '2', name: '分类', img: [{ id: 1, url: new_url + 'category.png', original: '', title: '', ext: '.png', type: 'img' }], img_checked: [{ id: 1, url: new_url + 'active/category.png', original: '', title: '', ext: '.png', type: 'img' }], link: {} },
+            { id: '3', name: '购物车', img: [{ id: 1, url: new_url + 'cart.png', original: '', title: '', ext: '.png', type: 'img' }], img_checked: [{ id: 1, url: new_url + 'active/cart.png', original: '', title: '', ext: '.png', type: 'img' }], link: {} },
+            { id: '4', name: '我的', img: [{ id: 1, url: new_url + 'user.png', original: '', title: '', ext: '.png', type: 'img' }], img_checked: [{ id: 1, url: new_url + 'active/user.png', original: '', title: '', ext: '.png', type: 'img' }], link: {} },
         ],
     },
     style: {
