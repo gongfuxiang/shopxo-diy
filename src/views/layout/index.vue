@@ -116,7 +116,6 @@ const init = () => {
         DiyAPI.getInit({ id: get_id() }).then((res: any) => {
             if (res.data) {
                 form.value = form_data_transfor_diy_data(res.data);
-                console.log(form.value);
             } else {
                 is_empty.value = true;
             }
