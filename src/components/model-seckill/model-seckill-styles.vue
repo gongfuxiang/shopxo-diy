@@ -10,10 +10,10 @@
                     <el-form-item label="秒杀提示">
                         <color-picker v-model="form.end_text_color" :default-color="clone_form.end_text_color"></color-picker>
                     </el-form-item>
-                    <el-form-item label="数字背景">
+                    <el-form-item label="时间背景">
                         <mult-color-picker :value="form.countdown_bg_color_list" :type="form.countdown_direction" @update:value="countdown_color_picker_event"></mult-color-picker>
                     </el-form-item>
-                    <el-form-item label="数字颜色">
+                    <el-form-item label="时间颜色">
                         <color-picker v-model="form.countdown_color" :default-color="clone_form.countdown_color"></color-picker>
                     </el-form-item>
                     <el-form-item v-if="data.button_status == '1'" label="按钮设置">
@@ -115,7 +115,7 @@
                 </card-container>
             </template>
             <!-- 进度条设置 -->
-            <template v-if="data.shop_style_type == '1'">
+            <!-- <template v-if="data.shop_style_type == '1'">
                 <div class="divider-line"></div>
                 <card-container>
                     <div class="mb-12">进度条设置</div>
@@ -135,7 +135,7 @@
                         <color-picker v-model="form.progress_text_color"></color-picker>
                     </el-form-item>
                 </card-container>
-            </template>
+            </template> -->
             <!-- 轮播设置 -->
             <template v-if="data.shop_style_type == '3'">
                 <div class="divider-line"></div>
