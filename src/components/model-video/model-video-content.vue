@@ -1,7 +1,7 @@
 <template>
     <div class="content">
         <el-form :model="form" label-width="70" class="m-h">
-            <card-container class="common-content-height">
+            <card-container>
                 <div class="mb-12">内容设置</div>
                 <el-form-item label="上传视频">
                     <upload v-model="form.video" :limit="1" type="video"></upload>

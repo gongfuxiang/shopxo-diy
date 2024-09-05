@@ -32,5 +32,8 @@ const safe_conten = computed(() => DOMPurify.sanitize(content.value));
 .rich-text-content {
     white-space: normal;
     word-break: break-all;
+    * {
+        max-width: 100%;
+    }
 }
 </style>

@@ -1,3 +1,14 @@
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import { commonStore } from '@/store';
+import App from '@/App.vue';
+const app = createApp(App);
+const pinia = createPinia();
+app.use(pinia);
+const { common } = commonStore();
+// 定义一组预定义的颜色数组，用于在各种场景中轻松引用这些颜色
+// 这些颜色包括从白色到黑色的不同灰度，以及一些鲜艳的颜色，格式有十六进制、RGB、RGBA、HSV、HSL等
+export const predefine_colors = ['#fff', '#ddd', '#ccc', '#999', '#666', '#333', '#000', '#ff4500', '#ff8c00', '#ffd700', '#90ee90', '#00ced1', '#c71585', 'rgba(255, 69, 0, 0.68)', 'rgb(255, 120, 0)', 'hsv(51, 100, 98)', 'hsva(120, 40, 94, 0.5)', 'hsl(181, 100%, 37%)', '#1F93FF', '#c7158577'];
 /**
  * 判断一个对象是否为空。
  *
@@ -11,6 +22,25 @@
 export function is_obj_empty(obj: object): boolean {
     return Object.keys(obj).length === 0;
 }
+/**
+ * 检查给定的参数是否为对象
+ *
+ * 此函数用于精确地验证一个变量是否为对象类型它通过以下步骤实现：
+ * 1. 特殊处理 `null` 值，因为 `null` 在 JavaScript 中被当作对象处理，但实质上它不是
+ * 2. 使用 `typeof` 操作符初步判断变量是否为对象
+ * 3. 使用 `Object.prototype.toString.call(obj)` 方法精确判断变量是否为普通的对象
+ *
+ * @param obj 未知类型的参数，待检查是否为对象
+ * @returns 如果参数是对象，则返回 true；否则返回 false
+ */
+export function is_obj(obj: unknown): boolean {
+    // 特殊处理 null值，因为 typeof null 返回 "object"，但 null 并不是我们要检查的对象
+    if (obj === null) return false;
+    // 使用 typeof 排除非对象类型
+    if (typeof obj !== 'object') return false;
+    // 确认是普通对象
+    return Object.prototype.toString.call(obj) === '[object Object]';
+}
 
 /**
  * 渐变色的方法
@@ -19,40 +49,54 @@ export function is_obj_empty(obj: object): boolean {
  * @param {string[], string} path
  * @returns {string}
  */
-export function gradient_computer(new_style: gradientStyle) {
+export function gradient_computer(new_style: gradientStyle, is_return_all: boolean = true) {
     let color_list = new_style.color_list;
     let direction = new_style.direction;
-    return gradient_handle(color_list, direction);
+    return gradient_handle(color_list, direction, is_return_all);
 }
 /**
  * 根据给定的颜色列表和方向生成一个线性渐变的CSS样式字符串。
  *
  * @param color_list 颜色列表，包含渐变中的各个颜色值。
  * @param direction 渐变的方向，可以是角度或其他CSS支持的渐变方向。
+ * @param is_return_all 是否返回所有样式，包括渐变类型、颜色列表和方向。默认为false，只返回渐变样式。
  * @returns 返回一个字符串，包含生成的线性渐变样式。
  */
-export function gradient_handle(color_list: string[], direction: string) {
+export function gradient_handle(color_list: color_list[], direction: string, is_return_all: boolean = true) {
     let container_common_styles = ``;
     if (color_list && color_list.length > 0) {
-        container_common_styles += `background: linear-gradient(${direction || '0deg'},`;
-        // 颜色反转
+        if (is_return_all) {
+            container_common_styles += `background:`;
+        }
+        container_common_styles += `linear-gradient(${direction || '180deg'},`;
+
         const new_color_list = JSON.parse(JSON.stringify(color_list));
-        const reverse_color = new_color_list.reverse();
-        reverse_color.forEach((item: any, index: number) => {
-            container_common_styles += `${item ? item : 'rgb(255 255 255 / 0%)'}`;
+        new_color_list.forEach((item: any, index: number) => {
+            container_common_styles += `${item.color ? item.color : 'rgb(255 255 255 / 0%)'}`;
             if (color_list.length == 1) {
-                container_common_styles += ` 0%, ${item} 100%`;
+                container_common_styles += ` ${item.color_percentage || 0}%, ${item.color} 100%`;
             } else {
-                if (index == color_list.length - 1) {
-                    container_common_styles += ` 100%`;
-                } else if (index == 0) {
-                    container_common_styles += ` 0%,`;
+                if (typeof item.color_percentage === 'number') {
+                    if (index == color_list.length - 1) {
+                        container_common_styles += ` ${item.color_percentage}%`;
+                    } else {
+                        container_common_styles += ` ${item.color_percentage}%,`;
+                    }
                 } else {
-                    container_common_styles += ` ${(100 / color_list.length) * index}%,`;
+                    if (index == color_list.length - 1) {
+                        container_common_styles += ` 100%`;
+                    } else if (index == 0) {
+                        container_common_styles += ` 0%,`;
+                    } else {
+                        container_common_styles += ` ${(100 / color_list.length) * index}%,`;
+                    }
                 }
             }
         });
-        container_common_styles += `);`;
+        container_common_styles += `)`;
+        if (is_return_all) {
+            container_common_styles += `;`;
+        }
     }
     return container_common_styles;
 }
@@ -63,7 +107,7 @@ export function gradient_handle(color_list: string[], direction: string) {
  * @param {string[], string} path
  * @returns {string}
  */
-export function padding_computer(new_style: internalStyle) {
+export function padding_computer(new_style: paddingStyle) {
     return `padding: ${new_style.padding_top || 0}px ${new_style.padding_right || 0}px ${new_style.padding_bottom || 0}px ${new_style.padding_left || 0}px;`;
 }
 
@@ -104,7 +148,7 @@ export function box_shadow_computer(new_style: boxShadowStyle) {
  * @returns {string}
  */
 export function background_computer(new_style: backgroundImgUrlStyle) {
-    if (new_style.background_img_url.length > 0) {
+    if (new_style.background_img.length > 0) {
         let url_styke = '';
         if (new_style.background_img_style == 1) {
             url_styke = 'background-repeat: repeat;';
@@ -113,7 +157,7 @@ export function background_computer(new_style: backgroundImgUrlStyle) {
         } else {
             url_styke = `background-repeat: no-repeat;background-position: center;`;
         }
-        return `background-image:url(${new_style.background_img_url[0].url});${url_styke}`;
+        return `background-image:url(${new_style.background_img[0].url});${url_styke}`;
     } else {
         return '';
     }
@@ -128,7 +172,7 @@ export function background_computer(new_style: backgroundImgUrlStyle) {
  * @returns 返回一个字符串，包含了计算后的样式定义，可以被直接应用于组件的样式属性。
  */
 export function common_styles_computer(new_style: componentsCommonCommonStyle) {
-    return gradient_computer(new_style) + padding_computer(new_style) + margin_computer(new_style) + radius_computer(new_style) + box_shadow_computer(new_style) + background_computer(new_style);
+    return gradient_computer(new_style) + padding_computer(new_style) + margin_computer(new_style) + radius_computer(new_style) + box_shadow_computer(new_style) + background_computer(new_style) + `overflow:hidden;`;
 }
 
 /**
@@ -190,7 +234,6 @@ export const ext_name = (name: string) => {
     return '';
 };
 
-
 /**
  * 将大小计算成百分比
  *
@@ -199,9 +242,9 @@ export const ext_name = (name: string) => {
  * @returns 计算后的百分比值，含4位小数
  */
 export const percentage_count = (num: number, container_size: number) => {
-    const marks = num / container_size * 100;
-    return marks.toFixed(4)+ '%';
-}
+    const marks = (num / container_size) * 100;
+    return marks.toFixed(4) + '%';
+};
 
 /**
  * 计算当前偏移量
@@ -222,4 +265,87 @@ export const location_compute = (size: number, location: number, container_size:
     } else {
         return location;
     }
-}
+};
+
+/**
+ * 读取指定名称的cookie值
+ * @param name 需要读取的cookie的名称
+ * @returns 返回cookie的值，如果未找到则返回空字符串
+ */
+export const get_cookie = (name: string) => {
+    // 初始化cookie值为空字符串
+    var cookievalue = '';
+    // 定义要搜索的cookie名称字符串
+    var search = name + '=';
+    // 检查是否存在cookie
+    if (document.cookie.length > 0) {
+        // 尝试查找cookie名称的位置
+        let offset = document.cookie.indexOf(search);
+        // 如果找到了cookie名称
+        if (offset != -1) {
+            // 跳过cookie名称的长度
+            offset += search.length;
+            // 查找cookie值的结束位置（可能是分号或者字符串末尾）
+            let end = document.cookie.indexOf(';', offset);
+            if (end == -1) end = document.cookie.length;
+            // 提取并解码cookie值
+            cookievalue = decodeURIComponent(document.cookie.substring(offset, end));
+        }
+    }
+    // 返回获取到的cookie值
+    return cookievalue;
+};
+/**
+ * 设置cookie
+ * 该函数用于设置一个cookie，包括cookie的名称、值和过期时间
+ * @param name {string} - cookie的名称
+ * @param value {string} - cookie的值
+ * @param expire_time {number} - cookie的过期时间，单位为天
+ */
+export const set_cookie = (name: string, value: string, expire_time?: number) => {
+    // 构造cookie字符串
+    var cookie_str = name + '=' + encodeURIComponent(value);
+    if (expire_time) {
+        // 获取当前时间
+        var now = new Date();
+        // 计算过期时间
+        var expire_date = new Date(now.getTime() + expire_time * 86400);
+        cookie_str += ';expires=' + expire_date.toUTCString();
+        // 将新增的cookie储存到cookie中，可以存储多个而不是替换
+        document.cookie = cookie_str;
+    }
+};
+
+// style 风格
+export const tabs_style = (color: string, style: string | number | boolean | undefined) => {
+    const color_list = ['rgba(51,51,51,1)', 'rgba(255, 34, 34, 1)', 'rgba(255, 255, 255, 1)'];
+    if (color_list.includes(color)) {
+        if (style == '2' || style == '4') {
+            return 'rgba(255, 255, 255, 1)';
+        } else if (style == '3') {
+            return 'rgba(255, 34, 34, 1)';
+        } else {
+            return 'rgba(51,51,51,1)';
+        }
+    } else {
+        return color;
+    }
+};
+/**
+ * 获取在线资源URL的异步函数
+ * 该函数根据当前环境变量的配置选择不同的方式来获取资源URL
+ * 如果环境变量VITE_APP_BASE_API被设置为'/dev-api'，则从本地开发环境中导入临时数据
+ * 否则，从cookie中获取资源主机地址
+ * 这种设计允许开发者在不同的环境中灵活切换资源URL的来源，以适应不同的开发和生产需求
+ * @param directory {string} - 资源目录名称
+ * @returns {Promise<string>} 返回一个Promise，解析为包含资源URL的字符串
+ */
+export const online_url = async (directory: string) => {
+    const attachemnt_host = common.config.attachment_host;
+    if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
+        let temp_data = await import(import.meta.env.VITE_APP_BASE_API == '/dev-api' ? '../../temp.d' : '../../temp_pro.d');
+        return temp_data.default.temp_attachment_host + directory;
+    } else {
+        return attachemnt_host + directory;
+    }
+};

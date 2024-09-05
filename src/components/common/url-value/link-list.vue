@@ -5,7 +5,7 @@
             <div class="search">
                 <el-input v-model="search_value" placeholder="请输入搜索内容" class="" @change="handle_search">
                     <template #suffix>
-                        <icon name="search" size="16" color="9"></icon>
+                        <icon name="search" size="16" color="9" class="c-pointer" @click="handle_search"></icon>
                     </template>
                 </el-input>
             </div>
@@ -13,19 +13,33 @@
         <div class="content">
             <el-scrollbar height="480px">
                 <div class="flex-col gap-30">
-                    <div v-for="item in base_data" :key="item.id">
-                        <div class="fw mb-15">{{ item.name }}</div>
-                        <div class="flex-row flex-wrap gap-15">
-                            <div v-for="child in item.data" :key="child.id" class="item" :class="menu_active == item.id + '-' + child.id ? 'active' : ''" @click="menu_link_event(child, item.id)">{{ child.name }}</div>
+                    <template v-if="new_base_data.length > 0">
+                        <div v-for="item in new_base_data" :key="item.type">
+                            <div class="fw mb-15">{{ item.name }}</div>
+                            <div class="flex-row flex-wrap gap-15">
+                                <div v-for="(child, index) in item.data" :key="index" class="item" :class="menu_active == child.page ? 'active' : ''" @click="menu_link_event(child)">
+                                    {{ child.name }}
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </template>
+                    <template v-else>
+                        <no-data height="480px"></no-data>
+                    </template>
                 </div>
             </el-scrollbar>
         </div>
     </div>
 </template>
 <script lang="ts" setup>
+import { commonStore } from '@/store';
+const common_store = commonStore();
 const props = defineProps({
+    // 类型
+    type: {
+        type: String,
+        default: () => '',
+    },
     // 重置
     reset: {
         type: Boolean,
@@ -34,80 +48,70 @@ const props = defineProps({
 });
 watch(
     () => props.reset,
-    () => {
-        menu_active.value = '';
+    (val) => {
+        if (val) {
+            init();
+        }
     }
 );
-const modelValue = defineModel({ type: Object, default: {} });
+const modelValue = defineModel({ type: Array, default: [] });
 const search_value = ref('');
-interface Data {
-    id: number;
-    name: string;
-    link?: String;
-    data?: Data[];
-}
-const base_data = ref<Data[]>([
-    {
-        id: 0,
-        name: '基础链接',
-        data: [
-            { id: 0, name: '首页', link: '首页' },
-            { id: 1, name: '商城分类', link: '商城分类' },
-            { id: 2, name: '购物车', link: '购物车' },
-            { id: 3, name: '分类商品列表', link: '分类商品列表' },
-            { id: 4, name: '退款列表', link: '退款列表' },
-            { id: 5, name: '我的订单', link: '我的订单' },
-            { id: 6, name: '文章列表', link: '文章列表' },
-            { id: 7, name: '供应商入驻', link: '供应商入驻' },
-        ],
-    },
-    {
-        id: 1,
-        name: '个人中心',
-        data: [
-            { id: 0, name: '付费会员', link: '付费会员' },
-            { id: 1, name: '收银页面', link: '收银页面' },
-            { id: 2, name: '我的订单', link: '我的订单' },
-            { id: 3, name: '我的收藏', link: '我的收藏' },
-            { id: 4, name: '我的地址', link: '我的地址' },
-            { id: 5, name: '我的优惠券', link: '我的优惠券' },
-            { id: 6, name: '我的消息', link: '我的消息' },
-            { id: 7, name: '我的资料', link: '我的资料' },
-            { id: 8, name: '我的积分', link: '我的积分' },
-            { id: 9, name: '我的余额', link: '我的余额' },
-            { id: 10, name: '我的红包', link: '我的红包' },
-        ],
-    },
-    {
-        id: 2,
-        name: '分销',
-        data: [
-            { id: 0, name: '分销中心', link: '分销中心' },
-            { id: 1, name: '分销订单', link: '分销订单' },
-            { id: 2, name: '分销商品', link: '分销商品' },
-            { id: 3, name: '分销提现', link: '分销提现' },
-            { id: 4, name: '分销佣金', link: '分销佣金' },
-            { id: 5, name: '分销设置', link: '分销设置' },
-            { id: 6, name: '分销关系', link: '分销关系' },
-            { id: 7, name: '分销商列表', link: '分销商列表' },
-            { id: 8, name: '分销商等级', link: '分销商等级' },
-            { id: 9, name: '分销商统计', link: '分销商统计' },
-            { id: 10, name: '分销商提现', link: '分销商提现' },
-        ],
-    },
-]);
-const handle_search = () => {
-    console.log(search_value.value);
+const base_data = ref<pageLinkList[]>([]);
+const new_base_data = ref<pageLinkList[]>([]);
+onMounted(() => {
+    init();
+});
+const init = () => {
+    menu_active.value = '';
+    search_value.value = '';
+    // 过滤common_store.common.page_link_list中的type为shop的data的数据，只保留data数组
+    base_data.value = common_store.common.page_link_list.filter((item: any) => {
+        if (item.type == props.type) {
+            return item.data;
+        }
+    });
+    new_base_data.value = base_data.value[0].data || [];
 };
+
+const handle_search = () => {
+    // 根据关键词过滤new_base_data数据,如果==父级 显示父级和父级下的所有子级数据，
+    if (search_value.value) {
+        new_base_data.value = filterData(search_value.value, base_data.value[0].data || []);
+    } else {
+        new_base_data.value = base_data.value[0].data || [];
+    }
+};
+const filterData = (input: string, data: pageLinkList[]) => {
+    let result = [];
+    // 遍历数组
+    for (let item of data) {
+        // 检查当前项的name是否匹配
+        if (item.name && item.name.includes(input)) {
+            result.push(item);
+        } else {
+            if (item.data) {
+                // 否则，‌检查当前项的data属性中的子项
+                let subResult = item.data.filter((subItem) => subItem.name && subItem.name.includes(input));
+                // 如果找到匹配的子项，‌将当前项（‌父级）‌添加到结果中
+                if (subResult.length > 0) {
+                    result.push({ ...item, data: subResult });
+                }
+            }
+        }
+    }
+
+    return result;
+};
+
 const menu_active = ref('');
 const emit = defineEmits(['update:link']);
-const menu_link_event = (item: Data, parent_id: number) => {
-    if (`${parent_id}-${item.id}` == menu_active.value) {
+const menu_link_event = (item: any) => {
+    if (item.page == menu_active.value) {
         menu_active.value = '';
-        modelValue.value = {};
+        modelValue.value = [];
     } else {
-        menu_active.value = `${parent_id}-${item.id}`;
-        modelValue.value = item;
+        menu_active.value = item.page;
+        modelValue.value = [item];
     }
 };
 </script>

@@ -1,44 +1,35 @@
 <template>
-    <card-container class="card-container-br">
+    <card-container>
         <div class="mb-12">显示内容</div>
         <el-form-item label="是否显示">
             <el-checkbox-group v-model="form.is_show">
-                <el-checkbox v-for="item in base_list.list_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
+                <el-checkbox v-for="item in base_list.list_show_list.filter(item => item.type.includes(form.theme))" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
             </el-checkbox-group>
         </el-form-item>
+        <el-form-item v-if="['0', '1', '2'].includes(form.theme)" label="价格独行">
+            <el-switch v-model="form.is_price_solo" active-value="1" inactive-value="0"></el-switch>
+        </el-form-item>
     </card-container>
+    <div class="bg-f5 divider-line" />
     <card-container>
         <div class="mb-12">购物车设置</div>
         <el-form-item label="是否显示">
-            <el-switch v-model="form.is_shop_show"></el-switch>
+            <el-switch v-model="form.is_shop_show" active-value="1" inactive-value="0" ></el-switch>
         </el-form-item>
-        <el-form-item label="按钮样式" class="align-c">
-            <div class="flex-row align-c jc-s gap-20 shopping_button_all">
-                <div v-for="item in base_list.shopping_button_list" :key="item.value" :class="['pa-10 re', { 'br-c br-primary radius-sm': shop_type(item) }]" @click="shopping_button_click(item)">
-                    <template v-if="item.value == '0'">
-                        <div class="pl-13 pr-13 round size-12 bg-primary cr-f shopping_button">{{ item.name }}</div>
-                    </template>
-                    <template v-else-if="item.value == '1'">
-                        <div class="pl-11 pr-11 round size-12 bg-primary cr-f shopping_button">{{ item.name }}</div>
-                    </template>
-                    <template v-else-if="item.value == '2'">
-                        <icon class="shopping_button round pl-6 pr-6 bg-primary " name="add" color="f" size="16"></icon>
-                    </template>
-                    <template v-else>
-                        <icon class="shopping_button round pl-6 pr-6 bg-primary" name="cart" color="f" size="16"></icon>
-                    </template>
-                    <div v-if="shop_type(item)" class="button-checked">
-                        <icon name="true" color="f" size="8"></icon>
-                    </div>
-                </div>
+        <el-form-item label="按钮样式">
+            <div class="flex-col w gap-10">
+                <el-radio-group v-model="form.shop_type" @change="change_shop_type">
+                    <el-radio v-for="item in base_list.shopping_button_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                </el-radio-group>
+                <template v-if="form.shop_type == 'text'">
+                    <el-input v-model="form.shop_button_text" placeholder="请输入按钮文字"></el-input>
+                </template>
+                <template v-else>
+                    <upload v-model:icon-value="form.shop_button_icon_class" is-icon type="icon" :limit="1" size="50"></upload>
+                </template>
             </div>
         </el-form-item>
-        <el-form-item label="是否显示" label-width="140">
-            <el-radio-group v-model="form.shop_button_size">
-                <el-radio v-for="item in base_list.shopping_button_size" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-            </el-radio-group>
-        </el-form-item>
-        <el-form-item label="是否显示">
+        <el-form-item label="按钮效果">
             <el-radio-group v-model="form.shop_button_effect">
                 <el-radio v-for="item in base_list.shopping_cart_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
             </el-radio-group>
@@ -59,47 +50,37 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form } = toRefs(state);
-
 const base_list = {
     list_show_list: [
-        { name: '商品名称', value: '0' },
-        { name: '商品标签', value: '1' },
-        { name: '商品售价', value: '2' },
-        { name: '商品销量', value: '3' },
-        { name: '商品评分', value: '4' },
-        { name: '商品原价', value: '5' },
+        { name: '商品名称', value: 'title', type:['0', '1', '2', '3', '4', '5', '6']},
+        { name: '商品标签', value: 'plugins_view_icon', type:['0', '1', '2'] },
+        { name: '商品售价', value: 'price', type:['0', '1', '2', '3', '4', '5', '6'] },
+        { name: '商品销量', value: 'sales_count', type:['0', '1', '2'] },
+        // { name: '商品评分', value: '4' },
+        { name: '商品原价', value: 'original_price', type:['0', '1', '2'] },
+        { name: '售价单位', value: 'price_unit', type:['0', '1', '2', '3', '4', '5', '6'] },
+        { name: '原价单位', value: 'original_price_unit', type:['0', '1', '2'] },
     ],
     shopping_button_list: [
-        { name: '购买', value: '0' },
-        { name: '立即购买', value: '1' },
-        { name: '添加', value: '2' },
-        { name: '购物车', value: '3' },
+        { name: '文字', value: 'text' },
+        { name: '图标', value: 'icon' },
     ],
     shopping_cart_list: [
         { name: '进入商品详情页', value: '0' },
         { name: '商品加购', value: '1' }
-    ],
-    shopping_button_size: [
-        { name: '大', value: '0' },
-        { name: '中', value: '1' },
-        { name: '小', value: '2' },
     ]
 };
-
-const shop_type = computed(() => {
-    return (item: { value: string; }) => {
-        return item.value == form.value.shop_type;
-    };
-});
-
-const shopping_button_click = (item: { value: string; }) => {
-    form.value.shop_type = item.value;
-};
+const emit = defineEmits(['change_shop_type']);
+const change_shop_type = () => {
+    emit('change_shop_type');
+}
 </script>
 
-<style lang="scss">
-.card-container-br {
-    border-bottom: 0.8rem solid #f0f2f5;
+<style lang="scss" scoped>
+.card, .card.mb-8 {
+    .el-form-item:last-child {
+        margin-bottom: 0;
+    }
 }
 .shopping_button {
     height: 2.7rem;
@@ -125,5 +106,8 @@ const shopping_button_click = (item: { value: string; }) => {
         justify-content: center;
         font-weight: 700;
     }
+}
+:deep(.el-checkbox-group .el-checkbox){
+    margin-right: 2rem;
 }
 </style>

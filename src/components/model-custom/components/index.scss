@@ -1,0 +1,233 @@
+.siderbar {
+    width: 34rem;
+    overflow: hidden;
+    :deep(.el-collapse) {
+        border: 0;
+        .el-collapse-item__wrap,
+        .el-collapse-item__header {
+            border: 0;
+        }
+        .el-collapse-item__content {
+            padding-bottom: 0;
+        }
+    }
+    .component {
+        .item {
+            width: calc(100% / 3);
+            padding: 0.5rem;
+            .img {
+                width: 3rem;
+                height: 3rem;
+            }
+        }
+        .siderbar-item {
+            padding: 0.5rem;
+        }
+    }
+    .siderbar-item:hover {
+        cursor: pointer;
+        border-radius: 0.5rem;
+        box-shadow: 0 0 0.5rem 0 rgba(24, 144, 255, 0.3);
+        transform: scale(1.1);
+        transition: all 0.2s;
+    }
+}
+.main {
+    flex: 1;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    .model-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        overflow: hidden;
+        height: 100%;
+        :deep(.vdr-container) {
+            border: 0;
+            .vdr-handle.vdr-handle-tl,
+            .vdr-handle.vdr-handle-tr,
+            .vdr-handle.vdr-handle-tm,
+            .vdr-handle.vdr-handle-ml,
+            .vdr-handle.vdr-handle-mr,
+            .vdr-handle.vdr-handle-bl,
+            .vdr-handle.vdr-handle-bm,
+            .vdr-handle.vdr-handle-br {
+                display: none !important;
+            }
+        }
+        :deep(.plug-in-show-tabs.vdr-container) {
+            .vdr-handle.vdr-handle-tl,
+            .vdr-handle.vdr-handle-tr,
+            .vdr-handle.vdr-handle-tm,
+            .vdr-handle.vdr-handle-ml,
+            .vdr-handle.vdr-handle-mr,
+            .vdr-handle.vdr-handle-bl,
+            .vdr-handle.vdr-handle-bm,
+            .vdr-handle.vdr-handle-br {
+                display: block !important;
+                z-index: 2;
+            }
+        }
+        .plug-in-border {
+            cursor: pointer;
+            position: relative;
+            box-shadow: 0px 0 0px 0.2rem $cr-main;
+            border: 0;
+        }
+        .plug-in-right {
+            cursor: default;
+            background: $cr-main;
+            position: absolute;
+            right: -5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            padding: 2rem 1.2rem;
+            color: #fff;
+            border-radius: 0.4rem;
+            z-index: 2;
+            & > i {
+                cursor: pointer;
+            }
+            & > i.disabled {
+                color: #5db2ff;
+                cursor: not-allowed;
+            }
+            & .icon-arrow-top,
+            & .icon-arrow-bottom {
+                height: 0.9rem;
+            }
+        }
+        .area-box {
+            position: absolute;
+            background: rgba(42, 148, 255, 0.25);
+            border: 1px dashed #8ec6ff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #1989fa;
+            font-size: 1.2rem;
+            z-index: 6;
+            cursor: move;
+            transition: transform 0.1s;
+            .del-btn {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background: #1890ff;
+                color: #fff;
+                text-align: center;
+                border-radius: 0 0 0 0.3rem;
+                position: absolute;
+                right: 0.7rem;
+                top: 0.7rem;
+                transform: translate3d(50%, -50%, 0);
+                cursor: default;
+                width: 1.6rem;
+                height: 1.6rem;
+                line-height: 1.6rem;
+                z-index: 1;
+                i {
+                    font-size: 0.9rem;
+                }
+            }
+            .drag-btn {
+                position: absolute;
+                width: 7px;
+                height: 7px;
+                background: #f0f0f0;
+                border: 1px solid #333;
+                z-index: 1;
+            }
+            .drag-tl {
+                left: -0.4rem;
+                top: -0.4rem;
+                cursor: nw-resize;
+            }
+            .drag-tc {
+                left: 50%;
+                top: -0.4rem;
+                transform: translateX(-50%);
+                cursor: n-resize;
+            }
+            .drag-lc {
+                left: -0.4rem;
+                top: 50%;
+                transform: translateY(-50%);
+                cursor: w-resize;
+            }
+            .drag-bl {
+                left: -0.4rem;
+                bottom: -0.4rem;
+                cursor: sw-resize;
+            }
+            .drag-bc {
+                left: 50%;
+                bottom: -0.4rem;
+                transform: translateX(-50%);
+                cursor: s-resize;
+            }
+            .drag-br {
+                right: -0.4rem;
+                bottom: -0.4rem;
+                cursor: se-resize;
+            }
+            .drag-rc {
+                right: -0.4rem;
+                top: 50%;
+                transform: translateY(-50%);
+                cursor: e-resize;
+            }
+            .text {
+                overflow: hidden;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                max-width: 100%;
+                max-height: 100%;
+                text-align: center;
+                align-items: center;
+                color: #fff;
+                font-size: 1.2rem;
+                .name {
+                    color: #fff;
+                    margin: 0 0.2rem;
+                }
+                .status {
+                    margin: 0 0.2rem;
+                }
+            }
+        }
+    }
+}
+.selected {
+    overflow: hidden;
+}
+.assembly {
+    height: calc(100% - 3rem);
+    width: calc(100% - 0.6rem);
+    overflow: hidden;
+    overflow-y: auto;
+    .item {
+        width: calc(33% - 1rem);
+        padding: 1rem 1.5rem;
+        background: #f6f6f6;
+        border-radius: 0.4rem;
+    }
+    .item-active {
+        border: 0.1rem solid $cr-main;
+        padding: 0.8rem 1.3rem;
+    }
+}
+.area {
+    position: absolute;
+    background: rgba(41, 128, 185, 0.3);
+    border: 1px dashed #34495e;
+    width: 0px;
+    height: 0px;
+    left: 0px;
+    top: 0px;
+    z-index: 6;
+    display: none;
+}

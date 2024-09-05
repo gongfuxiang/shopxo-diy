@@ -1,7 +1,7 @@
 <template>
     <div v-for="(item, index) in list" :key="index" class="flex-row align-s gap-12">
         <div class="flex-col">
-            <el-color-picker v-model="item.color" show-alpha :predefine="predefine_colors" />
+            <el-color-picker v-model="item.color" :predefine="predefine_colors" />
             <div v-if="index == 0" class="connect-line"></div>
         </div>
         <icon name="reset" color="primary" size="16" class="c-pointer" @click="reset_event(index)"></icon>
@@ -9,13 +9,14 @@
 </template>
 
 <script setup lang="ts">
-const predefine_colors = ref(['#ff4500', '#ff8c00', '#ffd700', '#90ee90', '#00ced1', '#1e90ff', '#c71585', 'rgba(255, 69, 0, 0.68)', 'rgb(255, 120, 0)', 'hsv(51, 100, 98)', 'hsva(120, 40, 94, 0.5)', 'hsl(181, 100%, 37%)', 'hsla(209, 100%, 56%, 0.73)', '#c7158577']);
+import { predefine_colors } from '@/utils';
 interface list_page {
     color: string;
+    color_percentage: number | undefined;
 }
 interface Props {
     colorList: list_page[];
-    defaultColor: string;
+    defaultColor?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
     defaultColor: '',
@@ -25,6 +26,7 @@ const list = ref(props.colorList);
 // 默认值
 const reset_event = (index: number) => {
     list.value[index].color = props.defaultColor;
+    list.value[index].color_percentage = undefined;
 };
 </script>
 

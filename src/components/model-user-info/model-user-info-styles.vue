@@ -1,7 +1,7 @@
 <template>
     <div class="styles">
         <el-form :model="form" label-width="70">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">头像设置</div>
                 <el-form-item label="头像大小">
                     <el-radio-group v-model="form.user_avatar_size">
@@ -11,7 +11,9 @@
                     </el-radio-group>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+
+            <div class="divider-line"></div>
+            <card-container>
                 <div class="mb-12">人物名称</div>
                 <el-form-item label="色值">
                     <color-picker v-model="form.user_name_color"></color-picker>
@@ -25,7 +27,8 @@
                     <slider v-model="form.user_name_size"></slider>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="divider-line"></div>
+            <card-container>
                 <div class="mb-12">ID设置</div>
                 <el-form-item label="底部背景">
                     <div class="flex-col gap-10 w">
@@ -45,7 +48,9 @@
                     <slider v-model="form.user_id_size"></slider>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+
+            <div class="divider-line"></div>
+            <card-container>
                 <div class="mb-12">图标设置</div>
                 <el-form-item label="图标大小">
                     <el-radio-group v-model="form.img_size">
@@ -62,7 +67,8 @@
                     </el-radio-group>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="divider-line"></div>
+            <card-container>
                 <div class="mb-12">统计设置</div>
                 <el-form-item label="文字颜色">
                     <color-picker v-model="form.stats_name_color"></color-picker>
@@ -88,6 +94,7 @@
                 </el-form-item>
             </card-container>
         </el-form>
+        <div class="divider-line"></div>
         <common-styles :value="form.common_style" @update:value="common_styles_update" />
     </div>
 </template>
@@ -96,27 +103,7 @@ import { omit } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
-        default: () => {
-            return {
-                user_avatar_size: '60',
-                user_name_color: 'rgba(0, 0, 0, 1)',
-                user_name_weight: '500',
-                user_name_size: 16,
-                user_id_color_list: ['rgba(254, 184, 143, 1)', 'rgba(255, 227, 220, 1)'],
-                user_id_color: 'rgba(0, 0, 0, 1)',
-                user_id_direction: '90deg',
-                user_id_weight: '400',
-                user_id_size: 10,
-                img_size: '23',
-                img_space: '25',
-                stats_name_color: 'rgba(0, 0, 0, 1)',
-                stats_name_weight: '400',
-                stats_name_size: 12,
-                stats_number_color: 'rgba(0, 0, 0, 1)',
-                stats_number_weight: '500',
-                stats_number_size: 16,
-            };
-        },
+        default: () => {},
     },
 });
 const font_weight = reactive([

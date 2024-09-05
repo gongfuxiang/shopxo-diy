@@ -1,6 +1,6 @@
 <template>
     <div class="img-outer re w h" :style="border_style">
-        <image-empty v-model="img_src" :style="image_style"></image-empty>
+        <image-empty v-model="img" :style="image_style"></image-empty>
     </div>
 </template>
 <script setup lang="ts">
@@ -14,6 +14,12 @@ const props = defineProps({
         },
         required: true
     },
+    sourceList: {
+        type: Object,
+        default: () => {
+            return {};
+        }
+    },
     isPercentage: {
         type: Boolean,
         default: false
@@ -21,13 +27,14 @@ const props = defineProps({
 });
 // 用于页面判断显示
 const form = reactive(props.value);
-
-const img_src = computed(() => {
-    if (!isEmpty(form.img_src[0])) {
-        return form.img_src[0];
+const img = computed(() => {
+    if (!isEmpty(form.img[0])) {
+        return form.img[0];
     } else {
-        return {
-            url: form.data_source_list.url
+        if (!isEmpty(props.sourceList)) {
+            return props.sourceList[form.data_source_id];
+        } else {
+            return '';
         }
     }
 });
@@ -38,7 +45,7 @@ const image_style = computed(() => {
 
 const border_style = computed(() => {
     let style = ``;
-    if (form.border_show) {
+    if (form.border_show == '1') {
         style += `border: ${form.border_size}px ${form.border_style} ${form.border_color}; ${ radius_computer(form.border_radius) };`
     }
     return style;

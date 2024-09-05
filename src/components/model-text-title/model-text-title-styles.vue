@@ -1,13 +1,13 @@
 <template>
-    <div class="common-style-height">
+    <div class="w h">
         <el-form :model="form" label-width="80">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">标题设置</div>
                 <el-form-item label="标题颜色">
                     <color-picker v-model="form.title_color" default-color="#000000"></color-picker>
                 </el-form-item>
                 <el-form-item label="标题文字">
-                    <el-radio-group v-model="form.title_weight" class="ml-4">
+                    <el-radio-group v-model="form.title_weight">
                         <el-radio value="500">加粗</el-radio>
                         <el-radio value="normal">正常</el-radio>
                         <el-radio value="italic">倾斜</el-radio>
@@ -17,7 +17,8 @@
                     </el-form-item>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="bg-f5 divider-line" />
+            <card-container>
                 <div class="mb-12">关键字设置</div>
                 <el-form-item label="文字颜色">
                     <color-picker v-model="form.keyword_color" default-color="#000000"></color-picker>
@@ -26,7 +27,8 @@
                     <slider v-model="form.keyword_size" :max="100"></slider>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="bg-f5 divider-line" />
+            <card-container>
                 <div class="mb-12">更多设置</div>
                 <el-form-item label="按钮颜色">
                     <color-picker v-model="form.right_color" default-color="#999"></color-picker>
@@ -36,6 +38,7 @@
                 </el-form-item>
             </card-container>
         </el-form>
+        <div class="bg-f5 divider-line" />
         <common-styles :value="form.common_style" @update:value="common_styles_update" />
     </div>
 </template>

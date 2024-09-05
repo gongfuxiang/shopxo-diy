@@ -1,50 +1,97 @@
 <template>
-    <div class="auxiliary-line">
+    <div class="w h bg-f">
         <el-form :model="form" label-width="70">
-            <card-container class="common-content-height">
-                <el-form-item label="页面标题">
-                    <el-input v-model="form.title" placeholder="选填不超过30个字" />
+            <card-container>
+                <el-form-item label="选择风格">
+                    <theme-select v-model="form.theme" :data="base_list.themeList" @update:model-value="themeChange"></theme-select>
                 </el-form-item>
-                <el-form-item label="背景设置">
-                    <div class="flex-col gap-10 w">
-                        <div class="size-12">背景色</div>
-                        <mult-color-picker :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
-                        <div class="flex-row jc-sb align-c">
-                            <div class="size-12">背景图</div>
-                            <el-radio-group v-model="form.background_img_style" is-button>
-                                <el-tooltip content="单张" placement="top" effect="light">
-                                    <el-radio-button value="0"><icon name="single-sheet"></icon></el-radio-button>
+                <template v-if="['1', '2', '3'].includes(form.theme)">
+                    <el-form-item v-if="['2', '3'].includes(form.theme)" label="logo">
+                        <upload v-model="form.logo" :limit="1"></upload>
+                    </el-form-item>
+                    <el-form-item v-if="['3'].includes(form.theme)" label="链接地址">
+                        <url-value v-model="form.link"></url-value>
+                    </el-form-item>
+                    <template v-if="['1', '2'].includes(form.theme)">
+                        <el-form-item label="页面标题">
+                            <el-input v-model="form.title" placeholder="请输入标题名称"></el-input>
+                        </el-form-item>
+                        <el-form-item label="链接地址">
+                            <url-value v-model="form.link"></url-value>
+                        </el-form-item>
+                        <el-form-item label="展示位置">
+                            <el-radio-group v-model="form.indicator_location" is-button>
+                                <el-tooltip content="左对齐" placement="top" effect="light">
+                                    <el-radio-button value="flex-start">
+                                        <icon name="iconfont icon-left"></icon>
+                                    </el-radio-button>
                                 </el-tooltip>
-                                <el-tooltip content="平铺" placement="top" effect="light">
-                                    <el-radio-button value="1"><icon name="tile"></icon></el-radio-button>
+                                <el-tooltip content="居中" placement="top" effect="light">
+                                    <el-radio-button value="center">
+                                        <icon name="iconfont icon-center"></icon>
+                                    </el-radio-button>
                                 </el-tooltip>
-                                <el-tooltip content="铺满" placement="top" effect="light">
-                                    <el-radio-button value="2"><icon name="spread-over"></icon></el-radio-button>
+                                <el-tooltip content="右对齐" placement="top" effect="light">
+                                    <el-radio-button value="flex-end">
+                                        <icon name="iconfont icon-right"></icon>
+                                    </el-radio-button>
                                 </el-tooltip>
                             </el-radio-group>
-                        </div>
-                        <upload v-model="form.background_img_url" :limit="1"></upload>
-                    </div>
+                        </el-form-item>
+                    </template>
+                </template>
+                <template v-if="['4', '5'].includes(form.theme)">
+                    <el-form-item label="定位名称">
+                        <el-input v-model="form.positioning_name" placeholder="请输入默认定位名称"></el-input>
+                    </el-form-item>
+                    <el-form-item label="箭头按钮">
+                        <el-radio-group v-model="form.is_arrows_show">
+                            <el-radio value="1">显示</el-radio>
+                            <el-radio value="0">隐藏</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                </template>
+            </card-container>
+            <div class="bg-f5 divider-line" />
+            <template v-if="['3', '5'].includes(form.theme)">
+                <model-search-content :value="form"></model-search-content>
+                <div class="bg-f5 divider-line" />
+            </template>
+            <card-container>
+                <el-form-item label="底部导航">
+                    <el-radio-group v-model="form.bottom_navigation_show">
+                        <el-radio v-for="item in base_list.bottom_navigation" :key="item.value" :value="item.value">{{item.name }}</el-radio>
+                    </el-radio-group>
                 </el-form-item>
             </card-container>
         </el-form>
     </div>
 </template>
 <script setup lang="ts">
-interface Props {
-    value: page_content
-}
-const props = defineProps<Props>();
-
+const props = defineProps({
+    value: {
+        type: Object,
+        default: () => ({}),
+    },
+});
 const form = reactive(props.value);
-const mult_color_picker_event = (arry: string[], type: number) => {
-    form.color_list = arry;
-    form.direction = type.toString();
+const base_list = reactive({
+    themeList: [
+        { id: '1', name: '风格1', url: new URL(`../../assets/images/components/page-settings/theme-1.png`, import.meta.url).href },
+        { id: '2', name: '风格2', url: new URL(`../../assets/images/components/page-settings/theme-2.png`, import.meta.url).href },
+        { id: '3', name: '风格3', url: new URL(`../../assets/images/components/page-settings/theme-3.png`, import.meta.url).href },
+        { id: '4', name: '风格4', url: new URL(`../../assets/images/components/page-settings/theme-4.png`, import.meta.url).href },
+        { id: '5', name: '风格5', url: new URL(`../../assets/images/components/page-settings/theme-5.png`, import.meta.url).href },
+    ],
+    bottom_navigation: [
+        { name: '显示', value: '1' },
+        { name: '隐藏', value: '0' },
+    ],
+});
+
+const emit = defineEmits(['update:change-theme']);
+const themeChange = (val: string) => {
+    emit('update:change-theme', val);
 };
 </script>
-<style lang="scss" scoped>
-.auxiliary-line {
-    width: 100%;
-    height: 100%;
-}
-</style>
+<style lang="scss" scoped></style>

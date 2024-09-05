@@ -1,0 +1,141 @@
+.content-scrollbar {
+    height: calc(100vh - 13.8rem);
+    margin: 0 -1.6rem;
+    .left-content {
+        .img-scrollbar {
+            display: flex;
+            justify-content: center;
+            .img-container {
+                max-width: 80rem;
+                min-width: 30rem;
+                height: calc(100vh - 25.8rem);
+                position: relative;
+                padding: 0.8rem;
+                .img {
+                    user-select: none;
+                    cursor: crosshair;
+                }
+                .area {
+                    position: absolute;
+                    background: rgba(41, 128, 185, 0.3);
+                    border: 1px dashed #34495e;
+                    width: 0px;
+                    height: 0px;
+                    left: 0px;
+                    top: 0px;
+                    display: none;
+                }
+                .area-box {
+                    position: absolute;
+                    background: rgba(42, 148, 255, 0.25);
+                    border: 1px dashed #8ec6ff;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    color: #1989fa;
+                    font-size: 1.2rem;
+                    cursor: move;
+                    transition: transform 0.1s;
+                    .del-btn {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        background: #1890ff;
+                        color: #fff;
+                        text-align: center;
+                        border-radius: 0 0 0 0.3rem;
+                        position: absolute;
+                        right: 0.7rem;
+                        top: 0.7rem;
+                        transform: translate3d(50%, -50%, 0);
+                        cursor: default;
+                        width: 1.6rem;
+                        height: 1.6rem;
+                        line-height: 1.6rem;
+                        z-index: 1;
+                        i {
+                            font-size: 0.9rem;
+                        }
+                    }
+                    .drag-btn {
+                        position: absolute;
+                        width: 7px;
+                        height: 7px;
+                        background: #f0f0f0;
+                        border: 1px solid #333;
+                        z-index: 1;
+                    }
+                    .drag-tl {
+                        left: -0.4rem;
+                        top: -0.4rem;
+                        cursor: nw-resize;
+                    }
+                    .drag-tc {
+                        left: 50%;
+                        top: -0.4rem;
+                        transform: translateX(-50%);
+                        cursor: n-resize;
+                    }
+                    .drag-lc {
+                        left: -0.4rem;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        cursor: w-resize;
+                    }
+                    .drag-bl {
+                        left: -0.4rem;
+                        bottom: -0.4rem;
+                        cursor: sw-resize;
+                    }
+                    .drag-bc {
+                        left: 50%;
+                        bottom: -0.4rem;
+                        transform: translateX(-50%);
+                        cursor: s-resize;
+                    }
+                    .drag-br {
+                        right: -0.4rem;
+                        bottom: -0.4rem;
+                        cursor: se-resize;
+                    }
+                    .drag-rc {
+                        right: -0.4rem;
+                        top: 50%;
+                        transform: translateY(-50%);
+                        cursor: e-resize;
+                    }
+                    .text {
+                        overflow: hidden;
+                        display: flex;
+                        flex-wrap: wrap;
+                        justify-content: center;
+                        max-width: 100%;
+                        max-height: 100%;
+                        text-align: center;
+                        align-items: center;
+                        color: #fff;
+                        font-size: 1.2rem;
+                        .name {
+                            color: #fff;
+                            margin: 0 0.2rem;
+                        }
+                        .status {
+                            margin: 0 0.2rem;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    .right-content {
+        .item {
+            max-width: 47.8rem;
+            .name {
+                width: 9.8rem;
+            }
+            .add_hot {
+                width: 8.8rem;
+            }
+        }
+    }
+}

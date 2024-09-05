@@ -4,100 +4,126 @@
         <div class="flex-row jc-e gap-20 mb-20">
             <el-input v-model="search_value" placeholder="请输入搜索内容" class="search-w" @change="handle_search">
                 <template #suffix>
-                    <icon name="search" size="16" color="9"></icon>
+                    <icon name="search" size="16" color="9" class="c-pointer" @click="handle_search"></icon>
                 </template>
             </el-input>
         </div>
         <div class="content">
-            <el-table :data="tableData" class="w" :header-cell-style="{ background: '#f7f7f7' }" row-key="id" height="438" fixed @row-click="row_click">
-                <el-table-column label="#" width="120" type="">
+            <el-table :data="tableData" class="w" :header-cell-style="{ background: '#f7f7f7' }" row-key="id" height="438" fixed @row-click="row_click" @select="handle_select" @select-all="handle_select">
+                <el-table-column v-if="multiple" type="selection" width="60" />
+                <el-table-column v-else label="#" width="60" type="">
                     <template #default="scope">
                         <el-radio v-model="template_selection" :label="scope.$index + ''">&nbsp;</el-radio>
                     </template>
                 </el-table-column>
-                <el-table-column prop="id" label="ID" width="180" type="" />
+                <el-table-column prop="id" label="ID" width="80" type="" />
+                <el-table-column prop="logo" label="封面" width="100" type="">
+                    <template #default="scope">
+                        <div class="flex-row align-c gap-10">
+                            <image-empty v-if="scope.row.logo" v-model="scope.row.logo" class="img"></image-empty>
+                            <div class="flex-1">{{ scope.row.title }}</div>
+                        </div>
+                    </template>
+                </el-table-column>
                 <el-table-column prop="name" label="页面名称" />
-                <el-table-column prop="link" label="页面链接" />
+                <template #empty>
+                    <no-data></no-data>
+                </template>
             </el-table>
             <div class="mt-10 flex-row jc-e">
-                <el-pagination :current-page="page" :page-size="21" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="get_list" />
+                <el-pagination :current-page="page" background :page-size="page_size" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="get_list" />
             </div>
         </div>
     </div>
 </template>
 <script lang="ts" setup>
+import UrlValueAPI from '@/api/url-value';
 const props = defineProps({
+    type: {
+        type: String,
+        default: () => '',
+    },
     // 重置
     reset: {
+        type: Boolean,
+        default: () => false,
+    },
+    multiple: {
         type: Boolean,
         default: () => false,
     },
 });
 watch(
     () => props.reset,
-    () => {
-        template_selection.value = '';
+    (val) => {
+        if (val) {
+            init();
+        }
     }
 );
+onMounted(() => {
+    init();
+});
 const modelValue = defineModel({ type: Object, default: {} });
-interface User {
-    id: number;
-    name: string;
-    link: string;
-}
-const tableData: User[] = [
-    {
-        id: 1,
-        name: '一级分类',
-        link: 'a',
-    },
-    {
-        id: 3,
-        name: '一级分类',
-        link: 'c',
-    },
-    {
-        id: 4,
-        name: '一级分类',
-        link: 'd',
-    },
-    {
-        id: 5,
-        name: '一级分类',
-        link: 'e',
-    },
-];
+const tableData = ref<pageLinkList[]>([]);
 const search_value = ref('');
+
+const init = () => {
+    template_selection.value = '';
+    search_value.value = '';
+    get_list(1);
+};
 const handle_search = () => {
-    console.log(search_value.value);
+    get_list(1);
 };
 const emit = defineEmits(['update:link']);
 const template_selection = ref('');
-
-const row_click = (row: any) => {
-    const new_table_data = JSON.parse(JSON.stringify(tableData));
-    template_selection.value = new_table_data.findIndex((item: User) => item.id == row.id).toString();
-    modelValue.value = row;
-};
 //#region 分页 -----------------------------------------------start
-// 总页数
-// const page_total = ref(0);
 // 当前页
 const page = ref(1);
+// 每页数量
+const page_size = ref(30);
 // 总数量
 const data_total = ref(0);
-
 // 查询文件
-const search_data = ref({
-    page: page.value,
-    type: '',
-    name: search_value.value,
-});
-// 查询文件
-const get_list = () => {
-    console.log('查询接口', search_data);
+const get_list = (new_page: number) => {
+    const new_data = {
+        page: new_page,
+        page_size: page_size.value,
+        keywords: search_value.value,
+    };
+    if (props.type == 'diy') {
+        UrlValueAPI.getDiyList(new_data).then((res: any) => {
+            tableData.value = res.data.data_list;
+            data_total.value = res.data.data_total;
+            page.value = res.data.page;
+        });
+    } else if (props.type == 'design') {
+        UrlValueAPI.getDesignList(new_data).then((res: any) => {
+            tableData.value = res.data.data_list;
+            data_total.value = res.data.data_total;
+            page.value = res.data.page;
+        });
+    } else if (props.type == 'custom-view') {
+        UrlValueAPI.getCustomList(new_data).then((res: any) => {
+            tableData.value = res.data.data_list;
+            data_total.value = res.data.data_total;
+            page.value = res.data.page;
+        });
+    }
 };
 //#region 分页 -----------------------------------------------end
+
+const row_click = (row: any) => {
+    if (!props.multiple) {
+        const new_table_data = JSON.parse(JSON.stringify(tableData.value));
+        template_selection.value = new_table_data.findIndex((item: pageLinkList) => item.id == row.id).toString();
+        modelValue.value = [row];
+    }
+};
+const handle_select = (selection: any) => {
+    modelValue.value = selection;
+};
 </script>
 <style lang="scss" scoped>
 .container {
@@ -110,7 +136,6 @@ const get_list = () => {
         }
         .img {
             width: 3.6rem;
-            height: 3.6rem;
         }
     }
 }

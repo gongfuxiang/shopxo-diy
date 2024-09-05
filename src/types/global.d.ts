@@ -3,25 +3,38 @@ declare global {
     interface arrayIndex {
         [key: string]: any;
     }
+    interface select_1 {
+        id: string | number;
+        name: string;
+    }
+    interface select_2 {
+        value: string | number;
+        name: string;
+        checked?: boolean;
+    }
     // 可视化数据
     interface commonComponentData {
         src: string;
         name: string;
         key: string;
     }
+    interface color_list {
+        color: string;
+        color_percentage: number | undefined;
+    }
     /**
      * 渐变色参数集合
      */
     interface gradientStyle {
-        color_list: string[];
+        color_list: color_list[];
         direction: string;
     }
     /**
      * 内边距的参数集合
      */
-    type internalKeys = 'padding' | 'padding_bottom' | 'padding_top' | 'padding_left' | 'padding_right';
-    type internalStyle = {
-        [key in internalKeys]: number;
+    type paddingKeys = 'padding' | 'padding_bottom' | 'padding_top' | 'padding_left' | 'padding_right';
+    type paddingStyle = {
+        [key in paddingKeys]: number;
     };
     /**
      * 内边距的参数集合
@@ -49,7 +62,7 @@ declare global {
         box_shadow_spread: number;
     };
     // 图片/视频/文件的数据类型
-    export interface uploadList {
+    type uploadList = {
         id?: number;
         url: string;
         original?: string;
@@ -58,12 +71,12 @@ declare global {
         size?: number;
         type?: string;
         error?: boolean;
-    }
+    };
     /**
      * 背景图
      */
     type backgroundImgUrlStyle = {
-        background_img_url: uploadList[];
+        background_img: uploadList[];
         background_img_style: number;
     };
 
@@ -71,7 +84,7 @@ declare global {
      * 通用样式参数
      */
     type componentsCommonCommonStyle = {
-        color_list: string[];
+        color_list: color_list[];
         direction: string;
         background_img_style: number;
         padding: number;
@@ -94,14 +107,39 @@ declare global {
         box_shadow_y: number;
         box_shadow_blur: number;
         box_shadow_spread: number;
-        background_img_url: uploadList[];
+        background_img: uploadList[];
+    };
+    /**
+     * 链接参数
+     */
+    type pageLinkList = {
+        id?: string;
+        name?: string;
+        type?: string;
+        page?: string;
+        data?: pageLinkList[];
+        items?: pageLinkList[];
+        icon?: string;
+        link?: string;
+        lng?: number;
+        lat?: number;
+        hasChildren?: boolean;
+        children?: pageLinkList[];
+    };
+
+    // 分类树结构
+    type urlValue = {
+        goods_category: any[];
+        brand_list: any[];
+        brand_category: any[];
+        article_category_list: any[];
+        page_link_list: pageLinkList[];
     };
 
     /**
      * 热区参数
      */
     type hotData = {
-        img: string;
         img_width: number;
         img_height: number;
         data: hotListData[];
@@ -116,7 +154,7 @@ declare global {
         drag_start: rectCoords;
         drag_end: rectCoords;
         name: string;
-        link: object;
+        link: pageLinkList;
     };
 }
 export {};

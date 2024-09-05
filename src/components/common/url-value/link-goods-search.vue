@@ -17,7 +17,7 @@
                         <el-scrollbar height="420px">
                             <div v-for="(item, index) in goods_category_data" :key="item.id" class="item flex-row jc-c align-c gap-10 pa-10" :class="one_item_index === index + 1 ? 'active' : ''" @click="goods_item_click(item, 1, index)">
                                 <text class="flex-1 flex-width text-line-1">{{ item.name }}</text>
-                                <icon v-if="item?.children" name="arrow-right"></icon>
+                                <icon v-if="item?.items" name="arrow-right"></icon>
                             </div>
                         </el-scrollbar>
                     </div>
@@ -25,7 +25,7 @@
                         <el-scrollbar height="420px">
                             <div v-for="(item, index) in two_item_data" :key="item.id" class="item flex-row jc-c align-c gap-10 pa-10" :class="two_item_index === index + 1 ? 'active' : ''" @click="goods_item_click(item, 2, index)">
                                 <text class="flex-1 flex-width text-line-1">{{ item.name }}</text>
-                                <icon v-if="item?.children" name="arrow-right"></icon>
+                                <icon v-if="item?.items" name="arrow-right"></icon>
                             </div>
                         </el-scrollbar>
                     </div>
@@ -62,6 +62,8 @@
 </template>
 <script lang="ts" setup>
 import type { FormInstance, FormRules } from 'element-plus';
+import { commonStore } from '@/store';
+const common_store = commonStore();
 const props = defineProps({
     status: {
         type: Boolean,
@@ -81,65 +83,52 @@ watch(
 );
 watch(
     () => props.reset,
-    () => {
-        reset_data();
-        custom_type_active.value = 0;
+    (val) => {
+        if (val) {
+            init();
+        }
     }
 );
-const emit = defineEmits(['update:link', 'required', 'type']);
-interface customType {
-    id: number;
-    name: string;
-}
-const custom_type = ref<customType[]>([
+const emit = defineEmits(['update:link', 'type']);
+
+onMounted(() => {
+    init();
+});
+const reset_data = () => {
+    one_item_index.value = 0;
+    one_item_text.value = '';
+    two_item_index.value = 0;
+    two_item_text.value = '';
+    three_item_index.value = 0;
+    three_item_text.value = '';
+    two_item_data.value = [];
+    brand_item_index.value = 0;
+    form.key = '';
+};
+
+const brand_data = ref<pageLinkList[]>([]);
+const init = () => {
+    reset_data();
+    custom_type_active.value = 0;
+    goods_category_data.value = common_store.common.goods_category;
+    brand_data.value = common_store.common.brand_list;
+};
+const custom_type = [
     { id: 0, name: '商品分类' },
     { id: 1, name: '品牌' },
     { id: 2, name: '关键字' },
-]);
-interface baseData {
-    id: number;
-    name: string;
-    children?: baseData[];
-}
-const goods_category_data = reactive<baseData[]>([
-    {
-        id: 0,
-        name: '服饰鞋包',
-        children: [
-            {
-                id: 1,
-                name: '服饰',
-                children: [
-                    { id: 1, name: '上衣' },
-                    { id: 2, name: '裤子' },
-                ],
-            },
-            {
-                id: 2,
-                name: '鞋包',
-                children: [
-                    { id: 1, name: '休闲鞋' },
-                    { id: 2, name: '商务休闲鞋' },
-                ],
-            },
-        ],
-    },
-    { id: 1, name: '家居生活', children: [{ id: 1, name: '生活用品' }] },
-    { id: 2, name: '母婴' },
-]);
-const brand_data = reactive<baseData[]>([
-    { id: 1, name: '品牌1' },
-    { id: 2, name: '品牌2' },
-]);
+];
 const custom_type_active = ref(0);
 const custom_type_event = (item: any) => {
     custom_type_active.value = item.id;
     emit('type', item.id);
 };
 //#region 商品分类  -----------------------------------------------start
+// 商品分类
+const goods_category_data = ref<pageLinkList[]>([]);
 const check_data = ref({});
-const two_item_data = ref<baseData[]>([]);
-const three_item_data = ref<baseData[]>([]);
+const two_item_data = ref<pageLinkList[]>([]);
+const three_item_data = ref<pageLinkList[]>([]);
 const one_item_index = ref(0);
 const two_item_index = ref(0);
 const three_item_index = ref(0);
@@ -147,10 +136,10 @@ const one_item_text = ref('');
 const two_item_text = ref('');
 const three_item_text = ref('');
 // 商品项点击事件
-const goods_item_click = (item: baseData, level: number, index: number) => {
+const goods_item_click = (item: pageLinkList, level: number, index: number) => {
     if (level === 1) {
         one_item_index.value = index + 1;
-        one_item_text.value = item.name;
+        one_item_text.value = item.name || '';
         two_item_index.value = 0;
         two_item_text.value = '';
         three_item_index.value = 0;
@@ -159,19 +148,19 @@ const goods_item_click = (item: baseData, level: number, index: number) => {
         three_item_data.value = [];
     } else if (level === 2) {
         two_item_index.value = index + 1;
-        two_item_text.value = item.name;
+        two_item_text.value = item.name || '';
         three_item_index.value = 0;
         three_item_text.value = '';
         three_item_data.value = [];
     } else {
         three_item_index.value = index + 1;
-        three_item_text.value = item.name;
+        three_item_text.value = item.name || '';
     }
-    if (item.children && item.children.length > 0) {
+    if (item.items && item.items.length > 0) {
         if (level === 1) {
-            two_item_data.value = item.children;
+            two_item_data.value = item.items;
         } else if (level === 2) {
-            three_item_data.value = item.children;
+            three_item_data.value = item.items;
         }
     } else {
         check_data.value = item;
@@ -197,37 +186,19 @@ const rules = ref<FormRules>({
     key: [{ required: true, trigger: 'change', message: '关键词不能为空' }],
 });
 const ruleFormRef = ref<FormInstance>();
-interface formType {
-    id?: number;
-    name: string;
-    link: string;
-}
 const on_submit = () => {
     if (!ruleFormRef.value) return;
     ruleFormRef.value.validate((valid: boolean) => {
         if (valid) {
-            let new_value: formType = {
+            let new_value: pageLinkList = {
                 name: form.key,
                 link: form.key,
             };
             emit('update:link', new_value, 2);
-        } else {
-            emit('required');
         }
     });
 };
 //#endregion 关键字  -----------------------------------------------end
-const reset_data = () => {
-    one_item_index.value = 0;
-    one_item_text.value = '';
-    two_item_index.value = 0;
-    two_item_text.value = '';
-    three_item_index.value = 0;
-    three_item_text.value = '';
-    two_item_data.value = [];
-    brand_item_index.value = 0;
-    form.key = '';
-};
 </script>
 <style lang="scss" scoped>
 .container {

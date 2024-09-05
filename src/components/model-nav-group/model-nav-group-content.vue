@@ -1,30 +1,30 @@
 <template>
     <div class="auxiliary-line common-content-height">
         <el-form :model="form" label-width="70">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="导航样式">
-                    <el-radio-group v-model="form.nav_style" class="ml-4">
+                    <el-radio-group v-model="form.nav_style">
                         <el-radio value="image_with_text">图片加文字</el-radio>
                         <el-radio value="image">图片</el-radio>
                         <el-radio value="text">文字</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="单行显示">
-                    <el-radio-group v-model="form.single_line" class="ml-4">
+                    <el-radio-group v-model="form.single_line">
                         <el-radio :value="3">3个</el-radio>
                         <el-radio :value="4">4个</el-radio>
                         <el-radio :value="5">5个</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="展示样式">
-                    <el-radio-group v-model="form.display_style" class="ml-4">
+                    <el-radio-group v-model="form.display_style">
                         <el-radio value="fixed">固定显示</el-radio>
                         <el-radio value="slide">分页滑动</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item v-if="form.display_style === 'slide'" label="显示行数">
-                    <el-radio-group v-model="form.row" class="ml-4">
+                    <el-radio-group v-model="form.row">
                         <el-radio :value="1">1行</el-radio>
                         <el-radio :value="2">2行</el-radio>
                         <el-radio :value="3">3行</el-radio>
@@ -32,19 +32,20 @@
                     </el-radio-group>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="divider-line"></div>
+            <card-container>
                 <div class="mb-12">内容设置</div>
                 <div class="tips mt-10 mb-20 size-12">最多添加{{ form.nav_content_list.length }}张图片，建议尺寸90*90px</div>
                 <drag :data="form.nav_content_list" type="card" :space-col="27" @remove="remove" @on-sort="on_sort">
                     <template #default="scoped">
                         <div class="flex-row align-c jc-c">
-                            <upload v-model="scoped.row.nav_image" :limit="1" size="72"></upload>
+                            <upload v-model="scoped.row.img" :limit="1" size="72"></upload>
                             <div class="flex-col align-c jc-c gap-20">
-                                <el-form-item label="标题" class="mb-0">
+                                <el-form-item label="标题" class="mb-0" label-width="50">
                                     <el-input v-model="scoped.row.title" placeholder="请输入标题" maxlength="4" show-word-limit></el-input>
                                 </el-form-item>
-                                <el-form-item label="链接" class="w mb-0">
-                                    <url-value v-model="scoped.row.title_link"></url-value>
+                                <el-form-item label="链接" class="w mb-0" label-width="50">
+                                    <url-value v-model="scoped.row.link"></url-value>
                                 </el-form-item>
                             </div>
                         </div>
@@ -70,27 +71,27 @@ const props = withDefaults(defineProps<Props>(),{
         nav_content_list: [
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
-                nav_image: [],
+                img: [],
                 title: '',
-                title_link: '',
+                link: {},
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
-                nav_image: [],
+                img: [],
                 title: '',
-                title_link: '',
+                link: {},
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
-                nav_image: [],
+                img: [],
                 title: '',
-                title_link: '',
+                link: {},
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
-                nav_image: [],
+                img: [],
                 title: '',
-                title_link: '',
+                link: {},
             }
         ]
     })
@@ -103,9 +104,9 @@ const { form } = toRefs(state);
 const add = () => {
     form.value.nav_content_list.push({
         id: get_math(),
-        nav_image: [],
+        img: [],
         title: '',
-        title_link: '',
+        link: {},
     });
 }
 const remove = (index: number) => {

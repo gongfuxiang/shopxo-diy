@@ -1,16 +1,17 @@
 <template>
     <div class="container">
         <el-form :model="form" label-width="70">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">颜色设置</div>
-                <el-form-item label="选中文本">
-                    <color-picker v-model="form.text_color_checked" default-color="rgba(204, 204, 204, 1)" @update:value="text_color_checked_event" />
-                </el-form-item>
                 <el-form-item label="默认文本">
                     <color-picker v-model="form.default_text_color" default-color="rgba(0, 0, 0, 1)" @update:value="default_text_color_event" />
                 </el-form-item>
+                <el-form-item label="选中文本">
+                    <color-picker v-model="form.text_color_checked" default-color="rgba(204, 204, 204, 1)" @update:value="text_color_checked_event" />
+                </el-form-item>
             </card-container>
         </el-form>
+        <div class="divider-line"></div>
         <common-styles :value="form.common_style" @update:value="common_styles_update" />
     </div>
 </template>

@@ -2,12 +2,16 @@
     <div class="footer-nav flex-row jc-c align-c" :class="showFooter ? 'br-2 br-primary' : ''" @click="footer_nav_event">
         <div class="footer-nav-content flex-row jc-c align-c w" :style="style_container">
             <ul class="flex-row jc-sa align-c w">
-                <li v-for="(item, index) in footerData.content.nav_content" :key="index" class="flex-1 flex-col jc-c align-c gap-5" @mouseenter="is_hover = index + 1" @mouseleave="is_hover = 0">
+                <li v-for="(item, index) in footerData?.content?.nav_content" :key="index" class="flex-1 flex-col jc-c align-c gap-5" @mouseenter="is_hover = index" @mouseleave="is_hover = 0">
                     <div v-if="footerData.content.nav_style !== '2'" class="img re">
-                        <img class="img-item abs radius-xs animate-linear w" :class="is_hover != index + 1 ? 'active' : ''" :src="item.src[0]?.url" width="22" height="22" />
-                        <img class="img-item abs radius-xs animate-linear w" :class="is_hover == index + 1 ? 'active' : ''" :src="item.src_checked[0]?.url" width="22" height="22" />
+                        <div class="img-item abs radius-xs animate-linear w" :class="is_hover != index ? 'active' : ''">
+                            <image-empty v-model="item.img[0]" error-img-style="width:1.5rem;height:1.5rem;"></image-empty>
+                        </div>
+                        <div class="img-item abs radius-xs animate-linear w" :class="is_hover == index ? 'active' : ''">
+                            <image-empty v-model="item.img_checked[0]" error-img-style="width:1.5rem;height:1.5rem;"></image-empty>
+                        </div>
                     </div>
-                    <span v-if="footerData.content.nav_style !== '1'" class="animate-linear size-12" :style="is_hover == index + 1 ? text_color_checked : default_text_color">{{ item.name }}</span>
+                    <span v-if="footerData.content.nav_style !== '1'" class="animate-linear size-12 re z-i" :style="is_hover == index ? text_color_checked : default_text_color">{{ item.name }}</span>
                 </li>
             </ul>
         </div>
@@ -15,7 +19,7 @@
 </template>
 <script setup lang="ts">
 import { common_styles_computer } from '@/utils';
-import { footerNavCounterStore } from '@/store/modules/footer-nav-content';
+import { footerNavCounterStore } from '@/store';
 const footer_nav_counter_store = footerNavCounterStore();
 const props = defineProps({
     showFooter: {
@@ -69,6 +73,8 @@ const footer_nav_event = () => {
             width: 2rem;
             height: 2rem;
             .img-item {
+                width: 2.2rem;
+                height: 2.2rem;
                 opacity: 0;
                 &.active {
                     opacity: 1;
@@ -78,6 +84,13 @@ const footer_nav_event = () => {
     }
 }
 .br-2 {
-    border: 0.2rem solid $cr-main;
+    &::before {
+        content: '';
+        position: absolute;
+        border: 0.2rem solid $cr-main;
+        inset: 0;
+        width: calc(100% + 0.4rem);
+        height: calc(100% + 0.4rem);
+    }
 }
 </style>

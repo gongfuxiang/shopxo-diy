@@ -25,15 +25,15 @@
         >
             <swiper-slide v-for="(item, index) in form.carousel_list" :key="index">
                 <div class="item-image flex jc-c align-c w h" :style="img_style">
-                    <image-empty v-model="item.carousel_img[0]"></image-empty>
+                    <image-empty v-model="item.carousel_img[0]" :style="img_style" :fit="img_fit" error-style="width:5rem;height:5rem"></image-empty>
                 </div>
             </swiper-slide>
             <swiper-slide v-for="(item, index1) in seat_list" :key="index1">
                 <div class="item-image flex jc-c align-c w h" :style="img_style">
-                    <image-empty v-model="item.carousel_img[0]"></image-empty>
+                    <image-empty v-model="item.carousel_img[0]" :style="img_style" :fit="img_fit" error-style="width:5rem;height:5rem"></image-empty>
                 </div>
             </swiper-slide>
-            <div v-if="new_style.is_show" :class="{'dot-center': new_style.indicator_location == 'center', 'dot-right': new_style.indicator_location == 'flex-end' }" class="dot flex abs">
+            <div v-if="new_style.is_show == '1'" :class="{'dot-center': new_style.indicator_location == 'center', 'dot-right': new_style.indicator_location == 'flex-end' }" class="dot flex abs">
                 <template v-if="new_style.indicator_style == 'num'">
                     <div :style="indicator_style" class="dot-item">
                         <span class="num-active">{{ actived_index + 1 }}</span><span>/{{ form.carousel_list.length }}</span>
@@ -116,7 +116,7 @@ const seat_list = computed(() => {
     }
 })
 // 轮播图自适应高度 
-const newHeight = computed(() => form.value.height + 'px');
+const newHeight = computed(() => new_style.value.height + 'px');
 // 轮播图样式
 const interval_type = ref('');
 // 轮播图key值
@@ -129,7 +129,7 @@ const img_fit = computed(() => form.value.img_fit );
 // 记录当前显示的轮播图的数据
 const interval_list = ref({
     time: 2000,
-    is_roll: false,
+    is_roll: '0',
     interval_type: '',
     length: 0
 })
@@ -139,14 +139,14 @@ const interval_types = computed(() => interval_type.value == 'card' );
 // 监听参数的使用
 watchEffect(() => {
     //#region 轮播图设置
-    const time = (new_style.value?.interval_time || 2) * 1000;
-    const display_is_roll = new_style.value.is_roll;
+    const time = (form.value?.interval_time || 2) * 1000;
+    const display_is_roll = form.value.is_roll;
     const type = form.value.carousel_type;
     const carousel_length = form.value.carousel_list.length;
     // 判断跟历史的是否相等，不相等更新组件时间
     if (interval_list.value.time != time || interval_list.value.is_roll != display_is_roll || interval_list.value.interval_type != type || interval_list.value.length != carousel_length) {
         // 是否滚动
-        if (display_is_roll) {
+        if (display_is_roll == '1') {
             autoplay.value = {
                 delay: time,
                 pauseOnMouseEnter: true,
@@ -183,16 +183,6 @@ const slideChange = (swiper: { realIndex: number }) => {
 }
 </script>
 <style lang="scss" scoped>
-.top-img {
-    height: 5rem;
-    width: 5rem;
-    background: #F5FBFF;
-    border-radius: 4px;
-    :deep(.image-slot img) {
-        width: 3.5rem;
-        height: 3.5rem
-    }
-}
 .dot-center {
     left: 50%;
     transform: translateX(-50%);
@@ -231,9 +221,6 @@ const slideChange = (swiper: { realIndex: number }) => {
     .item-image {
         background: #F8FDFF;
         height: v-bind(newHeight);
-        :deep(.el-image__inner) {
-            object-fit: v-bind(img_fit);
-        }
     }
 }
 </style>

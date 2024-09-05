@@ -1,6 +1,6 @@
 <template>
     <div class="w h bg-f">
-        <el-form :model="form" label-width="80">
+        <el-form :model="form" label-width="70">
             <card-container class="">
                 <div class="mb-12">线条设置</div>
                 <el-form-item label="竖线横线">
@@ -32,7 +32,7 @@
                     <color-picker v-model="form.line_color" default-color="#FF3F3F"></color-picker>
                 </el-form-item>
                 <el-form-item label="是否置底">
-                    <el-switch v-model="form.bottom_up" />
+                    <el-switch v-model="form.bottom_up" active-value="1" inactive-value="0" />
                 </el-form-item>
             </card-container>
         </el-form>
@@ -69,7 +69,10 @@ watch(diy_data, (val) => {
 
     diy_data.value.location.x = location_compute(width, val.location.x, 390);
     diy_data.value.location.y = location_compute(height, val.location.y, center_height.value);
-    diy_data.value.location.staging_y = diy_data.value.location.y;
+
+    diy_data.value.location.record_x = location_compute(width, val.location.record_x, 390);
+    diy_data.value.location.record_y = location_compute(height, val.location.record_y, center_height.value);
+    diy_data.value.location.staging_y = location_compute(height, val.location.staging_y, center_height.value);
 
     form.value.com_width = width;
     form.value.com_height = height;

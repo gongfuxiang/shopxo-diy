@@ -1,17 +1,18 @@
 <template>
-    <div class="auxiliary-line common-content-height">
+    <div class="w h">
         <el-form :model="form" label-width="60">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">展示风格</div>
                 <el-form-item label="选择风格">
                     <div class="flex align-c flex-wrap gap-10">
                         <div v-for="(item, index) in style_list" :key="index" :class="['flex-item', {'flex-item-actived': form.style_actived === index }]" @click="style_click(index)">
-                            <icon :name="item" :color="`${ form.style_actived === index ? '#E1EEF9' : '#EDEDED'}`" size="48"></icon>
+                            <icon :name="item" :color="`${ form.style_actived === index ? '#E1EEF9' : '#EDEDED'}`" size="30"></icon>
                         </div>
                     </div>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="bg-f5 divider-line" />
+            <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label-width="0" class="show-config">
                     <!-- 风格3 -->
@@ -48,11 +49,12 @@
                     </template>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="bg-f5 divider-line" />
+            <card-container>
                 <div class="mb-12">内容设置</div>
                 <template v-if="!isEmpty(form.img_magic_list[selected_active])">
                     <el-form-item label="上传图片">
-                        <upload v-model="form.img_magic_list[selected_active].img" :limit="1" size="40"></upload>
+                        <upload v-model="form.img_magic_list[selected_active].img" :limit="1" size="50"></upload>
                     </el-form-item>
                     <el-form-item label="链接">
                         <url-value v-model="form.img_magic_list[selected_active].img_link"></url-value>
@@ -93,16 +95,6 @@ const cubeHeight = ref(400);
 const style_width = computed(() => cubeWidth.value + 'px');
 const style_height = computed(() => cubeHeight.value + 'px');
 
-function handleResize() {
-    if (window.innerWidth <= 1540) {
-        cubeWidth.value = 330;
-        cubeHeight.value = 330;
-    } else {
-        cubeWidth.value = 390;
-        cubeHeight.value = 390;
-    }
-}
-
 onMounted(() => {
     handleResize();
     window.addEventListener('resize', handleResize);
@@ -111,6 +103,16 @@ onMounted(() => {
 onUnmounted(() => {
     window.removeEventListener('resize', handleResize);
 });
+
+const handleResize = () => {
+    if (window.innerWidth <= 1560) {
+        cubeWidth.value = 330;
+        cubeHeight.value = 330;
+    } else {
+        cubeWidth.value = 390;
+        cubeHeight.value = 390;
+    }
+}
 //#endregion
 const selected_active = ref(0);
 const state = reactive({
@@ -134,8 +136,8 @@ const selected_click = (index: number) => {
     }
 }
 .flex-item {
-    width: 7.6rem;
-    height: 7.6rem;
+    width: 4.7rem;
+    height: 4.7rem;
     background: #F7F7F7;
     border-radius: 0.4rem;
     border: 1px solid #E4E4E4;

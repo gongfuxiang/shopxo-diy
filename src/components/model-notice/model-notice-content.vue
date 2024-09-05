@@ -1,45 +1,47 @@
 <template>
-    <div class="auxiliary-line common-content-height">
+    <div class="w h">
         <el-form :model="form" label-width="70">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选择风格">
-                    <el-radio-group v-model="form.notice_style" class="ml-4">
+                    <el-radio-group v-model="form.notice_style">
                         <el-radio value="inherit">样式一</el-radio>
                         <el-radio value="card">样式二</el-radio>
                     </el-radio-group>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="bg-f5 divider-line" />
+            <card-container>
                 <div class="mb-12">公告风格</div>
                 <el-form-item label="标题类型">
-                    <el-radio-group v-model="form.title_type" class="ml-4">
-                        <el-radio value="img">图片</el-radio>
+                    <el-radio-group v-model="form.title_type">
+                        <el-radio value="img-icon">图片/图标</el-radio>
                         <el-radio value="text">文字</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item v-if="!is_text" label="上传图片">
-                    <upload v-model="form.img_src" :limit="1" size="50"></upload>
+                    <upload v-model="form.img_src" v-model:icon-value="form.icon_class" is-icon :limit="1" size="50"></upload>
                 </el-form-item>
                 <el-form-item v-if="is_text" label="标题文字">
                     <el-input v-model="form.title" placeholder="请输入标题" maxlength="4" show-word-limit></el-input>
                 </el-form-item>
                 <template v-if="!is_card">
                     <el-form-item label="滚动方式">
-                        <el-radio-group v-model="form.direction" class="ml-4">
+                        <el-radio-group v-model="form.direction">
                             <el-radio value="vertical">上下滚动</el-radio>
                             <el-radio value="horizontal">左右滚动</el-radio>
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item label="间隔时间">
-                        <slider v-model="form.interval_time" :max="100"></slider>
+                        <slider v-model="form.interval_time" :min="1" :max="100"></slider>
                     </el-form-item>
                 </template>
             </card-container>
-            <card-container class="mb-8">
+            <div class="bg-f5 divider-line" />
+            <card-container>
                 <div class="mb-12">按钮设置</div>
                 <el-form-item label="右侧按钮">
-                    <el-radio-group v-model="form.is_right_button" class="ml-4">
+                    <el-radio-group v-model="form.is_right_button">
                         <el-radio value="show">显示</el-radio>
                         <el-radio value="hidden">隐藏</el-radio>
                     </el-radio-group>
@@ -48,19 +50,20 @@
                     <url-value v-model="form.more_link"></url-value>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="bg-f5 divider-line" />
+            <card-container>
                 <div class="mb-12">内容设置</div>
                 <drag :data="form.notice_list" type="card" :space-col="25" @remove="remove" @on-sort="on_sort">
                     <template #default="scoped">
                         <div class="flex-col align-c jc-s gap-20 flex-1">
-                            <el-form-item label="标题" class="w mb-0">
+                            <el-form-item label="标题" class="w mb-0" label-width="40">
                                 <el-input v-model="scoped.row.notice_title" placeholder="请输入标题" maxlength="20" show-word-limit></el-input>
                             </el-form-item>
-                            <el-form-item label="链接" class="w mb-0">
+                            <el-form-item label="链接" class="w mb-0" label-width="40">
                                 <url-value v-model="scoped.row.notice_link"></url-value>
                             </el-form-item>
-                            <el-form-item label="状态" class="w mb-0">
-                                <el-switch v-model="scoped.row.is_show"></el-switch>
+                            <el-form-item label="状态" class="w mb-0" label-width="40">
+                                <el-switch v-model="scoped.row.is_show" active-value="1" inactive-value="0"></el-switch>
                             </el-form-item>
                         </div>
                     </template>
@@ -91,7 +94,7 @@ const add = () => {
         id: get_math(),
         notice_title: '',
         notice_link: '',
-        is_show: true
+        is_show: '1'
     })
 }
 const remove = (index: number) => {

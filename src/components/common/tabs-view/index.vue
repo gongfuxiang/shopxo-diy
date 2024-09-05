@@ -1,12 +1,17 @@
 <template>
-    <div class="tabs flex-row oh">
-        <template v-for="(item, index) in tabs.content.tabs_list" :key="index">
-            <div class="item nowrap flex-col jc-c gap-4" :class="tabs_style + (index == 0 ? ' active' : '')">
-                <img class="img" src="@/assets/images/components/model-user-info/avatar.png" />
-                <div class="title" :style="index == 0 ? tabs_style_style.tabs_title_checked : tabs_style_style.tabs_title">{{ item.title }}</div>
-                <div class="desc">{{ item.desc }}</div>
-                <icon name="checked-1" class="icon"></icon>
-                <div class="bottom_line" :style="tabs_style_style.tabs_check"></div>
+    <div class="tabs flex-row oh" :style="`column-gap: ${ new_style.tabs_spacing }px;`">
+        <template v-for="(item, index) in form.tabs_list" :key="index">
+            <div class="item nowrap flex-col jc-c gap-4" :class="tabs_theme + (index == 0 ? ' active' : '')">
+                <template v-if="!isEmpty(item.img)">
+                    <image-empty v-model="item.img[0]" class="img" error-img-style="width:2rem;height:2rem;"></image-empty>
+                </template>
+                <template v-else>
+                    <image-empty class="img" error-img-style="width:2rem;height:2rem;"></image-empty>
+                </template>
+                <div class="title" :style="title_style(index)">{{ item.title }}</div>
+                <div class="desc" :style="tabs_theme_index == '1' && index == 0 ? tabs_check : ''">{{ item.desc }}</div>
+                <icon name="checked-1" class="icon" :style="tabs_theme_index == '3' ? icon_tabs_check() : ''"></icon>
+                <div class="bottom_line" :style="tabs_check"></div>
             </div>
         </template>
     </div>
@@ -14,47 +19,80 @@
 
 <script lang="ts" setup>
 import { gradient_computer } from '@/utils';
+import { isEmpty } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
         default: () => ({}),
     },
 });
-const tabs = ref(props.value);
-const tabs_style = computed(() => {
-    let tabs_style = '';
-    if (tabs.value.content.tabs_style == '1') {
-        tabs_style = 'tabs-style-2';
-    } else if (tabs.value.content.tabs_style == '2') {
-        tabs_style = 'tabs-style-3';
-    } else if (tabs.value.content.tabs_style == '3') {
-        tabs_style = 'tabs-style-4';
-    } else if (tabs.value.content.tabs_style == '4') {
-        tabs_style = 'tabs-style-5';
+// const tabs = ref(props.value);
+// 用于页面判断显示
+const state = reactive({
+    form: props.value.content,
+    new_style: props.value.style,
+});
+// 如果需要解构，确保使用toRefs
+const { form, new_style } = toRefs(state);
+
+// 选中的值
+const tabs_theme_index = computed(() => form.value.tabs_theme);
+//选中的样式
+const tabs_theme = computed(() => {
+    let tabs_theme = '';
+    if (form.value.tabs_theme == '1') {
+        tabs_theme = 'tabs-style-2';
+    } else if (form.value.tabs_theme == '2') {
+        tabs_theme = 'tabs-style-3';
+    } else if (form.value.tabs_theme == '3') {
+        tabs_theme = 'tabs-style-4';
+    } else if (form.value.tabs_theme == '4') {
+        tabs_theme = 'tabs-style-5';
     } else {
-        tabs_style = 'tabs-style-1';
+        tabs_theme = 'tabs-style-1';
     }
-    return tabs_style;
+    return tabs_theme;
 });
-const tabs_style_style = computed(() => {
+// 选中的背景渐变色样式
+const tabs_check = computed(() => {
     const new_gradient_params = {
-        color_list: tabs.value.style.tabs_checked,
-        direction: tabs.value.style.tabs_direction,
+        color_list: new_style.value.tabs_checked,
+        direction: new_style.value.tabs_direction,
     };
-    const new_style = {
-        tabs_check: gradient_computer(new_gradient_params),
-        tabs_title_checked: 'font-weight:' + tabs.value.style.tabs_weight_checked + ';' + 'font-size:' + tabs.value.style.tabs_size_checked + 'px;' + 'color:' + tabs.value.style.tabs_color_checked,
-        tabs_title: 'font-weight:' + tabs.value.style.tabs_weight + ';' + 'font-size:' + tabs.value.style.tabs_size + 'px;' + 'color:' + tabs.value.style.tabs_color,
-    };
-    return new_style;
+    return gradient_computer(new_gradient_params);
 });
+
+// 选中的内部样式
+const tabs_theme_style = computed(() => {
+    return {
+        tabs_title_checked: `font-weight: ${ new_style.value.tabs_weight_checked };font-size: ${ new_style.value.tabs_size_checked}px;color:${ new_style.value.tabs_color_checked };`,
+        tabs_title: `font-weight: ${ new_style.value.tabs_weight };font-size: ${ new_style.value.tabs_size}px;color:${ new_style.value.tabs_color };`,
+    };
+});
+
+const title_style = (index: number) => {
+    // 默认是未选中的状态
+    let style = `${ tabs_theme_style.value.tabs_title }`;
+    if (index == 0) {
+        let checked_style = tabs_theme_style.value.tabs_title_checked;
+        if (['2', '4'].includes(tabs_theme_index.value)) {
+            checked_style += tabs_check.value;
+        }
+        style = checked_style;
+    }
+    return style;
+};
+// icon的渐变色处理
+const icon_tabs_check = () => {
+    return `${ tabs_check.value };line-height: 1;background-clip: text;-webkit-background-clip: text;-webkit-text-fill-color: transparent;`;
+}
 </script>
 <style lang="scss" scoped>
 .tabs {
     max-width: 39rem;
     .item {
-        padding: 0.5rem 0;
-        margin: 0 1rem;
+        padding: 0 0 0.5rem 0;
+        // margin: 0 1rem;
         position: relative;
         &:first-of-type {
             margin-left: 0;
@@ -109,7 +147,7 @@ const tabs_style_style = computed(() => {
         &.tabs-style-2 {
             &.active {
                 .desc {
-                    background: red;
+                    background: #FF5E5E;
                     color: #fff;
                 }
             }
@@ -122,7 +160,7 @@ const tabs_style_style = computed(() => {
         &.tabs-style-3 {
             &.active {
                 .title {
-                    background: red;
+                    background: #FF2222;
                     border-radius: 2rem;
                     padding: 0.2rem 1.2rem;
                     color: #fff;
@@ -133,10 +171,10 @@ const tabs_style_style = computed(() => {
             padding-bottom: 1.8rem;
             &.active {
                 .title {
-                    color: red;
+                    color: #FF2222;
                 }
                 .icon {
-                    color: red;
+                    color: #FF2222;
                     display: block;
                 }
             }
@@ -146,13 +184,13 @@ const tabs_style_style = computed(() => {
             &.active {
                 .title {
                     font-size: 1.1rem;
-                    background: red;
+                    background: #FF5E5E;
                     border-radius: 2rem;
                     padding: 0.2rem 0.7rem;
                     color: #fff;
                 }
                 .img {
-                    border-color: red;
+                    border-color: #FF5E5E;
                 }
             }
             .img {

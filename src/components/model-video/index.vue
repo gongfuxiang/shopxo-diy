@@ -1,7 +1,12 @@
 <template>
     <div :style="style_container">
         <div class="video re" :style="style">
-            <video :poster="video_img" class="w h"></video>
+            <template v-if="video && !video_img">
+                <video :src="video" class="w h"></video>
+            </template>
+            <template v-else>
+                <image-empty v-model="video_img" error-img-style="width:60px;height:60px;"></image-empty>
+            </template>
             <img src="@/assets/images/components/model-video/video.png" class="middle box-shadow-sm round" width="60" height="60" />
         </div>
     </div>
@@ -18,12 +23,14 @@ const props = defineProps({
 const style = ref('');
 const style_container = ref('');
 const video_img = ref('');
+const video = ref('');
 watch(
     props.value,
     (newVal, oldValue) => {
         const new_content = newVal?.content || {};
         const new_style = newVal?.style || {};
-        video_img.value = new_content?.video_img[0]?.url;
+        video_img.value = new_content?.video_img[0]?.url || '';
+        video.value = new_content?.video[0]?.url || '';
 
         // 视频比例
         let video_ratio = ``;

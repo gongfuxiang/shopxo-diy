@@ -6,16 +6,20 @@ import router from './router';
 import Particles from 'vue3-particles';
 
 import common from '@/utils/common';
-import Vue3DraggableResizable from 'vue3-draggable-resizable'
 //default styles
-import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css'
+import Vue3DraggableResizable from 'vue3-draggable-resizable';
+import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css';
 
 import '@/styles/index.scss';
 const app = createApp(App);
 
 // 将common设置为全局
 app.config.globalProperties.$common = common;
-
+app.directive('focus', {
+    mounted(el) {
+        el.querySelector('input').focus();
+    },
+});
 app.use(router);
 app.use(Particles);
 app.use(Vue3DraggableResizable);

@@ -1,31 +1,30 @@
 <template>
     <div class="w h bg-f">
-        <el-form :model="form" label-width="80">
+        <el-form :model="form" label-width="70">
             <card-container>
                 <div class="mb-12">文本设置</div>
                 <el-form-item label="文本内容">
-                    <div class="flex-column w">
-                        <el-input v-model="form.text_title" placeholder="请输入链接" type="textarea" :rows="3"></el-input>
-                        <div class="flex-row align-c gap-10 mt-12">
-                            <el-select v-model="form.data_source_id" value-key="id" placeholder="请选择图片数据字段" size="default" class="flex-1">
-                                <el-option v-for="item in options" :key="item.id" :label="item.label" :value="item" />
-                            </el-select>
-                            <el-popover placement="top-start" :width="200" trigger="hover" content="this is content, this is content, this is content">
-                                <template #reference>
-                                    <icon name="tips" size="24"></icon>
-                                </template>
-                            </el-popover>
-                        </div>
-                    </div>
+                    <el-input v-model="form.text_title" placeholder="请输入文本内容" type="textarea" :rows="3" @input="text_change('1')"></el-input>
+                </el-form-item>
+                <el-form-item label="数据字段">
+                    <el-select v-model="form.data_source_id" value-key="id" clearable filterable placeholder="请选择图片数据字段" size="default" class="flex-1" @change="text_change('2')">
+                        <el-option v-for="item in options.filter((item) => item.type == 'text')" :key="item.field" :label="item.name" :value="item.field" />
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="链接">
                     <url-value v-model="form.text_link"></url-value>
+                </el-form-item>
+                <el-form-item label="富文本">
+                    <el-switch v-model="form.is_rich_text" active-value="1" inactive-value="0" />
+                </el-form-item>
+                <el-form-item v-if="form.is_rich_text == '1'" label="上下滚动">
+                    <el-switch v-model="form.is_up_down" active-value="1" inactive-value="0" />
                 </el-form-item>
                 <el-form-item label="文字颜色">
                     <color-picker v-model="form.text_color" default-color="#FF3F3F"></color-picker>
                 </el-form-item>
                 <el-form-item label="文字大小">
-                    <el-radio-group v-model="form.text_weight" class="ml-4">
+                    <el-radio-group v-model="form.text_weight">
                         <el-radio value="500">加粗</el-radio>
                         <el-radio value="normal">正常</el-radio>
                         <el-radio value="italic">倾斜</el-radio>
@@ -35,7 +34,7 @@
                     </el-form-item>
                 </el-form-item>
                 <el-form-item label="字符选项">
-                    <el-radio-group v-model="form.text_option" class="ml-4">
+                    <el-radio-group v-model="form.text_option">
                         <el-radio value="none"><span style="text-decoration: none">Aa</span></el-radio>
                         <el-radio value="underline"><span style="text-decoration: underline">Aa</span></el-radio>
                         <el-radio value="line-through"><span style="text-decoration: line-through">Aa</span></el-radio>
@@ -61,10 +60,10 @@
                     <slider v-model="form.text_rotate" :max="1000"></slider>
                 </el-form-item>
                 <el-form-item label="是否置底">
-                    <el-switch v-model="form.bottom_up" />
+                    <el-switch v-model="form.bottom_up" active-value="1" inactive-value="0" />
                 </el-form-item>
             </card-container>
-            <div class="bg-f5 partition-line" />
+            <div class="bg-f5 divider-line" />
             <card-container>
                 <div class="mb-12">容器设置</div>
                 <el-form-item label="容器宽度">
@@ -76,29 +75,29 @@
                 <el-form-item label="背景颜色">
                     <color-picker v-model="form.com_bg" default-color="#FF3F3F"></color-picker>
                 </el-form-item>
+                <el-form-item label="圆角">
+                    <radius :value="form.bg_radius" @update:value="bg_radius_change"></radius>
+                </el-form-item>
             </card-container>
-            <div class="bg-f5 partition-line" />
+            <div class="bg-f5 divider-line" />
             <card-container>
                 <div class="mb-12">边框设置</div>
                 <el-form-item label="边框显示">
-                    <el-radio-group v-model="form.border_show" class="ml-4">
-                        <el-radio :value="true">显示</el-radio>
-                        <el-radio :value="false">隐藏</el-radio>
+                    <el-radio-group v-model="form.border_show">
+                        <el-radio value="1">显示</el-radio>
+                        <el-radio value="0">隐藏</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <template v-if="form.border_show">
+                <template v-if="form.border_show == '1'">
                     <el-form-item label="边框颜色">
                         <color-picker v-model="form.border_color" default-color="#FF3F3F"></color-picker>
                     </el-form-item>
                     <el-form-item label="边框样式">
-                        <el-radio-group v-model="form.border_style" class="ml-4">
+                        <el-radio-group v-model="form.border_style">
                             <el-radio value="dashed"><div class="border-style-item" style="border: 1px dashed #979797"></div></el-radio>
                             <el-radio value="solid"><div class="border-style-item" style="border: 1px solid #979797"></div></el-radio>
                             <el-radio value="dotted"><div class="border-style-item" style="border: 1px dotted #979797"></div></el-radio>
                         </el-radio-group>
-                    </el-form-item>
-                    <el-form-item label="边框圆角">
-                        <radius :value="form.border_radius" @update:value="border_radius_change"></radius>
                     </el-form-item>
                     <el-form-item label="边框粗细">
                         <slider v-model="form.border_size" :max="1000"></slider>
@@ -110,7 +109,7 @@
 </template>
 <script setup lang="ts">
 import { location_compute } from '@/utils';
-import { pick } from 'lodash';
+import { pick, cloneDeep } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
@@ -133,8 +132,16 @@ const center_height = defineModel('height', { type: Number, default: 0 });
 const padding_change = (padding: any) => {
     form.value.text_padding = Object.assign(form.value.text_padding, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
 };
-const border_radius_change = (radius: any) => {
-    form.value.border_radius = Object.assign(form.value.border_radius, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
+const bg_radius_change = (radius: any) => {
+    form.value.bg_radius = Object.assign(form.value.bg_radius, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
+};
+
+const text_change = (key: string) => {
+    if (key == '2') {
+        form.value.text_title = '';
+    } else {
+        form.value.data_source_id = '';
+    }
 };
 
 watch(
@@ -142,7 +149,9 @@ watch(
     (val) => {
         diy_data.value.location.x = location_compute(form.value.com_width, val.location.x, 390);
         diy_data.value.location.y = location_compute(form.value.com_height, val.location.y, center_height.value);
-        diy_data.value.location.staging_y = diy_data.value.location.y;
+        diy_data.value.location.record_x = location_compute(form.value.com_width, val.location.record_x, 390);
+        diy_data.value.location.record_y = location_compute(form.value.com_height, val.location.record_y, center_height.value);
+        diy_data.value.location.staging_y = location_compute(form.value.com_height, val.location.staging_y, center_height.value);
 
         form.value.staging_height = form.value.com_height;
     },
@@ -158,8 +167,5 @@ watch(
 .border-style-item {
     width: 3rem;
     height: 2rem;
-}
-.partition-line {
-    height: 0.8rem;
 }
 </style>

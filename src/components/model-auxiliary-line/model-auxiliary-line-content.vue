@@ -1,7 +1,7 @@
 <template>
     <div class="auxiliary-line-content">
         <el-form :model="form" label-width="70" class="m-h">
-            <card-container class="common-content-height">
+            <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="线条样式">
                     <el-radio-group v-model="form.styles" @change="line_change">

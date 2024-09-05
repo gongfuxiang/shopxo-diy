@@ -1,25 +1,23 @@
 <template>
     <div class="w">
         <el-form :model="form" label-width="74">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">选项卡样式</div>
                 <el-form-item label="选中装饰">
                     <mult-color-picker :value="form.tabs_checked" :type="form.tabs_direction" @update:value="tabs_checked_event"></mult-color-picker>
                 </el-form-item>
                 <el-form-item label="选中文字">
-                    <text-size-type v-model:typeface="form.tabs_weight_checked" v-model:size="form.tabs_size_checked"></text-size-type>
-                </el-form-item>
-                <el-form-item label="文字色值">
-                    <color-picker v-model="form.tabs_color_checked" default-color="#000000"></color-picker>
+                    <color-text-size-group v-model:color="form.tabs_color_checked" v-model:typeface="form.tabs_weight_checked" v-model:size="form.tabs_size_checked" default-color="rgba(51,51,51,1)"></color-text-size-group>
                 </el-form-item>
                 <el-form-item label="未选文字">
-                    <text-size-type v-model:typeface="form.tabs_weight" v-model:size="form.tabs_size"></text-size-type>
+                    <color-text-size-group v-model:color="form.tabs_color" v-model:typeface="form.tabs_weight" v-model:size="form.tabs_size" default-color="rgba(51,51,51,1)"></color-text-size-group>
                 </el-form-item>
-                <el-form-item label="文字色值">
-                    <color-picker v-model="form.tabs_color" default-color="#000000"></color-picker>
+                <el-form-item label="选项卡间距">
+                    <slider v-model="form.tabs_spacing" :max="100"></slider>
                 </el-form-item>
             </card-container>
         </el-form>
+        <div class="divider-line"></div>
         <common-styles :value="form.common_style" @update:value="common_styles_update" />
     </div>
 </template>

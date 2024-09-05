@@ -2,17 +2,17 @@
     <div :style="style_container">
         <el-carousel :key="carouselKey" indicator-position="none" :interval="interval_time" arrow="never" :autoplay="is_roll" @change="carousel_change">
             <el-carousel-item v-for="(item, index) in nav_content_list" :key="index">
-                <div ref="bannerImg" class="flex flex-wrap">
-                    <div v-for="(item1, index1) in item.split_list" :key="index1" class="item flex-col gap-10 align-c mt-12">
-                        <div v-if="['image_with_text', 'image'].includes(nav_style)" class="top-img flex align-c jc-c" :style="img_style">
-                            <image-empty v-model="item1.nav_image[0]"></image-empty>
+                <div ref="bannerImg" class="flex flex-wrap gap-x-10">
+                    <div v-for="(item1, index1) in item.split_list" :key="index1" class="item flex-col gap-10 align-c">
+                        <div v-if="['image_with_text', 'image'].includes(nav_style)" class="top-img flex align-c jc-c">
+                            <image-empty v-model="item1.img[0]" :style="img_style"></image-empty>
                         </div>
                         <p v-if="['image_with_text', 'text'].includes(nav_style)" class="size-12 ma-0" :style="text_style">{{ item1.title }}</p>
                     </div>
                 </div>
             </el-carousel-item>
         </el-carousel>
-        <div v-if="form.display_style == 'slide' && new_style.is_show" :style="{ 'justify-content': new_style?.indicator_location || 'center'}" class="dot flex mt-10">
+        <div v-if="form.display_style == 'slide' && new_style.is_show == '1'" :style="{ 'justify-content': new_style?.indicator_location || 'center'}" class="dot flex mt-10 mb-4">
             <template v-if="new_style.indicator_style == 'num'">
                 <div :style="indicator_style" class="dot-item">
                     <span class="num-active">{{ actived_index + 1 }}</span><span>/{{ nav_content_list.length }}</span>
@@ -87,7 +87,7 @@ const actived_color = computed(() => new_style.value?.actived_color || '#2A94FF'
 // 记录当前显示的轮播图的数据
 const interval_list = ref({
     time: 2000,
-    is_roll: false,
+    is_roll: '0',
 })
 
 //监听屏幕缩放事件
@@ -134,7 +134,7 @@ watch(props.value, (val) => {
         // 滚动时间
         interval_time.value = time;
         // 是否滚动
-        is_roll.value = display_is_roll;
+        is_roll.value = display_is_roll == '1' ? true : false;
         // 记录历史保存的时间
         interval_list.value = {
             time: time,

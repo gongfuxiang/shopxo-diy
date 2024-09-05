@@ -1,28 +1,34 @@
 <template>
     <div :style="style_container">
         <template v-if="form.notice_style == 'inherit'">
-            <div class="flex-row align-c news-box gap-y-8">
-                <template v-if="form.title_type == 'img'">
-                    <div v-if="!isEmpty(form.img_src)" :style="img_style">
-                        <el-image :src="form.img_src[0]?.url || ''"></el-image>
+            <div class="flex-row align-c news-box gap-y-8" :style="container_background_style">
+                <template v-if="form.title_type == 'img-icon'">
+                    <div v-if="!isEmpty(form.img_src)">
+                        <image-empty v-model="form.img_src[0]" :style="img_style"></image-empty>
+                    </div>
+                    <div v-else>
+                        <icon :name="form.icon_class" :size="new_style.icon_size + ''" :color="new_style.icon_color"></icon>
                     </div>
                 </template>
                 <template v-else>
                     <div :style="topic_style" class="pl-6 pr-6 radius-sm">{{ form.title || '公告' }}</div>
                 </template>
-                <el-carousel :key="carouselKey" class="flex-1" indicator-position="none" :interval="interval_time" arrow="never" :direction="direction_type"  :autoplay="true">
+                <el-carousel :key="carouselKey" class="flex-1" indicator-position="none" :interval="interval_time" arrow="never" :direction="direction_type" :autoplay="true">
                     <el-carousel-item v-for="(item, index) in notice_list" :key="index" :style="`${ news_style } color: ${ new_style.news_color }`">{{ item.notice_title }}</el-carousel-item>
                 </el-carousel>
                 <div v-if="form.is_right_button == 'show'" class="size-12"><el-icon class="iconfont icon-arrow-right" :color="new_style.button_color || '#999'"></el-icon></div>
             </div>
         </template>
         <template v-else>
-            <div class="news-card flex-col gap-10">
+            <div class="news-card flex-col gap-10" :style="container_background_style">
                 <div class="flex-row w jc-sb">
-                    <template v-if="form.title_type == 'img'">
-                        <div v-if="!isEmpty(form.img_src)" :style="img_style">
-                            <el-image :src="form.img_src[0]?.url || ''" ></el-image>
-                        </div>
+                    <template v-if="form.title_type == 'img-icon'">
+                        <template v-if="!isEmpty(form.icon_class)">
+                            <icon :name="form.icon_class" :size="new_style.icon_size + ''" :color="new_style.icon_color"></icon>
+                        </template>
+                        <template v-else>
+                            <image-empty v-model="form.img_src[0]" :style="img_style" error-img-style="width:1.6rem;height:1.6rem;"></image-empty>
+                        </template>
                     </template>
                     <template v-else>
                         <div :style="topic_style" class="pl-6 pr-6 radius-sm">{{ form.title || '公告' }}</div>
@@ -35,7 +41,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, get_math, gradient_handle } from '@/utils';
+import { background_computer, common_styles_computer, get_math, gradient_computer, gradient_handle, radius_computer } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 
 const props = defineProps({
@@ -56,15 +62,27 @@ const { form, new_style } = toRefs(state);
 
 // 用于样式显示
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));
+// 容器高度
+const container_height = computed(() => new_style.value.container_height + 'px');
+// 容器背景
+const container_background_style = computed(() => {
+    const { container_color_list, container_direction, container_background_img_style, container_background_img } = new_style.value;
+    const styles = {
+        color_list: container_color_list,
+        direction: container_direction,
+        background_img: container_background_img,
+        background_img_style: container_background_img_style,
+    };
+    return gradient_computer(styles) + radius_computer(new_style.value.container_radius) + background_computer(styles) + `overflow:hidden;`;
+});
 // 图片设置
 const img_style = ref('');
 // 标题的设置
 const topic_style = computed(() => {
     // 标题渐变色处理
-    const color_list = new_style.value.topic_color_list.map((item: { color: string }) => item.color) || [];
-    const gradient = gradient_handle(color_list, '90deg');
+    const gradient = gradient_handle(new_style.value.title_color_list, '90deg');
     // 标题设置
-    return `color:${ new_style.value.topic_color }; font-size: ${ new_style.value.topic_size }px; font-weight: ${ new_style.value.topic_typeface }; ${ gradient }`;
+    return `color:${ new_style.value.title_color }; font-size: ${ new_style.value.title_size }px; font-weight: ${ new_style.value.title_typeface }; ${ gradient }`;
 });
 // 内容标题设置
 const news_style = computed(() => `font-size: ${ new_style.value.news_size }px; font-weight: ${ new_style.value.news_typeface };`);
@@ -85,14 +103,16 @@ const interval_list = ref({
 const notice_list = computed(() => {
     // 深拷贝一下，确保不会出现问题
     const arry_list = cloneDeep(form.value.notice_list);
-    return arry_list.filter((item: { is_show: boolean; }) => item.is_show);
+    return arry_list.filter((item: { is_show: string; }) => item.is_show == '1');
 })
 
 // 内容参数的集合
 watchEffect(() => {
     //#region 标题设置
-    if (!isEmpty(form.value.img_src)) {
-        img_style.value = `height: ${ new_style.value.topic_height }px; width: ${ new_style.value.topic_width }px`;
+    if (form.value.notice_style == 'card') {
+        img_style.value = `height: ${ new_style.value.title_height }px; width: ${ new_style.value.title_width }px`;
+    } else if (!isEmpty(form.value.img)) {
+        img_style.value = `height: ${ new_style.value.title_height }px; width: ${ new_style.value.title_width }px`;
     }
     //#endregion
 
@@ -121,7 +141,8 @@ watchEffect(() => {
 </script>
 <style lang="scss" scoped>
 .news-box {
-    height: 4.4rem;
+    height: v-bind(container_height);
+    overflow: hidden;
     padding: 0 1rem;
     background: #fff;
 }
@@ -142,6 +163,10 @@ watchEffect(() => {
 .one3 {
     color: #FFC300;
 }
+.two-style {
+    width: 2.4rem;
+    height: 2.4rem;
+}
 .break {
     word-break: break-word;
     overflow-wrap: break-word;
@@ -149,7 +174,7 @@ watchEffect(() => {
 }
 :deep(.el-carousel) {
     .el-carousel__container {
-        height: 4.4rem;
+        height: v-bind(container_height);
         .el-carousel__item {
             line-height: 4.4rem;
             overflow: hidden;

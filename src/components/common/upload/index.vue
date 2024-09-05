@@ -1,113 +1,164 @@
 <!-- 上传组件 -->
 <template>
-    <el-dialog v-model="dialog_visible" class="radius-lg" width="1168" append-to-body>
+    <el-dialog v-model="dialog_visible" class="radius-lg" width="1168" draggable :close-on-click-modal="false" append-to-body>
         <template #header>
             <div class="title re">
                 <el-radio-group v-model="upload_type" is-button @change="upload_type_change">
-                    <el-radio-button value="img" :disabled="!(upload_type == 'img') && isCheckConfirm">图片</el-radio-button>
-                    <el-radio-button value="video" :disabled="!(upload_type == 'video') && isCheckConfirm">视频</el-radio-button>
-                    <el-radio-button value="file" :disabled="!(upload_type == 'file') && isCheckConfirm">文件</el-radio-button>
+                    <el-radio-button value="img" :disabled="!(const_upload_type == 'img') && isCheckConfirm">图片</el-radio-button>
+                    <el-radio-button v-if="isIcon" value="icon" :disabled="!isIcon && isCheckConfirm">图标</el-radio-button>
+                    <el-radio-button value="video" :disabled="!(const_upload_type == 'video') && isCheckConfirm">视频</el-radio-button>
+                    <el-radio-button value="file" :disabled="!(const_upload_type == 'file') && isCheckConfirm">文件</el-radio-button>
                 </el-radio-group>
                 <div class="middle size-16 fw">附件管理</div>
             </div>
         </template>
-        <div class="upload-content pa-20 flex-row">
-            <div class="left-content">
-                <div class="flex-row align-c gap-10 mb-10">
-                    <el-input v-model="search_filter" placeholder="请输入分类名称">
-                        <template #suffix>
-                            <icon name="search" size="18"></icon>
-                        </template>
-                    </el-input>
-                    <icon name="add" size="18" @click="add_type"></icon>
-                </div>
-                <el-scrollbar height="490px">
-                    <el-tree ref="treeRef" class="filter-tree" :data="type_data" node-key="id" highlight-current :expand-on-click-node="false" :props="defaultProps" empty-text="无数据" default-expand-all :filter-node-method="filter_node" @node-click="tree_node_event" />
-                </el-scrollbar>
-            </div>
-            <div class="right-content flex-1 flex-width">
-                <div class="flex-row jc-sb align-c mb-15">
-                    <div class="right-oprate flex-row">
-                        <el-button type="primary" plain @click="upload_model_open">上传{{ upload_type_name }}</el-button>
-                        <el-button @click="mult_del_event">删除{{ upload_type_name }}</el-button>
-                        <el-cascader class="right-classify ml-12" :options="category_list" :placeholder="upload_type_name + '移动至'" :show-all-levels="false"></el-cascader>
-                    </div>
-                    <div class="right-search">
-                        <el-input v-model="search_name" :placeholder="'请输入' + upload_type_name + '名称'" @input="get_list">
-                            <template #suffix>
+        <div class="upload-content pa-20">
+            <div v-if="upload_type !== 'icon'" class="flex-row gap-40">
+                <div class="left-content">
+                    <div class="flex-row align-c gap-10 mb-10">
+                        <el-input v-model="search_filter" placeholder="请输入分类名称">
+                            <template #prefix>
                                 <icon name="search" size="18"></icon>
                             </template>
                         </el-input>
+                        <icon name="add" size="18" class="c-pointer" @click="add_type"></icon>
                     </div>
+                    <el-scrollbar height="490px">
+                        <el-tree ref="treeRef" v-loading="tree_loading" class="filter-tree" :data="type_data" node-key="id" highlight-current :props="defaultProps" empty-text="无数据" default-expand-all :filter-node-method="filter_node" @node-click="tree_node_event">
+                            <template #default="{ node, data }">
+                                <div class="custom-tree-node flex-row jc-sb gap-10 align-c w pr-10" :class="data.is_enable == 0 || node.parent.data.is_enable == 0 ? 'disabled bg-red' : ''">
+                                    <div class="flex-1 flex-width text-line-1 block">{{ data.name }}</div>
+                                    <div v-if="data.id" class="flex-row gap-10 cr-9 category-operate c-pointer">
+                                        <el-popover placement="bottom" width="70" trigger="hover">
+                                            <template #reference>
+                                                <div class="tree-operate-btn">
+                                                    <icon name="ellipsis" size="14"></icon>
+                                                </div>
+                                            </template>
+                                            <div class="flex-col gap-12 tree-operate">
+                                                <div v-if="data.pid == 0" class="flex-row gap-5 c-pointer w item" @click.stop="append_type_event(data)"><icon class="icon" name="add" size="12"></icon>新增</div>
+                                                <div class="flex-row gap-5 c-pointer w item" @click.stop="edit_type_event(data)"><icon class="icon" name="edit" size="12"></icon>编辑</div>
+                                                <div class="flex-row gap-5 c-pointer w item" @click.stop="remove_type_event(node, data)"><icon class="icon" name="del" size="12"></icon>删除</div>
+                                            </div>
+                                        </el-popover>
+                                    </div>
+                                </div>
+                            </template>
+                        </el-tree>
+                    </el-scrollbar>
                 </div>
-                <div class="img-content pr">
-                    <!-- 574px -->
-                    <el-scrollbar height="440px">
-                        <div class="flex-row flex-wrap align-c gap-y-15 gap-x-10 pa-10">
-                            <div v-for="(item, index) in upload_list" :key="index" class="item" @click="check_img_event(item)">
-                                <el-badge :value="view_list_value.findIndex((i) => i.id === item.id) == -1 ? '' : view_list_value.findIndex((i) => i.id === item.id) + 1" class="badge flex-col gap-5 w" :hidden="view_list_value.findIndex((i) => i.id === item.id) == -1">
-                                    <div class="item-content re br-f5 radius">
-                                        <template v-if="upload_type == 'video'">
-                                            <video :src="item.url" class="w h" @error="handle_error(index)"></video>
-                                            <div v-if="item.error == true" class="bg-f5 img flex-row jc-c align-c radius h w abs top-0">
-                                                <icon name="video" size="42" color="9"></icon>
-                                            </div>
-                                        </template>
-                                        <template v-else-if="upload_type == 'file'">
-                                            <div class="bg-f5 img flex-row jc-c align-c radius h w">
-                                                <icon :name="ext_file_name_list_map.filter((ext) => ext.type == item.type).length > 0 && ext_file_name_list_map.filter((ext) => ext.type == item.type)[0].type == item.type ? ext_file_name_list_map.filter((ext) => ext.type == item.type)[0].icon : 'file'" size="42" color="9"></icon>
-                                            </div>
-                                        </template>
-                                        <template v-else>
-                                            <el-image :src="item.url" fit="contain" class="w h">
-                                                <template #error>
-                                                    <div class="bg-f5 img flex-row jc-c align-c radius h w">
-                                                        <icon name="error-img" size="42" color="9"></icon>
-                                                    </div>
-                                                </template>
-                                            </el-image>
-                                        </template>
-                                        <div class="check-icon fill flex-row jc-c align-c" :class="view_list_value.findIndex((i) => i.id === item.id) !== -1 ? 'active' : ''">
-                                            <icon name="true-o" color="f" size="26"></icon>
-                                        </div>
-                                        <div class="oprate">
-                                            <div class="oprate-content flex-row jc-sa align-c">
-                                                <div class="flex-1 tc c-pointer" @click.stop="edit_event(item, index)">
-                                                    <icon name="edit" class="flex-1" size="14" color="f"></icon>
-                                                </div>
-                                                <div v-if="upload_type !== 'file'" class="oprate-icon flex-1 tc c-pointer" @click.stop="preview_event(item, index)">
-                                                    <icon name="eye" size="14" color="f"></icon>
-                                                </div>
-                                                <div class="flex-1 tc c-pointer" @click.stop="del_event(item)">
-                                                    <icon name="del" size="14" color="f"></icon>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="text-line-1 name">
-                                        <template v-if="edit_index !== -1 && edit_index === index">
-                                            <el-input v-model="item.original" type="text" placeholder="请输入内容" size="small" @change="edit_input_change" @blur="edit_input_blur" />
-                                        </template>
-                                        <template v-else>
-                                            <div class="ptb-1 plr-7">
-                                                {{ item.original }}
-                                            </div>
-                                        </template>
-                                    </div>
-                                </el-badge>
+                <div class="right-content flex-1 flex-width">
+                    <div class="flex-row jc-sb align-c mb-15">
+                        <div class="right-operate flex-row">
+                            <el-button type="primary" plain @click="upload_model_open">上传{{ upload_type_name }}</el-button>
+                            <el-button @click="mult_del_event">删除{{ upload_type_name }}</el-button>
+                            <!-- <el-cascader :show-all-levels="false" clearable></el-cascader> -->
+                            <div class="right-classify ml-12">
+                                <transform-category :data="type_data_list" :check-img-ids="check_img_ids" :type="upload_type_name" :placeholder="upload_type_name + '移动至'" @call-back="transform_category_event"></transform-category>
                             </div>
                         </div>
-                    </el-scrollbar>
-                    <div v-if="preview_switch_video && upload_type == 'video'">
-                        <div class="middle clickable-area" :class="preview_url ? '' : 'hide'">
-                            <!-- 视频预览 -->
-                            <!-- 自动播放 -->
-                            <video ref="videoPlayer" width="320" height="240" controls autoplay :src="preview_url"></video>
+                        <div class="right-search">
+                            <el-input v-model="search_name" :placeholder="'请输入' + upload_type_name + '名称'" @change="get_attachment_list('1')">
+                                <template #suffix>
+                                    <icon name="search" size="18" class="c-pointer" @click="get_attachment_list('1')"></icon>
+                                </template>
+                            </el-input>
                         </div>
                     </div>
-                    <div class="mt-10 flex-row jc-e">
-                        <el-pagination :current-page="page" :page-size="21" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="get_list" />
+                    <div class="img-content pr">
+                        <!-- 574px -->
+                        <el-scrollbar v-loading="img_loading" height="440px">
+                            <div v-if="upload_list.length > 0" class="flex-row flex-wrap align-c gap-y-15 gap-x-10 pa-10">
+                                <div v-for="(item, index) in upload_list" :key="index" class="item" @click.prevent="check_img_event(item)">
+                                    <el-badge :value="view_list_value.findIndex((i) => i.id === item.id) == -1 ? '' : view_list_value.findIndex((i) => i.id === item.id) + 1" class="badge flex-col gap-5 w" :hidden="view_list_value.findIndex((i) => i.id === item.id) == -1 || limit == 1">
+                                        <div class="item-content re br-f5 radius">
+                                            <template v-if="upload_type == 'video'">
+                                                <video :src="item.url" class="w h" @error="handle_error(index)"></video>
+                                                <div v-if="item.error == true" class="bg-f5 img flex-row jc-c align-c radius h w abs top-0">
+                                                    <icon name="video" size="42" color="9"></icon>
+                                                </div>
+                                            </template>
+                                            <template v-else-if="upload_type == 'file'">
+                                                <div class="bg-f5 img flex-row jc-c align-c radius h w">
+                                                    <icon :name="ext_file_name_list_map.filter((ext) => ext.type == item.ext).length > 0 && ext_file_name_list_map.filter((ext) => ext.type == item.ext)[0].type == item.ext ? ext_file_name_list_map.filter((ext) => ext.type == item.ext)[0].icon : 'file'" size="42" color="9"></icon>
+                                                </div>
+                                            </template>
+                                            <template v-else>
+                                                <el-image :src="item.url" fit="contain" class="w h">
+                                                    <template #error>
+                                                        <div class="bg-f5 img flex-row jc-c align-c radius h w">
+                                                            <icon name="error-img" size="42" color="9"></icon>
+                                                        </div>
+                                                    </template>
+                                                </el-image>
+                                            </template>
+                                            <div class="check-icon fill flex-row jc-c align-c" :class="view_list_value.findIndex((i) => i.id === item.id) !== -1 ? 'active' : ''">
+                                                <icon name="true-o" color="f" size="26"></icon>
+                                            </div>
+                                            <div class="operate">
+                                                <div class="operate-content flex-row jc-sa align-c">
+                                                    <div class="flex-1 tc c-pointer" @click.stop="edit_event(item, index)">
+                                                        <icon name="edit" class="flex-1" size="14" color="f"></icon>
+                                                    </div>
+                                                    <div v-if="upload_type !== 'file'" class="operate-icon flex-1 tc c-pointer" @click.stop="preview_event(item, index)">
+                                                        <icon name="eye" size="14" color="f"></icon>
+                                                    </div>
+                                                    <div class="flex-1 tc c-pointer" @click.stop="del_event(item)">
+                                                        <icon name="del" size="14" color="f"></icon>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="text-line-1 name" @click.stop>
+                                            <template v-if="edit_index !== -1 && edit_index === index">
+                                                <el-input v-model="item.original" v-focus type="text" placeholder="请输入内容" size="small" @blur="edit_index = -1" @keydown="edit_input_keydown" @change="edit_input_change" />
+                                            </template>
+                                            <template v-else>
+                                                <div class="ptb-1 plr-7 c-pointer no-select" @dblclick.prevent="edit_index = index">
+                                                    {{ item.original }}
+                                                </div>
+                                            </template>
+                                        </div>
+                                    </el-badge>
+                                </div>
+                            </div>
+                            <div v-else>
+                                <no-data height="440px"></no-data>
+                            </div>
+                        </el-scrollbar>
+                        <div v-if="preview_switch_video && upload_type == 'video'">
+                            <div class="middle clickable-area" :class="preview_url ? '' : 'hide'">
+                                <!-- 视频预览 -->
+                                <!-- 自动播放 -->
+                                <video ref="videoPlayer" width="320" height="240" controls autoplay :src="preview_url"></video>
+                            </div>
+                        </div>
+                        <div class="mt-10 flex-row jc-e">
+                            <el-pagination :current-page="page" background :page-size="30" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="current_page_change" />
+                        </div>
                     </div>
+                </div>
+            </div>
+            <div v-else class="icon-container">
+                <div class="flex jc-e mb-10">
+                    <el-input v-model="search_icon" placeholder="请输入图标名称" class="search-text" clearable></el-input>
+                </div>
+                <div class="icon-content">
+                    <el-scrollbar height="492px">
+                        <el-row v-if="icon_list.length > 0">
+                            <el-col v-for="(item, index) in icon_list" :key="item.unicode" :span="4">
+                                <div class="pa-10">
+                                    <div class="item plr-10 ptb-20 br-c radius-md tc flex-col gap-10" :class="{ active: index === icon_index }" @click="handle_select_icon(item, index)">
+                                        <i :class="`iconfont icon-${item.font_class}`"></i>
+                                        <div class="text-line-1 size-14">{{ item.name }}</div>
+                                    </div>
+                                </div>
+                            </el-col>
+                        </el-row>
+                        <div v-else>
+                            <no-data height="500px"></no-data>
+                        </div>
+                    </el-scrollbar>
                 </div>
             </div>
         </div>
@@ -120,8 +171,8 @@
     </el-dialog>
     <template v-if="!isCustomDialog">
         <div class="flex-col h">
-            <div class="flex-row flex-wrap gap-10 h">
-                <div v-for="(item, index) in modelValue" :key="item.id" :class="'upload-btn upload-btn-style-' + styles + ' ' + (styles == 2 ? 'br-none' : '')" :style="'height:' + upload_size + ';width:' + upload_size + ';'" @click="replace_file_event(index)">
+            <div v-if="model_value_upload.length > 0" class="flex-row flex-wrap gap-10 h">
+                <div v-for="(item, index) in model_value_upload" :key="item.id" :class="'upload-btn upload-btn-style-' + styles + ' ' + (styles == 2 ? 'br-none' : '')" :style="'height:' + upload_size + ';width:' + upload_size + ';'" @click="replace_file_event(index)">
                     <div class="upload-del-icon" @click.stop="del_upload_event(index)">
                         <icon name="close-o" color="c" size="14"></icon>
                     </div>
@@ -149,22 +200,38 @@
                         <div class="upload-btn-bottom-text">替换</div>
                     </template>
                 </div>
-                <div v-if="limit !== modelValue.length" :class="'upload-btn upload-btn-style-' + styles" :style="'height:' + upload_size + ';width:' + upload_size + ';'" @click="dialog_visible = true">
+                <div v-if="limit !== model_value_upload.length" :class="'upload-btn upload-btn-style-' + styles" :style="'height:' + upload_size + ';width:' + upload_size + ';'" @click="dialog_visible = true">
                     <icon name="add" :size="Number(size) / 2 + ''" color="c"></icon>
                 </div>
             </div>
+            <template v-else>
+                <div :class="'upload-btn upload-btn-style-' + styles" :style="'height:' + upload_size + ';width:' + upload_size + ';'" @click="dialog_visible = true">
+                    <div v-if="!isEmpty(icon_value)" class="upload-del-icon" @click.stop="del_icon_event">
+                        <icon name="close-o" color="c" size="14"></icon>
+                    </div>
+                    <icon :name="!isEmpty(icon_value) ? icon_value : 'add'" :size="Number(size) / 2 + ''" color="c"></icon>
+                </div>
+            </template>
             <div v-if="isTips" class="size-12 cr-9">{{ tipsText }}</div>
         </div>
     </template>
     <!-- 图片预览 -->
-    <el-image-viewer v-if="preview_switch_img && upload_type == 'img'" :z-index="999999" :url-list="[preview_url]" :hide-on-click-modal="true" @close="preview_close"></el-image-viewer>
+    <el-image-viewer v-if="preview_switch_img && upload_type == 'img'" class="123123" :z-index="999999" :url-list="[preview_url]" teleported :hide-on-click-modal="true" @close="preview_close"></el-image-viewer>
     <upload-model v-model="upload_model_visible" :type="upload_type" :exts="props.type == 'img' ? ext_img_name_list : props.type == 'video' ? ext_video_name_list : ext_file_name_list" @close="close_upload_model"></upload-model>
+    <form-upload-category v-model="upload_category_model_visible" :value="upload_category_model" :type="upload_category_type" :category-id="upload_category_id" :category-pid="upload_category_pid" @confirm="upload_category_confirm"></form-upload-category>
 </template>
 <script lang="ts" setup>
+import { ext_img_name_list, ext_video_name_list, ext_file_name_list, ext_file_name_list_map } from './index';
+import UploadAPI, { Tree } from '@/api/upload';
+import { uploadStore, commonStore } from '@/store';
+import { isEmpty } from 'lodash';
+import searchIcons from '@/assets/search-icons/iconfont.json';
+const upload_store = uploadStore();
+const common_store = commonStore();
 const app = getCurrentInstance();
 /**
  * @description: 图片上传
- * @param modelValue{uploadList[]} 默认值
+ * @param model_value_upload{uploadList[]} 默认值
  * @param visibleDialog{Boolean} 弹窗开启关闭
  * @param type{String} 上传类型 默认图片 1.图片(img) 2.视频(video) 3.文件(file)
  * @param isCustomDialog{Boolean} 是否自定义弹窗, 配置true后将不会显示上传按钮改为传v-model:visible-dialog=""来开启关闭弹窗，通过@update:v-model=""来获取最新数据
@@ -174,7 +241,7 @@ const app = getCurrentInstance();
  * @param tipsText{String} 提示文字
  * @param size{Number|String} 上传图片大小
  * @param style{Number} 样式 0.默认样式 1.自定义样式1 2.自定义样式2
- * @return {*} update:modelValue
+ * @return {*} update:model_value_upload
  */
 const props = defineProps({
     type: {
@@ -209,154 +276,228 @@ const props = defineProps({
         type: [Number, String],
         default: 0,
     },
+    isIcon: {
+        type: Boolean,
+        default: false,
+    },
 });
 
-const modelValue = defineModel({ type: Array as PropType<uploadList[]>, default: [] });
+const model_value_upload = defineModel({ type: Array as PropType<uploadList[]>, default: [] });
 
 const view_list_value = ref<uploadList[]>([]);
 // 弹窗显示
 // const dialog_visible = ref(props.visibleDialog);
 const dialog_visible = defineModel('visibleDialog', { type: Boolean, default: false });
+watch(
+    () => dialog_visible.value,
+    (val) => {
+        if (val) {
+            if (val === true) {
+                if (icon_value.value) {
+                    upload_type.value = 'icon';
+                } else {
+                    upload_type.value = props.type;
+                }
 
-// 文件后缀分类
-const ext_img_name_list = ref(['.png', '.jpg', '.jpeg', '.bmp', '.webp', '.gif']);
-const ext_video_name_list = ref(['.flv', '.swf', '.mkv', '.avi', '.rm', '.rmvb', '.mpeg', '.mpg', '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.webm']);
-const ext_file_name_list = ref(['.png', 'jpg', 'jpeg', 'bmp', 'webp', 'gif', '.flv', '.swf', '.mkv', '.avi', '.rm', '.rmvb', '.mpeg', '.mpg', '.ogg', '.ogv', '.mov', '.wmv', '.mp4', '.webm', '.mp3', '.csv', '.wav', '.mid', '.cab', '.iso', '.ofd', '.xml', '.rar', '.zip', '.tar', '.gz', '.7z', '.bz2', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.pdf', '.txt', '.md', '.vsd']);
-const ext_file_name_list_map = ref([
-    { type: '.png', icon: 'error-img' },
-    { type: 'jpg', icon: 'error-img' },
-    { type: 'jpeg', icon: 'error-img' },
-    { type: 'bmp', icon: 'error-img' },
-    { type: 'webp', icon: 'error-img' },
-    { type: 'gif', icon: 'error-img' },
-    { type: '.flv', icon: 'video' },
-    { type: '.swf', icon: 'video' },
-    { type: '.mkv', icon: 'video' },
-    { type: '.avi', icon: 'video' },
-    { type: '.rm', icon: 'video' },
-    { type: '.rmvb', icon: 'video' },
-    { type: '.mpeg', icon: 'video' },
-    { type: '.mpg', icon: 'video' },
-    { type: '.ogg', icon: 'video' },
-    { type: '.ogv', icon: 'video' },
-    { type: '.mov', icon: 'video' },
-    { type: '.wmv', icon: 'video' },
-    { type: '.mp4', icon: 'video' },
-    { type: '.webm', icon: 'video' },
-    { type: '.mp3', icon: 'vf' },
-    { type: '.csv', icon: 'file' },
-    { type: '.wav', icon: 'file' },
-    { type: '.mid', icon: 'file' },
-    { type: '.cab', icon: 'file' },
-    { type: '.iso', icon: 'file' },
-    { type: '.ofd', icon: 'file' },
-    { type: '.xml', icon: 'file' },
-    { type: '.rar', icon: 'zip' },
-    { type: '.zip', icon: 'zip' },
-    { type: '.tar', icon: 'zip' },
-    { type: '.gz', icon: 'zip' },
-    { type: '.7z', icon: 'zip' },
-    { type: '.bz2', icon: 'bz2' },
-    { type: '.doc', icon: 'word' },
-    { type: '.docx', icon: 'word' },
-    { type: '.xls', icon: 'excel' },
-    { type: '.xlsx', icon: 'excel' },
-    { type: '.ppt', icon: 'ppt' },
-    { type: '.pptx', icon: 'ppt' },
-    { type: '.pdf', icon: 'pdf' },
-    { type: '.txt', icon: 'txt' },
-    { type: '.md', icon: 'txt' },
-    { type: '.vsd', icon: 'vsd' },
-]);
+                // 获取附件列表
+                get_attachment_list();
+
+                icon_index.value = -1;
+            }
+        }
+    }
+);
 // 弹窗上传显示
 const upload_model_visible = ref(false);
 // 上传类型
 const upload_type = ref(props.type);
+const const_upload_type = props.type;
 const upload_size = computed(() => {
     const size = props.size.toString();
     return size.includes('%') ? size : size + 'px';
 });
 // 上传类型转换成name
 const upload_type_name = computed(() => {
-    return upload_type.value === 'img' ? '图片' : upload_type.value === 'video' ? '视频' : '文件';
+    switch (upload_type.value) {
+        case 'video':
+            return '视频';
+        case 'file':
+            return '文件';
+        default:
+            return '图片';
+    }
 });
 // 切换图片/视频/文件
 const upload_type_change = (type: any) => {
+    if (type == 'icon') return false;
     view_list_value.value = [];
+    get_attachment_list();
 };
 
+// 打开上传弹窗
+const upload_model_open = () => {
+    upload_model_visible.value = true;
+};
+//#region 分类 ----------------------------------------------------------start
 const treeRef = ref();
 const defaultProps = {
-    children: 'children',
-    label: 'label',
+    children: 'items',
+    label: 'name',
 };
 // 分类查询
 const search_filter = ref('');
 watch(search_filter, (val) => {
     treeRef.value!.filter(val);
 });
-// 名称查询
-const search_name = ref('');
+const filter_node = (value: string, data: any): boolean => {
+    if (!value) return true;
+    return data.name.indexOf(value) !== -1;
+};
+const type_data = ref<Tree[]>([]);
+const all_tree = {
+    id: '',
+    pid: '',
+    name: '全部',
+    items: [],
+    path: '',
+    is_enable: 1,
+    sort: '',
+};
+const type_data_list = ref<Tree[]>([]);
+const tree_loading = ref(false);
+// 查询分类列表
+const get_tree = (bool: boolean = false) => {
+    if ((!upload_store.is_upload_api && upload_store.category.length === 0) || bool) {
+        upload_store.set_is_upload_api(true);
+        tree_loading.value = true;
+        UploadAPI.getTree()
+            .then((res) => {
+                // 将all_tree和res.data.attachment_category全部插入到type_data.value,all_tree放在数组最前面
+                type_data.value = [all_tree, ...res.data.attachment_category];
+                type_data_list.value = res.data.attachment_category;
+                upload_store.set_category(type_data_list.value);
+                tree_loading.value = false;
+            })
+            .catch(() => {
+                upload_store.set_is_upload_api(false);
+            });
+    } else {
+        type_data_list.value = upload_store.category;
+        type_data.value = [all_tree, ...upload_store.category];
+    }
+};
+
+// 分类弹窗表单数据
+const upload_category_model = ref<Tree>({
+    id: '',
+    pid: '',
+    name: '',
+    path: '',
+    sort: 0,
+    is_enable: 1,
+    items: [],
+});
+// 分类弹窗操作类型
+const upload_category_type = ref('add');
+// 分类弹窗开关
+const upload_category_model_visible = ref(false);
+// 添加一级分类
+const add_type = () => {
+    upload_category_type.value = 'add';
+    upload_category_model_visible.value = true;
+    upload_category_id.value = '';
+    upload_category_pid.value = '';
+};
+// 分类操作确认回调
+const upload_category_confirm = () => {
+    get_tree(true);
+};
+const category_id = ref('');
+// 左侧分类树结构节点点击事件
+const tree_node_event = (data: any, a: any, b: any) => {
+    // 判断是否开启状态，如果关闭则不可操作
+    // if (data.is_enable == 0) return;
+    // 判断是否是子节点，如果不是子节点则不可操作
+    if (data.items && data.items.length > 0) return;
+    category_id.value = data.id;
+    get_attachment_list();
+};
+const upload_category_id = ref<number | string>('');
+const upload_category_pid = ref<number | string>('');
+// 添加子分类
+const append_type_event = (data: Tree) => {
+    upload_category_type.value = 'add';
+    upload_category_id.value = '';
+    upload_category_pid.value = data.id;
+    upload_category_model_visible.value = true;
+};
+// 编辑子分类
+const edit_type_event = (data: Tree) => {
+    upload_category_type.value = 'edit';
+    upload_category_id.value = data.id;
+    upload_category_pid.value = data.pid;
+    upload_category_model_visible.value = true;
+    upload_category_model.value = data;
+};
+// 删除分类（Node报错，node使用any）
+const remove_type_event = (node: any, data: Tree) => {
+    app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
+        UploadAPI.delTree({ id: data.id }).then((res) => {
+            // const parent = node.parent;
+            // const children: Tree[] = parent.data.items || parent.data;
+            // const index = children.findIndex((d) => d.id === data.id);
+            // children.splice(index, 1);
+            get_tree(true);
+            ElMessage({
+                type: 'success',
+                message: '删除成功!',
+            });
+        });
+    });
+};
+//#endregion 分类 ----------------------------------------------------------end
+
+//#region 附件 ----------------------------------------------------------start
 // 总页数
 // const page_total = ref(0);
 // 当前页
 const page = ref(1);
 // 总数量
 const data_total = ref(0);
-interface Tree {
-    id: number;
-    label: string;
-    children?: Tree[];
-}
-const filter_node = (value: string, data: any): boolean => {
-    if (!value) return true;
-    return data.label.indexOf(value) !== -1;
-};
-const type_data: Tree[] = [
-    {
-        id: 0,
-        label: '全部图片',
-    },
-    {
-        id: 1,
-        label: '金刚区',
-        children: [
-            {
-                id: 2,
-                label: '金刚区 1-1',
-            },
-        ],
-    },
-];
-// 图片/视频/文件移动至
-const category_list = [
-    {
-        value: 'component',
-        label: 'Component',
-        children: [
-            {
-                value: 'basic',
-                label: 'Basic',
-                children: [
-                    {
-                        value: 'layout',
-                        label: 'Layout',
-                    },
-                ],
-            },
-        ],
-    },
-];
-
+// 名称查询
+const search_name = ref('');
 // 已上传数据的列表
-const upload_list = ref<uploadList[]>([
-    { id: 1, url: '/src/assets/images/layout/main/phone.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' },
-    { id: 2, url: '/src/assets/images/components/model-user-info/avatar.png', original: '头像2', ext: '.jpeg', type: 'img' },
-    { id: 3, url: '/src/assets/images/components/model-hot/test-1.png', original: '头像3', title: '头像3', ext: '.png', type: 'img' },
-    { id: 4, url: '/src/assets/images/components/model-hot/test-2.png', original: '头像4', ext: '.jpeg', type: 'img' },
-    { id: 5, url: '/src/assets/movie.mp4', original: '头像5', title: '头像5', ext: '.mp4', type: 'video' },
-    { id: 6, url: '/src/assets/movie.mp4', original: '头像6', title: '头像6', ext: '.docx', type: '.docx' },
-]);
+const upload_list = ref<uploadList[]>([]);
+const img_loading = ref(false);
+// 附件列表
+const get_attachment_list = (type?: string) => {
+    if (type) {
+        page.value = 1;
+    }
+    img_loading.value = true;
+    const new_data = {
+        page: page.value,
+        type: upload_type.value == 'img' ? 'image' : upload_type.value == 'video' ? 'video' : upload_type.value == 'file' ? 'file' : '',
+        keywords: search_name.value,
+        category_id: category_id.value,
+    };
+    UploadAPI.getAttachmentList(new_data).then((res) => {
+        const data = res.data;
+        data_total.value = data.data_total;
+        upload_list.value = data.data_list;
+        img_loading.value = false;
+        // 清除选中
+        check_img_ids.value = '';
+        view_list_value.value = [];
+    });
+};
+// 分页查询
+const current_page_change = (val: number) => {
+    page.value = val;
+    get_attachment_list();
+};
+
+const check_img_ids = ref('');
 // 选择图片
 const check_img_event = (item: any) => {
     const item_id = item.id;
@@ -374,21 +515,13 @@ const check_img_event = (item: any) => {
             }
         }
     }
+    check_img_ids.value = view_list_value.value.map((item: any) => item.id).join(',');
 };
 // 预览开关
 const preview_switch_img = ref(false);
 const preview_switch_video = ref(false);
 // 视频预览的路径
 const preview_url = ref('');
-const edit_index = ref(-1);
-// 监听点击事件
-onMounted(() => {
-    document.addEventListener('click', video_show);
-});
-// 移除监听事件
-onUnmounted(() => {
-    document.removeEventListener('click', video_show);
-});
 // 预览视频
 const video_show = (event: any) => {
     if (!preview_switch_video.value) return;
@@ -397,18 +530,6 @@ const video_show = (event: any) => {
         preview_switch_video.value = false;
         preview_url.value = '';
     }
-};
-// 编辑图片/视频/文件名称
-const edit_event = (item: any, index: number) => {
-    edit_index.value = index;
-};
-// 输入框 输入完成
-const edit_input_change = (val: string) => {
-    edit_index.value = -1;
-};
-// 输入框失去焦点
-const edit_input_blur = () => {
-    edit_index.value = -1;
 };
 // 预览图片/视频
 const preview_event = (item: any, index: number) => {
@@ -423,70 +544,109 @@ const preview_event = (item: any, index: number) => {
 const preview_close = () => {
     preview_switch_img.value = false;
 };
+
+const edit_index = ref(-1);
+const edit_id = ref('');
+// 编辑图片/视频/文件名称
+const edit_event = (item: any, index: number) => {
+    edit_index.value = index;
+    edit_id.value = item.id;
+};
+// 输入框 输入完成
+const edit_input_change = (val: string) => {
+    edit_index.value = -1;
+    UploadAPI.saveAttachmentName({ id: edit_id.value, original: val || '' }).then((res) => {
+        ElMessage.success('修改成功!');
+    });
+};
+const edit_input_keydown = (event: any) => {
+    // 阻止回车键默认事件
+    if (event.keyCode === 13) {
+        edit_index.value = -1;
+    }
+};
+
 // 删除图片/视频/文件
 const del_event = (item: uploadList) => {
     app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
-        ElMessage({
-            type: 'success',
-            message: '删除成功!',
-        });
         // 调用删除接口，然后，更新数据
+        UploadAPI.delAttachment({ ids: item.id }).then((res) => {
+            ElMessage.success('删除成功!');
+            // 调用查询接口
+            get_attachment_list();
+
+            // 过滤已删除的文件
+            view_list_value.value = view_list_value.value.filter((items: any) => {
+                return items.id !== item.id;
+            });
+            console.log(view_list_value.value);
+        });
     });
 };
-// 打开上传弹窗
-const upload_model_open = () => {
-    upload_model_visible.value = true;
-};
-// 批量删除
+
+// 附件批量删除
 const mult_del_event = () => {
-    app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
-        ElMessage({
-            type: 'success',
-            message: '删除成功!',
+    if (check_img_ids.value) {
+        app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
+            // 调用删除接口，然后，更新数据
+            UploadAPI.delAttachment({ ids: check_img_ids.value }).then((res) => {
+                ElMessage.success('删除成功!');
+                // 调用查询接口
+                get_attachment_list();
+                check_img_ids.value = '';
+                view_list_value.value = [];
+            });
         });
-        // console.log('选中的数据 = ', view_list_value.value);
-        // 调用删除接口，然后，更新数据
-    });
+    } else {
+        ElMessage.warning('请先选择图片!');
+    }
 };
-// 查询文件
-const search_data = ref({
-    page: page.value,
-    type: '',
-    name: search_name.value,
-});
-// 查询文件
-const get_list = () => {
-    console.log('查询接口', search_data);
+const transform_category_event = () => {
+    check_img_ids.value = '';
+    get_attachment_list();
 };
-// 分类弹窗开关
-const dialog_visible_type_oprate = ref(false);
-// 添加一级分类
-const add_type = () => {};
-// 左侧分类树结构节点点击事件
-const tree_node_event = (data: any) => {
-    // search_filter.value = data.id;
-    get_list();
+
+//#endregion 附件 ----------------------------------------------------------end
+
+//#region 图标 -------------------------------------------------------------start
+const icon_value = defineModel('iconValue', { type: String, default: '' });
+const temp_icon_value = ref('');
+const search_icon = ref('');
+const icon_list = computed(() => searchIcons.glyphs.filter((item) => item.name.includes(search_icon.value)));
+const icon_index = ref(-1);
+const handle_select_icon = (item: any, index: number) => {
+    icon_index.value = index;
+    temp_icon_value.value = item.font_class;
 };
+const del_icon_event = () => {
+    icon_value.value = '';
+};
+//#endregion 图标 ----------------------------------------------------------end
+const emit = defineEmits(['update:icon']);
 // 确认
 const confirm_event = () => {
     dialog_visible.value = false;
     if (props.limit == 1) {
-        modelValue.value = view_list_value.value;
+        model_value_upload.value = view_list_value.value;
     } else {
         if (is_replace.value) {
             // 替换modelValue的replace下标下的文件
-            modelValue.value.splice(replace_index.value, 1, view_list_value.value[0]);
+            model_value_upload.value.splice(replace_index.value, 1, view_list_value.value[0]);
         } else {
-            if (props.limit >= view_list_value.value.length + modelValue.value.length) {
+            if (props.limit >= view_list_value.value.length + model_value_upload.value.length) {
                 // 数组合并
-                modelValue.value = modelValue.value.concat(view_list_value.value);
-                // view_list_value.value.forEach((item: uploadList) => {
-                //     modelValue.value.push(item);
-                // });
+                model_value_upload.value = model_value_upload.value.concat(view_list_value.value);
             } else {
                 app?.appContext.config.globalProperties.$common.alert(`最多上传 ${props.limit} 个文件!`, 'warning');
             }
         }
+    }
+    if (view_list_value.value.length > 0) {
+        icon_value.value = '';
+        temp_icon_value.value = '';
+        icon_index.value = -1;
+    } else {
+        icon_value.value = JSON.parse(JSON.stringify(temp_icon_value.value));
     }
     view_list_value.value = [];
     search_filter.value = '';
@@ -505,9 +665,9 @@ const replace_file_event = (index: number) => {
 };
 // 上传回显删除事件
 const del_upload_event = (index: number) => {
-    const new_model_val = JSON.parse(JSON.stringify(modelValue.value));
+    const new_model_val = JSON.parse(JSON.stringify(model_value_upload.value));
     new_model_val.splice(index, 1);
-    modelValue.value = new_model_val;
+    model_value_upload.value = new_model_val;
 };
 const handle_error = (index: number) => {
     // 当视频加载失败时触发
@@ -524,15 +684,15 @@ const close_upload_model = (data: any) => {
                 url: data.web_image,
             };
             if (props.limit == 1) {
-                modelValue.value = [new_web_file];
+                model_value_upload.value = [new_web_file];
             } else {
                 if (is_replace.value) {
                     // 替换modelValue的replace下标下的文件
-                    modelValue.value.splice(replace_index.value, 1, new_web_file);
+                    model_value_upload.value.splice(replace_index.value, 1, new_web_file);
                 } else {
-                    if (props.limit >= view_list_value.value.length + modelValue.value.length) {
+                    if (props.limit >= view_list_value.value.length + model_value_upload.value.length) {
                         // 数组合并
-                        modelValue.value.push(new_web_file);
+                        model_value_upload.value.push(new_web_file);
                     } else {
                         app?.appContext.config.globalProperties.$common.alert(`最多上传 ${props.limit} 个文件!`, 'warning');
                     }
@@ -542,6 +702,28 @@ const close_upload_model = (data: any) => {
     }
 };
 //#endregion 上传组件回调 -----------------------------------------------end
+onMounted(() => {
+    // 监听点击事件
+    document.addEventListener('click', video_show);
+    nextTick(() => {
+        setTimeout(() => {
+            // 获取分类
+            if (common_store.common.attachment_category.length > 0) {
+                type_data_list.value = common_store.common.attachment_category;
+                type_data.value = [all_tree, ...common_store.common.attachment_category];
+                upload_store.set_category(common_store.common.attachment_category);
+                upload_store.set_is_upload_api(true);
+            } else {
+                get_tree();
+            }
+        }, 1000);
+    });
+});
+
+onUnmounted(() => {
+    // 移除监听事件
+    document.removeEventListener('click', video_show);
+});
 </script>
 <style lang="scss" scoped>
 @import 'index.scss';

@@ -1,10 +1,10 @@
 <template>
     <div class="auxiliary-line">
         <el-form :model="form" label-width="70">
-            <card-container class="common-content-height">
+            <card-container>
                 <div class="mb-12">按钮设置</div>
                 <el-form-item label="按钮跳转">
-                    <el-radio-group v-model="form.button_jump" class="ml-4">
+                    <el-radio-group v-model="form.button_jump">
                         <el-radio value="link">页面链接</el-radio>
                         <el-radio value="customer_service">客服入口</el-radio>
                     </el-radio-group>
@@ -28,7 +28,7 @@ const props = defineProps({
 });
 
 const state = reactive({
-    form: props.value
+    form: props.value,
 });
 const { form } = toRefs(state);
 </script>

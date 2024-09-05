@@ -2,7 +2,7 @@
 <template>
     <div class="input-number" :class="iconName ? 'has-icon' : ''">
         <icon v-if="iconName" :name="iconName" size="14" color="3" class="input-icon"></icon>
-        <el-input-number v-model="internal_value" :min="min" :max="max" type="number" placeholder="0" controls-position="right"></el-input-number>
+        <el-input-number v-model="internal_value" :min="min" :max="max" type="number" placeholder="0" controls-position="right" @keyup.enter="preventDefault"></el-input-number>
     </div>
 </template>
 
@@ -22,6 +22,10 @@ const props = defineProps({
     },
 });
 const internal_value = defineModel({ type: Number, default: 0 });
+// 阻止默认点击事件
+const preventDefault = (e: DragEvent) => {
+    e.preventDefault();
+}
 </script>
 <style lang="scss" scoped>
 .input-number {

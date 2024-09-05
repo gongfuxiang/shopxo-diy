@@ -1,10 +1,10 @@
 <template>
     <div class="w">
         <el-form :model="form" label-width="80">
-            <card-container class="common-content-height">
+            <card-container>
                 <div class="mb-12">位置设置</div>
                 <el-form-item label="展示位置">
-                    <el-radio-group v-model="form.display_location" class="ml-4">
+                    <el-radio-group v-model="form.display_location">
                         <el-radio value="left">左</el-radio>
                         <el-radio value="right">右</el-radio>
                     </el-radio-group>
@@ -13,7 +13,7 @@
                     <slider v-model="form.offset_number" :max="1000"></slider>
                 </el-form-item>
                 <el-form-item label="风格">
-                    <el-radio-group v-model="form.float_style" class="ml-4">
+                    <el-radio-group v-model="form.float_style">
                         <el-radio value="diffuse">扩散</el-radio>
                         <el-radio value="shadow">阴影</el-radio>
                     </el-radio-group>
@@ -30,15 +30,14 @@ const props = defineProps({
     value: {
         type: Object,
         default: () => {},
-    }
+    },
 });
 
 const state = reactive({
-    form: props.value
+    form: props.value,
 });
 // 如果需要解构，确保使用toRefs
 const { form } = toRefs(state);
-
 </script>
 <style lang="scss" scoped>
 .card.mb-8 {

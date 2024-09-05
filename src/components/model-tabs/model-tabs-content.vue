@@ -1,23 +1,24 @@
 <template>
     <div class="common-content-height">
-        <el-form :model="form" label-width="70">
-            <card-container class="mb-8">
+        <el-form :model="form" label-width="60">
+            <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选择风格">
-                    <el-radio-group v-model="form.tabs_style" class="ml-4">
+                    <el-radio-group v-model="form.tabs_theme" @change="tabs_theme_change">
                         <el-radio value="0">样式一</el-radio>
                         <el-radio value="2">样式二</el-radio>
                         <el-radio value="3">样式三</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="滑动置顶">
-                    <el-radio-group v-model="form.tabs_top_up" class="ml-4">
-                        <el-radio :value="true">启用</el-radio>
-                        <el-radio :value="false">不启用</el-radio>
+                    <el-radio-group v-model="form.tabs_top_up">
+                        <el-radio value="1">启用</el-radio>
+                        <el-radio value="0">不启用</el-radio>
                     </el-radio-group>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="divider-line"></div>
+            <card-container>
                 <div class="mb-12">选项卡设置</div>
                 <drag :data="form.tabs_list" type="card" :space-col="25" @remove="remove" @on-sort="on_sort">
                     <template #default="scoped">
@@ -26,14 +27,19 @@
                                 <el-input v-model="scoped.row.title" placeholder="请输入标题文字" />
                             </el-form-item>
                             <el-form-item label="数据类型" class="w mb-0">
-                                <el-radio-group v-model="scoped.row.data_type" class="ml-4">
+                                <el-radio-group v-model="scoped.row.data_type">
                                     <el-radio value="micro_page">微页面</el-radio>
                                     <el-radio value="category">选择分类</el-radio>
                                 </el-radio-group>
                             </el-form-item>
                             <el-form-item :label="scoped.row.data_type == 'micro_page' ? '微页面' : '商品分类'" class="w mb-0">
                                 <!-- <el-input v-model="scoped.row.classify" placeholder="请选择页面" /> -->
-                                <url-value v-model="scoped.row.classify"></url-value>
+                                <template v-if="scoped.row.data_type == 'micro_page'">
+                                    <url-value v-model="scoped.row.micro_page_list"></url-value>
+                                </template>
+                                <template v-else>
+                                    <url-value v-model="scoped.row.classify" :type="['goods-category']"></url-value>
+                                </template>
                             </el-form-item>
                         </div>
                     </template>
@@ -44,19 +50,24 @@
     </div>
 </template>
 <script setup lang="ts">
-import { get_math } from '@/utils';
+import { get_math, tabs_style } from '@/utils';
 
 const props = defineProps({
     value: {
         type: Object,
         default: () => {},
     },
+    tabStyle: {
+        type: Object,
+        default: () => ({}),
+    },
 });
 
 const state = reactive({
-    form: props.value
+    form: props.value,
+    styles: props.tabStyle,
 });
-const { form } = toRefs(state);
+const { form, styles } = toRefs(state);
 const add = () => {
     form.value.tabs_list.push({
         id: get_math(),
@@ -65,16 +76,24 @@ const add = () => {
         data_type: 'micro_page',
         classify: {},
         micro_page: '',
-        category_list: []
-    })
-}
+        micro_page_list: [],
+        category_list: [],
+    });
+};
 const remove = (index: number) => {
-    form.value.tabs_list.splice(index, 1);
-}
+    if (form.value.tabs_list.length > 1) {
+        form.value.tabs_list.splice(index, 1);
+    } else {
+        ElMessage.warning('至少保留一个选项卡');
+    }
+};
 // 拖拽更新之后，更新数据
 const on_sort = (new_list: nav_group[]) => {
     form.value.tabs_list = new_list;
-}
+};
+const tabs_theme_change = (val: string | number | boolean | undefined): void => {
+    styles.value.tabs_color_checked = tabs_style(styles.value.tabs_color_checked, val);
+};
 </script>
 <style lang="scss" scoped>
 .card.mb-8 {

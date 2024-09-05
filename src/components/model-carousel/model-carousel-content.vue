@@ -1,26 +1,30 @@
 <template>
     <div class="auxiliary-line common-content-height">
-        <el-form :model="form" label-width="60">
-            <card-container class="mb-8">
+        <el-form :model="form" label-width="70">
+            <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="样式设置">
-                    <el-radio-group v-model="form.carousel_type" class="ml-4">
+                    <el-radio-group v-model="form.carousel_type">
                         <el-radio value="inherit">样式一</el-radio>
                         <el-radio value="card">样式二</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="图片设置">
-                    <el-radio-group v-model="form.img_fit" class="ml-4">
+                    <el-radio-group v-model="form.img_fit">
                         <el-radio value="contain">等比缩放</el-radio>
                         <el-radio value="inherit">铺满</el-radio>
                         <el-radio value="cover">等比剪切</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="高度设置">
-                    <slider v-model="form.height" :max="1000"></slider>
+                <el-form-item label="自动轮播">
+                    <el-switch v-model="form.is_roll" active-value="1" inactive-value="0" />
+                </el-form-item>
+                <el-form-item v-if="form.is_roll == '1'" label="间隔时间">
+                    <slider v-model="form.interval_time" :min="1" :max="100"></slider>
                 </el-form-item>
             </card-container>
-            <card-container class="mb-8">
+            <div class="divider-line"></div>
+            <card-container>
                 <div class="mb-12">内容设置</div>
                 <div class="tips mt-10 mb-20 size-12">最多添加{{ form.carousel_list.length }}张图片，建议尺寸750*300px</div>
                 <div class="flex-col gap-20">
@@ -50,7 +54,7 @@ const props = defineProps({
 });
 
 const state = reactive({
-    form: props.value
+    form: props.value,
 });
 const { form } = toRefs(state);
 const add = () => {
@@ -58,10 +62,10 @@ const add = () => {
         carousel_img: [],
         carousel_link: {},
     });
-}
+};
 const remove = (index: number) => {
     form.value.carousel_list.splice(index, 1);
-}
+};
 </script>
 <style lang="scss" scoped>
 .card-background {

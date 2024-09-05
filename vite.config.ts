@@ -79,6 +79,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
 
         // 构建配置
         build: {
+            target: 'esnext',
             // 打包不压缩图片为base64
             assetsInlineLimit: 0,
             // 混淆器设置
@@ -97,7 +98,7 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
             terserOptions: {
                 compress: {
                     // 移除console
-                    drop_console: true,
+                    drop_console: false,
                     // 移除debugger
                     drop_debugger: true,
                 },

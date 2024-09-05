@@ -1,15 +1,21 @@
 <template>
     <div class="mult-color-picker">
         <el-radio-group v-model="direction_type" @change="direction_type_change">
-            <el-radio value="0deg">横向</el-radio>
+            <el-radio value="180deg">横向</el-radio>
             <el-radio value="90deg">纵向</el-radio>
-            <el-radio value="315deg">左斜</el-radio>
-            <el-radio value="45deg">右斜</el-radio>
+            <el-radio value="45deg">左斜</el-radio>
+            <el-radio value="315deg">右斜</el-radio>
         </el-radio-group>
         <div class="flex-col">
             <div v-for="(item, index) in color_list" :key="index" class="flex-row align-s gap-12">
                 <div class="flex-col">
-                    <el-color-picker v-model="item.color" show-alpha :predefine="predefine_colors" @change="change_color(index, $event)" />
+                    <div class="flex-row align-c gap-12">
+                        <el-color-picker v-model="item.color" :predefine="predefine_colors" @change="change_color(index, $event)" />
+                        <div class="re mo-input-number">
+                            <el-input-number v-model="item.color_percentage" :max="999" placeholder="百分比" controls-position="right" class="number-show" @change="change_color_percentage(index, $event)"></el-input-number>
+                            <div class="define-append">%</div>
+                        </div>
+                    </div>
                     <div v-if="index + 1 !== color_list.length" class="connect-line"></div>
                 </div>
                 <template v-if="index == 0">
@@ -27,6 +33,7 @@
 </template>
 
 <script lang="ts" setup>
+import { predefine_colors } from '@/utils';
 const props = defineProps({
     type: {
         type: String,
@@ -40,40 +47,43 @@ const props = defineProps({
         },
     },
 });
-const predefine_colors = ref(['#ff4500', '#ff8c00', '#ffd700', '#90ee90', '#00ced1', '#1e90ff', '#c71585', 'rgba(255, 69, 0, 0.68)', 'rgb(255, 120, 0)', 'hsv(51, 100, 98)', 'hsva(120, 40, 94, 0.5)', 'hsl(181, 100%, 37%)', 'hsla(209, 100%, 56%, 0.73)', '#c7158577']);
 const direction_type = ref(props.type);
-let color_list = reactive(
-    //将数组['#fff']改为对象数组
-    props.value.map((item: any) => {
+let state = reactive({
+    color_list: props.value.map((item: any) => {
         return {
-            color: item,
+            color: item.color,
+            color_percentage: item.color_percentage,
         };
-    })
-);
+    }),
+});
+const { color_list } = toRefs(state);
 const emit = defineEmits(['update:value']);
 const direction_type_change = (type: any) => {
     direction_type.value = type.toString();
     update_value();
 };
 const reset_event = () => {
-    color_list = [{ color: '' }];
+    color_list.value = [{ color: '', color_percentage: undefined }];
     update_value();
 };
 const del_event = (index: number) => {
-    color_list.splice(index, 1);
+    color_list.value.splice(index, 1);
     update_value();
 };
 const add_event = () => {
-    color_list.push({ color: '' });
+    color_list.value.push({ color: '', color_percentage: undefined });
     update_value();
 };
 const change_color = (index: number, color: string | null) => {
-    color_list[index].color = color;
+    color_list.value[index].color = color;
+    update_value();
+};
+const change_color_percentage = (index: number, percentage: number | undefined) => {
+    color_list.value[index].color_percentage = percentage;
     update_value();
 };
 const update_value = () => {
-    let new_color_list = color_list.map((item) => item.color) || [];
-    emit('update:value', new_color_list, direction_type.value);
+    emit('update:value', color_list.value, direction_type.value);
 };
 </script>
 <style lang="scss" scoped>
@@ -127,6 +137,31 @@ const update_value = () => {
     }
     .icon-reset:hover {
         color: $cr-primary-dark;
+    }
+}
+.mo-input-number {
+    :deep(.el-input-number) {
+        .el-input-number__decrease,
+        .el-input-number__increase {
+            right: 3.4rem;
+        }
+    }
+    .number-show {
+        :deep(.el-input__wrapper .el-input__inner) {
+            text-align: left;
+        }
+    }
+    .define-append {
+        right: 0.1rem;
+        top: 0.2rem;
+        background: #f5f7fa;
+        color: #999;
+        height: 3rem;
+        padding: 0 1rem;
+        position: absolute;
+        font-size: 1.2rem;
+        border-top-right-radius: 0.4rem;
+        border-bottom-right-radius: 0.4rem;
     }
 }
 </style>

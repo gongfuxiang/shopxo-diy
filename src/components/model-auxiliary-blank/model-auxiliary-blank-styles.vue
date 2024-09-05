@@ -1,13 +1,14 @@
 <template>
     <div class="common-style-height">
         <el-form :model="form" label-width="70">
-            <card-container class="mb-8">
+            <card-container>
                 <div class="mb-12">空白样式</div>
                 <el-form-item label="线条颜色">
                     <color-picker v-model="form.line_color" default-color="rgba(204, 204, 204, 1)" @update:value="line_color_event" />
                 </el-form-item>
             </card-container>
         </el-form>
+        <div class="divider-line"></div>
         <common-styles :value="form.common_style" @update:value="common_styles_update" />
     </div>
 </template>

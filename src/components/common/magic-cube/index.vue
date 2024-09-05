@@ -3,8 +3,8 @@
         <div class="decorate-cube">
             <ul v-for="(n, index) in densityNum" :key="index" class="cube-col">
                 <li v-for="(i, index1) in densityNum" :key="index1" class="cube-item" :style="{ width: cubeCellWidth + 'px', height: cubeCellHeight + 'px' }" :data-x="n" :data-y="i" @click="onClickCubeItem($event)" @mouseenter="onEnterCubeItem($event)">
-                    <div :class="['w h item', { 'item-selecting': isSelecting(n, i), 'item-selected': isSelected(n, i) }]">
-                        <icon name="add" color="9" :style="{ 'line-height': cubeCellHeight + 'px' }"></icon>
+                    <div :class="['w h item do-not-trigger', { 'item-selecting': isSelecting(n, i), 'item-selected': isSelected(n, i) }]">
+                        <icon name="add" color="9" class="do-not-trigger" :style="{ 'line-height': cubeCellHeight + 'px' }"></icon>
                     </div>
                 </li>
             </ul>
@@ -12,7 +12,7 @@
                 <div v-if="selected_active == index && props.flag" class="cube-del" @click.stop="on_selected_del(index)">
                     <icon name="close" color="f" size="8"></icon>
                 </div>
-                <template v-if="!isEmpty(item.img[0]) && props.type == 'img'">
+                <template v-if="item.img && !isEmpty(item.img[0] || '') && props.type == 'img'">
                     <image-empty v-model="item.img[0]"></image-empty>
                 </template>
                 <template v-else>
@@ -22,7 +22,7 @@
                         {{ Math.round((750 / densityNum) * (item.end.x - item.start.x + 1)) }}
                         像素
                         <template v-if="props.type == 'data'">
-                            <div class="mt-12">共有3个商品</div>
+                            <div>{{ data_title(item) }}</div>
                         </template>
                     </div>
                 </template>
@@ -33,6 +33,11 @@
 
 <script setup lang="ts">
 import { isEmpty } from 'lodash';
+interface content {
+    data_type: string;
+    goods_list: Array<string>;
+    images_list: Array<string>;
+}
 interface CubeItem {
     start: {
         x: number;
@@ -42,15 +47,14 @@ interface CubeItem {
         x: number;
         y: number;
     };
-    img: uploadList[],
-    img_list?: any,
-    data_list?: any
+    img?: uploadList[];
+    data_content?: content
 }
 
 interface Props {
     flag: boolean;
     list: CubeItem[];
-    type: string;
+    type?: string;
     cubeWidth: number;
     cubeHeight: number;
 }
@@ -66,12 +70,28 @@ const selected_active = ref(0);
 //#region 容器大小变更
 const density = ref('4');
 //#endregion
+
 const selectingItem = reactive<any>({
     tempStart: null,
     tempEnd: null,
     start: null,
     end: null,
 });
+
+onMounted(() => {
+    // 监听点击事件
+    document.addEventListener('click', outerClick);
+});
+onUnmounted(() => {
+    // 移除监听事件
+    document.removeEventListener('click', outerClick);
+});
+// 判断点击的是否是可以点击的区域，其他区域隐藏掉编辑属性
+const outerClick = (e: any) => {
+    if (!isEmpty(e.target.className) && !e.target.className.includes('do-not-trigger')) {
+        clearSelecting();
+    }
+};
 
 const selectedList = ref(props.list);
 
@@ -210,9 +230,16 @@ const selected_click = (index: number) => {
     selected_active.value = index;
     emits('selected_click', index);
 };
-const tips = () => {
-    console.log(selectedList.value[selected_active.value].img_list);
-    console.log(selectedList.value[selected_active.value].data_list);
+const data_title = (item: CubeItem) => {
+    let title = `共有`;
+    if (item.data_content) {
+        if (item.data_content.data_type == 'goods') {
+            title += `${ item.data_content.goods_list.length }个商品`;
+        } else {
+            title += `${ item.data_content.images_list.length }个图片`;
+        }
+    }
+    return title;
 };
 </script>
 <style lang="scss" scoped>

@@ -1,10 +1,19 @@
 .upload-content {
     height: 57.4rem;
-    gap: 4.5rem;
     .left-content {
         width: 22.5rem;
         .el-tree {
             --el-tree-node-content-height: 40px;
+        }
+        .category-operate {
+            .icon:hover {
+                color: $cr-primary;
+            }
+        }
+        .disabled {
+            position: relative;
+            cursor: not-allowed;
+            height: 100%;
         }
     }
     .right-content {
@@ -43,7 +52,7 @@
                                 opacity: 1;
                             }
                         }
-                        .oprate {
+                        .operate {
                             position: absolute;
                             bottom: 0rem;
                             left: 0;
@@ -51,7 +60,7 @@
                             z-index: 1;
                             height: 2.4rem;
                             overflow: hidden;
-                            .oprate-content {
+                            .operate-content {
                                 opacity: 0;
                                 transition: all 0.5s linear;
                                 position: absolute;
@@ -64,7 +73,7 @@
                                 border-bottom-right-radius: 0.4rem;
                                 height: 2.4rem;
                             }
-                            .oprate-icon {
+                            .operate-icon {
                                 position: relative;
                                 &::before {
                                     content: '';
@@ -96,10 +105,34 @@
                     line-height: 2.8rem;
                 }
                 &:hover {
-                    .oprate-content {
+                    .operate-content {
                         opacity: 1 !important;
                         bottom: 0 !important;
                     }
+                }
+            }
+        }
+    }
+    .icon-container {
+        .search-text {
+            width: 22.5rem;
+        }
+        .icon-content {
+            margin: 0 -1rem;
+            width: calc(100% + 2rem);
+            .item {
+                transition: all 0.3s ease-in-out;
+                &:hover {
+                    color: $cr-primary;
+                    border-color: $cr-primary;
+                    position: relative;
+                    scale: 1.1;
+                }
+                &.active {
+                    color: $cr-primary;
+                    border-color: $cr-primary;
+                    position: relative;
+                    scale: 1.1;
                 }
             }
         }
@@ -153,5 +186,20 @@
         right: -6px;
         z-index: 1;
         line-height: normal;
+    }
+}
+
+.tree-operate-btn {
+    color: #999;
+    &:hover {
+        color: $cr-primary;
+    }
+}
+.tree-operate {
+    .item {
+        transition: all 0.3s linear;
+        &:hover {
+            color: $cr-primary;
+        }
     }
 }

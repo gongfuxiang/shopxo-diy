@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 
-export const footerNavCounterStore = defineStore('counter', () => {
+export const footerNavCounterStore = defineStore('footerNavCounter', () => {
     const padding_footer = ref(70);
     function padding_footer_computer(num: number) {
         padding_footer.value = num;
