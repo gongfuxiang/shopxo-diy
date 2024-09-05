@@ -38,7 +38,6 @@
                             <el-input v-model="form.button_text" placeholder="请输入按钮文字"></el-input>
                         </el-form-item>
                     </template>
-                    
                 </template>
             </card-container>
             <div class="divider-line"></div>
