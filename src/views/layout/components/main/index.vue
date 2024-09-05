@@ -38,7 +38,11 @@
                 <div class="acticons">
                     <el-button size="large" class="" @click="page_settings">页面设置</el-button>
                     <el-button size="large" class="" @click="export_click">导出</el-button>
-                    <el-button size="large" class="" @click="import_click">导入</el-button>
+                    <el-upload ref="uploadRef" class="upload-demo" action="#" :accept="exts_text" :show-file-list="false" :auto-upload="false" :on-change="upload_change">
+                        <template #trigger>
+                            <el-button size="large">导入</el-button>
+                        </template>
+                    </el-upload>
                     <el-button size="large" class="" @click="clear_click">清空</el-button>
                 </div>
                 <!-- 拖拽区 -->
@@ -165,6 +169,7 @@
 </template>
 <script setup lang="ts">
 import { background_computer, get_math, gradient_computer, padding_computer, radius_computer } from '@/utils';
+import type { UploadFile, UploadFiles } from 'element-plus';
 import { cloneDeep } from 'lodash';
 import { SortableEvent, VueDraggable } from 'vue-draggable-plus';
 import defaultSettings from './index';
@@ -245,7 +250,7 @@ watch(
 );
 
 // 父组件调用的方法
-const emits = defineEmits(['rightUpdate']);
+const emits = defineEmits(['rightUpdate', 'import', 'export']);
 const activeNames = reactive(['base', 'plugins', 'tool']);
 interface componentsData {
     name: string;
@@ -535,9 +540,17 @@ const page_settings = () => {
     emits('rightUpdate', page_data.value, diy_data.value, page_data.value, footer_nav.value);
 };
 //导出
-const export_click = () => {};
+const export_click = () => {
+    emits('export');
+};
+
 //导入
-const import_click = () => {};
+const exts_text = ref('.zip');
+// 文件状态改变时的钩子，添加文件、上传成功和上传失败时都会被调用
+const upload_change = async (uploadFile: UploadFile) => {
+    // console.log('文件状态改变时的钩子', uploadFile);
+    emits('import', uploadFile);
+};
 // 清空列表
 const clear_click = () => {
     app?.appContext.config.globalProperties.$common.message_box('清空后不可恢复，确定继续吗?', 'warning').then(() => {
