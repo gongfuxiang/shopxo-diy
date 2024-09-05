@@ -6,7 +6,7 @@
                 <el-form-item label="选择风格">
                     <div class="flex align-c flex-wrap gap-10">
                         <div v-for="(item, index) in style_list" :key="index" :class="['flex-item', {'flex-item-actived': form.style_actived === index }]" @click="style_click(index)">
-                            <icon :name="item" :color="`${ form.style_actived === index ? '#E1EEF9' : '#EDEDED'}`" size="48"></icon>
+                            <icon :name="item" :color="`${ form.style_actived === index ? '#E1EEF9' : '#EDEDED'}`" size="30"></icon>
                         </div>
                     </div>
                 </el-form-item>
@@ -136,8 +136,8 @@ const selected_click = (index: number) => {
     }
 }
 .flex-item {
-    width: 7.6rem;
-    height: 7.6rem;
+    width: 4.7rem;
+    height: 4.7rem;
     background: #F7F7F7;
     border-radius: 0.4rem;
     border: 1px solid #E4E4E4;
