@@ -206,11 +206,11 @@ const slide_active_color = computed(() => {
 
 const seckill_head_style = computed(() => {
     let style = ``;
-    const { header_background_img_url, header_background_img_style, header_background_color_list, header_background_direction } = new_style.value;
+    const { header_background_img, header_background_img_style, header_background_color_list, header_background_direction } = new_style.value;
     // 渐变
     const gradient = { color_list: header_background_color_list, direction: header_background_direction };
     // 背景图
-    const back = { background_img_url: header_background_img_url, background_img_style: header_background_img_style };
+    const back = { background_img: header_background_img, background_img_style: header_background_img_style };
     style += gradient_computer(gradient) + background_computer(back);
     return style;
 });

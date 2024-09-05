@@ -22,7 +22,7 @@
                                 </el-tooltip>
                             </el-radio-group>
                         </div>
-                        <upload v-model="form.background_img_url" :limit="1" @update:model-value="background_img_url_change"></upload>
+                        <upload v-model="form.background_img" :limit="1" @update:model-value="background_img_change"></upload>
                     </div>
                     <div v-else>
                         <color-picker v-model="form.color_list[0].color"></color-picker>
@@ -87,7 +87,7 @@ const props = defineProps({
 // 初始化表单数据
 const init_form = reactive({
     direction: '180deg',
-    background_img_url: [] as uploadList[],
+    background_img: [] as uploadList[],
     color_list: [{ color: '', color_percentage: undefined }] as color_list[],
     background_img_style: 2,
     padding: 0,
@@ -124,8 +124,8 @@ const background_img_style_change = (style: any) => {
     form.background_img_style = style;
     emit('update:value', form);
 };
-const background_img_url_change = (arry: uploadList[]) => {
-    form.background_img_url = arry;
+const background_img_change = (arry: uploadList[]) => {
+    form.background_img = arry;
     emit('update:value', form);
 };
 const radius_change = (radius: any) => {

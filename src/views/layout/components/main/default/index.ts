@@ -22,7 +22,7 @@ const defaultCommon: componentsCommonCommonStyle = {
     box_shadow_y: 0,
     box_shadow_blur: 0,
     box_shadow_spread: 0,
-    background_img_url: [] as uploadList[],
+    background_img: [] as uploadList[],
 };
 
 export default defaultCommon;

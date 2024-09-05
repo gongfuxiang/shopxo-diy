@@ -191,10 +191,10 @@ const default_config = {
     },
     common_style: {
         theme_default: {
-            background_img_url: [],
+            background_img: [],
         },
         theme_2: {
-            background_img_url: [{ url: 'http://shopxo.com/static/upload/images/common/2024/08/28/1724815957918121.png' }],
+            background_img: [{ url: 'http://shopxo.com/static/upload/images/common/2024/08/28/1724815957918121.png' }],
         },
     },
 };

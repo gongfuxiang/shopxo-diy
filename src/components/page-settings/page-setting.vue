@@ -23,7 +23,7 @@ const default_data = {
     header_background_color_list: [{ color: '#fff', color_percentage: undefined }],
     header_background_direction: '180deg',
     header_background_img_style: 2,
-    header_background_img_url: [],
+    header_background_img: [],
     header_background_title_color: '#333',
     header_background_title_typeface: '500',
     header_background_title_size: 16,
@@ -35,7 +35,7 @@ const default_data = {
     color_list: [{ color: '#FF973D', color_percentage: undefined }, { color: '#FF3131', color_percentage: undefined }],
     direction: '90deg',
     background_img_style: '',
-    background_img_url: [],
+    background_img: [],
     search_button_radius: {
         radius: 16,
         radius_top_left: 16,

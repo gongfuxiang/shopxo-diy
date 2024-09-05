@@ -60,7 +60,7 @@ const data_style = {
     color_list: [{ color: '#FFD9C3', color_percentage: 0 }, { color: '#FFECE2', color_percentage: 12 }, { color: '#FFFFFF', color_percentage: 30 }],
     direction: '180deg',
     background_img_style: 2,
-    background_img_url: [],
+    background_img: [],
     is_roll: false,
     rotation_direction: 'horizontal',
     interval_time: 2,

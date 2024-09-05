@@ -34,7 +34,7 @@
                                     </el-tooltip>
                                 </el-radio-group>
                             </div>
-                            <upload v-model="form.background_img_url" :limit="1"></upload>
+                            <upload v-model="form.background_img" :limit="1"></upload>
                         </div>
                     </el-form-item>
                     <el-form-item label="按钮圆角">

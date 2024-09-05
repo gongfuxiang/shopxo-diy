@@ -76,7 +76,7 @@ declare global {
      * 背景图
      */
     type backgroundImgUrlStyle = {
-        background_img_url: uploadList[];
+        background_img: uploadList[];
         background_img_style: number;
     };
 
@@ -107,7 +107,7 @@ declare global {
         box_shadow_y: number;
         box_shadow_blur: number;
         box_shadow_spread: number;
-        background_img_url: uploadList[];
+        background_img: uploadList[];
     };
     /**
      * 链接参数

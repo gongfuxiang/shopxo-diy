@@ -66,11 +66,11 @@ const style_container = computed(() => common_styles_computer(new_style.value.co
 const container_height = computed(() => new_style.value.container_height + 'px');
 // 容器背景
 const container_background_style = computed(() => {
-    const { container_color_list, container_direction, container_background_img_style, container_background_img_url } = new_style.value;
+    const { container_color_list, container_direction, container_background_img_style, container_background_img } = new_style.value;
     const styles = {
         color_list: container_color_list,
         direction: container_direction,
-        background_img_url: container_background_img_url,
+        background_img: container_background_img,
         background_img_style: container_background_img_style,
     };
     return gradient_computer(styles) + radius_computer(new_style.value.container_radius) + background_computer(styles) + `overflow:hidden;`;

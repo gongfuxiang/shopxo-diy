@@ -42,7 +42,7 @@
                                     </el-tooltip>
                                 </el-radio-group>
                             </div>
-                            <upload v-model="form.header_background_img_url" :limit="1"></upload>
+                            <upload v-model="form.header_background_img" :limit="1"></upload>
                         </div>
                     </el-form-item>
                 </card-container>

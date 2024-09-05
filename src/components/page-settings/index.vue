@@ -50,12 +50,12 @@ const new_style = computed(() => props.pageData.com_data.style);
 const position = computed(() => new_style.value.up_slide_display ? 'absolute' : 'relative');
 const roll_style = computed(() => {
     let style = ``;
-    const { header_background_img_url, header_background_img_style, header_background_color_list, header_background_direction, header_background_type } = new_style.value;
+    const { header_background_img, header_background_img_style, header_background_color_list, header_background_direction, header_background_type } = new_style.value;
     if (header_background_type === 'color_image') {
         // 渐变
         const gradient = { color_list: header_background_color_list, direction: header_background_direction };
         // 背景图
-        const back = { background_img_url: header_background_img_url, background_img_style: header_background_img_style };
+        const back = { background_img: header_background_img, background_img_style: header_background_img_style };
         style += gradient_computer(gradient) + background_computer(back);
     } else {
         style += `background: transparent;`;

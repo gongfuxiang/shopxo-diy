@@ -52,7 +52,7 @@
                                 </el-tooltip>
                             </el-radio-group>
                         </div>
-                        <upload v-model="form.container_background_img_url" :limit="1"></upload>
+                        <upload v-model="form.container_background_img" :limit="1"></upload>
                     </div>
                 </el-form-item>
                 <el-form-item label="容器圆角">

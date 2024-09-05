@@ -27,7 +27,7 @@ interface defaultSearch {
         color_list: color_list[];
         direction: string;
         background_img_style: string;
-        background_img_url: uploadList[];
+        background_img: uploadList[];
         search_button_radius: object;
         tips_color: string;
         hot_words_color: string;
@@ -64,7 +64,7 @@ const defaultSearch: defaultSearch = {
         color_list: [{ color: '#FF973D', color_percentage: undefined }, { color: '#FF3131', color_percentage: undefined }],
         direction: '90deg',
         background_img_style: '',
-        background_img_url: [],
+        background_img: [],
         search_button_radius: {
             radius: 16,
             radius_top_left: 16,

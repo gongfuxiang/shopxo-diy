@@ -148,7 +148,7 @@ export function box_shadow_computer(new_style: boxShadowStyle) {
  * @returns {string}
  */
 export function background_computer(new_style: backgroundImgUrlStyle) {
-    if (new_style.background_img_url.length > 0) {
+    if (new_style.background_img.length > 0) {
         let url_styke = '';
         if (new_style.background_img_style == 1) {
             url_styke = 'background-repeat: repeat;';
@@ -157,7 +157,7 @@ export function background_computer(new_style: backgroundImgUrlStyle) {
         } else {
             url_styke = `background-repeat: no-repeat;background-position: center;`;
         }
-        return `background-image:url(${new_style.background_img_url[0].url});${url_styke}`;
+        return `background-image:url(${new_style.background_img[0].url});${url_styke}`;
     } else {
         return '';
     }
