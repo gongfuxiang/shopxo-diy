@@ -15,9 +15,9 @@
             </el-collapse-item>
         </el-collapse>
     </div>
-    <div class="drawer-container" :style="`width: ${diy_data.length > 0 ? '12.8rem' : '0px'}`">
-        <div class="drawer-content pt-5" :style="{ left: diy_data.length > 0 ? '0' : '-100%' }">
-            <div class="size-14 cr-3 fw pl-12 drawer-title" :style="{ opacity: diy_data.length > 0 ? '1' : '0' }">已选组件({{ diy_data.length }})</div>
+    <div class="drawer-container" :style="`width: ${ drawer_selected ? '12.8rem' : '0px'}`">
+        <div class="drawer-content pt-5" :style="{ left: drawer_selected ? '0' : '-100%' }">
+            <div class="size-14 cr-3 fw pl-12 drawer-title" :style="{ opacity: drawer_selected ? '1' : '0' }">已选组件({{ diy_data.length }})</div>
             <div ref="left_scrollTop" class="drawer-drag-area">
                 <VueDraggable v-model="diy_data" :animation="500" target=".sort-target" :scroll="true" :on-sort="on_sort">
                     <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col">
@@ -32,7 +32,11 @@
         </div>
     </div>
     <!-- 视图渲染 -->
-    <div class="main">
+    <div class="main re">
+        <div v-if="diy_data.length > 0" :class="['layout-toggle-bar', drawer_selected ? 'layout-toggle-bar-close' : 'layout-toggle-bar-open']" @click="toggle_drawer">
+            <div class="layout-toggle-bar-top"></div>
+            <div class="layout-toggle-bar-bottom"></div>
+        </div>
         <div class="model">
             <div class="model-content">
                 <div class="acticons">
@@ -248,7 +252,18 @@ watch(
         footer_nav.value = newValue;
     }
 );
-
+// 已选组件逻辑处理
+const drawer_selected = ref(false);
+watchEffect(() => {
+    if (diy_data.value.length > 0) {
+        drawer_selected.value = true;
+    } else {
+        drawer_selected.value = false;
+    }
+})
+const toggle_drawer = () => {
+    drawer_selected.value = !drawer_selected.value;
+};
 // 父组件调用的方法
 const emits = defineEmits(['rightUpdate', 'import', 'export']);
 const activeNames = reactive(['base', 'plugins', 'tool']);
