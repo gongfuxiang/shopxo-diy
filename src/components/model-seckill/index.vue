@@ -54,7 +54,7 @@
                                 <!-- 标题 -->
                                 <div :style="trends_config('title')" class="text-line-2">{{ item.title }}</div>
                                 <!-- 进度条 -->
-                                <div v-if="form.shop_style_type == '1'" class="flex-row align-c gap-6">
+                                <!-- <div v-if="form.shop_style_type == '1'" class="flex-row align-c gap-6">
                                     <div class="re flex-1">
                                         <div class="slide-bottom" :style="`background: ${new_style.progress_bg_color}`"></div>
                                         <div class="slide-top" :style="` width: 51%; ${slide_active_color}`">
@@ -62,7 +62,7 @@
                                         </div>
                                     </div>
                                     <span class="size-10" :style="`color: ${new_style.progress_text_color}`">已抢51%</span>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="flex-row align-e gap-10 jc-sb">
                                 <div class="flex-col gap-5">
