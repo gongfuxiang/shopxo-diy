@@ -129,7 +129,7 @@ const get_auto_data_list = async () => {
         article_order_by_type: sort,
         article_order_by_rule: sort_rules,
         article_number: number,
-        article_is_cover: is_cover ? 1 : 0,
+        article_is_cover: is_cover,
     };
     const res = await ArticleAPI.getAutoList(new_data);
     if (!isEmpty(res.data)) {

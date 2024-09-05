@@ -5,16 +5,16 @@ interface carousel_list {
     id: string;
     title: string;
     link: object;
-    is_show: boolean;
+    is_show: string;
 }
 interface defaultSearch {
     content: {
         title: string;
         title_link: object;
         is_title_center: number;
-        keyword_show: true;
+        keyword_show: string;
         keyword_list: carousel_list[];
-        right_show: true;
+        right_show: string;
         right_title: string;
         right_link: object;
     };
@@ -34,8 +34,8 @@ const defaultSearch: defaultSearch = {
         title: '',
         title_link: {},
         is_title_center: 0,
-        keyword_show: true,
-        right_show: true,
+        keyword_show: '1',
+        right_show: '1',
         right_title: '更多',
         right_link: {},
         keyword_list: [
@@ -43,7 +43,7 @@ const defaultSearch: defaultSearch = {
                 id: get_math(),
                 title: '',
                 link: {},
-                is_show: true,
+                is_show: '1',
             },
         ],
     },

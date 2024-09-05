@@ -21,10 +21,10 @@
             <div ref="left_scrollTop" class="drawer-drag-area">
                 <VueDraggable v-model="diy_data" :animation="500" target=".sort-target" :scroll="true" :on-sort="on_sort">
                     <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col">
-                        <li v-for="(item, index) in diy_data" :key="index" :class="['flex ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-drag-bg': item.show_tabs }]" @click="on_choose(index, item.show_tabs)">
+                        <li v-for="(item, index) in diy_data" :key="index" :class="['flex ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-drag-bg': item.show_tabs == '1' }]" @click="on_choose(index, item.show_tabs)">
                             <el-icon class="iconfont icon-drag size-16 cr-d" />
                             <span class="size-12 cr-6">{{ item.name }}</span>
-                            <el-icon class="iconfont icon-close-b size-16 abs" :style="[item.show_tabs ? '' : 'display:none']" @click.stop="del(index)" />
+                            <el-icon class="iconfont icon-close-b size-16 abs" :style="[item.show_tabs == '1' ? '' : 'display:none']" @click.stop="del(index)" />
                         </li>
                     </TransitionGroup>
                 </VueDraggable>
@@ -44,12 +44,12 @@
                 <!-- 拖拽区 -->
                 <div ref="scrollTop" class="model-drag">
                     <!-- 页面设置 -->
-                    <page-settings :show-page="page_data.show_tabs" :page-data="page_data" @page_settings="page_settings"></page-settings>
+                    <page-settings :show-page="page_data.show_tabs == '1'" :page-data="page_data" @page_settings="page_settings"></page-settings>
                     <div class="model-wall" :style="content_style">
                         <div class="model-wall-content" :style="`padding-top:${top_padding}px; margin-top: ${top_margin}px;padding-bottom:${bottom_navigation_show ? footer_nav_counter_store.padding_footer : 0}px;`">
                             <VueDraggable v-model="diy_data" :animation="500" :touch-start-threshold="2" group="people" class="drag-area re" ghost-class="ghost" :on-sort="on_sort" :on-start="on_start" :on-end="on_end">
                                 <div v-for="(item, index) in diy_data" :key="item.id" :class="model_class(item)" :style="model_style(item)" @click="on_choose(index, item.show_tabs)">
-                                    <div v-if="item.show_tabs" class="plug-in-right" chosenClass="close">
+                                    <div v-if="item.show_tabs == '1'" class="plug-in-right" chosenClass="close">
                                         <el-icon :class="`iconfont ${item.is_enable ? 'icon-eye' : 'icon-eye-close'}`" @click.stop="set_enable(index)" />
                                         <el-icon class="iconfont icon-del" @click.stop="del(index)" />
                                         <el-icon class="iconfont icon-copy" @click.stop="copy(index)" />
@@ -105,11 +105,11 @@
                                         </template>
                                         <!-- 图片魔方 -->
                                         <template v-else-if="item.key == 'img-magic'">
-                                            <model-img-magic :key="item.com_data" :value="item.com_data" :show-tabs="item.show_tabs"></model-img-magic>
+                                            <model-img-magic :key="item.com_data" :value="item.com_data" :show-tabs="item.show_tabs == '1'"></model-img-magic>
                                         </template>
                                         <!-- 数据魔方 -->
                                         <template v-else-if="item.key == 'data-magic'">
-                                            <model-data-magic :key="item.com_data" :value="item.com_data" :show-tabs="item.show_tabs"></model-data-magic>
+                                            <model-data-magic :key="item.com_data" :value="item.com_data" :show-tabs="item.show_tabs == '1'"></model-data-magic>
                                         </template>
                                         <!-- 热区 -->
                                         <template v-else-if="item.key == 'hot-zone'">
@@ -117,7 +117,7 @@
                                         </template>
                                         <!-- 自定义 -->
                                         <template v-else-if="item.key == 'custom'">
-                                            <model-custom :key="item.com_data" :value="item.com_data" :show-tabs="item.show_tabs"></model-custom>
+                                            <model-custom :key="item.com_data" :value="item.com_data" :show-tabs="item.show_tabs == '1'"></model-custom>
                                         </template>
                                         <!-- 营销组件 -->
                                         <!-- 优惠券 -->
@@ -157,7 +157,7 @@
                 </div>
                 <!-- 底部区域 -->
                 <div v-if="bottom_navigation_show" class="model-bottom">
-                    <footer-nav :show-footer="footer_nav.show_tabs" :footer-data="footer_nav.com_data" @footer-nav="footer_nav_event"></footer-nav>
+                    <footer-nav :show-footer="footer_nav.show_tabs == '1'" :footer-data="footer_nav.com_data" @footer-nav="footer_nav_event"></footer-nav>
                 </div>
             </div>
         </div>
@@ -260,8 +260,8 @@ const url_computer = (name: string) => {
 
 // 模块的class
 const model_class = computed(() => {
-    return (item: { show_tabs: boolean; key: string; is_enable: boolean; id: string }) => {
-        return ['plug-in-table', { 'plug-in-border': item.show_tabs, 'float-window': item.key == 'float-window', 'plug-in-animation': !item.show_tabs && show_model_border }];
+    return (item: { show_tabs: string; key: string; is_enable: boolean; id: string }) => {
+        return ['plug-in-table', { 'plug-in-border': item.show_tabs == '1', 'float-window': item.key == 'float-window', 'plug-in-animation': item.show_tabs != '1' && show_model_border }];
     };
 });
 
@@ -332,8 +332,8 @@ const onStart = () => {
 const clone_item_com_data = (item: commonComponentData) => {
     return {
         name: item.name,
-        show_tabs: true,
-        is_enable: true,
+        show_tabs: '1',
+        is_enable: '1',
         src: item.src,
         id: get_math(),
         key: item.key,
@@ -342,9 +342,9 @@ const clone_item_com_data = (item: commonComponentData) => {
 };
 
 // 选中时候的效果
-const on_choose = (index: number, show_tabs: Boolean) => {
+const on_choose = (index: number, show_tabs: string) => {
     // 如果已经选中了, 设置为不可再次触发事件
-    if (!show_tabs) {
+    if (show_tabs != '1') {
         // 设置对应的位置为显示
         set_show_tabs(index);
     }
@@ -434,7 +434,7 @@ const copy = (index: number) => {
 // 删除
 const del = (index: number) => {
     app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
-        const show_tabs_index = diy_data.value.findIndex((item: any) => item.show_tabs);
+        const show_tabs_index = diy_data.value.findIndex((item: any) => item.show_tabs == '1');
         if (show_tabs_index == index) {
             diy_data.value.splice(index, 1);
             if (diy_data.value.length > 0) {
@@ -459,14 +459,14 @@ const get_diy_index_data = (index: number) => {
 // 设置复制 删除 移动几个按钮的显示位置，
 // 设置当前选中的是那个
 const set_show_tabs = (index: number) => {
-    page_data.value.show_tabs = false;
-    footer_nav.value.show_tabs = false;
+    page_data.value.show_tabs = '0';
+    footer_nav.value.show_tabs = '0';
     diy_data.value.forEach((item, for_index) => {
         // 先将全部的设置为false,再将当前选中的设置为true
-        item.show_tabs = false;
+        item.show_tabs = '0';
         if (for_index == index) {
             emits('rightUpdate', item, diy_data.value, page_data.value, footer_nav.value);
-            item.show_tabs = true;
+            item.show_tabs = '1';
             // 悬浮按钮的时候不用滚动到指定位置
             if (item.key !== 'float-window') {
                 scroll();
@@ -523,12 +523,12 @@ onMounted(() => {
 //页面设置
 const page_settings = () => {
     // 页面设置显示
-    page_data.value.show_tabs = true;
-    footer_nav.value.show_tabs = false;
+    page_data.value.show_tabs = '1';
+    footer_nav.value.show_tabs = '0';
     // 将拖拽的信息全部变为不选中
     if (diy_data.value.length > 0) {
         diy_data.value.forEach((item) => {
-            item.show_tabs = false;
+            item.show_tabs = '0';
         });
     }
 
@@ -551,12 +551,12 @@ const clear_click = () => {
 //底部导航设置
 const footer_nav_event = () => {
     // 页面设置显示
-    page_data.value.show_tabs = false;
-    footer_nav.value.show_tabs = true;
+    page_data.value.show_tabs = '0';
+    footer_nav.value.show_tabs = '1';
     // 将拖拽的信息全部变为不选中
     if (diy_data.value.length > 0) {
         diy_data.value.forEach((item) => {
-            item.show_tabs = false;
+            item.show_tabs = '0';
         });
     }
     emits('rightUpdate', footer_nav.value, diy_data.value, page_data.value, footer_nav.value);

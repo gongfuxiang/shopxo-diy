@@ -4,7 +4,7 @@
             <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选项卡置顶">
-                    <el-switch v-model="form.tabs_top_up" />
+                    <el-switch v-model="form.tabs_top_up" active-value="1" inactive-value="0" />
                 </el-form-item>
                 <el-form-item label="选项卡风格">
                     <el-radio-group v-model="form.tabs_theme" @change="tabs_theme_change">
@@ -67,7 +67,7 @@
                                             </el-radio-group>
                                         </el-form-item>
                                         <el-form-item label="封面图片">
-                                            <el-switch v-model="row.is_cover" />
+                                            <el-switch v-model="row.is_cover" active-value="1" inactive-value="0" />
                                         </el-form-item>
                                     </template>
                                 </template>
@@ -214,7 +214,7 @@ const tabs_add = () => {
         number: 4,
         sort: '0',
         sort_rules: '0',
-        is_cover: true,
+        is_cover: '1',
         data_list: [],
     });
     // emit('update:value', form);

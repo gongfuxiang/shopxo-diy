@@ -3,8 +3,8 @@
         <template v-if="form.notice_style == 'inherit'">
             <div class="flex-row align-c news-box gap-y-8" :style="container_background_style">
                 <template v-if="form.title_type == 'img-icon'">
-                    <div v-if="!isEmpty(form.img)">
-                        <image-empty v-model="form.img[0]" :style="img_style"></image-empty>
+                    <div v-if="!isEmpty(form.img_src)">
+                        <image-empty v-model="form.img_src[0]" :style="img_style"></image-empty>
                     </div>
                     <div v-else>
                         <icon :name="form.icon_class" :size="new_style.icon_size + ''" :color="new_style.icon_color"></icon>
@@ -13,7 +13,7 @@
                 <template v-else>
                     <div :style="topic_style" class="pl-6 pr-6 radius-sm">{{ form.title || '公告' }}</div>
                 </template>
-                <el-carousel :key="carouselKey" class="flex-1" indicator-position="none" :interval="interval_time" arrow="never" :direction="direction_type"  :autoplay="true">
+                <el-carousel :key="carouselKey" class="flex-1" indicator-position="none" :interval="interval_time" arrow="never" :direction="direction_type" :autoplay="true">
                     <el-carousel-item v-for="(item, index) in notice_list" :key="index" :style="`${ news_style } color: ${ new_style.news_color }`">{{ item.notice_title }}</el-carousel-item>
                 </el-carousel>
                 <div v-if="form.is_right_button == 'show'" class="size-12"><el-icon class="iconfont icon-arrow-right" :color="new_style.button_color || '#999'"></el-icon></div>
@@ -27,7 +27,7 @@
                             <icon :name="form.icon_class" :size="new_style.icon_size + ''" :color="new_style.icon_color"></icon>
                         </template>
                         <template v-else>
-                            <image-empty v-model="form.img[0]" :style="img_style" error-img-style="width:1.6rem;height:1.6rem;"></image-empty>
+                            <image-empty v-model="form.img_src[0]" :style="img_style" error-img-style="width:1.6rem;height:1.6rem;"></image-empty>
                         </template>
                     </template>
                     <template v-else>

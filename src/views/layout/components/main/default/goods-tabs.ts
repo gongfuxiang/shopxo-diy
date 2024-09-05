@@ -43,7 +43,7 @@ interface DefaultProductList {
         shop_radius: radiusStyle;
         content_outer_spacing: number;
         content_outer_height: number;
-        is_roll: boolean;
+        is_roll: string;
         interval_time: number;
         content_spacing: number;
         shop_title_typeface: string;
@@ -125,7 +125,7 @@ const defaultProductList: DefaultProductList = {
         content_outer_spacing: 10,
         content_spacing: 10,
         content_outer_height: 232,
-        is_roll: true,
+        is_roll: '1',
         interval_time: 2,
         shop_title_typeface: '500',
         shop_title_size: 14,

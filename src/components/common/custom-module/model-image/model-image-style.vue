@@ -35,11 +35,11 @@
                 <div class="mb-12">边框设置</div>
                 <el-form-item label="边框显示">
                     <el-radio-group v-model="form.border_show">
-                        <el-radio :value="true">显示</el-radio>
-                        <el-radio :value="false">隐藏</el-radio>
+                        <el-radio value="1">显示</el-radio>
+                        <el-radio value="0">隐藏</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <template v-if="form.border_show">
+                <template v-if="form.border_show == '1'">
                     <el-form-item label="边框颜色">
                         <color-picker v-model="form.border_color" default-color="#FF3F3F"></color-picker>
                     </el-form-item>
@@ -103,7 +103,7 @@ watch(
     (val) => {
         let width = form.value.img_width;
         let height = form.value.img_height;
-        if (form.value.border_show) {
+        if (form.value.border_show == '1') {
             width += form.value.border_size * 2;
             height += form.value.border_size * 2;
         }

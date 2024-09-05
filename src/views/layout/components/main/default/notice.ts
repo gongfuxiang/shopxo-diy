@@ -13,7 +13,7 @@ interface defaultSearch {
         title_type: string;
         title: string;
         direction: string;
-        img: uploadList[];
+        img_src: uploadList[];
         icon_class: string;
         more_link: object;
         interval_time: number;
@@ -48,7 +48,7 @@ const defaultSearch: defaultSearch = {
         direction: 'vertical',
         title_type: 'img-icon',
         title: '测试标题',
-        img: [],
+        img_src: [],
         icon_class: '',
         is_right_button: 'show',
         interval_time: 2,
