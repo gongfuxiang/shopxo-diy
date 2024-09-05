@@ -569,6 +569,8 @@ const upload_change = async (uploadFile: UploadFile) => {
 // 清空列表
 const clear_click = () => {
     app?.appContext.config.globalProperties.$common.message_box('清空后不可恢复，确定继续吗?', 'warning').then(() => {
+        page_data.value.com_data = cloneDeep(defaultSettings.header_nav);
+        footer_nav.value.com_data = cloneDeep(defaultSettings.footer_nav);
         diy_data.value = [];
         page_settings();
     });

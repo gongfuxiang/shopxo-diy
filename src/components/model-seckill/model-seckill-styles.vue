@@ -7,20 +7,21 @@
                     <el-form-item v-if="data.topic_type == 'text'" label="标题设置">
                         <color-text-size-group v-model:color="form.title_color" v-model:size="form.title_size" :default-color="clone_form.title_color" :type-list="['color', 'size']"></color-text-size-group>
                     </el-form-item>
-                    <el-form-item v-if="data.button_status == '1'" label="按钮设置">
-                        <color-text-size-group v-model:color="form.head_button_color" v-model:size="form.head_button_size" :default-color="clone_form.head_button_color" :type-list="['color', 'size']"></color-text-size-group>
-                    </el-form-item>
                     <el-form-item label="秒杀提示">
                         <color-picker v-model="form.end_text_color" :default-color="clone_form.end_text_color"></color-picker>
                     </el-form-item>
                     <el-form-item label="数字背景">
                         <mult-color-picker :value="form.countdown_bg_color_list" :type="form.countdown_direction" @update:value="countdown_color_picker_event"></mult-color-picker>
                     </el-form-item>
-                    <el-form-item label="数字">
+                    <el-form-item label="数字颜色">
                         <color-picker v-model="form.countdown_color" :default-color="clone_form.countdown_color"></color-picker>
                     </el-form-item>
-                    <el-form-item label="顶部背景">
+                    <el-form-item v-if="data.button_status == '1'" label="按钮设置">
+                        <color-text-size-group v-model:color="form.head_button_color" v-model:size="form.head_button_size" :default-color="clone_form.head_button_color" :type-list="['color', 'size']"></color-text-size-group>
+                    </el-form-item>
+                    <el-form-item label="头部背景">
                         <div class="flex-col gap-10">
+                            <div class="size-12">背景色</div>
                             <mult-color-picker :value="form.header_background_color_list" :type="form.header_background_direction" @update:value="mult_color_picker_event"></mult-color-picker>
                             <div class="flex-row jc-sb align-c">
                                 <div class="size-12">背景图</div>
