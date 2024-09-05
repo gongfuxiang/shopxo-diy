@@ -42,7 +42,7 @@ export const img_com_data = {
     com_width: 50,
     com_height: 50,
     staging_height: 50,
-    img_src: [],
+    img: [],
     data_source_id: '',
     data_source_list: {},
     link: {},

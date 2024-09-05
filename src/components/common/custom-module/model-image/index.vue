@@ -1,6 +1,6 @@
 <template>
     <div class="img-outer re w h" :style="border_style">
-        <image-empty v-model="img_src" :style="image_style"></image-empty>
+        <image-empty v-model="img" :style="image_style"></image-empty>
     </div>
 </template>
 <script setup lang="ts">
@@ -27,9 +27,9 @@ const props = defineProps({
 });
 // 用于页面判断显示
 const form = reactive(props.value);
-const img_src = computed(() => {
-    if (!isEmpty(form.img_src[0])) {
-        return form.img_src[0];
+const img = computed(() => {
+    if (!isEmpty(form.img[0])) {
+        return form.img[0];
     } else {
         if (!isEmpty(props.sourceList)) {
             return props.sourceList[form.data_source_id];

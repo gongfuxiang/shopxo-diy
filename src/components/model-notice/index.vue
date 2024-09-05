@@ -3,8 +3,8 @@
         <template v-if="form.notice_style == 'inherit'">
             <div class="flex-row align-c news-box gap-y-8" :style="container_background_style">
                 <template v-if="form.title_type == 'img-icon'">
-                    <div v-if="!isEmpty(form.img_src)">
-                        <image-empty v-model="form.img_src[0]" :style="img_style"></image-empty>
+                    <div v-if="!isEmpty(form.img)">
+                        <image-empty v-model="form.img[0]" :style="img_style"></image-empty>
                     </div>
                     <div v-else>
                         <icon :name="form.icon_class" :size="new_style.icon_size + ''" :color="new_style.icon_color"></icon>
@@ -27,7 +27,7 @@
                             <icon :name="form.icon_class" :size="new_style.icon_size + ''" :color="new_style.icon_color"></icon>
                         </template>
                         <template v-else>
-                            <image-empty v-model="form.img_src[0]" :style="img_style" error-img-style="width:1.6rem;height:1.6rem;"></image-empty>
+                            <image-empty v-model="form.img[0]" :style="img_style" error-img-style="width:1.6rem;height:1.6rem;"></image-empty>
                         </template>
                     </template>
                     <template v-else>
@@ -80,9 +80,9 @@ const img_style = ref('');
 // 标题的设置
 const topic_style = computed(() => {
     // 标题渐变色处理
-    const gradient = gradient_handle(new_style.value.topic_color_list, '90deg');
+    const gradient = gradient_handle(new_style.value.title_color_list, '90deg');
     // 标题设置
-    return `color:${ new_style.value.topic_color }; font-size: ${ new_style.value.topic_size }px; font-weight: ${ new_style.value.topic_typeface }; ${ gradient }`;
+    return `color:${ new_style.value.title_color }; font-size: ${ new_style.value.title_size }px; font-weight: ${ new_style.value.title_typeface }; ${ gradient }`;
 });
 // 内容标题设置
 const news_style = computed(() => `font-size: ${ new_style.value.news_size }px; font-weight: ${ new_style.value.news_typeface };`);
@@ -110,9 +110,9 @@ const notice_list = computed(() => {
 watchEffect(() => {
     //#region 标题设置
     if (form.value.notice_style == 'card') {
-        img_style.value = `height: ${ new_style.value.topic_height }px; width: ${ new_style.value.topic_width }px`;
-    } else if (!isEmpty(form.value.img_src)) {
-        img_style.value = `height: ${ new_style.value.topic_height }px; width: ${ new_style.value.topic_width }px`;
+        img_style.value = `height: ${ new_style.value.title_height }px; width: ${ new_style.value.title_width }px`;
+    } else if (!isEmpty(form.value.img)) {
+        img_style.value = `height: ${ new_style.value.title_height }px; width: ${ new_style.value.title_width }px`;
     }
     //#endregion
 

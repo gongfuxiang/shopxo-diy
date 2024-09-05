@@ -13,7 +13,7 @@ interface defaultSearch {
         title_type: string;
         title: string;
         direction: string;
-        img_src: uploadList[];
+        img: uploadList[];
         icon_class: string;
         more_link: object;
         interval_time: number;
@@ -25,12 +25,12 @@ interface defaultSearch {
         news_color: string;
         news_typeface: string;
         news_size: number;
-        topic_color_list: color_list[];
-        topic_color: string;
-        topic_typeface: string;
-        topic_size: number;
-        topic_width: number;
-        topic_height: number;
+        title_color_list: color_list[];
+        title_color: string;
+        title_typeface: string;
+        title_size: number;
+        title_width: number;
+        title_height: number;
         container_height: number;
         icon_size: number;
         icon_color: string;
@@ -48,7 +48,7 @@ const defaultSearch: defaultSearch = {
         direction: 'vertical',
         title_type: 'img-icon',
         title: '测试标题',
-        img_src: [],
+        img: [],
         icon_class: '',
         is_right_button: 'show',
         interval_time: 2,
@@ -66,7 +66,7 @@ const defaultSearch: defaultSearch = {
         news_color: '#000',
         news_typeface: '400',
         news_size: 12,
-        topic_color_list: [
+        title_color_list: [
             {
                 color: '',
                 color_percentage: undefined,
@@ -76,11 +76,11 @@ const defaultSearch: defaultSearch = {
                 color_percentage: undefined,
             },
         ],
-        topic_color: '#000',
-        topic_typeface: '400',
-        topic_size: 14,
-        topic_width: 24,
-        topic_height: 24,
+        title_color: '#000',
+        title_typeface: '400',
+        title_size: 14,
+        title_width: 24,
+        title_height: 24,
         container_height: 44,
         icon_size: 12,
         icon_color: '#999',

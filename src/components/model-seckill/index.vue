@@ -5,7 +5,7 @@
                 <div :class="['flex-row align-c', { 'gap-10': form.theme != '1', 'jc-sb w': form.theme == '2' }]">
                     <div class="seckill-title">
                         <image-empty v-if="form.topic_type == 'image'" v-model="form.topic_src[0]" error-img-style="width:2.1rem; height: 1rem;"></image-empty>
-                        <span v-else :style="`color: ${new_style.topic_color};font-size: ${new_style.topic_size}px;line-height:21px;font-weight:600;`">{{ form.topic_text }}</span>
+                        <span v-else :style="`color: ${new_style.title_color};font-size: ${new_style.title_size}px;line-height:21px;font-weight:600;`">{{ form.topic_text }}</span>
                     </div>
                     <div v-if="form.theme == '1'" class="pl-6 pr-6 cr-f">|</div>
                     <div v-if="intervalId != undefined" class="flex-row align-c gap-4">

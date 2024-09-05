@@ -5,7 +5,7 @@
                 <card-container>
                     <div class="mb-12">头部样式</div>
                     <el-form-item v-if="data.topic_type == 'text'" label="标题设置">
-                        <color-text-size-group v-model:color="form.topic_color" v-model:size="form.topic_size" :default-color="clone_form.topic_color" :type-list="['color', 'size']"></color-text-size-group>
+                        <color-text-size-group v-model:color="form.title_color" v-model:size="form.title_size" :default-color="clone_form.title_color" :type-list="['color', 'size']"></color-text-size-group>
                     </el-form-item>
                     <el-form-item v-if="data.button_status == '1'" label="按钮设置">
                         <color-text-size-group v-model:color="form.head_button_color" v-model:size="form.head_button_size" :default-color="clone_form.head_button_color" :type-list="['color', 'size']"></color-text-size-group>

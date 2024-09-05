@@ -7,7 +7,7 @@ export const DataSourceStore = defineStore('dataSource', () => {
         field: string;
         type: string;
     };
-    interface source_list {
+    interface data_source_content {
         name: string;
         data: data_list[];
         type: string;
@@ -15,10 +15,10 @@ export const DataSourceStore = defineStore('dataSource', () => {
     // 上传是否需要调接口判断
     const is_data_source_api = ref(false);
     // 数据源
-    const data_source_list = ref<source_list[]>([]);
+    const data_source_list = ref<data_source_content[]>([]);
     // 存储上传分类列表
-    const set_data_source = (source_list: source_list[]) => {
-        data_source_list.value = source_list;
+    const set_data_source = (data_source_content: data_source_content[]) => {
+        data_source_list.value = data_source_content;
         is_data_source_api.value = true;
     };
     // 如果为false 则转为true

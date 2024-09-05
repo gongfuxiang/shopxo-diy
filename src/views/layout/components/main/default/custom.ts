@@ -5,7 +5,7 @@ interface defaultSearch {
         height: number;
         img_key: string;
         data_source: string;
-        source_list: string[];
+        data_source_content: string[];
         custom_list: string[];
     };
     style: {
@@ -16,7 +16,7 @@ const defaultSearch: defaultSearch = {
     content: {
         height: 390,
         img_key: '',
-        source_list: [],
+        data_source_content: [],
         data_source:'',
         custom_list: []
     },

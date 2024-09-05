@@ -4,7 +4,7 @@
             <card-container>
                 <div class="mb-12">图片设置</div>
                 <el-form-item label="上传图片">
-                    <upload v-model="form.img_src" :limit="1" size="50" @update:model-value="img_src_change('1')"></upload>
+                    <upload v-model="form.img" :limit="1" size="50" @update:model-value="img_src_change('1')"></upload>
                 </el-form-item>
                 <el-form-item label="数据字段">
                     <el-select v-model="form.data_source_id" value-key="id" clearable filterable placeholder="请选择图片数据字段" size="default" class="flex-1" @change="img_src_change('2')">
@@ -92,7 +92,7 @@ const border_radius_change = (radius: any) => {
 
 const img_src_change = (key: string) => {
     if (key == '2') {
-        form.value.img_src = [];
+        form.value.img = [];
     } else {
         form.value.data_source_id = '';
     }

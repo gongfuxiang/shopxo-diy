@@ -2,33 +2,51 @@
     <div class="w h">
         <el-form :model="form" label-width="80">
             <card-container>
-                <div class="mb-12">标题样式</div>
+                <div class="mb-12">基础样式</div>
                 <template v-if="!is_img">
                     <el-form-item label="标题文字">
-                        <color-text-size-group v-model:color="form.topic_color" v-model:typeface="form.topic_typeface" v-model:size="form.topic_size" default-color="#000000"></color-text-size-group>
+                        <color-text-size-group v-model:color="form.title_color" v-model:typeface="form.title_typeface" v-model:size="form.title_size" default-color="#000000"></color-text-size-group>
                     </el-form-item>
                     <el-form-item label="标题背景" class="topic">
-                        <flex-gradients-create :color-list="form.topic_color_list"></flex-gradients-create>
+                        <flex-gradients-create :color-list="form.title_color_list"></flex-gradients-create>
                     </el-form-item>
                 </template>
                 <template v-else>
                     <template v-if="!isEmpty(substance.icon_class)">
-                        <el-form-item label="图标大小">
-                            <slider v-model="form.icon_size" :max="100"></slider>
-                        </el-form-item>
-                        <el-form-item label="图标颜色">
-                            <color-picker v-model="form.icon_color" default-color="#999"></color-picker>
+                        <el-form-item label="左侧图标">
+                            <div class="flex-col w gap-10">
+                                <el-form-item label="大小" label-width="40" class="word-size">
+                                    <slider v-model="form.icon_size" :max="100"></slider>
+                                </el-form-item>
+                                <el-form-item label="颜色" label-width="40" class="word-size">
+                                    <color-picker v-model="form.icon_color" default-color="#999"></color-picker>
+                                </el-form-item>
+                            </div>
                         </el-form-item>
                     </template>
                     <template v-else>
-                        <el-form-item label="图片宽度">
-                            <slider v-model="form.topic_width" :max="1000"></slider>
-                        </el-form-item>
-                        <el-form-item label="图片高度">
-                            <slider v-model="form.topic_height" :max="1000"></slider>
+                        <el-form-item label="左侧图片">
+                            <div class="flex-col w gap-10">
+                                <el-form-item label="宽度" label-width="40" class="word-size">
+                                    <slider v-model="form.title_width" :max="1000"></slider>
+                                </el-form-item>
+                                <el-form-item label="高度" label-width="40" class="word-size">
+                                    <slider v-model="form.title_height" :max="1000"></slider>
+                                </el-form-item>
+                            </div>
                         </el-form-item>
                     </template>
                 </template>
+                <el-form-item label="右侧按钮">
+                    <color-picker v-model="form.button_color" default-color="#999"></color-picker>
+                </el-form-item>
+                <el-form-item label="内容标题">
+                    <color-text-size-group v-model:color="form.news_color" v-model:typeface="form.news_typeface" v-model:size="form.news_size" default-color="#000000"></color-text-size-group>
+                </el-form-item>
+            </card-container>
+            <div class="bg-f5 divider-line" />
+            <card-container>
+                <div class="mb-12">容器设置</div>
                 <template v-if="substance.notice_style === 'inherit'">
                     <el-form-item label="容器高度">
                         <slider v-model="form.container_height" :max="1000"></slider>
@@ -57,12 +75,6 @@
                 </el-form-item>
                 <el-form-item label="容器圆角">
                     <radius :value="form.container_radius"></radius>
-                </el-form-item>
-                <el-form-item label="按钮颜色">
-                    <color-picker v-model="form.button_color" default-color="#999"></color-picker>
-                </el-form-item>
-                <el-form-item label="内容标题">
-                    <color-text-size-group v-model:color="form.news_color" v-model:typeface="form.news_typeface" v-model:size="form.news_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
             </card-container>
         </el-form>
@@ -111,6 +123,12 @@ const mult_color_picker_event = (arry: color_list[], type: number) => {
     :deep(.el-form-item__content) {
         align-items: flex-start;
         flex-direction: column;
+    }
+}
+.word-size {
+    :deep(.el-form-item__label) {
+        color: #999;
+        font-size: 1.2rem;
     }
 }
 </style>

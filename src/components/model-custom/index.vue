@@ -3,13 +3,13 @@
         <div class="w h re">
             <div v-for="item in form.custom_list" :key="item.id" class="main-content" :style="{'left': percentage_count(item.location.x, div_width) , 'top': percentage_count(item.location.y, form.height), 'width': percentage_count(item.com_data.com_width, div_width), 'height': percentage_count(item.com_data.com_height, form.height)}">
                 <template v-if="item.key == 'text'">
-                    <model-text :key="item.com_data" :value="item.com_data" :source-list="form.source_list" :is-percentage="true"></model-text>
+                    <model-text :key="item.com_data" :value="item.com_data" :source-list="form.data_source_content" :is-percentage="true"></model-text>
                 </template>
                 <template v-else-if="item.key == 'img'">
-                    <model-image :key="item.com_data" :value="item.com_data" :source-list="form.source_list" :is-percentage="true"></model-image>
+                    <model-image :key="item.com_data" :value="item.com_data" :source-list="form.data_source_content" :is-percentage="true"></model-image>
                 </template>
                 <template v-else-if="item.key == 'auxiliary-line'">
-                    <model-lines :key="item.com_data" :value="item.com_data" :source-list="form.source_list" :is-percentage="true"></model-lines>
+                    <model-lines :key="item.com_data" :value="item.com_data" :source-list="form.data_source_content" :is-percentage="true"></model-lines>
                 </template>
             </div>
         </div>

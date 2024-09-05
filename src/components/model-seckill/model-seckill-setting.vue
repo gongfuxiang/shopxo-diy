@@ -44,8 +44,8 @@ onBeforeMount(async () => {
             topic_text: '限时秒杀',
         },
         style: {
-            topic_color: '#fff',
-            topic_size: 18,
+            title_color: '#fff',
+            title_size: 18,
             head_button_color: '#fff',
             head_button_size: 12,
             end_text_color: '#fff',
@@ -127,7 +127,7 @@ onBeforeMount(async () => {
                     button_status: '0',
                 },
                 style: {
-                    topic_color: '#000',
+                    title_color: '#000',
                     end_text_color: '#666',
                     header_background_color_list: [{ color: '#FFE0E0', color_percentage: undefined },{ color: '#FFEFEF', color_percentage: 50 }, { color: '#FFFFFF', color_percentage: undefined }],
                     header_background_img: [],
@@ -143,7 +143,7 @@ onBeforeMount(async () => {
                     button_status: '1',
                 },
                 style: {
-                    topic_color: '#000',
+                    title_color: '#000',
                     head_button_color: '#000',
                     end_text_color: '#666',
                     header_background_color_list: [{ color: '#fff', color_percentage: undefined }],
@@ -160,7 +160,7 @@ onBeforeMount(async () => {
                     button_status: '1',
                 },
                 style: {
-                    topic_color: '#000',
+                    title_color: '#000',
                     head_button_color: '#000',
                     end_text_color: '#666',
                     header_background_color_list: [{ color: '#fff', color_percentage: undefined }],

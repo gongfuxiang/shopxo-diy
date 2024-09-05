@@ -7,12 +7,12 @@
                     <el-select v-model="form.data_source" value-key="id" placeholder="请选择数据源" filterable clearable @change="changeDataSource">
                         <el-option v-for="item in options" :key="item.type" :label="item.name" :value="item.type" />
                     </el-select>
-                    <div v-if="!isEmpty(form.source_list)" class="flex-row mt-20 gap-20">
+                    <div v-if="!isEmpty(form.data_source_content)" class="flex-row mt-20 gap-20">
                         <div class="re flex align-c">
-                            <image-empty v-model="form.source_list[form.img_key]" style="width: 10rem; height: 10rem;"></image-empty>
+                            <image-empty v-model="form.data_source_content[form.img_key]" style="width: 10rem; height: 10rem;"></image-empty>
                             <div class="plr-15 bg-f abs replace-data size-14" @click="replace_data">替换数据</div>
                         </div>
-                        <div class="flex-1 size-14 text-line-3">{{ form.source_list.title ||  form.source_list.name }}</div>
+                        <div class="flex-1 size-14 text-line-3">{{ form.data_source_content.title ||  form.data_source_content.name }}</div>
                     </div>
                 </el-form-item>
                 <div class="mb-20">内容设置</div>
@@ -21,7 +21,7 @@
         </el-form>
         <Dialog ref="dialog" @accomplish="accomplish">
             <div class="flex-row h w">
-                <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" :source-list="form.source_list" :list="custom_list" @right-update="right_update"></DragIndex>
+                <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" :source-list="form.data_source_content" :list="custom_list" @right-update="right_update"></DragIndex>
                 <div class="settings">
                     <template v-if="diy_data.key === 'img'">
                         <model-image-style :key="key" v-model:height="center_height" :options="model_data_source" :value="diy_data"></model-image-style>
@@ -64,14 +64,14 @@ const form = reactive(props.value);
 // 弹出框里的内容
 let custom_list = reactive([]);
 const center_height = ref(0);
-const options = ref<source_list[]>([]);
+const options = ref<data_source_content[]>([]);
 //#region 初始化数据处理
 interface data_list {
     name: string;
     field: string;
     type: string;
 };
-interface source_list {
+interface data_source_content {
     name: string;
     data: data_list[];
     type: string;
@@ -156,7 +156,7 @@ const accomplish = () => {
 const url_value_dialog_visible = ref(false);
 const changeDataSource = (key: string) => {
     processing_data(key);
-    form.source_list = {};
+    form.data_source_content = {};
     if (!isEmpty(key)) {
         url_value_dialog_visible.value = true;
     }
@@ -165,14 +165,14 @@ const changeDataSource = (key: string) => {
 // 弹出框选择的内容
 const url_value_dialog_call_back = (item: any[]) => {
     if (item.length > 0) {
-        form.source_list = item[0];
+        form.data_source_content = item[0];
     } else {
-        form.source_list = {};
+        form.data_source_content = {};
     }
 };
 // 弹出框关闭
 const url_value_close = () => {
-    if (isEmpty(form.source_list)) {
+    if (isEmpty(form.data_source_content)) {
         form.data_source = '';
     }
 }

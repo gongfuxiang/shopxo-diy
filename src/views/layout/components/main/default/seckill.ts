@@ -22,8 +22,8 @@ interface DefaultSeckill {
         subscript_text: string;
     };
     style: {
-        topic_color: string;
-        topic_size: number;
+        title_color: string;
+        title_size: number;
         head_button_color: string;
         head_button_size: number;
         end_text_color: string;
@@ -89,8 +89,8 @@ const defaultSeckill: DefaultSeckill = {
         subscript_text: '秒杀',
     },
     style: {
-        topic_color: '#fff',
-        topic_size: 18,
+        title_color: '#fff',
+        title_size: 18,
         head_button_color: '#fff',
         head_button_size: 12,
         end_text_color: '#fff',
