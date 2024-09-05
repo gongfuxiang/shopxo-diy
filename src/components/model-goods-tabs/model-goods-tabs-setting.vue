@@ -1,10 +1,10 @@
 <template>
     <div class="auxiliary-line-setting">
         <template v-if="type == '1'">
-            <model-shop-list-content :value="value.content" :styles="value.style" :default-config="data_config"></model-shop-list-content>
+            <model-goods-tabs-content :value="value.content" :tab-style="value.style" :default-config="data_config"></model-goods-tabs-content>
         </template>
         <template v-if="type == '2'">
-            <model-shop-list-styles :value="value.style" :content="value.content" :default-config="data_config"></model-shop-list-styles>
+            <model-goods-tabs-styles :value="value.style" :content="value.content" :default-config="data_config"></model-goods-tabs-styles>
         </template>
     </div>
 </template>
@@ -19,6 +19,7 @@ const props = defineProps({
         default: () => ({}),
     },
 });
+
 const data_config = reactive({
     // 图片不同风格下的圆角
     img_radius_0: 4,

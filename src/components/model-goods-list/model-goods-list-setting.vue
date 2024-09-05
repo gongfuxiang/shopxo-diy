@@ -1,10 +1,10 @@
 <template>
     <div class="auxiliary-line-setting">
         <template v-if="type == '1'">
-            <model-shop-tabs-content :value="value.content" :tab-style="value.style" :default-config="data_config"></model-shop-tabs-content>
+            <model-goods-list-content :value="value.content" :styles="value.style" :default-config="data_config"></model-goods-list-content>
         </template>
         <template v-if="type == '2'">
-            <model-shop-tabs-styles :value="value.style" :content="value.content" :default-config="data_config"></model-shop-tabs-styles>
+            <model-goods-list-styles :value="value.style" :content="value.content" :default-config="data_config"></model-goods-list-styles>
         </template>
     </div>
 </template>

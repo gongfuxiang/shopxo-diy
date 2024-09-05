@@ -96,12 +96,12 @@
                                             <model-tabs :key="item.com_data" :value="item.com_data"></model-tabs>
                                         </template>
                                         <!-- 商品列表 -->
-                                        <template v-else-if="item.key == 'shop-list'">
-                                            <model-shop-list :key="item.com_data" :value="item.com_data"></model-shop-list>
+                                        <template v-else-if="item.key == 'goods-list'">
+                                            <model-goods-list :key="item.com_data" :value="item.com_data"></model-goods-list>
                                         </template>
                                         <!-- 商品选项卡 -->
-                                        <template v-else-if="item.key == 'shop-tabs'">
-                                            <model-shop-tabs :key="item.com_data" :value="item.com_data"></model-shop-tabs>
+                                        <template v-else-if="item.key == 'goods-tabs'">
+                                            <model-goods-tabs :key="item.com_data" :value="item.com_data"></model-goods-tabs>
                                         </template>
                                         <!-- 图片魔方 -->
                                         <template v-else-if="item.key == 'img-magic'">

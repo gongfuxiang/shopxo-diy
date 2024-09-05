@@ -2,7 +2,7 @@
     <div :style="style_container">
         <tabs-view ref="tabs" :value="props.value"></tabs-view>
         <div class="pt-10">
-            <model-shop-list :value="tabs_list" :is-common-style="false"></model-shop-list>
+            <model-goods-list :value="tabs_list" :is-common-style="false"></model-goods-list>
         </div>
     </div>
 </template>

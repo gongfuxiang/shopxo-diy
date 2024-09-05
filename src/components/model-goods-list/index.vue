@@ -468,7 +468,7 @@ watchEffect(() => {
 }
 .original-price-left {
     width: 1rem;
-    background-image: url('/src/assets/images/components/model-shop-list/price.png');
+    background-image: url('/src/assets/images/components/model-goods-list/price.png');
     background-size: 100% 100%;
     background-repeat: no-repeat;
 }

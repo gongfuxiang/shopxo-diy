@@ -51,12 +51,12 @@
                 <model-tabs-setting :type="radio" :value="value.com_data"></model-tabs-setting>
             </template>
             <!-- 商品列表 -->
-            <template v-else-if="value.key == 'shop-list'">
-                <model-shop-list-setting :type="radio" :value="value.com_data"></model-shop-list-setting>
+            <template v-else-if="value.key == 'goods-list'">
+                <model-goods-list-setting :type="radio" :value="value.com_data"></model-goods-list-setting>
             </template>
             <!-- 商品选项卡 -->
-            <template v-else-if="value.key == 'shop-tabs'">
-                <model-shop-tabs-setting :type="radio" :value="value.com_data"></model-shop-tabs-setting>
+            <template v-else-if="value.key == 'goods-tabs'">
+                <model-goods-tabs-setting :type="radio" :value="value.com_data"></model-goods-tabs-setting>
             </template>
             <!-- 图片魔方 -->
             <template v-else-if="value.key == 'img-magic'">
