@@ -15,10 +15,10 @@
                     <template v-if="!isEmpty(substance.icon_class)">
                         <el-form-item label="左侧图标">
                             <div class="flex-col w gap-10">
-                                <el-form-item label="大小" label-width="40" class="word-size">
+                                <el-form-item label="大小" label-width="40" class="form-item-child-label">
                                     <slider v-model="form.icon_size" :max="100"></slider>
                                 </el-form-item>
-                                <el-form-item label="颜色" label-width="40" class="word-size">
+                                <el-form-item label="颜色" label-width="40" class="form-item-child-label">
                                     <color-picker v-model="form.icon_color" default-color="#999"></color-picker>
                                 </el-form-item>
                             </div>
@@ -27,10 +27,10 @@
                     <template v-else>
                         <el-form-item label="左侧图片">
                             <div class="flex-col w gap-10">
-                                <el-form-item label="宽度" label-width="40" class="word-size">
+                                <el-form-item label="宽度" label-width="40" class="form-item-child-label">
                                     <slider v-model="form.title_width" :max="1000"></slider>
                                 </el-form-item>
-                                <el-form-item label="高度" label-width="40" class="word-size">
+                                <el-form-item label="高度" label-width="40" class="form-item-child-label">
                                     <slider v-model="form.title_height" :max="1000"></slider>
                                 </el-form-item>
                             </div>
@@ -123,12 +123,6 @@ const mult_color_picker_event = (arry: color_list[], type: number) => {
     :deep(.el-form-item__content) {
         align-items: flex-start;
         flex-direction: column;
-    }
-}
-.word-size {
-    :deep(.el-form-item__label) {
-        color: #999;
-        font-size: 1.2rem;
     }
 }
 </style>

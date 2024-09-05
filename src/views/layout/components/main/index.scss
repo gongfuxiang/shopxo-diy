@@ -319,3 +319,51 @@
         cursor: pointer;
     }
 }
+
+.layout-toggle-bar {
+    cursor: pointer;
+    height: 6.4rem;
+    width: 2rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+    z-index: 3;
+    .layout-toggle-bar-top, .layout-toggle-bar-bottom {
+        position: absolute;
+        width: 0.2rem;
+        border-radius: 0.2rem;
+        height: 3rem;
+        left: 1rem;
+        background: #e6e6e6;
+        transition: 1s ease;
+    }
+    .layout-toggle-bar-bottom {
+        top: 2.6rem;
+    }
+}
+.layout-toggle-bar-close:hover {
+    .layout-toggle-bar-top, .layout-toggle-bar-bottom {
+        background: $cr-main;
+        transition: 1s ease;
+    }
+    .layout-toggle-bar-top {
+        transform: rotate(12deg) scale(1.05) translateY(-0.2rem);
+    }
+    .layout-toggle-bar-bottom {
+        transform: rotate(-12deg) scale(1.05) translateY(0.2rem);
+    }
+}
+
+.layout-toggle-bar-open:hover {
+    .layout-toggle-bar-top, .layout-toggle-bar-bottom {
+        background: $cr-main;
+        transition: 1s ease;
+    }
+    .layout-toggle-bar-top {
+        transform: rotate(-12deg) scale(1.05) translateY(-0.2rem);
+    }
+    .layout-toggle-bar-bottom {
+        transform: rotate(12deg) scale(1.05) translateY(0.2rem);
+    }
+}

@@ -4,7 +4,7 @@
         <el-radio-group v-if="typeList.includes('typeface')" v-model="typeface">
             <el-radio v-for="item in font_weight" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
         </el-radio-group>
-        <el-form-item v-if="typeList.includes('size')" label="字号" label-width="40" class="mb-0 w word-size">
+        <el-form-item v-if="typeList.includes('size')" label="字号" label-width="40" class="mb-0 w form-item-child-label">
             <slider v-model="size" :max="100"></slider>
         </el-form-item>
     </div>
@@ -39,10 +39,4 @@ const font_weight = [
 </script>
 
 <style lang="scss" scoped>
-.word-size {
-    :deep(.el-form-item__label) {
-        color: #999;
-        font-size: 1.2rem;
-    }
-}
 </style>

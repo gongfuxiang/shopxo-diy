@@ -42,7 +42,7 @@
 </template>
 <script setup lang="ts">
 import { background_computer, common_styles_computer, get_math, gradient_computer, gradient_handle, radius_computer } from '@/utils';
-import { isEmpty, cloneDeep } from 'lodash';
+import { isEmpty, cloneDeep, throttle } from 'lodash';
 
 const props = defineProps({
     value: {
@@ -134,7 +134,10 @@ watchEffect(() => {
             notice_length: notice_length
         };
         // 更新轮播图的key，确保更换时能重新更新轮播图
-        carouselKey.value = get_math();
+        // 添加节流处理,一秒只执行一次
+        throttle(() => {
+            carouselKey.value = get_math();
+        }, 1000);
     }
     //#endregion
 });

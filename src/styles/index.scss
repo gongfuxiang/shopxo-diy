@@ -205,3 +205,10 @@ p {
     --el-loading-spinner-size: 13rem;
     --el-loading-fullscreen-spinner-size: 13rem;
 }
+// el-form-item 子级form-item label样式调整
+.form-item-child-label {
+    .el-form-item__label {
+        color: #999;
+        font-size: 1.2rem;
+    }
+}

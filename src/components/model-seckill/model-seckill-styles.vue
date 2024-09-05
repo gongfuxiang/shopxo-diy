@@ -50,12 +50,6 @@
             </template>
             <card-container>
                 <div class="mb-12">商品样式</div>
-                <el-form-item label="内容圆角">
-                    <radius :value="form.shop_radius"></radius>
-                </el-form-item>
-                <el-form-item label="图片圆角">
-                    <radius :value="form.shop_img_radius"></radius>
-                </el-form-item>
                 <el-form-item label="商品名称">
                     <color-text-size-group v-model:color="form.shop_title_color" v-model:typeface="form.shop_title_typeface" v-model:size="form.shop_title_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
@@ -64,6 +58,25 @@
                 </el-form-item>
                 <el-form-item label="原价价格">
                     <color-picker v-model="form.original_price_color"></color-picker>
+                </el-form-item>
+                <el-form-item label="秒杀角标">
+                    <div class="flex-col gap-10">
+                        <el-radio-group v-model="form.seckill_subscript_location">
+                            <el-radio v-for="item in base_list.location_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                        </el-radio-group>
+                        <el-form-item label="文字" label-width="40" class="form-item-child-label">
+                            <color-picker v-model="form.seckill_subscript_text_color"></color-picker>
+                        </el-form-item>
+                        <el-form-item label="背景" label-width="40" class="form-item-child-label">
+                            <color-picker v-model="form.seckill_subscript_bg_color"></color-picker>
+                        </el-form-item>
+                    </div>
+                </el-form-item>
+                <el-form-item label="内容圆角">
+                    <radius :value="form.shop_radius"></radius>
+                </el-form-item>
+                <el-form-item label="图片圆角">
+                    <radius :value="form.shop_img_radius"></radius>
                 </el-form-item>
                 <el-form-item label="内间距">
                     <padding :value="form.shop_padding"></padding>
@@ -79,19 +92,6 @@
                         <slider v-model="form.content_outer_height" :max="1000"></slider>
                     </el-form-item>
                 </template>
-                <el-form-item label="秒杀角标">
-                    <div class="flex-col gap-10">
-                        <el-radio-group v-model="form.seckill_subscript_location">
-                            <el-radio v-for="item in base_list.location_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                        </el-radio-group>
-                        <el-form-item label="文字" style="color: #333;" label-width="40">
-                            <color-picker v-model="form.seckill_subscript_text_color"></color-picker>
-                        </el-form-item>
-                        <el-form-item label="背景" style="color: #333;" label-width="40">
-                            <color-picker v-model="form.seckill_subscript_bg_color"></color-picker>
-                        </el-form-item>
-                    </div>
-                </el-form-item>
             </card-container>
             <!-- 秒杀按钮 -->
             <template v-if="data.is_shop_show == '1'">

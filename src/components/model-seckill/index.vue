@@ -54,7 +54,7 @@
                                 <!-- 标题 -->
                                 <div :style="trends_config('title')" class="text-line-2">{{ item.title }}</div>
                                 <!-- 进度条 -->
-                                <div v-if="form.shop_style_type == '1'" class="flex-row align-c gap-6">
+                                <!-- <div v-if="form.shop_style_type == '1'" class="flex-row align-c gap-6">
                                     <div class="re flex-1">
                                         <div class="slide-bottom" :style="`background: ${new_style.progress_bg_color}`"></div>
                                         <div class="slide-top" :style="` width: 51%; ${slide_active_color}`">
@@ -62,7 +62,7 @@
                                         </div>
                                     </div>
                                     <span class="size-10" :style="`color: ${new_style.progress_text_color}`">已抢51%</span>
-                                </div>
+                                </div> -->
                             </div>
                             <div class="flex-row align-e gap-10 jc-sb">
                                 <div class="flex-col gap-5">
@@ -160,7 +160,7 @@
 </template>
 <script setup lang="ts">
 import { background_computer, common_styles_computer, get_math, gradient_computer, gradient_handle, padding_computer, radius_computer } from '@/utils';
-import { isEmpty } from 'lodash';
+import { isEmpty, throttle } from 'lodash';
 import SeckillAPI from '@/api/seckill';
 import { online_url } from '@/utils';
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -434,7 +434,10 @@ watchEffect(() => {
     // 判断是平移还是整屏滚动
     slides_per_group.value = new_style.value.rolling_fashion == 'translation' ? 1 : form.value.carousel_col;
     // 更新轮播图的key，确保更换时能重新更新轮播图
-    carouselKey.value = get_math();
+    // 添加节流处理,一秒只执行一次
+    throttle(() => {
+        carouselKey.value = get_math();
+    }, 1000);
 });
 
 //容器高度

@@ -38,7 +38,6 @@
                             <el-input v-model="form.button_text" placeholder="请输入按钮文字"></el-input>
                         </el-form-item>
                     </template>
-                    
                 </template>
             </card-container>
             <div class="divider-line"></div>
@@ -162,7 +161,7 @@ const change_shop_type = () => {
 };
 // 选择某些风格时， 切换到对应的按钮
 const change_style = (val: any): void => {
-    form.value.theme = val;
+    form.value.shop_style_type = val;
     if (!is_revise.value) {
         if (['3'].includes(val) && form.value.shop_type == 'text') {
             form.value.shop_type = 'icon';
