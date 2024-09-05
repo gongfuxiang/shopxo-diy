@@ -14,20 +14,15 @@
 </template>
 
 <script setup lang="ts">
-import type { UploadFile, UploadFiles } from 'element-plus';
+import type { UploadFile } from 'element-plus';
+import { is_obj } from '@/utils';
 import { Navbar, Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
 import { cloneDeep } from 'lodash';
-import DiyAPI, { diyData } from '@/api/diy';
+import DiyAPI, { diyData, headerAndFooter, diyConfig } from '@/api/diy';
 import CommonAPI from '@/api/common';
 import { commonStore } from '@/store';
 const common_store = commonStore();
-interface headerAndFooter {
-    name: string;
-    show_tabs: string;
-    key: string;
-    com_data: any;
-}
 interface diy_data_item {
     id: string;
     model: {
@@ -212,33 +207,19 @@ const diy_data_transfor_form_data = (clone_form: diy_data_item) => {
     };
 };
 const form_data_transfor_diy_data = (clone_form: diyData) => {
-    try {
-        return {
-            id: clone_form.id,
-            model: {
-                logo: clone_form.logo,
-                name: clone_form.name,
-                is_enable: clone_form.is_enable,
-                describe: clone_form.describe,
-            },
-            header: JSON.parse(clone_form.config).header,
-            footer: JSON.parse(clone_form.config).footer,
-            diy_data: JSON.parse(clone_form.config).diy_data,
-        };
-    } catch (error) {
-        return {
-            id: clone_form.id,
-            model: {
-                logo: clone_form.logo,
-                name: clone_form.name,
-                is_enable: clone_form.is_enable,
-                describe: clone_form.describe,
-            },
-            header: form.value.header,
-            footer: form.value.footer,
-            diy_data: form.value.diy_data,
-        };
-    }
+    let temp_config = clone_form.config;
+    return {
+        id: clone_form.id,
+        model: {
+            logo: clone_form.logo,
+            name: clone_form.name,
+            is_enable: clone_form.is_enable,
+            describe: clone_form.describe,
+        },
+        header: is_obj(temp_config) ? (temp_config as diyConfig).header : JSON.parse(temp_config as string).header,
+        footer: is_obj(temp_config) ? (temp_config as diyConfig).footer : JSON.parse(temp_config as string).footer,
+        diy_data: is_obj(temp_config) ? (temp_config as diyConfig).diy_data : JSON.parse(temp_config as string).diy_data,
+    };
 };
 
 // 截取document.location.search字符串内id/后面的所有字段

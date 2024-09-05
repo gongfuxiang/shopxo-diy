@@ -45,11 +45,22 @@ interface diy {
     /** 主键 */
     id: string;
 }
+export interface headerAndFooter {
+    name: string;
+    show_tabs: string;
+    key: string;
+    com_data: any;
+}
+export interface diyConfig {
+    diy_data: Array<any>;
+    footer: headerAndFooter;
+    header: headerAndFooter;
+}
 export interface diyData {
     id: string;
     logo: string;
     name: string;
     describe: string;
-    config: string;
+    config: diyConfig | string;
     is_enable: string;
 }
