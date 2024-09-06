@@ -3,8 +3,8 @@ import { online_url } from '@/utils';
 const new_url = await online_url('/static/app/tabbar/').then((res) => res);
 interface DefaultFooterNav {
     content: {
-        nav_style: string;
-        nav_type: string;
+        nav_style: number;
+        nav_type: number;
         nav_content: { id: string; name: string; img: uploadList[]; img_checked: uploadList[]; link: object }[];
     };
     style: {
@@ -15,8 +15,8 @@ interface DefaultFooterNav {
 }
 const defaultFooterNav = ref<DefaultFooterNav>({
     content: {
-        nav_style: '0',
-        nav_type: '0',
+        nav_style: 0,
+        nav_type: 0,
         nav_content: [
             { id: '1', name: '首页', img: [{ id: 1, url: new_url + 'home.png', original: '', title: '', ext: '.png', type: 'img' }], img_checked: [{ id: 1, url: new_url + 'active/home.png', original: '', title: '', ext: '.png', type: 'img' }], link: {} },
             { id: '2', name: '分类', img: [{ id: 1, url: new_url + 'category.png', original: '', title: '', ext: '.png', type: 'img' }], img_checked: [{ id: 1, url: new_url + 'active/category.png', original: '', title: '', ext: '.png', type: 'img' }], link: {} },
