@@ -4,7 +4,7 @@
             <card-container>
                 <div class="mb-12">文本设置</div>
                 <el-form-item label="文本内容">
-                    <el-input v-model="form.text_title" placeholder="请输入文本内容" type="textarea" :rows="3" @input="text_change('1')"></el-input>
+                    <el-input v-model="form.text_title" placeholder="请输入文本内容" type="textarea" clearable :rows="3" @input="text_change('1')"></el-input>
                 </el-form-item>
                 <el-form-item label="数据字段">
                     <el-select v-model="form.data_source_id" value-key="id" clearable filterable placeholder="请选择图片数据字段" size="default" class="flex-1" @change="text_change('2')">

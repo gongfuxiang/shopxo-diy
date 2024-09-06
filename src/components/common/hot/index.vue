@@ -41,7 +41,7 @@
                     <div class="size-16 fw mb-10">图片热区</div>
                     <div class="flex-col gap-20 item">
                         <div v-for="(item, index) in hot_list.data" :key="index" class="flex-row align-c gap-10">
-                            <el-input v-model="item.name" class="name" placeholder="名称"></el-input>
+                            <el-input v-model="item.name" class="name" placeholder="名称" clearable></el-input>
                             <url-value v-model="item.link"></url-value>
                             <icon name="del" size="20" @click="del_event(index)"></icon>
                         </div>
@@ -66,7 +66,7 @@
         <div class="content">
             <el-form ref="formRef" :model="form" label-width="85px" class="pa-20 mt-16">
                 <el-form-item label="名称">
-                    <el-input v-model="form.name" placeholder="请输入名称"></el-input>
+                    <el-input v-model="form.name" placeholder="请输入名称" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="热区跳转链接">
                     <url-value v-model="form.link"></url-value>

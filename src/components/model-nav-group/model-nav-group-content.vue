@@ -38,11 +38,11 @@
                 <div class="tips mt-10 mb-20 size-12">最多添加{{ form.nav_content_list.length }}张图片，建议尺寸90*90px</div>
                 <drag :data="form.nav_content_list" type="card" :space-col="27" @remove="remove" @on-sort="on_sort">
                     <template #default="scoped">
-                        <div class="flex-row align-c jc-c">
+                        <div class="flex-row align-c jc-c w h">
                             <upload v-model="scoped.row.img" :limit="1" size="72"></upload>
-                            <div class="flex-col align-c jc-c gap-20">
+                            <div class="flex-col flex-1 jc-c gap-20">
                                 <el-form-item label="标题" class="mb-0" label-width="50">
-                                    <el-input v-model="scoped.row.title" placeholder="请输入标题" maxlength="4" show-word-limit></el-input>
+                                    <el-input v-model="scoped.row.title" placeholder="请输入标题" maxlength="4" show-word-limit clearable></el-input>
                                 </el-form-item>
                                 <el-form-item label="链接" class="w mb-0" label-width="50">
                                     <url-value v-model="scoped.row.link"></url-value>

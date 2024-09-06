@@ -24,7 +24,7 @@
                     <template #default="scoped">
                         <div class="flex-col align-c jc-s gap-20 flex-1 w">
                             <el-form-item label="显示文字" class="w mb-0">
-                                <el-input v-model="scoped.row.title" placeholder="请输入标题文字" />
+                                <el-input v-model="scoped.row.title" placeholder="请输入标题文字" clearable />
                             </el-form-item>
                             <el-form-item label="数据类型" class="w mb-0">
                                 <el-radio-group v-model="scoped.row.data_type">
@@ -33,7 +33,6 @@
                                 </el-radio-group>
                             </el-form-item>
                             <el-form-item :label="scoped.row.data_type == 'micro_page' ? '微页面' : '商品分类'" class="w mb-0">
-                                <!-- <el-input v-model="scoped.row.classify" placeholder="请选择页面" /> -->
                                 <template v-if="scoped.row.data_type == 'micro_page'">
                                     <url-value v-model="scoped.row.micro_page_list"></url-value>
                                 </template>

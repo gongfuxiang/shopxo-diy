@@ -32,10 +32,10 @@
                     <upload v-model="form.logo" :limit="1"></upload>
                 </el-form-item>
                 <el-form-item label="名称" prop="name">
-                    <el-input v-model="form.name" placeholder="请输入名称" />
+                    <el-input v-model="form.name" placeholder="请输入名称" clearable />
                 </el-form-item>
                 <el-form-item label="描述">
-                    <el-input v-model="form.describe" placeholder="请输入描述" :rows="4" type="textarea" />
+                    <el-input v-model="form.describe" placeholder="请输入描述" :rows="4" type="textarea" clearable />
                 </el-form-item>
                 <el-form-item label="开关">
                     <el-switch v-model="form.is_enable" active-value="1" inactive-value="0"></el-switch>

@@ -14,7 +14,7 @@
                     </el-form-item>
                     <template v-if="['1', '2'].includes(form.theme)">
                         <el-form-item label="页面标题">
-                            <el-input v-model="form.title" placeholder="请输入标题名称"></el-input>
+                            <el-input v-model="form.title" placeholder="请输入标题名称" clearable></el-input>
                         </el-form-item>
                         <el-form-item label="链接地址">
                             <url-value v-model="form.link"></url-value>
@@ -42,7 +42,7 @@
                 </template>
                 <template v-if="['4', '5'].includes(form.theme)">
                     <el-form-item label="定位名称">
-                        <el-input v-model="form.positioning_name" placeholder="请输入默认定位名称"></el-input>
+                        <el-input v-model="form.positioning_name" placeholder="请输入默认定位名称" clearable></el-input>
                     </el-form-item>
                     <el-form-item label="箭头按钮">
                         <el-radio-group v-model="form.is_arrows_show">

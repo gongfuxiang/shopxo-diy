@@ -49,7 +49,7 @@ const form = ref<diy_data_item>({
         name: '页面设置',
         show_tabs: '1',
         key: 'page-settings',
-        com_data: defaultSettings.header_nav,
+        com_data: cloneDeep(defaultSettings.header_nav),
     },
     footer: {
         name: '底部导航',
@@ -172,7 +172,9 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false) => 
         //         item1.goods_ids = item.goods_list.map((item2: any) => item2.data.id).join(',') || '';
         //         item1.goods_list = [];
         //     });
-        // }
+        // } else if (item.key == 'custom') {
+        //    item.com_data.content.data_source_content = {};
+        //}
         return {
             ...item,
             show_tabs: '0',

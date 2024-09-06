@@ -23,7 +23,7 @@
                     <upload v-model="form.img_src" v-model:icon-value="form.icon_class" is-icon :limit="1" size="50"></upload>
                 </el-form-item>
                 <el-form-item v-if="is_text" label="标题文字">
-                    <el-input v-model="form.title" placeholder="请输入标题" maxlength="4" show-word-limit></el-input>
+                    <el-input v-model="form.title" placeholder="请输入标题" maxlength="4" show-word-limit clearable></el-input>
                 </el-form-item>
                 <template v-if="!is_card">
                     <el-form-item label="滚动方式">
@@ -57,7 +57,7 @@
                     <template #default="scoped">
                         <div class="flex-col align-c jc-s gap-20 flex-1">
                             <el-form-item label="标题" class="w mb-0" label-width="40">
-                                <el-input v-model="scoped.row.notice_title" placeholder="请输入标题" maxlength="20" show-word-limit></el-input>
+                                <el-input v-model="scoped.row.notice_title" placeholder="请输入标题" maxlength="20" show-word-limit clearable></el-input>
                             </el-form-item>
                             <el-form-item label="链接" class="w mb-0" label-width="40">
                                 <url-value v-model="scoped.row.notice_link"></url-value>

@@ -8,13 +8,13 @@
         <div class="mt-16 pa-20">
             <el-form ref="ruleFormRef" :model="form" :rules="rules" label-width="60" status-icon>
                 <el-form-item label="名称" prop="name">
-                    <el-input v-model="form.name" placeholder="请输入名称"></el-input>
+                    <el-input v-model="form.name" placeholder="请输入名称" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="路径" prop="path">
-                    <el-input v-model="form.path" placeholder="请输入路径"></el-input>
+                    <el-input v-model="form.path" placeholder="请输入路径" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="排序">
-                    <el-input v-model="form.sort" placeholder="请输入排序"></el-input>
+                    <el-input v-model="form.sort" placeholder="请输入排序" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="是否启用">
                     <el-switch v-model="form.is_enable" active-value="1" inactive-value="0"></el-switch>

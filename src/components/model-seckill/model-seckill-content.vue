@@ -4,9 +4,7 @@
             <card-container>
                 <div class="mb-12">头部设置</div>
                 <el-form-item label="头部状态">
-                    <el-radio-group v-model="form.head_state">
-                        <el-radio v-for="item in base_list.state_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                    </el-radio-group>
+                    <el-switch v-model="form.head_state" active-value="1" inactive-value="0"></el-switch>
                 </el-form-item>
                 <template v-if="form.head_state == '1'">
                     <el-form-item label="选择风格">
@@ -25,17 +23,15 @@
                     </template>
                     <template v-else>
                         <el-form-item label="标题文字">
-                            <el-input v-model="form.topic_text" placeholder="请输入标题文字"></el-input>
+                            <el-input v-model="form.topic_text" placeholder="请输入标题文字" clearable></el-input>
                         </el-form-item>
                     </template>
                     <template v-if="form.theme != '2'">
                         <el-form-item label="按钮状态">
-                            <el-radio-group v-model="form.button_status">
-                                <el-radio v-for="item in base_list.state_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                            </el-radio-group>
+                            <el-switch v-model="form.button_status" active-value="1" inactive-value="0"></el-switch>
                         </el-form-item>
                         <el-form-item v-if="form.button_status == '1'" label="按钮文字">
-                            <el-input v-model="form.button_text" placeholder="请输入按钮文字"></el-input>
+                            <el-input v-model="form.button_text" placeholder="请输入按钮文字" clearable></el-input>
                         </el-form-item>
                     </template>
                 </template>
@@ -69,10 +65,12 @@
                     </el-checkbox-group>
                 </el-form-item>
                 <el-form-item label="秒杀按钮">
-                    <div class="flex-col gap-10 w">
-                        <el-switch v-model="form.is_shop_show" active-value="1" inactive-value="0"></el-switch>
-                        <template v-if="form.is_shop_show == '1'">
-                            <el-radio-group v-model="form.shop_type" @change="change_shop_type">
+                    <el-row class="w">
+                        <el-col :span="24"><el-switch v-model="form.is_shop_show" active-value="1" inactive-value="0"></el-switch></el-col>
+                    </el-row>
+                    <el-row v-if="form.is_shop_show == '1'" class="mt-10 w">
+                        <el-col :span="24">
+                            <el-radio-group v-model="form.shop_type" class="mb-10" @change="change_shop_type">
                                 <el-radio v-for="item in base_list.shopping_button_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                             </el-radio-group>
                             <template v-if="form.shop_type == 'text'">
@@ -81,18 +79,16 @@
                             <template v-else>
                                 <upload v-model:icon-value="form.shop_button_icon_class" is-icon type="icon" :limit="1" size="50"></upload>
                             </template>
-                        </template>
-                    </div>
+                        </el-col>
+                    </el-row>
                 </el-form-item>
                 <el-form-item label="秒杀角标">
-                    <div class="flex-col gap-10 w">
-                        <el-radio-group v-model="form.seckill_subscript_show">
-                            <el-radio v-for="item in base_list.state_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                        </el-radio-group>
-                        <template v-if="form.seckill_subscript_show == '1'">
-                            <el-input v-model="form.subscript_text" placeholder="请输入秒杀文字"></el-input>
-                        </template>
-                    </div>
+                    <el-row class="w">
+                        <el-col :span="24"><el-switch v-model="form.seckill_subscript_show" active-value="1" inactive-value="0"></el-switch></el-col>
+                    </el-row>
+                    <el-row v-if="form.seckill_subscript_show == '1'" class="mt-10 w">
+                        <el-col :span="24"><el-input v-model="form.subscript_text" placeholder="请输入秒杀文字" clearable></el-input></el-col>
+                    </el-row>
                 </el-form-item>
             </card-container>
         </el-form>
@@ -128,10 +124,6 @@ watchEffect(() => {
 });
 
 const base_list = {
-    state_list: [
-        { name: '显示', value: '1' },
-        { name: '隐藏', value: '0' },
-    ],
     themeList: [
         { id: '1', name: '风格1', url: new URL(`../../assets/images/components/model-seckill/theme-1.png`, import.meta.url).href },
         { id: '2', name: '风格2', url: new URL(`../../assets/images/components/model-seckill/theme-2.png`, import.meta.url).href },

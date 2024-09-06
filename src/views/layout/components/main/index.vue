@@ -58,14 +58,14 @@
                             <VueDraggable v-model="diy_data" :animation="500" :touch-start-threshold="2" group="people" class="drag-area re" ghost-class="ghost" :on-sort="on_sort" :on-start="on_start" :on-end="on_end">
                                 <div v-for="(item, index) in diy_data" :key="item.id" :class="model_class(item)" :style="model_style(item)" @click="on_choose(index, item.show_tabs)">
                                     <div v-if="item.show_tabs == '1'" class="plug-in-right" chosenClass="close">
-                                        <el-icon :class="`iconfont ${item.is_enable ? 'icon-eye' : 'icon-eye-close'}`" @click.stop="set_enable(index)" />
+                                        <el-icon :class="`iconfont ${item.is_enable == '1' ? 'icon-eye' : 'icon-eye-close'}`" @click.stop="set_enable(index)" />
                                         <el-icon class="iconfont icon-del" @click.stop="del(index)" />
                                         <el-icon class="iconfont icon-copy" @click.stop="copy(index)" />
                                         <el-icon :class="['iconfont', 'icon-arrow-top', icon_arrow_disable(item.key, index, 'moveUp')]" @click.stop="moveUp(index, arrow_disable_method(item.key, index, 'moveUp'))" />
                                         <el-icon :class="['iconfont', 'icon-arrow-bottom', icon_arrow_disable(item.key, index, 'moveDown')]" @click.stop="moveDown(index, arrow_disable_method(item.key, index, 'moveDown'))" />
                                     </div>
                                     <div class="plug-in-name">{{ item.name }}</div>
-                                    <div class="main-content" :class="{ 'plug-in-close': !item.is_enable }" :style="main_content_style">
+                                    <div class="main-content" :class="{ 'plug-in-close': item.is_enable != '1' }" :style="main_content_style">
                                         <!-- 基础组件 -->
                                         <!-- 视频 -->
                                         <template v-if="item.key == 'video'">
@@ -281,19 +281,33 @@ const url_computer = (name: string) => {
 
 // 模块的class
 const model_class = computed(() => {
-    return (item: { show_tabs: string; key: string; is_enable: boolean; id: string }) => {
+    return (item: { show_tabs: string; key: string; id: string }) => {
         return ['plug-in-table', { 'plug-in-border': item.show_tabs == '1', 'float-window': item.key == 'float-window', 'plug-in-animation': item.show_tabs != '1' && show_model_border }];
     };
 });
 
 const model_style = computed(() => {
     return (item: { id: string; key: string }) => {
-        // window.innerHeight(当前页面高度) - 60(顶部高度) - 846(中间高度)
-        const height = (window.innerHeight - 906) / 2;
-        let bottom = parseInt(float_bottom[item.id]) + height;
-        // 容器自身高度是60 846-60 =  786
-        if (parseInt(float_bottom[item.id]) > 786) {
-            bottom = 786 + height;
+        // 40是容器的上下间距， 60是顶部的高度
+        const container_height = window.innerHeight - 100;
+        let bottom = 0;
+        // 上下有除了padding间距时的处理逻辑
+        if (container_height > 844) {
+            // 上下高度
+            const height = (window.innerHeight - 906) / 2;
+            bottom = parseInt(float_bottom[item.id]) + height;
+            // 容器自身高度是60 846-60 =  786
+            if (parseInt(float_bottom[item.id]) > 786) {
+                bottom = 786 + height;
+            }
+        } else {
+            // 一半的上下间距
+            const height = 20;
+            bottom = parseInt(float_bottom[item.id]) + height;
+            // 容器自身高度是60 container_height-60
+            if (parseInt(float_bottom[item.id]) > container_height - 60) {
+                bottom = container_height - 60 + height;
+            }
         }
         return item.key == 'float-window' ? `bottom: ${((bottom / window.innerHeight) * 100).toFixed(4) + '%'};` : '';
     };
@@ -394,7 +408,7 @@ const on_end = () => {
 // 是否启用
 const set_enable = (index: number) => {
     const old_data = get_diy_index_data(index);
-    old_data.is_enable = !old_data.is_enable;
+    old_data.is_enable = old_data.is_enable == '1' ? '0' : '1';
 };
 // 向上移动
 const moveUp = (index: number, flag: boolean) => {
@@ -569,6 +583,8 @@ const upload_change = async (uploadFile: UploadFile) => {
 // 清空列表
 const clear_click = () => {
     app?.appContext.config.globalProperties.$common.message_box('清空后不可恢复，确定继续吗?', 'warning').then(() => {
+        page_data.value.com_data = cloneDeep(defaultSettings.header_nav);
+        footer_nav.value.com_data = cloneDeep(defaultSettings.footer_nav);
         diy_data.value = [];
         page_settings();
     });

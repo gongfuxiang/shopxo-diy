@@ -9,28 +9,28 @@
                 <el-form ref="ruleFormRef" :model="form" label-width="85px" status-icon>
                     <template v-if="custom_type_active == 0">
                         <el-form-item label="跳转路径" prop="link" :rules="link">
-                            <el-input v-model="form.link" class="link-input" placeholder="请输入跳转路径" />
+                            <el-input v-model="form.link" class="link-input" placeholder="请输入跳转路径" clearable />
                         </el-form-item>
                     </template>
                     <template v-if="custom_type_active == 1">
                         <el-form-item label="APPID" prop="app_id" :rules="app_id">
-                            <el-input v-model="form.app_id" class="link-input" placeholder="请输入小程序APPID" />
+                            <el-input v-model="form.app_id" class="link-input" placeholder="请输入小程序APPID" clearable />
                         </el-form-item>
                         <el-form-item label="小程序路径" prop="app_link" :rules="app_link">
-                            <el-input v-model="form.app_link" class="link-input" placeholder="请输入小程序路径" />
+                            <el-input v-model="form.app_link" class="link-input" placeholder="请输入小程序路径" clearable />
                         </el-form-item>
                     </template>
                     <template v-if="custom_type_active == 2">
                         <el-form-item label="电话号码" prop="phone" :rules="phone">
-                            <el-input v-model="form.phone" class="link-input" placeholder="请输入电话号码" />
+                            <el-input v-model="form.phone" class="link-input" placeholder="请输入电话号码" clearable />
                         </el-form-item>
                     </template>
                     <template v-if="custom_type_active == 3">
                         <el-form-item label="名称" prop="name" :rules="name">
-                            <el-input v-model="form.name" class="link-input" placeholder="请输入名称" />
+                            <el-input v-model="form.name" class="link-input" placeholder="请输入名称" clearable />
                         </el-form-item>
                         <el-form-item label="详细地址" prop="address" :rules="address">
-                            <el-input v-model="form.address" class="link-input" placeholder="请输入地址" type="1" @change="address_change" />
+                            <el-input v-model="form.address" class="link-input" placeholder="请输入地址" type="1" clearable @change="address_change" />
                         </el-form-item>
                         <el-form-item label="经纬度">
                             <maps v-model="map_address" :type="common_map_type" @point="map_point"></maps>

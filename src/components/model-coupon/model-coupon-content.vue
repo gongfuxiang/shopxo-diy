@@ -39,10 +39,10 @@
                 </template>
                 <template v-if="form.theme === '4'">
                     <el-form-item label="内容标题">
-                        <el-input v-model="form.title" placeholder="请输入内容"></el-input>
+                        <el-input v-model="form.title" placeholder="请输入内容" clearable></el-input>
                     </el-form-item>
                     <el-form-item label="内容描述">
-                        <el-input v-model="form.desc" type="textarea" :rows="4" placeholder="请输入内容"></el-input>
+                        <el-input v-model="form.desc" type="textarea" :rows="4" placeholder="请输入内容" clearable></el-input>
                     </el-form-item>
                 </template>
             </card-container>

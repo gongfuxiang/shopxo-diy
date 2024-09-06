@@ -16,7 +16,7 @@
             <div v-if="upload_type !== 'icon'" class="flex-row gap-40">
                 <div class="left-content">
                     <div class="flex-row align-c gap-10 mb-10">
-                        <el-input v-model="search_filter" placeholder="请输入分类名称">
+                        <el-input v-model="search_filter" placeholder="请输入分类名称" clearable>
                             <template #prefix>
                                 <icon name="search" size="18"></icon>
                             </template>
@@ -111,7 +111,7 @@
                                         </div>
                                         <div class="text-line-1 name" @click.stop>
                                             <template v-if="edit_index !== -1 && edit_index === index">
-                                                <el-input v-model="item.original" v-focus type="text" placeholder="请输入内容" size="small" @blur="edit_index = -1" @keydown="edit_input_keydown" @change="edit_input_change" />
+                                                <el-input v-model="item.original" v-focus type="text" placeholder="请输入内容" size="small" clearable @blur="edit_index = -1" @keydown="edit_input_keydown" @change="edit_input_change" />
                                             </template>
                                             <template v-else>
                                                 <div class="ptb-1 plr-7 c-pointer no-select" @dblclick.prevent="edit_index = index">
