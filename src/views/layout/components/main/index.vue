@@ -2,9 +2,9 @@
     <!-- 左侧模块 -->
     <div class="siderbar flex-col">
         <el-collapse v-model="activeNames">
-            <el-collapse-item v-for="(com, i) in components" :key="i" :title="com.name" :name="com.key">
-                <VueDraggable v-model="com.data" :animation="500" ghost-class="ghost" :group="{ name: 'people', pull: 'clone', put: false }" class="component flex-row flex-wrap" :clone="clone_item_com_data" :on-start="onStart" :sort="false" :force-fallback="true">
-                    <template v-if="com.data.length > 0">
+            <template v-for="(com, i) in components">
+                <el-collapse-item v-if="com.data.length > 0" :key="i" :title="com.name" :name="com.key">
+                    <VueDraggable v-model="com.data" :animation="500" ghost-class="ghost" :group="{ name: 'people', pull: 'clone', put: false }" class="component flex-row flex-wrap" :clone="clone_item_com_data" :on-start="onStart" :sort="false" :force-fallback="true">
                         <div v-for="item in com.data" :key="item.key" class="item">
                             <div class="main-border siderbar-hidden main-show tc">释放鼠标将组件添加到此处</div>
                             <div class="siderbar-show main-hidden flex-col jc-c align-c gap-4">
@@ -12,9 +12,9 @@
                                 <div>{{ item.name }}</div>
                             </div>
                         </div>
-                    </template>
-                </VueDraggable>
-            </el-collapse-item>
+                    </VueDraggable>
+                </el-collapse-item>
+            </template>
         </el-collapse>
     </div>
     <div class="drawer-container" :style="`width: ${drawer_selected ? '12.8rem' : '0px'}`">
