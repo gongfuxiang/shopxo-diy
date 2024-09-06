@@ -39,14 +39,6 @@
         display: none;
     }
 }
-@media screen and (max-width: 1560px) {
-    .siderbar {
-        width: 32rem;
-    }
-    .drawer-container {
-        display: none;
-    }
-}
 .main {
     flex: 1;
     position: relative;
@@ -270,6 +262,19 @@
             border: 0.1rem dashed $cr-main;
             background: #b9d8f5;
         }
+    }
+}
+@media screen and (max-width: 1680px) {
+    .main .acticons .el-button {
+        width: 10rem;
+    }
+}
+@media screen and (max-width: 1560px) {
+    .siderbar {
+        width: 32rem;
+    }
+    .drawer-container {
+        display: none;
     }
 }
 .seat {
