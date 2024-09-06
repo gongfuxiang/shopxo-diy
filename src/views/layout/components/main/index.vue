@@ -58,14 +58,14 @@
                             <VueDraggable v-model="diy_data" :animation="500" :touch-start-threshold="2" group="people" class="drag-area re" ghost-class="ghost" :on-sort="on_sort" :on-start="on_start" :on-end="on_end">
                                 <div v-for="(item, index) in diy_data" :key="item.id" :class="model_class(item)" :style="model_style(item)" @click="on_choose(index, item.show_tabs)">
                                     <div v-if="item.show_tabs == '1'" class="plug-in-right" chosenClass="close">
-                                        <el-icon :class="`iconfont ${item.is_enable ? 'icon-eye' : 'icon-eye-close'}`" @click.stop="set_enable(index)" />
+                                        <el-icon :class="`iconfont ${item.is_enable == '1' ? 'icon-eye' : 'icon-eye-close'}`" @click.stop="set_enable(index)" />
                                         <el-icon class="iconfont icon-del" @click.stop="del(index)" />
                                         <el-icon class="iconfont icon-copy" @click.stop="copy(index)" />
                                         <el-icon :class="['iconfont', 'icon-arrow-top', icon_arrow_disable(item.key, index, 'moveUp')]" @click.stop="moveUp(index, arrow_disable_method(item.key, index, 'moveUp'))" />
                                         <el-icon :class="['iconfont', 'icon-arrow-bottom', icon_arrow_disable(item.key, index, 'moveDown')]" @click.stop="moveDown(index, arrow_disable_method(item.key, index, 'moveDown'))" />
                                     </div>
                                     <div class="plug-in-name">{{ item.name }}</div>
-                                    <div class="main-content" :class="{ 'plug-in-close': !item.is_enable }" :style="main_content_style">
+                                    <div class="main-content" :class="{ 'plug-in-close': item.is_enable != '1' }" :style="main_content_style">
                                         <!-- 基础组件 -->
                                         <!-- 视频 -->
                                         <template v-if="item.key == 'video'">
@@ -280,7 +280,7 @@ const url_computer = (name: string) => {
 
 // 模块的class
 const model_class = computed(() => {
-    return (item: { show_tabs: string; key: string; is_enable: boolean; id: string }) => {
+    return (item: { show_tabs: string; key: string; id: string }) => {
         return ['plug-in-table', { 'plug-in-border': item.show_tabs == '1', 'float-window': item.key == 'float-window', 'plug-in-animation': item.show_tabs != '1' && show_model_border }];
     };
 });
@@ -393,7 +393,7 @@ const on_end = () => {
 // 是否启用
 const set_enable = (index: number) => {
     const old_data = get_diy_index_data(index);
-    old_data.is_enable = !old_data.is_enable;
+    old_data.is_enable = old_data.is_enable == '1' ? '0' : '1';
 };
 // 向上移动
 const moveUp = (index: number, flag: boolean) => {
