@@ -287,12 +287,25 @@ const model_class = computed(() => {
 
 const model_style = computed(() => {
     return (item: { id: string; key: string }) => {
-        // window.innerHeight(当前页面高度) - 60(顶部高度) - 846(中间高度)
-        const height = (window.innerHeight - 906) / 2;
-        let bottom = parseInt(float_bottom[item.id]) + height;
-        // 容器自身高度是60 846-60 =  786
-        if (parseInt(float_bottom[item.id]) > 786) {
-            bottom = 786 + height;
+        // 40是容器的上下间距， 60是顶部的高度
+        const container_height = window.innerHeight - 100;
+        let bottom = 0;
+        if (container_height > 844) {
+            // 上下高度
+            const height = (window.innerHeight - 906) / 2;
+            bottom = parseInt(float_bottom[item.id]) + height;
+            // 容器自身高度是60 846-60 =  786
+            if (parseInt(float_bottom[item.id]) > 786) {
+                bottom = 786 + height;
+            }
+        } else {
+            // 一半的上下间距
+            const height = 20;
+            bottom = parseInt(float_bottom[item.id]) + height;
+            // 容器自身高度是60 container_height-60
+            if (parseInt(float_bottom[item.id]) > container_height - 60) {
+                bottom = container_height - 60 + height;
+            }
         }
         return item.key == 'float-window' ? `bottom: ${((bottom / window.innerHeight) * 100).toFixed(4) + '%'};` : '';
     };
