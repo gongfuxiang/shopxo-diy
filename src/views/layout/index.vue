@@ -88,7 +88,7 @@ const api_count = ref(0);
 
 const right_update = (item: any, diy: [Array<any>], header: headerAndFooter, footer: headerAndFooter) => {
     diy_data_item.value = item;
-    // form.value.diy_data = diy;
+    form.value.diy_data = diy;
     // form.value.header = header;
     // form.value.footer = footer;
     // 生成随机id

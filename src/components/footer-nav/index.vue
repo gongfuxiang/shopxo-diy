@@ -48,7 +48,6 @@ const nav_style = ref(0);
 watch(
     () => props.footerData,
     (newVal, oldValue) => {
-        console.log(newVal);
         const new_content = newVal?.content || {};
         const new_style = newVal?.style || {};
         nav_content.value = new_content?.nav_content || [];
