@@ -290,6 +290,7 @@ const model_style = computed(() => {
         // 40是容器的上下间距， 60是顶部的高度
         const container_height = window.innerHeight - 100;
         let bottom = 0;
+        // 上下有除了padding间距时的处理逻辑
         if (container_height > 844) {
             // 上下高度
             const height = (window.innerHeight - 906) / 2;
