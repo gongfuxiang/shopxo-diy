@@ -168,7 +168,9 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false) => 
         //         item1.goods_ids = item.goods_list.map((item2: any) => item2.data.id).join(',') || '';
         //         item1.goods_list = [];
         //     });
-        // }
+        // } else if (item.key == 'custom') {
+        //    item.com_data.content.data_source_content = {};
+        //}
         return {
             ...item,
             show_tabs: '0',
