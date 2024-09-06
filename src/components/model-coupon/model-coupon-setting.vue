@@ -20,7 +20,7 @@ const props = defineProps({
         default: () => {},
     },
 });
-const new_url = await online_url('/static/plugins/coupon/images/diy/').then((res) => res);
+const new_url = ref('');
 const form = ref(props.value);
 const default_config = {
     style: {
@@ -196,7 +196,7 @@ const default_config = {
             background_img: [],
         },
         theme_2: {
-            background_img: [{ url: new_url + 'theme-2-bg.png' }],
+            background_img: [{ url: new_url.value + 'theme-2-bg.png' }],
         },
     },
 };
@@ -210,4 +210,7 @@ const change_theme = (val: string) => {
         form.value.style = Object.assign({}, form.value.style, (<arrayIndex>default_config.style)[`theme_${Number(val)}`]);
     }
 };
+onBeforeMount(async () => {
+    new_url.value = await online_url('/static/plugins/coupon/images/diy/').then((res) => res);
+});
 </script>

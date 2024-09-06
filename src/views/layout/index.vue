@@ -1,14 +1,16 @@
 <template>
     <div v-loading.fullscreen.lock="loading" class="app-wrapper no-copy" element-loading-background="rgba(255,255,255,1)" element-loading-custom-class="loading-custom">
-        <template v-if="!is_empty">
-            <navbar v-model="form.model" @preview="preview" @save="save" @save-close="save_close" />
-            <div class="app-wrapper-content flex-row">
-                <app-main :diy-data="form.diy_data" :header="form.header" :footer="form.footer" @right-update="right_update" @import="import_data_event" @export="export_data_event"></app-main>
-                <settings :key="key" :value="diy_data_item"></settings>
-            </div>
-        </template>
-        <template v-else>
-            <no-data height="100vh" img-width="260px" size="16px" text="编辑数据有误"></no-data>
+        <template v-if="!loading_content">
+            <template v-if="!is_empty">
+                <navbar v-model="form.model" @preview="preview" @save="save" @save-close="save_close" />
+                <div class="app-wrapper-content flex-row">
+                    <app-main :diy-data="form.diy_data" :header="form.header" :footer="form.footer" @right-update="right_update" @import="import_data_event" @export="export_data_event"></app-main>
+                    <settings :key="key" :value="diy_data_item"></settings>
+                </div>
+            </template>
+            <template v-else>
+                <no-data height="100vh" img-width="260px" size="16px" text="编辑数据有误"></no-data>
+            </template>
         </template>
     </div>
 </template>
@@ -135,11 +137,13 @@ const common_init = () => {
 };
 // 加载动画
 const loading = ref(true);
+const loading_content = ref(true);
 const loading_event = (count: number) => {
     if (count == 2) {
+        loading_content.value = false;
         setTimeout(() => {
             loading.value = false;
-        }, 500);
+        }, 1000);
     }
 };
 //#endregion 页面初始化数据 ---------------------end
