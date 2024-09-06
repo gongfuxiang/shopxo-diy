@@ -9,6 +9,7 @@
     </div>
 </template>
 <script setup lang="ts">
+import { online_url } from '@/utils';
 const props = defineProps({
     type: {
         type: String,
@@ -19,6 +20,7 @@ const props = defineProps({
         default: () => {},
     },
 });
+const new_url = await online_url('/static/plugins/coupon/images/diy/').then((res) => res);
 const form = ref(props.value);
 const default_config = {
     style: {
@@ -194,7 +196,7 @@ const default_config = {
             background_img: [],
         },
         theme_2: {
-            background_img: [{ url: 'http://shopxo.com/static/upload/images/common/2024/08/28/1724815957918121.png' }],
+            background_img: [{ url: new_url + 'theme-2-bg.png' }],
         },
     },
 };

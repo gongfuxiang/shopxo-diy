@@ -64,9 +64,9 @@ const api_count = ref(0);
 
 const right_update = (item: any, diy: [Array<any>], header: headerAndFooter, footer: headerAndFooter) => {
     diy_data_item.value = item;
-    form.value.diy_data = diy;
-    form.value.header = header;
-    form.value.footer = footer;
+    // form.value.diy_data = diy;
+    // form.value.header = header;
+    // form.value.footer = footer;
     // 生成随机id
     key.value = Math.random().toString(36).substring(2);
 };
@@ -100,10 +100,20 @@ const export_data_event = () => {
     }
 };
 //#region 页面初始化数据 ---------------------start
+watch(
+    () => form.value.footer,
+    (new_value) => {
+        console.log('layout:', new_value);
+    },
+    { deep: true }
+);
+
 // 页面加载
+onBeforeMount(async () => {
+    await common_init();
+});
 onMounted(() => {
     init();
-    common_init();
 });
 const is_empty = ref(false);
 const init = () => {
