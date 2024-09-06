@@ -118,7 +118,12 @@ const export_data_event = () => {
 // 清空数据
 const clear_data_event = () => {
     let new_tem_form = cloneDeep(temp_form.value);
-    form.value = new_tem_form;
+    form.value.header.show_tabs = '1';
+    form.value.footer.show_tabs = '0';
+    form.value.header.com_data = new_tem_form.header.com_data;
+    form.value.footer.com_data = new_tem_form.footer.com_data;
+    form.value.diy_data = [];
+    diy_data_item.value = new_tem_form.header;
 };
 //#region 页面初始化数据 ---------------------start
 // 页面加载

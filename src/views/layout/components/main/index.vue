@@ -218,8 +218,10 @@ watch(
 watch(
     () => props.footer,
     (newValue) => {
+        console.log('main:', newValue);
         footer_nav.value = newValue;
-    }
+    },
+    { deep: true }
 );
 const top_padding = ref(90);
 const top_margin = ref(0);
