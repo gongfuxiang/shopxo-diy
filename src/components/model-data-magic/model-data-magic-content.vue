@@ -3,7 +3,7 @@
         <el-form :model="form" label-width="80">
             <card-container>
                 <div class="mb-12">展示风格</div>
-                <el-form-item label="选择风格">
+                <el-form-item label="选择风格" label-width="60">
                     <div class="flex align-c flex-wrap gap-10">
                         <div v-for="(item, index) in style_list" :key="index" :class="['flex-item', {'flex-item-actived': form.style_actived === index }]" @click="style_click(index)">
                             <icon :name="item" :color="`${ form.style_actived === index ? '#E1EEF9' : '#EDEDED'}`" size="30"></icon>

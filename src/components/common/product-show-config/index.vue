@@ -22,7 +22,7 @@
                     <el-radio v-for="item in base_list.shopping_button_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                 </el-radio-group>
                 <template v-if="form.shop_type == 'text'">
-                    <el-input v-model="form.shop_button_text" placeholder="请输入按钮文字"></el-input>
+                    <el-input v-model="form.shop_button_text" placeholder="请输入按钮文字" clearable></el-input>
                 </template>
                 <template v-else>
                     <upload v-model:icon-value="form.shop_button_icon_class" is-icon type="icon" :limit="1" size="50"></upload>

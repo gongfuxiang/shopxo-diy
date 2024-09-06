@@ -4,7 +4,7 @@
             <card-container>
                 <div class="mb-12">标题设置</div>
                 <el-form-item label="标题名字">
-                    <el-input v-model="form.title" placeholder="请输入标题"></el-input>
+                    <el-input v-model="form.title" placeholder="请输入标题" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="标题链接">
                     <url-value v-model="form.title_link"></url-value>
@@ -30,7 +30,7 @@
                         <template #default="scoped">
                             <div class="flex-col align-c jc-s gap-20 flex-1">
                                 <el-form-item label="名称" label-width="40" class="w mb-0">
-                                    <el-input v-model="scoped.row.title" placeholder="请输入标题"></el-input>
+                                    <el-input v-model="scoped.row.title" placeholder="请输入标题" clearable></el-input>
                                 </el-form-item>
                                 <el-form-item label="链接" label-width="40" class="w mb-0">
                                     <url-value v-model="scoped.row.link"></url-value>
@@ -55,7 +55,7 @@
                 </el-form-item>
                 <template v-if="form.right_show == '1'">
                     <el-form-item label="右侧文字">
-                        <el-input v-model="form.right_title" placeholder="请输入标题"></el-input>
+                        <el-input v-model="form.right_title" placeholder="请输入标题" clearable></el-input>
                     </el-form-item>
                     <el-form-item label="链接">
                         <url-value v-model="form.right_link"></url-value>

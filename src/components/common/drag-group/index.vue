@@ -10,7 +10,7 @@
                 </template>
             </el-image>
             <template v-if="index === edit_index">
-                <el-input v-model="row.new_title" placeholder="请输入链接" type="textarea" class="flex-1 do-not-trigger" :rows="2"></el-input>
+                <el-input v-model="row.new_title" placeholder="请输入链接" type="textarea" class="flex-1 do-not-trigger" clearable :rows="2"></el-input>
             </template>
             <template v-else>
                 <div class="flex-1 flex-width text-line-2 size-12 self-s do-not-trigger" @dblclick="double_click(index)">{{ !isEmpty(row.new_title) ? row.new_title : row.data.title }}</div>

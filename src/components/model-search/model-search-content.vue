@@ -19,7 +19,7 @@
                     </el-row>
                     <el-row v-if="form.is_tips_show == '1'" class="mt-10 w">
                         <el-col :span="24">
-                            <el-input v-model="form.tips" placeholder="请输入提示文字"></el-input>
+                            <el-input v-model="form.tips" placeholder="请输入提示文字" clearable></el-input>
                         </el-col>
                     </el-row>
                 </el-form-item>
@@ -40,7 +40,7 @@
                                 <upload v-model="form.search_botton_img" v-model:icon-value="form.search_botton_icon" is-icon :limit="1" size="50"></upload>
                             </template>
                             <template v-else>
-                                <el-input v-model="form.search_tips" placeholder="请输入文字内容"></el-input>
+                                <el-input v-model="form.search_tips" placeholder="请输入文字内容" clearable></el-input>
                             </template>
                         </el-col>
                     </el-row>
@@ -51,7 +51,7 @@
                 <div class="mb-12">搜索热词</div>
                 <drag :data="form.hot_word_list" @remove="remove" @on-sort="on_sort">
                     <template #default="scoped">
-                        <el-input v-model="scoped.row.value" placeholder="请输入搜索热词" />
+                        <el-input v-model="scoped.row.value" placeholder="请输入搜索热词" clearable />
                         <color-picker v-model="scoped.row.color" :default-color="'#000000'" @update:value="search_color_change($event, scoped.row)"></color-picker>
                     </template>
                 </drag>

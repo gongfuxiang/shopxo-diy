@@ -52,7 +52,7 @@
             <template v-if="custom_type_active === 2">
                 <el-form ref="ruleFormRef" :model="form" :rules="rules" label-width="85px" status-icon>
                     <el-form-item label="关键字" prop="key">
-                        <el-input v-model="form.key" class="link-input" placeholder="请输入关键字" />
+                        <el-input v-model="form.key" class="link-input" placeholder="请输入关键字" clearable />
                     </el-form-item>
                     <el-button type="primary" class="hide" @click="on_submit">Create</el-button>
                 </el-form>
