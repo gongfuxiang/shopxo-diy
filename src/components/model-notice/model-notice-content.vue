@@ -41,12 +41,9 @@
             <card-container>
                 <div class="mb-12">按钮设置</div>
                 <el-form-item label="右侧按钮">
-                    <el-radio-group v-model="form.is_right_button">
-                        <el-radio value="show">显示</el-radio>
-                        <el-radio value="hidden">隐藏</el-radio>
-                    </el-radio-group>
+                    <el-switch v-model="form.is_right_button" active-value="1" inactive-value="0"></el-switch>
                 </el-form-item>
-                <el-form-item v-if="is_card && form.is_right_button != 'hidden'" label="链接">
+                <el-form-item v-if="is_card && form.is_right_button != '0'" label="链接">
                     <url-value v-model="form.more_link"></url-value>
                 </el-form-item>
             </card-container>
