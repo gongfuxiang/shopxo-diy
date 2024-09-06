@@ -100,14 +100,6 @@ const export_data_event = () => {
     }
 };
 //#region 页面初始化数据 ---------------------start
-watch(
-    () => form.value.footer,
-    (new_value) => {
-        console.log('layout:', new_value);
-    },
-    { deep: true }
-);
-
 // 页面加载
 onBeforeMount(async () => {
     await common_init();
