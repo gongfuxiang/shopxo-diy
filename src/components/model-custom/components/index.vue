@@ -20,7 +20,7 @@
             <slider v-model="center_height" :max="3000">组件高度</slider>
         </card-container>
         <card-container class="h selected">
-            <div class="mb-12 flex-row align-c jc-sb">已选组件<el-button @click="cancel">清除选中</el-button></div>
+            <div class="mb-12 flex-row align-c jc-sb">已选组件<span class="clear-selection" @click="cancel">清除选中</span></div>
             <div class="assembly">
                 <div v-if="!isEmpty(diy_data)" class="flex-row flex-wrap gap-10">
                     <div v-for="(item, index) in diy_data" :key="index" class="item flex jc-sb align-c size-14 cr-3" :class="{ 'item-active': item.show_tabs == '1' }" @click="on_choose(index, item.show_tabs)">{{ item.name }}<icon name="close" color="3" size="10" class="c-pointer" @click="del(index)"></icon></div>
@@ -635,7 +635,7 @@ const data_handling = (x: number, y: number) => {
 // coordinate 新的坐标 current_size 当前坐标对应的组件大小(指的是组件的宽高) max_size 容器的最大大小
 const isWithinBounds = (coordinate:number, current_size: number, max_size: number) => coordinate >= 0 && coordinate + current_size <= max_size;
 onMounted(() => {
-    // 监听点击事件
+    // 监听键盘事件
     document.addEventListener('keyup', handleKeyUp);
 });
 onUnmounted(() => {
