@@ -16,7 +16,7 @@
                 <el-carousel :key="carouselKey" class="flex-1" indicator-position="none" :interval="interval_time" arrow="never" :direction="direction_type" :autoplay="true">
                     <el-carousel-item v-for="(item, index) in notice_list" :key="index" :style="`${ news_style } color: ${ new_style.news_color }`">{{ item.notice_title }}</el-carousel-item>
                 </el-carousel>
-                <div v-if="form.is_right_button == 'show'" class="size-12"><el-icon class="iconfont icon-arrow-right" :color="new_style.button_color || '#999'"></el-icon></div>
+                <div v-if="form.is_right_button == '1'" class="size-12"><el-icon class="iconfont icon-arrow-right" :color="new_style.button_color || '#999'"></el-icon></div>
             </div>
         </template>
         <template v-else>
@@ -33,7 +33,7 @@
                     <template v-else>
                         <div :style="topic_style" class="pl-6 pr-6 radius-sm">{{ form.title || '公告' }}</div>
                     </template>
-                    <div v-if="form.is_right_button == 'show'" class="size-12" :style="`color: ${ new_style.button_color || '#999'}`">更多<el-icon class="iconfont icon-arrow-right" :color="new_style.button_color || '#999'"></el-icon></div>
+                    <div v-if="form.is_right_button == '1'" class="size-12" :style="`color: ${ new_style.button_color || '#999'}`">更多<el-icon class="iconfont icon-arrow-right" :color="new_style.button_color || '#999'"></el-icon></div>
                 </div>
                 <div v-for="(item, index) in notice_list" :key="index" class="flex" :style="news_style"><span :class="`num one${ index + 1 }`">{{ index + 1 }}</span><div class="break" :style="`color: ${ new_style.news_color }`">{{ item.notice_title }}</div></div>
             </div>

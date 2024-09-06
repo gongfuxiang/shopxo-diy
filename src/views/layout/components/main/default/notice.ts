@@ -50,7 +50,7 @@ const defaultSearch: defaultSearch = {
         title: '测试标题',
         img_src: [],
         icon_class: '',
-        is_right_button: 'show',
+        is_right_button: '1',
         interval_time: 2,
         more_link: {},
         notice_list: [
