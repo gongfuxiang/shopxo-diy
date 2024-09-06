@@ -10,7 +10,7 @@
                     <div v-if="!isEmpty(form.data_source_content)" class="flex-row mt-20 gap-20">
                         <div class="re flex align-c">
                             <image-empty v-model="form.data_source_content[form.img_key]" style="width: 10rem; height: 10rem"></image-empty>
-                            <div class="plr-15 bg-f abs replace-data size-14" @click="replace_data">替换数据</div>
+                            <div class="plr-10 bg-f abs replace-data size-10 box-shadow-sm" @click="replace_data">替换数据</div>
                         </div>
                         <div class="flex-1 size-14 text-line-3">{{ form.data_source_content.title || form.data_source_content.name }}</div>
                     </div>
@@ -226,9 +226,11 @@ const replace_data = () => {
     }
 }
 .replace-data {
-    bottom: 1rem;
-    left: 0.5rem;
+    height: 2.4rem;
+    bottom: 0.5rem;
+    left: 2.1rem;
+    line-height: 2.4rem;
     border-radius: 2rem;
-    border: 1px solid #ccc;
+    cursor: pointer;
 }
 </style>
