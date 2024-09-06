@@ -4,7 +4,7 @@
             <template v-if="!is_empty">
                 <navbar v-model="form.model" @preview="preview_event" @save="save_event" @save-close="save_close_event" />
                 <div class="app-wrapper-content flex-row">
-                    <app-main :diy-data="form.diy_data" :header="form.header" :footer="form.footer" @right-update="right_update" @import="import_data_event" @export="export_data_event"></app-main>
+                    <app-main :diy-data="form.diy_data" :header="form.header" :footer="form.footer" @right-update="right_update" @import="import_data_event" @export="export_data_event" @clear="clear_data_event"></app-main>
                     <settings :key="key" :value="diy_data_item"></settings>
                 </div>
             </template>
@@ -90,11 +90,12 @@ const api_count = ref(0);
 const right_update = (item: any, diy: [Array<any>], header: headerAndFooter, footer: headerAndFooter) => {
     diy_data_item.value = item;
     form.value.diy_data = diy;
-    // form.value.header = header;
-    // form.value.footer = footer;
+    form.value.header = header;
+    form.value.footer = footer;
     // 生成随机id
     key.value = Math.random().toString(36).substring(2);
 };
+// 导入数据
 const import_data_event = (uploadFile: UploadFile) => {
     // 截取document.location.search字符串内id/后面的所有字段
     const form_data = new FormData();
@@ -110,8 +111,14 @@ const import_data_event = (uploadFile: UploadFile) => {
         init();
     });
 };
+// 导出数据
 const export_data_event = () => {
     save_formmat_form_data(form.value, false, true);
+};
+// 清空数据
+const clear_data_event = () => {
+    let new_tem_form = cloneDeep(temp_form.value);
+    form.value = new_tem_form;
 };
 //#region 页面初始化数据 ---------------------start
 // 页面加载
