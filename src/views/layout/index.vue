@@ -37,6 +37,28 @@ interface diy_data_item {
     footer: headerAndFooter;
     diy_data: Array<any>;
 }
+const temp_form = ref<diy_data_item>({
+    id: '',
+    model: {
+        logo: '',
+        name: '',
+        is_enable: '1',
+        describe: '',
+    },
+    header: {
+        name: '页面设置',
+        show_tabs: '1',
+        key: 'page-settings',
+        com_data: defaultSettings.header_nav,
+    },
+    footer: {
+        name: '底部导航',
+        show_tabs: '0',
+        key: 'footer-nav',
+        com_data: defaultSettings.footer_nav,
+    },
+    diy_data: [],
+});
 const form = ref<diy_data_item>({
     id: '',
     model: {
@@ -49,13 +71,13 @@ const form = ref<diy_data_item>({
         name: '页面设置',
         show_tabs: '1',
         key: 'page-settings',
-        com_data: cloneDeep(defaultSettings.header_nav),
+        com_data: {},
     },
     footer: {
         name: '底部导航',
         show_tabs: '0',
         key: 'footer-nav',
-        com_data: defaultSettings.footer_nav,
+        com_data: {},
     },
     diy_data: [],
 });
@@ -66,7 +88,7 @@ const api_count = ref(0);
 
 const right_update = (item: any, diy: [Array<any>], header: headerAndFooter, footer: headerAndFooter) => {
     diy_data_item.value = item;
-    // form.value.diy_data = diy;
+    form.value.diy_data = diy;
     // form.value.header = header;
     // form.value.footer = footer;
     // 生成随机id
@@ -122,6 +144,7 @@ const init = () => {
             loading_event(api_count.value);
         });
     } else {
+        form.value = cloneDeep(temp_form.value);
         api_count.value = 1;
         loading_event(api_count.value);
     }
@@ -172,9 +195,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false) => 
         //         item1.goods_ids = item.goods_list.map((item2: any) => item2.data.id).join(',') || '';
         //         item1.goods_list = [];
         //     });
-        // } else if (item.key == 'custom') {
-        //    item.com_data.content.data_source_content = {};
-        //}
+        // }
         return {
             ...item,
             show_tabs: '0',

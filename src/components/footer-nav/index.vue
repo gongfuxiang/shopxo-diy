@@ -2,8 +2,8 @@
     <div class="footer-nav flex-row jc-c align-c" :class="showFooter ? 'br-2 br-primary' : ''" @click="footer_nav_event">
         <div class="footer-nav-content flex-row jc-c align-c w" :style="style_container">
             <ul class="flex-row jc-sa align-c w">
-                <li v-for="(item, index) in footerData?.content?.nav_content" :key="index" class="flex-1 flex-col jc-c align-c gap-5" @mouseenter="is_hover = index" @mouseleave="is_hover = 0">
-                    <div v-if="footerData.content.nav_style !== '2'" class="img re">
+                <li v-for="(item, index) in nav_content" :key="index" class="flex-1 flex-col jc-c align-c gap-5" @mouseenter="is_hover = index" @mouseleave="is_hover = 0">
+                    <div v-if="nav_style !== 2" class="img re">
                         <div class="img-item abs radius-xs animate-linear w" :class="is_hover != index ? 'active' : ''">
                             <image-empty v-model="item.img[0]" error-img-style="width:1.5rem;height:1.5rem;"></image-empty>
                         </div>
@@ -11,7 +11,7 @@
                             <image-empty v-model="item.img_checked[0]" error-img-style="width:1.5rem;height:1.5rem;"></image-empty>
                         </div>
                     </div>
-                    <span v-if="footerData.content.nav_style !== '1'" class="animate-linear size-12 re z-i" :style="is_hover == index ? text_color_checked : default_text_color">{{ item.name }}</span>
+                    <span v-if="nav_style !== 1" class="animate-linear size-12 re z-i" :style="is_hover == index ? text_color_checked : default_text_color">{{ item.name }}</span>
                 </li>
             </ul>
         </div>
@@ -35,12 +35,23 @@ const style_container = ref('');
 const default_text_color = ref('');
 const text_color_checked = ref('');
 let is_hover = ref(0);
+interface footerNavData {
+    id: string;
+    name: string;
+    img: uploadList[];
+    img_checked: uploadList[];
+    link: object;
+}
+const nav_content = ref<footerNavData[]>([]);
+const nav_style = ref(0);
 
 watch(
-    props.footerData,
+    () => props.footerData,
     (newVal, oldValue) => {
         const new_content = newVal?.content || {};
         const new_style = newVal?.style || {};
+        nav_content.value = new_content?.nav_content || [];
+        nav_style.value = new_content?.nav_style || 0;
         default_text_color.value = 'color:' + new_style.default_text_color || 'rgba(0, 0, 0, 1)';
         text_color_checked.value = 'color:' + new_style.text_color_checked || 'rgba(204, 204, 204, 1)';
 
