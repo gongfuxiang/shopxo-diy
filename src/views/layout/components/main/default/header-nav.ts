@@ -35,12 +35,12 @@ interface DefaultFooterNav {
         header_background_direction: string;
         header_background_img_style: number;
         header_background_img: uploadList[];
-        header_background_title_color: string,
-        header_background_title_typeface: string,
-        header_background_title_size: number,
-        function_buttons_type: string,
-        immersive_style: string,
-        up_slide_display: string,
+        header_background_title_color: string;
+        header_background_title_typeface: string;
+        header_background_title_size: number;
+        function_buttons_type: string;
+        immersive_style: string;
+        up_slide_display: string;
         icon_color: string;
         button_inner_color: string;
         search_botton_color_list: color_list[];
@@ -53,7 +53,7 @@ interface DefaultFooterNav {
         search_border: string;
         search_border_radius: object;
         common_style: object;
-    }
+    };
 }
 const defaultFooterNav: DefaultFooterNav = {
     content: {
@@ -62,7 +62,7 @@ const defaultFooterNav: DefaultFooterNav = {
         title: '新建页面',
         link: {},
         indicator_location: 'center',
-        positioning_name: '默认定位名称',
+        positioning_name: '默认名称',
         is_arrows_show: '1',
         is_center: '0',
         is_icon_show: '1',
@@ -77,7 +77,7 @@ const defaultFooterNav: DefaultFooterNav = {
         search_type: 'text',
         search_tips: '搜索',
         hot_word_list: [],
-        bottom_navigation_show: '1'
+        bottom_navigation_show: '1',
     },
     style: {
         header_background_type: 'color_image',
@@ -93,7 +93,10 @@ const defaultFooterNav: DefaultFooterNav = {
         up_slide_display: '1',
         icon_color: '#ccc',
         button_inner_color: '#fff',
-        search_botton_color_list: [{ color: '#FF973D', color_percentage: undefined }, { color: '#FF3131', color_percentage: undefined }],
+        search_botton_color_list: [
+            { color: '#FF973D', color_percentage: undefined },
+            { color: '#FF3131', color_percentage: undefined },
+        ],
         search_botton_direction: '90deg',
         search_botton_background_img_style: '',
         search_botton_background_img: [],
