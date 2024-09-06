@@ -370,7 +370,10 @@
     .siderbar {
         width: 32rem;
     }
-    .drawer-container, .layout-toggle-bar {
+    .drawer-container {
+        width: 0 !important;
+    }
+    .layout-toggle-bar {
         display: none;
     }
 }
