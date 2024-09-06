@@ -141,7 +141,7 @@ const base_list = reactive({
     ],
     product_list: [
         { name: '指定商品', value: '0' },
-        { name: '选择商品', value: '1' },
+        { name: '筛选商品', value: '1' },
     ],
     product_category_list: [] as select_1[],
     product_brand_list: [] as select_1[],

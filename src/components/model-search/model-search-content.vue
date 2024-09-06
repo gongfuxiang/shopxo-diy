@@ -28,9 +28,9 @@
                 </el-form-item>
                 <el-form-item label="搜索按钮" class="align-s">
                     <el-row class="w">
-                        <el-col :span="24"><el-switch v-model="form.is_search_show"></el-switch></el-col>
+                        <el-col :span="24"><el-switch v-model="form.is_search_show" active-value="1" inactive-value="0"></el-switch></el-col>
                     </el-row>
-                    <el-row v-if="form.is_search_show" class="mt-10 w">
+                    <el-row v-if="form.is_search_show == '1'" class="mt-10 w">
                         <el-col :span="24">
                             <el-radio-group v-model="form.search_type" class="mb-10">
                                 <el-radio value="img-icon">图片/图标</el-radio>

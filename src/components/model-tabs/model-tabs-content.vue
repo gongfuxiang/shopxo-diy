@@ -11,10 +11,7 @@
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="滑动置顶">
-                    <el-radio-group v-model="form.tabs_top_up">
-                        <el-radio value="1">启用</el-radio>
-                        <el-radio value="0">不启用</el-radio>
-                    </el-radio-group>
+                    <el-switch v-model="form.tabs_top_up" active-value="1" inactive-value="0"></el-switch>
                 </el-form-item>
             </card-container>
             <div class="divider-line"></div>

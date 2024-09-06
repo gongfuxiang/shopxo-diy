@@ -10,20 +10,14 @@
                     <url-value v-model="form.title_link"></url-value>
                 </el-form-item>
                 <el-form-item label="是否居中">
-                    <el-radio-group v-model="form.is_title_center">
-                        <el-radio :value="0">默认</el-radio>
-                        <el-radio :value="1">居中</el-radio>
-                    </el-radio-group>
+                    <el-switch v-model="form.is_title_center" active-value="1" inactive-value="0"/>
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>
                 <div class="mb-12">关键字设置</div>
                 <el-form-item label="关键字">
-                    <el-radio-group v-model="form.keyword_show">
-                        <el-radio value="1">显示</el-radio>
-                        <el-radio value="0">隐藏</el-radio>
-                    </el-radio-group>
+                    <el-switch v-model="form.keyword_show" active-value="1" inactive-value="0"/>
                 </el-form-item>
                 <template v-if="form.keyword_show == '1'">
                     <drag :data="form.keyword_list" type="card" :space-col="25" @remove="remove" @on-sort="on_sort">
@@ -48,10 +42,7 @@
             <card-container>
                 <div class="mb-12">更多设置</div>
                 <el-form-item label="右侧按钮">
-                    <el-radio-group v-model="form.right_show">
-                        <el-radio value="1">显示</el-radio>
-                        <el-radio value="0">隐藏</el-radio>
-                    </el-radio-group>
+                    <el-switch v-model="form.right_show" active-value="1" inactive-value="0"></el-switch>
                 </el-form-item>
                 <template v-if="form.right_show == '1'">
                     <el-form-item label="右侧文字">
