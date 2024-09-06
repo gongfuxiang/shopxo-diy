@@ -20,9 +20,9 @@ const props = defineProps({
         default: () => {},
     },
 });
-const new_url = ref('');
 const form = ref(props.value);
-const default_config = {
+const new_url = ref('');
+const default_config = ref({
     style: {
         theme_1: {
             price_color: '#FF3830',
@@ -196,21 +196,23 @@ const default_config = {
             background_img: [],
         },
         theme_2: {
-            background_img: [{ url: new_url.value + 'theme-2-bg.png' }],
+            background_img: [{ url: 'theme-2-bg.png' }],
         },
     },
-};
+});
+onMounted(async () => {
+    new_url.value = await online_url('/static/plugins/coupon/images/diy/').then((res) => res);
+    default_config.value.common_style.theme_2.background_img = [{ url: new_url.value + 'theme-2-bg.png' }];
+});
 const change_theme = (val: string) => {
     if (val) {
         if (val == '2') {
-            form.value.style.common_style = Object.assign({}, form.value.style.common_style, (<arrayIndex>default_config.common_style)[`theme_${Number(val)}`]);
+            console.log(default_config.value.common_style);
+            form.value.style.common_style = Object.assign({}, form.value.style.common_style, (<arrayIndex>default_config.value.common_style)[`theme_${Number(val)}`]);
         } else {
-            form.value.style.common_style = Object.assign({}, form.value.style.common_style, default_config.common_style.theme_default);
+            form.value.style.common_style = Object.assign({}, form.value.style.common_style, default_config.value.common_style.theme_default);
         }
-        form.value.style = Object.assign({}, form.value.style, (<arrayIndex>default_config.style)[`theme_${Number(val)}`]);
+        form.value.style = Object.assign({}, form.value.style, (<arrayIndex>default_config.value.style)[`theme_${Number(val)}`]);
     }
 };
-onBeforeMount(async () => {
-    new_url.value = await online_url('/static/plugins/coupon/images/diy/').then((res) => res);
-});
 </script>
