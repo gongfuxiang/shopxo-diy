@@ -1,11 +1,11 @@
 <template>
-    <el-dialog v-model="dialog_visible" class="radius-lg" width="1168" draggable :close-on-click-modal="false" append-to-body>
+    <el-dialog v-model="dialog_visible" class="radius-lg diy-preview" width="1168" :close-on-click-modal="false" append-to-body>
         <template #header>
             <div class="title re">
                 <div class="middle size-16 fw">预览</div>
             </div>
         </template>
-        <div class="flex-row pt-16 iframe-content">
+        <div class="flex-row iframe-content">
             <iframe :src="new_link" width="100%" height="100%" frameborder="0"></iframe>
         </div>
     </el-dialog>
@@ -47,6 +47,8 @@ watch(
 </script>
 <style lang="scss" scoped>
 .iframe-content {
-    height: 60rem;
+    height: 80rem;
+    width: calc(100% + 3.2rem);
+    margin: 0 -1.6rem -1.6rem -1.6rem;
 }
 </style>

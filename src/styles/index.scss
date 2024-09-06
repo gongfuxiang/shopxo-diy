@@ -212,3 +212,17 @@ p {
         font-size: 1.2rem;
     }
 }
+
+// 弹窗样式调整
+.diy-preview.el-dialog {
+    --el-dialog-margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    margin: 0 !important;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-height: calc(100% - 30px);
+    max-width: calc(100% - 30px);
+}
