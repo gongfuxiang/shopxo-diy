@@ -237,6 +237,7 @@ const diy_data_transfor_form_data = (clone_form: diy_data_item) => {
 };
 const form_data_transfor_diy_data = (clone_form: diyData) => {
     let temp_config = clone_form.config;
+    let new_tem_form = cloneDeep(temp_form.value);
     try {
         return {
             id: clone_form.id,
@@ -259,9 +260,9 @@ const form_data_transfor_diy_data = (clone_form: diyData) => {
                 is_enable: clone_form.is_enable,
                 describe: clone_form.describe,
             },
-            header: form.value.header,
-            footer: form.value.footer,
-            diy_data: form.value.diy_data,
+            header: new_tem_form.header,
+            footer: new_tem_form.footer,
+            diy_data: new_tem_form.diy_data,
         };
     }
 };
