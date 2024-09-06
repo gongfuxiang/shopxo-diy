@@ -9,7 +9,7 @@
                     </el-select>
                     <div v-if="!isEmpty(form.data_source_content)" class="flex-row mt-20 gap-20">
                         <div class="re flex align-c">
-                            <image-empty v-model="form.data_source_content[form.img_key]" style="width: 10rem; height: 10rem"></image-empty>
+                            <image-empty v-model="form.data_source_content[form.img_key]" style="width: 10rem;height: 10rem" error-img-style="width: 3rem; height: 3rem;"></image-empty>
                             <div class="plr-10 bg-f abs replace-data size-10 box-shadow-sm" @click="replace_data">替换数据</div>
                         </div>
                         <div class="flex-1 size-14 text-line-3">{{ form.data_source_content.title || form.data_source_content.name }}</div>
