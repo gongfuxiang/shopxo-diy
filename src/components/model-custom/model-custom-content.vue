@@ -166,6 +166,7 @@ const changeDataSource = (key: string) => {
 const url_value_dialog_call_back = (item: any[]) => {
     if (item.length > 0) {
         form.data_source_content = item[0];
+        form.data_source_content_id = item[0].id;
     } else {
         form.data_source_content = {};
     }
