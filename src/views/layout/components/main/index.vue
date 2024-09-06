@@ -218,7 +218,6 @@ watch(
 watch(
     () => props.footer,
     (newValue) => {
-        console.log('main:', newValue);
         footer_nav.value = newValue;
     },
     { deep: true }
