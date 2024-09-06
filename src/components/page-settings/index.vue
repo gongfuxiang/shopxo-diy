@@ -48,15 +48,6 @@ const emits = defineEmits(['page_settings']);
 const page_settings = () => {
     emits('page_settings');
 };
-// 监听props.pageData
-watch(
-    () => props.pageData,
-    (newVal) => {
-        console.log(newVal, 'header');
-    },
-    { immediate: true, deep: true }
-);
-
 const form = computed(() => props.pageData.com_data.content);
 const new_style = computed(() => props.pageData.com_data.style);
 const position = computed(() => (new_style.value.up_slide_display == '1' ? 'absolute' : 'relative'));
