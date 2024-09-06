@@ -264,19 +264,6 @@
         }
     }
 }
-@media screen and (max-width: 1680px) {
-    .main .acticons .el-button {
-        width: 10rem;
-    }
-}
-@media screen and (max-width: 1560px) {
-    .siderbar {
-        width: 32rem;
-    }
-    .drawer-container {
-        display: none;
-    }
-}
 .seat {
     background: transparent;
     height: 0.2rem;
@@ -370,5 +357,20 @@
     }
     .layout-toggle-bar-bottom {
         transform: rotate(12deg) scale(1.05) translateY(0.2rem);
+    }
+}
+
+@media screen and (max-width: 1680px) {
+    .main .acticons .el-button {
+        width: 10rem;
+    }
+}
+
+@media screen and (max-width: 1560px) {
+    .siderbar {
+        width: 32rem;
+    }
+    .drawer-container, .layout-toggle-bar {
+        display: none;
     }
 }
