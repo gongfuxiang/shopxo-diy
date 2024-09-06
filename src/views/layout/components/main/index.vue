@@ -583,7 +583,6 @@ const upload_change = async (uploadFile: UploadFile) => {
 // 清空列表
 const clear_click = () => {
     app?.appContext.config.globalProperties.$common.message_box('清空后不可恢复，确定继续吗?', 'warning').then(() => {
-        page_settings();
         emits('clear');
     });
 };
