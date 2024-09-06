@@ -366,6 +366,12 @@
     }
 }
 
+@media screen and (max-width: 1640px) {
+    .main .acticons .el-button {
+        width: 8rem;
+    }
+}
+
 @media screen and (max-width: 1560px) {
     .siderbar {
         width: 32rem;
