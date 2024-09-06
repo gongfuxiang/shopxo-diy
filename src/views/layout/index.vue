@@ -2,7 +2,7 @@
     <div v-loading.fullscreen.lock="loading" class="app-wrapper no-copy" element-loading-background="rgba(255,255,255,1)" element-loading-custom-class="loading-custom">
         <template v-if="!loading_content">
             <template v-if="!is_empty">
-                <navbar v-model="form.model" @preview="preview" @save="save" @save-close="save_close" />
+                <navbar v-model="form.model" @preview="preview_event" @save="save_event" @save-close="save_close_event" />
                 <div class="app-wrapper-content flex-row">
                     <app-main :diy-data="form.diy_data" :header="form.header" :footer="form.footer" @right-update="right_update" @import="import_data_event" @export="export_data_event"></app-main>
                     <settings :key="key" :value="diy_data_item"></settings>
@@ -12,6 +12,7 @@
                 <no-data height="100vh" img-width="260px" size="16px" text="编辑数据有误"></no-data>
             </template>
         </template>
+        <preview v-model="preview_dialog" :data-id="diy_id"></preview>
     </div>
 </template>
 
@@ -110,18 +111,7 @@ const import_data_event = (uploadFile: UploadFile) => {
     });
 };
 const export_data_event = () => {
-    if (get_id()) {
-        ElMessageBox.confirm('导出前需先保存最新数据，是否继续？', '提示')
-            .then(() => {
-                const index = window.location.href.lastIndexOf('?s=');
-                const pro_url = window.location.href.substring(0, index);
-                const new_url = import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API_URL : pro_url;
-                window.open(new_url + '?s=diyapi/diydownload/id/' + get_id() + '.html', '_blank');
-            })
-            .catch(() => {});
-    } else {
-        ElMessage.warning('请先保存,再导出');
-    }
+    save_formmat_form_data(form.value, false, true);
 };
 //#region 页面初始化数据 ---------------------start
 // 页面加载
@@ -172,16 +162,18 @@ const loading_event = (count: number) => {
 //#endregion 页面初始化数据 ---------------------end
 
 //#region 顶部导航回调方法 ---------------------start
-const preview = () => {
-    console.log('预览');
+const preview_dialog = ref(false);
+const diy_id = ref('');
+const preview_event = () => {
+    save_formmat_form_data(form.value, false, false, true);
 };
-const save = () => {
+const save_event = () => {
     save_formmat_form_data(form.value);
 };
-const save_close = () => {
+const save_close_event = () => {
     save_formmat_form_data(form.value, true);
 };
-const save_formmat_form_data = (data: diy_data_item, close: boolean = false) => {
+const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_export: boolean = false, is_preview: boolean = false) => {
     const clone_form = cloneDeep(data);
     clone_form.header.show_tabs = '1';
     clone_form.footer.show_tabs = '0';
@@ -206,7 +198,11 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false) => 
     // 数据改造
     const new_data = diy_data_transfor_form_data(clone_form);
     DiyAPI.save(new_data).then((res) => {
-        ElMessage.success('保存成功');
+        if (is_export || is_preview) {
+            // 如果是导出或预览模式，则不显示保存成功的消息
+        } else {
+            ElMessage.success('保存成功');
+        }
         if (close) {
             ElMessageBox.confirm('您确定要关闭本页吗？', '提示')
                 .then(() => {
@@ -215,6 +211,17 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false) => 
                 })
                 .catch(() => {});
         } else {
+            // 判断是否需要导出
+            if (is_export) {
+                const index = window.location.href.lastIndexOf('?s=');
+                const pro_url = window.location.href.substring(0, index);
+                const new_url = import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API_URL : pro_url;
+                window.open(new_url + '?s=diyapi/diydownload/id/' + res.data + '.html', '_blank');
+            }
+            if (is_preview) {
+                preview_dialog.value = true;
+                diy_id.value = String(res.data);
+            }
             history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
         }
     });

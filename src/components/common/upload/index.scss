@@ -154,6 +154,7 @@
         background: transparent;
         border: 1px solid #dddddd;
         display: flex;
+        border-radius: 0.2rem;
         justify-content: center;
         align-items: center;
         .upload-btn-bottom-text {
@@ -169,6 +170,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            border-bottom-left-radius: 0.1rem;
+            border-bottom-right-radius: 0.1rem;
         }
     }
     &-style-2 {

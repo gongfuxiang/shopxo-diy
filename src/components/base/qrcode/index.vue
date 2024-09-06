@@ -13,7 +13,7 @@
                 </template>
             </el-image>
         </div>
-        <div v-if="src !== ''" class="flex-row align-c gap-10 size-12">
+        <div v-if="src !== '' && isSrc" class="flex-row align-c gap-10 size-12">
             {{ src }}
             <div class="copy" @click="clipboard_event">复制</div>
         </div>
@@ -26,6 +26,10 @@ const props = defineProps({
     src: {
         type: String,
         default: '',
+    },
+    isSrc: {
+        type: Boolean,
+        default: true,
     },
     isMask: {
         type: Boolean,

@@ -341,7 +341,7 @@ export const tabs_style = (color: string, style: string | number | boolean | und
  * @param directory {string} - 资源目录名称
  * @returns {Promise<string>} 返回一个Promise，解析为包含资源URL的字符串
  */
-export const online_url = async (directory: string) => {
+export const online_url = async (directory: string = '') => {
     if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
         let temp_data = await import(import.meta.env.VITE_APP_BASE_API == '/dev-api' ? '../../temp.d' : '../../temp_pro.d');
         return temp_data.default.temp_attachment_host + directory;

@@ -188,7 +188,7 @@
                         </div>
                     </template>
                     <template v-else>
-                        <el-image :src="item.url" fit="contain" class="w h">
+                        <el-image :src="item.url" fit="contain" class="w h radius-xs">
                             <template #error>
                                 <div class="bg-f5 img flex-row jc-c align-c radius h w">
                                     <icon name="error-img" :size="Number(size) / 2 + ''" color="9"></icon>
