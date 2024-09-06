@@ -564,6 +564,8 @@ const rect_style = computed(() => {
     };
 });
 //#endregion
+//#region 绑定上下左右事件
+//#endregion 
 defineExpose({
     diy_data,
 });
