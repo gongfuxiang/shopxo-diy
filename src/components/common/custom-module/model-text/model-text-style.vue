@@ -83,10 +83,7 @@
             <card-container>
                 <div class="mb-12">边框设置</div>
                 <el-form-item label="边框显示">
-                    <el-radio-group v-model="form.border_show">
-                        <el-radio value="1">显示</el-radio>
-                        <el-radio value="0">隐藏</el-radio>
-                    </el-radio-group>
+                    <el-switch v-model="form.border_show" active-value="1" inactive-value="0"/>
                 </el-form-item>
                 <template v-if="form.border_show == '1'">
                     <el-form-item label="边框颜色">

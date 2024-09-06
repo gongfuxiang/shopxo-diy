@@ -45,10 +45,7 @@
                         <el-input v-model="form.positioning_name" placeholder="请输入默认定位名称" clearable></el-input>
                     </el-form-item>
                     <el-form-item label="箭头按钮">
-                        <el-radio-group v-model="form.is_arrows_show">
-                            <el-radio value="1">显示</el-radio>
-                            <el-radio value="0">隐藏</el-radio>
-                        </el-radio-group>
+                        <el-switch v-model="form.is_arrows_show" active-value="1" inactive-value="0"></el-switch>
                     </el-form-item>
                 </template>
             </card-container>
@@ -59,9 +56,7 @@
             </template>
             <card-container>
                 <el-form-item label="底部导航">
-                    <el-radio-group v-model="form.bottom_navigation_show">
-                        <el-radio v-for="item in base_list.bottom_navigation" :key="item.value" :value="item.value">{{item.name }}</el-radio>
-                    </el-radio-group>
+                    <el-switch v-model="form.bottom_navigation_show" active-value="1" inactive-value="0"></el-switch>
                 </el-form-item>
             </card-container>
         </el-form>
@@ -82,11 +77,7 @@ const base_list = reactive({
         { id: '3', name: '风格3', url: new URL(`../../assets/images/components/page-settings/theme-3.png`, import.meta.url).href },
         { id: '4', name: '风格4', url: new URL(`../../assets/images/components/page-settings/theme-4.png`, import.meta.url).href },
         { id: '5', name: '风格5', url: new URL(`../../assets/images/components/page-settings/theme-5.png`, import.meta.url).href },
-    ],
-    bottom_navigation: [
-        { name: '显示', value: '1' },
-        { name: '隐藏', value: '0' },
-    ],
+    ]
 });
 
 const emit = defineEmits(['update:change-theme']);

@@ -20,7 +20,7 @@
             <slider v-model="center_height" :max="3000">组件高度</slider>
         </card-container>
         <card-container class="h selected">
-            <div class="mb-12 flex-row align-c jc-sb">已选组件<el-button @click="cancel">清除选中</el-button></div>
+            <div class="mb-12 flex-row align-c jc-sb">已选组件<span class="clear-selection" @click="cancel">清除选中</span></div>
             <div class="assembly">
                 <div v-if="!isEmpty(diy_data)" class="flex-row flex-wrap gap-10">
                     <div v-for="(item, index) in diy_data" :key="index" class="item flex jc-sb align-c size-14 cr-3" :class="{ 'item-active': item.show_tabs == '1' }" @click="on_choose(index, item.show_tabs)">{{ item.name }}<icon name="close" color="3" size="10" class="c-pointer" @click="del(index)"></icon></div>
@@ -299,7 +299,7 @@ const resizingHandle = (new_location: any, key: string, index: number) => {
     com_data.com_height = h;
     com_data.staging_height = h;
     if (key == 'img') {
-        const { img_width, img_height } =  handleImg(com_data, w, h);
+        const { img_width, img_height } = handleImg(com_data, w, h);
         com_data.img_width = img_width;
         com_data.img_height = img_height;
     } else if (key == 'auxiliary-line') {
@@ -368,6 +368,10 @@ const end_drag = (event: MouseEvent) => {
     init_drag_style.value = ``;
     if (rect_end.value.width > 16 && rect_end.value.height > 16) {
         hot_list.data = [{ name: '热区' + (hot_list.data.length + 1), link: {}, drag_start: cloneDeep(rect_start.value), drag_end: cloneDeep(rect_end.value) }];
+        diy_data.value.forEach((item: any) => {
+            item.show_tabs = '0';
+        });
+        emits('rightUpdate', {});
     }
     rect_start.value = { x: 0, y: 0, width: 0, height: 0 };
     rect_end.value = { x: 0, y: 0, width: 0, height: 0 };
@@ -565,6 +569,79 @@ const rect_style = computed(() => {
 });
 //#endregion
 //#region 绑定上下左右事件
+const handleKeyUp = (e: KeyboardEvent) => {
+    let key_code = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+    let x = 0;
+    let y = 0;
+    // 键盘控制
+    if (e.key === 'ArrowUp') { //上键
+        y = -1;
+    } else if (e.key === 'ArrowDown') { // 下键
+        y = 1;
+    } else if (e.key === 'ArrowLeft') { //左键
+        x = -1;
+    } else if (e.key === 'ArrowRight') { //右键
+        x = 1;
+    }
+    e.preventDefault();
+    // 只有是点击上下左右的时候才会生效
+    if (key_code.includes(e.key)) {
+        data_handling(x, y);
+    }
+};
+const data_handling = (x: number, y: number) => {
+    // 遍历对象,内部容器更新
+    if (hot_list.data.length > 0) {
+        // 更新热区位置
+        const { drag_start, drag_end } = hot_list.data[0];
+        if (isWithinBounds(drag_start.x + x, drag_end.width, 390)) {
+            hot_list.data[0].drag_start.x += x;
+        }
+        if (isWithinBounds(drag_start.y + y, drag_end.height, center_height.value)) {
+            hot_list.data[0].drag_start.y += y;
+        }
+        // 按下按钮的时候判断当前包含哪些组件, 避免后续包裹的或者没有手动拖拽过的无法更新其中组件的内容
+        const rect1 = { x: drag_start.x, y: drag_start.y, width: drag_end.width, height: drag_end.height }
+        diy_data.value.forEach(item => {
+            const rect2 = { x: item.location.x, y: item.location.y, width: item.com_data.com_width, height: item.com_data.com_height };
+            // 如果交集或者包裹，返回为1，否则为0
+            if (isRectangleIntersecting(rect1, rect2) == '1') {
+                // x 轴不小于0 并且不大于容器宽度
+                if (isWithinBounds(item.location.x + x, item.com_data.com_width, 390)) {
+                    item.location.x += x;
+                }
+                // Y轴不小于0 并且不大于容器高度
+                if (isWithinBounds(item.location.y + y, item.com_data.com_height, center_height.value)) {
+                    item.location.y += y;
+                }
+            }
+        });
+    } else {
+        diy_data.value.forEach(item => {
+            // 只更新选中的数据
+            if (item.show_tabs == '1') {
+                // x 轴不小于0 并且不大于容器宽度
+                if (isWithinBounds(item.location.x + x, item.com_data.com_width, 390)) {
+                    item.location.x += x;
+                }
+                // Y轴不小于0 并且不大于容器高度
+                if (isWithinBounds(item.location.y + y, item.com_data.com_height, center_height.value)) {
+                    item.location.y += y;
+                }
+            }
+        });
+    }
+};
+// coordinate 新的坐标 current_size 当前坐标对应的组件大小(指的是组件的宽高) max_size 容器的最大大小
+const isWithinBounds = (coordinate:number, current_size: number, max_size: number) => coordinate >= 0 && coordinate + current_size <= max_size;
+onMounted(() => {
+    // 监听键盘事件
+    document.addEventListener('keyup', handleKeyUp);
+});
+onUnmounted(() => {
+    // 移除监听事件
+    document.removeEventListener('keyup', handleKeyUp);
+});
 //#endregion 
 defineExpose({
     diy_data,

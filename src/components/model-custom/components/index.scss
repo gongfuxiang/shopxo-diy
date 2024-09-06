@@ -231,3 +231,8 @@
     z-index: 6;
     display: none;
 }
+
+.clear-selection {
+    cursor: pointer;
+    color: $cr-main;
+}
