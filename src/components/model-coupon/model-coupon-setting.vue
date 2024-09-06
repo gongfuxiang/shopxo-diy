@@ -207,7 +207,6 @@ onMounted(async () => {
 const change_theme = (val: string) => {
     if (val) {
         if (val == '2') {
-            console.log(default_config.value.common_style);
             form.value.style.common_style = Object.assign({}, form.value.style.common_style, (<arrayIndex>default_config.value.common_style)[`theme_${Number(val)}`]);
         } else {
             form.value.style.common_style = Object.assign({}, form.value.style.common_style, default_config.value.common_style.theme_default);
