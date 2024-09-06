@@ -14,20 +14,15 @@
 </template>
 
 <script setup lang="ts">
-import type { UploadFile, UploadFiles } from 'element-plus';
+import type { UploadFile } from 'element-plus';
+import { is_obj } from '@/utils';
 import { Navbar, Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
 import { cloneDeep } from 'lodash';
-import DiyAPI, { diyData } from '@/api/diy';
+import DiyAPI, { diyData, headerAndFooter, diyConfig } from '@/api/diy';
 import CommonAPI from '@/api/common';
 import { commonStore } from '@/store';
 const common_store = commonStore();
-interface headerAndFooter {
-    name: string;
-    show_tabs: string;
-    key: string;
-    com_data: any;
-}
 interface diy_data_item {
     id: string;
     model: {
@@ -69,9 +64,9 @@ const api_count = ref(0);
 
 const right_update = (item: any, diy: [Array<any>], header: headerAndFooter, footer: headerAndFooter) => {
     diy_data_item.value = item;
-    form.value.diy_data = diy;
-    form.value.header = header;
-    form.value.footer = footer;
+    // form.value.diy_data = diy;
+    // form.value.header = header;
+    // form.value.footer = footer;
     // 生成随机id
     key.value = Math.random().toString(36).substring(2);
 };
@@ -106,9 +101,11 @@ const export_data_event = () => {
 };
 //#region 页面初始化数据 ---------------------start
 // 页面加载
+onBeforeMount(async () => {
+    await common_init();
+});
 onMounted(() => {
     init();
-    common_init();
 });
 const is_empty = ref(false);
 const init = () => {
@@ -212,6 +209,7 @@ const diy_data_transfor_form_data = (clone_form: diy_data_item) => {
     };
 };
 const form_data_transfor_diy_data = (clone_form: diyData) => {
+    let temp_config = clone_form.config;
     try {
         return {
             id: clone_form.id,
@@ -221,9 +219,9 @@ const form_data_transfor_diy_data = (clone_form: diyData) => {
                 is_enable: clone_form.is_enable,
                 describe: clone_form.describe,
             },
-            header: JSON.parse(clone_form.config).header,
-            footer: JSON.parse(clone_form.config).footer,
-            diy_data: JSON.parse(clone_form.config).diy_data,
+            header: is_obj(temp_config) ? (temp_config as diyConfig).header : JSON.parse(temp_config as string).header,
+            footer: is_obj(temp_config) ? (temp_config as diyConfig).footer : JSON.parse(temp_config as string).footer,
+            diy_data: is_obj(temp_config) ? (temp_config as diyConfig).diy_data : JSON.parse(temp_config as string).diy_data,
         };
     } catch (error) {
         return {

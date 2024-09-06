@@ -15,7 +15,7 @@
             </el-collapse-item>
         </el-collapse>
     </div>
-    <div class="drawer-container" :style="`width: ${ drawer_selected ? '12.8rem' : '0px'}`">
+    <div class="drawer-container" :style="`width: ${drawer_selected ? '12.8rem' : '0px'}`">
         <div class="drawer-content pt-5" :style="{ left: drawer_selected ? '0' : '-100%' }">
             <div class="size-14 cr-3 fw pl-12 drawer-title" :style="{ opacity: drawer_selected ? '1' : '0' }">已选组件({{ diy_data.length }})</div>
             <div ref="left_scrollTop" class="drawer-drag-area">
@@ -214,6 +214,13 @@ watch(
         page_settings();
     }
 );
+
+watch(
+    () => props.footer,
+    (newValue) => {
+        footer_nav.value = newValue;
+    }
+);
 const top_padding = ref(90);
 const top_margin = ref(0);
 const content_style = ref('');
@@ -246,12 +253,6 @@ watchEffect(() => {
     }
 });
 
-watch(
-    () => props.footer,
-    (newValue) => {
-        footer_nav.value = newValue;
-    }
-);
 // 已选组件逻辑处理
 const drawer_selected = ref(false);
 watchEffect(() => {
@@ -260,7 +261,7 @@ watchEffect(() => {
     } else {
         drawer_selected.value = false;
     }
-})
+});
 const toggle_drawer = () => {
     drawer_selected.value = !drawer_selected.value;
 };
@@ -565,7 +566,6 @@ const page_settings = () => {
             item.show_tabs = '0';
         });
     }
-
     emits('rightUpdate', page_data.value, diy_data.value, page_data.value, footer_nav.value);
 };
 //导出
