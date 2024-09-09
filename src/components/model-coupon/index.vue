@@ -172,6 +172,15 @@ const content_title = computed(() => {
 const content_desc = computed(() => {
     return form.value.desc;
 });
+onMounted(() => {
+    if (!isEmpty(form.value.data_list) && form.value.data_type == '0') {
+        data_list.value = form.value.data_list;
+    } else if (!isEmpty(form.value.data_auto_list) && form.value.data_type == '1') {
+        data_list.value = form.value.data_auto_list;
+    } else {
+        data_list.value = Array(4).fill(default_list);
+    }
+});
 const get_coupon = () => {
     const { number, type } = form.value;
     const params = {
@@ -180,6 +189,7 @@ const get_coupon = () => {
     };
     // 获取商品列表
     CouponAPI.getCoupon(params).then((res: any) => {
+        form.value.data_auto_list = res.data;
         if (!isEmpty(res.data)) {
             data_list.value = res.data;
         } else {
@@ -187,17 +197,25 @@ const get_coupon = () => {
         }
     });
 };
-watchEffect(() => {
-    if (form.value.data_type == '0') {
-        if (!isEmpty(form.value.data_list)) {
-            data_list.value = cloneDeep(form.value.data_list);
-        } else {
-            data_list.value = Array(4).fill(default_list);
-        }
-    } else {
-        get_coupon();
-    }
+const data_list_computer = computed(() => {
+    const { data_type, type, number } = form.value;
+    return { data_type, type, number };
 });
+watch(
+    () => data_list_computer.value,
+    (new_value) => {
+        if (new_value.data_type == '1') {
+            get_coupon();
+        } else {
+            if (!isEmpty(form.value.data_list)) {
+                data_list.value = cloneDeep(form.value.data_list);
+            } else {
+                data_list.value = Array(4).fill(default_list);
+            }
+        }
+    },
+    { deep: true }
+);
 const theme = computed(() => props.value?.content?.theme);
 const theme_style = computed(() => {
     const new_background = gradient_computer({ color_list: props.value?.style?.background, direction: props.value?.style?.direction }, false);

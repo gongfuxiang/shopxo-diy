@@ -132,10 +132,17 @@ const get_auto_data_list = async () => {
         article_is_cover: is_cover,
     };
     const res = await ArticleAPI.getAutoList(new_data);
+    new_content.value.data_auto_list = [];
     if (!isEmpty(res.data)) {
         data_list.value = [];
         res.data.forEach((child: any) => {
             data_list.value.push({
+                id: get_math(),
+                new_title: '',
+                new_cover: [],
+                data: child,
+            });
+            new_content.value.data_auto_list.push({
                 id: get_math(),
                 new_title: '',
                 new_cover: [],
@@ -149,18 +156,34 @@ const get_auto_data_list = async () => {
 
 const new_content = computed(() => props.value?.content || {});
 const new_style = computed(() => props.value?.style || {});
-watchEffect(() => {
-    if (new_content.value.data_type == '0') {
-        if (!isEmpty(new_content.value.data_list)) {
-            data_list.value = new_content.value.data_list;
-            data_list.value = cloneDeep(new_content.value.data_list);
-        } else {
-            data_list.value = Array(4).fill(default_data_list);
-        }
+onMounted(() => {
+    if (!isEmpty(new_content.value.data_list) && new_content.value.data_type == '0') {
+        data_list.value = new_content.value.data_list;
+    } else if (!isEmpty(new_content.value.data_auto_list) && new_content.value.data_type == '1') {
+        data_list.value = new_content.value.data_auto_list;
     } else {
-        get_auto_data_list();
+        data_list.value = Array(4).fill(default_data_list);
     }
 });
+const data_list_computer = computed(() => {
+    const { data_type, category, number, sort, sort_rules, is_cover } = new_content.value;
+    return { data_type, category, number, sort, sort_rules, is_cover };
+});
+watch(
+    () => data_list_computer.value,
+    (new_value) => {
+        if (new_value.data_type == '1') {
+            get_auto_data_list();
+        } else {
+            if (!isEmpty(new_content.value.data_list)) {
+                data_list.value = cloneDeep(new_content.value.data_list);
+            } else {
+                data_list.value = Array(4).fill(default_data_list);
+            }
+        }
+    },
+    { deep: true }
+);
 // 轮播宽度
 const multicolumn_columns_width = computed(() => {
     const { carousel_col } = toRefs(new_content.value);
