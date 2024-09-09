@@ -24,7 +24,7 @@
                         <icon name="add" size="18" class="c-pointer" @click="add_type"></icon>
                     </div>
                     <el-scrollbar height="490px">
-                        <el-tree ref="treeRef" v-loading="tree_loading" class="filter-tree" :data="type_data" node-key="id" highlight-current :props="defaultProps" empty-text="无数据" default-expand-all :filter-node-method="filter_node" @node-click="tree_node_event">
+                        <el-tree ref="treeRef" v-loading="tree_loading" :current-node-key="type_data[0].id" class="filter-tree" :data="type_data" node-key="id" highlight-current :props="defaultProps" empty-text="无数据" default-expand-all :filter-node-method="filter_node" @node-click="tree_node_event">
                             <template #default="{ node, data }">
                                 <div class="custom-tree-node flex-row jc-sb gap-10 align-c w pr-10" :class="data.is_enable == 0 || node.parent.data.is_enable == 0 ? 'disabled bg-red' : ''">
                                     <div class="flex-1 flex-width text-line-1 block">{{ data.name }}</div>
@@ -217,7 +217,7 @@
     </template>
     <!-- 图片预览 -->
     <el-image-viewer v-if="preview_switch_img && upload_type == 'img'" class="123123" :z-index="999999" :url-list="[preview_url]" teleported :hide-on-click-modal="true" @close="preview_close"></el-image-viewer>
-    <upload-model v-model="upload_model_visible" :type="upload_type" :exts="props.type == 'img' ? ext_img_name_list : props.type == 'video' ? ext_video_name_list : ext_file_name_list" @close="close_upload_model"></upload-model>
+    <upload-model v-model="upload_model_visible" :type="upload_type" :exts="props.type == 'img' ? ext_img_name_list : props.type == 'video' ? ext_video_name_list : ext_file_name_list" @close-all="close_all_upload_model" @close="close_upload_model"></upload-model>
     <form-upload-category v-model="upload_category_model_visible" :value="upload_category_model" :type="upload_category_type" :category-id="upload_category_id" :category-pid="upload_category_pid" @confirm="upload_category_confirm"></form-upload-category>
 </template>
 <script lang="ts" setup>
@@ -300,7 +300,7 @@ watch(
                 }
 
                 // 获取附件列表
-                get_attachment_list();
+                get_attachment_list('1');
 
                 icon_index.value = -1;
             }
@@ -331,7 +331,7 @@ const upload_type_name = computed(() => {
 const upload_type_change = (type: any) => {
     if (type == 'icon') return false;
     view_list_value.value = [];
-    get_attachment_list();
+    get_attachment_list('1');
 };
 
 // 打开上传弹窗
@@ -420,7 +420,7 @@ const tree_node_event = (data: any, a: any, b: any) => {
     // 判断是否是子节点，如果不是子节点则不可操作
     if (data.items && data.items.length > 0) return;
     category_id.value = data.id;
-    get_attachment_list();
+    get_attachment_list('1');
 };
 const upload_category_id = ref<number | string>('');
 const upload_category_pid = ref<number | string>('');
@@ -605,7 +605,7 @@ const mult_del_event = () => {
 };
 const transform_category_event = () => {
     check_img_ids.value = '';
-    get_attachment_list();
+    get_attachment_list('1');
 };
 
 //#endregion 附件 ----------------------------------------------------------end
@@ -677,8 +677,8 @@ const handle_error = (index: number) => {
 };
 
 //#region 上传组件回调 -----------------------------------------------start
-// 关闭上传弹窗回调
-const close_upload_model = (data: any) => {
+// 关闭所有上传弹窗回调
+const close_all_upload_model = (data: any) => {
     if (props.isCheckConfirm) {
         dialog_visible.value = false;
         if (data.web_image.length > 0) {
@@ -701,7 +701,13 @@ const close_upload_model = (data: any) => {
                 }
             }
         }
+    } else {
+        get_attachment_list('1');
     }
+};
+// 关闭上传弹窗回调
+const close_upload_model = () => {
+    get_attachment_list('1');
 };
 //#endregion 上传组件回调 -----------------------------------------------end
 onMounted(() => {

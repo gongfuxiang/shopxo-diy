@@ -553,12 +553,12 @@ const extract_images = async (formEl: FormInstance | undefined) => {
         }
     });
 };
-const emit = defineEmits(['close']);
+const emit = defineEmits(['closeAll', 'close']);
 // 关闭所有弹窗
 const close_all_dialog = () => {
     const new_form = JSON.parse(JSON.stringify(form.value));
-    emit('close', new_form);
-    close_dialog();
+    reset_data();
+    emit('closeAll', new_form);
 };
 //#endregion 网络上传 -----------------------------------------------end
 
@@ -568,6 +568,10 @@ const file_to_base64 = (file: any) => {
 };
 // 关闭弹窗
 const close_dialog = () => {
+    reset_data();
+    emit('close');
+};
+const reset_data = () => {
     dialogVisible.value = false;
     form.value = {
         type: 'loc',
