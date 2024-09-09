@@ -1,6 +1,6 @@
 <template>
     <div class="rich-text" :style="style_container">
-        <div class="rich-text-content" :innerHTML="safe_conten"></div>
+        <div class="rich-text-content" :innerHTML="safe_content"></div>
     </div>
 </template>
 <script lang="ts" setup>
@@ -26,7 +26,7 @@ watch(
     { immediate: true, deep: true }
 );
 // 计算
-const safe_conten = computed(() => DOMPurify.sanitize(content.value));
+const safe_content = computed(() => DOMPurify.sanitize(content.value));
 </script>
 <style lang="scss" scoped>
 .rich-text-content {
