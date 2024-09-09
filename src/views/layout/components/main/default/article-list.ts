@@ -15,6 +15,7 @@ interface DefaultArticleList {
         category: string[];
         data_list: ArticleList[];
         data_ids: string;
+        data_auto_list: ArticleList[];
         number: number;
         sort: string;
         sort_rules: string;
@@ -50,6 +51,7 @@ const defaultArticleList: DefaultArticleList = {
         category: [],
         data_list: [],
         data_ids: '',
+        data_auto_list: [],
         number: 4,
         sort: '0',
         sort_rules: '0',

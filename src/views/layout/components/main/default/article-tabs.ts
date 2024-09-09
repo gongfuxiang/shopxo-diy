@@ -16,6 +16,7 @@ interface articleTabsList {
     sort_rules: string;
     is_cover: string;
     data_list: ArticleList[];
+    data_auto_list: ArticleList[];
 }
 interface DefaultArticleTabs {
     content: {
@@ -63,12 +64,12 @@ const defaultArticleTabs: DefaultArticleTabs = {
         article_theme: '0',
         article_carousel_col: '2',
         tabs_list: [
-            { id: '1', title: '热门推荐', desc: '简介', data_type: '0', category: [], number: 4, sort: '0', sort_rules: '0', is_cover: '1', data_list: [] },
-            { id: '2', title: '测试一', desc: '简介', data_type: '0', category: [], number: 4, sort: '0', sort_rules: '0', is_cover: '1', data_list: [] },
-            { id: '3', title: '测试二', desc: '简介', data_type: '0', category: [], number: 4, sort: '0', sort_rules: '0', is_cover: '1', data_list: [] },
-            { id: '4', title: '测试三', desc: '简介', data_type: '0', category: [], number: 4, sort: '0', sort_rules: '0', is_cover: '1', data_list: [] },
-            { id: '5', title: '测试四', desc: '简介', data_type: '0', category: [], number: 4, sort: '0', sort_rules: '0', is_cover: '1', data_list: [] },
-            { id: '6', title: '测试五', desc: '简介', data_type: '0', category: [], number: 4, sort: '0', sort_rules: '0', is_cover: '1', data_list: [] },
+            { id: '1', title: '热门推荐', desc: '简介', data_type: '0', category: [], number: 4, sort: '0', sort_rules: '0', is_cover: '1', data_list: [], data_auto_list: [] },
+            { id: '2', title: '测试一', desc: '简介', data_type: '0', category: [], number: 4, sort: '0', sort_rules: '0', is_cover: '1', data_list: [], data_auto_list: [] },
+            { id: '3', title: '测试二', desc: '简介', data_type: '0', category: [], number: 4, sort: '0', sort_rules: '0', is_cover: '1', data_list: [], data_auto_list: [] },
+            { id: '4', title: '测试三', desc: '简介', data_type: '0', category: [], number: 4, sort: '0', sort_rules: '0', is_cover: '1', data_list: [], data_auto_list: [] },
+            { id: '5', title: '测试四', desc: '简介', data_type: '0', category: [], number: 4, sort: '0', sort_rules: '0', is_cover: '1', data_list: [], data_auto_list: [] },
+            { id: '6', title: '测试五', desc: '简介', data_type: '0', category: [], number: 4, sort: '0', sort_rules: '0', is_cover: '1', data_list: [], data_auto_list: [] },
         ],
         field_show: ['0', '1'],
     },
