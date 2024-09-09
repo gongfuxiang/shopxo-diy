@@ -59,7 +59,7 @@ service.interceptors.response.use(
                     type: 'warning',
                 }).then(() => {
                     localStorage.clear(); // @vueuse/core 自动导入
-                    window.location.href = data;
+                    window.location.href = data.logout;
                 });
             }
         } else {
