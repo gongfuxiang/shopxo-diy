@@ -9,6 +9,7 @@ interface DefaultCoupon {
         desc: string;
         data_list: object[];
         data_ids: string;
+        data_auto_list: object[];
     };
     style: {
         price_color: string;
@@ -43,6 +44,7 @@ const defaultCoupoin: DefaultCoupon = {
         desc: '领券下单·享购物优惠',
         data_list: [],
         data_ids: '',
+        data_auto_list: [],
     },
     style: {
         price_color: '#FF3830',

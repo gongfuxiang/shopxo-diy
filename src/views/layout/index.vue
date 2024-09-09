@@ -85,7 +85,6 @@ const form = ref<diy_data_item>({
 const diy_data_item = ref({});
 
 const key = ref('');
-const api_count = ref(0);
 
 const right_update = (item: any, diy: [Array<any>], header: headerAndFooter, footer: headerAndFooter) => {
     diy_data_item.value = item;
@@ -127,11 +126,8 @@ const clear_data_event = () => {
 };
 //#region 页面初始化数据 ---------------------start
 // 页面加载
-onBeforeMount(async () => {
-    await common_init();
-});
 onMounted(() => {
-    init();
+    common_init();
 });
 const is_empty = ref(false);
 const init = () => {
@@ -142,13 +138,13 @@ const init = () => {
             } else {
                 is_empty.value = true;
             }
-            api_count.value += 1;
-            loading_event(api_count.value);
+            loading_event();
         });
     } else {
+        temp_form.value.header.com_data = defaultSettings.header_nav;
+        temp_form.value.footer.com_data = defaultSettings.footer_nav;
         form.value = cloneDeep(temp_form.value);
-        api_count.value = 1;
-        loading_event(api_count.value);
+        loading_event();
     }
 };
 
@@ -156,20 +152,17 @@ const init = () => {
 const common_init = () => {
     CommonAPI.getInit().then((res: any) => {
         common_store.set_common(res.data);
-        api_count.value += 1;
-        loading_event(api_count.value);
+        init();
     });
 };
 // 加载动画
 const loading = ref(true);
 const loading_content = ref(true);
-const loading_event = (count: number) => {
-    if (count == 2) {
-        loading_content.value = false;
-        setTimeout(() => {
-            loading.value = false;
-        }, 1000);
-    }
+const loading_event = () => {
+    loading_content.value = false;
+    setTimeout(() => {
+        loading.value = false;
+    }, 1000);
 };
 //#endregion 页面初始化数据 ---------------------end
 

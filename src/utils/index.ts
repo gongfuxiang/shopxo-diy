@@ -347,12 +347,6 @@ export const online_url = async (directory: string = '') => {
         return temp_data.default.temp_attachment_host + directory;
     } else {
         let attachemnt_host = common.config.attachment_host;
-        if (!attachemnt_host) {
-            await CommonAPI.getInit().then((res: any) => {
-                set_common(res.data);
-                attachemnt_host = res.data.config.attachment_host;
-            });
-        }
         return attachemnt_host + directory;
     }
 };
