@@ -5,9 +5,11 @@ interface DefaultProductList {
         data_type: string;
         carousel_col: number;
         category: string[];
+        brand: string[];
         data_ids: string[];
         product_show_list: string[];
         data_list: string[];
+        data_auto_list: string[];
         is_price_solo: string;
         number: number;
         sort: string;
@@ -57,7 +59,9 @@ const defaultProductList: DefaultProductList = {
         carousel_col: 3,
         product_show_list: [],
         data_list: [],
+        data_auto_list: [],
         category: [],
+        brand: [],
         data_ids: [],
         is_price_solo: '1',
         number: 4,

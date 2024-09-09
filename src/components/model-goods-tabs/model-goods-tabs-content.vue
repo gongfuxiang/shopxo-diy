@@ -60,7 +60,7 @@
                                             </el-select>
                                         </el-form-item>
                                         <el-form-item label="指定品牌">
-                                            <el-select v-model="row.data_ids" multiple collapse-tags placeholder="请选择商品品牌">
+                                            <el-select v-model="row.brand" multiple collapse-tags placeholder="请选择商品品牌">
                                                 <el-option v-for="item in base_list.product_brand_list" :key="item.id" :label="item.name" :value="item.id" />
                                             </el-select>
                                         </el-form-item>

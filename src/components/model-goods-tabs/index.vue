@@ -27,7 +27,7 @@ watch(tabs_list.value, (val) => {
     // 产品的值
     new_data.content.data_type = new_data.content.tabs_list[0].data_type;
     new_data.content.category = new_data.content.tabs_list[0].category;
-    new_data.content.data_ids = new_data.content.tabs_list[0].data_ids;
+    new_data.content.brand = new_data.content.tabs_list[0].brand;
     new_data.content.number = new_data.content.tabs_list[0].number;
     new_data.content.sort = new_data.content.tabs_list[0].sort;
     new_data.content.sort_rules = new_data.content.tabs_list[0].sort_rules;

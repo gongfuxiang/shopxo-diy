@@ -223,20 +223,34 @@ const default_list = {
         },
     ],
 };
+//#region 列表数据
 const list = ref<data_list[]>([]);
+// 初始化的时候执行
+onBeforeMount(() => {
+    // 指定商品并且指定商品数组不为空
+    if (!isEmpty(form.value.data_list) && form.value.data_type == '0') {
+        list.value = form.value.data_list;
+    } else if (!isEmpty(form.value.data_auto_list) && form.value.data_type == '1') {
+        // 筛选商品并且筛选商品数组不为空
+        list.value = form.value.data_auto_list;
+    } else { // 为空的时候走默认数据
+        list.value = Array(4).fill(default_list);
+    }
+});
 
 const get_products = () => {
-    const { category, data_ids, number, sort, sort_rules } = form.value;
+    const { category, brand, number, sort, sort_rules } = form.value;
     const params = {
         goods_keywords: '',
         goods_category_ids: category,
-        goods_brand_ids: data_ids,
+        goods_brand_ids: brand,
         goods_order_by_type: sort,
         goods_order_by_rule: sort_rules,
         goods_number: number,
     };
     // 获取商品列表
     ShopAPI.getShopLists(params).then((res: any) => {
+        form.value.data_auto_list = res.data;
         if (!isEmpty(res.data)) {
             list.value = res.data;
         } else {
@@ -244,11 +258,16 @@ const get_products = () => {
         }
     });
 };
-
-watchEffect(() => {
-    if (form.value.data_type == '0') {
-        if (!isEmpty(form.value.data_list)) {
-            list.value = cloneDeep(form.value.data_list).map((item: any) => ({
+// 取出监听的数据
+const watch_data = computed(() => {
+    const { category, brand, number, sort, sort_rules, data_type, data_list } = form.value;
+    return { category: category, brand: brand, number: number, sort: sort, sort_rules: sort_rules, data_type: data_type, data_list: data_list };
+})
+// 初始化的时候不执行, 监听数据变化
+watch(() => watch_data.value, (val) => {
+    if (val.data_type == '0') {
+        if (!isEmpty(val.data_list)) {
+            list.value = cloneDeep(val.data_list).map((item: any) => ({
                 ...item.data,
                 title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
                 new_cover: item.new_cover,
@@ -259,7 +278,8 @@ watchEffect(() => {
     } else {
         get_products();
     }
-});
+}, { deep: true });
+//#endregion
 
 // 圆角设置
 const content_radius = computed(() => radius_computer(new_style.value.shop_radius));
