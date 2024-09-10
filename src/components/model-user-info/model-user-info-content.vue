@@ -37,11 +37,11 @@ const props = defineProps({
 const form = reactive(props.value);
 const emit = defineEmits(['update:value']);
 const base_info_list = reactive([
-    { name: '订单总数', value: '1' },
-    { name: '商品收藏', value: '2' },
-    { name: '我的足迹', value: '3' },
-    { name: '我的积分', value: '4' },
-    { name: 'ID', value: '5' },
+    { name: '订单总数', value: 'order_count' },
+    { name: '商品收藏', value: 'goods_favor_count' },
+    { name: '我的足迹', value: 'goods_browse_count' },
+    { name: '我的积分', value: 'integral_number' },
+    { name: 'ID', value: 'number_code' },
 ]);
 const icon_setting_remove = (index: number) => {
     form.icon_setting.splice(index, 1);

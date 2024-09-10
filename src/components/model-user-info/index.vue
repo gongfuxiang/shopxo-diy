@@ -107,7 +107,7 @@ watch(
         if (content) {
             config.value = content?.config;
             icon_setting.value = content?.icon_setting;
-            id_bool.value = config.value ? config.value.includes('5') : true;
+            id_bool.value = config.value ? config.value.includes('number_code') : true;
         }
         if (new_style) {
             // 头像

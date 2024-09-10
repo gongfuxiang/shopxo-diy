@@ -27,7 +27,7 @@ interface DefaultUserInfo {
 }
 const defaultUserInfo: DefaultUserInfo = {
     content: {
-        config: ['order_count', 'goods_favor_count', 'goods_browse_count', 'integral_number'],
+        config: ['order_count', 'goods_favor_count', 'goods_browse_count', 'integral_number', 'number_code'],
         icon_setting: [
             { id: '1', img: [], icon: 'applet-me-settings-acquiesce', link: {} },
             { id: '2', img: [], icon: 'applet-me-message-acquiesce', link: {} },
