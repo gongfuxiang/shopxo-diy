@@ -11,7 +11,7 @@ interface defaultSearch {
     content: {
         title: string;
         title_link: object;
-        is_title_center: number;
+        is_title_center: string;
         keyword_show: string;
         keyword_list: carousel_list[];
         right_show: string;
@@ -33,7 +33,7 @@ const defaultSearch: defaultSearch = {
     content: {
         title: '',
         title_link: {},
-        is_title_center: 0,
+        is_title_center: '0',
         keyword_show: '1',
         right_show: '1',
         right_title: '更多',

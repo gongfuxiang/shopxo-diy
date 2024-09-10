@@ -51,7 +51,7 @@ const title_style = computed(() => {
 });
 // 标题是否居中
 const title_center = computed(() => {
-    return form.value.is_title_center ? 'jc-c' : '';
+    return form.value.is_title_center == '1' ? 'jc-c' : '';
 });
 // 关键字设置
 const keyword_style = computed(() => {
