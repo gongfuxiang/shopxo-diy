@@ -33,19 +33,19 @@
                 <el-form-item label="底部背景">
                     <div class="flex-col gap-10 w">
                         <div class="size-12">背景色</div>
-                        <mult-color-picker :value="form.user_id_color_list" :type="form.user_id_direction" @update:value="mult_color_picker_event"></mult-color-picker>
+                        <mult-color-picker :value="form.number_code_color_list" :type="form.number_code_direction" @update:value="mult_color_picker_event"></mult-color-picker>
                     </div>
                 </el-form-item>
                 <el-form-item label="id颜色">
-                    <color-picker v-model="form.user_id_color"></color-picker>
+                    <color-picker v-model="form.number_code_color"></color-picker>
                 </el-form-item>
                 <el-form-item label="名称样式">
-                    <el-radio-group v-model="form.user_id_weight">
+                    <el-radio-group v-model="form.number_code_weight">
                         <el-radio v-for="item in font_weight" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="字号">
-                    <slider v-model="form.user_id_size"></slider>
+                    <slider v-model="form.number_code_size"></slider>
                 </el-form-item>
             </card-container>
 
@@ -113,8 +113,8 @@ const font_weight = reactive([
 // 默认值
 let form = ref(props.value);
 const mult_color_picker_event = (arry: string[], type: number) => {
-    form.value.user_id_color_list = arry;
-    form.value.user_id_direction = type.toString();
+    form.value.number_code_color_list = arry;
+    form.value.number_code_direction = type.toString();
 };
 const common_styles_update = (val: Object) => {
     form.value.common_style = val;

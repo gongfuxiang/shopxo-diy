@@ -4,7 +4,7 @@
             <card-container class="mb-8">
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="是否展示">
-                    <el-checkbox-group v-model="form.user_info">
+                    <el-checkbox-group v-model="form.config">
                         <el-checkbox v-for="(item, index) in base_info_list" :key="index" :value="item.value">{{ item.name }}</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>

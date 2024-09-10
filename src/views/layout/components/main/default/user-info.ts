@@ -1,7 +1,7 @@
 import defaultCommon from './index';
 interface DefaultUserInfo {
     content: {
-        user_info: string[];
+        config: string[];
         icon_setting: { id: string; img: uploadList[]; link: object; icon: string }[];
     };
     style: {
@@ -9,11 +9,11 @@ interface DefaultUserInfo {
         user_name_color: string;
         user_name_weight: string;
         user_name_size: number;
-        user_id_color_list: color_list[];
-        user_id_color: string;
-        user_id_direction: string;
-        user_id_weight: string;
-        user_id_size: number;
+        number_code_color_list: color_list[];
+        number_code_color: string;
+        number_code_direction: string;
+        number_code_weight: string;
+        number_code_size: number;
         img_size: string;
         img_space: string;
         stats_name_color: string;
@@ -27,7 +27,7 @@ interface DefaultUserInfo {
 }
 const defaultUserInfo: DefaultUserInfo = {
     content: {
-        user_info: ['1', '2', '3', '4', '5'],
+        config: ['order_count', 'goods_favor_count', 'goods_browse_count', 'integral_number'],
         icon_setting: [
             { id: '1', img: [], icon: 'applet-me-settings-acquiesce', link: {} },
             { id: '2', img: [], icon: 'applet-me-message-acquiesce', link: {} },
@@ -38,14 +38,14 @@ const defaultUserInfo: DefaultUserInfo = {
         user_name_color: 'rgba(0, 0, 0, 1)',
         user_name_weight: '500',
         user_name_size: 16,
-        user_id_color_list: [
+        number_code_color_list: [
             { color: 'rgba(254, 184, 143, 1)', color_percentage: undefined },
             { color: 'rgba(255, 227, 220, 1)', color_percentage: undefined },
         ],
-        user_id_color: 'rgba(0, 0, 0, 1)',
-        user_id_direction: '90deg',
-        user_id_weight: '400',
-        user_id_size: 10,
+        number_code_color: 'rgba(0, 0, 0, 1)',
+        number_code_direction: '90deg',
+        number_code_weight: '400',
+        number_code_size: 10,
         img_size: '23',
         img_space: '25',
         stats_name_color: 'rgba(0, 0, 0, 1)',
