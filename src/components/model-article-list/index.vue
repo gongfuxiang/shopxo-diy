@@ -166,8 +166,8 @@ onMounted(() => {
     }
 });
 const data_list_computer = computed(() => {
-    const { data_type, category, number, sort, sort_rules, is_cover } = new_content.value;
-    return { data_type, category, number, sort, sort_rules, is_cover };
+    const { data_type, category, number, sort, sort_rules, is_cover, data_list } = new_content.value;
+    return { data_type, category, number, sort, sort_rules, is_cover, data_list };
 });
 watch(
     () => data_list_computer.value,
