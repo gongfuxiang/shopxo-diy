@@ -8,6 +8,7 @@
             :effect="interval_types ? 'coverflow': 'slide'"
             :autoplay="autoplay"
             :allow-touch-move="false"
+            :speed="500"
             slides-per-view="auto"
             :space-between="0"
             :initial-slide="4"
@@ -177,6 +178,8 @@ const slideChange = (swiper: { realIndex: number }) => {
         const seat_length = seat_list.value.length;
         if (seat_length == 2 && swiper.realIndex == 3) {
             actived_index.value = 1;
+        } else if (seat_length == 3) {
+            actived_index.value = 0;
         } else {
             actived_index.value = swiper.realIndex - seat_list.value.length;
         }
