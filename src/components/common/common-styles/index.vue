@@ -28,7 +28,7 @@
                         <color-picker v-model="form.color_list[0].color"></color-picker>
                     </div>
                 </el-form-item>
-                <el-form-item label="组件上浮">
+                <el-form-item v-if="isFloatingUp" label="组件上浮">
                     <el-input-number v-model="form.floating_up" :min="0" :max="100" controls-position="right" />
                 </el-form-item>
                 <el-form-item label="内边距">
@@ -112,6 +112,10 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
+    isFloatingUp: {
+        type: Boolean,
+        default: true,
+    }
 });
 // value 和初始化数据合并数据
 let form = ref(props.value);

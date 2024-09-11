@@ -34,7 +34,7 @@
                     <image-empty v-model="item.carousel_img[0]" :style="img_style" :fit="img_fit" error-style="width:5rem;height:5rem"></image-empty>
                 </div>
             </swiper-slide>
-            <div v-if="new_style.is_show == '1'" :class="{'dot-center': new_style.indicator_location == 'center', 'dot-right': new_style.indicator_location == 'flex-end' }" class="dot flex abs">
+            <div v-if="new_style.is_show == '1'" :class="{'dot-center': new_style.indicator_location == 'center', 'dot-right': new_style.indicator_location == 'flex-end' }" class="dot flex abs" :style="`bottom: ${new_style.indicator_bottom}px;`">
                 <template v-if="new_style.indicator_style == 'num'">
                     <div :style="indicator_style" class="dot-item">
                         <span class="num-active">{{ actived_index + 1 }}</span><span>/{{ form.carousel_list.length }}</span>
@@ -198,7 +198,6 @@ const slideChange = (swiper: { realIndex: number }) => {
 }
 .dot {
     z-index: 3;
-    bottom: 6px;
     .dot-item {
         margin: 0 0.3rem;
         &.active {

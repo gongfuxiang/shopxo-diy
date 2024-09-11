@@ -36,6 +36,9 @@
                             <el-form-item label="图片链接" class="w mb-16">
                                 <url-value v-model="item.carousel_link"></url-value>
                             </el-form-item>
+                            <div class="upload_style">
+                                <upload v-model="item.carousel_img" :limit="1" type="video"></upload>
+                            </div>
                         </div>
                         <el-icon class="iconfont icon-close-o size-16 abs cr-c top-de-5 right-de-5" @click="remove(index)" />
                     </div>

@@ -1,6 +1,6 @@
 <template>
     <div class="common-style-height">
-        <el-form :model="form" label-width="80">
+        <el-form :model="form" label-width="70">
             <card-container>
                 <div class="mb-12">图片设置</div>
                 <el-form-item label="圆角">

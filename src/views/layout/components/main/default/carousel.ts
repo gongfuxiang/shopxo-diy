@@ -24,6 +24,7 @@ interface defaultSearch {
         indicator_style: string;
         indicator_location: string;
         indicator_size: number;
+        indicator_bottom: number;
         indicator_radius: radiusStyle;
         actived_color: string;
         color: string;
@@ -62,12 +63,13 @@ const defaultSearch: defaultSearch = {
         indicator_style: 'dot',
         indicator_location: 'center',
         indicator_size: 5,
+        indicator_bottom: 6,
         indicator_radius: {
-            radius: 0,
-            radius_top_left: 0,
-            radius_top_right: 0,
-            radius_bottom_left: 0,
-            radius_bottom_right: 0,
+            radius: 4,
+            radius_top_left: 4,
+            radius_top_right: 4,
+            radius_bottom_left: 4,
+            radius_bottom_right: 4,
         },
         actived_color: '#2A94FF',
         color: '#DDDDDD',
