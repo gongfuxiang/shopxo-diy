@@ -358,7 +358,7 @@ const filter_node = (value: string, data: any): boolean => {
 };
 const type_data = ref<Tree[]>([]);
 const all_tree = {
-    id: '',
+    id: 'all',
     pid: '',
     name: '全部',
     items: [],
@@ -727,7 +727,7 @@ onMounted(() => {
             } else {
                 get_tree();
             }
-        }, 1000);
+        }, 300);
     });
 });
 
