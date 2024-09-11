@@ -358,7 +358,7 @@ const filter_node = (value: string, data: any): boolean => {
 };
 const type_data = ref<Tree[]>([]);
 const all_tree = {
-    id: '',
+    id: 'all',
     pid: '',
     name: '全部',
     items: [],
@@ -717,17 +717,15 @@ onMounted(() => {
     // 监听点击事件
     document.addEventListener('click', video_show);
     nextTick(() => {
-        setTimeout(() => {
-            // 获取分类
-            if (common_store.common.attachment_category.length > 0) {
-                type_data_list.value = common_store.common.attachment_category;
-                type_data.value = [all_tree, ...common_store.common.attachment_category];
-                upload_store.set_category(common_store.common.attachment_category);
-                upload_store.set_is_upload_api(true);
-            } else {
-                get_tree();
-            }
-        }, 1000);
+        // 获取分类
+        if (common_store.common.attachment_category.length > 0) {
+            type_data_list.value = common_store.common.attachment_category;
+            type_data.value = [all_tree, ...common_store.common.attachment_category];
+            upload_store.set_category(common_store.common.attachment_category);
+            upload_store.set_is_upload_api(true);
+        } else {
+            get_tree();
+        }
     });
 });
 

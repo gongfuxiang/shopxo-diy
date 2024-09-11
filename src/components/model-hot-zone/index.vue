@@ -50,6 +50,7 @@ const on_load_img = () => {
 };
 // containerRef的宽高
 const w_scale1 = computed(() => {
+    // 此处使用容器高度，因为图片是按照容器高度等比缩放的
     return container_ref_h.value / img_width.value;
 });
 const h_scale1 = computed(() => {
