@@ -318,7 +318,11 @@ const model_style = computed(() => {
                 bottom = container_height - 60 + height;
             }
         }
-        return item.key == 'float-window' ? `bottom: ${((bottom / window.innerHeight) * 100).toFixed(4) + '%'};` : `margin-top: -${ item.com_data.style.common_style?.floating_up || 0 }px;`;
+        let z_index = '';
+        if (item.com_data.style.common_style?.floating_up !== 0) {
+            z_index = `z-index: 1`;
+        }
+        return item.key == 'float-window' ? `bottom: ${((bottom / window.innerHeight) * 100).toFixed(4) + '%'};` : `margin-top: -${ item.com_data.style.common_style?.floating_up || 0 }px;${ z_index };`;
     };
 });
 

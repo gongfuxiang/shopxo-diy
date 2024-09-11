@@ -209,7 +209,10 @@
                     <div v-if="!isEmpty(icon_value)" class="upload-del-icon" @click.stop="del_icon_event">
                         <icon name="close-o" color="c" size="14"></icon>
                     </div>
-                    <icon :name="!isEmpty(icon_value) ? icon_value : 'add'" :size="Number(size) / 2 + ''" color="c"></icon>
+                    <div class="flex-col gap-5 align-c">
+                        <icon :name="!isEmpty(icon_value) ? icon_value : 'add'" :size="upload_size == '100%' ? '36' : Number(size) / 2 + ''" color="c"></icon>
+                        <slot></slot>
+                    </div>
                 </div>
             </template>
             <div v-if="isTips" class="size-12 cr-9">{{ tipsText }}</div>

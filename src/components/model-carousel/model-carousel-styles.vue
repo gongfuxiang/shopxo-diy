@@ -18,6 +18,16 @@
             <card-container>
                 <carousel-indicator :value="form"></carousel-indicator>
             </card-container>
+            <div class="divider-line"></div>
+            <card-container>
+                <div class="mb-12">视频按钮是否显示</div>
+                <el-form-item label="是否显示">
+                    <el-switch v-model="form.is_show" active-value="1" inactive-value="0"/>
+                </el-form-item>
+                <el-form-item label="圆角">
+                    <radius :value="form" @update:value="radius_change"></radius>
+                </el-form-item>
+            </card-container>
         </el-form>
         <div class="divider-line"></div>
         <common-styles :value="form.common_style" @update:value="common_styles_update" />

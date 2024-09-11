@@ -137,7 +137,7 @@
             .plug-in-border {
                 position: relative;
                 // border: 0.2rem solid $cr-main;
-                // z-index: 1;
+                z-index: 1;
                 box-sizing: border-box;
             }
             .plug-in-border::before {

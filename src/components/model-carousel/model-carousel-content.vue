@@ -31,14 +31,21 @@
                     <div v-for="(item, index) in form.carousel_list" :key="index" class="card-background box-shadow-sm re">
                         <div class="flex-col align-c jc-c gap-20 w">
                             <div class="upload_style">
-                                <upload v-model="item.carousel_img" :limit="1" size="100%"></upload>
+                                <upload v-model="item.carousel_img" :limit="1" size="100%">
+                                    <p class="upload-text">上传图片</p>
+                                </upload>
                             </div>
-                            <el-form-item label="图片链接" class="w mb-16">
+                            <el-form-item label="图片链接" class="w">
                                 <url-value v-model="item.carousel_link"></url-value>
                             </el-form-item>
                             <div class="upload_style">
-                                <upload v-model="item.carousel_img" :limit="1" type="video"></upload>
+                                <upload v-model="item.carousel_video" :limit="1" type="icon" is-icon size="100%">
+                                    <p class="upload-text">上传视频</p>
+                                </upload>
                             </div>
+                            <el-form-item label="按钮名称" class="w mb-16">
+                                <el-input v-model="form.title" placeholder="请输入视频按钮名称" clearable></el-input>
+                            </el-form-item>
                         </div>
                         <el-icon class="iconfont icon-close-o size-16 abs cr-c top-de-5 right-de-5" @click="remove(index)" />
                     </div>
@@ -63,6 +70,7 @@ const { form } = toRefs(state);
 const add = () => {
     form.value.carousel_list.push({
         carousel_img: [],
+        carousel_video: [],
         carousel_link: {},
     });
 };
@@ -83,5 +91,13 @@ const remove = (index: number) => {
 }
 .tips {
     color: $cr-info-dark;
+}
+.upload-text {
+    font-weight: 500;
+    font-size: 1.4rem;
+    color: #999999;
+    line-height: 2rem;
+    text-align: left;
+    font-style: normal;
 }
 </style>

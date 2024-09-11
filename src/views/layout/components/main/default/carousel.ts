@@ -3,6 +3,7 @@ import defaultCommon from "./index";
 
 interface carousel_list {
     carousel_img: uploadList[];
+    carousel_video: uploadList[];
     carousel_link: object;
 }
 interface defaultSearch {
@@ -40,14 +41,17 @@ const defaultSearch: defaultSearch = {
         carousel_list: [
             {
                 carousel_img: [],
+                carousel_video: [],
                 carousel_link: {}
             },
             {
                 carousel_img: [],
+                carousel_video: [],
                 carousel_link: {}
             },
             {
                 carousel_img: [],
+                carousel_video: [],
                 carousel_link: {}
             }
         ]
