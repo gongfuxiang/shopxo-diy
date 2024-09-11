@@ -27,7 +27,7 @@
             <swiper-slide v-for="(item, index) in form.carousel_list" :key="index">
                 <div class="item-image flex jc-c align-c w h re" :style="img_style">
                     <image-empty v-model="item.carousel_img[0]" :style="img_style" :fit="img_fit" error-style="width:5rem;height:5rem"></image-empty>
-                    <div v-if="new_style.video_is_show == '1' && item.carousel_video.length > 0" :class="{'x-middle': new_style.video_location == 'center', 'right-0': new_style.video_location == 'flex-end' }" class="z-deep video-class flex-row abs gap-10 align-c oh" :style="video_style">
+                    <div v-if="new_style.video_is_show == '1' && item.carousel_video.length > 0" :class="{'left-0': new_style.video_location == 'flex-start', 'right-0': new_style.video_location == 'flex-end' }" class="z-deep video-class flex-row abs gap-10 align-c oh" :style="video_style">
                         <template v-if="new_style.video_type == 'img'">
                             <image-empty v-model="new_style.video_img[0]" class="video_img" error-img-style="width: 1.4rem;height: 1.4rem;" />
                         </template>
@@ -41,7 +41,7 @@
             <swiper-slide v-for="(item, index1) in seat_list" :key="index1">
                 <div class="item-image flex jc-c align-c w h re" :style="img_style">
                     <image-empty v-model="item.carousel_img[0]" :style="img_style" :fit="img_fit" error-style="width:5rem;height:5rem"></image-empty>
-                    <div v-if="new_style.video_is_show == '1' && item.carousel_video.length > 0" :class="{'x-middle': new_style.video_location == 'center', 'right-0': new_style.video_location == 'flex-end' }" class="z-deep video-class flex-row abs gap-10 align-c oh" :style="video_style">
+                    <div v-if="new_style.video_is_show == '1' && item.carousel_video.length > 0" :class="{'left-0': new_style.video_location == 'flex-start', 'right-0': new_style.video_location == 'flex-end' }" class="z-deep video-class flex-row abs gap-10 align-c oh" :style="video_style">
                         <template v-if="new_style.video_type == 'img'">
                             <image-empty v-model="new_style.video_img[0]" class="video_img" error-img-style="width: 1.4rem;height: 1.4rem;" />
                         </template>

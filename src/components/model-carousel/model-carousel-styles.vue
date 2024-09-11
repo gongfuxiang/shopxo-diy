@@ -98,7 +98,7 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form, new_content } = toRefs(state);
 
-const is_video = computed(() => new_content.value.carousel_list.length > 0 && (new_content.value.carousel_list.findIndex((item: any) => item.carousel_video.length > 0)) > 0);
+const is_video = computed(() => new_content.value.carousel_list.length > 0 && (new_content.value.carousel_list.findIndex((item: any) => item.carousel_video.length > 0)) != -1);
 
 // 图片圆角
 const radius_change = (radius: any) => {
