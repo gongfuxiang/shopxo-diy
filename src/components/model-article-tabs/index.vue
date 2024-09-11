@@ -38,8 +38,4 @@ watch(
     { immediate: true, deep: true }
 );
 </script>
-<style lang="scss" scoped>
-.video {
-    height: 22rem;
-}
-</style>
+<style lang="scss" scoped></style>

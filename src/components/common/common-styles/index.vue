@@ -65,7 +65,32 @@ import { pick } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
-        default: () => ({}),
+        default: () => ({
+            direction: '180deg',
+            background_img: [] as uploadList[],
+            color_list: [{ color: '', color_percentage: undefined }] as color_list[],
+            background_img_style: 2,
+            padding: 0,
+            padding_top: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+            padding_right: 0,
+            margin: 0,
+            margin_top: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+            box_shadow_color: '',
+            box_shadow_x: 0,
+            box_shadow_y: 0,
+            box_shadow_blur: 0,
+            box_shadow_spread: 0,
+        }),
     },
     isMargin: {
         type: Boolean,
@@ -84,63 +109,30 @@ const props = defineProps({
         default: true,
     },
 });
-// 初始化表单数据
-const init_form = reactive({
-    direction: '180deg',
-    background_img: [] as uploadList[],
-    color_list: [{ color: '', color_percentage: undefined }] as color_list[],
-    background_img_style: 2,
-    padding: 0,
-    padding_top: 0,
-    padding_bottom: 0,
-    padding_left: 0,
-    padding_right: 0,
-    margin: 0,
-    margin_top: 0,
-    margin_bottom: 0,
-    margin_left: 0,
-    margin_right: 0,
-    radius: 0,
-    radius_top_left: 0,
-    radius_top_right: 0,
-    radius_bottom_left: 0,
-    radius_bottom_right: 0,
-    box_shadow_color: '',
-    box_shadow_x: 0,
-    box_shadow_y: 0,
-    box_shadow_blur: 0,
-    box_shadow_spread: 0,
-});
 // value 和初始化数据合并数据
-let form = reactive(Object.assign({}, init_form, props.value));
+let form = ref(props.value);
 const emit = defineEmits(['update:value']);
 
 const mult_color_picker_event = (arry: color_list[], type: number) => {
-    form.color_list = arry;
-    form.direction = type.toString();
-    emit('update:value', form);
+    form.value.color_list = arry;
+    form.value.direction = type.toString();
 };
 const background_img_style_change = (style: any) => {
-    form.background_img_style = style;
-    emit('update:value', form);
+    form.value.background_img_style = style;
 };
 const background_img_change = (arry: uploadList[]) => {
-    form.background_img = arry;
-    emit('update:value', form);
+    form.value.background_img = arry;
 };
 const radius_change = (radius: any) => {
-    form = Object.assign(form, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
-    emit('update:value', form);
+    form.value = Object.assign(form, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
 };
 
 const margin_change = (margin: any) => {
-    form = Object.assign(form, pick(margin, ['margin', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right']));
-    emit('update:value', form);
+    form.value = Object.assign(form, pick(margin, ['margin', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right']));
 };
 
 const padding_change = (padding: any) => {
-    form = Object.assign(form, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
-    emit('update:value', form);
+    form.value = Object.assign(form, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
 };
 </script>
 <style lang="scss" scoped>
