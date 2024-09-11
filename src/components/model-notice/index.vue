@@ -76,7 +76,7 @@ const container_background_style = computed(() => {
     return gradient_computer(styles) + radius_computer(new_style.value.container_radius) + background_computer(styles) + `overflow:hidden;`;
 });
 // 图片设置
-const img_style = ref('');
+const img_style = computed(() => `height: ${ new_style.value.title_height }px; width: ${ new_style.value.title_width }px`);
 // 标题的设置
 const topic_style = computed(() => {
     // 标题渐变色处理
@@ -108,14 +108,6 @@ const notice_list = computed(() => {
 
 // 内容参数的集合
 watchEffect(() => {
-    //#region 标题设置
-    if (form.value.notice_style == 'card') {
-        img_style.value = `height: ${ new_style.value.title_height }px; width: ${ new_style.value.title_width }px`;
-    } else if (!isEmpty(form.value.img)) {
-        img_style.value = `height: ${ new_style.value.title_height }px; width: ${ new_style.value.title_width }px`;
-    }
-    //#endregion
-
     //#region 轮播图设置
     const time = (new_style.value?.interval_time || 2) * 1000;
     const direction = form.value.direction;
@@ -134,10 +126,7 @@ watchEffect(() => {
             notice_length: notice_length
         };
         // 更新轮播图的key，确保更换时能重新更新轮播图
-        // 添加节流处理,一秒只执行一次
-        throttle(() => {
-            carouselKey.value = get_math();
-        }, 1000);
+        carouselKey.value = get_math();
     }
     //#endregion
 });
