@@ -31,10 +31,20 @@
                     <div v-for="(item, index) in form.carousel_list" :key="index" class="card-background box-shadow-sm re">
                         <div class="flex-col align-c jc-c gap-20 w">
                             <div class="upload_style">
-                                <upload v-model="item.carousel_img" :limit="1" size="100%"></upload>
+                                <upload v-model="item.carousel_img" :limit="1" size="100%">
+                                    <span class="upload-text">上传图片</span>
+                                </upload>
                             </div>
-                            <el-form-item label="图片链接" class="w mb-16">
+                            <el-form-item label="图片链接" class="w">
                                 <url-value v-model="item.carousel_link"></url-value>
+                            </el-form-item>
+                            <div class="upload_style">
+                                <upload v-model="item.carousel_video" :limit="1" type="video" size="100%">
+                                    <span class="upload-text">上传视频</span>
+                                </upload>
+                            </div>
+                            <el-form-item v-if="item.carousel_video.length > 0" label="按钮名称" class="w">
+                                <el-input v-model="item.video_title" placeholder="请输入视频按钮名称" clearable></el-input>
                             </el-form-item>
                         </div>
                         <el-icon class="iconfont icon-close-o size-16 abs cr-c top-de-5 right-de-5" @click="remove(index)" />
@@ -60,7 +70,9 @@ const { form } = toRefs(state);
 const add = () => {
     form.value.carousel_list.push({
         carousel_img: [],
+        carousel_video: [],
         carousel_link: {},
+        video_title: "视频名称"
     });
 };
 const remove = (index: number) => {
@@ -73,6 +85,10 @@ const remove = (index: number) => {
     padding-left: 1.6rem;
     padding-right: 2rem;
     padding-top: 4.6rem;
+    padding-bottom: 1.6rem;
+    :deep(.el-form-item) {
+        margin-bottom: 0;
+    }
 }
 .upload_style {
     width: 100%;
@@ -80,5 +96,11 @@ const remove = (index: number) => {
 }
 .tips {
     color: $cr-info-dark;
+}
+.upload-text {
+    font-size: 1.4rem;
+    color: #999999;
+    text-align: left;
+    font-style: normal;
 }
 </style>

@@ -434,10 +434,7 @@ watchEffect(() => {
     // 判断是平移还是整屏滚动
     slides_per_group.value = new_style.value.rolling_fashion == 'translation' ? 1 : form.value.carousel_col;
     // 更新轮播图的key，确保更换时能重新更新轮播图
-    // 添加节流处理,一秒只执行一次
-    throttle(() => {
-        carouselKey.value = get_math();
-    }, 1000);
+    carouselKey.value = get_math();
 });
 
 //容器高度

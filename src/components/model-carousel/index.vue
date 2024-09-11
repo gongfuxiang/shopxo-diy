@@ -25,16 +25,34 @@
             @slide-change="slideChange"
         >
             <swiper-slide v-for="(item, index) in form.carousel_list" :key="index">
-                <div class="item-image flex jc-c align-c w h" :style="img_style">
+                <div class="item-image flex jc-c align-c w h re" :style="img_style">
                     <image-empty v-model="item.carousel_img[0]" :style="img_style" :fit="img_fit" error-style="width:5rem;height:5rem"></image-empty>
+                    <div v-if="new_style.video_is_show == '1' && item.carousel_video.length > 0" :class="{'left-0': new_style.video_location == 'flex-start', 'right-0': new_style.video_location == 'flex-end' }" class="z-deep video-class flex-row abs gap-10 align-c oh" :style="video_style">
+                        <template v-if="new_style.video_type == 'img'">
+                            <image-empty v-model="new_style.video_img[0]" class="video_img" error-img-style="width: 1.4rem;height: 1.4rem;" />
+                        </template>
+                        <template v-else>
+                            <el-icon :class="`iconfont ${ !isEmpty(new_style.video_icon_class) ? 'icon-' + new_style.video_icon_class : 'icon-bofang' } size-14`" :style="`color:${new_style.video_icon_color};`" />
+                        </template>
+                        <span v-if="!isEmpty(item.video_title)" :style="`color:${new_style.video_title_color};font-size: ${new_style.video_title_size}px;`">{{ item.video_title }}</span>
+                    </div>
                 </div>
             </swiper-slide>
             <swiper-slide v-for="(item, index1) in seat_list" :key="index1">
-                <div class="item-image flex jc-c align-c w h" :style="img_style">
+                <div class="item-image flex jc-c align-c w h re" :style="img_style">
                     <image-empty v-model="item.carousel_img[0]" :style="img_style" :fit="img_fit" error-style="width:5rem;height:5rem"></image-empty>
+                    <div v-if="new_style.video_is_show == '1' && item.carousel_video.length > 0" :class="{'left-0': new_style.video_location == 'flex-start', 'right-0': new_style.video_location == 'flex-end' }" class="z-deep video-class flex-row abs gap-10 align-c oh" :style="video_style">
+                        <template v-if="new_style.video_type == 'img'">
+                            <image-empty v-model="new_style.video_img[0]" class="video_img" error-img-style="width: 1.4rem;height: 1.4rem;" />
+                        </template>
+                        <template v-else>
+                            <el-icon :class="`iconfont ${ !isEmpty(new_style.video_icon_class) ? 'icon-' + new_style.video_icon_class : 'icon-bofang' } size-14`" :style="`color:${new_style.video_icon_color};`" />
+                        </template>
+                        <span v-if="!isEmpty(item.video_title)" :style="`color:${new_style.video_title_color};font-size: ${new_style.video_title_size}px;`">{{ item.video_title }}</span>
+                    </div>
                 </div>
             </swiper-slide>
-            <div v-if="new_style.is_show == '1'" :class="{'dot-center': new_style.indicator_location == 'center', 'dot-right': new_style.indicator_location == 'flex-end' }" class="dot flex abs">
+            <div v-if="new_style.is_show == '1'" :class="{'x-middle': new_style.indicator_location == 'center', 'right-0': new_style.indicator_location == 'flex-end' }" class="dot flex abs" :style="`bottom: ${new_style.indicator_bottom}px;`">
                 <template v-if="new_style.indicator_style == 'num'">
                     <div :style="indicator_style" class="dot-item">
                         <span class="num-active">{{ actived_index + 1 }}</span><span>/{{ form.carousel_list.length }}</span>
@@ -48,7 +66,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, radius_computer, get_math } from '@/utils';
+import { common_styles_computer, radius_computer, get_math, gradient_computer, padding_computer } from '@/utils';
 import { isEmpty, cloneDeep, throttle } from 'lodash';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay, EffectCoverflow } from 'swiper/modules';
@@ -136,7 +154,19 @@ const interval_list = ref({
 })
 
 const interval_types = computed(() => interval_type.value == 'card' );
-
+// 视频播放按钮显示逻辑
+const video_style = computed(() => {
+    let style = `bottom: ${new_style.value.video_bottom}px;`;
+    if (!isEmpty(new_style.value.video_radius)) {
+        style += radius_computer(new_style.value.video_radius)
+    }
+    const data = {
+        color_list: new_style.value.video_color_list,
+        direction: new_style.value.video_direction,
+    }
+    style += gradient_computer(data) + padding_computer(new_style.value.video_padding) + `color: ${new_style.value.video_title_color};`;
+    return style;
+});
 // 监听参数的使用
 watchEffect(() => {
     //#region 轮播图设置
@@ -165,10 +195,7 @@ watchEffect(() => {
             length: carousel_length
         };
         // 更新轮播图的key，确保更换时能重新更新轮播图
-        // 添加节流处理,一秒只执行一次
-        throttle(() => {
-            carouselKey.value = get_math();
-        }, 1000);
+        carouselKey.value = get_math();
     }
     //#endregion
 });
@@ -189,16 +216,8 @@ const slideChange = (swiper: { realIndex: number }) => {
 }
 </script>
 <style lang="scss" scoped>
-.dot-center {
-    left: 50%;
-    transform: translateX(-50%);
-}
-.dot-right {
-    right: 0;
-}
 .dot {
-    z-index: 3;
-    bottom: 6px;
+    z-index: 1;
     .dot-item {
         margin: 0 0.3rem;
         &.active {
@@ -228,5 +247,12 @@ const slideChange = (swiper: { realIndex: number }) => {
         background: #F8FDFF;
         height: v-bind(newHeight);
     }
+}
+.video_img {
+    max-width: 6rem;
+    height: 1.4rem;
+}
+.video-class {
+    max-width: 100%;
 }
 </style>

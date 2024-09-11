@@ -469,10 +469,7 @@ watchEffect(() => {
             notice_length: notice_length,
         };
         // 更新轮播图的key，确保更换时能重新更新轮播图
-        // 添加节流处理,一秒只执行一次
-        throttle(() => {
-            carouselKey.value = get_math();
-        }, 1000);
+        carouselKey.value = get_math();
     }
 });
 //#endregion

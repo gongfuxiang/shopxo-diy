@@ -1,9 +1,9 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4607934 */
-  src: url('iconfont.woff2?t=1725414216013') format('woff2'),
-       url('iconfont.woff?t=1725414216013') format('woff'),
-       url('iconfont.ttf?t=1725414216013') format('truetype'),
-       url('iconfont.svg?t=1725414216013#iconfont') format('svg');
+  src: url('iconfont.woff2?t=1726043407380') format('woff2'),
+       url('iconfont.woff?t=1726043407380') format('woff'),
+       url('iconfont.ttf?t=1726043407380') format('truetype'),
+       url('iconfont.svg?t=1726043407380#iconfont') format('svg');
 }
 
 .iconfont {
@@ -12,6 +12,10 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-bofang:before {
+  content: "\e798";
 }
 
 .icon-a-miaosha:before {

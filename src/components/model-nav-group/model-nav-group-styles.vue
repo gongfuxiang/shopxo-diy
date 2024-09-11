@@ -20,7 +20,7 @@
                 </card-container>
                 <div class="divider-line"></div>
                 <card-container>
-                    <carousel-indicator :value="form"></carousel-indicator>
+                    <carousel-indicator :value="form" :is-indicator-bottom="false"></carousel-indicator>
                 </card-container>
                 <div class="divider-line"></div>
             </template>

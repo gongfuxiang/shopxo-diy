@@ -6,6 +6,13 @@
   "description": "web端",
   "glyphs": [
     {
+      "icon_id": "41814968",
+      "name": "播放 (2)",
+      "font_class": "bofang",
+      "unicode": "e798",
+      "unicode_decimal": 59288
+    },
+    {
       "icon_id": "41708758",
       "name": "秒杀",
       "font_class": "a-miaosha",
