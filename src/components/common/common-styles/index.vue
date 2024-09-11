@@ -29,7 +29,7 @@
                     </div>
                 </el-form-item>
                 <el-form-item v-if="isFloatingUp" label="组件上浮">
-                    <el-input-number v-model="form.floating_up" :min="0" :max="100" controls-position="right" />
+                    <slider v-model="form.floating_up" :min="0" :max="100"></slider>
                 </el-form-item>
                 <el-form-item label="内边距">
                     <padding :value="form" @update:value="padding_change"></padding>
@@ -132,24 +132,19 @@ const background_img_change = (arry: uploadList[]) => {
     form.value.background_img = arry;
 };
 const radius_change = (radius: any) => {
-    form.value = Object.assign(form, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
+    form.value = Object.assign(form.value, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
 };
 
 const margin_change = (margin: any) => {
-    form.value = Object.assign(form, pick(margin, ['margin', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right']));
+    form.value = Object.assign(form.value, pick(margin, ['margin', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right']));
 };
 
 const padding_change = (padding: any) => {
-    form.value = Object.assign(form, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
+    form.value = Object.assign(form.value, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
 };
 </script>
 <style lang="scss" scoped>
 .common-styles {
     width: 100%;
-}
-:deep(.el-input-number.is-controls-right .el-input__wrapper) {
-    .el-input__inner {
-        text-align: left;
-    }
 }
 </style>
