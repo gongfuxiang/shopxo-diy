@@ -87,6 +87,7 @@ declare global {
         color_list: color_list[];
         direction: string;
         background_img_style: number;
+        floating_up: number;
         padding: number;
         padding_top: number;
         padding_bottom: number;

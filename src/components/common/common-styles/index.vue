@@ -28,6 +28,9 @@
                         <color-picker v-model="form.color_list[0].color"></color-picker>
                     </div>
                 </el-form-item>
+                <el-form-item label="组件上浮">
+                    <el-input-number v-model="form.floating_up" :min="0" :max="100" controls-position="right" />
+                </el-form-item>
                 <el-form-item label="内边距">
                     <padding :value="form" @update:value="padding_change"></padding>
                 </el-form-item>
@@ -70,6 +73,7 @@ const props = defineProps({
             background_img: [] as uploadList[],
             color_list: [{ color: '', color_percentage: undefined }] as color_list[],
             background_img_style: 2,
+            floating_up: 0,
             padding: 0,
             padding_top: 0,
             padding_bottom: 0,
@@ -138,5 +142,10 @@ const padding_change = (padding: any) => {
 <style lang="scss" scoped>
 .common-styles {
     width: 100%;
+}
+:deep(.el-input-number.is-controls-right .el-input__wrapper) {
+    .el-input__inner {
+        text-align: left;
+    }
 }
 </style>

@@ -288,9 +288,15 @@ const model_class = computed(() => {
         return ['plug-in-table', { 'plug-in-border': item.show_tabs == '1', 'float-window': item.key == 'float-window', 'plug-in-animation': item.show_tabs != '1' && show_model_border }];
     };
 });
-
+interface com_data {
+    style: {
+        common_style: {
+            floating_up: number;
+        }
+    }
+}
 const model_style = computed(() => {
-    return (item: { id: string; key: string }) => {
+    return (item: { id: string; key: string, com_data: com_data }) => {
         // 40是容器的上下间距， 60是顶部的高度
         const container_height = window.innerHeight - 100;
         let bottom = 0;
@@ -312,9 +318,10 @@ const model_style = computed(() => {
                 bottom = container_height - 60 + height;
             }
         }
-        return item.key == 'float-window' ? `bottom: ${((bottom / window.innerHeight) * 100).toFixed(4) + '%'};` : '';
+        return item.key == 'float-window' ? `bottom: ${((bottom / window.innerHeight) * 100).toFixed(4) + '%'};` : `margin-top: -${ item.com_data.style.common_style?.floating_up || 0 }px;`;
     };
 });
+
 const icon_arrow_disable = computed(() => {
     return (item_key: string, index: number, key: string) => {
         return arrow_disable_method(item_key, index, key) ? '' : 'disabled';
@@ -360,7 +367,6 @@ interface FloatBottom {
     [key: string]: string;
 }
 const float_bottom = reactive<FloatBottom>({});
-const float_location = reactive<FloatBottom>({});
 
 // 开始拖拽的时候显示位置提示
 const onStart = () => {
@@ -608,7 +614,6 @@ const footer_nav_event = () => {
 //#endregion
 const float_bottom_change = (val: { bottom: string; location: string }, id: string) => {
     float_bottom[id] = val.bottom;
-    float_location[id] = val.location;
 };
 </script>
 

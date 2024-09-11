@@ -1,7 +1,7 @@
 <template>
     <div class="mb-12">指示器设置</div>
     <el-form-item label="是否显示">
-        <el-switch v-model="form.is_show" size="large" active-value="1" inactive-value="0"/>
+        <el-switch v-model="form.is_show" active-value="1" inactive-value="0"/>
     </el-form-item>
     <template v-if="form.is_show == '1'">
         <el-form-item label="指示器样式">
