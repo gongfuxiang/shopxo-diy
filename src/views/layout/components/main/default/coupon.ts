@@ -1,4 +1,6 @@
 import defaultCommon from './index';
+import { online_url } from '@/utils';
+const new_url = await online_url('/static/plugins/coupon/images/diy/').then((res) => res);
 interface DefaultCoupon {
     content: {
         theme: string;
@@ -10,6 +12,9 @@ interface DefaultCoupon {
         data_list: object[];
         data_ids: string;
         data_auto_list: object[];
+        theme_1_static_img: uploadList[];
+        theme_2_static_img: uploadList[];
+        theme_5_static_img: uploadList[];
     };
     style: {
         price_color: string;
@@ -45,6 +50,10 @@ const defaultCoupoin: DefaultCoupon = {
         data_list: [],
         data_ids: '',
         data_auto_list: [],
+        // 优惠券图片
+        theme_1_static_img: [{ id: 1, url: new_url + 'theme-1-bg.png', original: '', title: '', ext: '.png', type: 'img' }],
+        theme_2_static_img: [{ id: 2, url: new_url + 'theme-2-content-bg.png', original: '', title: '', ext: '.png', type: 'img' }],
+        theme_5_static_img: [{ id: 3, url: new_url + 'theme-5-bg.png', original: '', title: '', ext: '.png', type: 'img' }],
     },
     style: {
         price_color: '#FF3830',
