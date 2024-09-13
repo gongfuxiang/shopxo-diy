@@ -537,8 +537,8 @@ watchEffect(() => {
     height: 11.4rem;
 }
 .flex-img4 {
-    width: 7rem;
-    height: 7rem;
+    min-width: 7rem;
+    min-height: 7rem;
 }
 .flex-img5 {
     width: 100%;
