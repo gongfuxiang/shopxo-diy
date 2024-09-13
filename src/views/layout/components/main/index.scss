@@ -103,12 +103,6 @@
                     display: flex;
                     flex-direction: column;
                     align-items: stretch;
-                    .drag-area .float-window {
-                        position: fixed;
-                        max-width: 39rem;
-                        margin: 0 auto;
-                        z-index: 3;
-                    }
                     .main-content {
                         max-width: 39rem;
                         overflow: hidden;

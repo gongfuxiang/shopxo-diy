@@ -205,7 +205,7 @@ const arrow_disable_method = (item_key: string, index: number, key: string) => {
     }
     return arrow_disable;
 };
-const emits = defineEmits(['set_show_tabs', 'page_settings']);
+const emits = defineEmits(['on_choose', 'set_show_tabs', 'del']);
 
 // 是否启用
 const set_enable = (index: number) => {
@@ -215,11 +215,8 @@ const set_enable = (index: number) => {
 
 // 选中时候的效果
 const on_choose = (index: number, show_tabs: string) => {
-    // 如果已经选中了, 设置为不可再次触发事件
-    if (show_tabs != '1') {
-        // 设置对应的位置为显示
-        emits('set_show_tabs', index);
-    }
+    // 设置对应的位置为显示
+    emits('on_choose', index, show_tabs);
 };
 
 // 复制
@@ -235,24 +232,7 @@ const copy = (index: number) => {
 };
 // 删除
 const del = (index: number) => {
-    app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
-        const show_tabs_index = diy_data.value.findIndex((item: any) => item.show_tabs == '1');
-        if (show_tabs_index == index) {
-            diy_data.value.splice(index, 1);
-            if (diy_data.value.length > 0) {
-                let new_index: number = index;
-                // 删除的时候如果大于0，则显示上边的数据
-                if (index > 0) {
-                    new_index = new_index - 1;
-                }
-                emits('set_show_tabs', new_index);
-            } else {
-                emits('page_settings');
-            }
-        } else {
-            diy_data.value.splice(index, 1);
-        }
-    });
+    emits('del', index);
 };
 // 获取当前传递过来的index对应的diy_data中的数据
 const get_diy_index_data = (index: number) => {
@@ -426,5 +406,11 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
     & .icon-arrow-bottom {
         height: 0.9rem;
     }
+}
+.drag-area .float-window {
+    position: fixed;
+    max-width: 39rem;
+    margin: 0 auto;
+    z-index: 3;
 }
 </style>

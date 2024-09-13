@@ -58,7 +58,7 @@
                     <div class="model-wall" :style="content_style">
                         <div class="model-wall-content" :style="`padding-top:${top_padding}px; margin-top: ${top_margin}px;padding-bottom:${bottom_navigation_show ? footer_nav_counter_store.padding_footer : 0}px;`">
                             <VueDraggable v-model="diy_data" :animation="500" :touch-start-threshold="2" group="people" class="drag-area re" ghost-class="ghost" :on-sort="on_sort" :on-start="on_start" :on-end="on_end">
-                                <DivContent :diy-data="diy_data" :show-model-border="show_model_border" :main-content-style="main_content_style" @page_settings="page_settings" @set_show_tabs="set_show_tabs"></DivContent>
+                                <div-content :diy-data="diy_data" :show-model-border="show_model_border" :main-content-style="main_content_style" @on_choose="on_choose" @del="del" @set_show_tabs="set_show_tabs"></div-content>
                             </VueDraggable>
                         </div>
                     </div>
@@ -223,6 +223,36 @@ const on_end = () => {
 //#endregion
 
 // 设置复制 删除 移动几个按钮的显示位置，
+// 选中时候的效果
+const on_choose = (index: number, show_tabs: string) => {
+    // 如果已经选中了, 设置为不可再次触发事件
+    if (show_tabs != '1') {
+        // 设置对应的位置为显示
+        set_show_tabs(index);
+    }
+};
+
+// 删除
+const del = (index: number) => {
+    app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
+        const show_tabs_index = diy_data.value.findIndex((item: any) => item.show_tabs == '1');
+        if (show_tabs_index == index) {
+            diy_data.value.splice(index, 1);
+            if (diy_data.value.length > 0) {
+                let new_index: number = index;
+                // 删除的时候如果大于0，则显示上边的数据
+                if (index > 0) {
+                    new_index = new_index - 1;
+                }
+                set_show_tabs(new_index);
+            } else {
+                page_settings();
+            }
+        } else {
+            diy_data.value.splice(index, 1);
+        }
+    });
+};
 // 设置当前选中的是那个
 const set_show_tabs = (index: number) => {
     page_data.value.show_tabs = '0';
