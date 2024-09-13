@@ -8,7 +8,7 @@
         <div class="url-value-content pa-20 flex-row">
             <div v-if="custom_link_type.length !== 1" class="left-content">
                 <el-menu :default-active="link_select" class="w br-none" @select="handle_select">
-                    <el-menu-item v-for="item in base_data" :key="item.type" :index="item.type" :disabled="!custom_link_type.includes(item.type)">
+                    <el-menu-item v-for="item in base_data" :key="item.type" :index="item.type" :disabled="!(custom_link_type.includes(item.type) || custom_link_type.length == 0)">
                         <span>{{ item.name }}</span>
                     </el-menu-item>
                 </el-menu>
@@ -72,6 +72,7 @@ const app = getCurrentInstance();
  * @param modelValue{Object} 默认值
  * @param dialogVisible {Boolean} 弹窗显示
  * @param type{String} 链接类型为空数组则表示无限制，全部可用，传过来则表示传的值可用
+ * @param multiple{Boolean} 是否多选 默认单选 只生效 商品页面 goods/ 文章页面 article/ DIY页面 diy/ 设计页面 design/ 自定义页面 custom-view/ 品牌页面 brand
  * @return {*} update:modelValue
  */
 const props = defineProps({
@@ -79,7 +80,6 @@ const props = defineProps({
         type: Array as PropType<string[]>,
         default: () => [],
     },
-    // 是否多选 默认单选 只生效 商品页面 goods/ 文章页面 article/ DIY页面 diy/ 设计页面 design/ 自定义页面 custom-view/ 品牌页面 brand
     multiple: {
         type: Boolean,
         default: false,
