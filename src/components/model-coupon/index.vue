@@ -4,7 +4,7 @@
             <el-scrollbar class="hide-scrollbar">
                 <template v-if="theme == '1'">
                     <div class="coupon-theme-1">
-                        <div v-for="item in data_list" :key="item" class="item">
+                        <div v-for="(item, index) in data_list" :key="index" class="item">
                             <div class="coupon-theme-1-content tc" :style="'background-image: url(' + theme_bg_img.url_1 + ');background-size: 100% 100%;'">
                                 <div class="name text-line-1">{{ item.name }}</div>
                                 <div class="price">
@@ -19,7 +19,7 @@
                 </template>
                 <template v-else-if="theme == '2'">
                     <div class="coupon-theme-2">
-                        <div v-for="item in data_list" :key="item" class="item" :style="'background-image: url(' + theme_bg_img.url_2 + ');background-size: 100% 100%;'">
+                        <div v-for="(item, index) in data_list" :key="index" class="item" :style="'background-image: url(' + theme_bg_img.url_2 + ');background-size: 100% 100%;'">
                             <div class="tc">
                                 <div class="price">
                                     <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
@@ -35,7 +35,7 @@
                 </template>
                 <template v-else-if="theme == '3'">
                     <div class="coupon-theme-3">
-                        <div v-for="item in data_list" :key="item" class="item">
+                        <div v-for="(item, index) in data_list" :key="index" class="item">
                             <div class="left">
                                 <div class="price">
                                     <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
@@ -61,7 +61,7 @@
                     <div class="coupon-theme-4">
                         <el-scrollbar class="hide-scrollbar">
                             <div class="left">
-                                <div v-for="item in data_list" :key="item" class="item">
+                                <div v-for="(item, index) in data_list" :key="index" class="item">
                                     <div class="type">通用券</div>
                                     <div class="price">
                                         <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
@@ -83,7 +83,7 @@
                 </template>
                 <template v-else-if="theme == '5'">
                     <div class="coupon-theme-5">
-                        <div v-for="item in data_list" :key="item" class="item">
+                        <div v-for="(item, index) in data_list" :key="index" class="item">
                             <div class="left" :style="'background-image: url(' + theme_bg_img.url_3 + ');background-size: 100% 100%;'">
                                 <div class="price">
                                     <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
@@ -100,7 +100,7 @@
                 </template>
                 <template v-else-if="theme == '6'">
                     <div class="coupon-theme-6">
-                        <div v-for="item in data_list" :key="item" class="item">
+                        <div v-for="(item, index) in data_list" :key="index" class="item">
                             <div class="top">
                                 <div class="price">
                                     <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
@@ -117,7 +117,7 @@
                 </template>
                 <template v-else-if="theme == '7'">
                     <div class="coupon-theme-7">
-                        <div v-for="item in data_list" :key="item" class="item">
+                        <div v-for="(item, index) in data_list" :key="index" class="item">
                             <div class="left">
                                 <div class="price">
                                     <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
@@ -172,6 +172,17 @@ const content_title = computed(() => {
 const content_desc = computed(() => {
     return form.value.desc;
 });
+
+interface themeBgImg {
+    url_1: string;
+    url_2: string;
+    url_3: string;
+}
+const theme_bg_img = ref<themeBgImg>({
+    url_1: ``,
+    url_2: ``,
+    url_3: ``,
+});
 onMounted(() => {
     if (!isEmpty(form.value.data_list) && form.value.data_type == '0') {
         data_list.value = form.value.data_list;
@@ -180,6 +191,11 @@ onMounted(() => {
     } else {
         data_list.value = Array(4).fill(default_list);
     }
+    theme_bg_img.value = {
+        url_1: form.value.theme_1_static_img[0].url,
+        url_2: form.value.theme_2_static_img[0].url,
+        url_3: form.value.theme_5_static_img[0].url,
+    };
 });
 const get_coupon = () => {
     const { number, type } = form.value;
@@ -248,26 +264,6 @@ const theme_7_background_style = computed(() => {
         return '#fff';
     }
 });
-const new_url = ref('');
-interface themeBgImg {
-    url_1: string;
-    url_2: string;
-    url_3: string;
-}
-const theme_bg_img = ref<themeBgImg>({
-    url_1: ``,
-    url_2: ``,
-    url_3: ``,
-});
-onBeforeMount(() => {
-    online_url('/static/plugins/coupon/images/diy/').then((res) => {
-        theme_bg_img.value = {
-            url_1: `${res}theme-1-bg.png`,
-            url_2: `${res}theme-2-content-bg.png`,
-            url_3: `${res}theme-5-bg.png`,
-        };
-    });
-});
 </script>
 <style lang="scss" scoped>
 .coupon-theme-1 {
@@ -306,7 +302,6 @@ onBeforeMount(() => {
         .coupon-theme-1-content {
             width: calc(100% - 1rem);
             margin: 0 0.5rem;
-            background-image: v-bind('theme_bg_img.url_1');
             background-size: 100% 100%;
             position: relative;
             top: -1rem;
@@ -668,8 +663,7 @@ onBeforeMount(() => {
                 font-size: 1.2rem;
                 font-weight: 500;
                 text-align: center;
-                writing-mode: vertical-lr;
-                letter-spacing: 5px;
+                letter-spacing: 0.2rem;
             }
         }
     }
@@ -728,13 +722,13 @@ onBeforeMount(() => {
                 color: v-bind('theme_style.price_color');
                 margin-bottom: 0.1rem;
                 .symbol {
-                    font-size: 2.2rem;
+                    font-size: 2rem;
                     font-weight: 500;
                 }
                 .number {
                     font-size: 3.2rem;
                     font-weight: 500;
-                    line-height: 32px;
+                    line-height: 3.2rem;
                     padding-left: 0.4rem;
                 }
             }
@@ -841,11 +835,13 @@ onBeforeMount(() => {
                 padding: 0.4rem;
                 width: 100%;
                 color: v-bind('theme_style.btn_color');
-                font-size: 1.1rem;
+                font-size: 1rem;
                 font-weight: 500;
                 text-align: center;
-                writing-mode: vertical-lr;
-                letter-spacing: 3px;
+                letter-spacing: 0.2rem;
+                height: 100%;
+                display: flex;
+                align-items: center;
             }
         }
     }

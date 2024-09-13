@@ -103,7 +103,6 @@ const content_padding = ref('');
 const content_spacing = ref('');
 // 文章间距
 const article_spacing = ref('');
-const article_spacing_children = ref('');
 const article_item_height = ref('155');
 
 const article_style = ref({});
@@ -227,8 +226,7 @@ watch(
         if (article_theme.value == '0') {
             article_style.value += content_spacing.value + content_padding.value + content_radius.value;
         } else if (article_theme.value == '1') {
-            article_spacing_children.value = `width: calc(50% - ${new_style.article_spacing / 2}px);`;
-            article_style.value += article_spacing_children.value + content_radius.value;
+            article_style.value += `width: calc(50% - ${new_style.article_spacing / 2}px);` + content_radius.value;
         } else if (article_theme.value == '2') {
             article_style.value += content_radius.value;
         } else if (article_theme.value == '3') {
