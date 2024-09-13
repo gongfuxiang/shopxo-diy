@@ -1,5 +1,5 @@
-import { get_math } from "@/utils";
-import defaultCommon from "./index";
+import { get_math } from '@/utils';
+import defaultCommon from './index';
 interface tabs_page {
     id: string;
     title: string;
@@ -7,8 +7,8 @@ interface tabs_page {
     data_type: string;
     classify: object;
     micro_page: string;
-    micro_page_list: string[];
-    category_list: string[];
+    micro_page_list: object;
+    category_list: object;
 }
 interface defaultTabs {
     content: {
@@ -19,12 +19,12 @@ interface defaultTabs {
     style: {
         tabs_checked: color_list[];
         tabs_direction: string;
-        tabs_weight_checked: string,
-        tabs_size_checked: number,
-        tabs_color_checked: string,
-        tabs_weight: string,
-        tabs_size: number,
-        tabs_color: string,
+        tabs_weight_checked: string;
+        tabs_size_checked: number;
+        tabs_color_checked: string;
+        tabs_weight: string;
+        tabs_size: number;
+        tabs_color: string;
         tabs_spacing: number;
         common_style: object;
     };
@@ -34,13 +34,16 @@ const defaultTabs: defaultTabs = {
         tabs_theme: '0',
         tabs_top_up: '1',
         tabs_list: [
-            { id: get_math(), title: '热门推荐', desc: '简介', data_type: 'micro_page', classify: {}, micro_page: '', micro_page_list: [], category_list: [] },
-            { id: get_math(), title: '测试一', desc: '简介',  data_type: 'micro_page', classify: {}, micro_page: '', micro_page_list: [],  category_list: [] },
-            { id: get_math(), title: '测试二', desc: '简介',  data_type: 'micro_page', classify: {}, micro_page: '', micro_page_list: [],  category_list: [] },
-        ]
+            { id: get_math(), title: '热门推荐', desc: '简介', data_type: 'micro_page', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
+            { id: get_math(), title: '测试一', desc: '简介', data_type: 'micro_page', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
+            { id: get_math(), title: '测试二', desc: '简介', data_type: 'micro_page', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
+        ],
     },
     style: {
-        tabs_checked: [{ color: '#FF2222', color_percentage: undefined }, { color: '#FF9898', color_percentage: undefined }],
+        tabs_checked: [
+            { color: '#FF2222', color_percentage: undefined },
+            { color: '#FF9898', color_percentage: undefined },
+        ],
         tabs_direction: '90deg',
         tabs_weight_checked: '500',
         tabs_size_checked: 14,
@@ -56,7 +59,7 @@ const defaultTabs: defaultTabs = {
             padding_bottom: 10,
             padding_left: 10,
             padding_right: 10,
-        }
+        },
     },
 };
 
