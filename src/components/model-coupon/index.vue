@@ -663,8 +663,7 @@ const theme_7_background_style = computed(() => {
                 font-size: 1.2rem;
                 font-weight: 500;
                 text-align: center;
-                writing-mode: vertical-lr;
-                letter-spacing: 5px;
+                letter-spacing: 0.2rem;
             }
         }
     }
@@ -723,13 +722,13 @@ const theme_7_background_style = computed(() => {
                 color: v-bind('theme_style.price_color');
                 margin-bottom: 0.1rem;
                 .symbol {
-                    font-size: 2.2rem;
+                    font-size: 2rem;
                     font-weight: 500;
                 }
                 .number {
                     font-size: 3.2rem;
                     font-weight: 500;
-                    line-height: 32px;
+                    line-height: 3.2rem;
                     padding-left: 0.4rem;
                 }
             }
@@ -836,11 +835,13 @@ const theme_7_background_style = computed(() => {
                 padding: 0.4rem;
                 width: 100%;
                 color: v-bind('theme_style.btn_color');
-                font-size: 1.1rem;
+                font-size: 1rem;
                 font-weight: 500;
                 text-align: center;
-                writing-mode: vertical-lr;
-                letter-spacing: 3px;
+                letter-spacing: 0.2rem;
+                height: 100%;
+                display: flex;
+                align-items: center;
             }
         }
     }
