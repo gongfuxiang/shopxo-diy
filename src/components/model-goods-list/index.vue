@@ -229,10 +229,18 @@ const list = ref<data_list[]>([]);
 onBeforeMount(() => {
     // 指定商品并且指定商品数组不为空
     if (!isEmpty(form.value.data_list) && form.value.data_type == '0') {
-        list.value = form.value.data_list;
+        list.value = cloneDeep(form.value.data_list).map((item: any) => ({
+            ...item.data,
+            title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
+            new_cover: item.new_cover,
+        }));
     } else if (!isEmpty(form.value.data_auto_list) && form.value.data_type == '1') {
         // 筛选商品并且筛选商品数组不为空
-        list.value = form.value.data_auto_list;
+        list.value = cloneDeep(form.value.data_auto_list).map((item: any) => ({
+            ...item.data,
+            title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
+            new_cover: item.new_cover,
+        }));
     } else { // 为空的时候走默认数据
         list.value = Array(4).fill(default_list);
     }
