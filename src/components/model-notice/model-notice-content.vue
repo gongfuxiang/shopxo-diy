@@ -43,7 +43,7 @@
                 <el-form-item label="右侧按钮">
                     <el-switch v-model="form.is_right_button" active-value="1" inactive-value="0"></el-switch>
                 </el-form-item>
-                <el-form-item v-if="is_card && form.is_right_button != '0'" label="链接">
+                <el-form-item v-if="form.is_right_button != '0'" label="链接">
                     <url-value v-model="form.more_link"></url-value>
                 </el-form-item>
             </card-container>
@@ -71,7 +71,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { get_math } from "@/utils";
+import { get_math } from '@/utils';
 const props = defineProps({
     value: {
         type: Object,
@@ -83,25 +83,25 @@ const is_card = computed(() => form.value.notice_style == 'card');
 const is_text = computed(() => form.value.title_type == 'text');
 
 const state = reactive({
-    form: props.value
+    form: props.value,
 });
 const { form } = toRefs(state);
 const add = () => {
     form.value.notice_list.push({
         id: get_math(),
         notice_title: '',
-        notice_link: '',
-        is_show: '1'
-    })
-}
+        notice_link: {},
+        is_show: '1',
+    });
+};
 const remove = (index: number) => {
     form.value.notice_list.splice(index, 1);
-}
+};
 
 // 拖拽更新之后，更新数据
 const on_sort = (new_list: nav_group[]) => {
     form.value.notice_list = new_list;
-}
+};
 </script>
 <style lang="scss" scoped>
 .card.mb-8 {
