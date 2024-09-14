@@ -1,5 +1,5 @@
 <template>
-    <div class="flex-row gap-10 jc-sb">
+    <div class="flex-row gap-10 jc-sb align-c">
         <div class="tabs flex-row oh" :style="`column-gap: ${ new_style.tabs_spacing }px;`">
             <template v-for="(item, index) in form.tabs_list" :key="index">
                 <div class="item nowrap flex-col jc-c gap-4" :class="tabs_theme + (index == 0 ? ' active' : '')">
