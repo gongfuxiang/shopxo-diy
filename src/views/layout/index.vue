@@ -202,8 +202,8 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             });
         } else if (item.key == 'data-magic') {
             item.com_data.content.data_magic_list.map((item1: any) => {
-                item1.goods_ids = item.goods_list.map((item2: any) => item2.data.id).join(',') || '';
-                item1.goods_list = [];
+                item1.data_content.goods_ids = item1.data_content.goods_list.map((item2: any) => item2.data.id).join(',') || '';
+                item1.data_content.goods_list = [];
             });
         }
         return {
