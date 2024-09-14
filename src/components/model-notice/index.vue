@@ -14,9 +14,9 @@
                     <div :style="topic_style" class="pl-6 pr-6 radius-sm">{{ form.title || '公告' }}</div>
                 </template>
                 <el-carousel :key="carouselKey" class="flex-1" indicator-position="none" :interval="interval_time" arrow="never" :direction="direction_type" :autoplay="true">
-                    <el-carousel-item v-for="(item, index) in notice_list" :key="index" :style="`${ news_style } color: ${ new_style.news_color }`">{{ item.notice_title }}</el-carousel-item>
+                    <el-carousel-item v-for="(item, index) in notice_list" :key="index" :style="`${news_style} color: ${new_style.news_color}`">{{ item.notice_title }}</el-carousel-item>
                 </el-carousel>
-                <div v-if="form.is_right_button == '1'" class="size-12"><el-icon class="iconfont icon-arrow-right" :color="new_style.button_color || '#999'"></el-icon></div>
+                <div v-if="form.is_right_button == '1'" class="size-12"><icon name="arrow-right" :color="new_style.button_color || '#999'"></icon></div>
             </div>
         </template>
         <template v-else>
@@ -33,9 +33,12 @@
                     <template v-else>
                         <div :style="topic_style" class="pl-6 pr-6 radius-sm">{{ form.title || '公告' }}</div>
                     </template>
-                    <div v-if="form.is_right_button == '1'" class="size-12" :style="`color: ${ new_style.button_color || '#999'}`">更多<el-icon class="iconfont icon-arrow-right" :color="new_style.button_color || '#999'"></el-icon></div>
+                    <div v-if="form.is_right_button == '1'" class="size-12" :style="`color: ${new_style.button_color || '#999'}`">更多<icon name="arrow-right" :color="new_style.button_color || '#999'"></icon></div>
                 </div>
-                <div v-for="(item, index) in notice_list" :key="index" class="flex" :style="news_style"><span :class="`num one${ index + 1 }`">{{ index + 1 }}</span><div class="break" :style="`color: ${ new_style.news_color }`">{{ item.notice_title }}</div></div>
+                <div v-for="(item, index) in notice_list" :key="index" class="flex" :style="news_style">
+                    <span :class="`num one${index + 1}`">{{ index + 1 }}</span>
+                    <div class="break" :style="`color: ${new_style.news_color}`">{{ item.notice_title }}</div>
+                </div>
             </div>
         </template>
     </div>
@@ -76,16 +79,16 @@ const container_background_style = computed(() => {
     return gradient_computer(styles) + radius_computer(new_style.value.container_radius) + background_computer(styles) + `overflow:hidden;`;
 });
 // 图片设置
-const img_style = computed(() => `height: ${ new_style.value.title_height }px; width: ${ new_style.value.title_width }px`);
+const img_style = computed(() => `height: ${new_style.value.title_height}px; width: ${new_style.value.title_width}px`);
 // 标题的设置
 const topic_style = computed(() => {
     // 标题渐变色处理
     const gradient = gradient_handle(new_style.value.title_color_list, '90deg');
     // 标题设置
-    return `color:${ new_style.value.title_color }; font-size: ${ new_style.value.title_size }px; font-weight: ${ new_style.value.title_typeface }; ${ gradient }`;
+    return `color:${new_style.value.title_color}; font-size: ${new_style.value.title_size}px; font-weight: ${new_style.value.title_typeface}; ${gradient}`;
 });
 // 内容标题设置
-const news_style = computed(() => `font-size: ${ new_style.value.news_size }px; font-weight: ${ new_style.value.news_typeface };`);
+const news_style = computed(() => `font-size: ${new_style.value.news_size}px; font-weight: ${new_style.value.news_typeface};`);
 // 指示器的样式
 // 轮播图定时显示
 const interval_time = ref(2000);
@@ -97,14 +100,14 @@ const carouselKey = ref('0');
 const interval_list = ref({
     time: 2000,
     direction: 'vertical',
-    notice_length: 1
-})
+    notice_length: 1,
+});
 
 const notice_list = computed(() => {
     // 深拷贝一下，确保不会出现问题
     const arry_list = cloneDeep(form.value.notice_list);
-    return arry_list.filter((item: { is_show: string; }) => item.is_show == '1');
-})
+    return arry_list.filter((item: { is_show: string }) => item.is_show == '1');
+});
 
 // 内容参数的集合
 watchEffect(() => {
@@ -123,7 +126,7 @@ watchEffect(() => {
         interval_list.value = {
             time: time,
             direction: direction,
-            notice_length: notice_length
+            notice_length: notice_length,
         };
         // 更新轮播图的key，确保更换时能重新更新轮播图
         carouselKey.value = get_math();
@@ -147,13 +150,13 @@ watchEffect(() => {
     color: #999;
 }
 .one1 {
-    color: #EA3323;
+    color: #ea3323;
 }
 .one2 {
-    color: #FF7303;
+    color: #ff7303;
 }
 .one3 {
-    color: #FFC300;
+    color: #ffc300;
 }
 .two-style {
     width: 2.4rem;
