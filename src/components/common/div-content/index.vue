@@ -377,4 +377,8 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
     margin: 0 auto;
     z-index: 3;
 }
+.main-content {
+    max-width: 39rem;
+    overflow: hidden;
+}
 </style>

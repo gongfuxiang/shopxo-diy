@@ -1,6 +1,6 @@
 <template>
     <div :style="style">
-        <tabs-view ref="tabs" :value="tabs_list"></tabs-view>
+        <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true"></tabs-view>
     </div>
 </template>
 <script setup lang="ts">

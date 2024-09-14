@@ -1,19 +1,22 @@
 <template>
-    <div class="tabs flex-row oh" :style="`column-gap: ${ new_style.tabs_spacing }px;`">
-        <template v-for="(item, index) in form.tabs_list" :key="index">
-            <div class="item nowrap flex-col jc-c gap-4" :class="tabs_theme + (index == 0 ? ' active' : '')">
-                <template v-if="!isEmpty(item.img)">
-                    <image-empty v-model="item.img[0]" class="img" error-img-style="width:2rem;height:2rem;"></image-empty>
-                </template>
-                <template v-else>
-                    <image-empty class="img" error-img-style="width:2rem;height:2rem;"></image-empty>
-                </template>
-                <div class="title" :style="title_style(index)">{{ item.title }}</div>
-                <div class="desc" :style="tabs_theme_index == '1' && index == 0 ? tabs_check : ''">{{ item.desc }}</div>
-                <icon name="checked-1" class="icon" :style="tabs_theme_index == '3' ? icon_tabs_check() : ''"></icon>
-                <div class="bottom_line" :style="tabs_check"></div>
-            </div>
-        </template>
+    <div class="flex-row gap-10 jc-sb">
+        <div class="tabs flex-row oh" :style="`column-gap: ${ new_style.tabs_spacing }px;`">
+            <template v-for="(item, index) in form.tabs_list" :key="index">
+                <div class="item nowrap flex-col jc-c gap-4" :class="tabs_theme + (index == 0 ? ' active' : '')">
+                    <template v-if="!isEmpty(item.img)">
+                        <image-empty v-model="item.img[0]" class="img" error-img-style="width:2rem;height:2rem;"></image-empty>
+                    </template>
+                    <template v-else>
+                        <image-empty class="img" error-img-style="width:2rem;height:2rem;"></image-empty>
+                    </template>
+                    <div class="title" :style="title_style(index)">{{ item.title }}</div>
+                    <div class="desc" :style="tabs_theme_index == '1' && index == 0 ? tabs_check : ''">{{ item.desc }}</div>
+                    <icon name="checked-1" class="icon" :style="tabs_theme_index == '3' ? icon_tabs_check() : ''"></icon>
+                    <div class="bottom_line" :style="tabs_check"></div>
+                </div>
+            </template>
+        </div>
+        <icon v-if="isTabs" :name="new_style.more_icon_class || 'fenlei-more'" :size="new_style.more_icon_size + '' || '14'" :color="new_style.more_icon_color || '#000'"></icon>
     </div>
 </template>
 
@@ -25,6 +28,10 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    isTabs: {
+        type: Boolean,
+        default: false,
+    }
 });
 // const tabs = ref(props.value);
 // 用于页面判断显示

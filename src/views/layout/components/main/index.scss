@@ -103,10 +103,6 @@
                     display: flex;
                     flex-direction: column;
                     align-items: stretch;
-                    .main-content {
-                        max-width: 39rem;
-                        overflow: hidden;
-                    }
                     .model-wall-content {
                         min-height: 100%;
                         flex: 1;
