@@ -23,13 +23,13 @@ watch(
         let new_data = newVal;
         new_data.content.theme = new_data.content.article_theme;
         new_data.content.data_type = new_data.content.tabs_list[0].data_type;
-        new_data.content.category = new_data.content.tabs_list[0].category;
+        new_data.content.category_ids = new_data.content.tabs_list[0].category_ids;
         new_data.content.carousel_col = new_data.content.article_carousel_col;
         new_data.content.data_list = new_data.content.tabs_list[0].data_list;
         new_data.content.data_ids = new_data.content.tabs_list[0].data_ids;
         new_data.content.number = new_data.content.tabs_list[0].number;
-        new_data.content.sort = new_data.content.tabs_list[0].sort;
-        new_data.content.sort_rules = new_data.content.tabs_list[0].sort_rules;
+        new_data.content.order_by_type = new_data.content.tabs_list[0].order_by_type;
+        new_data.content.order_by_rule = new_data.content.tabs_list[0].order_by_rule;
         new_data.content.field_show = new_data.content.field_show;
         new_data.content.is_cover = new_data.content.tabs_list[0].is_cover;
         article_tabs.value = new_data;

@@ -26,11 +26,11 @@ watch(tabs_list.value, (val) => {
     let new_data = val;
     // 产品的值
     new_data.content.data_type = new_data.content.tabs_list[0].data_type;
-    new_data.content.category = new_data.content.tabs_list[0].category;
-    new_data.content.brand = new_data.content.tabs_list[0].brand;
+    new_data.content.category_ids = new_data.content.tabs_list[0].category_ids;
+    new_data.content.brand_ids = new_data.content.tabs_list[0].brand_ids;
     new_data.content.number = new_data.content.tabs_list[0].number;
-    new_data.content.sort = new_data.content.tabs_list[0].sort;
-    new_data.content.sort_rules = new_data.content.tabs_list[0].sort_rules;
+    new_data.content.order_by_type = new_data.content.tabs_list[0].order_by_type;
+    new_data.content.order_by_rule = new_data.content.tabs_list[0].order_by_rule;
     new_data.content.data_list = new_data.content.tabs_list[0].data_list;
     
     tabs_list.value = new_data;

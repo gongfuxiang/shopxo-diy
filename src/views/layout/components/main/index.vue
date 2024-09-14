@@ -25,11 +25,11 @@
         <div class="drawer-content pt-5" :style="{ left: drawer_selected ? '0' : '-100%' }">
             <div class="size-14 cr-3 fw pl-12 drawer-title" :style="{ opacity: drawer_selected ? '1' : '0' }">已选组件({{ diy_data.length }})</div>
             <div ref="left_scrollTop" class="drawer-drag-area">
-                <li v-for="(item, index) in tabs_data" :key="index" :class="['flex ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-drag-bg': item.show_tabs == '1' }]" @click="set_tabs_event(true)">
-                    <el-icon class="iconfont icon-drag size-16 cr-d" />
+                <div v-for="(item, index) in tabs_data" :key="index" :class="['flex ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-drag-bg': item.show_tabs == '1' }]" @click="set_tabs_event(true)">
+                    <el-icon class="iconfont icon-jinzhi size-16 cr-d" />
                     <span class="size-12 cr-6">{{ item.name }}</span>
                     <el-icon class="iconfont icon-close-b size-16 abs" :style="[item.show_tabs == '1' ? '' : 'display:none']" @click.stop="del(index, true)" />
-                </li>
+                </div>
                 <VueDraggable v-model="diy_data" :animation="500" target=".sort-target" :scroll="true" :on-sort="on_sort">
                     <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col">
                         <li v-for="(item, index) in diy_data" :key="index" :class="['flex ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-drag-bg': item.show_tabs == '1' }]" @click="on_choose(index, item.show_tabs)">
@@ -40,7 +40,7 @@
                     </TransitionGroup>
                 </VueDraggable>
             </div>
-        </div>
+        </div>34
     </div>
     <!-- 视图渲染 -->
     <div class="main re">

@@ -121,12 +121,12 @@ const interval_time = ref(2000);
 // 轮播图是否滚动
 const is_roll = ref(1);
 const get_auto_data_list = async () => {
-    const { category, number, sort, sort_rules, is_cover } = new_content.value;
+    const { category_ids, number, order_by_type, order_by_rule, is_cover } = new_content.value;
     const new_data = {
         article_keywords: '',
-        article_category_ids: category.join(','),
-        article_order_by_type: sort,
-        article_order_by_rule: sort_rules,
+        article_category_ids: category_ids.join(','),
+        article_order_by_type: order_by_type,
+        article_order_by_rule: order_by_rule,
         article_number: number,
         article_is_cover: is_cover,
     };
@@ -165,8 +165,8 @@ onMounted(() => {
     }
 });
 const data_list_computer = computed(() => {
-    const { data_type, category, number, sort, sort_rules, is_cover, data_list } = new_content.value;
-    return { data_type, category, number, sort, sort_rules, is_cover, data_list };
+    const { data_type, category_ids, number, order_by_type, order_by_rule, is_cover, data_list } = new_content.value;
+    return { data_type, category_ids, number, order_by_type, order_by_rule, is_cover, data_list };
 });
 watch(
     () => data_list_computer.value,

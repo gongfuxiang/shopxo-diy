@@ -4,15 +4,15 @@ interface DefaultProductList {
         theme: string;
         data_type: string;
         carousel_col: number;
-        category: string[];
-        brand: string[];
+        category_ids: string[];
+        brand_ids: string[];
         data_ids: string[];
         product_show_list: string[];
         data_list: string[];
         data_auto_list: string[];
         is_price_solo: string;
         number: number;
-        sort: string;
+        order_by_type: string;
         sort_rules: string;
         is_show: string[];
         is_shop_show: string;
@@ -60,12 +60,12 @@ const defaultProductList: DefaultProductList = {
         product_show_list: [],
         data_list: [],
         data_auto_list: [],
-        category: [],
-        brand: [],
+        category_ids: [],
+        brand_ids: [],
         data_ids: [],
         is_price_solo: '1',
         number: 4,
-        sort: '0',
+        order_by_type: '0',
         sort_rules: '0',
         is_show: ['title', 'plugins_view_icon', 'price', 'sales_count', 'original_price'],
         is_shop_show: '1',

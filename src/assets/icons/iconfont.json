@@ -6,6 +6,20 @@
   "description": "web端",
   "glyphs": [
     {
+      "icon_id": "37217394",
+      "name": "icon-fenlei-more",
+      "font_class": "fenlei-more",
+      "unicode": "e6b7",
+      "unicode_decimal": 59063
+    },
+    {
+      "icon_id": "41868113",
+      "name": "禁止",
+      "font_class": "jinzhi",
+      "unicode": "e799",
+      "unicode_decimal": 59289
+    },
+    {
       "icon_id": "41814968",
       "name": "播放 (2)",
       "font_class": "bofang",

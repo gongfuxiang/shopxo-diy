@@ -12,12 +12,12 @@ interface DefaultArticleList {
         theme: string;
         carousel_col: string;
         data_type: string;
-        category: string[];
+        category_ids: string[];
         data_list: ArticleList[];
         data_ids: string;
         data_auto_list: ArticleList[];
         number: number;
-        sort: string;
+        order_by_type: string;
         sort_rules: string;
         field_show: string[];
         is_cover: string;
@@ -48,12 +48,12 @@ const defaultArticleList: DefaultArticleList = {
         theme: '0',
         carousel_col: '2',
         data_type: '0',
-        category: [],
+        category_ids: [],
         data_list: [],
         data_ids: '',
         data_auto_list: [],
         number: 4,
-        sort: '0',
+        order_by_type: '0',
         sort_rules: '0',
         field_show: ['0', '1'],
         is_cover: '1',

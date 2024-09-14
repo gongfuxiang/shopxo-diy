@@ -33,12 +33,12 @@
                 </template>
                 <template v-else>
                     <el-form-item label="商品分类">
-                        <el-select v-model="form.category" multiple collapse-tags placeholder="请选择商品分类">
+                        <el-select v-model="form.category_ids" multiple collapse-tags placeholder="请选择商品分类">
                             <el-option v-for="item in base_list.product_category_list" :key="item.id" :label="item.name" :value="item.id" />
                         </el-select>
                     </el-form-item>
                     <el-form-item label="指定品牌">
-                        <el-select v-model="form.brand" multiple collapse-tags placeholder="请选择品牌">
+                        <el-select v-model="form.brand_ids" multiple collapse-tags placeholder="请选择品牌">
                             <el-option v-for="item in base_list.product_brand_list" :key="item.id" :label="item.name" :value="item.id" />
                         </el-select>
                     </el-form-item>
@@ -46,13 +46,13 @@
                         <el-input-number v-model="form.number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
                     </el-form-item>
                     <el-form-item label="排序类型">
-                        <el-radio-group v-model="form.sort">
+                        <el-radio-group v-model="form.order_by_type">
                             <el-radio v-for="item in base_list.sort_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item label="排序规则">
-                        <el-radio-group v-model="form.sort_rules">
-                            <el-radio v-for="item in base_list.sort_rules_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                        <el-radio-group v-model="form.order_by_rule">
+                            <el-radio v-for="item in base_list.order_by_rule_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </template>
@@ -117,7 +117,7 @@ const base_list = reactive({
         { name: '价格', value: '3' },
         { name: '最新', value: '4' },
     ],
-    sort_rules_list: [
+    order_by_rule_list: [
         { name: '降序(desc)', value: '0' },
         { name: '升序(asc)', value: '1' },
     ],

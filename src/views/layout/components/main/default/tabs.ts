@@ -14,6 +14,7 @@ interface defaultTabs {
     content: {
         tabs_theme: string;
         tabs_top_up: string;
+        home_data: tabs_page;
         tabs_list: tabs_page[];
     };
     style: {
@@ -33,8 +34,9 @@ const defaultTabs: defaultTabs = {
     content: {
         tabs_theme: '0',
         tabs_top_up: '1',
+        home_data: { id: get_math(), title: '首页', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
         tabs_list: [
-            { id: get_math(), title: '首页', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
+            { id: get_math(), title: '热门推荐', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
             { id: get_math(), title: '测试一', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
             { id: get_math(), title: '测试二', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
         ],

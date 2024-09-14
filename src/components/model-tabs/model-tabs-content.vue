@@ -17,13 +17,19 @@
             <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">选项卡设置</div>
-                <drag :data="form.tabs_list" type="card" :space-col="25" :is-not-close-index="[0]" @remove="remove" @on-sort="on_sort">
-                    <template #default="scoped">
-                        <div class="flex-col align-c jc-s gap-20 flex-1 w">
-                            <el-form-item label="显示文字" class="w mb-0">
-                                <el-input v-model="scoped.row.title" placeholder="请输入标题文字" clearable />
-                            </el-form-item>
-                            <template v-if="scoped.index != 0">
+                <div class="flex-col gap-x-20">
+                    <div class="card-background box-shadow-sm ptb-25 flex gap-y-16 re align-c">
+                        <el-icon class="iconfont icon-jinzhi size-16 cursor-move" />
+                        <el-form-item label="显示文字" class="w mb-0">
+                            <el-input v-model="form.home_data.title" placeholder="请输入标题文字" clearable />
+                        </el-form-item>
+                    </div>
+                    <drag :data="form.tabs_list" type="card" :space-col="25" @remove="remove" @on-sort="on_sort">
+                        <template #default="scoped">
+                            <div class="flex-col align-c jc-s gap-20 flex-1 w">
+                                <el-form-item label="显示文字" class="w mb-0">
+                                    <el-input v-model="scoped.row.title" placeholder="请输入标题文字" clearable />
+                                </el-form-item>
                                 <el-form-item label="数据类型" class="w mb-0">
                                     <el-radio-group v-model="scoped.row.data_type">
                                         <el-radio value="0">微页面</el-radio>
@@ -38,11 +44,11 @@
                                         <url-value v-model="scoped.row.classify" :type="['goods-category']"></url-value>
                                     </template>
                                 </el-form-item>
-                            </template>
-                        </div>
-                    </template>
-                </drag>
-                <el-button class="mt-20 mb-20 w" @click="add">+添加</el-button>
+                            </div>
+                        </template>
+                    </drag>
+                    <el-button class="mt-20 mb-20 w" @click="add">+添加</el-button>
+                </div>
             </card-container>
         </el-form>
     </div>
@@ -98,5 +104,14 @@ const tabs_theme_change = (val: string | number | boolean | undefined): void => 
     .el-form-item:last-child {
         margin-bottom: 0;
     }
+}
+.cursor-move {
+    color: #ddd;
+    cursor: move;
+}
+.card-background {
+    background: #fff;
+    padding-left: 1.6rem;
+    padding-right: 2rem;
 }
 </style>

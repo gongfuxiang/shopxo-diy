@@ -243,13 +243,13 @@ onMounted(() => {
 });
 
 const get_products = () => {
-    const { category, brand, number, sort, sort_rules } = form.value;
+    const { category_ids, brand_ids, number, order_by_type, order_by_rule } = form.value;
     const params = {
         goods_keywords: '',
-        goods_category_ids: category,
-        goods_brand_ids: brand,
-        goods_order_by_type: sort,
-        goods_order_by_rule: sort_rules,
+        goods_category_ids: category_ids,
+        goods_brand_ids: brand_ids,
+        goods_order_by_type: order_by_type,
+        goods_order_by_rule: order_by_rule,
         goods_number: number,
     };
     // 获取商品列表
@@ -264,8 +264,8 @@ const get_products = () => {
 };
 // 取出监听的数据
 const watch_data = computed(() => {
-    const { category, brand, number, sort, sort_rules, data_type, data_list } = form.value;
-    return { category: category, brand: brand, number: number, sort: sort, sort_rules: sort_rules, data_type: data_type, data_list: data_list };
+    const { category_ids, brand, number, order_by_type, order_by_rule, data_type, data_list } = form.value;
+    return { category_ids: category_ids, brand: brand, number: number, order_by_type: order_by_type, order_by_rule: order_by_rule, data_type: data_type, data_list: data_list };
 })
 // 初始化的时候不执行, 监听数据变化
 watch(() => watch_data.value, (val) => {

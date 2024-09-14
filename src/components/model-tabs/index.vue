@@ -1,11 +1,11 @@
 <template>
     <div :style="style">
-        <tabs-view ref="tabs" :value="props.value"></tabs-view>
+        <tabs-view ref="tabs" :value="tabs_list"></tabs-view>
     </div>
 </template>
 <script setup lang="ts">
 import { common_styles_computer } from '@/utils';
-
+import { cloneDeep } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
@@ -15,7 +15,14 @@ const props = defineProps({
     },
 });
 
+const tabs_list = ref(props.value);
+watch(props.value, (val) => {
+    let new_data = cloneDeep(val);
+    const { home_data } = new_data.content;
+    new_data.content.tabs_list = [home_data, ...new_data.content.tabs_list];
+    tabs_list.value = new_data;
+}, { immediate: true, deep: true });
+
 const style = computed(() => common_styles_computer(props.value.style.common_style));
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
