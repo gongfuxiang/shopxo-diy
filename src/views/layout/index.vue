@@ -187,18 +187,18 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
     const clone_form = cloneDeep(data);
     clone_form.header.show_tabs = '1';
     clone_form.footer.show_tabs = '0';
-    // const new_array = ['goods-list', 'goods-tabs', 'article-list', 'article-tabs', 'coupon'];
+    const new_array = ['goods-list', 'goods-tabs', 'article-list', 'article-tabs', 'coupon'];
     clone_form.diy_data = clone_form.diy_data.map((item: any) => {
-        // if (new_array.includes(item.key)) {
-        //     item.com_data.content.data_ids = item.com_data.content.data_list.map((item: any) => item.data.id).join(',') || '';
-        //     item.com_data.content.data_list = [];
-        //     item.com_data.content.data_auto_list = [];
-        // } else if (item.key == 'data-magic') {
-        //     item.com_data.content.data_magic_list.map((item1: any) => {
-        //         item1.goods_ids = item.goods_list.map((item2: any) => item2.data.id).join(',') || '';
-        //         item1.goods_list = [];
-        //     });
-        // }
+        if (new_array.includes(item.key)) {
+            item.com_data.content.data_ids = item.com_data.content.data_list.map((item: any) => item.data.id).join(',') || '';
+            // item.com_data.content.data_list = [];
+            // item.com_data.content.data_auto_list = [];
+        } else if (item.key == 'data-magic') {
+            item.com_data.content.data_magic_list.map((item1: any) => {
+                item1.goods_ids = item.goods_list.map((item2: any) => item2.data.id).join(',') || '';
+                // item1.goods_list = [];
+            });
+        }
         return {
             ...item,
             show_tabs: '0',

@@ -5,7 +5,7 @@
                 <img class="img" :style="`Filter: brightness(${new_style.function_buttons_type == 'black' ? 0 : 100})`" src="@/assets/images/layout/main/main-top.png" />
             </div>
             <div class="model-head tc re mlr-12 mt-6">
-                <div v-if="['1', '2', '3'].includes(form.theme)" class="flex align-c jc-c h gap-16" :style="[{ 'justify-content': form?.indicator_location || 'center', 'padding-right': form.indicator_location == 'flex-end' || form.theme == 3 ? '95px' : '0' }, text_style]">
+                <div v-if="['1', '2', '3'].includes(form.theme)" class="flex align-c jc-c h gap-16" :style="[{ 'justify-content': form?.indicator_location || 'center' }, text_style]">
                     <template v-if="['2', '3'].includes(form.theme)">
                         <div class="logo-outer-style"><image-empty v-model="form.logo[0]" class="logo-style" error-img-style="width:2rem;height:2rem;"></image-empty></div>
                     </template>
@@ -22,13 +22,10 @@
                         ><icon v-if="form.is_arrows_show == '1'" name="arrow-right" size="12" color="0"></icon>
                     </div>
                     <template v-if="['5'].includes(form.theme)">
-                        <div class="flex-1" style="padding-right: 95px">
+                        <div class="flex-1">
                             <model-search :value="pageData.com_data" :is-page-settings="true"></model-search>
                         </div>
                     </template>
-                </div>
-                <div class="model-head-icon">
-                    <img class="function-icon" :src="url_computer(new_style.function_buttons_type == 'black' ? 'function-icon-black' : 'function-icon-white')" />
                 </div>
             </div>
         </div>
@@ -65,10 +62,7 @@ const roll_style = computed(() => {
     }
     return style;
 });
-const url_computer = (name: string) => {
-    const new_url = ref(new URL(`../../assets/images/layout/main/${name}.png`, import.meta.url).href).value;
-    return new_url;
-};
+
 const text_style = computed(() => `font-weight:${new_style.value.header_background_title_typeface}; font-size: ${new_style.value.header_background_title_size}px; color: ${new_style.value.header_background_title_color};`);
 </script>
 <style lang="scss" scoped>
