@@ -8,6 +8,7 @@
 </template>
 <script setup lang="ts">
 import { common_styles_computer } from '@/utils';
+import { cloneDeep } from 'lodash';
 
 const props = defineProps({
     value: {
@@ -19,11 +20,12 @@ const props = defineProps({
 });
 
 const style_container = ref('');
-const tabs_list = ref(props.value);
+const tabs_list = ref({});
 
-watch(tabs_list.value, (val) => {
-    const new_style = val?.style;
-    let new_data = val;
+watch(() => props.value, (val) => {
+    const new_val = cloneDeep(val);
+    const new_style = new_val?.style;
+    let new_data = new_val;
     // 产品的值
     new_data.content.data_type = new_data.content.tabs_list[0].data_type;
     new_data.content.category_ids = new_data.content.tabs_list[0].category_ids;
