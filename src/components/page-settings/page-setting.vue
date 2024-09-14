@@ -56,11 +56,36 @@ const default_data = {
 }
 const default_config = {
     style: {
-        theme_1: {},
-        theme_2: {},
-        theme_3: {},
-        theme_4: {},
-        theme_5: {},
+        theme_1: {
+            content: {
+                indicator_location: 'center',
+            },
+            style: {}
+        },
+        theme_2: {
+            content: {
+                indicator_location: 'flex-start',
+            },
+            style: {}
+        },
+        theme_3: {
+            content: {
+                indicator_location: 'flex-start',
+            },
+            style: {}
+        },
+        theme_4: {
+            content: {
+                indicator_location: 'flex-start',
+            },
+            style: {}
+        },
+        theme_5: {
+            content: {
+                indicator_location: 'flex-start',
+            },
+            style: {}
+        },
     },
 };
 const form = ref(props.value);

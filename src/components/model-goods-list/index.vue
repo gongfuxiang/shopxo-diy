@@ -255,6 +255,7 @@ const get_products = () => {
     // 获取商品列表
     ShopAPI.getShopLists(params).then((res: any) => {
         form.value.data_auto_list = res.data;
+        console.log(form.value);
         if (!isEmpty(res.data)) {
             list.value = res.data;
         } else {

@@ -32,7 +32,8 @@ watch(tabs_list.value, (val) => {
     new_data.content.order_by_type = new_data.content.tabs_list[0].order_by_type;
     new_data.content.order_by_rule = new_data.content.tabs_list[0].order_by_rule;
     new_data.content.data_list = new_data.content.tabs_list[0].data_list;
-    
+    new_data.content.data_auto_list = new_data.content.tabs_list[0].data_auto_list;
+
     tabs_list.value = new_data;
     // 公共样式
     style_container.value += common_styles_computer(new_style.common_style);
