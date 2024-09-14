@@ -2,11 +2,18 @@
     <VueDraggable v-model="from" :animation="500" target=".sort-target" handle=".icon-drag" :scroll="true" :on-sort="on_sort">
         <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col gap-x-20">
             <li v-for="(item, index) in from" :key="item.id" :class="className" class="flex gap-y-16 re" @click="on_click(item, index)">
-                <el-icon class="iconfont icon-drag size-16 cursor-move" />
+                <template v-if="!props.isNotCloseIndex.includes(index)">
+                    <el-icon class="iconfont icon-drag size-16 cursor-move" />
+                </template>
+                <template v-else>
+                    <el-icon class="iconfont icon-drag size-16 cursor-move" />
+                </template>
                 <slot :row="item" :index="index" />
                 <el-icon v-if="isShowEdit" class="iconfont icon-commodity-edit size-16 cr-primary do-not-trigger two-click" @click="edit(index)" />
-                <el-icon v-if="type == 'line'" class="iconfont icon-del-o size-16 do-not-trigger" @click="remove(index)" />
-                <el-icon v-if="type == 'card'" class="iconfont icon-close-o size-16 abs cr-c top-de-5 right-de-5" @click="remove(index)" />
+                <template v-if="!props.isNotCloseIndex.includes(index)">
+                    <el-icon v-if="type == 'line'" class="iconfont icon-del-o size-16 do-not-trigger" @click="remove(index)" />
+                    <el-icon v-if="type == 'card'" class="iconfont icon-close-o size-16 abs cr-c top-de-5 right-de-5" @click="remove(index)" />
+                </template>
             </li>
         </TransitionGroup>
     </VueDraggable>
@@ -22,11 +29,13 @@ interface Props {
     spaceCol?: number; // 上下间距
     iconPosition?: string; // top/bottom/center
     isShowEdit?: boolean;
+    isNotCloseIndex?: number[];
 }
 const props = withDefaults(defineProps<Props>(), {
     type: () => 'line',
     isShowEdit: false,
     spaceCol: () => 5,
+    isNotCloseIndex: () => [],
     iconPosition: 'center',
 });
 const className = ref('');

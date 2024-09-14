@@ -206,7 +206,7 @@ const url_computer = (name: string) => {
 const show_model_border = ref(true);
 // 点击添加tabs组件
 const draggable_click = (item: componentsData) => {
-    if (item.key == 'tabs' && isEmpty(tabs_data.value.length)) {
+    if (item.key == 'tabs' && isEmpty(tabs_data.value)) {
         // 添加tabs组件
         tabs_data.value.push({
             name: item.name,

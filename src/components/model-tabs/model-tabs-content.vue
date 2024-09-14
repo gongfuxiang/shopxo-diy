@@ -17,26 +17,28 @@
             <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">选项卡设置</div>
-                <drag :data="form.tabs_list" type="card" :space-col="25" @remove="remove" @on-sort="on_sort">
+                <drag :data="form.tabs_list" type="card" :space-col="25" :is-not-close-index="[0]" @remove="remove" @on-sort="on_sort">
                     <template #default="scoped">
                         <div class="flex-col align-c jc-s gap-20 flex-1 w">
                             <el-form-item label="显示文字" class="w mb-0">
                                 <el-input v-model="scoped.row.title" placeholder="请输入标题文字" clearable />
                             </el-form-item>
-                            <el-form-item label="数据类型" class="w mb-0">
-                                <el-radio-group v-model="scoped.row.data_type">
-                                    <el-radio value="0">微页面</el-radio>
-                                    <el-radio value="1">选择分类</el-radio>
-                                </el-radio-group>
-                            </el-form-item>
-                            <el-form-item :label="scoped.row.data_type == '0' ? '微页面' : '商品分类'" class="w mb-0">
-                                <template v-if="scoped.row.data_type == '0'">
-                                    <url-value v-model="scoped.row.micro_page_list"></url-value>
-                                </template>
-                                <template v-else>
-                                    <url-value v-model="scoped.row.classify" :type="['goods-category']"></url-value>
-                                </template>
-                            </el-form-item>
+                            <template v-if="scoped.index != 0">
+                                <el-form-item label="数据类型" class="w mb-0">
+                                    <el-radio-group v-model="scoped.row.data_type">
+                                        <el-radio value="0">微页面</el-radio>
+                                        <el-radio value="1">选择分类</el-radio>
+                                    </el-radio-group>
+                                </el-form-item>
+                                <el-form-item :label="scoped.row.data_type == '0' ? '微页面' : '商品分类'" class="w mb-0">
+                                    <template v-if="scoped.row.data_type == '0'">
+                                        <url-value v-model="scoped.row.micro_page_list"></url-value>
+                                    </template>
+                                    <template v-else>
+                                        <url-value v-model="scoped.row.classify" :type="['goods-category']"></url-value>
+                                    </template>
+                                </el-form-item>
+                            </template>
                         </div>
                     </template>
                 </drag>
