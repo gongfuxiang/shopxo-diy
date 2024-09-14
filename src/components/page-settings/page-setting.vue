@@ -91,7 +91,8 @@ const default_config = {
 const form = ref(props.value);
 const change_theme = (val: string) => {
     if (val) {
-        form.value.style = Object.assign({}, form.value.style, cloneDeep(default_data), (<arrayIndex>default_config.style)[`theme_${Number(val)}`]);
+        form.value.style = Object.assign({}, form.value.style, cloneDeep(default_data), cloneDeep((<arrayIndex>default_config.style)[`theme_${Number(val)}`].style));
+        form.value.content = Object.assign({}, form.value.content, cloneDeep((<arrayIndex>default_config.style)[`theme_${Number(val)}`].content));
     }
 };
 </script>
