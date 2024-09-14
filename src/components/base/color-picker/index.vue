@@ -18,7 +18,6 @@ const props = withDefaults(defineProps<Props>(), {
 
 const color = defineModel({ type: String });
 const reset_event = () => {
-    console.log(1);
     if (color.value == props.defaultColor) {
         return;
     } else {

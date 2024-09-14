@@ -52,6 +52,7 @@ export interface headerAndFooter {
     com_data: any;
 }
 export interface diyConfig {
+    tabs_data: Array<any>;
     diy_data: Array<any>;
     footer: headerAndFooter;
     header: headerAndFooter;

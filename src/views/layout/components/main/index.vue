@@ -4,14 +4,18 @@
         <el-collapse v-model="activeNames">
             <template v-for="(com, i) in components">
                 <el-collapse-item v-if="com.data.length > 0" :key="i" :title="com.name" :name="com.key">
-                    <VueDraggable v-model="com.data" :animation="500" ghost-class="ghost" :group="{ name: 'people', pull: 'clone', put: false }" class="component flex-row flex-wrap" :clone="clone_item_com_data" :on-start="onStart" :sort="false" :force-fallback="true">
-                        <div v-for="item in com.data" :key="item.key" class="item">
-                            <div class="main-border siderbar-hidden main-show tc">释放鼠标将组件添加到此处</div>
-                            <div class="siderbar-show main-hidden flex-col jc-c align-c gap-4">
-                                <img class="img radius-xs" :src="url_computer(item.key)" />
-                                <div>{{ item.name }}</div>
-                            </div>
-                        </div>
+                    <VueDraggable v-model="com.data" :animation="500" ghost-class="ghost" handle=".is-drag" :group="{ name: 'people', pull: 'clone', put: false }" class="component flex-row flex-wrap" :clone="clone_item_com_data" :sort="false" :force-fallback="true">
+                        <template v-for="item in com.data" :key="item.key">
+                            <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="该组件只可以点击添加, 并且只能添加一次" placement="top" :disabled="item.key != 'tabs'">
+                                <div :class="['item', {'is-drag': item.key != 'tabs' }]" @click.stop="draggable_click(item)">
+                                    <div class="main-border siderbar-hidden main-show tc">释放鼠标将组件添加到此处</div>
+                                    <div class="siderbar-show main-hidden flex-col jc-c align-c gap-4">
+                                        <img class="img radius-xs" :src="url_computer(item.key)" />
+                                        <div>{{ item.name }}</div>
+                                    </div>
+                                </div>
+                            </el-tooltip>
+                        </template>
                     </VueDraggable>
                 </el-collapse-item>
             </template>
@@ -21,12 +25,17 @@
         <div class="drawer-content pt-5" :style="{ left: drawer_selected ? '0' : '-100%' }">
             <div class="size-14 cr-3 fw pl-12 drawer-title" :style="{ opacity: drawer_selected ? '1' : '0' }">已选组件({{ diy_data.length }})</div>
             <div ref="left_scrollTop" class="drawer-drag-area">
+                <li v-for="(item, index) in tabs_data" :key="index" :class="['flex ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-drag-bg': item.show_tabs == '1' }]" @click="set_tabs_event(true)">
+                    <el-icon class="iconfont icon-drag size-16 cr-d" />
+                    <span class="size-12 cr-6">{{ item.name }}</span>
+                    <el-icon class="iconfont icon-close-b size-16 abs" :style="[item.show_tabs == '1' ? '' : 'display:none']" @click.stop="del(index, true)" />
+                </li>
                 <VueDraggable v-model="diy_data" :animation="500" target=".sort-target" :scroll="true" :on-sort="on_sort">
                     <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col">
                         <li v-for="(item, index) in diy_data" :key="index" :class="['flex ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-drag-bg': item.show_tabs == '1' }]" @click="on_choose(index, item.show_tabs)">
                             <el-icon class="iconfont icon-drag size-16 cr-d" />
                             <span class="size-12 cr-6">{{ item.name }}</span>
-                            <el-icon class="iconfont icon-close-b size-16 abs" :style="[item.show_tabs == '1' ? '' : 'display:none']" @click.stop="del(index)" />
+                            <el-icon class="iconfont icon-close-b size-16 abs" :style="[item.show_tabs == '1' ? '' : 'display:none']" @click.stop="del(index, false)" />
                         </li>
                     </TransitionGroup>
                 </VueDraggable>
@@ -57,8 +66,9 @@
                     <page-settings :show-page="page_data.show_tabs == '1'" :page-data="page_data" @page_settings="page_settings"></page-settings>
                     <div class="model-wall" :style="content_style">
                         <div class="model-wall-content" :style="`padding-top:${top_padding}px; margin-top: ${top_margin}px;padding-bottom:${bottom_navigation_show ? footer_nav_counter_store.padding_footer : 0}px;`">
+                            <div-content :diy-data="tabs_data" :show-model-border="show_model_border" :is-tabs="true" :main-content-style="main_content_style" @on_choose="set_tabs_event(true);" @del="del"></div-content>
                             <VueDraggable v-model="diy_data" :animation="500" :touch-start-threshold="2" group="people" class="drag-area re" ghost-class="ghost" :on-sort="on_sort" :on-start="on_start" :on-end="on_end">
-                                <div-content :diy-data="diy_data" :show-model-border="show_model_border" :main-content-style="main_content_style" @on_choose="on_choose" @del="del" @set_show_tabs="set_show_tabs"></div-content>
+                                <div-content :diy-data="diy_data" :show-model-border="show_model_border" :main-content-style="main_content_style" @on_choose="on_choose" @del="del" @copy="copy" @move-up="moveUp" @move-down="moveDown"></div-content>
                             </VueDraggable>
                         </div>
                     </div>
@@ -75,7 +85,7 @@
 <script setup lang="ts">
 import { background_computer, get_math, gradient_computer, padding_computer, radius_computer } from '@/utils';
 import type { UploadFile, UploadFiles } from 'element-plus';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isEmpty } from 'lodash';
 import { SortableEvent, VueDraggable } from 'vue-draggable-plus';
 import defaultSettings from './index';
 import { footerNavCounterStore, commonStore } from '@/store';
@@ -84,6 +94,10 @@ const common_store = commonStore();
 const app = getCurrentInstance();
 const props = defineProps({
     diyData: {
+        type: Array<any>,
+        default: () => [],
+    },
+    tabsData: {
         type: Array<any>,
         default: () => [],
     },
@@ -97,6 +111,7 @@ const props = defineProps({
     },
 });
 const diy_data = ref(props.diyData);
+const tabs_data = ref(props.tabsData);
 const page_data = ref(props.header);
 const footer_nav = ref(props.footer);
 // 监听
@@ -104,6 +119,12 @@ watch(
     () => props.diyData,
     (newValue) => {
         diy_data.value = newValue;
+    }
+);
+watch(
+    () => props.tabsData,
+    (newValue) => {
+        tabs_data.value = newValue;
     }
 );
 // 监听
@@ -157,7 +178,7 @@ watchEffect(() => {
 // 已选组件逻辑处理
 const drawer_selected = ref(false);
 watchEffect(() => {
-    if (diy_data.value.length > 0) {
+    if (diy_data.value.length > 0 || tabs_data.value.length > 0) {
         drawer_selected.value = true;
     } else {
         drawer_selected.value = false;
@@ -182,13 +203,23 @@ const url_computer = (name: string) => {
 
 //#region 拖拽组件的公共方法
 // 是否显示提示用户拖拽位置
-const isDrag = ref(false);
 const show_model_border = ref(true);
-
-// 开始拖拽的时候显示位置提示
-const onStart = () => {
-    isDrag.value = true;
-};
+// 点击添加tabs组件
+const draggable_click = (item: componentsData) => {
+    if (item.key == 'tabs' && isEmpty(tabs_data.value.length)) {
+        // 添加tabs组件
+        tabs_data.value.push({
+            name: item.name,
+            show_tabs: '1',
+            is_enable: '1',
+            src: '',
+            id: get_math(),
+            key: 'tabs',
+            com_data: cloneDeep(defaultSettings.tabs),
+        });
+        set_tabs_event(true);
+    }
+}
 // 复制
 const clone_item_com_data = (item: commonComponentData) => {
     return {
@@ -205,10 +236,6 @@ const clone_item_com_data = (item: commonComponentData) => {
 // 任何行动都会触发
 const on_sort = (item: SortableEvent) => {
     let index = item?.newIndex || 0;
-    // if (diy_data.value.length - 1 < index) {
-    //     index = diy_data.value.length - 1;
-    // }
-    isDrag.value = false;
     // 设置对应的位置为显示
     set_show_tabs(index);
 };
@@ -231,37 +258,111 @@ const on_choose = (index: number, show_tabs: string) => {
         set_show_tabs(index);
     }
 };
-
+// 复制
+const copy = (index: number) => {
+    // 获取当前数据, 复制的时候id更换一下
+    const new_data = {
+        ...cloneDeep(get_diy_index_data(index)),
+        id: get_math(),
+    };
+    // 在当前位置下插入数据
+    diy_data.value.splice(index, 0, new_data);
+    set_show_tabs(index + 1);
+};
 // 删除
-const del = (index: number) => {
+const del = (index: number, is_tabs: boolean) => {
     app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
-        const show_tabs_index = diy_data.value.findIndex((item: any) => item.show_tabs == '1');
-        if (show_tabs_index == index) {
-            diy_data.value.splice(index, 1);
+        // 如果是选项卡被删除，则删除tabs组件，并判断是否有拖拽内容，有的选中第一个，没有的时候，默认选中页面设置
+        if (is_tabs) {
+            tabs_data.value.splice(0, 1);
             if (diy_data.value.length > 0) {
-                let new_index: number = index;
-                // 删除的时候如果大于0，则显示上边的数据
-                if (index > 0) {
-                    new_index = new_index - 1;
-                }
-                set_show_tabs(new_index);
+                set_show_tabs(0);
             } else {
                 page_settings();
             }
+            return;
         } else {
-            diy_data.value.splice(index, 1);
+            const show_tabs_index = diy_data.value.findIndex((item: any) => item.show_tabs == '1');
+            // 删除的是当前的这个数据
+            if (show_tabs_index == index) {
+                diy_data.value.splice(index, 1);
+                if (diy_data.value.length > 0) {
+                    let new_index: number = index;
+                    // 删除的时候如果大于0，则显示上边的数据
+                    if (index > 0) {
+                        new_index = new_index - 1;
+                    }
+                    set_show_tabs(new_index);
+                } else if (tabs_data.value.length > 0) {
+                    // 拖拽数据不存在时，选中tabs组件
+                    set_tabs_event(true);
+                } else {
+                    page_settings();
+                }
+            } else {
+                diy_data.value.splice(index, 1);
+            }
         }
     });
+};
+// 向上移动
+const moveUp = (index: number, flag: boolean) => {
+    if (flag) {
+        const old_data = get_diy_index_data(index);
+        // 截取前半部分信息, 并反转一下，从最后边往前查询
+        const new_list = diy_data.value.slice(0, index).reverse();
+        const count = float_count(new_list);
+        // 删除当前位置信息
+        diy_data.value.splice(index, 1);
+        // 将数据插入上一层数据中
+        diy_data.value.splice(index - count, 0, old_data);
+        // 设置对应的位置为显示
+        set_show_tabs(index - count);
+    }
+};
+// 向下移动
+const moveDown = (index: number, flag: boolean) => {
+    if (flag) {
+        const old_data = get_diy_index_data(index);
+        // 截取后半部分信息, 舍弃自身的信息
+        const new_list = diy_data.value.slice(index + 1, diy_data.value.length);
+        const count = float_count(new_list);
+        // 删除当前位置信息
+        diy_data.value.splice(index, 1);
+        // 将数据插入下一层数据中
+        diy_data.value.splice(index + count, 0, old_data);
+        set_show_tabs(index + count);
+    }
+};
+
+const float_count = (new_list: any[]) => {
+    // 记录一下当前查询的是否是对应的信息
+    let key = '';
+    let conunt = 1;
+    new_list.forEach((item, index) => {
+        // 如果当前的key是悬浮按钮，并且历史的也是就加一，否则的话记录一下当前的key，避免多次循环
+        if (item.key == 'float-window' && isEmpty(key)) {
+            conunt += 1;
+        } else {
+            key = item.key;
+        }
+    });
+    return conunt;
+};
+// 获取当前传递过来的index对应的diy_data中的数据
+const get_diy_index_data = (index: number) => {
+    return (<arrayIndex>diy_data.value)[index.toString()];
 };
 // 设置当前选中的是那个
 const set_show_tabs = (index: number) => {
     page_data.value.show_tabs = '0';
     footer_nav.value.show_tabs = '0';
+    set_tabs_event(false);
     diy_data.value.forEach((item, for_index) => {
         // 先将全部的设置为false,再将当前选中的设置为true
         item.show_tabs = '0';
         if (for_index == index) {
-            emits('rightUpdate', item, diy_data.value, page_data.value, footer_nav.value);
+            emits('rightUpdate', item, diy_data.value, page_data.value, footer_nav.value, tabs_data.value);
             item.show_tabs = '1';
             // 悬浮按钮的时候不用滚动到指定位置
             if (item.key !== 'float-window') {
@@ -321,13 +422,30 @@ const page_settings = () => {
     // 页面设置显示
     page_data.value.show_tabs = '1';
     footer_nav.value.show_tabs = '0';
+    set_tabs_event(false);
     // 将拖拽的信息全部变为不选中
     if (diy_data.value.length > 0) {
         diy_data.value.forEach((item) => {
             item.show_tabs = '0';
         });
     }
-    emits('rightUpdate', page_data.value, diy_data.value, page_data.value, footer_nav.value);
+    emits('rightUpdate', page_data.value, diy_data.value, page_data.value, footer_nav.value, tabs_data.value);
+};
+const set_tabs_event = (choose: Boolean) => {
+    if (tabs_data.value.length > 0 && !choose) {
+        tabs_data.value[0].show_tabs = '0';
+    } else if (tabs_data.value.length > 0 && choose) {
+        tabs_data.value[0].show_tabs = '1';
+        page_data.value.show_tabs = '0';
+        footer_nav.value.show_tabs = '0';
+        // 将拖拽的信息全部变为不选中
+        if (diy_data.value.length > 0) {
+            diy_data.value.forEach((item) => {
+                item.show_tabs = '0';
+            });
+        }
+        emits('rightUpdate', tabs_data.value[0], diy_data.value, page_data.value, footer_nav.value, tabs_data.value);
+    }
 };
 //导出
 const export_click = () => {
@@ -355,13 +473,14 @@ const footer_nav_event = () => {
     // 页面设置显示
     page_data.value.show_tabs = '0';
     footer_nav.value.show_tabs = '1';
+    set_tabs_event(false);
     // 将拖拽的信息全部变为不选中
     if (diy_data.value.length > 0) {
         diy_data.value.forEach((item) => {
             item.show_tabs = '0';
         });
     }
-    emits('rightUpdate', footer_nav.value, diy_data.value, page_data.value, footer_nav.value);
+    emits('rightUpdate', footer_nav.value, diy_data.value, page_data.value, footer_nav.value, tabs_data.value);
 };
 //#endregion
 </script>

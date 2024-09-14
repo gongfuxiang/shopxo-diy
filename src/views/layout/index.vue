@@ -4,7 +4,7 @@
             <template v-if="!is_empty">
                 <navbar v-model="form.model" @preview="preview_event" @save="save_event" @save-close="save_close_event" />
                 <div class="app-wrapper-content flex-row">
-                    <app-main :diy-data="form.diy_data" :header="form.header" :footer="form.footer" @right-update="right_update" @import="import_data_event" @export="export_data_event" @clear="clear_data_event"></app-main>
+                    <app-main :diy-data="form.diy_data" :tabs-data="form.tabs_data" :header="form.header" :footer="form.footer" @right-update="right_update" @import="import_data_event" @export="export_data_event" @clear="clear_data_event"></app-main>
                     <settings :key="key" :value="diy_data_item"></settings>
                 </div>
             </template>
@@ -36,6 +36,7 @@ interface diy_data_item {
     };
     header: headerAndFooter;
     footer: headerAndFooter;
+    tabs_data: Array<any>;
     diy_data: Array<any>;
 }
 const temp_form = ref<diy_data_item>({
@@ -58,6 +59,7 @@ const temp_form = ref<diy_data_item>({
         key: 'footer-nav',
         com_data: defaultSettings.footer_nav,
     },
+    tabs_data: [],
     diy_data: [],
 });
 const form = ref<diy_data_item>({
@@ -80,17 +82,19 @@ const form = ref<diy_data_item>({
         key: 'footer-nav',
         com_data: {},
     },
+    tabs_data: [],
     diy_data: [],
 });
 const diy_data_item = ref({});
 
 const key = ref('');
 
-const right_update = (item: any, diy: [Array<any>], header: headerAndFooter, footer: headerAndFooter) => {
+const right_update = (item: any, diy: [Array<any>], header: headerAndFooter, footer: headerAndFooter, tabs_data: [Array<any>]) => {
     diy_data_item.value = item;
     form.value.diy_data = diy;
     form.value.header = header;
     form.value.footer = footer;
+    form.value.tabs_data = tabs_data;
     // 生成随机id
     key.value = Math.random().toString(36).substring(2);
 };
@@ -121,6 +125,7 @@ const clear_data_event = () => {
     form.value.footer.show_tabs = '0';
     form.value.header.com_data = new_tem_form.header.com_data;
     form.value.footer.com_data = new_tem_form.footer.com_data;
+    form.value.tabs_data = [];
     form.value.diy_data = [];
     diy_data_item.value = new_tem_form.header;
 };
@@ -262,6 +267,7 @@ const form_data_transfor_diy_data = (clone_form: diyData) => {
             },
             header: is_obj(temp_config) ? (temp_config as diyConfig).header : JSON.parse(temp_config as string).header,
             footer: is_obj(temp_config) ? (temp_config as diyConfig).footer : JSON.parse(temp_config as string).footer,
+            tabs_data: is_obj(temp_config) ? (temp_config as diyConfig).tabs_data : JSON.parse(temp_config as string).tabs_data,
             diy_data: is_obj(temp_config) ? (temp_config as diyConfig).diy_data : JSON.parse(temp_config as string).diy_data,
         };
     } catch (error) {
@@ -275,6 +281,7 @@ const form_data_transfor_diy_data = (clone_form: diyData) => {
             },
             header: new_tem_form.header,
             footer: new_tem_form.footer,
+            tabs_data: new_tem_form.tabs_data,
             diy_data: new_tem_form.diy_data,
         };
     }

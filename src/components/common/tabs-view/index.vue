@@ -28,13 +28,8 @@ const props = defineProps({
 });
 // const tabs = ref(props.value);
 // 用于页面判断显示
-const state = reactive({
-    form: props.value.content,
-    new_style: props.value.style,
-});
-// 如果需要解构，确保使用toRefs
-const { form, new_style } = toRefs(state);
-
+const form = computed(() => props.value.content);
+const new_style = computed(() => props.value.style);
 // 选中的值
 const tabs_theme_index = computed(() => form.value.tabs_theme);
 //选中的样式

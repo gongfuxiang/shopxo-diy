@@ -3,7 +3,7 @@
         <div v-if="item.show_tabs == '1'" class="plug-in-right" chosenClass="close">
             <el-icon :class="`iconfont ${item.is_enable == '1' ? 'icon-eye' : 'icon-eye-close'}`" @click.stop="set_enable(index)" />
             <el-icon class="iconfont icon-del" @click.stop="del(index)" />
-            <el-icon class="iconfont icon-copy" @click.stop="copy(index)" />
+            <el-icon :class="['iconfont icon-copy', {'disabled': props.isTabs }] " @click.stop="copy(index)" />
             <el-icon :class="['iconfont', 'icon-arrow-top', icon_arrow_disable(item.key, index, 'moveUp')]" @click.stop="moveUp(index, arrow_disable_method(item.key, index, 'moveUp'))" />
             <el-icon :class="['iconfont', 'icon-arrow-bottom', icon_arrow_disable(item.key, index, 'moveDown')]" @click.stop="moveDown(index, arrow_disable_method(item.key, index, 'moveDown'))" />
         </div>
@@ -104,17 +104,17 @@
 </template>
 <script lang="ts" setup>
 const app = getCurrentInstance();
-import { get_math } from '@/utils';
-import { cloneDeep, isEmpty } from 'lodash';
 interface Props {
     diyData: any[];
     showModelBorder: boolean;
+    isTabs?: boolean;
     mainContentStyle: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
     diyData: () => [],
     showModelBorder: false,
+    isTabs: false,
     mainContentStyle: ''
 });
 const diy_data = ref(props.diyData);
@@ -205,7 +205,7 @@ const arrow_disable_method = (item_key: string, index: number, key: string) => {
     }
     return arrow_disable;
 };
-const emits = defineEmits(['on_choose', 'set_show_tabs', 'del']);
+const emits = defineEmits(['on_choose', 'del', 'copy', 'moveUp', 'moveDown']);
 
 // 是否启用
 const set_enable = (index: number) => {
@@ -221,18 +221,11 @@ const on_choose = (index: number, show_tabs: string) => {
 
 // 复制
 const copy = (index: number) => {
-    // 获取当前数据, 复制的时候id更换一下
-    const new_data = {
-        ...cloneDeep(get_diy_index_data(index)),
-        id: get_math(),
-    };
-    // 在当前位置下插入数据
-    diy_data.value.splice(index, 0, new_data);
-    emits('set_show_tabs', index + 1);
+    emits('copy', index);
 };
 // 删除
 const del = (index: number) => {
-    emits('del', index);
+    emits('del', index, props.isTabs);
 };
 // 获取当前传递过来的index对应的diy_data中的数据
 const get_diy_index_data = (index: number) => {
@@ -241,46 +234,17 @@ const get_diy_index_data = (index: number) => {
 // 向上移动
 const moveUp = (index: number, flag: boolean) => {
     if (flag) {
-        const old_data = get_diy_index_data(index);
-        // 截取前半部分信息, 并反转一下，从最后边往前查询
-        const new_list = diy_data.value.slice(0, index).reverse();
-        const count = float_count(new_list);
-        // 删除当前位置信息
-        diy_data.value.splice(index, 1);
-        // 将数据插入上一层数据中
-        diy_data.value.splice(index - count, 0, old_data);
         // 设置对应的位置为显示
-        emits('set_show_tabs', index - count);
+        emits('moveUp', index, flag);
     }
 };
 // 向下移动
 const moveDown = (index: number, flag: boolean) => {
     if (flag) {
-        const old_data = get_diy_index_data(index);
-        // 截取后半部分信息, 舍弃自身的信息
-        const new_list = diy_data.value.slice(index + 1, diy_data.value.length);
-        const count = float_count(new_list);
-        // 删除当前位置信息
-        diy_data.value.splice(index, 1);
-        // 将数据插入下一层数据中
-        diy_data.value.splice(index + count, 0, old_data);
-        emits('set_show_tabs', index + count);
+        emits('moveDown', index, flag);
     }
 };
-const float_count = (new_list: any[]) => {
-    // 记录一下当前查询的是否是对应的信息
-    let key = '';
-    let conunt = 1;
-    new_list.forEach((item, index) => {
-        // 如果当前的key是悬浮按钮，并且历史的也是就加一，否则的话记录一下当前的key，避免多次循环
-        if (item.key == 'float-window' && isEmpty(key)) {
-            conunt += 1;
-        } else {
-            key = item.key;
-        }
-    });
-    return conunt;
-};
+
 interface FloatBottom {
     [key: string]: string;
 }
