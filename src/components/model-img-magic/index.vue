@@ -135,12 +135,12 @@ const style_container = computed(() => common_styles_computer(new_style.value.co
         position: relative;
     }
     .style9-top {
-        width: calc(50% - 0.2rem);
+        width: 50%;
         height: 50%;
         position: relative;
     }
     .style9-bottom {
-        width: calc(33% - 0.1rem);
+        width: calc(100% / 3);
         height: 50%;
         position: relative;
     }

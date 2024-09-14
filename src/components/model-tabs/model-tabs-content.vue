@@ -25,12 +25,12 @@
                             </el-form-item>
                             <el-form-item label="数据类型" class="w mb-0">
                                 <el-radio-group v-model="scoped.row.data_type">
-                                    <el-radio value="micro_page">微页面</el-radio>
-                                    <el-radio value="category">选择分类</el-radio>
+                                    <el-radio value="0">微页面</el-radio>
+                                    <el-radio value="1">选择分类</el-radio>
                                 </el-radio-group>
                             </el-form-item>
-                            <el-form-item :label="scoped.row.data_type == 'micro_page' ? '微页面' : '商品分类'" class="w mb-0">
-                                <template v-if="scoped.row.data_type == 'micro_page'">
+                            <el-form-item :label="scoped.row.data_type == '0' ? '微页面' : '商品分类'" class="w mb-0">
+                                <template v-if="scoped.row.data_type == '0'">
                                     <url-value v-model="scoped.row.micro_page_list"></url-value>
                                 </template>
                                 <template v-else>
@@ -69,11 +69,11 @@ const add = () => {
         id: get_math(),
         title: '',
         desc: '',
-        data_type: 'micro_page',
+        data_type: '0',
         classify: {},
         micro_page: '',
-        micro_page_list: [],
-        category_list: [],
+        micro_page_list: {},
+        category_list: {},
     });
 };
 const remove = (index: number) => {

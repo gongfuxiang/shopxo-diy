@@ -34,9 +34,9 @@ const defaultTabs: defaultTabs = {
         tabs_theme: '0',
         tabs_top_up: '1',
         tabs_list: [
-            { id: get_math(), title: '热门推荐', desc: '简介', data_type: 'micro_page', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
-            { id: get_math(), title: '测试一', desc: '简介', data_type: 'micro_page', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
-            { id: get_math(), title: '测试二', desc: '简介', data_type: 'micro_page', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
+            { id: get_math(), title: '热门推荐', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
+            { id: get_math(), title: '测试一', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
+            { id: get_math(), title: '测试二', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
         ],
     },
     style: {
