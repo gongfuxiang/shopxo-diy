@@ -10,7 +10,7 @@ interface articleTabsList {
     data_ids: string[];
     number: number;
     order_by_type: string;
-    sort_rules: string;
+    order_by_rule: string;
     data_list: [];
 }
 interface DefaultProductList {
@@ -75,10 +75,10 @@ const defaultProductList: DefaultProductList = {
         theme: '0',
         carousel_col: 3,
         tabs_list: [
-            { id: '1', title: '热门推荐', img: [], desc: '简介', data_type: '0', category_ids: [], brand_ids: [], data_ids: [], number: 4, order_by_type: '0', sort_rules: '0', data_list: [] },
-            { id: '2', title: '测试一', img: [], desc: '简介', data_type: '0', category_ids: [], brand_ids: [], data_ids: [], number: 4, order_by_type: '0', sort_rules: '0', data_list: [] },
-            { id: '3', title: '测试二', img: [], desc: '简介', data_type: '0', category_ids: [], brand_ids: [], data_ids: [], number: 4, order_by_type: '0', sort_rules: '0', data_list: [] },
-            { id: '4', title: '测试三', img: [], desc: '简介', data_type: '0', category_ids: [], brand_ids: [], data_ids: [], number: 4, order_by_type: '0', sort_rules: '0', data_list: [] },
+            { id: '1', title: '热门推荐', img: [], desc: '简介', data_type: '0', category_ids: [], brand_ids: [], data_ids: [], number: 4, order_by_type: '0', order_by_rule: '0', data_list: [] },
+            { id: '2', title: '测试一', img: [], desc: '简介', data_type: '0', category_ids: [], brand_ids: [], data_ids: [], number: 4, order_by_type: '0', order_by_rule: '0', data_list: [] },
+            { id: '3', title: '测试二', img: [], desc: '简介', data_type: '0', category_ids: [], brand_ids: [], data_ids: [], number: 4, order_by_type: '0', order_by_rule: '0', data_list: [] },
+            { id: '4', title: '测试三', img: [], desc: '简介', data_type: '0', category_ids: [], brand_ids: [], data_ids: [], number: 4, order_by_type: '0', order_by_rule: '0', data_list: [] },
         ],
         is_show: ['title', 'plugins_view_icon', 'price', 'sales_count', 'original_price'],
         is_shop_show: '1',

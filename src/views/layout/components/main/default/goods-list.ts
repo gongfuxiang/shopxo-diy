@@ -13,7 +13,7 @@ interface DefaultProductList {
         is_price_solo: string;
         number: number;
         order_by_type: string;
-        sort_rules: string;
+        order_by_rule: string;
         is_show: string[];
         is_shop_show: string;
         shop_type: string;
@@ -66,7 +66,7 @@ const defaultProductList: DefaultProductList = {
         is_price_solo: '1',
         number: 4,
         order_by_type: '0',
-        sort_rules: '0',
+        order_by_rule: '0',
         is_show: ['title', 'plugins_view_icon', 'price', 'sales_count', 'original_price'],
         is_shop_show: '1',
         shop_type: 'text',

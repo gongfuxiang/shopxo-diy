@@ -18,7 +18,7 @@ interface DefaultArticleList {
         data_auto_list: ArticleList[];
         number: number;
         order_by_type: string;
-        sort_rules: string;
+        order_by_rule: string;
         field_show: string[];
         is_cover: string;
     };
@@ -54,7 +54,7 @@ const defaultArticleList: DefaultArticleList = {
         data_auto_list: [],
         number: 4,
         order_by_type: '0',
-        sort_rules: '0',
+        order_by_rule: '0',
         field_show: ['0', '1'],
         is_cover: '1',
     },
