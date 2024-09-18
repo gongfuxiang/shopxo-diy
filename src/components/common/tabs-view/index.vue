@@ -1,8 +1,8 @@
 <template>
     <div class="flex-row gap-10 jc-sb align-c">
-        <div class="tabs flex-row oh" :style="`column-gap: ${ new_style.tabs_spacing }px;`">
+        <div class="tabs flex-row oh" :style="`column-gap: ${new_style.tabs_spacing}px;`">
             <template v-for="(item, index) in form.tabs_list" :key="index">
-                <div class="item nowrap flex-col jc-c gap-4" :class="tabs_theme + (index == 0 ? ' active' : '')">
+                <div class="item nowrap flex-col jc-c gap-4" :class="tabs_theme + (index == activeIndex ? ' active' : '')">
                     <template v-if="!isEmpty(item.img)">
                         <image-empty v-model="item.img[0]" class="img" error-img-style="width:2rem;height:2rem;"></image-empty>
                     </template>
@@ -10,7 +10,7 @@
                         <image-empty class="img" error-img-style="width:2rem;height:2rem;"></image-empty>
                     </template>
                     <div class="title" :style="title_style(index)">{{ item.title }}</div>
-                    <div class="desc" :style="tabs_theme_index == '1' && index == 0 ? tabs_check : ''">{{ item.desc }}</div>
+                    <div class="desc" :style="tabs_theme_index == '1' && index == activeIndex ? tabs_check : ''">{{ item.desc }}</div>
                     <icon name="checked-1" class="icon" :style="tabs_theme_index == '3' ? icon_tabs_check() : ''"></icon>
                     <div class="bottom_line" :style="tabs_check"></div>
                 </div>
@@ -23,6 +23,7 @@
 <script lang="ts" setup>
 import { gradient_computer } from '@/utils';
 import { isEmpty } from 'lodash';
+import { active } from 'sortablejs';
 const props = defineProps({
     value: {
         type: Object,
@@ -31,7 +32,11 @@ const props = defineProps({
     isTabs: {
         type: Boolean,
         default: false,
-    }
+    },
+    activeIndex: {
+        type: Number,
+        default: 0,
+    },
 });
 // const tabs = ref(props.value);
 // 用于页面判断显示
@@ -67,14 +72,14 @@ const tabs_check = computed(() => {
 // 选中的内部样式
 const tabs_theme_style = computed(() => {
     return {
-        tabs_title_checked: `font-weight: ${ new_style.value.tabs_weight_checked };font-size: ${ new_style.value.tabs_size_checked}px;color:${ new_style.value.tabs_color_checked };`,
-        tabs_title: `font-weight: ${ new_style.value.tabs_weight };font-size: ${ new_style.value.tabs_size}px;color:${ new_style.value.tabs_color };`,
+        tabs_title_checked: `font-weight: ${new_style.value.tabs_weight_checked};font-size: ${new_style.value.tabs_size_checked}px;color:${new_style.value.tabs_color_checked};`,
+        tabs_title: `font-weight: ${new_style.value.tabs_weight};font-size: ${new_style.value.tabs_size}px;color:${new_style.value.tabs_color};`,
     };
 });
 
 const title_style = (index: number) => {
     // 默认是未选中的状态
-    let style = `${ tabs_theme_style.value.tabs_title }`;
+    let style = `${tabs_theme_style.value.tabs_title}`;
     if (index == 0) {
         let checked_style = tabs_theme_style.value.tabs_title_checked;
         if (['2', '4'].includes(tabs_theme_index.value)) {
@@ -86,8 +91,8 @@ const title_style = (index: number) => {
 };
 // icon的渐变色处理
 const icon_tabs_check = () => {
-    return `${ tabs_check.value };line-height: 1;background-clip: text;-webkit-background-clip: text;-webkit-text-fill-color: transparent;`;
-}
+    return `${tabs_check.value};line-height: 1;background-clip: text;-webkit-background-clip: text;-webkit-text-fill-color: transparent;`;
+};
 </script>
 <style lang="scss" scoped>
 .tabs {
@@ -96,6 +101,7 @@ const icon_tabs_check = () => {
         padding: 0 0 0.5rem 0;
         // margin: 0 1rem;
         position: relative;
+        transition: all 0.3s ease-in-out;
         &:first-of-type {
             margin-left: 0;
         }
@@ -149,7 +155,7 @@ const icon_tabs_check = () => {
         &.tabs-style-2 {
             &.active {
                 .desc {
-                    background: #FF5E5E;
+                    background: #ff5e5e;
                     color: #fff;
                 }
             }
@@ -162,7 +168,7 @@ const icon_tabs_check = () => {
         &.tabs-style-3 {
             &.active {
                 .title {
-                    background: #FF2222;
+                    background: #ff2222;
                     border-radius: 2rem;
                     padding: 0.2rem 1.2rem;
                     color: #fff;
@@ -173,10 +179,10 @@ const icon_tabs_check = () => {
             padding-bottom: 1.8rem;
             &.active {
                 .title {
-                    color: #FF2222;
+                    color: #ff2222;
                 }
                 .icon {
-                    color: #FF2222;
+                    color: #ff2222;
                     display: block;
                 }
             }
@@ -186,13 +192,13 @@ const icon_tabs_check = () => {
             &.active {
                 .title {
                     font-size: 1.1rem;
-                    background: #FF5E5E;
+                    background: #ff5e5e;
                     border-radius: 2rem;
                     padding: 0.2rem 0.7rem;
                     color: #fff;
                 }
                 .img {
-                    border-color: #FF5E5E;
+                    border-color: #ff5e5e;
                 }
             }
             .img {

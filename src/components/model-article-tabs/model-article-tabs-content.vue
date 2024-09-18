@@ -32,7 +32,7 @@
                                 <el-form-item label="显示标题">
                                     <el-input v-model="row.title" placeholder="请输入标题文字" clearable />
                                 </el-form-item>
-                                <template v-if="active_index == index">
+                                <template v-if="form.tabs_active_index == index">
                                     <el-form-item v-if="form.tabs_theme == '1'" label="简介配置">
                                         <el-input v-model="row.desc" placeholder="请输入简介" clearable />
                                     </el-form-item>
@@ -188,9 +188,8 @@ const article_theme_change = (val: any) => {
 
 // 开启关闭链接
 const url_value_dialog_visible = ref(false);
-const active_index = ref(0);
 const tabs_list_click = (item: any, index: number) => {
-    active_index.value = index;
+    form.tabs_active_index = index;
 };
 // 选项卡设置
 const tabs_list_remove = (index: number) => {
