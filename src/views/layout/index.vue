@@ -204,6 +204,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                 return {
                     ...item1,
                     data: [],
+                    data_id: item1.data.id,
                 };
             });
             item.com_data.content.data_auto_list = [];
@@ -214,6 +215,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                     return {
                         ...item2,
                         data: [],
+                        data_id: item2.data.id,
                     };
                 });
                 item.data_auto_list = [];
@@ -229,6 +231,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                     return {
                         ...item3,
                         data: [],
+                        data_id: item3.data.id,
                     };
                 });
             });
