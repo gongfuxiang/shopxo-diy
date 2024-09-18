@@ -1,7 +1,7 @@
 <template>
     <VueDraggable v-model="from" :animation="500" target=".sort-target" handle=".icon-drag" :scroll="true" :on-sort="on_sort">
         <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col gap-x-20">
-            <li v-for="(item, index) in from" :key="item.id" :class="className" class="flex gap-y-16 re" @click.stop="on_click(item, index)">
+            <li v-for="(item, index) in from" :key="index" :class="className" class="flex gap-y-16 re" @click.stop="on_click(item, index)">
                 <el-icon class="iconfont icon-drag size-16 cursor-move" />
                 <slot :row="item" :index="index" />
                 <el-icon v-if="isShowEdit" class="iconfont icon-commodity-edit size-16 cr-primary do-not-trigger two-click" @click.stop="edit(index)" />
@@ -13,6 +13,7 @@
 </template>
 
 <script setup lang="ts">
+import { get_math } from '@/utils';
 import { VueDraggable } from 'vue-draggable-plus';
 const emits = defineEmits(['click', 'remove', 'edit', 'onSort']);
 

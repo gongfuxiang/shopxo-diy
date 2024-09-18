@@ -186,8 +186,12 @@ const theme_bg_img = ref<themeBgImg>({
 onMounted(() => {
     if (!isEmpty(form.value.data_list) && form.value.data_type == '0') {
         data_list.value = form.value.data_list;
-    } else if (!isEmpty(form.value.data_auto_list) && form.value.data_type == '1') {
-        data_list.value = form.value.data_auto_list;
+    } else if (form.value.data_type == '1') {
+        if (!isEmpty(form.value.data_auto_list)) {
+            data_list.value = form.value.data_auto_list;
+        } else {
+            get_coupon();
+        }
     } else {
         data_list.value = Array(4).fill(default_list);
     }
@@ -214,8 +218,8 @@ const get_coupon = () => {
     });
 };
 const data_list_computer = computed(() => {
-    const { data_type, type, number } = form.value;
-    return { data_type, type, number };
+    const { data_type, type, number, data_list, data_auto_list } = form.value;
+    return { data_type, type, number, data_list, data_auto_list };
 });
 watch(
     () => data_list_computer.value,

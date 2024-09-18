@@ -68,13 +68,13 @@ const props = defineProps({
         default: () => {},
     },
 });
-const form = reactive(props.value);
+const form = ref(props.value);
 const url_value_dialog_visible = ref(false);
 const new_url = ref('');
 const base_list = reactive({
     data_type_list: [
-        { name: '默认', value: '0' },
         { name: '自动', value: '1' },
+        { name: '手动', value: '0' },
     ],
     themeList: Array.from({ length: 7 }, (_, index) => ({
         id: String(index + 1),
@@ -100,17 +100,17 @@ const themeChange = (val: string) => {
     emit('update:change-theme', val);
 };
 const remove = (index: number) => {
-    form.data_list.splice(index, 1);
+    form.value.data_list.splice(index, 1);
 };
 const on_sort = (item: any) => {
-    form.data_list = item;
+    form.value.data_list = item;
 };
 const add = () => {
     url_value_dialog_visible.value = true;
 };
 const url_value_dialog_call_back = (item: any[]) => {
     item.forEach((child: any) => {
-        form.data_list.push(child);
+        form.value.data_list.push(child);
     });
 };
 </script>
