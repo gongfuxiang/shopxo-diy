@@ -4,7 +4,7 @@
             <card-container>
                 <div class="mb-12">高度设置</div>
                 <el-form-item label-width="0">
-                    <slider v-model="state.height" :max="1000"></slider>
+                    <slider v-model="state.height" :max="200"></slider>
                 </el-form-item>
             </card-container>
         </el-form>
