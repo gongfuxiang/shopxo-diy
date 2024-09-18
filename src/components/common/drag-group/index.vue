@@ -47,7 +47,7 @@ onUnmounted(() => {
 const edit_index = ref(-1);
 // 判断点击的是否是可以点击的区域，其他区域隐藏掉编辑属性
 const outerClick = (e: any) => {
-    if ((!isEmpty(e.target.className) && !e.target.className.includes('do-not-trigger')) || (!isEmpty(e.target.parentNode.className) && !e.target.parentNode.className.includes('do-not-trigger'))) {
+    if (!isEmpty(e.target.className) && !e.target.className.includes('do-not-trigger') && !isEmpty(e.target.parentNode.className) && !e.target.parentNode.className.includes('do-not-trigger')) {
         edit_close_processing(edit_index.value);
         edit_index.value = -1;
     }
