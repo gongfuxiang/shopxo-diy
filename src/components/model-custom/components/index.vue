@@ -293,8 +293,6 @@ const dragEndHandle = (item: any, index: number) => {
 // {x: number, y: number, w: number, h: number}
 const resizingHandle = (new_location: any, key: string, index: number) => {
     const { x, y, w, h } = new_location;
-    console.log(new_location);
-    
     diy_data.value[index].location = { x, y, record_x: x, record_y: y, staging_y: y };
     const com_data = diy_data.value[index].com_data;
     com_data.com_width = w;
