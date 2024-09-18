@@ -181,7 +181,13 @@ const tabs_list_click = (item: any, index: number) => {
 const tabs_list_remove = (index: number) => {
     if (form.value.tabs_list.length > 1) {
         form.value.tabs_list.splice(index, 1);
+        if (form.value.tabs_list.length > index) {
+            form.value.tabs_active_index = index;
+        } else {
+            form.value.tabs_active_index = index - 1;
+        }
     } else {
+        form.value.tabs_active_index = 0;
         ElMessage.warning('至少保留一个选项卡');
     }
 };

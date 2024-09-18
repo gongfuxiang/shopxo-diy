@@ -1,12 +1,12 @@
 <template>
     <VueDraggable v-model="from" :animation="500" target=".sort-target" handle=".icon-drag" :scroll="true" :on-sort="on_sort">
         <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col gap-x-20">
-            <li v-for="(item, index) in from" :key="item.id" :class="className" class="flex gap-y-16 re" @click="on_click(item, index)">
+            <li v-for="(item, index) in from" :key="item.id" :class="className" class="flex gap-y-16 re" @click.stop="on_click(item, index)">
                 <el-icon class="iconfont icon-drag size-16 cursor-move" />
                 <slot :row="item" :index="index" />
-                <el-icon v-if="isShowEdit" class="iconfont icon-commodity-edit size-16 cr-primary do-not-trigger two-click" @click="edit(index)" />
-                <el-icon v-if="type == 'line'" class="iconfont icon-del-o size-16 do-not-trigger" @click="remove(index)" />
-                <el-icon v-if="type == 'card'" class="iconfont icon-close-o size-16 abs cr-c top-de-5 right-de-5" @click="remove(index)" />
+                <el-icon v-if="isShowEdit" class="iconfont icon-commodity-edit size-16 cr-primary do-not-trigger two-click" @click.stop="edit(index)" />
+                <el-icon v-if="type == 'line'" class="iconfont icon-del-o size-16 do-not-trigger" @click.stop="remove(index)" />
+                <el-icon v-if="type == 'card'" class="iconfont icon-close-o size-16 abs cr-c top-de-5 right-de-5" @click.stop="remove(index)" />
             </li>
         </TransitionGroup>
     </VueDraggable>

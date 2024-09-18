@@ -25,10 +25,11 @@ const tabs_active_index = ref(0);
 watch(
     () => props.value,
     (val) => {
+        console.log('1');
         const new_val = cloneDeep(val);
         const new_style = new_val?.style;
         let new_data = new_val;
-        tabs_active_index.value = new_data.content.tabs_list.length - 1 >= new_data.content.tabs_active_index ? new_data.content.tabs_active_index : new_data.content.tabs_list.length - 1;
+        tabs_active_index.value = new_data.content.tabs_active_index;
         // 产品的值
         new_data.content.data_type = new_data.content.tabs_list[tabs_active_index.value].data_type;
         new_data.content.category_ids = new_data.content.tabs_list[tabs_active_index.value].category_ids;

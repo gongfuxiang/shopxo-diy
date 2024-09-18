@@ -25,7 +25,7 @@ watch(
         const newVal = cloneDeep(val);
         const new_style = newVal?.style;
         let new_data = newVal;
-        tabs_active_index.value = new_data.content.tabs_list.length - 1 >= new_data.content.tabs_active_index ? new_data.content.tabs_active_index : new_data.content.tabs_list.length - 1;
+        tabs_active_index.value = new_data.content.tabs_active_index;
         new_data.content.theme = new_data.content.article_theme;
         new_data.content.data_type = new_data.content.tabs_list[tabs_active_index.value].data_type;
         new_data.content.category_ids = new_data.content.tabs_list[tabs_active_index.value].category_ids;
