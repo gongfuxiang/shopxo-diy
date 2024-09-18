@@ -63,9 +63,9 @@
                 </el-form-item>
                 <el-form-item label="图标间距">
                     <el-radio-group v-model="form.img_space">
-                        <el-radio value="35">大</el-radio>
-                        <el-radio value="25">中</el-radio>
-                        <el-radio value="15">小</el-radio>
+                        <el-radio value="25">大</el-radio>
+                        <el-radio value="15">中</el-radio>
+                        <el-radio value="10">小</el-radio>
                     </el-radio-group>
                 </el-form-item>
             </card-container>

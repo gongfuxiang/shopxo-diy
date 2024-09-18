@@ -113,7 +113,7 @@ const defaultFooterNav: DefaultFooterNav = {
             radius_bottom_left: 16,
             radius_bottom_right: 16,
         },
-        img_size: '18',
+        img_size: '23',
         img_space: '15',
         tips_color: '#ccc',
         hot_words_color: '#000',

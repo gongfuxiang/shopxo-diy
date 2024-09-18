@@ -28,7 +28,7 @@
                             </div>
                         </template>
                     </div>
-                    <div class="flex-row align-c" :class="'gap-' + new_style.img_space">
+                    <div v-if="!isEmpty(form.icon_setting)" class="flex-row align-c" :class="'gap-' + new_style.img_space">
                         <div v-for="(item, index) in form.icon_setting" :key="index" :style="{ width: new_style.img_size + 'px', height: new_style.img_size + 'px' }">
                             <image-empty v-if="item.img.length > 0" v-model="item.img[0]" :error-img-style="'width: ' + Number(new_style.img_size) / 2 + 'px;height:' + Number(new_style.img_size) / 2 + 'px;'"></image-empty>
                             <icon v-else :name="item.icon" :size="new_style.img_size + ''" color="6"></icon>
@@ -41,6 +41,8 @@
 </template>
 <script setup lang="ts">
 import { background_computer, gradient_computer } from '@/utils';
+import { isEmpty } from 'lodash';
+
 interface Props {
     pageData: any;
     showPage: boolean;
