@@ -209,6 +209,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             });
             item.com_data.content.data_auto_list = [];
         } else if (new_array_2.includes(item.key)) {
+            item.com_data.content.tabs_active_index = 0;
             item.com_data.content.tabs_list.map((item: any) => {
                 item.data_ids = item.data_list.map((item1: any) => item1.data.id).join(',') || '';
                 item.data_list = item.data_list.map((item2: any) => {
