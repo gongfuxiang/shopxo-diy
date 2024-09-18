@@ -41,7 +41,7 @@
                         <div class="w h" @mousedown.prevent="start_drag" @mousemove.prevent="move_drag" @mouseup.prevent="end_drag">
                             <DraggableContainer v-if="draggable_container" :reference-line-visible="true" :disabled="false" reference-line-color="#ddd" @selectstart.prevent @contextmenu.prevent @dragstart.prevent>
                                 <!-- @mouseover="on_choose(index)" -->
-                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :handles="['tl', 'tr', 'bl', 'br']" :class="{ 'plug-in-show-tabs': item.show_tabs == '1'}" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index)" @resize-end="resizingHandle($event, item.key, index)">
+                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="{ 'plug-in-show-tabs': item.show_tabs == '1'}" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index)" @resize-end="resizingHandle($event, item.key, index)">
                                     <div v-if="item.show_tabs == '1'" class="plug-in-right" chosenClass="close">
                                         <el-icon class="iconfont icon-del" @click.stop="del(index)" />
                                         <el-icon class="iconfont icon-copy" @click.stop="copy(index)" />
@@ -293,6 +293,8 @@ const dragEndHandle = (item: any, index: number) => {
 // {x: number, y: number, w: number, h: number}
 const resizingHandle = (new_location: any, key: string, index: number) => {
     const { x, y, w, h } = new_location;
+    console.log(new_location);
+    
     diy_data.value[index].location = { x, y, record_x: x, record_y: y, staging_y: y };
     const com_data = diy_data.value[index].com_data;
     com_data.com_width = w;
@@ -310,10 +312,10 @@ const resizingHandle = (new_location: any, key: string, index: number) => {
 };
 // 图片大小的计算
 const handleImg = (com_data: any, w: number, h: number ) => {
-    if (com_data.border_show) {
+    if (com_data.border_show == '1') {
         return { img_width: w - com_data.border_size * 2, img_height: h - com_data.border_size * 2 }
     } else {
-        return  { img_width: w, img_height: h }
+        return { img_width: w, img_height: h }
     }
 };
 // 线条的计算
@@ -657,10 +659,8 @@ defineExpose({
         background: #fff;
         margin: 0 auto;
         .drag-area {
-            height: calc(v-bind(drag_area_height) + 0.4rem);
-            width: calc(100% + 0.4rem);
-            left: -0.2rem;
-            bottom: -0.2rem;
+            height: v-bind(drag_area_height);
+            width: 100%;
             margin: 0.5rem 0; // 用于将上边框和下边框显示出来
             user-select: none;
             cursor: crosshair;
