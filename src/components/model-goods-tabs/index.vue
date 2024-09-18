@@ -25,7 +25,6 @@ const tabs_active_index = ref(0);
 watch(
     () => props.value,
     (val) => {
-        console.log('1');
         const new_val = cloneDeep(val);
         const new_style = new_val?.style;
         let new_data = new_val;
