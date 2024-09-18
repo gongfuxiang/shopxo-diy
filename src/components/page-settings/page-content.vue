@@ -84,7 +84,12 @@ const props = defineProps({
         default: () => ({}),
     },
 });
-const form = reactive(props.value);
+const form = ref(props.value);
+
+watchEffect(() => {
+    form.value = props.value;
+});
+
 const base_list = reactive({
     themeList: [
         { id: '1', name: '风格1', url: new URL(`../../assets/images/components/page-settings/theme-1.png`, import.meta.url).href },
@@ -96,13 +101,13 @@ const base_list = reactive({
 });
 
 const icon_setting_remove = (index: number) => {
-    form.icon_setting.splice(index, 1);
+    form.value.icon_setting.splice(index, 1);
 };
 const icon_setting_sort = (item: any) => {
-    form.icon_setting = item;
+    form.value.icon_setting = item;
 };
 const add = () => {
-    form.icon_setting.push({
+    form.value.icon_setting.push({
         id: get_math(),
         img: [],
         icon: '',
