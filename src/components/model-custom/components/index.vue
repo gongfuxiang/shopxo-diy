@@ -310,10 +310,10 @@ const resizingHandle = (new_location: any, key: string, index: number) => {
 };
 // 图片大小的计算
 const handleImg = (com_data: any, w: number, h: number ) => {
-    if (com_data.border_show) {
+    if (com_data.border_show == '1') {
         return { img_width: w - com_data.border_size * 2, img_height: h - com_data.border_size * 2 }
     } else {
-        return  { img_width: w, img_height: h }
+        return { img_width: w, img_height: h }
     }
 };
 // 线条的计算
@@ -658,6 +658,7 @@ defineExpose({
         margin: 0 auto;
         .drag-area {
             height: v-bind(drag_area_height);
+            width: 100%;
             margin: 0.5rem 0; // 用于将上边框和下边框显示出来
             user-select: none;
             cursor: crosshair;
