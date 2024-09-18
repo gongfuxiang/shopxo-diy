@@ -2,28 +2,26 @@
     <div class="oh" :style="style_container">
         <div class="re oh" :style="style">
             <div v-if="!['4'].includes(article_theme)" class="flex-warp" :class="article_theme_class" :style="article_theme !== '3' ? article_spacing : ''">
-                <template v-for="(item, index) in data_list" :key="index">
-                    <div class="item bg-f oh" :class="article_theme == '0' ? 'flex-row' : 'flex-col'" :style="article_style">
-                        <template v-if="article_theme !== '3'">
-                            <template v-if="item.new_cover.length > 0">
-                                <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
-                            </template>
-                            <template v-else> <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty> </template>
+                <div v-for="(item, index) in data_list" :key="index" class="item bg-f oh" :class="article_theme == '0' ? 'flex-row' : 'flex-col'" :style="article_style">
+                    <template v-if="article_theme !== '3'">
+                        <template v-if="item.new_cover.length > 0">
+                            <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
                         </template>
-                        <div class="jc-sb flex-1" :class="article_theme == '3' ? 'flex-row align-c' : 'flex-col'" :style="article_theme !== '0' ? content_padding : ''">
-                            <div class="title" :class="article_theme == '3' ? 'text-line-1 flex-1 flex-width' : 'text-line-2'" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
-                            <div class="flex-row jc-sb gap-8" :class="article_theme == '3' ? 'ml-10' : 'align-e mt-10'">
-                                <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
-                                <div v-show="field_show.includes('1')" class="flex-row align-c gap-3" :style="article_page_view">
-                                    <icon name="eye"></icon>
-                                    <div>
-                                        {{ item.data.access_count ? item.data.access_count : '16' }}
-                                    </div>
+                        <template v-else> <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty> </template>
+                    </template>
+                    <div class="jc-sb flex-1" :class="article_theme == '3' ? 'flex-row align-c' : 'flex-col'" :style="article_theme !== '0' ? content_padding : ''">
+                        <div class="title" :class="article_theme == '3' ? 'text-line-1 flex-1 flex-width' : 'text-line-2'" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                        <div class="flex-row jc-sb gap-8" :class="article_theme == '3' ? 'ml-10' : 'align-e mt-10'">
+                            <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
+                            <div v-show="field_show.includes('1')" class="flex-row align-c gap-3" :style="article_page_view">
+                                <icon name="eye"></icon>
+                                <div>
+                                    {{ item.data.access_count ? item.data.access_count : '16' }}
                                 </div>
                             </div>
                         </div>
                     </div>
-                </template>
+                </div>
             </div>
             <div v-else class="oh" :class="article_theme_class">
                 <el-carousel :key="carousel_key" indicator-position="none" :interval="interval_time" arrow="never" :autoplay="is_roll ? true : false">
@@ -156,10 +154,16 @@ const get_auto_data_list = async () => {
 const new_content = computed(() => props.value?.content || {});
 const new_style = computed(() => props.value?.style || {});
 onMounted(() => {
-    if (!isEmpty(new_content.value.data_list) && new_content.value.data_type == '0') {
+    if (new_content.value.data_type == '0' && !isEmpty(new_content.value.data_list)) {
         data_list.value = new_content.value.data_list;
-    } else if (!isEmpty(new_content.value.data_auto_list) && new_content.value.data_type == '1') {
-        data_list.value = new_content.value.data_auto_list;
+    } else if (new_content.value.data_type == '1' && !isEmpty(new_content.value.data_auto_list)) {
+        // data_list.value = new_content.value.data_auto_list;
+        data_list.value = new_content.value.data_auto_list.map((item: any) => ({
+            id: get_math(),
+            new_title: '',
+            new_cover: [],
+            data: item,
+        }));
     } else {
         data_list.value = Array(4).fill(default_data_list);
     }

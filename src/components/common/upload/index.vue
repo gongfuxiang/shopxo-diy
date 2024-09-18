@@ -446,10 +446,6 @@ const edit_type_event = (data: Tree) => {
 const remove_type_event = (node: any, data: Tree) => {
     app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
         UploadAPI.delTree({ id: data.id }).then((res) => {
-            // const parent = node.parent;
-            // const children: Tree[] = parent.data.items || parent.data;
-            // const index = children.findIndex((d) => d.id === data.id);
-            // children.splice(index, 1);
             get_tree(true);
             ElMessage({
                 type: 'success',
@@ -484,7 +480,7 @@ const get_attachment_list = (type?: string) => {
         page_size: page_size.value,
         type: upload_type.value == 'img' ? 'image' : upload_type.value == 'video' ? 'video' : upload_type.value == 'file' ? 'file' : '',
         keywords: search_name.value,
-        category_id: category_id.value,
+        category_id: category_id.value == 'all' ? '' : category_id.value,
     };
     UploadAPI.getAttachmentList(new_data).then((res) => {
         const data = res.data;

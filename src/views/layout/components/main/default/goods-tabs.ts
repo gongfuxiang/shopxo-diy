@@ -21,6 +21,7 @@ interface DefaultProductList {
         theme: string;
         carousel_col: number;
         tabs_list: articleTabsList[];
+        tabs_active_index: number;
         is_show: string[];
         is_shop_show: string;
         is_price_solo: string;
@@ -81,6 +82,7 @@ const defaultProductList: DefaultProductList = {
             { id: '3', title: '测试二', img: [], desc: '简介', data_type: '0', category_ids: [], brand_ids: [], data_ids: [], number: 4, order_by_type: '0', order_by_rule: '0', data_list: [], data_auto_list: [] },
             { id: '4', title: '测试三', img: [], desc: '简介', data_type: '0', category_ids: [], brand_ids: [], data_ids: [], number: 4, order_by_type: '0', order_by_rule: '0', data_list: [], data_auto_list: [] },
         ],
+        tabs_active_index: 0,
         is_show: ['title', 'plugins_view_icon', 'price', 'sales_count', 'original_price'],
         is_shop_show: '1',
         is_price_solo: '1',

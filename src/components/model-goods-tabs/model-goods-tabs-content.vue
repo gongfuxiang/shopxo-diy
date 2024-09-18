@@ -35,7 +35,7 @@
                                 <el-form-item label="显示标题">
                                     <el-input v-model="row.title" placeholder="请输入标题文字" clearable />
                                 </el-form-item>
-                                <template v-if="active_index == index">
+                                <template v-if="form.tabs_active_index == index">
                                     <el-form-item v-if="form.tabs_theme == '4'" label="上传图片">
                                         <upload v-model="row.img" :limit="1" size="40" styles="2"></upload>
                                     </el-form-item>
@@ -174,10 +174,8 @@ onBeforeMount(() => {
         }, 1000);
     });
 });
-
-const active_index = ref(0);
 const tabs_list_click = (item: any, index: number) => {
-    active_index.value = index;
+    form.value.tabs_active_index = index;
 };
 // 选项卡设置
 const tabs_list_remove = (index: number) => {
