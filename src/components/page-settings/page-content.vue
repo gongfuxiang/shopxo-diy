@@ -55,6 +55,20 @@
                 <div class="bg-f5 divider-line" />
             </template>
             <card-container>
+                <div class="mb-12">图标设置</div>
+                <div class="size-12 cr-c mb-20">图片建议宽高80*80；鼠标拖拽左侧圆点可调整导航顺序</div>
+                <div class="nav-list">
+                    <drag :data="form.icon_setting" :space-col="20" @remove="icon_setting_remove" @on-sort="icon_setting_sort">
+                        <template #default="{ row }">
+                            <upload v-model="row.img" v-model:icon-value="row.icon" is-icon type="img" :limit="1" :styles="2" :size="30"></upload>
+                            <url-value v-model="row.link"></url-value>
+                        </template>
+                    </drag>
+                    <el-button class="mtb-20 w" @click="add">+添加</el-button>
+                </div>
+            </card-container>
+            <div class="bg-f5 divider-line" />
+            <card-container>
                 <el-form-item label="底部导航">
                     <el-switch v-model="form.bottom_navigation_show" active-value="1" inactive-value="0"></el-switch>
                 </el-form-item>
@@ -63,13 +77,19 @@
     </div>
 </template>
 <script setup lang="ts">
+import { get_math } from '@/utils';
 const props = defineProps({
     value: {
         type: Object,
         default: () => ({}),
     },
 });
-const form = reactive(props.value);
+const form = ref(props.value);
+
+watchEffect(() => {
+    form.value = props.value;
+});
+
 const base_list = reactive({
     themeList: [
         { id: '1', name: '风格1', url: new URL(`../../assets/images/components/page-settings/theme-1.png`, import.meta.url).href },
@@ -80,6 +100,20 @@ const base_list = reactive({
     ]
 });
 
+const icon_setting_remove = (index: number) => {
+    form.value.icon_setting.splice(index, 1);
+};
+const icon_setting_sort = (item: any) => {
+    form.value.icon_setting = item;
+};
+const add = () => {
+    form.value.icon_setting.push({
+        id: get_math(),
+        img: [],
+        icon: '',
+        link: {},
+    });
+};
 const emit = defineEmits(['update:change-theme']);
 const themeChange = (val: string) => {
     emit('update:change-theme', val);

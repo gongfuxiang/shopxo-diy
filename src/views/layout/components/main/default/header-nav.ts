@@ -14,6 +14,7 @@ interface DefaultFooterNav {
         indicator_location: string;
         bottom_navigation_show: string;
         positioning_name: string;
+        icon_setting: { id: string; img: uploadList[]; link: object; icon: string }[];
         is_arrows_show: string;
         is_center: string;
         is_icon_show: string;
@@ -48,6 +49,8 @@ interface DefaultFooterNav {
         search_botton_background_img_style: string;
         search_botton_background_img: uploadList[];
         search_button_radius: object;
+        img_size: string;
+        img_space: string;
         tips_color: string;
         hot_words_color: string;
         search_border: string;
@@ -63,6 +66,9 @@ const defaultFooterNav: DefaultFooterNav = {
         link: {},
         indicator_location: 'center',
         positioning_name: '默认名称',
+        icon_setting: [
+            { id: get_math(), img: [], icon: 'applet-me-message-acquiesce', link: {} },
+        ],
         is_arrows_show: '1',
         is_center: '0',
         is_icon_show: '1',
@@ -107,6 +113,8 @@ const defaultFooterNav: DefaultFooterNav = {
             radius_bottom_left: 16,
             radius_bottom_right: 16,
         },
+        img_size: '23',
+        img_space: '15',
         tips_color: '#ccc',
         hot_words_color: '#000',
         search_border: '#E4E4E4',

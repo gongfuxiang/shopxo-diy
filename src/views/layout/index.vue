@@ -236,6 +236,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                 });
             });
         } else if (new_array_5.includes(item.key)) {
+            item.com_data.content.data_source_content_value = item.com_data.content.data_source_content.id;
             item.com_data.content.data_source_content = {};
         }
         return {
