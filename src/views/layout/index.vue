@@ -187,23 +187,48 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
     const clone_form = cloneDeep(data);
     clone_form.header.show_tabs = '1';
     clone_form.footer.show_tabs = '0';
-    const new_array_1 = ['goods-list', 'article-list', 'coupon'];
+    // 字段比coupon多
+    const new_array_1 = ['goods-list', 'article-list'];
+    // 数据比正常list多一级
     const new_array_2 = ['goods-tabs', 'article-tabs'];
+    // 数据格式简单
+    const new_array_3 = ['coupon'];
+    // 层级更深
+    const new_array_4 = ['data-magic'];
     clone_form.diy_data = clone_form.diy_data.map((item: any) => {
         if (new_array_1.includes(item.key)) {
             item.com_data.content.data_ids = item.com_data.content.data_list.map((item: any) => item.data.id).join(',') || '';
-            item.com_data.content.data_list = [];
+            item.com_data.content.data_list = item.com_data.content.data_list.map((item1: any) => {
+                return {
+                    ...item1,
+                    data: [],
+                };
+            });
             item.com_data.content.data_auto_list = [];
         } else if (new_array_2.includes(item.key)) {
             item.com_data.content.tabs_list.map((item: any) => {
                 item.data_ids = item.data_list.map((item1: any) => item1.data.id).join(',') || '';
-                item.data_list = [];
+                item.data_list = item.data_list.map((item2: any) => {
+                    return {
+                        ...item2,
+                        data: [],
+                    };
+                });
                 item.data_auto_list = [];
             });
-        } else if (item.key == 'data-magic') {
+        } else if (new_array_3.includes(item.key)) {
+            item.com_data.content.data_ids = item.com_data.content.data_list.map((item: any) => item.data.id).join(',') || '';
+            item.com_data.content.data_list = [];
+            item.com_data.content.data_auto_list = [];
+        } else if (new_array_4.includes(item.key)) {
             item.com_data.content.data_magic_list.map((item1: any) => {
                 item1.data_content.goods_ids = item1.data_content.goods_list.map((item2: any) => item2.data.id).join(',') || '';
-                item1.data_content.goods_list = [];
+                item1.data_content.goods_list = item1.data_content.goods_list.map((item3: any) => {
+                    return {
+                        ...item3,
+                        data: [],
+                    };
+                });
             });
         }
         return {

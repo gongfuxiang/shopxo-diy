@@ -27,6 +27,7 @@ watch(() => props.value, (val) => {
     new_data.content.category_ids = new_data.content.tabs_list[0].category_ids;
     new_data.content.carousel_col = new_data.content.article_carousel_col;
     new_data.content.data_list = new_data.content.tabs_list[0].data_list;
+    new_data.content.data_auto_list = new_data.content.tabs_list[0].data_auto_list;
     new_data.content.data_ids = new_data.content.tabs_list[0].data_ids;
     new_data.content.number = new_data.content.tabs_list[0].number;
     new_data.content.order_by_type = new_data.content.tabs_list[0].order_by_type;
