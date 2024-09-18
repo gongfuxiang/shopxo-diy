@@ -51,6 +51,24 @@
                     <color-text-size-group v-model:color="form.header_background_title_color" v-model:typeface="form.header_background_title_typeface" v-model:size="form.header_background_title_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
             </card-container>
+            <div class="bg-f5 divider-line" />
+            <card-container>
+                <div class="mb-12">右侧图标设置</div>
+                <el-form-item label="图标大小">
+                    <el-radio-group v-model="form.img_size">
+                        <el-radio value="28">大</el-radio>
+                        <el-radio value="23">中</el-radio>
+                        <el-radio value="18">小</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="图标间距">
+                    <el-radio-group v-model="form.img_space">
+                        <el-radio value="35">大</el-radio>
+                        <el-radio value="25">中</el-radio>
+                        <el-radio value="15">小</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+            </card-container>
         </el-form>
         <template v-if="['3', '5'].includes(content.theme)">
             <div class="bg-f5 divider-line" />
