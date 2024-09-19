@@ -218,8 +218,8 @@ const get_coupon = () => {
     });
 };
 const data_list_computer = computed(() => {
-    const { data_type, type, number, data_list, data_auto_list } = form.value;
-    return { data_type, type, number, data_list, data_auto_list };
+    const { data_type, type, number, data_list } = form.value;
+    return { data_type, type, number, data_list };
 });
 watch(
     () => data_list_computer.value,
