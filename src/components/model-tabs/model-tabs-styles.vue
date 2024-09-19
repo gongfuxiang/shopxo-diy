@@ -31,7 +31,7 @@
             </card-container>
         </el-form>
         <div class="divider-line"></div>
-        <common-styles :value="form.common_style" @update:value="common_styles_update" />
+        <common-styles :value="form.common_style" :is-floating-up="false" @update:value="common_styles_update" />
     </div>
 </template>
 <script setup lang="ts">

@@ -126,7 +126,7 @@ watch(() => props.diyData, (val) => {
 // 模块的class
 const model_class = computed(() => {
     return (item: { show_tabs: string; key: string; id: string }) => {
-        return ['plug-in-table', { 'plug-in-border': item.show_tabs == '1', 'float-window': item.key == 'float-window', 'plug-in-animation': item.show_tabs != '1' && props.showModelBorder }];
+        return ['plug-in-table', { 'plug-in-border': item.show_tabs == '1', 'tabs-view': item.key == 'tabs', 'float-window': item.key == 'float-window', 'plug-in-animation': item.show_tabs != '1' && props.showModelBorder }];
     };
 });
 
@@ -380,5 +380,8 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
 .main-content {
     max-width: 39rem;
     overflow: hidden;
+}
+.tabs-view {
+    z-index: 4;
 }
 </style>
