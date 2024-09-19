@@ -240,11 +240,12 @@ const old_list = ref<any>({});
 const data_magic_list = ref<data_magic[]>([]);
 watch(props.value.content, (val) => {
     const data = cloneDeep(val.data_magic_list);
-    data.actived_index = 0;
     data.forEach((item: data_magic) => {
         const data_content = item.data_content;
         const data_style = item.data_style;
         const key = data_style.carouselKey;
+        // 指示器设置为0
+        item.actived_index = 0;
         // 指示器样式
         data_style.indicator_styles = indicator_style(data_style);
         data_style.background_style = background_style(data_style);
