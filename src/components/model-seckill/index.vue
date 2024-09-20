@@ -52,7 +52,7 @@
                         <div class="flex-col gap-10 w flex-1 jc-sb" :style="content_style">
                             <div class="flex-col gap-10 w">
                                 <!-- 标题 -->
-                                <div :style="trends_config('title')" class="text-line-2">{{ item.title }}</div>
+                                <div v-if="is_show('title')" :style="trends_config('title')" class="text-line-2">{{ item.title }}</div>
                                 <!-- 进度条 -->
                                 <!-- <div v-if="form.shop_style_type == '1'" class="flex-row align-c gap-6">
                                     <div class="re flex-1">
@@ -113,7 +113,7 @@
                         <div class="flex-col gap-10 w flex-1 jc-sb" :style="content_style">
                             <div class="flex-col gap-10 w">
                                 <!-- 标题 -->
-                                <div :style="trends_config('title')" class="text-line-2">{{ item.title }}</div>
+                                <div v-if="is_show('title')" :style="trends_config('title')" class="text-line-2">{{ item.title }}</div>
                                 <!-- 进度条 -->
                                 <div v-if="form.shop_style_type == '1'" class="flex-row align-c gap-6">
                                     <div class="re flex-1">
