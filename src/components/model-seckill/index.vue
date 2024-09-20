@@ -339,6 +339,9 @@ onBeforeMount(() => {
         }
     });
 });
+onUnmounted(() => {
+    clearInterval(intervalId.value);
+})
 // 商品间距
 const content_outer_spacing = computed(() => new_style.value.content_outer_spacing);
 // 圆角设置
