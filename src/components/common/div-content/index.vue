@@ -382,6 +382,6 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
     overflow: hidden;
 }
 .tabs-view {
-    z-index: 4;
+    z-index: 2;
 }
 </style>
