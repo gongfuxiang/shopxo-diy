@@ -286,6 +286,10 @@
     "whenever": true,
     "ElMessageBox": true,
     "ElMessage": true,
-    "ElIcons": true
+    "ElIcons": true,
+    "onWatcherCleanup": true,
+    "useId": true,
+    "useModel": true,
+    "useTemplateRef": true
   }
 }
