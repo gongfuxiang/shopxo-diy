@@ -39,9 +39,9 @@ onBeforeMount(async () => {
     // 全部的默认数据
     default_data = {
         content: {
-            topic_type: 'image',
-            topic_src: [{ id: 1, url: new_url.value + 'header-title.png', original: '标题', title: '标题', ext: '.png', type: 'img' }],
-            topic_text: '限时秒杀',
+            title_type: 'image',
+            title_src: [{ id: 1, url: new_url.value + 'header-title.png', original: '标题', title: '标题', ext: '.png', type: 'img' }],
+            title_text: '限时秒杀',
         },
         style: {
             title_color: '#fff',
@@ -122,8 +122,8 @@ onBeforeMount(async () => {
             theme_1: {},
             theme_2: {
                 content: {
-                    topic_type: 'image',
-                    topic_src: [{ id: 1, url: new_url.value + 'header-title-2.png', original: '标题2', title: '标题2', ext: '.png', type: 'img' }],
+                    title_type: 'image',
+                    title_src: [{ id: 1, url: new_url.value + 'header-title-2.png', original: '标题2', title: '标题2', ext: '.png', type: 'img' }],
                     button_status: '0',
                 },
                 style: {
@@ -138,8 +138,8 @@ onBeforeMount(async () => {
             },
             theme_3: {
                 content: {
-                    topic_type: 'text',
-                    topic_src: [],
+                    title_type: 'text',
+                    title_src: [],
                     button_status: '1',
                 },
                 style: {
@@ -155,8 +155,8 @@ onBeforeMount(async () => {
             },
             theme_4: {
                 content: {
-                    topic_type: 'text',
-                    topic_src: [],
+                    title_type: 'text',
+                    title_src: [],
                     button_status: '1',
                 },
                 style: {
