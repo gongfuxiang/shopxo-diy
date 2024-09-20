@@ -23,7 +23,6 @@
 <script lang="ts" setup>
 import { gradient_computer } from '@/utils';
 import { isEmpty } from 'lodash';
-import { active } from 'sortablejs';
 const props = defineProps({
     value: {
         type: Object,

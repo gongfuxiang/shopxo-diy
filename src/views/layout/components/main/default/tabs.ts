@@ -62,6 +62,7 @@ const defaultTabs: defaultTabs = {
         more_icon_size: 14,
         common_style: {
             ...defaultCommon,
+            color_list: [{ color: '#fff', color_percentage: undefined }],
             padding: 10,
             padding_top: 10,
             padding_bottom: 10,
