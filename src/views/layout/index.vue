@@ -291,6 +291,7 @@ const diy_data_transfor_form_data = (clone_form: diy_data_item) => {
             header: clone_form.header,
             footer: clone_form.footer,
             diy_data: clone_form.diy_data,
+            tabs_data: clone_form.tabs_data,
         }),
     };
 };
