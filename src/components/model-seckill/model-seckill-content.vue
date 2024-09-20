@@ -11,19 +11,19 @@
                         <theme-select v-model="form.theme" :data="base_list.themeList" @update:model-value="themeChange"></theme-select>
                     </el-form-item>
                     <el-form-item label="主题类型">
-                        <el-radio-group v-model="form.topic_type">
+                        <el-radio-group v-model="form.title_type">
                             <el-radio value="text">文字</el-radio>
                             <el-radio value="image">图片</el-radio>
                         </el-radio-group>
                     </el-form-item>
-                    <template v-if="form.topic_type == 'image'">
+                    <template v-if="form.title_type == 'image'">
                         <el-form-item label="标题图片">
-                            <upload v-model="form.topic_src" :limit="1" size="50"></upload>
+                            <upload v-model="form.title_src" :limit="1" size="50"></upload>
                         </el-form-item>
                     </template>
                     <template v-else>
                         <el-form-item label="标题文字">
-                            <el-input v-model="form.topic_text" placeholder="请输入标题文字" clearable></el-input>
+                            <el-input v-model="form.title_text" placeholder="请输入标题文字" clearable></el-input>
                         </el-form-item>
                     </template>
                     <template v-if="form.theme != '2'">

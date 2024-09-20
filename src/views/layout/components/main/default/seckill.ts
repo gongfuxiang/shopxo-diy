@@ -5,9 +5,10 @@ interface DefaultSeckill {
     content: {
         head_state: string;
         theme: string;
-        topic_type: string;
-        topic_src: uploadList[];
-        topic_text: string;
+        title_type: string;
+        title_src: uploadList[];
+        title_text: string;
+        theme_4_static_img: uploadList[];
         button_status: string;
         button_text: string;
         shop_style_type: string;
@@ -72,9 +73,10 @@ const defaultSeckill: DefaultSeckill = {
     content: {
         head_state: '1',
         theme: '1',
-        topic_type: 'image',
-        topic_src: [{ id: 1, url: new_url + 'header-title.png', original: '标题', title: '标题', ext: '.png', type: 'img' }],
-        topic_text: '限时秒杀',
+        title_type: 'image',
+        title_src: [{ id: 1, url: new_url + 'header-title.png', original: '标题', title: '标题', ext: '.png', type: 'img' }],
+        theme_4_static_img: [{ id: 2, url: new_url + 'time.png', original: '时钟', title: '时钟', ext: '.png', type: 'img' }],
+        title_text: '限时秒杀',
         button_status: '1',
         button_text: '更多',
         shop_style_type: '1',

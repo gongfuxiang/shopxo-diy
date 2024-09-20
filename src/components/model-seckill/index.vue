@@ -4,14 +4,14 @@
             <div v-if="form.head_state == '1'" class="seckill-head flex-row align-c jc-sb oh" :style="seckill_head_style">
                 <div :class="['flex-row align-c', { 'gap-10': form.theme != '1', 'jc-sb w': form.theme == '2' }]">
                     <div class="seckill-title">
-                        <image-empty v-if="form.topic_type == 'image'" v-model="form.topic_src[0]" error-img-style="width:2.1rem; height: 1rem;"></image-empty>
-                        <span v-else :style="`color: ${new_style.title_color};font-size: ${new_style.title_size}px;line-height:21px;font-weight:600;`">{{ form.topic_text }}</span>
+                        <image-empty v-if="form.title_type == 'image'" v-model="form.title_src[0]" error-img-style="width:2.1rem; height: 1rem;"></image-empty>
+                        <span v-else :style="`color: ${new_style.title_color};font-size: ${new_style.title_size}px;line-height:21px;font-weight:600;`">{{ form.title_text }}</span>
                     </div>
                     <div v-if="form.theme == '1'" class="pl-6 pr-6 cr-f">|</div>
                     <div v-if="intervalId != undefined" class="flex-row align-c gap-4">
                         <span class="size-10" :style="`color: ${new_style.end_text_color}`">{{ seckill_time.time_first_text }}</span>
                         <div class="flex-row gap-3 jc-c align-c" :style="[form.theme == '4' ? `${time_bg};padding: 0.3rem 0.4rem;border-radius: 1.1rem;` : '']">
-                            <img v-if="form.theme == '4'" class="seckill-head-icon radius-xs" :src="new_url" />
+                            <img v-if="form.theme == '4'" class="seckill-head-icon radius-xs" :src="form.theme_4_static_img[0].url" />
                             <template v-for="(item, index) in time_config" :key="item.key">
                                 <template v-if="form.theme == '4'">
                                     <div class="size-12" :style="`color: ${new_style.countdown_color}`">{{ item.value }}</div>
@@ -162,7 +162,6 @@
 import { background_computer, common_styles_computer, get_math, gradient_computer, gradient_handle, padding_computer, radius_computer } from '@/utils';
 import { isEmpty, throttle } from 'lodash';
 import SeckillAPI from '@/api/seckill';
-import { online_url } from '@/utils';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
 import 'swiper/css';
@@ -176,11 +175,7 @@ const props = defineProps({
         },
     },
 });
-const new_url = ref('');
-onBeforeMount(async () => {
-    const url = await online_url('/static/plugins/seckill/images/diy/').then((res) => res);
-    new_url.value = url + 'time.png';
-});
+
 const form = computed(() => props.value?.content || {});
 const new_style = computed(() => props.value?.style || {});
 const time_bg = computed(() => {
