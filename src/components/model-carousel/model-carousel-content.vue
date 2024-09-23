@@ -7,6 +7,8 @@
                     <el-radio-group v-model="form.carousel_type">
                         <el-radio value="inherit">样式一</el-radio>
                         <el-radio value="card">样式二</el-radio>
+                        <el-radio value="oneDragOne">样式三</el-radio>
+                        <el-radio value="twoDragOne">样式四</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="图片设置">

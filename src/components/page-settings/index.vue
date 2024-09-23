@@ -80,7 +80,7 @@ const text_style = computed(() => `font-weight:${new_style.value.header_backgrou
     position: v-bind(position);
     top: 0;
     left: 50%;
-    z-index: 2;
+    z-index: 3;
     transform: translateX(-50%);
     .roll {
         width: 39rem;
@@ -109,7 +109,7 @@ const text_style = computed(() => `font-weight:${new_style.value.header_backgrou
     // border: 0.2rem solid $cr-main;
     position: relative;
     box-shadow: 0px 0 0px 0.2rem $cr-main !important;
-    z-index: 1;
+    z-index: 3;
     box-sizing: border-box;
 }
 .logo-outer-style {

@@ -13,6 +13,9 @@
                 <el-form-item label="高度设置">
                     <slider v-model="form.height" :max="1000"></slider>
                 </el-form-item>
+                <el-form-item v-if="['oneDragOne', 'twoDragOne'].includes(new_content.carousel_type)" label="图片间距">
+                    <slider v-model="form.image_spacing" :max="100"></slider>
+                </el-form-item>
             </card-container>
             <div class="divider-line"></div>
             <card-container>

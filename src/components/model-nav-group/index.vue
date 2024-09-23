@@ -173,6 +173,8 @@ const carousel_change = (index: number) => {
     width: v-bind(group_width);
 }
 .dot {
+    padding-right: 10px;
+    padding-left: 10px;
     .dot-item {
         margin: 0 0.3rem;
         &.active {

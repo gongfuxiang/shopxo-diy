@@ -23,6 +23,7 @@ interface defaultSearch {
         radius_bottom_right: number;
         is_show: string;
         height: number,
+        image_spacing: number,
         indicator_style: string;
         indicator_location: string;
         indicator_size: number;
@@ -81,6 +82,7 @@ const defaultSearch: defaultSearch = {
         radius_bottom_right: 0,
         is_show: '1',
         height: 300,
+        image_spacing: 10,
         indicator_style: 'dot',
         indicator_location: 'center',
         indicator_size: 5,

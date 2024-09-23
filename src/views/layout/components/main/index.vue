@@ -40,7 +40,7 @@
                     </TransitionGroup>
                 </VueDraggable>
             </div>
-        </div>34
+        </div>
     </div>
     <!-- 视图渲染 -->
     <div class="main re">
@@ -67,12 +67,13 @@
                     <div class="model-wall" :style="content_style">
                         <div class="model-wall-content" :style="`padding-top:${top_padding}px; margin-top: ${top_margin}px;padding-bottom:${bottom_navigation_show ? footer_nav_counter_store.padding_footer : 0}px;`">
                             <div-content :diy-data="tabs_data" :show-model-border="show_model_border" :is-tabs="true" :main-content-style="main_content_style" @on_choose="set_tabs_event(true);" @del="del"></div-content>
+                            <div v-if="tabs_data.length > 0" class="seat"></div>
                             <VueDraggable v-model="diy_data" :animation="500" :touch-start-threshold="2" group="people" class="drag-area re" ghost-class="ghost" :on-sort="on_sort" :on-start="on_start" :on-end="on_end">
                                 <div-content :diy-data="diy_data" :show-model-border="show_model_border" :main-content-style="main_content_style" @on_choose="on_choose" @del="del" @copy="copy" @move-up="moveUp" @move-down="moveDown"></div-content>
                             </VueDraggable>
                         </div>
                     </div>
-                    <div class="seat"></div>
+                    <!-- <div class="seat"></div> -->
                 </div>
                 <!-- 底部区域 -->
                 <div v-if="bottom_navigation_show" class="model-bottom">

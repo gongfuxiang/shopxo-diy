@@ -355,6 +355,8 @@ const style_container = computed(() => common_styles_computer(new_style.value.co
     right: 0;
 }
 .dot {
+    padding-right: 10px;
+    padding-left: 10px;
     z-index: 3;
     .dot-item {
         margin: 0 0.3rem;
