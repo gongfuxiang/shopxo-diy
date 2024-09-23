@@ -51,7 +51,7 @@
                         <radius :value="form.border_radius" @update:value="border_radius_change"></radius>
                     </el-form-item>
                     <el-form-item label="边框粗细">
-                        <slider v-model="form.border_size" :max="1000"></slider>
+                        <slider v-model="form.border_size" :max="100"></slider>
                     </el-form-item>
                 </template>
             </card-container>
