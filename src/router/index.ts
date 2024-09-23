@@ -1,5 +1,6 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 import Layout from '@/views/layout/index.vue';
+import Tabbar from '@/views/tabbar/index.vue';
 
 export const constantRoutes: RouteRecordRaw[] = [
     {
@@ -16,6 +17,11 @@ export const constantRoutes: RouteRecordRaw[] = [
     {
         path: '/',
         component: Layout,
+        meta: { hidden: true },
+    },
+    {
+        path: '/tabbar',
+        component: Tabbar,
         meta: { hidden: true },
     },
     // {
