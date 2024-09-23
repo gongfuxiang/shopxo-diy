@@ -29,7 +29,7 @@
                     <slider v-model="form.line_size" :min="1" :max="100"></slider>
                 </el-form-item>
                 <el-form-item label="线条颜色">
-                    <color-picker v-model="form.line_color" default-color="#FF3F3F"></color-picker>
+                    <color-picker v-model="form.line_color"></color-picker>
                 </el-form-item>
                 <el-form-item label="是否置底">
                     <el-switch v-model="form.bottom_up" active-value="1" inactive-value="0" />

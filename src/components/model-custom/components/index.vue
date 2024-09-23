@@ -56,6 +56,9 @@
                                         <template v-else-if="item.key == 'auxiliary-line'">
                                             <model-lines :key="item.id" :value="item.com_data" :source-list="props.sourceList"></model-lines>
                                         </template>
+                                        <template v-else-if="item.key == 'icon'">
+                                            <model-icon :key="item.id" :value="item.com_data" :source-list="props.sourceList"></model-icon>
+                                        </template>
                                     </div>
                                 </Vue3DraggableResizable>
                             </DraggableContainer>
@@ -82,7 +85,7 @@
 <script setup lang="ts">
 import { cloneDeep, isEmpty } from 'lodash';
 import { get_math } from '@/utils';
-import { text_com_data, img_com_data, line_com_data, isRectangleIntersecting } from "./index-default";
+import { text_com_data, img_com_data, line_com_data, icon_com_data, isRectangleIntersecting } from "./index-default";
 // 删除
 const app = getCurrentInstance();
 //#region 传递参数和传出数据的处理
@@ -114,6 +117,11 @@ const components = reactive([
                 key: 'auxiliary-line',
                 name: '线条',
                 com_data: line_com_data,
+            },
+            {
+                key: 'icon',
+                name: '图标',
+                com_data: icon_com_data,
             },
         ],
     },

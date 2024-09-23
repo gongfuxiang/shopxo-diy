@@ -3,39 +3,25 @@
         <el-form :model="form" label-width="70">
             <card-container>
                 <div class="mb-12">文本设置</div>
-                <el-form-item label="文本内容">
-                    <el-input v-model="form.text_title" placeholder="请输入文本内容" type="textarea" clearable :rows="3" @input="text_change('1')"></el-input>
+                <el-form-item label="选择图标">
+                    <upload v-model:icon-value="form.icon_class" :limit="1" size="50" is-icon type="icon" @update:model-value="icon_change('1')"></upload>
                 </el-form-item>
                 <el-form-item label="数据字段">
-                    <el-select v-model="form.data_source_id" value-key="id" clearable filterable placeholder="请选择图片数据字段" size="default" class="flex-1" @change="text_change('2')">
+                    <el-select v-model="form.data_source_id" value-key="id" clearable filterable placeholder="请选择数据字段" size="default" class="flex-1" @change="icon_change('2')">
                         <el-option v-for="item in options.filter((item) => item.type == 'icon')" :key="item.field" :label="item.name" :value="item.field" />
                     </el-select>
                 </el-form-item>
                 <el-form-item label="链接">
-                    <url-value v-model="form.text_link"></url-value>
+                    <url-value v-model="form.icon_link"></url-value>
                 </el-form-item>
-                <el-form-item label="文字颜色">
-                    <color-picker v-model="form.text_color" default-color="#FF3F3F"></color-picker>
+                <el-form-item label="图标颜色">
+                    <color-picker v-model="form.icon_color" default-color="#FF3F3F"></color-picker>
                 </el-form-item>
-                <el-form-item label="文字大小">
-                    <el-radio-group v-model="form.text_weight">
-                        <el-radio value="500">加粗</el-radio>
-                        <el-radio value="normal">正常</el-radio>
-                        <el-radio value="italic">倾斜</el-radio>
-                    </el-radio-group>
-                    <el-form-item label="字号" label-width="40" class="mb-0 w">
-                        <slider v-model="form.text_size" :max="100"></slider>
-                    </el-form-item>
+                <el-form-item label="图标大小">
+                    <slider v-model="form.icon_size" :max="100"></slider>
                 </el-form-item>
-                <el-form-item label="字符选项">
-                    <el-radio-group v-model="form.text_option">
-                        <el-radio value="none"><span style="text-decoration: none">Aa</span></el-radio>
-                        <el-radio value="underline"><span style="text-decoration: underline">Aa</span></el-radio>
-                        <el-radio value="line-through"><span style="text-decoration: line-through">Aa</span></el-radio>
-                    </el-radio-group>
-                </el-form-item>
-                <el-form-item label="文字位置">
-                    <el-radio-group v-model="form.text_location" is-button>
+                <el-form-item label="图标位置">
+                    <el-radio-group v-model="form.icon_location" is-button>
                         <el-tooltip content="左对齐" placement="top" effect="light">
                             <el-radio-button value="left"><icon name="iconfont icon-left"></icon></el-radio-button>
                         </el-tooltip>
@@ -48,10 +34,10 @@
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="内边距">
-                    <padding :value="form.text_padding" @update:value="padding_change"></padding>
+                    <padding :value="form.icon_padding" @update:value="padding_change"></padding>
                 </el-form-item>
                 <el-form-item label="旋转角度">
-                    <slider v-model="form.text_rotate" :max="1000"></slider>
+                    <slider v-model="form.icon_rotate" :max="1000"></slider>
                 </el-form-item>
                 <el-form-item label="是否置底">
                     <el-switch v-model="form.bottom_up" active-value="1" inactive-value="0" />
@@ -67,7 +53,7 @@
                     <slider v-model="form.com_height" :max="1000"></slider>
                 </el-form-item>
                 <el-form-item label="背景颜色">
-                    <color-picker v-model="form.com_bg" default-color="#FF3F3F"></color-picker>
+                    <color-picker v-model="form.com_bg"></color-picker>
                 </el-form-item>
                 <el-form-item label="圆角">
                     <radius :value="form.bg_radius" @update:value="bg_radius_change"></radius>
@@ -121,15 +107,15 @@ const form = ref(diy_data.value.com_data);
 const center_height = defineModel('height', { type: Number, default: 0 });
 
 const padding_change = (padding: any) => {
-    form.value.text_padding = Object.assign(form.value.text_padding, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
+    form.value.icon_padding = Object.assign(form.value.icon_padding, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
 };
 const bg_radius_change = (radius: any) => {
     form.value.bg_radius = Object.assign(form.value.bg_radius, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
 };
 
-const text_change = (key: string) => {
+const icon_change = (key: string) => {
     if (key == '2') {
-        form.value.text_title = '';
+        form.value.icon_title = '';
     } else {
         form.value.data_source_id = '';
     }

@@ -11,6 +11,9 @@
                 <template v-else-if="item.key == 'auxiliary-line'">
                     <model-lines :key="item.com_data" :value="item.com_data" :source-list="form.data_source_content" :is-percentage="true"></model-lines>
                 </template>
+                <template v-else-if="item.key == 'icon'">
+                    <model-icon :key="item.com_data" :value="item.com_data" :source-list="form.data_source_content" :is-percentage="true"></model-icon>
+                </template>
             </div>
         </div>
     </div>

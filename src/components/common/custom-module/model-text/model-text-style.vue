@@ -73,7 +73,7 @@
                     <slider v-model="form.com_height" :max="1000"></slider>
                 </el-form-item>
                 <el-form-item label="背景颜色">
-                    <color-picker v-model="form.com_bg" default-color="#FF3F3F"></color-picker>
+                    <color-picker v-model="form.com_bg"></color-picker>
                 </el-form-item>
                 <el-form-item label="圆角">
                     <radius :value="form.bg_radius" @update:value="bg_radius_change"></radius>
