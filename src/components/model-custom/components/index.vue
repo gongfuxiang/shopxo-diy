@@ -41,7 +41,7 @@
                         <div class="w h" @mousedown.prevent="start_drag" @mousemove.prevent="move_drag" @mouseup.prevent="end_drag">
                             <DraggableContainer v-if="draggable_container" :reference-line-visible="true" :disabled="false" reference-line-color="#ddd" @selectstart.prevent @contextmenu.prevent @dragstart.prevent>
                                 <!-- @mouseover="on_choose(index)" -->
-                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="{ 'plug-in-show-tabs': item.show_tabs == '1'}" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index)" @resize-end="resizingHandle($event, item.key, index)">
+                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="{ 'plug-in-show-tabs': item.show_tabs == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1'}" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index)" @resize-end="resizingHandle($event, item.key, index)">
                                     <div v-if="item.show_tabs == '1'" class="plug-in-right" chosenClass="close">
                                         <el-icon class="iconfont icon-del" @click.stop="del(index)" />
                                         <el-icon class="iconfont icon-copy" @click.stop="copy(index)" />
@@ -55,6 +55,9 @@
                                         </template>
                                         <template v-else-if="item.key == 'auxiliary-line'">
                                             <model-lines :key="item.id" :value="item.com_data" :source-list="props.sourceList"></model-lines>
+                                        </template>
+                                        <template v-else-if="item.key == 'icon'">
+                                            <model-icon :key="item.id" :value="item.com_data" :source-list="props.sourceList"></model-icon>
                                         </template>
                                     </div>
                                 </Vue3DraggableResizable>
@@ -82,7 +85,7 @@
 <script setup lang="ts">
 import { cloneDeep, isEmpty } from 'lodash';
 import { get_math } from '@/utils';
-import { text_com_data, img_com_data, line_com_data, isRectangleIntersecting } from "./index-default";
+import { text_com_data, img_com_data, line_com_data, icon_com_data, isRectangleIntersecting } from "./index-default";
 // 删除
 const app = getCurrentInstance();
 //#region 传递参数和传出数据的处理
@@ -114,6 +117,11 @@ const components = reactive([
                 key: 'auxiliary-line',
                 name: '线条',
                 com_data: line_com_data,
+            },
+            {
+                key: 'icon',
+                name: '图标',
+                com_data: icon_com_data,
             },
         ],
     },

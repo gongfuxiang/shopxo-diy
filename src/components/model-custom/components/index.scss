@@ -66,7 +66,20 @@
             .vdr-handle.vdr-handle-bm,
             .vdr-handle.vdr-handle-br {
                 display: block !important;
-                z-index: 2;
+                z-index: 1;
+            }
+        }
+        :deep(.plug-in-show-tabs.vdr-handle-z-index.vdr-container) {
+            .vdr-handle.vdr-handle-tl,
+            .vdr-handle.vdr-handle-tr,
+            .vdr-handle.vdr-handle-tm,
+            .vdr-handle.vdr-handle-ml,
+            .vdr-handle.vdr-handle-mr,
+            .vdr-handle.vdr-handle-bl,
+            .vdr-handle.vdr-handle-bm,
+            .vdr-handle.vdr-handle-br {
+                display: block !important;
+                z-index: 0;
             }
         }
         .plug-in-border {
