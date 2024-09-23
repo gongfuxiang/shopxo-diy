@@ -38,7 +38,7 @@
                                 </el-form-item>
                                 <el-form-item :label="scoped.row.data_type == '0' ? '微页面' : '商品分类'" class="w mb-0">
                                     <template v-if="scoped.row.data_type == '0'">
-                                        <url-value v-model="scoped.row.micro_page_list"></url-value>
+                                        <url-value v-model="scoped.row.micro_page_list" :type="['diy']"></url-value>
                                     </template>
                                     <template v-else>
                                         <url-value v-model="scoped.row.classify" :type="['goods-category']"></url-value>
