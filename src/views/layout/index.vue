@@ -245,14 +245,11 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             show_tabs: '0',
         };
     });
-    // 将数据暂存到localStorage
-    // localStorage.setItem('diy_data', JSON.stringify(clone_form));
     // 数据改造
     const new_data = diy_data_transfor_form_data(clone_form);
     DiyAPI.save(new_data).then((res) => {
-        if (is_export || is_preview) {
-            // 如果是导出或预览模式，则不显示保存成功的消息
-        } else {
+        // 如果是导出或预览模式，则不显示保存成功的消息
+        if (!(is_export || is_preview)) {
             ElMessage.success('保存成功');
         }
         if (close) {
@@ -274,6 +271,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                 preview_dialog.value = true;
                 diy_id.value = String(res.data);
             }
+            form.value.id = String(res.data);
             history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
         }
     });
