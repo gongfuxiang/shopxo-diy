@@ -23,7 +23,7 @@
                                     <image-empty v-model="item.img[0]"></image-empty>
                                 </template>
                                 <template v-else>
-                                    <div class="cube-selected-text">250 x 750 像素</div>
+                                    <div class="cube-selected-text"> 250 x 750 像素</div>
                                 </template>
                             </div>
                         </div>

@@ -17,9 +17,9 @@
                 </template>
                 <template v-else>
                     <div class="cube-selected-text">
-                        {{ Math.round((750 / densityNum) * (item.end.y - item.start.y + 1)) }}
-                        x
                         {{ Math.round((750 / densityNum) * (item.end.x - item.start.x + 1)) }}
+                        x
+                        {{ Math.round((750 / densityNum) * (item.end.y - item.start.y + 1)) }}
                         像素
                         <template v-if="props.type == 'data'">
                             <div>{{ data_title(item) }}</div>
