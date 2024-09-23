@@ -83,7 +83,7 @@ const defaultFooterNav: DefaultFooterNav = {
         search_type: 'text',
         search_tips: '搜索',
         hot_word_list: [],
-        bottom_navigation_show: '1',
+        bottom_navigation_show: '0',
     },
     style: {
         header_background_type: 'color_image',
