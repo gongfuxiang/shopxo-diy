@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import type { UploadFile } from 'element-plus';
 import { is_obj } from '@/utils';
-import { Navbar, Settings, AppMain } from './components/index';
+import { Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
 import { cloneDeep } from 'lodash';
 import DiyAPI, { diyData, headerAndFooter, diyConfig } from '@/api/diy';
@@ -183,6 +183,7 @@ const save_event = () => {
 const save_close_event = () => {
     save_formmat_form_data(form.value, true);
 };
+// save_formmat_form_data: 保存数据， data： 数据， close： 是否关闭， is_export： 是否导出， is_preview： 是否预览
 const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_export: boolean = false, is_preview: boolean = false) => {
     const clone_form = cloneDeep(data);
     clone_form.header.show_tabs = '1';
