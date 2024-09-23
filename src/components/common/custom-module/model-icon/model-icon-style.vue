@@ -7,18 +7,12 @@
                     <el-input v-model="form.text_title" placeholder="请输入文本内容" type="textarea" clearable :rows="3" @input="text_change('1')"></el-input>
                 </el-form-item>
                 <el-form-item label="数据字段">
-                    <el-select v-model="form.data_source_id" value-key="id" clearable filterable placeholder="请选择数据字段" size="default" class="flex-1" @change="text_change('2')">
-                        <el-option v-for="item in options.filter((item) => item.type == 'text')" :key="item.field" :label="item.name" :value="item.field" />
+                    <el-select v-model="form.data_source_id" value-key="id" clearable filterable placeholder="请选择图片数据字段" size="default" class="flex-1" @change="text_change('2')">
+                        <el-option v-for="item in options.filter((item) => item.type == 'icon')" :key="item.field" :label="item.name" :value="item.field" />
                     </el-select>
                 </el-form-item>
                 <el-form-item label="链接">
                     <url-value v-model="form.text_link"></url-value>
-                </el-form-item>
-                <el-form-item label="富文本">
-                    <el-switch v-model="form.is_rich_text" active-value="1" inactive-value="0" />
-                </el-form-item>
-                <el-form-item v-if="form.is_rich_text == '1'" label="上下滚动">
-                    <el-switch v-model="form.is_up_down" active-value="1" inactive-value="0" />
                 </el-form-item>
                 <el-form-item label="文字颜色">
                     <color-picker v-model="form.text_color" default-color="#FF3F3F"></color-picker>

@@ -34,7 +34,7 @@
                             <template v-else>
                                 <el-icon :class="`iconfont ${ !isEmpty(new_style.video_icon_class) ? 'icon-' + new_style.video_icon_class : 'icon-bofang' } size-14`" :style="`color:${new_style.video_icon_color};`" />
                             </template>
-                            <span v-if="!isEmpty(item.video_title)" :style="`color:${new_style.video_title_color};font-size: ${new_style.video_title_size}px;`">{{ item.video_title }}</span>
+                            <span v-if="!isEmpty(item.video_title)" :style="`color:${new_style.video_title_color};font-size: ${new_style.video_title_size}px;text-wrap: nowrap;`">{{ item.video_title }}</span>
                         </div>
                     </div>
                 </swiper-slide>
@@ -48,7 +48,7 @@
                             <template v-else>
                                 <el-icon :class="`iconfont ${ !isEmpty(new_style.video_icon_class) ? 'icon-' + new_style.video_icon_class : 'icon-bofang' } size-14`" :style="`color:${new_style.video_icon_color};`" />
                             </template>
-                            <span v-if="!isEmpty(item.video_title)" :style="`color:${new_style.video_title_color};font-size: ${new_style.video_title_size}px;`">{{ item.video_title }}</span>
+                            <span v-if="!isEmpty(item.video_title)" :style="`color:${new_style.video_title_color};font-size: ${new_style.video_title_size}px;text-wrap: nowrap;`">{{ item.video_title }}</span>
                         </div>
                     </div>
                 </swiper-slide>
