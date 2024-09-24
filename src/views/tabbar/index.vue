@@ -18,6 +18,7 @@
 </template>
 
 <script setup lang="ts">
+import { get_math } from '@/utils';
 import { Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
 import { cloneDeep } from 'lodash';
@@ -43,6 +44,7 @@ const init = () => {
             } else {
                 form.value = cloneDeep(temp_form.value);
             }
+            key.value = get_math();
             loading_event();
         })
         .catch(() => {
@@ -88,11 +90,14 @@ const save_event = () => {
 .app-wrapper {
     background-color: #fff;
     .app-wrapper-content {
-        height: calc(100vh - 11.1rem);
+        height: calc(100vh - 6.2rem);
     }
     .app-wrapper-footer {
-        height: 11.1rem;
-        padding: 3.5rem 2rem;
+        height: 6.2rem;
+        padding: 1.5rem;
+        border-top: 0.1rem solid #f5f5f5;
+        position: relative;
+        background: #fff;
         .footer-save {
             height: 3.1rem;
             line-height: 3.1rem;
@@ -115,9 +120,9 @@ const save_event = () => {
     box-shadow: 0 0.5rem 2rem rgba(50, 55, 58, 0.1);
 }
 :deep(.settings) {
-    box-shadow: 0 0.5rem 2rem rgba(50, 55, 58, 0.1);
+    // box-shadow: 0 0.5rem 2rem rgba(50, 55, 58, 0.1);
     .settings-title {
-        box-shadow: 0 0.5rem 2rem rgba(50, 55, 58, 0.1);
+        // box-shadow: 0 0.5rem 2rem rgba(50, 55, 58, 0.1);
     }
 }
 </style>
