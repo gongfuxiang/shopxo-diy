@@ -1,4 +1,6 @@
 import defaultCommon from './index';
+import { online_url } from '@/utils';
+const new_url = await online_url('/static/app/common/').then((res) => res);
 interface articleTabsList {
     id: string;
     title: string;
@@ -22,6 +24,7 @@ interface DefaultProductList {
         carousel_col: number;
         tabs_list: articleTabsList[];
         tabs_active_index: number;
+        static_img: uploadList[];
         is_show: string[];
         is_shop_show: string;
         is_price_solo: string;
@@ -83,6 +86,7 @@ const defaultProductList: DefaultProductList = {
             { id: '4', title: '测试三', img: [], desc: '简介', data_type: '0', category_ids: [], brand_ids: [], data_ids: [], number: 4, order_by_type: '0', order_by_rule: '0', data_list: [], data_auto_list: [] },
         ],
         tabs_active_index: 0,
+        static_img: [{ id: 2, url: new_url + 'price.png', original: '角标', title: '角标', ext: '.png', type: 'img' }],
         is_show: ['title', 'plugins_view_icon', 'price', 'sales_count', 'original_price'],
         is_shop_show: '1',
         is_price_solo: '1',

@@ -1,8 +1,6 @@
 <template>
-    <div class="img-outer re oh" :style="com_style">
-        <div :style="icon_style" class="flex-row">
-            <icon :name="form.icon_class" :color="form.icon_color" :size="form.icon_size"></icon>
-        </div>
+    <div class="img-outer re oh flex-row" :style="com_style">
+        <icon :name="form.icon_class" :color="form.icon_color" :size="form.icon_size"></icon>
     </div>
 </template>
 <script setup lang="ts">
@@ -30,15 +28,10 @@ const props = defineProps({
 const form = reactive(props.value);
 
 const com_style = computed(() => {
-    let style = `${ set_count() } background-color: ${ form.com_bg }; ${ radius_computer(form.bg_radius) }`;
+    let style = `${ set_count() } background-color: ${ form.com_bg }; ${ radius_computer(form.bg_radius) };transform: rotate(${form.icon_rotate}deg);${ padding_computer(form.icon_padding) };`;
     if (form.border_show == '1') {
-        style += `border: ${form.border_size}px ${form.border_style} ${form.border_color};`;
+        style += `border: ${form.border_size}px ${form.border_style} ${form.border_color};box-sizing: border-box;`;
     }
-    return style;
-});
-
-const icon_style = computed(() => {
-    let style = `transform: rotate(${form.icon_rotate}deg);${ padding_computer(form.icon_padding) };`;
     if (form.icon_location == 'center') {
         style += `justify-content: center;`;
     } else if (form.icon_location == 'left') {

@@ -156,8 +156,13 @@ const interval_list = ref({
 
 const interval_types = computed(() => interval_type.value == 'card');
 const swiper_Width = ref(390);
-const swiper_right_2 = computed(() => ((swiper_Width.value - new_style.value.image_spacing) / 2) + 'px');
-const swiper_right_3 = computed(() => ((swiper_Width.value - (new_style.value.image_spacing * 2)) / 3) + 'px');
+
+// const swiper_right_2 = computed(() => (swiper_Width.value - new_style.value.image_spacing) / 2  + 'px');
+// const swiper_right_3 = computed(() => (swiper_Width.value / 2) - 55 - (new_style.value.image_spacing * 2) + 'px');
+
+const swiper_right_2 = computed(() => (swiper_Width.value - new_style.value.image_spacing) / 2 + (55 * 1.5 + new_style.value.image_spacing) + 'px');
+const swiper_right_3 = computed(() => (swiper_Width.value - new_style.value.image_spacing) / 3 + 'px');
+
 const negative_swiper_right_2 = computed(() => '-' + swiper_right_2.value);
 const negative_swiper_right_3 = computed(() => '-' + swiper_right_3.value);
 const swiperSize = ref<any>(null);

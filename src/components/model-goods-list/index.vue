@@ -37,8 +37,8 @@
                                         <span v-if="is_show('price_unit')" class="identifying">{{ item.show_price_unit }}</span>
                                     </div>
                                     <div v-if="show_content && is_show('original_price') && !isEmpty(item.min_original_price)" class="size-10 flex">
-                                        <span class="original-price-left"></span
-                                        ><span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo == '1' }]"
+                                        <img class="original-price-left" :src="form.static_img[0].url" />
+                                        <span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo == '1' }]"
                                             >{{ item.show_original_price_symbol }}{{ item.min_original_price }}
                                             <template v-if="is_show('original_price_unit')">
                                                 {{ item.show_original_price_unit }}
@@ -72,8 +72,8 @@
                                         <span v-if="is_show('price_unit')" class="identifying">{{ item.show_price_unit }}</span>
                                     </div>
                                     <div v-if="show_content && is_show('original_price') && !isEmpty(item.min_original_price)" class="size-10 flex">
-                                        <span class="original-price-left"></span
-                                        ><span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo == '1' }]"
+                                        <img class="original-price-left" :src="form.static_img[0].url" />
+                                        <span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo == '1' }]"
                                             >{{ item.show_original_price_symbol }}{{ item.min_original_price }}
                                             <template v-if="is_show('original_price_unit')">
                                                 {{ item.show_original_price_unit }}
@@ -121,8 +121,8 @@
                                             <span v-if="is_show('price_unit')" class="identifying">{{ item.show_price_unit }}</span>
                                         </div>
                                         <div v-if="show_content && is_show('original_price') && !isEmpty(item.min_original_price)" class="size-10 flex">
-                                            <span class="original-price-left"></span
-                                            ><span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo == '1' }]"
+                                            <img class="original-price-left" :src="form.static_img[0].url" />
+                                            <span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo == '1' }]"
                                                 >{{ item.show_original_price_symbol }}{{ item.min_original_price }}
                                                 <template v-if="is_show('original_price_unit')">
                                                     {{ item.show_original_price_unit }}
@@ -491,9 +491,6 @@ watchEffect(() => {
 }
 .original-price-left {
     width: 1rem;
-    background-image: url('/src/assets/images/components/model-goods-list/price.png');
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
 }
 .original-price {
     background-color: #ede2c5;
