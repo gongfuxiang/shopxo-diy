@@ -1,9 +1,8 @@
 import defaultFooterNav from './default/footer-nav';
-// 系统设置
-interface DefaultSettings {
-    footer_nav: object;
-}
 
+interface DefaultSettings {
+    footer_nav: any;
+}
 const defaultSettings: DefaultSettings = {
     footer_nav: defaultFooterNav,
 };

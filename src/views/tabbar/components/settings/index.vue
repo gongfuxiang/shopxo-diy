@@ -2,7 +2,7 @@
     <!-- 顶部导航栏 -->
     <div class="settings">
         <card-container class="settings-title flex-row jc-sb align-c mb-8" padding="2.1rem 3.8rem">
-            <div class="title">{{ value.name }}</div>
+            <div class="title">底部导航</div>
             <el-radio-group v-model="radio" class="radio-group" size="large" is-button>
                 <el-radio-button class="radio-item" value="1">内容</el-radio-button>
                 <el-radio-button class="radio-item" value="2">样式</el-radio-button>
@@ -10,9 +10,7 @@
         </card-container>
         <div class="setting-content">
             <!-- 底部导航 -->
-            <template v-if="value.key == 'footer-nav'">
-                <footer-nav-setting :type="radio" :value="value.com_data"></footer-nav-setting>
-            </template>
+            <footer-nav-setting :type="radio" :value="value"></footer-nav-setting>
         </div>
     </div>
 </template>
