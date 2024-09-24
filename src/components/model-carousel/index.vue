@@ -79,18 +79,17 @@ const props = defineProps({
         type: Object,
         default: () => {
             return {};
-        },
+        },  
+    },
+    isCommon: {
+        type: Boolean,
+        default: true,
     },
 });
-// 用于页面判断显示
-const state = reactive({
-    form: props.value.content,
-    new_style: props.value.style,
-});
-// 如果需要解构，确保使用toRefs
-const { form, new_style } = toRefs(state);
+const form = computed(() => props.value.content);
+const new_style = computed(() => props.value.style);
 // 用于样式显示
-const style_container = computed(() => common_styles_computer(new_style.value.common_style));
+const style_container = computed(() => props.isCommon ? common_styles_computer(new_style.value.common_style) : '');
 const autoplay = ref<boolean | object>(false)
 // 图片的设置
 const img_style = computed(() => radius_computer(new_style.value) );

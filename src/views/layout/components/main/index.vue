@@ -6,8 +6,8 @@
                 <el-collapse-item v-if="com.data.length > 0" :key="i" :title="com.name" :name="com.key">
                     <VueDraggable v-model="com.data" :animation="500" ghost-class="ghost" handle=".is-drag" :group="{ name: 'people', pull: 'clone', put: false }" class="component flex-row flex-wrap" :clone="clone_item_com_data" :sort="false" :force-fallback="true">
                         <template v-for="item in com.data" :key="item.key">
-                            <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="该组件只可以点击添加, 并且只能添加一次" placement="top" :disabled="item.key != 'tabs'">
-                                <div :class="['item', {'is-drag': item.key != 'tabs' }]" @click.stop="draggable_click(item)">
+                            <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="该组件只可以点击添加, 并且只能添加一次" placement="top" :disabled="!['tabs', 'tabs-carousel'].includes(item.key)">
+                                <div :class="['item', {'is-drag': !['tabs', 'tabs-carousel'].includes(item.key) }]" @click.stop="draggable_click(item)">
                                     <div class="main-border siderbar-hidden main-show tc">释放鼠标将组件添加到此处</div>
                                     <div class="siderbar-show main-hidden flex-col jc-c align-c gap-4">
                                         <img class="img radius-xs" :src="url_computer(item.key)" />
@@ -207,7 +207,8 @@ const url_computer = (name: string) => {
 const show_model_border = ref(true);
 // 点击添加tabs组件
 const draggable_click = (item: componentsData) => {
-    if (item.key == 'tabs' && isEmpty(tabs_data.value)) {
+    const type_data = ['tabs', 'tabs-carousel'];
+    if (type_data.includes(item.key) && isEmpty(tabs_data.value)) {
         // 添加tabs组件
         tabs_data.value.push({
             name: item.name,
@@ -215,10 +216,16 @@ const draggable_click = (item: componentsData) => {
             is_enable: '1',
             src: '',
             id: get_math(),
-            key: 'tabs',
-            com_data: cloneDeep(defaultSettings.tabs),
+            key: item.key,
+            com_data: cloneDeep((defaultSettings as any)[item.key.replace(/-/g, '_')]),
         });
         set_tabs_event(true);
+    } else if (type_data.includes(item.key) && !isEmpty(tabs_data.value)) {
+        if (tabs_data.value[0].key == item.key) {
+            ElMessage.error('该组件只可以添加一次');
+        } else if (tabs_data.value[0].key != item.key) {
+            ElMessage.error('选项卡轮播不能与选项卡同时存在');
+        }
     }
 }
 // 复制
@@ -388,7 +395,7 @@ const scroll = () => {
             const scrollY = activeCard.value.offsetTop;
             if (scrollTop.value) {
                 // 选中的滚动到指定位置
-                scrollTop.value.scrollTo({ top: scrollY - 200, behavior: 'smooth' });
+                scrollTop.value.scrollTo({ top: scrollY - 100, behavior: 'smooth' });
             }
         }
         // 左边已选组件的滚动效果

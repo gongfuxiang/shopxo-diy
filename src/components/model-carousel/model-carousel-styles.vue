@@ -76,8 +76,10 @@
                 </card-container>
             </template>
         </el-form>
-        <div class="divider-line"></div>
-        <common-styles :value="form.common_style" @update:value="common_styles_update" />
+        <template v-if="isCommon">
+            <div class="divider-line"></div>
+            <common-styles :value="form.common_style" @update:value="common_styles_update" />
+        </template>
     </div>
 </template>
 <script setup lang="ts">
@@ -91,6 +93,10 @@ const props = defineProps({
     content: {
         type: Object,
         default: () => {},
+    },
+    isCommon: {
+        type: Boolean,
+        default: true
     }
 });
 

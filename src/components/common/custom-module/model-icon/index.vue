@@ -1,6 +1,6 @@
 <template>
     <div class="img-outer re oh flex-row" :style="com_style">
-        <icon :name="form.icon_class" :color="form.icon_color" :size="form.icon_size"></icon>
+        <icon :name="form.icon_class" :color="form.icon_color" :size="form.icon_size + ''"></icon>
     </div>
 </template>
 <script setup lang="ts">

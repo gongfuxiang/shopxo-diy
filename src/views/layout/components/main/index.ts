@@ -21,7 +21,8 @@ import defaultHotZone from './default/hot-zone';
 import defaultCustom from './default/custom';
 import defaultDataMagic from './default/data-magic';
 import defaultCoupon from './default/coupon';
-import defaultSeckill from './default/seckill'
+import defaultSeckill from './default/seckill';
+import defaultTabsCarousel from './default/tabs-carousel';
 
 // 系统设置
 interface DefaultSettings {
@@ -49,6 +50,7 @@ interface DefaultSettings {
     custom: object;
     coupon: object;
     seckill: object;
+    tabs_carousel: object;
 }
 
 const defaultSettings: DefaultSettings = {
@@ -76,6 +78,7 @@ const defaultSettings: DefaultSettings = {
     custom: defaultCustom,
     coupon: defaultCoupon,
     seckill: defaultSeckill,
+    tabs_carousel: defaultTabsCarousel,
 };
 
 export default defaultSettings;

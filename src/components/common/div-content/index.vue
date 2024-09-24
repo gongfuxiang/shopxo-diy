@@ -46,6 +46,10 @@
             <template v-else-if="item.key == 'tabs'">
                 <model-tabs :key="item.com_data" :value="item.com_data"></model-tabs>
             </template>
+            <!-- 选项卡 -->
+            <template v-else-if="item.key == 'tabs-carousel'">
+                <model-tabs-carousel :key="item.com_data" :value="item.com_data"></model-tabs-carousel>
+            </template>
             <!-- 商品列表 -->
             <template v-else-if="item.key == 'goods-list'">
                 <model-goods-list :key="item.com_data" :value="item.com_data"></model-goods-list>
