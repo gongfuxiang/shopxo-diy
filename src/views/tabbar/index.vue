@@ -71,8 +71,12 @@ const loading_event = () => {
 //#region 顶部导航回调方法 ---------------------start
 const save_event = () => {
     const clone_form = cloneDeep(form.value);
+    const new_data = {
+        type: 'home',
+        config: clone_form,
+    };
     // 数据改造
-    DiyAPI.saveTabbar(clone_form).then((res: any) => {
+    DiyAPI.saveTabbar(new_data).then((res: any) => {
         // 如果是导出或预览模式，则不显示保存成功的消息
         ElMessage.success('保存成功');
     });
