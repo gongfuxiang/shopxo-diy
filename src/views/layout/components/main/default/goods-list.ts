@@ -1,4 +1,6 @@
 import defaultCommon from './index';
+import { online_url } from '@/utils';
+const new_url = await online_url('/static/app/common/').then((res) => res);
 interface DefaultProductList {
     content: {
         theme: string;
@@ -15,6 +17,7 @@ interface DefaultProductList {
         order_by_type: string;
         order_by_rule: string;
         is_show: string[];
+        static_img: uploadList[];
         is_shop_show: string;
         shop_type: string;
         shop_button_text: string;
@@ -68,6 +71,7 @@ const defaultProductList: DefaultProductList = {
         order_by_type: '0',
         order_by_rule: '0',
         is_show: ['title', 'plugins_view_icon', 'price', 'sales_count', 'original_price'],
+        static_img: [{ id: 2, url: new_url + 'price.png', original: '角标', title: '角标', ext: '.png', type: 'img' }],
         is_shop_show: '1',
         shop_type: 'text',
         shop_button_text: '购买',

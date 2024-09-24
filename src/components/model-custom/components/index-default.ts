@@ -97,7 +97,7 @@ export const icon_com_data = {
     icon_weight: 'normal',
     icon_size: 12,
     icon_option: 'none',
-    icon_location: 'left',
+    icon_location: 'center',
     icon_padding: {
         padding: 0,
         padding_top: 0,
