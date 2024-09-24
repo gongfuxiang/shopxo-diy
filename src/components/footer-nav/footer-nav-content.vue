@@ -5,15 +5,15 @@
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="导航样式">
                     <el-radio-group v-model="form.nav_style" is-button @change="nav_style_change">
-                        <el-radio :value="0">图片加文字</el-radio>
-                        <el-radio :value="1">图片</el-radio>
-                        <el-radio :value="2">文字</el-radio>
+                        <el-radio value="0">图片加文字</el-radio>
+                        <el-radio value="1">图片</el-radio>
+                        <el-radio value="2">文字</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="导航类型">
                     <el-radio-group v-model="form.nav_type" is-button @change="nav_type_change">
-                        <el-radio :value="0">底部固定</el-radio>
-                        <el-radio :value="1">底部悬浮</el-radio>
+                        <el-radio value="0">底部固定</el-radio>
+                        <el-radio value="1">底部悬浮</el-radio>
                     </el-radio-group>
                 </el-form-item>
             </card-container>

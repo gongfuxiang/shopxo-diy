@@ -1,7 +1,7 @@
 import defaultCommon from './index';
 import { online_url } from '@/utils';
 const new_url = await online_url('/static/app/tabbar/').then((res) => res);
-interface DefaultFooterNav {
+export interface DefaultFooterNav {
     content: {
         nav_style: number;
         nav_type: number;

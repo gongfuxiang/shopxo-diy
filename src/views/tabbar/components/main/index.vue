@@ -11,7 +11,7 @@
                 </div>
                 <!-- 底部区域 -->
                 <div class="model-bottom">
-                    <footer-nav :footer-data="footer_nav.com_data"></footer-nav>
+                    <footer-nav :footer-data="footer_nav"></footer-nav>
                 </div>
             </div>
         </div>
@@ -31,7 +31,6 @@ watch(
     () => props.footer,
     (newValue) => {
         footer_nav.value = newValue;
-        console.log(newValue);
     },
     { deep: true }
 );
