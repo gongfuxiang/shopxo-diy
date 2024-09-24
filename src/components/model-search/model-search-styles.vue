@@ -1,5 +1,5 @@
 <template>
-    <div class="w h">
+    <div>
         <el-form :model="form" label-width="70">
             <template v-if="search_content.is_icon_show">
                 <card-container>
