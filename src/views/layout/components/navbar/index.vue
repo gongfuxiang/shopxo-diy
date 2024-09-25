@@ -16,8 +16,8 @@
         <div class="nav-right">
             <el-button class="btn-plain" @click="upload_manage">上传管理</el-button>
             <el-button class="btn-plain" @click="preview_event">预览</el-button>
-            <el-button class="btn-plain" @click="save_event">仅保存</el-button>
-            <el-button class="btn-white" @click="save_close_event">保存关闭</el-button>
+            <el-button class="btn-plain" :disabled="true" @click="save_event">仅保存</el-button>
+            <el-button class="btn-white" :disabled="saveDisabled" @click="save_close_event">保存关闭</el-button>
         </div>
     </div>
     <el-dialog v-model="dialog_visible" class="radius-lg" width="650" draggable :close-on-click-modal="false" append-to-body>
@@ -53,6 +53,12 @@
 </template>
 <script setup lang="ts">
 import { FormInstance, FormRules } from 'element-plus';
+const props = defineProps({
+    saveDisabled: {
+        type: Boolean,
+        default: false,
+    },
+});
 const modelValue = defineModel({ type: Object, default: {} });
 // #region 变量 --------------------start
 const is_custom_dialog = ref(false);
@@ -91,15 +97,13 @@ const upload_manage = () => {
 const preview_event = () => {
     emit('preview');
 };
-
 // 点击仅保存时的事件处理函数。
 const save_event = () => {
-    emit('save');
+    emit('save', true);
 };
-
 // 点击保存并关闭时的事件处理函数。
 const save_close_event = () => {
-    emit('saveClose');
+    emit('saveClose', true);
 };
 
 const confirm_event = async (formEl: FormInstance | undefined) => {

@@ -2,7 +2,7 @@
     <div v-loading.fullscreen.lock="loading" class="app-wrapper no-copy" element-loading-background="rgba(255,255,255,1)" element-loading-custom-class="loading-custom">
         <template v-if="!loading_content">
             <template v-if="!is_empty">
-                <navbar v-model="form.model" @preview="preview_event" @save="save_event" @save-close="save_close_event" />
+                <navbar v-model="form.model" :save-disabled="save_disabled" @preview="preview_event" @save="save_event" @save-close="save_close_event" />
                 <div class="app-wrapper-content flex-row">
                     <app-main :diy-data="form.diy_data" :tabs-data="form.tabs_data" :header="form.header" :footer="form.footer" @right-update="right_update" @import="import_data_event" @export="export_data_event" @clear="clear_data_event"></app-main>
                     <settings :key="key" :value="diy_data_item"></settings>
@@ -177,10 +177,13 @@ const diy_id = ref('');
 const preview_event = () => {
     save_formmat_form_data(form.value, false, false, true);
 };
-const save_event = () => {
+const save_disabled = ref(false);
+const save_event = (bool: boolean) => {
+    save_disabled.value = bool;
     save_formmat_form_data(form.value);
 };
-const save_close_event = () => {
+const save_close_event = (bool: boolean) => {
+    save_disabled.value = bool;
     save_formmat_form_data(form.value, true);
 };
 // save_formmat_form_data: 保存数据， data： 数据， close： 是否关闭， is_export： 是否导出， is_preview： 是否预览
@@ -275,6 +278,10 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             form.value.id = String(res.data);
             history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
         }
+
+        setTimeout(() => {
+            save_disabled.value = false;
+        }, 500);
     });
 };
 //#endregion 顶部导航回调方法 ---------------------end
