@@ -206,7 +206,7 @@ const carousel_height_computer = computed(() => {
     return new_style.value.name_size * 2 + new_style.value.article_height + 'px';
 });
 watch(
-    props.value,
+    () => props.value,
     (newVal, oldValue) => {
         const new_content = newVal?.content;
         const new_style = newVal?.style;
