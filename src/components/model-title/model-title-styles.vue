@@ -3,6 +3,18 @@
         <el-form :model="form" label-width="80">
             <card-container>
                 <div class="mb-12">标题设置</div>
+                <template v-if="!isEmpty(content.icon_class)">
+                    <el-form-item label="左侧图标">
+                        <div class="flex-col w gap-10">
+                            <el-form-item label="大小" label-width="40" class="form-item-child-label">
+                                <slider v-model="form.icon_size" :max="100"></slider>
+                            </el-form-item>
+                            <el-form-item label="颜色" label-width="40" class="form-item-child-label">
+                                <color-picker v-model="form.icon_color" default-color="#999"></color-picker>
+                            </el-form-item>
+                        </div>
+                    </el-form-item>
+                </template>
                 <el-form-item label="标题颜色">
                     <color-picker v-model="form.title_color" default-color="#000000"></color-picker>
                 </el-form-item>
@@ -17,6 +29,25 @@
                     </el-form-item>
                 </el-form-item>
             </card-container>
+            <template v-if="!isEmpty(content.subtitle)">
+                <div class="bg-f5 divider-line" />
+                <card-container>
+                    <div class="mb-12">副标题设置</div>
+                    <el-form-item label="颜色">
+                        <color-picker v-model="form.subtitle_color" default-color="#000000"></color-picker>
+                    </el-form-item>
+                    <el-form-item label="文字">
+                        <el-radio-group v-model="form.subtitle_weight">
+                            <el-radio value="500">加粗</el-radio>
+                            <el-radio value="normal">正常</el-radio>
+                            <el-radio value="italic">倾斜</el-radio>
+                        </el-radio-group>
+                        <el-form-item label="字号" label-width="40" class="mb-0 w">
+                            <slider v-model="form.subtitle_size" :max="100"></slider>
+                        </el-form-item>
+                    </el-form-item>
+                </card-container>
+            </template>
             <div class="bg-f5 divider-line" />
             <card-container>
                 <div class="mb-12">关键字设置</div>
@@ -43,15 +74,20 @@
     </div>
 </template>
 <script setup lang="ts">
+import { isEmpty } from "lodash";
 const props = defineProps({
     value: {
+        type: Object,
+        default: () => {},
+    },
+    content: {
         type: Object,
         default: () => {},
     }
 });
 
 const state = reactive({
-    form: props.value
+    form: props.value,
 });
 // 如果需要解构，确保使用toRefs
 const { form } = toRefs(state);

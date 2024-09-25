@@ -95,9 +95,9 @@
             <template v-else-if="item.key == 'rich-text'">
                 <model-rich-text :key="item.com_data" :value="item.com_data"></model-rich-text>
             </template>
-            <!-- 文本标题 -->
-            <template v-else-if="item.key == 'text-title'">
-                <model-text-title :key="item.com_data" :value="item.com_data"></model-text-title>
+            <!-- 标题 -->
+            <template v-else-if="item.key == 'title'">
+                <model-title :key="item.com_data" :value="item.com_data"></model-title>
             </template>
             <!-- 悬浮按钮 -->
             <template v-else-if="item.key == 'float-window'">
