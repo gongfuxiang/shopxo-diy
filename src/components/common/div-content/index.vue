@@ -107,7 +107,6 @@
     </div>
 </template>
 <script lang="ts" setup>
-const app = getCurrentInstance();
 interface Props {
     diyData: any[];
     showModelBorder: boolean;
