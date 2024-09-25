@@ -338,11 +338,11 @@ const form_data_transfor_diy_data = (clone_form: diyData) => {
 // 截取document.location.search字符串内id/后面的所有字段
 const get_id = () => {
     let new_id = '';
-    if (document.location.search.indexOf('id/') !== -1) {
+    if (document.location.search.indexOf('id/') != -1) {
         new_id = document.location.search.substring(document.location.search.indexOf('id/') + 3);
         // 去除字符串的.html
         let html_index = new_id.indexOf('.html');
-        if (html_index !== -1) {
+        if (html_index != -1) {
             new_id = new_id.substring(0, html_index);
         }
         return new_id;

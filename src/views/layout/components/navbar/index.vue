@@ -16,7 +16,7 @@
         <div class="nav-right">
             <el-button class="btn-plain" @click="upload_manage">上传管理</el-button>
             <el-button class="btn-plain" @click="preview_event">预览</el-button>
-            <el-button class="btn-plain" :disabled="true" @click="save_event">仅保存</el-button>
+            <el-button class="btn-plain" :disabled="saveDisabled" @click="save_event">仅保存</el-button>
             <el-button class="btn-white" :disabled="saveDisabled" @click="save_close_event">保存关闭</el-button>
         </div>
     </div>

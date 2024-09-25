@@ -3,7 +3,7 @@
         <div class="footer-nav-content flex-row jc-c align-c w" :style="style_container">
             <ul class="flex-row jc-sa align-c w">
                 <li v-for="(item, index) in nav_content" :key="index" class="flex-1 flex-col jc-c align-c gap-5" @mouseenter="is_hover = index" @mouseleave="is_hover = 0">
-                    <div v-if="nav_style !== 2" class="img re">
+                    <div v-if="nav_style != 2" class="img re">
                         <div class="img-item abs radius-xs animate-linear w" :class="is_hover != index ? 'active' : ''">
                             <image-empty v-model="item.img[0]" error-img-style="width:1.5rem;height:1.5rem;"></image-empty>
                         </div>
@@ -11,7 +11,7 @@
                             <image-empty v-model="item.img_checked[0]" error-img-style="width:1.5rem;height:1.5rem;"></image-empty>
                         </div>
                     </div>
-                    <span v-if="nav_style !== 1" class="animate-linear size-12 re z-i" :style="is_hover == index ? text_color_checked : default_text_color">{{ item.name }}</span>
+                    <span v-if="nav_style != 1" class="animate-linear size-12 re z-i" :style="is_hover == index ? text_color_checked : default_text_color">{{ item.name }}</span>
                 </li>
             </ul>
         </div>

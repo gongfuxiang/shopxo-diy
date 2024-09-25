@@ -73,7 +73,7 @@ const form = ref<Tree>({
 watch(
     () => dialog_visible_category_operate.value,
     (newValue) => {
-        if (newValue && props.type !== 'add') {
+        if (newValue && props.type != 'add') {
             form.value = cloneDeep(props.value);
         } else {
             form.value = {

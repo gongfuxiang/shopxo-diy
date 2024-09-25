@@ -32,7 +32,7 @@
     </el-dialog>
     <div class="flex-row align-c gap-10 br-d radius-sm plr-11 theme-input" @click="dialog_visible = true">
         <div class="flex-1 flex-width size-12 text-line-1">
-            <text v-if="temp_data_obj !== null">{{ temp_data_obj.name }}</text>
+            <text v-if="temp_data_obj != null">{{ temp_data_obj.name }}</text>
             <text v-else class="cr-9">{{ placeholder }}</text>
         </div>
         <div class="theme-icon">
@@ -104,7 +104,7 @@ const close_event = () => {
 };
 // 确定
 const confirm_event = () => {
-    if (temp_data.value !== null) {
+    if (temp_data.value != null) {
         model_value.value = temp_data.value.id;
         temp_data_obj.value = temp_data.value;
         close_event();

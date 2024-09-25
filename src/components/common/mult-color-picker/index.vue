@@ -16,7 +16,7 @@
                             <div class="define-append">%</div>
                         </div>
                     </div>
-                    <div v-if="index + 1 !== color_list.length" class="connect-line"></div>
+                    <div v-if="index + 1 != color_list.length" class="connect-line"></div>
                 </div>
                 <template v-if="index == 0">
                     <icon name="reset" color="primary" size="16" class="c-pointer" @click="reset_event"></icon>

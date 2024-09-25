@@ -13,7 +13,7 @@
                 </template>
             </el-image>
         </div>
-        <div v-if="src !== '' && isSrc" class="flex-row align-c gap-10 size-12">
+        <div v-if="src != '' && isSrc" class="flex-row align-c gap-10 size-12">
             {{ src }}
             <div class="copy" @click="clipboard_event">复制</div>
         </div>
@@ -66,7 +66,7 @@ const clipboard_event = async () => {
 watch(
     () => props.src,
     (newValue) => {
-        if (newValue !== '') {
+        if (newValue != '') {
             generateQRCode(newValue, 2);
         }
     }

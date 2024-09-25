@@ -26,7 +26,7 @@ const content_update = (value: any) => {
     const new_arry = ['margin', 'margin_left', 'margin_right', 'margin_top', 'margin_bottom', 'padding', 'padding_left', 'padding_right', 'padding_top', 'padding_bottom', 'radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right'];
     if (value.nav_type == 1) {
         new_arry.forEach((item) => {
-            if (item.indexOf('radius') !== -1) {
+            if (item.indexOf('radius') != -1) {
                 form.value.style.common_style[item] = 100;
             } else {
                 form.value.style.common_style[item] = 10;
