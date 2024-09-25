@@ -20,8 +20,8 @@
                     </div>
                 </div>
             </template>
-            <template v-else-if="actived != 7 || props.num !== 1">
-                <div v-for="(item, index) in split_list" :key="index" :class="['flex-col gap-10 h', { 'half-width': props.num !== 1, 'w': props.num == 1 }]">
+            <template v-else-if="actived != 7 || props.num != 1">
+                <div v-for="(item, index) in split_list" :key="index" :class="['flex-col gap-10 h', { 'half-width': props.num != 1, 'w': props.num == 1 }]">
                     <div class="w h re">
                         <template v-if="!isEmpty(item.new_cover)">
                             <image-empty v-model="item.new_cover[0]" :style="contentImgRadius"></image-empty>

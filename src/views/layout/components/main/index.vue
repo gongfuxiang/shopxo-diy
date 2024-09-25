@@ -373,7 +373,7 @@ const set_show_tabs = (index: number) => {
             emits('rightUpdate', item, diy_data.value, page_data.value, footer_nav.value, tabs_data.value);
             item.show_tabs = '1';
             // 悬浮按钮的时候不用滚动到指定位置
-            if (item.key !== 'float-window') {
+            if (item.key != 'float-window') {
                 scroll();
             }
         }

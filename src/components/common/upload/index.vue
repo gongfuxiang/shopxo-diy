@@ -13,7 +13,7 @@
             </div>
         </template>
         <div class="upload-content pa-20">
-            <div v-if="upload_type !== 'icon'" class="flex-row gap-40">
+            <div v-if="upload_type != 'icon'" class="flex-row gap-40">
                 <div class="left-content">
                     <div class="flex-row align-c gap-10 mb-10">
                         <el-input v-model="search_filter" placeholder="请输入分类名称" clearable>
@@ -92,7 +92,7 @@
                                                     </template>
                                                 </el-image>
                                             </template>
-                                            <div class="check-icon fill flex-row jc-c align-c" :class="view_list_value.findIndex((i) => i.id === item.id) !== -1 ? 'active' : ''">
+                                            <div class="check-icon fill flex-row jc-c align-c" :class="view_list_value.findIndex((i) => i.id === item.id) != -1 ? 'active' : ''">
                                                 <icon name="true-o" color="f" size="26"></icon>
                                             </div>
                                             <div class="operate">
@@ -100,7 +100,7 @@
                                                     <div class="flex-1 tc c-pointer" @click.stop="edit_event(item, index)">
                                                         <icon name="edit" class="flex-1" size="14" color="f"></icon>
                                                     </div>
-                                                    <div v-if="upload_type !== 'file'" class="operate-icon flex-1 tc c-pointer" @click.stop="preview_event(item, index)">
+                                                    <div v-if="upload_type != 'file'" class="operate-icon flex-1 tc c-pointer" @click.stop="preview_event(item, index)">
                                                         <icon name="eye" size="14" color="f"></icon>
                                                     </div>
                                                     <div class="flex-1 tc c-pointer" @click.stop="del_event(item)">
@@ -110,7 +110,7 @@
                                             </div>
                                         </div>
                                         <div class="text-line-1 name" @click.stop>
-                                            <template v-if="edit_index !== -1 && edit_index === index">
+                                            <template v-if="edit_index != -1 && edit_index === index">
                                                 <el-input v-model="item.original" v-focus type="text" placeholder="请输入内容" size="small" clearable @blur="edit_index = -1" @keydown="edit_input_keydown" @change="edit_input_change" />
                                             </template>
                                             <template v-else>
@@ -200,7 +200,7 @@
                         <div class="upload-btn-bottom-text">替换</div>
                     </template>
                 </div>
-                <div v-if="limit !== model_value_upload.length" :class="'upload-btn upload-btn-style-' + styles" :style="'height:' + upload_size + ';width:' + upload_size + ';'" @click="dialog_visible = true">
+                <div v-if="limit != model_value_upload.length" :class="'upload-btn upload-btn-style-' + styles" :style="'height:' + upload_size + ';width:' + upload_size + ';'" @click="dialog_visible = true">
                     <icon name="add" :size="Number(size) / 2 + ''" color="c"></icon>
                 </div>
             </div>
@@ -354,7 +354,7 @@ watch(search_filter, (val) => {
 });
 const filter_node = (value: string, data: any): boolean => {
     if (!value) return true;
-    return data.name.indexOf(value) !== -1;
+    return data.name.indexOf(value) != -1;
 };
 const type_data = ref<Tree[]>([]);
 const all_tree = {
@@ -503,7 +503,7 @@ const check_img_ids = ref('');
 const check_img_event = (item: any) => {
     const item_id = item.id;
     const index = view_list_value.value.findIndex((item: any) => item.id === item_id);
-    if (index !== -1) {
+    if (index != -1) {
         view_list_value.value.splice(index, 1);
     } else {
         if (is_replace.value) {
@@ -578,7 +578,7 @@ const del_event = (item: uploadList) => {
 
             // 过滤已删除的文件
             view_list_value.value = view_list_value.value.filter((items: any) => {
-                return items.id !== item.id;
+                return items.id != item.id;
             });
             console.log(view_list_value.value);
         });

@@ -38,7 +38,7 @@ export function is_obj(obj: unknown): boolean {
     // 特殊处理 null值，因为 typeof null 返回 "object"，但 null 并不是我们要检查的对象
     if (obj === null) return false;
     // 使用 typeof 排除非对象类型
-    if (typeof obj !== 'object') return false;
+    if (typeof obj != 'object') return false;
     // 确认是普通对象
     return Object.prototype.toString.call(obj) === '[object Object]';
 }

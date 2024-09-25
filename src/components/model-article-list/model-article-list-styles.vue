@@ -15,7 +15,7 @@
                 <el-form-item label="内容圆角">
                     <radius :value="form.content_radius"></radius>
                 </el-form-item>
-                <template v-if="theme !== '3'">
+                <template v-if="theme != '3'">
                     <el-form-item label="图片圆角">
                         <radius :value="form.img_radius"></radius>
                     </el-form-item>
@@ -28,7 +28,7 @@
                         <slider v-model="form.content_spacing"></slider>
                     </el-form-item>
                 </template>
-                <template v-if="theme !== '3'">
+                <template v-if="theme != '3'">
                     <el-form-item label="文章间距">
                         <slider v-model="form.article_spacing"></slider>
                     </el-form-item>

@@ -1,15 +1,15 @@
 <template>
     <div class="oh" :style="style_container">
         <div class="re oh" :style="style">
-            <div v-if="!['4'].includes(article_theme)" class="flex-warp" :class="article_theme_class" :style="article_theme !== '3' ? article_spacing : ''">
+            <div v-if="!['4'].includes(article_theme)" class="flex-warp" :class="article_theme_class" :style="article_theme != '3' ? article_spacing : ''">
                 <div v-for="(item, index) in data_list" :key="index" class="item bg-f oh" :class="article_theme == '0' ? 'flex-row' : 'flex-col'" :style="article_style">
-                    <template v-if="article_theme !== '3'">
+                    <template v-if="article_theme != '3'">
                         <template v-if="item.new_cover.length > 0">
                             <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
                         </template>
                         <template v-else> <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty> </template>
                     </template>
-                    <div class="jc-sb flex-1" :class="article_theme == '3' ? 'flex-row align-c' : 'flex-col'" :style="article_theme !== '0' ? content_padding : ''">
+                    <div class="jc-sb flex-1" :class="article_theme == '3' ? 'flex-row align-c' : 'flex-col'" :style="article_theme != '0' ? content_padding : ''">
                         <div class="title" :class="article_theme == '3' ? 'text-line-1 flex-1 flex-width' : 'text-line-2'" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
                         <div class="flex-row jc-sb gap-8" :class="article_theme == '3' ? 'ml-10' : 'align-e mt-10'">
                             <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
@@ -31,7 +31,7 @@
                                 <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
                             </template>
                             <template v-else> <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty> </template>
-                            <div class="jc-sb flex-1 flex-col" :style="article_theme !== '0' ? content_padding : ''">
+                            <div class="jc-sb flex-1 flex-col" :style="article_theme != '0' ? content_padding : ''">
                                 <div class="title text-line-2" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
                                 <div class="flex-row jc-sb gap-8 align-e mt-10">
                                     <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
@@ -191,7 +191,7 @@ watch(
 const multicolumn_columns_width = computed(() => {
     const { carousel_col } = toRefs(new_content.value);
     // 计算间隔的空间。(gap * gap数量) / 模块数量
-    let gap = carousel_col.value !== '0' ? (new_style.value.article_spacing * carousel_col.value) / (Number(carousel_col.value) + 1) : '0';
+    let gap = carousel_col.value != '0' ? (new_style.value.article_spacing * carousel_col.value) / (Number(carousel_col.value) + 1) : '0';
     return `calc(${100 / (Number(carousel_col.value) + 1)}% - ${gap}px)`;
 });
 // 文章内容高度
@@ -206,7 +206,7 @@ const carousel_height_computer = computed(() => {
     return new_style.value.name_size * 2 + new_style.value.article_height + 'px';
 });
 watch(
-    props.value,
+    () => props.value,
     (newVal, oldValue) => {
         const new_content = newVal?.content;
         const new_style = newVal?.style;

@@ -148,7 +148,7 @@ const isContain = (x: number, y: number, item: CubeItem) => {
 //魔方点击事件。
 const onClickCubeItem = (event: any) => {
     let domclass = event.currentTarget.getAttribute('class');
-    if (-1 !== domclass.indexOf('item-selected')) {
+    if (-1 != domclass.indexOf('item-selected')) {
         return;
     }
 

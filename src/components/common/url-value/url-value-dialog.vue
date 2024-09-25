@@ -6,7 +6,7 @@
             </div>
         </template>
         <div class="url-value-content pa-20 flex-row">
-            <div v-if="custom_link_type.length !== 1" class="left-content">
+            <div v-if="custom_link_type.length != 1" class="left-content">
                 <el-menu :default-active="link_select" class="w br-none" @select="handle_select">
                     <el-menu-item v-for="item in base_data" :key="item.type" :index="item.type" :disabled="!(custom_link_type.includes(item.type) || custom_link_type.length == 0)">
                         <span>{{ item.name }}</span>

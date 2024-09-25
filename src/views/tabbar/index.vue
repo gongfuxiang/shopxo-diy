@@ -7,7 +7,7 @@
                     <settings :key="key" :value="form"></settings>
                 </div>
                 <div class="app-wrapper-footer flex-row align-c">
-                    <el-button type="primary" class="footer-save" @click="save_event">保存</el-button>
+                    <el-button type="primary" class="footer-save" :disabled="save_disabled" @click="save_event">保存</el-button>
                 </div>
             </template>
             <template v-else>
@@ -71,16 +71,21 @@ const loading_event = () => {
 //#endregion 页面初始化数据 ---------------------end
 
 //#region 顶部导航回调方法 ---------------------start
+const save_disabled = ref(false);
 const save_event = () => {
     const clone_form = cloneDeep(form.value);
     const new_data = {
         type: 'home',
         config: clone_form,
     };
+    save_disabled.value = true;
     // 数据改造
     DiyAPI.saveTabbar(new_data).then((res: any) => {
         // 如果是导出或预览模式，则不显示保存成功的消息
         ElMessage.success('保存成功');
+        setTimeout(() => {
+            save_disabled.value = false;
+        }, 500);
     });
 };
 //#endregion 顶部导航回调方法 ---------------------end

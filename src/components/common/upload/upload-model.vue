@@ -229,7 +229,7 @@ const scan_uuid = ref('');
 // 上传方式
 const upload_type_change = (type: any) => {
     // 清除之前的定时器（如果存在）
-    if (timer.value && type !== 'scan') {
+    if (timer.value && type != 'scan') {
         // 直接检查 timer.value 是否存在（不是 null 或 undefined）
         clearTimeout(timer.value);
         timer.value = null; // 清除引用，防止内存泄漏
@@ -514,7 +514,7 @@ const del_already_upload = (id: number | undefined, index: number) => {
     // 根据下标删除文件
     // scan_file_list.value.splice(index, 1);
     // 调接口真实删除
-    if (id !== undefined) {
+    if (id != undefined) {
         app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
             // 调用删除接口，然后，更新数据
             UploadAPI.delAttachment({ ids: id }).then((res) => {
@@ -583,7 +583,7 @@ const reset_data = () => {
     scan_file_list.value = [];
     scan_uuid.value = '';
     // 直接检查 timer.value 是否存在（不是 null 或 undefined）
-    if (timer.value !== null) {
+    if (timer.value != null) {
         clearTimeout(timer.value);
     }
     is_mask.value = true;
