@@ -62,7 +62,7 @@ interface DefaultArticleTabs {
 const defaultArticleTabs: DefaultArticleTabs = {
     content: {
         tabs_theme: '0',
-        tabs_top_up: '1',
+        tabs_top_up: '0',
         article_theme: '0',
         article_carousel_col: '2',
         tabs_list: [
