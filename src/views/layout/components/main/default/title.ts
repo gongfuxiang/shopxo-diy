@@ -11,6 +11,9 @@ interface defaultSearch {
     content: {
         title: string;
         title_link: object;
+        img_src: uploadList[];
+        icon_class: string;
+        subtitle: string;
         is_title_center: string;
         keyword_show: string;
         keyword_list: carousel_list[];
@@ -22,6 +25,11 @@ interface defaultSearch {
         title_color: string;
         title_size: number;
         title_weight: string;
+        icon_size: number;
+        icon_color: string;
+        subtitle_color: string;
+        subtitle_size: number;
+        subtitle_weight: string;
         keyword_color: string;
         keyword_size: number;
         right_color: string;
@@ -33,6 +41,9 @@ const defaultSearch: defaultSearch = {
     content: {
         title: '',
         title_link: {},
+        img_src: [],
+        icon_class: '',
+        subtitle: '',
         is_title_center: '0',
         keyword_show: '1',
         right_show: '1',
@@ -51,6 +62,11 @@ const defaultSearch: defaultSearch = {
         title_color: '#000',
         title_size: 12,
         title_weight: 'normal',
+        icon_size: 12,
+        icon_color: '#999',
+        subtitle_color: '#999',
+        subtitle_size: 12,
+        subtitle_weight: 'normal',
         keyword_color: '#000',
         keyword_size: 12,
         right_color: '#999',

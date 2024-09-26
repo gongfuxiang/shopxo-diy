@@ -1,10 +1,10 @@
 <template>
     <div class="auxiliary-line-setting">
         <template v-if="type == '1'">
-            <model-text-title-content :value="value.content"></model-text-title-content>
+            <model-title-content :value="value.content"></model-title-content>
         </template>
         <template v-if="type == '2'">
-            <model-text-title-styles :value="value.style"></model-text-title-styles>
+            <model-title-styles :value="value.style" :content="value.content"></model-title-styles>
         </template>
     </div>
 </template>

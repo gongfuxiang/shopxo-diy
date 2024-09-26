@@ -12,6 +12,12 @@
                 <el-form-item label="是否居中">
                     <el-switch v-model="form.is_title_center" active-value="1" inactive-value="0"/>
                 </el-form-item>
+                <el-form-item label="上传图片">
+                    <upload v-model="form.img_src" v-model:icon-value="form.icon_class" is-icon :limit="1" size="50"></upload>
+                </el-form-item>
+                <el-form-item label="副标题">
+                    <el-input v-model="form.subtitle" placeholder="请输入副标题" clearable></el-input>
+                </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>

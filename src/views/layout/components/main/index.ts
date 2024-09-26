@@ -11,7 +11,7 @@ import defaultArticleList from './default/article-list';
 import defaultArticleTabs from './default/article-tabs';
 import defaultCarousel from './default/carousel';
 import defaultNotice from './default/notice';
-import defaultTextTitle from './default/text-title';
+import defaultTitle from './default/title';
 import defaultFloatWindow from './default/float-window';
 import defaultTabs from './default/tabs';
 import defaultGoodsList from './default/goods-list';
@@ -39,7 +39,7 @@ interface DefaultSettings {
     nav_group: object;
     carousel: object;
     notice: object;
-    text_title: object;
+    title: object;
     float_window: object;
     tabs: object;
     goods_list: object;
@@ -67,7 +67,7 @@ const defaultSettings: DefaultSettings = {
     nav_group: defaultNavGroup,
     carousel: defaultCarousel,
     notice: defaultNotice,
-    text_title: defaultTextTitle,
+    title: defaultTitle,
     float_window: defaultFloatWindow,
     tabs: defaultTabs,
     goods_list: defaultGoodsList,
