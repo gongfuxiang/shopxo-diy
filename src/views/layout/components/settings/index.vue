@@ -103,9 +103,9 @@
             <template v-else-if="value.key == 'rich-text'">
                 <model-rich-text-setting :type="radio" :value="value.com_data"></model-rich-text-setting>
             </template>
-            <!-- 文本标题 -->
-            <template v-else-if="value.key == 'text-title'">
-                <model-text-title-setting :type="radio" :value="value.com_data"></model-text-title-setting>
+            <!-- 标题 -->
+            <template v-else-if="value.key == 'title'">
+                <model-title-setting :type="radio" :value="value.com_data"></model-title-setting>
             </template>
             <!-- 悬浮按钮 -->
             <template v-else-if="value.key == 'float-window'">
