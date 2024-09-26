@@ -10,6 +10,8 @@
     </div>
 </template>
 <script setup lang="ts">
+import { percentage_count } from '@/utils';
+
 const props = defineProps({
     value: {
         type: Object,
@@ -41,7 +43,8 @@ watch(props.value, (val) => {
     }
 
     style.value = location;
-
+    // 60 为自身高度
+    new_style.value.offset_number_percentage = (new_style.value.offset_number / (846 - 60)).toFixed(4);
     emits('change', { bottom: new_style.value.offset_number, location: new_style.value.display_location });
 }, {immediate: true, deep: true});
 </script>
