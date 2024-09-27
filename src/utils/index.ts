@@ -24,6 +24,51 @@ export function is_obj_empty(obj: object): boolean {
     return Object.keys(obj).length === 0;
 }
 /**
+ * 将对象或数组中的字符串转换为数字
+ * 此函数递归地遍历给定对象或数组，将所有能转换为数字的字符串转换成数字类型
+ * 如果字符串不能转换为数字，则保留原字符串
+ *
+ * @param obj 任意类型的对象或数组，需要转换其中的字符串
+ * @param maxDepth 递归的最大深度，默认为100，用于防止无限递归
+ * @param currentDepth 当前递归的深度，默认为0
+ * @returns 转换后的对象或数组，结构与原输入相同
+ */
+export function convert_strings_to_numbers(obj: any, maxDepth: number = 100, currentDepth: number = 0): any {
+    // 递归深度限制
+    if (currentDepth >= maxDepth) {
+        return obj;
+    }
+    if (Array.isArray(obj)) {
+        // 处理数组
+        return obj.map((item) => convert_strings_to_numbers(item, maxDepth, currentDepth + 1));
+    } else if (is_obj(obj)) {
+        // 处理对象
+        return Object.keys(obj).reduce((acc: any, key: string) => {
+            const value = obj[key];
+            if (typeof value === 'string') {
+                // 处理字符串
+                const numValue = Number(value);
+                if (!isNaN(numValue) && value.trim() !== '') {
+                    acc[key] = numValue;
+                } else {
+                    acc[key] = value;
+                }
+            } else if (is_obj(value)) {
+                // 递归处理子对象
+                acc[key] = convert_strings_to_numbers(value, maxDepth, currentDepth + 1);
+            } else {
+                // 其他类型直接保留
+                acc[key] = value;
+            }
+            return acc;
+        }, {});
+    } else {
+        // 非对象类型直接返回
+        return obj;
+    }
+}
+
+/**
  * 检查给定的参数是否为对象
  *
  * 此函数用于精确地验证一个变量是否为对象类型它通过以下步骤实现：

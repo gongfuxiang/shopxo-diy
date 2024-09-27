@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { get_math } from '@/utils';
+import { get_math, convert_strings_to_numbers } from '@/utils';
 import { Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
 import { cloneDeep } from 'lodash';
@@ -40,7 +40,10 @@ const init = () => {
     DiyAPI.getTabbar({ type: 'home' })
         .then((res: any) => {
             if (res.data) {
-                form.value = res.data;
+                let data = res.data;
+                data.style.common_style = convert_strings_to_numbers(data.style.common_style);
+                form.value = data;
+                console.log(form.value);
             } else {
                 form.value = cloneDeep(temp_form.value);
             }
