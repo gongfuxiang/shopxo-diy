@@ -49,7 +49,7 @@
                     <color-picker v-model="form.tips_color" default-color="#CCCCCC"></color-picker>
                 </el-form-item>
                 <el-form-item label="热词文字">
-                    <color-picker v-model="form.hot_words_color" default-color="#000"></color-picker>
+                    <color-picker v-model="form.hot_words_color"></color-picker>
                 </el-form-item>
                 <el-form-item label="搜索框线">
                     <color-picker v-model="form.search_border" default-color="#fff"></color-picker>

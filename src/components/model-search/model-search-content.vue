@@ -7,11 +7,16 @@
                     <el-row class="w">
                         <el-col :span="24"><el-switch v-model="form.is_icon_show" active-value="1" inactive-value="0"></el-switch></el-col>
                     </el-row>
-                    <el-row v-if="form.is_icon_show == '1'" class="mt-10 w">
-                        <el-col :span="24">
-                            <upload v-model="form.icon_img" v-model:icon-value="form.icon_class" is-icon :limit="1" size="50"></upload>
-                        </el-col>
-                    </el-row>
+                    <template v-if="form.is_icon_show == '1'">
+                        <el-row  class="mt-10 w">
+                            <el-col :span="24">
+                                <upload v-model="form.icon_img" v-model:icon-value="form.icon_class" is-icon :limit="1" size="50"></upload>
+                            </el-col>
+                        </el-row>
+                        <el-row class="mt-10 w">
+                            <el-col :span="24"><url-value v-model="form.icon_src"></url-value></el-col>
+                        </el-row>
+                    </template>
                 </el-form-item>
                 <el-form-item label="提示文字">
                     <el-row class="w">
