@@ -9,6 +9,7 @@ interface defaultSearch {
     style: {
         display_location: string;
         offset_number: number;
+        offset_number_percentage: string;
         float_style: string;
         float_style_color: string;
     };
@@ -22,6 +23,7 @@ const defaultSearch: defaultSearch = {
     style: {
         display_location: 'right',
         offset_number: 120,
+        offset_number_percentage: '100%',
         float_style: 'shadow',
         float_style_color: '#32373a1a',
     },
