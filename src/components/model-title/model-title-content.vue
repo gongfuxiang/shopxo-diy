@@ -12,7 +12,7 @@
                 <el-form-item label="是否居中">
                     <el-switch v-model="form.is_title_center" active-value="1" inactive-value="0"/>
                 </el-form-item>
-                <el-form-item label="上传图片">
+                <el-form-item label="图片/图标">
                     <upload v-model="form.img_src" v-model:icon-value="form.icon_class" is-icon :limit="1" size="50"></upload>
                 </el-form-item>
                 <el-form-item label="副标题">

@@ -3,12 +3,12 @@
         <el-form :model="form" label-width="70">
             <card-container>
                 <div class="mb-12">展示设置</div>
-                <el-form-item label="图标样式" class="align-s">
+                <el-form-item label="左侧图标" class="align-s">
                     <el-row class="w">
                         <el-col :span="24"><el-switch v-model="form.is_icon_show" active-value="1" inactive-value="0"></el-switch></el-col>
                     </el-row>
                     <template v-if="form.is_icon_show == '1'">
-                        <el-row  class="mt-10 w">
+                        <el-row class="mt-10 w">
                             <el-col :span="24">
                                 <upload v-model="form.icon_img" v-model:icon-value="form.icon_class" is-icon :limit="1" size="50"></upload>
                             </el-col>
@@ -100,7 +100,7 @@ const on_sort = (new_list: hot_word_list[]) => {
     form.value.hot_word_list = new_list;
 };
 const search_color_change = (color: string, old_hot_word: hot_word_list) => {
-    const index = form.value.hot_word_list.findIndex((item: { id: string; }) => item.id == old_hot_word.id);
+    const index = form.value.hot_word_list.findIndex((item: { id: string }) => item.id == old_hot_word.id);
     (<arrayIndex>form.value.hot_word_list)[index].color = color;
 };
 </script>

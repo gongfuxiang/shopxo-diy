@@ -126,10 +126,11 @@ const row_click = (row: any) => {
     const new_table_datas = array_conversion(JSON.parse(JSON.stringify(new_table_data.value)));
     template_selection.value = new_table_datas.findIndex((item: pageLinkList) => item.id == row.id).toString();
     if (props.selectIsUrl) {
+        const page = '/pages/goods-search/goods-search?category_id=' + row.id;
         const new_row = {
             id: row.id,
-            name: row.name,
-            page: '/pages/goods-search/goods-search?category_id=' + row.id,
+            name: row.name || row.title || page,
+            page: page,
         };
         modelValue.value = [new_row];
     } else {

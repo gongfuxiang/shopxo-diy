@@ -6,11 +6,11 @@
                 <template v-if="!isEmpty(content.icon_class)">
                     <el-form-item label="左侧图标">
                         <div class="flex-col w gap-10">
-                            <el-form-item label="大小" label-width="40" class="form-item-child-label">
-                                <slider v-model="form.icon_size" :max="100"></slider>
-                            </el-form-item>
                             <el-form-item label="颜色" label-width="40" class="form-item-child-label">
                                 <color-picker v-model="form.icon_color" default-color="#999"></color-picker>
+                            </el-form-item>
+                            <el-form-item label="大小" label-width="40" class="form-item-child-label">
+                                <slider v-model="form.icon_size" :max="100"></slider>
                             </el-form-item>
                         </div>
                     </el-form-item>

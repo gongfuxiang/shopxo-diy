@@ -12,25 +12,25 @@
                             <el-input v-model="form.link" class="link-input" placeholder="请输入跳转路径" clearable />
                         </el-form-item>
                         <div class="tips">
-                            <h4>WEB端</h4>
+                            <p class="title">WEB端</p>
                             <p>1. 以http开头</p>
                             <p>2. 如小程序中使用WEB页面、需要在小程序后台加入白名单</p>
-                            <h5>内部页面(小程序/APP内部地址)</h5>
+                            <p class="title">内部页面(小程序/APP内部地址)</p>
                             <p>1. 小程序以/pages开始</p>
                             <p>2. 例如：/pages/user/user、支持带参数 ?x=xx</p>
                             <p>3. 示例：/pages/goods-detail/goods-detail?id=1</p>
-                            <h5>打开外部小程序</h5>
+                            <p class="title">打开外部小程序</p>
                             <p>1. 以appid://开头</p>
                             <p>2. 例如：appid://wx88888888|path</p>
                             <p>3. 示例：appid://wx88888888|/pages/goods-detail/goods-detail?id=1</p>
-                            <h5>打开外部小程序链接</h5>
+                            <p class="title">打开外部小程序链接</p>
                             <p>1. 以shortlink://开头</p>
                             <p>2. 例如：shortlink://链接可以通过【小程序菜单】->【复制链接】获取。</p>
                             <p>3. 示例：shortlink://#小程序://ShopXO系统/WxblCyRUmDqGpcz</p>
-                            <h5>拨打电话</h5>
+                            <p class="title">拨打电话</p>
                             <p>1. 以tel://开头</p>
                             <p>2. 例如：tel://wx13222222222</p>
-                            <p>跳转原生地图查看指定位置</p>
+                            <p class="title">跳转原生地图查看指定位置</p>
                             <p>1. 以map://开头</p>
                             <p>2. 例如：map://名称|地址|经度|纬度</p>
                             <p>3. 示例：map://ShopXO|上海浦东新区张江高科技园区XXX号|121.626444|31.20843</p>
@@ -232,15 +232,15 @@ const reset_data = () => {
     }
 }
 .tips {
-    h4,
-    h5 {
-        margin-bottom: 1rem;
-        color: #666;
-    }
     p {
-        padding-left: 2rem;
+        padding-left: 4rem;
         color: #666;
         font-size: 1.2rem;
+        &.title {
+            margin: 1rem 0;
+            color: #333;
+            padding-left: 2rem;
+        }
     }
 }
 </style>

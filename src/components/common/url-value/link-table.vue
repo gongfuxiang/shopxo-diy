@@ -133,10 +133,11 @@ const row_click = (row: any) => {
         const new_table_data = JSON.parse(JSON.stringify(tableData.value));
         template_selection.value = new_table_data.findIndex((item: pageLinkList) => item.id == row.id).toString();
         if (props.selectIsUrl) {
+            const page = computer_link.value + row.id;
             const new_row = {
                 id: row.id,
-                name: row.name,
-                page: computer_link.value + row.id,
+                name: row.name || row.title || page,
+                page: page,
             };
             modelValue.value = [new_row];
         } else {
@@ -148,10 +149,11 @@ const handle_select = (selection: any) => {
     if (props.selectIsUrl) {
         // 遍历数组selection
         const new_selection = selection.map((item: any) => {
+            const page = computer_link.value + item.id;
             return {
                 id: item.id,
-                name: item.name,
-                page: computer_link.value + item.id,
+                name: item.name || item.title || page,
+                page: page,
             };
         });
         modelValue.value = new_selection;
