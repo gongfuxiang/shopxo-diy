@@ -9,7 +9,7 @@ interface defaultSearch {
     content: {
         is_center: string;
         is_icon_show: string;
-        icon_src: string;
+        icon_src: object;
         icon_img: uploadList[];
         icon_class: string;
         search_botton_img: uploadList[];
@@ -40,7 +40,7 @@ const defaultSearch: defaultSearch = {
     content: {
         is_center: '0',
         is_icon_show: '1',
-        icon_src: '',
+        icon_src: {},
         icon_img: [],
         icon_class: '',
         search_botton_img: [],
