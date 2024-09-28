@@ -20,31 +20,31 @@
                 </template>
                 <!-- 商品分类 -->
                 <template v-else-if="link_select == 'goods-category'">
-                    <link-goods-category v-model="link_value" :reset="reset_compontent"></link-goods-category>
+                    <link-goods-category v-model="link_value" :select-is-url="selectIsUrl" :reset="reset_compontent"></link-goods-category>
                 </template>
                 <!-- 商品搜索 -->
                 <template v-else-if="link_select == 'goods-search'">
-                    <link-goods-search :reset="reset_compontent" :status="component_status" @update:link="goods_category_link" @type="goods_category_type_change"></link-goods-search>
+                    <link-goods-search :reset="reset_compontent" :status="component_status" :select-is-url="selectIsUrl" @update:link="goods_category_link" @type="goods_category_type_change"></link-goods-search>
                 </template>
                 <!-- 商品页面 -->
                 <template v-else-if="link_select == 'goods'">
-                    <link-goods v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-goods>
+                    <link-goods v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent"></link-goods>
                 </template>
                 <!-- 文章页面 -->
                 <template v-else-if="link_select == 'article'">
-                    <link-articles v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-articles>
+                    <link-articles v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent"></link-articles>
                 </template>
                 <!-- diy页面/页面设计/自定义页面  -->
                 <template v-else-if="link_select == 'diy' || link_select == 'design' || link_select == 'custom-view'">
-                    <link-table :key="link_select" v-model="link_value" :multiple="multiple" :type="link_select" :reset="reset_compontent"></link-table>
+                    <link-table :key="link_select" v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :type="link_select" :reset="reset_compontent"></link-table>
                 </template>
                 <!-- 品牌 -->
                 <template v-else-if="link_select == 'brand'">
-                    <link-brand v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-brand>
+                    <link-brand v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent"></link-brand>
                 </template>
                 <!-- 自定义链接 -->
                 <template v-else-if="link_select == 'custom-url'">
-                    <link-custom :reset="reset_compontent" :status="component_status" @update:link="custom_link"></link-custom>
+                    <link-custom :reset="reset_compontent" :select-is-url="selectIsUrl" :status="component_status" @update:link="custom_link"></link-custom>
                 </template>
                 <!-- 优惠券链接 -->
                 <template v-else-if="link_select == 'coupon'">
@@ -81,6 +81,11 @@ const props = defineProps({
         default: () => [],
     },
     multiple: {
+        type: Boolean,
+        default: false,
+    },
+    // 判断是否返回链接地址
+    selectIsUrl: {
         type: Boolean,
         default: false,
     },

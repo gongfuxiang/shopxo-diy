@@ -52,6 +52,11 @@ const props = defineProps({
         type: Boolean,
         default: () => false,
     },
+    // 判断是否返回链接地址
+    selectIsUrl: {
+        type: Boolean,
+        default: false,
+    },
 });
 watch(
     () => props.reset,
@@ -113,16 +118,46 @@ const get_list = (new_page: number) => {
     }
 };
 //#region 分页 -----------------------------------------------end
-
+// 根据是diy还是design或者custom-view获取link地址
+const computer_link = computed(() => {
+    if (props.type == 'design') {
+        return '/pages/design/design?id=';
+    } else if (props.type == 'custom-view') {
+        return '/pages/customview/customview?id=';
+    } else {
+        return '/pages/diy/diy?id=';
+    }
+});
 const row_click = (row: any) => {
     if (!props.multiple) {
         const new_table_data = JSON.parse(JSON.stringify(tableData.value));
         template_selection.value = new_table_data.findIndex((item: pageLinkList) => item.id == row.id).toString();
-        modelValue.value = [row];
+        if (props.selectIsUrl) {
+            const new_row = {
+                id: row.id,
+                name: row.name,
+                page: computer_link.value + row.id,
+            };
+            modelValue.value = [new_row];
+        } else {
+            modelValue.value = row;
+        }
     }
 };
 const handle_select = (selection: any) => {
-    modelValue.value = selection;
+    if (props.selectIsUrl) {
+        // 遍历数组selection
+        const new_selection = selection.map((item: any) => {
+            return {
+                id: item.id,
+                name: item.name,
+                page: computer_link.value + item.id,
+            };
+        });
+        modelValue.value = new_selection;
+    } else {
+        modelValue.value = selection;
+    }
 };
 </script>
 <style lang="scss" scoped>

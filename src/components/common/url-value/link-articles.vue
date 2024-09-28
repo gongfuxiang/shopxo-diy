@@ -52,6 +52,11 @@ const props = defineProps({
         type: Boolean,
         default: () => false,
     },
+    // 判断是否返回链接地址
+    selectIsUrl: {
+        type: Boolean,
+        default: false,
+    },
 });
 watch(
     () => props.reset,
@@ -111,11 +116,32 @@ const row_click = (row: any) => {
     if (!props.multiple) {
         const new_table_data = JSON.parse(JSON.stringify(tableData.value));
         template_selection.value = new_table_data.findIndex((item: pageLinkList) => item.id == row.id).toString();
-        modelValue.value = [row];
+        if (props.selectIsUrl) {
+            const new_row = {
+                id: row.id,
+                name: row.name,
+                page: '/pages/article-detail/article-detail?id=' + row.id,
+            };
+            modelValue.value = [new_row];
+        } else {
+            modelValue.value = [row];
+        }
     }
 };
 const handle_select = (selection: any) => {
-    modelValue.value = selection;
+    if (props.selectIsUrl) {
+        // 遍历数组selection
+        const new_selection = selection.map((item: any) => {
+            return {
+                id: item.id,
+                name: item.name,
+                page: '/pages/article-detail/article-detail?id=' + item.id,
+            };
+        });
+        modelValue.value = new_selection;
+    } else {
+        modelValue.value = selection;
+    }
 };
 </script>
 <style lang="scss" scoped>

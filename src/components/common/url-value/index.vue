@@ -16,7 +16,7 @@
             </template>
         </div>
     </div>
-    <url-value-dialog v-model:modelValue="new_model_value" v-model:dialogVisible="dialogVisible" :type="type" @update:model-value="model_value_call_back"></url-value-dialog>
+    <url-value-dialog v-model:model-value="new_model_value" v-model:dialog-visible="dialogVisible" :select-is-url="true" :type="type" @update:model-value="model_value_call_back"></url-value-dialog>
 </template>
 <script lang="ts" setup>
 import { is_obj_empty } from '@/utils';

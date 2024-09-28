@@ -65,7 +65,7 @@ const defaultFooterNav: DefaultFooterNav = {
         title: '新建页面',
         link: {},
         indicator_location: 'center',
-        positioning_name: '默认名称',
+        positioning_name: '未选择位置',
         icon_setting: [
             { id: get_math(), img: [], icon: 'applet-me-message-acquiesce', link: {} },
         ],

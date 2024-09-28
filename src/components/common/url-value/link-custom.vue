@@ -1,5 +1,5 @@
 <template>
-    <!-- 商城 -->
+    <!-- 自定义链接 -->
     <div class="container">
         <div class="tabs flex-row gap-10 mb-30">
             <div v-for="item in custom_type" :key="item.id" class="item bg-f5 radius-sm" :class="custom_type_active == item.id ? 'active' : ''" @click="custom_type_event(item)">{{ item.name }}</div>
@@ -11,6 +11,30 @@
                         <el-form-item label="跳转路径" prop="link" :rules="link">
                             <el-input v-model="form.link" class="link-input" placeholder="请输入跳转路径" clearable />
                         </el-form-item>
+                        <div class="tips">
+                            <h4>WEB端</h4>
+                            <p>1. 以http开头</p>
+                            <p>2. 如小程序中使用WEB页面、需要在小程序后台加入白名单</p>
+                            <h5>内部页面(小程序/APP内部地址)</h5>
+                            <p>1. 小程序以/pages开始</p>
+                            <p>2. 例如：/pages/user/user、支持带参数 ?x=xx</p>
+                            <p>3. 示例：/pages/goods-detail/goods-detail?id=1</p>
+                            <h5>打开外部小程序</h5>
+                            <p>1. 以appid://开头</p>
+                            <p>2. 例如：appid://wx88888888|path</p>
+                            <p>3. 示例：appid://wx88888888|/pages/goods-detail/goods-detail?id=1</p>
+                            <h5>打开外部小程序链接</h5>
+                            <p>1. 以shortlink://开头</p>
+                            <p>2. 例如：shortlink://链接可以通过【小程序菜单】->【复制链接】获取。</p>
+                            <p>3. 示例：shortlink://#小程序://ShopXO系统/WxblCyRUmDqGpcz</p>
+                            <h5>拨打电话</h5>
+                            <p>1. 以tel://开头</p>
+                            <p>2. 例如：tel://wx13222222222</p>
+                            <p>跳转原生地图查看指定位置</p>
+                            <p>1. 以map://开头</p>
+                            <p>2. 例如：map://名称|地址|经度|纬度</p>
+                            <p>3. 示例：map://ShopXO|上海浦东新区张江高科技园区XXX号|121.626444|31.20843</p>
+                        </div>
                     </template>
                     <template v-if="custom_type_active == 1">
                         <el-form-item label="APPID" prop="app_id" :rules="app_id">
@@ -60,6 +84,11 @@ const props = defineProps({
     reset: {
         type: Boolean,
         default: () => false,
+    },
+    // 判断是否返回链接地址
+    selectIsUrl: {
+        type: Boolean,
+        default: false,
     },
 });
 watch(
@@ -138,29 +167,29 @@ const on_submit = () => {
         if (valid) {
             let new_value: pageLinkList = {
                 name: '',
-                link: '',
+                page: '',
             };
             if (custom_type_active.value == 1) {
                 new_value = {
-                    name: form.app_id,
-                    link: form.app_link,
+                    name: form.app_id + '|' + form.app_link,
+                    page: 'appid://' + form.app_id + '|' + form.app_link,
                 };
             } else if (custom_type_active.value == 2) {
                 new_value = {
                     name: form.phone,
-                    link: form.phone,
+                    page: 'tel://' + form.phone,
                 };
             } else if (custom_type_active.value == 3) {
                 new_value = {
                     name: form.name,
-                    link: form.address,
+                    page: 'map://' + form.name + '|' + form.address + '|' + form.lng + '|' + form.lat,
                     lng: form.lng,
                     lat: form.lat,
                 };
             } else {
                 new_value = {
                     name: form.link,
-                    link: form.link,
+                    page: form.link,
                 };
             }
             emit('update:link', new_value);
@@ -200,6 +229,18 @@ const reset_data = () => {
     }
     .link-input {
         width: 33.2rem;
+    }
+}
+.tips {
+    h4,
+    h5 {
+        margin-bottom: 1rem;
+        color: #666;
+    }
+    p {
+        padding-left: 2rem;
+        color: #666;
+        font-size: 1.2rem;
     }
 }
 </style>

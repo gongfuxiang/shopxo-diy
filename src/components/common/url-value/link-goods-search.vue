@@ -74,6 +74,11 @@ const props = defineProps({
         type: Boolean,
         default: () => false,
     },
+    // 判断是否返回链接地址
+    selectIsUrl: {
+        type: Boolean,
+        default: false,
+    },
 });
 watch(
     () => props.status,
@@ -164,7 +169,15 @@ const goods_item_click = (item: pageLinkList, level: number, index: number) => {
         }
     } else {
         check_data.value = item;
-        emit('update:link', item, 0);
+        if (props.selectIsUrl) {
+            const new_item = {
+                page: '/pages/goods-search/goods-search?category_id=' + item.id,
+                ...item,
+            };
+            emit('update:link', new_item, 0);
+        } else {
+            emit('update:link', item, 0);
+        }
     }
 };
 //#endregion 商品分类  -----------------------------------------------end
@@ -174,7 +187,15 @@ const brand_item_index = ref(0);
 const brand_item_click = (item: any, index: number) => {
     brand_item_index.value = index + 1;
     check_data.value = item;
-    emit('update:link', item, 1);
+    if (props.selectIsUrl) {
+        const new_item = {
+            page: '/pages/goods-search/goods-search?brand=' + item.id,
+            ...item,
+        };
+        emit('update:link', new_item, 1);
+    } else {
+        emit('update:link', item, 1);
+    }
 };
 //#endregion 品牌  -----------------------------------------------end
 
@@ -192,7 +213,7 @@ const on_submit = () => {
         if (valid) {
             let new_value: pageLinkList = {
                 name: form.key,
-                link: form.key,
+                page: '/pages/goods-search/goods-search?keywords=' + form.key,
             };
             emit('update:link', new_value, 2);
         }

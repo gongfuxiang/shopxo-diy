@@ -38,6 +38,11 @@ const props = defineProps({
         type: Boolean,
         default: () => false,
     },
+    // 判断是否返回链接地址
+    selectIsUrl: {
+        type: Boolean,
+        default: false,
+    },
 });
 watch(
     () => props.reset,
@@ -120,7 +125,16 @@ const row_click = (row: any) => {
     };
     const new_table_datas = array_conversion(JSON.parse(JSON.stringify(new_table_data.value)));
     template_selection.value = new_table_datas.findIndex((item: pageLinkList) => item.id == row.id).toString();
-    modelValue.value = [row];
+    if (props.selectIsUrl) {
+        const new_row = {
+            id: row.id,
+            name: row.name,
+            page: '/pages/goods-search/goods-search?category_id=' + row.id,
+        };
+        modelValue.value = [new_row];
+    } else {
+        modelValue.value = [row];
+    }
 };
 </script>
 <style lang="scss" scoped>
