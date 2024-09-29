@@ -1,4 +1,4 @@
-import defaultFooterNav from './default/footer-nav';
+import defaultFooterNav from '@/config/const/footer-nav';
 
 interface DefaultSettings {
     footer_nav: any;

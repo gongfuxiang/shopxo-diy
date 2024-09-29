@@ -44,7 +44,6 @@ const init = () => {
                 let data = res.data;
                 data.style.common_style = convert_strings_to_numbers(data.style.common_style);
                 form.value = data;
-                console.log(form.value);
             } else {
                 form.value = cloneDeep(temp_form.value);
             }
@@ -128,10 +127,10 @@ const save_event = () => {
 :deep(.divider-line) {
     box-shadow: 0 0.5rem 2rem rgba(50, 55, 58, 0.1);
 }
-:deep(.settings) {
-    // box-shadow: 0 0.5rem 2rem rgba(50, 55, 58, 0.1);
-    .settings-title {
-        // box-shadow: 0 0.5rem 2rem rgba(50, 55, 58, 0.1);
-    }
-}
+// :deep(.settings) {
+//     // box-shadow: 0 0.5rem 2rem rgba(50, 55, 58, 0.1);
+//     .settings-title {
+//         // box-shadow: 0 0.5rem 2rem rgba(50, 55, 58, 0.1);
+//     }
+// }
 </style>

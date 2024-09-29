@@ -19,7 +19,10 @@
             </card-container>
             <div class="divider-line"></div>
             <card-container>
-                <div class="mb-12">导航内容</div>
+                <div class="mb-12 flex-row gap-10 jc-sb">
+                    <div>导航内容</div>
+                    <div class="cr-primary c-pointer" @click="reset_event">恢复默认</div>
+                </div>
                 <div class="size-12 cr-c mb-20">图片建议宽高80*80；鼠标拖拽左侧圆点可调整导航顺序</div>
                 <div class="nav-list">
                     <drag :data="form.nav_content" type="card" :space-col="20" @remove="nav_content_remove" @on-sort="on_sort">
@@ -51,7 +54,9 @@
     </div>
 </template>
 <script setup lang="ts">
+import { cloneDeep } from 'lodash';
 import { get_math } from '@/utils';
+import defaultFooterNav from '@/config/const/footer-nav';
 const props = defineProps({
     value: {
         type: Object,
@@ -87,6 +92,16 @@ const add = () => {
         img_checked: [],
         link: {},
     });
+    emit('update:value', form.value);
+};
+interface DefaultFooterNav {
+    content: {
+        nav_content: any; // 根据实际类型替换 any
+    };
+}
+const reset_event = () => {
+    const clone_data = cloneDeep(defaultFooterNav.value);
+    form.value.nav_content = clone_data.content.nav_content;
     emit('update:value', form.value);
 };
 </script>
