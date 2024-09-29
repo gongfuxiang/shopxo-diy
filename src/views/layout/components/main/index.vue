@@ -7,7 +7,7 @@
                     <VueDraggable v-model="com.data" :animation="500" ghost-class="ghost" handle=".is-drag" :group="{ name: 'people', pull: 'clone', put: false }" class="component flex-row flex-wrap" :clone="clone_item_com_data" :sort="false" :force-fallback="true">
                         <template v-for="item in com.data" :key="item.key">
                             <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="该组件只可以点击添加, 并且只能添加一次" placement="top" :disabled="!['tabs', 'tabs-carousel'].includes(item.key)">
-                                <div :class="['item', {'is-drag': !['tabs', 'tabs-carousel'].includes(item.key) }]" @click.stop="draggable_click(item)">
+                                <div :class="['item', { 'is-drag': !['tabs', 'tabs-carousel'].includes(item.key) }]" @click.stop="draggable_click(item)">
                                     <div class="main-border siderbar-hidden main-show tc">释放鼠标将组件添加到此处</div>
                                     <div class="siderbar-show main-hidden flex-col jc-c align-c gap-4">
                                         <img class="img radius-xs" :src="url_computer(item.key)" />
@@ -51,14 +51,15 @@
         <div class="model">
             <div class="model-content">
                 <div class="acticons">
-                    <el-button size="large" class="" @click="page_settings">页面设置</el-button>
-                    <el-button size="large" class="" @click="export_click">导出</el-button>
-                    <el-upload ref="uploadRef" class="upload-demo" action="#" :accept="exts_text" :show-file-list="false" :auto-upload="false" :on-change="upload_change">
+                    <el-button size="large" @click="page_settings">页面设置</el-button>
+                    <el-button size="large" @click="export_click">导出</el-button>
+                    <!-- <el-upload action="#" :accept="exts_text" :show-file-list="false" :auto-upload="false" :on-change="upload_change">
                         <template #trigger>
                             <el-button size="large">导入</el-button>
                         </template>
-                    </el-upload>
-                    <el-button size="large" class="" @click="clear_click">清空</el-button>
+                    </el-upload> -->
+                    <el-button size="large" @click="import_click">导入</el-button>
+                    <el-button size="large" @click="clear_click">清空</el-button>
                 </div>
                 <!-- 拖拽区 -->
                 <div ref="scrollTop" class="model-drag">
@@ -66,7 +67,7 @@
                     <page-settings :show-page="page_data.show_tabs == '1'" :page-data="page_data" @page_settings="page_settings"></page-settings>
                     <div class="model-wall" :style="content_style">
                         <div class="model-wall-content" :style="`padding-top:${top_padding}px; margin-top: ${top_margin}px;padding-bottom:${bottom_navigation_show ? footer_nav_counter_store.padding_footer : 0}px;`">
-                            <div-content :diy-data="tabs_data" :show-model-border="show_model_border" :is-tabs="true" :main-content-style="main_content_style" @on_choose="set_tabs_event(true);" @del="del"></div-content>
+                            <div-content :diy-data="tabs_data" :show-model-border="show_model_border" :is-tabs="true" :main-content-style="main_content_style" @on_choose="set_tabs_event(true)" @del="del"></div-content>
                             <div v-if="tabs_data.length > 0" class="seat"></div>
                             <VueDraggable v-model="diy_data" :animation="500" :touch-start-threshold="2" group="people" class="drag-area re" ghost-class="ghost" :on-sort="on_sort" :on-start="on_start" :on-end="on_end">
                                 <div-content :diy-data="diy_data" :show-model-border="show_model_border" :main-content-style="main_content_style" @on_choose="on_choose" @del="del" @copy="copy" @move-up="moveUp" @move-down="moveDown"></div-content>
@@ -84,8 +85,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, get_math, gradient_computer, padding_computer, radius_computer } from '@/utils';
-import type { UploadFile, UploadFiles } from 'element-plus';
+import { background_computer, get_math, gradient_computer, padding_computer } from '@/utils';
 import { cloneDeep, isEmpty } from 'lodash';
 import { SortableEvent, VueDraggable } from 'vue-draggable-plus';
 import defaultSettings from './index';
@@ -227,7 +227,7 @@ const draggable_click = (item: componentsData) => {
             ElMessage.error('选项卡轮播不能与选项卡同时存在');
         }
     }
-}
+};
 // 复制
 const clone_item_com_data = (item: commonComponentData) => {
     return {
@@ -459,13 +459,9 @@ const set_tabs_event = (choose: Boolean) => {
 const export_click = () => {
     emits('export');
 };
-
-//导入
-const exts_text = ref('.zip');
-// 文件状态改变时的钩子，添加文件、上传成功和上传失败时都会被调用
-const upload_change = async (uploadFile: UploadFile) => {
-    // console.log('文件状态改变时的钩子', uploadFile);
-    emits('import', uploadFile);
+// 导入
+const import_click = () => {
+    emits('import');
 };
 // 清空列表
 const clear_click = () => {

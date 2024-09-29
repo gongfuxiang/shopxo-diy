@@ -58,5 +58,18 @@ const model_value_call_back = (value: any[]) => {
 };
 </script>
 <style lang="scss" scoped>
-@import 'index.scss';
+.url-value-input {
+    width: 100%;
+    height: 3.2rem;
+    line-height: 3.2rem;
+    cursor: pointer;
+    position: relative;
+    .value-input-icon {
+        position: absolute;
+        right: 0;
+        width: 3.4rem;
+        z-index: 1;
+        text-align: center;
+    }
+}
 </style>

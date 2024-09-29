@@ -223,5 +223,19 @@ const confirm_event = () => {
 //#endregion 链接确认回调 -----------------------------------------------end
 </script>
 <style lang="scss" scoped>
-@import 'index.scss';
+.url-value-content {
+    height: 57.3rem;
+    gap: 6rem;
+    .left-content {
+        width: 22.5rem;
+        .el-menu-item {
+            height: 4rem;
+            line-height: 4rem;
+            &.is-active {
+                background: var(--el-menu-hover-bg-color);
+                color: #333;
+            }
+        }
+    }
+}
 </style>
