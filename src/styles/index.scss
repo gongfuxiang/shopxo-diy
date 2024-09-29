@@ -214,7 +214,7 @@ p {
 }
 
 // 弹窗样式调整
-.diy-preview.el-dialog {
+.dialog-center.el-dialog {
     --el-dialog-margin-top: 0;
     display: flex;
     flex-direction: column;
@@ -223,6 +223,6 @@ p {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    max-height: calc(100% - 30px);
-    max-width: calc(100% - 30px);
+    max-height: calc(100% - 3rem);
+    max-width: calc(100% - 3rem);
 }

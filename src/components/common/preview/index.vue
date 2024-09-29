@@ -1,11 +1,11 @@
 <template>
-    <el-dialog v-model="dialog_visible" class="radius-lg diy-preview" width="1168" :close-on-click-modal="false" append-to-body>
+    <el-dialog v-model="dialog_visible" class="radius-lg dialog-center oh" width="1168" :close-on-click-modal="false" append-to-body>
         <template #header>
             <div class="title re">
                 <div class="middle size-16 fw">预览</div>
             </div>
         </template>
-        <div class="flex-row iframe-content">
+        <div class="flex-row iframe-content oh">
             <iframe :src="new_link" width="100%" height="100%" frameborder="0"></iframe>
         </div>
     </el-dialog>
