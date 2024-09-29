@@ -27,11 +27,11 @@
                             <div class="w">
                                 <el-form-item label="图标" label-width="45">
                                     <div class="flex-col jc-c align-c mr-12">
-                                        <upload v-model="row.img" :limit="1" :size="44" :styles="1"></upload>
+                                        <upload v-model="row.img" :limit="1" :size="44" :styles="1" :dialog-position-top="footerDialogPositionTop"></upload>
                                         <text class="cr-9 size-12">未选中</text>
                                     </div>
                                     <div class="flex-col jc-c align-c">
-                                        <upload v-model="row.img_checked" :limit="1" :size="44" :styles="1"></upload>
+                                        <upload v-model="row.img_checked" :limit="1" :size="44" :styles="1" :dialog-position-top="footerDialogPositionTop"></upload>
                                         <text class="cr-9 size-12">选中</text>
                                     </div>
                                 </el-form-item>
@@ -39,7 +39,7 @@
                                     <el-input v-model="row.name" placeholder="请输入名称" clearable />
                                 </el-form-item>
                                 <el-form-item label="链接" label-width="45">
-                                    <url-value v-model="row.link"></url-value>
+                                    <url-value v-model="row.link" :dialog-position-top="footerDialogPositionTop"></url-value>
                                 </el-form-item>
                             </div>
                         </template>
@@ -56,6 +56,10 @@ const props = defineProps({
     value: {
         type: Object,
         default: () => {},
+    },
+    footerDialogPositionTop: {
+        type: Number,
+        default: 0,
     },
 });
 const form = ref(props.value);

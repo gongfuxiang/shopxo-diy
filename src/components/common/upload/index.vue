@@ -1,6 +1,6 @@
 <!-- 上传组件 -->
 <template>
-    <el-dialog v-model="dialog_visible" class="radius-lg" width="1168" draggable :close-on-click-modal="false" append-to-body>
+    <el-dialog v-model="dialog_visible" class="radius-lg" width="1168" draggable :close-on-click-modal="false" :top="dialogPositionTop ? dialogPositionTop + 'px' : ''" append-to-body>
         <template #header>
             <div class="title re">
                 <el-radio-group v-model="upload_type" is-button @change="upload_type_change">
@@ -282,6 +282,10 @@ const props = defineProps({
     isIcon: {
         type: Boolean,
         default: false,
+    },
+    dialogPositionTop: {
+        type: Number,
+        default: 0,
     },
 });
 

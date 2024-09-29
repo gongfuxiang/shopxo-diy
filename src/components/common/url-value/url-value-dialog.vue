@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body :close-on-click-modal="false" @close="close_event">
+    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body :close-on-click-modal="false" :top="dialogPositionTop ? dialogPositionTop + 'px' : ''" @close="close_event">
         <template #header>
             <div class="title center re">
                 <div class="tc size-16 fw">{{ dialog_title }}</div>
@@ -88,6 +88,10 @@ const props = defineProps({
     selectIsUrl: {
         type: Boolean,
         default: false,
+    },
+    dialogPositionTop: {
+        type: Number,
+        default: 0,
     },
 });
 const modelValue = defineModel({ type: Array, default: [] });

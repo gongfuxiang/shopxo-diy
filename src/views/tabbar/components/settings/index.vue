@@ -10,7 +10,7 @@
         <div class="box-shadow-sm">
             <div class="setting-content">
                 <!-- 底部导航 -->
-                <footer-nav-setting :type="radio" :value="value"></footer-nav-setting>
+                <footer-nav-setting :type="radio" :value="value" :footer-dialog-position-top="footerDialogPositionTop"></footer-nav-setting>
             </div>
         </div>
     </div>
@@ -20,6 +20,10 @@ const props = defineProps({
     value: {
         type: Object,
         default: () => ({}),
+    },
+    footerDialogPositionTop: {
+        type: Number,
+        default: 0,
     },
 });
 const radio = ref('1'); // 创建一个响应式的数字变量，初始值为0

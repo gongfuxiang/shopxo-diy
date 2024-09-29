@@ -4,7 +4,7 @@
             <template v-if="!is_empty">
                 <div class="app-wrapper-content flex-row">
                     <app-main :footer="form"></app-main>
-                    <settings :key="key" :value="form"></settings>
+                    <settings :key="key" :value="form" :footer-dialog-position-top="footer_dialog_position_top"></settings>
                 </div>
                 <div class="app-wrapper-footer flex-row align-c">
                     <el-button type="primary" class="footer-save" :disabled="save_disabled" @click="save_event">保存</el-button>
@@ -30,6 +30,7 @@ const temp_form = ref(defaultSettings.footer_nav);
 const form = ref<any>({});
 
 const key = ref('');
+const footer_dialog_position_top = ref(0);
 //#region 页面初始化数据 ---------------------start
 // 页面加载
 onMounted(() => {

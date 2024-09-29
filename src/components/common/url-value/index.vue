@@ -16,7 +16,7 @@
             </template>
         </div>
     </div>
-    <url-value-dialog v-model:model-value="new_model_value" v-model:dialog-visible="dialogVisible" :select-is-url="true" :type="type" @update:model-value="model_value_call_back"></url-value-dialog>
+    <url-value-dialog v-model:model-value="new_model_value" v-model:dialog-visible="dialogVisible" :select-is-url="true" :type="type" :dialog-position-top="dialogPositionTop" @update:model-value="model_value_call_back"></url-value-dialog>
 </template>
 <script lang="ts" setup>
 import { is_obj_empty } from '@/utils';
@@ -37,6 +37,10 @@ const props = defineProps({
     placeholder: {
         type: String,
         default: '请选择链接',
+    },
+    dialogPositionTop: {
+        type: Number,
+        default: 0,
     },
 });
 const modelValue = defineModel({ type: Object, default: {} });
