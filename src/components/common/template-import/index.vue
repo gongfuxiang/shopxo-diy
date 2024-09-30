@@ -13,7 +13,7 @@
                         <el-upload v-model:file-list="file_list" action="#" :accept="exts_text" :show-file-list="false" :auto-upload="false" :on-change="upload_change">
                             <template #trigger>
                                 <div class="import-btn">
-                                    <icon name="upload-file" color="error"></icon>
+                                    <icon name="upload-file" color="primary"></icon>
                                 </div>
                             </template>
                         </el-upload>
@@ -68,7 +68,37 @@
                                                 <p class="cr-error fw size-14">{{ item.price_data.value }}</p>
                                                 <el-button v-if="item.buy_data.status == 1" :type="item.buy_data.status == 1 ? 'primary' : item.buy_data.status == 2 ? 'default' : 'danger'" :disabled="item.buy_data.status == 0" @click="buy_event(item, item.buy_data.status)">{{ item.buy_data.title }}</el-button>
                                             </div>
-                                            <div class="cr-9 size-12">{{ item.version_apply.name }}</div>
+                                            <div class="cr-9 size-12 flex-row jc-sb align-c">
+                                                <el-popover placement="top" :width="150" trigger="click">
+                                                    <template #reference>
+                                                        <div class="c-pointer">
+                                                            {{ item.version_apply.name }}
+                                                        </div>
+                                                    </template>
+                                                    <el-scrollbar max-height="200px">
+                                                        <div class="flex-col gap-10">
+                                                            <div v-for="version in item.version_apply.data" :key="version">
+                                                                {{ version }}
+                                                            </div>
+                                                        </div>
+                                                    </el-scrollbar>
+                                                </el-popover>
+                                                <el-popover v-if="item.buy_auth_domain.length > 0" placement="top" :width="150" trigger="click">
+                                                    <template #reference>
+                                                        <div class="flex-row gap-3 cr-9 size-12 c-pointer">
+                                                            <icon name="domain"></icon>
+                                                            <span>授权域名</span>
+                                                        </div>
+                                                    </template>
+                                                    <el-scrollbar max-height="200px">
+                                                        <div class="flex-col gap-10">
+                                                            <div v-for="domain in item.buy_auth_domain" :key="domain">
+                                                                {{ domain }}
+                                                            </div>
+                                                        </div>
+                                                    </el-scrollbar>
+                                                </el-popover>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -156,7 +186,11 @@ const get_import_list = (type?: string) => {
         form.value.page = 1;
     }
     loading.value = true;
-    DiyAPI.getImportList(form.value)
+    const new_data = {
+        ...form.value,
+        is_already_buy: form.value.status ? '1' : '0',
+    };
+    DiyAPI.getImportList(new_data)
         .then((res: any) => {
             const data = res.data;
             form.value.data_total = data.data_total;
