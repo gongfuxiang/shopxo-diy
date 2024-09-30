@@ -6,6 +6,27 @@
   "description": "web端",
   "glyphs": [
     {
+      "icon_id": "38735708",
+      "name": "yinyong-shangchuan",
+      "font_class": "upload-file",
+      "unicode": "e72d",
+      "unicode_decimal": 59181
+    },
+    {
+      "icon_id": "38422858",
+      "name": "yiny-xiaz2",
+      "font_class": "download-btn",
+      "unicode": "e707",
+      "unicode_decimal": 59143
+    },
+    {
+      "icon_id": "41936861",
+      "name": "图标",
+      "font_class": "tubiao",
+      "unicode": "e79a",
+      "unicode_decimal": 59290
+    },
+    {
       "icon_id": "37217394",
       "name": "icon-fenlei-more",
       "font_class": "fenlei-more",
