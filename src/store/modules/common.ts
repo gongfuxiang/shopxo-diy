@@ -21,6 +21,7 @@ export const commonStore = defineStore('common', () => {
             common_tianditu_map_ak: '',
             currency_symbol: '',
             attachment_host: '',
+            store_diy_url: '',
         } as any, // 基础数据配置参数
     });
     // 存储链接数据

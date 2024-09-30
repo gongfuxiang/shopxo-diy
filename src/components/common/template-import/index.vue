@@ -40,9 +40,11 @@
                                 </el-button>
                                 <el-checkbox v-model="form.status" @change="status_change">我已购买</el-checkbox>
                             </div>
-                            <el-link type="primary" href="#" target="_blank" :underline="false">
-                                <icon name="download-btn"></icon>
-                                <text>更多diy模版下载</text>
+                            <el-link type="primary" :href="more_link" target="_blank" :underline="false">
+                                <div class="flex-row gap-3 align-c">
+                                    <icon name="download-btn"></icon>
+                                    <text>更多diy模版下载</text>
+                                </div>
                             </el-link>
                         </div>
                         <el-scrollbar>
@@ -126,6 +128,8 @@
 import type { UploadFile } from 'element-plus';
 import { annex_size_to_unit } from '@/utils';
 import DiyAPI from '@/api/diy';
+import { commonStore } from '@/store';
+const common_store = commonStore();
 const app = getCurrentInstance();
 /**
  * @description: 模版导入
@@ -142,7 +146,9 @@ const props = defineProps({
 });
 const dialogVisible = defineModel({ type: Boolean, default: false });
 const temp_active = ref('1');
-
+const more_link = computed(() => {
+    return common_store.common.config.store_diy_url || '';
+});
 //导入
 const exts_text = ref('.zip');
 const upload_file = ref({
