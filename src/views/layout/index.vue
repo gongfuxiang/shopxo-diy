@@ -18,7 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import type { UploadFile } from 'element-plus';
 import { is_obj } from '@/utils';
 import { Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
@@ -101,25 +100,12 @@ const right_update = (item: any, diy: [Array<any>], header: headerAndFooter, foo
 };
 const import_temp_visible_dialog = ref(false);
 // 导入数据
-const import_data_event = (uploadFile: UploadFile) => {
-    // // 截取document.location.search字符串内id/后面的所有字段
-    // const form_data = new FormData();
-    // if (get_id()) {
-    //     form_data.append('id', get_id());
-    // }
-    // if (uploadFile && uploadFile.raw) {
-    //     form_data.append('file', uploadFile?.raw);
-    // }
-    // DiyAPI.import(form_data).then((res: any) => {
-    //     ElMessage.success(res.msg);
-    //     history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
-    //     init();
-    // });
+const import_data_event = () => {
     import_temp_visible_dialog.value = true;
 };
 const handleImportConfirm = () => {
     // 导入成功
-    console.log('handleImportConfirm');
+    init();
 };
 // 导出数据
 const export_data_event = () => {

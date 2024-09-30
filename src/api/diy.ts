@@ -1,4 +1,3 @@
-import { id } from 'element-plus/es/locale';
 import request from '@/utils/request';
 
 class DiyAPI {
@@ -18,6 +17,14 @@ class DiyAPI {
             data,
         });
     }
+    /** diy导入--获取列表 */
+    static getImportList(data: any) {
+        return request({
+            url: `diyapi/diymarket`,
+            method: 'post',
+            data,
+        });
+    }
     /** diy导入 */
     static import(data: FormData) {
         return request({
@@ -27,6 +34,14 @@ class DiyAPI {
             headers: {
                 'Content-Type': 'multipart/form-data',
             },
+        });
+    }
+    /** diy导入 -- 安装 */
+    static install(data: diy) {
+        return request({
+            url: `diyapi/diyinstall`,
+            method: 'post',
+            data,
         });
     }
     /** diy导出 */
