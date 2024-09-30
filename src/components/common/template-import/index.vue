@@ -17,7 +17,7 @@
                                 </div>
                             </template>
                         </el-upload>
-                        <div v-if="file_list.length > 0" class="upload-file-tips mt-5 size-12 flex-row gap-5 jc-c align-e">
+                        <div v-if="file_list.length > 0" class="upload-file-tips mt-10 size-12 flex-row gap-5 jc-c align-e">
                             <span class="fw">{{ upload_file.name }}</span>
                             <span class="cr-9">({{ annex_size_to_unit(upload_file.size) }})</span>
                         </div>
@@ -28,7 +28,7 @@
                     </div>
                 </el-tab-pane>
                 <el-tab-pane label="模版市场" name="2" class="h flex-col gap-16">
-                    <div v-loading="loading && { text: Loading_text }" :element-loading-text="Loading_text" element-loading-background="rgba(122, 122, 122, 0.8)" class="flex-1 flex-col gap-16">
+                    <div v-loading="loading && { text: Loading_text }" :element-loading-text="Loading_text" class="flex-1 flex-col gap-16">
                         <div class="temp-search flex-row jc-sb align-c w">
                             <div class="flex-row gap-10 align-c search-content">
                                 <el-input v-model="form.keywords" class="flex-1" placeholder="搜索关键字" @keyup.enter="get_import_list('1')" />
@@ -129,9 +129,9 @@ const upload_change = async (uploadFile: UploadFile) => {
 };
 
 watch(
-    () => temp_active.value,
+    () => dialogVisible.value,
     (val) => {
-        if (val === '2') {
+        if (val) {
             // 获取附件列表
             get_import_list('1');
         }
@@ -293,7 +293,7 @@ const get_id = () => {
         font-size: 7rem;
         color: $cr-primary;
         background: #e1f0ff;
-        border-radius: 0.2rem;
+        border-radius: 0.4rem;
         border: 0.1rem dashed $cr-primary;
     }
 }
