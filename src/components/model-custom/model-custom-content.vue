@@ -7,7 +7,7 @@
                     <el-select v-model="form.data_source" value-key="id" placeholder="请选择数据源" filterable clearable @change="changeDataSource">
                         <el-option v-for="item in options" :key="item.type" :label="item.name" :value="item.type" />
                     </el-select>
-                    <div v-if="!isEmpty(form.data_source_content)" class="flex-row mt-20 gap-20">
+                    <div v-if="!isEmpty(form.data_source_content) && is_show_more" class="flex-row mt-20 gap-20">
                         <div class="re flex align-c">
                             <image-empty v-model="form.data_source_content[form.img_key]" fit="contain" style="width: 10rem;height: 10rem" error-img-style="width: 3rem; height: 3rem;"></image-empty>
                             <div class="plr-10 bg-f abs replace-data size-10" @click="replace_data">替换数据</div>
@@ -75,6 +75,7 @@ interface data_list {
     type: string;
 }
 interface data_source_content {
+    appoint_data?: object;
     name: string;
     data: data_list[];
     type: string;
@@ -101,15 +102,21 @@ onBeforeMount(() => {
 });
 // 处理显示的图片和传递到下去的数据结构
 const model_data_source = ref<data_list[]>([]);
+const is_show_more = ref(true);
 const processing_data = (key: string) => {
     const list = options.value.filter((item) => item.type == key);
     if (list.length > 0) {
         model_data_source.value = list[0].data;
-        // 从中取出包含图片的内容
-        const field_list = list[0].data.filter((item) => item.type == 'images');
-        // 取出图片的key
-        if (field_list.length > 0) {
-            form.img_key = field_list[0].field;
+        if (!isEmpty(list[0].appoint_data)) {
+            is_show_more.value = false;
+        } else {
+            is_show_more.value = true;
+            // 从中取出包含图片的内容
+            const field_list = list[0].data.filter((item) => item.type == 'images');
+            // 取出图片的key
+            if (field_list.length > 0) {
+                form.img_key = field_list[0].field;
+            }
         }
     } else {
         model_data_source.value = [];
@@ -158,10 +165,15 @@ const accomplish = () => {
 // 打开弹出框
 const url_value_dialog_visible = ref(false);
 const changeDataSource = (key: string) => {
+    const type_data = options.value.filter((item) => item.type == key);
     processing_data(key);
-    form.data_source_content = {};
-    if (!isEmpty(key)) {
-        url_value_dialog_visible.value = true;
+    if (type_data.length > 0 && !isEmpty(type_data[0].appoint_data)) {
+        form.data_source_content = type_data[0].appoint_data;
+    } else {
+        form.data_source_content = {};
+        if (!isEmpty(key)) {
+            url_value_dialog_visible.value = true;
+        }
     }
 };
 

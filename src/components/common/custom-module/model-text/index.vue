@@ -38,8 +38,8 @@ const text_title = computed(() => {
     let text = '';
     if (!isEmpty(form.text_title)) {
         text = form.text_title;
-    } else if(!isEmpty(props.sourceList[form.data_source_id])) {
-        text =  props.sourceList[form.data_source_id];
+    } else if(props.sourceList[form.data_source_id] != undefined) {
+        text = props.sourceList[form.data_source_id];
     } else if(!props.isPercentage){
         text = '请在此输入文字';
     }
