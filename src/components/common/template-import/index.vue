@@ -34,7 +34,7 @@
                 <div v-loading="loading && { text: Loading_text }" :element-loading-text="Loading_text" class="flex-1 flex-col gap-16">
                     <div class="temp-search flex-row jc-sb align-c w">
                         <div class="flex-row gap-10 align-c search-content">
-                            <el-input v-model="form.keywords" class="flex-1" placeholder="搜索关键字" @keyup.enter="get_import_list('1')" />
+                            <el-input v-model="form.keywords" class="flex-1" placeholder="搜索关键字" clearable @keyup.enter="get_import_list('1')" />
                             <el-button type="primary" @click="get_import_list('1')">
                                 <view class="flex-row jc-c gap-4">
                                     <icon name="search"></icon>
@@ -268,7 +268,7 @@ const install = async (item: install_data) => {
                     install(new_data);
                     break;
                 case 'install':
-                    ElMessage.success('安装成功');
+                    ElMessage.success(res.msg);
                     history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
                     Loading_text.value = '';
                     loading.value = false;
