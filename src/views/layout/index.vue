@@ -43,7 +43,7 @@ const temp_form = ref<diy_data_item>({
     id: '',
     model: {
         logo: '',
-        name: '',
+        name: 'DIY模版',
         is_enable: '1',
         describe: '',
     },

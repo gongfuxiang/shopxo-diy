@@ -226,3 +226,27 @@ p {
     max-height: calc(100% - 3rem);
     max-width: calc(100% - 3rem);
 }
+
+// 圆形按钮单选框
+
+.btn-radio-round {
+    height: 3.8rem;
+    display: flex;
+    align-items: center;
+    &.center {
+        justify-content: center;
+    }
+    .el-radio-group {
+        background-color: #f4f4f4;
+        border-radius: 5rem;
+        .el-radio-button {
+            overflow: hidden;
+            border-radius: 5rem;
+            .el-radio-button__inner {
+                --el-fill-color-blank: #f4f4f4;
+                border: 0;
+                font-size: 1.4rem;
+            }
+        }
+    }
+}
