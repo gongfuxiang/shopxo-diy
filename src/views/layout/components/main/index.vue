@@ -6,7 +6,7 @@
                 <el-collapse-item v-if="com.data.length > 0" :key="i" :title="com.name" :name="com.key">
                     <VueDraggable v-model="com.data" :animation="500" ghost-class="ghost" handle=".is-drag" :group="{ name: 'people', pull: 'clone', put: false }" class="component flex-row flex-wrap" :clone="clone_item_com_data" :sort="false" :force-fallback="true">
                         <template v-for="item in com.data" :key="item.key">
-                            <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="该组件只可以点击添加, 并且只能添加一次" placement="top" :disabled="!['tabs', 'tabs-carousel'].includes(item.key)">
+                            <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>该组件只可以点击添加, 并且只能添加一次。<br/>如果页面设置开启沉浸模式, 则不可添加</span>" raw-content placement="top" :disabled="!['tabs', 'tabs-carousel'].includes(item.key)">
                                 <div :class="['item', { 'is-drag': !['tabs', 'tabs-carousel'].includes(item.key) }]" @click.stop="draggable_click(item)">
                                     <div class="main-border siderbar-hidden main-show tc">释放鼠标将组件添加到此处</div>
                                     <div class="siderbar-show main-hidden flex-col jc-c align-c gap-4">
