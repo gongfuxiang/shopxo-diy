@@ -163,7 +163,7 @@ watchEffect(() => {
         const { immersive_style, up_slide_display } = new_style;
         // 不开启沉浸式 和 上滑显示
         if (immersive_style == '1' || up_slide_display != '1') {
-            top_padding.value = 0;
+            top_padding.value = 2;
         } else {
             top_padding.value = 90;
         }
