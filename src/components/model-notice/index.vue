@@ -35,7 +35,7 @@
                     </template>
                     <div v-if="form.is_right_button == '1'" class="size-12" :style="`color: ${new_style.button_color || '#999'}`">更多<icon name="arrow-right" :color="new_style.button_color || '#999'"></icon></div>
                 </div>
-                <div v-for="(item, index) in notice_list" :key="index" class="flex" :style="news_style">
+                <div v-for="(item, index) in notice_list" :key="index" class="flex align-c" :style="news_style">
                     <span :class="`num one${index + 1}`">{{ index + 1 }}</span>
                     <div class="break" :style="`color: ${new_style.news_color}`">{{ item.notice_title }}</div>
                 </div>
