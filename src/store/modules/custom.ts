@@ -8,6 +8,7 @@ export const DataSourceStore = defineStore('dataSource', () => {
         type: string;
     };
     interface data_source_content {
+        appoint_data?: object;
         name: string;
         data: data_list[];
         type: string;
