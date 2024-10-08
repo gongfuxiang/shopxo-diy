@@ -5,22 +5,24 @@
                 <img class="img" :style="`Filter: brightness(${new_style.function_buttons_type == 'black' ? 0 : 100})`" src="@/assets/images/layout/main/main-top.png" />
             </div>
             <div class="model-head tc re mlr-12 mt-6">
-                <div class="flex-row align-c jc-sb gap-16">
-                    <div v-if="['1', '2', '3'].includes(form.theme)" class="flex-1 flex-row align-c jc-c h gap-16" :style="[{ 'justify-content': form?.indicator_location || 'center' }, text_style]">
-                        <template v-if="['2', '3'].includes(form.theme)">
-                            <div class="logo-outer-style"><image-empty v-model="form.logo[0]" class="logo-style" error-img-style="width:2rem;height:2rem;"></image-empty></div>
-                        </template>
-                        <div v-if="['1', '2'].includes(form.theme)">{{ form.title }}</div>
-                        <template v-if="['3', '5'].includes(form.theme)">
-                            <div class="flex-1">
-                                <model-search :value="pageData.com_data" :is-page-settings="true"></model-search>
-                            </div>
-                        </template>
+                <div class="model-head-content flex-row align-c jc-sb gap-16 re">
+                    <div v-if="['1', '2', '3'].includes(form.theme)" class="flex-1">
+                        <div class="flex-row align-c jc-c h gap-16" :class="position_class" :style="[{ 'justify-content': form?.indicator_location || 'center' }, text_style]">
+                            <template v-if="['2', '3'].includes(form.theme)">
+                                <div class="logo-outer-style"><image-empty v-model="form.logo[0]" class="logo-style" error-img-style="width:2rem;height:2rem;"></image-empty></div>
+                            </template>
+                            <div v-if="['1', '2'].includes(form.theme)">{{ form.title }}</div>
+                            <template v-if="['3', '5'].includes(form.theme)">
+                                <div class="flex-1">
+                                    <model-search :value="pageData.com_data" :is-page-settings="true"></model-search>
+                                </div>
+                            </template>
+                        </div>
                     </div>
                     <div v-else-if="['4', '5'].includes(form.theme)" class="flex-1 flex-row align-c h gap-10">
                         <div class="flex-row gap-2">
-                            <icon name="position" size="12" color="0"></icon><span class="size-14 cr-3 text-line-1">{{ form.positioning_name }}</span
-                            ><icon v-if="form.is_arrows_show == '1'" name="arrow-right" size="12" color="0"></icon>
+                            <icon name="position" size="12" color="0"></icon><span class="size-14 cr-3 text-line-1">{{ form.positioning_name }}</span>
+                            <icon v-if="form.is_arrows_show == '1'" name="arrow-right" size="12" color="0"></icon>
                         </div>
                         <template v-if="['5'].includes(form.theme)">
                             <div class="flex-1">
@@ -74,6 +76,7 @@ const roll_style = computed(() => {
 });
 
 const text_style = computed(() => `font-weight:${new_style.value.header_background_title_typeface}; font-size: ${new_style.value.header_background_title_size}px; color: ${new_style.value.header_background_title_color};`);
+const position_class = computed(() => (form.value?.indicator_location == 'center' ? `indicator-center` : ''));
 </script>
 <style lang="scss" scoped>
 .model-top {
@@ -95,6 +98,9 @@ const text_style = computed(() => `font-weight:${new_style.value.header_backgrou
 .model-head {
     height: 3.2rem;
     overflow: hidden;
+    .model-head-content {
+        height: 3.2rem;
+    }
 }
 .model-head-icon {
     position: absolute;
@@ -122,5 +128,12 @@ const text_style = computed(() => `font-weight:${new_style.value.header_backgrou
             width: 3.2rem;
         }
     }
+}
+.indicator-center {
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+    top: 0;
 }
 </style>

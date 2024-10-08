@@ -5,7 +5,7 @@
                 <div class="mb-12">头部样式</div>
                 <el-form-item label="顶部背景">
                     <div class="flex-col gap-10">
-                        <el-radio-group v-model="form.header_background_type">
+                        <el-radio-group v-model="form.header_background_type" @change="header_background_type_change_event">
                             <el-radio value="transparent">透明</el-radio>
                             <el-radio value="color_image">颜色/图片</el-radio>
                         </el-radio-group>
@@ -98,6 +98,14 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, search_content } = toRefs(state);
+
+const header_background_type_change_event = (val: any) => {
+    if (val === 'color_image') {
+        form.value.immersive_style = '0';
+    } else {
+        form.value.immersive_style = '1';
+    }
+};
 
 const common_styles_update = (val: Object) => {
     form.value.common_style = val;
