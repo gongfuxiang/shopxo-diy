@@ -53,7 +53,7 @@
                     <slider v-model="form.com_height" :max="1000"></slider>
                 </el-form-item>
                 <el-form-item label="背景颜色">
-                    <color-picker v-model="form.com_bg"></color-picker>
+                    <mult-color-picker :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
                 </el-form-item>
                 <el-form-item label="圆角">
                     <radius :value="form.bg_radius" @update:value="bg_radius_change"></radius>
@@ -119,6 +119,11 @@ const icon_change = (key: string) => {
     } else {
         form.value.data_source_id = '';
     }
+};
+
+const mult_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.color_list = arry;
+    form.value.direction = type.toString();
 };
 
 watch(

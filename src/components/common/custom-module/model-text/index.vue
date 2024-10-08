@@ -11,7 +11,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { radius_computer, padding_computer } from '@/utils';
+import { radius_computer, padding_computer, gradient_handle } from '@/utils';
 import { isEmpty } from 'lodash';
 const props = defineProps({
     value: {
@@ -57,7 +57,7 @@ const text_style = computed(() => {
 });
 
 const com_style = computed(() => {
-    let style = `${ set_count() } background-color: ${ form.com_bg }; ${ radius_computer(form.bg_radius) }`;
+    let style = `${ set_count() } ${ gradient_handle(form.color_list, form.direction) } ${ radius_computer(form.bg_radius) }`;
     if (form.border_show == '1') {
         style += `border: ${form.border_size}px ${form.border_style} ${form.border_color};`;
     }
