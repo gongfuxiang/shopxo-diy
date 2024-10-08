@@ -2,17 +2,15 @@
     <!-- 模版导入 -->
     <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body :close-on-click-modal="false" @close="close_event">
         <template #header>
-            <div class="title center re">
-                <div class="tc size-16 fw">模版导入</div>
-            </div>
-        </template>
-        <div class="url-value-content ptb-16 flex-col gap-16">
-            <div class="btn-radio-round">
+            <div class="title re">
                 <el-radio-group v-model="temp_active" is-button @change="temp_change">
                     <el-radio-button value="1">本地导入</el-radio-button>
                     <el-radio-button value="2">模版市场</el-radio-button>
                 </el-radio-group>
+                <div class="middle size-16 fw">模版导入</div>
             </div>
+        </template>
+        <div class="url-value-content ptb-16 flex-col gap-16">
             <div v-if="temp_active == '1'" class="h flex-row jc-c align-c">
                 <div class="import-content">
                     <el-upload v-model:file-list="file_list" action="#" :accept="exts_text" :show-file-list="false" :auto-upload="false" :on-change="upload_change">
@@ -52,7 +50,7 @@
                             </div>
                         </el-link>
                     </div>
-                    <el-scrollbar height="446px">
+                    <el-scrollbar height="493px">
                         <div class="temp-content flex-1">
                             <div v-if="data_list.length > 0" class="flex-row flex-wrap gap-16">
                                 <div v-for="item in data_list" :key="item.id" class="item flex-col br-f5">
@@ -110,7 +108,7 @@
                                 </div>
                             </div>
                             <div v-else>
-                                <no-data height="446px"></no-data>
+                                <no-data height="493px"></no-data>
                             </div>
                         </div>
                     </el-scrollbar>
@@ -177,7 +175,7 @@ const upload_change = async (uploadFile: UploadFile) => {
 watch(
     () => dialogVisible.value,
     (val) => {
-        if (val) {
+        if (val && data_list.value.length <= 0) {
             // 获取附件列表
             get_import_list('1');
         }
