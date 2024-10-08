@@ -6,6 +6,13 @@
   "description": "web端",
   "glyphs": [
     {
+      "icon_id": "7561087",
+      "name": "域名服务",
+      "font_class": "domain",
+      "unicode": "e7cf",
+      "unicode_decimal": 59343
+    },
+    {
       "icon_id": "38735708",
       "name": "yinyong-shangchuan",
       "font_class": "upload-file",

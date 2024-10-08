@@ -6,109 +6,116 @@
                 <div class="tc size-16 fw">模版导入</div>
             </div>
         </template>
-        <div class="url-value-content ptb-16 flex-row">
-            <el-tabs v-model="temp_active" class="wh flex-1">
-                <el-tab-pane label="本地导入" name="1" class="h flex-row jc-c align-c">
-                    <div class="import-content">
-                        <el-upload v-model:file-list="file_list" action="#" :accept="exts_text" :show-file-list="false" :auto-upload="false" :on-change="upload_change">
-                            <template #trigger>
-                                <div class="import-btn">
-                                    <icon name="upload-file" color="primary"></icon>
-                                </div>
-                            </template>
-                        </el-upload>
-                        <div v-if="file_list.length > 0" class="upload-file-tips mt-10 size-12 flex-row gap-5 jc-c align-e">
-                            <span class="fw">{{ upload_file.name }}</span>
-                            <span class="cr-9">({{ annex_size_to_unit(upload_file.size) }})</span>
-                        </div>
-                        <div class="cr-c size-12 flex-col gap-10 mt-10">
-                            <p>1. 选择已下载的diy设计zip包</p>
-                            <p>2. 导入将自动新增一条数据</p>
-                        </div>
-                    </div>
-                </el-tab-pane>
-                <el-tab-pane label="模版市场" name="2" class="h flex-col gap-16">
-                    <div v-loading="loading && { text: Loading_text }" :element-loading-text="Loading_text" class="flex-1 flex-col gap-16">
-                        <div class="temp-search flex-row jc-sb align-c w">
-                            <div class="flex-row gap-10 align-c search-content">
-                                <el-input v-model="form.keywords" class="flex-1" placeholder="搜索关键字" @keyup.enter="get_import_list('1')" />
-                                <el-button type="primary" @click="get_import_list('1')">
-                                    <view class="flex-row jc-c gap-4">
-                                        <icon name="search"></icon>
-                                        <text>搜索</text>
-                                    </view>
-                                </el-button>
-                                <el-checkbox v-model="form.status" @change="status_change">我已购买</el-checkbox>
+        <div class="url-value-content ptb-16 flex-col gap-16">
+            <div class="btn-radio-round">
+                <el-radio-group v-model="temp_active" is-button @change="temp_change">
+                    <el-radio-button value="1">本地导入</el-radio-button>
+                    <el-radio-button value="2">模版市场</el-radio-button>
+                </el-radio-group>
+            </div>
+            <div v-if="temp_active == '1'" class="h flex-row jc-c align-c">
+                <div class="import-content">
+                    <el-upload v-model:file-list="file_list" action="#" :accept="exts_text" :show-file-list="false" :auto-upload="false" :on-change="upload_change">
+                        <template #trigger>
+                            <div class="import-btn">
+                                <icon name="upload-file" color="primary"></icon>
                             </div>
-                            <el-link type="primary" :href="more_link" target="_blank" :underline="false">
-                                <div class="flex-row gap-3 align-c">
-                                    <icon name="download-btn"></icon>
-                                    <text>更多diy模版下载</text>
-                                </div>
-                            </el-link>
+                        </template>
+                    </el-upload>
+                    <div v-if="file_list.length > 0" class="upload-file-tips mt-10 size-12 flex-row gap-5 jc-c align-e">
+                        <span class="fw">{{ upload_file.name }}</span>
+                        <span class="cr-9">({{ annex_size_to_unit(upload_file.size) }})</span>
+                    </div>
+                    <div class="cr-c size-12 flex-col gap-10 mt-10">
+                        <p>1. 选择已下载的diy设计zip包</p>
+                        <p>2. 导入将自动新增一条数据</p>
+                    </div>
+                </div>
+            </div>
+            <div v-else class="h flex-col gap-16">
+                <div v-loading="loading && { text: Loading_text }" :element-loading-text="Loading_text" class="flex-1 flex-col gap-16">
+                    <div class="temp-search flex-row jc-sb align-c w">
+                        <div class="flex-row gap-10 align-c search-content">
+                            <el-input v-model="form.keywords" class="flex-1" placeholder="搜索关键字" @keyup.enter="get_import_list('1')" />
+                            <el-button type="primary" @click="get_import_list('1')">
+                                <view class="flex-row jc-c gap-4">
+                                    <icon name="search"></icon>
+                                    <text>搜索</text>
+                                </view>
+                            </el-button>
+                            <el-checkbox v-model="form.status" class="ml-20" @change="status_change">我已购买</el-checkbox>
                         </div>
-                        <el-scrollbar>
-                            <div class="temp-content flex-1">
-                                <div class="flex-row flex-wrap gap-16">
-                                    <div v-for="item in data_list" :key="item.id" class="item flex-col br-f5">
-                                        <div class="re img-content">
-                                            <image-empty v-model="item.images" class="img" error-img-style="width:5rem;height:5rem;"></image-empty>
-                                            <!-- 鼠标滑入，显示详情 -->
-                                            <div class="mask"></div>
-                                            <div class="middle detail">
-                                                <el-link class="detail-content plr-20 ptb-6 bg-f cr-3 round" type="primary" :href="item.goods_url" :underline="false" target="_blank">
-                                                    <div class="flex-row align-c gap-4">
-                                                        <icon name="eye"></icon>
-                                                        <text>查看</text>
-                                                    </div>
-                                                </el-link>
-                                            </div>
+                        <el-link type="primary" :href="more_link" target="_blank" :underline="false">
+                            <div class="flex-row gap-3 align-c">
+                                <icon name="download-btn"></icon>
+                                <text>更多diy模版下载</text>
+                            </div>
+                        </el-link>
+                    </div>
+                    <el-scrollbar height="446px">
+                        <div class="temp-content flex-1">
+                            <div v-if="data_list.length > 0" class="flex-row flex-wrap gap-16">
+                                <div v-for="item in data_list" :key="item.id" class="item flex-col br-f5">
+                                    <div class="re img-content">
+                                        <image-empty v-model="item.images" class="img" error-img-style="width:5rem;height:5rem;"></image-empty>
+                                        <!-- 鼠标滑入，显示详情 -->
+                                        <div class="mask"></div>
+                                        <div class="middle detail">
+                                            <el-link class="detail-content plr-20 ptb-6 bg-f cr-3 round" type="primary" :href="item.goods_url" :underline="false" target="_blank">
+                                                <div class="flex-row align-c gap-4">
+                                                    <icon name="eye"></icon>
+                                                    <text>查看</text>
+                                                </div>
+                                            </el-link>
                                         </div>
-                                        <div class="flex-1 flex-col pa-10 gap-10">
-                                            <div class="title text-line-2">{{ item.title }}</div>
-                                            <div class="flex-row jc-sb align-c gap-3">
-                                                <p class="cr-error fw size-14">{{ item.price_data.value }}</p>
-                                                <el-button v-if="item.buy_data.status == 1" :type="item.buy_data.status == 1 ? 'primary' : item.buy_data.status == 2 ? 'default' : 'danger'" :disabled="item.buy_data.status == 0" @click="buy_event(item, item.buy_data.status)">{{ item.buy_data.title }}</el-button>
-                                            </div>
-                                            <div class="cr-9 size-12 flex-row jc-sb align-c">
-                                                <el-popover placement="top" :width="150" trigger="click">
-                                                    <template #reference>
-                                                        <div class="c-pointer">
-                                                            {{ item.version_apply.name }}
+                                    </div>
+                                    <div class="flex-1 flex-col pa-10 gap-10">
+                                        <div class="title text-line-2">{{ item.title }}</div>
+                                        <div class="flex-row jc-sb align-c gap-3">
+                                            <p class="cr-error fw size-14">{{ item.price_data.value }}</p>
+                                            <el-button :type="item.buy_data.status == 1 ? 'success' : 'primary'" :disabled="item.buy_data.status == 2" @click="buy_event(item, item.buy_data.status)">{{ item.buy_data.title }}</el-button>
+                                        </div>
+                                        <div class="cr-9 size-12 flex-row jc-sb align-c">
+                                            <el-popover placement="top" :width="150" trigger="click">
+                                                <template #reference>
+                                                    <div class="c-pointer">
+                                                        {{ item.version_apply.name }}
+                                                    </div>
+                                                </template>
+                                                <el-scrollbar max-height="200px">
+                                                    <div class="flex-col gap-10">
+                                                        <div v-for="version in item.version_apply.data" :key="version">
+                                                            {{ version }}
                                                         </div>
-                                                    </template>
-                                                    <el-scrollbar max-height="200px">
-                                                        <div class="flex-col gap-10">
-                                                            <div v-for="version in item.version_apply.data" :key="version">
-                                                                {{ version }}
-                                                            </div>
+                                                    </div>
+                                                </el-scrollbar>
+                                            </el-popover>
+                                            <el-popover v-if="item.buy_auth_domain.length > 0" placement="top" :width="150" trigger="click">
+                                                <template #reference>
+                                                    <div class="flex-row gap-3 cr-9 align-c size-12 c-pointer">
+                                                        <icon name="domain" class="re top-1"></icon>
+                                                        <span>授权域名</span>
+                                                    </div>
+                                                </template>
+                                                <el-scrollbar max-height="200px">
+                                                    <div class="flex-col gap-10">
+                                                        <div v-for="domain in item.buy_auth_domain" :key="domain">
+                                                            {{ domain }}
                                                         </div>
-                                                    </el-scrollbar>
-                                                </el-popover>
-                                                <el-popover v-if="item.buy_auth_domain.length > 0" placement="top" :width="150" trigger="click">
-                                                    <template #reference>
-                                                        <div class="flex-row gap-3 cr-9 size-12 c-pointer">
-                                                            <icon name="domain"></icon>
-                                                            <span>授权域名</span>
-                                                        </div>
-                                                    </template>
-                                                    <el-scrollbar max-height="200px">
-                                                        <div class="flex-col gap-10">
-                                                            <div v-for="domain in item.buy_auth_domain" :key="domain">
-                                                                {{ domain }}
-                                                            </div>
-                                                        </div>
-                                                    </el-scrollbar>
-                                                </el-popover>
-                                            </div>
+                                                    </div>
+                                                </el-scrollbar>
+                                            </el-popover>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </el-scrollbar>
-                    </div>
-                </el-tab-pane>
-            </el-tabs>
+                            <div v-else>
+                                <no-data height="446px"></no-data>
+                            </div>
+                        </div>
+                    </el-scrollbar>
+                </div>
+            </div>
         </div>
         <template #footer>
             <span class="dialog-footer">
@@ -146,6 +153,9 @@ const props = defineProps({
 });
 const dialogVisible = defineModel({ type: Boolean, default: false });
 const temp_active = ref('1');
+const temp_change = (val: any) => {
+    temp_active.value = val;
+};
 const more_link = computed(() => {
     return common_store.common.config.store_diy_url || '';
 });
