@@ -73,7 +73,6 @@
     </div>
 </template>
 <script setup lang="ts">
-import { omit } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
@@ -99,7 +98,7 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, data } = toRefs(state);
-const theme = computed(() => data.value.theme);
+const theme = computed(() => data.value.article_theme);
 if (theme.value == '0') {
     if (form.value.img_radius.radius == props.defaultConfig.img_radius_0 || (form.value.img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && form.value.img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && form.value.img_radius.radius_top_left == props.defaultConfig.img_radius_1 && form.value.img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
         form.value.img_radius.radius = props.defaultConfig.img_radius_0;
