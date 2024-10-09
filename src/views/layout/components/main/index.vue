@@ -208,6 +208,12 @@ const show_model_border = ref(true);
 // 点击添加tabs组件
 const draggable_click = (item: componentsData) => {
     const type_data = ['tabs', 'tabs-carousel'];
+    
+    if (common_store.is_immersion_model) {
+        ElMessage.error('开启沉浸样式下不可以添加该组件');
+        return;
+    }
+
     if (type_data.includes(item.key) && isEmpty(tabs_data.value)) {
         // 添加tabs组件
         tabs_data.value.push({
@@ -219,6 +225,7 @@ const draggable_click = (item: componentsData) => {
             key: item.key,
             com_data: cloneDeep((defaultSettings as any)[item.key.replace(/-/g, '_')]),
         });
+        common_store.set_is_have_tabs(true);
         set_tabs_event(true);
     } else if (type_data.includes(item.key) && !isEmpty(tabs_data.value)) {
         if (tabs_data.value[0].key == item.key) {
@@ -228,6 +235,12 @@ const draggable_click = (item: componentsData) => {
         }
     }
 };
+watchEffect(() => {
+    if (tabs_data.value.length <= 0) {
+        common_store.set_is_have_tabs(false);
+    }
+});
+
 // 复制
 const clone_item_com_data = (item: commonComponentData) => {
     return {
