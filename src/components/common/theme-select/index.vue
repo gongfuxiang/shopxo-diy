@@ -41,14 +41,13 @@
             </template>
             <template v-else>
                 <div @click.stop="clear_model_value">
-                    <icon name="close-o" size="12" color="c"></icon>
+                    <icon name="close-o1" size="12" color="c"></icon>
                 </div>
             </template>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import { is_obj_empty } from '@/utils';
 import { cloneDeep } from 'lodash';
 interface data {
     id: string;
