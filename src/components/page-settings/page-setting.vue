@@ -38,6 +38,8 @@ const default_data = {
         function_buttons_type: 'black',
         immersive_style: '0',
         up_slide_display: '1',
+        up_slide_background_color_list: [{ color: '#fff', color_percentage: undefined }],
+        up_slide_background_direction: '180deg',
         icon_color: '#ccc',
         button_inner_color: '#fff',
         search_botton_color_list: [{ color: '#FF973D', color_percentage: undefined }, { color: '#FF3131', color_percentage: undefined }],
