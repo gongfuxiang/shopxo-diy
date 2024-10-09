@@ -116,10 +116,6 @@ if (theme.value == '0') {
         form.value.img_radius.radius_top_right = props.defaultConfig.img_radius_1;
     }
 }
-const font_weight = reactive([
-    { name: '加粗', value: '500' },
-    { name: '正常', value: '400' },
-]);
 const tabs_checked_event = (arry: string[], type: number) => {
     form.value.tabs_checked = arry;
     form.value.tabs_direction = type.toString();
