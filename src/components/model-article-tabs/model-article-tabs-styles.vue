@@ -73,7 +73,6 @@
     </div>
 </template>
 <script setup lang="ts">
-import { omit } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
