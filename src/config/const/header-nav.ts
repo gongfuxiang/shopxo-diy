@@ -66,9 +66,7 @@ const defaultFooterNav: DefaultFooterNav = {
         link: {},
         indicator_location: 'center',
         positioning_name: '未选择位置',
-        icon_setting: [
-            { id: get_math(), img: [], icon: 'applet-me-message-acquiesce', link: {} },
-        ],
+        icon_setting: [{ id: get_math(), img: [], icon: 'applet-me-message-acquiesce', link: { name: '我的消息', page: '/pages/message/message' } }],
         is_arrows_show: '1',
         is_center: '0',
         is_icon_show: '1',
