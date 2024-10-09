@@ -40,7 +40,7 @@ interface DefaultCoupon {
 const defaultCoupoin: DefaultCoupon = {
     content: {
         theme: '1',
-        data_type: '1',
+        data_type: '0',
         type: [],
         number: 4,
         // 只有主题4用到
