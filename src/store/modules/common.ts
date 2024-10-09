@@ -3,6 +3,8 @@ import { defineStore } from 'pinia';
 export const commonStore = defineStore('common', () => {
     // 链接是否需要调接口判断
     const is_common_api = ref(false);
+    const is_immersion_model = ref(false);
+    const is_have_tabs = ref(false);
     const common = ref({
         article_category: [] as any[], //---- 文章分类
         attachment_category: [] as any[], //---- 附件分类
@@ -34,10 +36,22 @@ export const commonStore = defineStore('common', () => {
         is_common_api.value = bool;
     };
 
+    const set_is_immersion_model = (bool: boolean) => {
+        is_immersion_model.value = bool;
+    };
+
+    const set_is_have_tabs = (bool: boolean) => {
+        is_have_tabs.value = bool;
+    };
+
     return {
         common,
         is_common_api,
+        is_immersion_model,
+        is_have_tabs,
         set_common,
         set_is_common_api,
+        set_is_immersion_model,
+        set_is_have_tabs,
     };
 });

@@ -4,7 +4,7 @@
             <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选项卡置顶">
-                    <el-switch v-model="form.tabs_top_up" active-value="1" inactive-value="0" />
+                    <el-switch v-model="form.tabs_top_up" active-value="1" inactive-value="0" :disabled="is_immersion_model" />
                 </el-form-item>
                 <el-form-item label="选项卡风格">
                     <el-radio-group v-model="form.tabs_theme" @change="tabs_theme_change">
@@ -254,6 +254,12 @@ const styles = reactive(props.tabStyle);
 const tabs_theme_change = (val: string | number | boolean | undefined): void => {
     styles.tabs_color_checked = tabs_style(styles.tabs_color_checked, val);
 };
+const is_immersion_model = computed(() => common_store.is_immersion_model);
+watchEffect(() => {
+    if (is_immersion_model.value) {
+        form.tabs_top_up = '0';
+    }
+})
 </script>
 <style lang="scss" scoped>
 .content {
