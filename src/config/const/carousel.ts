@@ -52,7 +52,7 @@ const defaultSearch: defaultSearch = {
         carousel_type: 'inherit',
         img_fit: 'contain',
         is_roll: '1',
-        interval_time: 2,
+        interval_time: 3,
         carousel_list: [
             {
                 carousel_img: [],

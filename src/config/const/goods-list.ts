@@ -105,7 +105,7 @@ const defaultProductList: DefaultProductList = {
         content_spacing: 10,
         content_outer_height: 232,
         is_roll: '1',
-        interval_time: 2,
+        interval_time: 3,
         shop_title_typeface: '500',
         shop_title_size: 14,    
         shop_title_color: "#333333",
