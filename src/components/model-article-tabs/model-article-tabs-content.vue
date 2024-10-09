@@ -21,7 +21,7 @@
                         <el-radio v-for="item in base_list.article_theme_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item v-if="form.theme == '4'" label="轮播列数">
+                <el-form-item v-if="form.article_theme == '4'" label="轮播列数">
                     <el-radio-group v-model="form.article_carousel_col">
                         <el-radio v-for="item in base_list.carousel_col_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
