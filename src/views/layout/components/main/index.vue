@@ -62,9 +62,9 @@
                     <el-button size="large" @click="clear_click">清空</el-button>
                 </div>
                 <!-- 拖拽区 -->
-                <div ref="scrollTop" class="model-drag">
+                <div ref="scrollTop" class="model-drag" @scroll="on_scroll_event">
                     <!-- 页面设置 -->
-                    <page-settings :show-page="page_data.show_tabs == '1'" :page-data="page_data" @page_settings="page_settings"></page-settings>
+                    <page-settings :show-page="page_data.show_tabs == '1'" :page-data="page_data" :scoll-top="scoll_top" @page_settings="page_settings"></page-settings>
                     <div class="model-wall" :style="content_style">
                         <div class="model-wall-content" :style="`padding-top:${top_padding}px; margin-top: ${top_margin}px;padding-bottom:${bottom_navigation_show ? footer_nav_counter_store.padding_footer : 0}px;`">
                             <div-content :diy-data="tabs_data" :show-model-border="show_model_border" :is-tabs="true" :main-content-style="main_content_style" @on_choose="set_tabs_event(true)" @del="del"></div-content>
@@ -423,6 +423,10 @@ const scroll = () => {
         }
     });
 };
+const scoll_top = ref(0);
+const on_scroll_event = (e: any) => {
+    scoll_top.value = e.target.scrollTop;
+}
 //#endregion
 //#region 页面设置 导出 导入
 // 在组件挂载时默认执行

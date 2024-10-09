@@ -1,6 +1,9 @@
 <template>
     <div class="model-top">
         <div :class="['roll', { 'page-settings-border': showPage }]" :style="roll_style" @click="page_settings">
+            <div class="w h abs up_slide_bg" :style="up_slide_style">
+                <div class="w h" :style="up_slide_img_style"></div>
+            </div>
             <div class="pt-15 pl-18 pr-22 w pb-6">
                 <img class="img" :style="`Filter: brightness(${new_style.function_buttons_type == 'black' ? 0 : 100})`" src="@/assets/images/layout/main/main-top.png" />
             </div>
@@ -48,10 +51,12 @@ import { isEmpty } from 'lodash';
 interface Props {
     pageData: any;
     showPage: boolean;
+    scollTop: number;
 }
 const props = withDefaults(defineProps<Props>(), {
     pageData: () => ({}),
     showPage: true,
+    scollTop: 0
 });
 const emits = defineEmits(['page_settings']);
 const page_settings = () => {
@@ -71,6 +76,28 @@ const roll_style = computed(() => {
         style += gradient_computer(gradient) + background_computer(back);
     } else {
         style += `background: transparent;`;
+    }
+    return style;
+});
+
+const up_slide_style = computed(() => {
+    let style = ``;
+    if (props.scollTop > 0) {
+        const { up_slide_background_color_list,  up_slide_background_direction } = new_style.value;
+        // 渐变
+        const gradient = { color_list: up_slide_background_color_list, direction: up_slide_background_direction };
+        style += gradient_computer(gradient) + `opacity: ${(props.scollTop + 20) / 90 > 1 ? 1 :(props.scollTop + 20) / 90 };`
+    }
+    return style;
+});
+
+const up_slide_img_style = computed(() => {
+    let style = ``;
+    if (props.scollTop > 0) {
+        const { up_slide_background_img,  up_slide_background_img_style } = new_style.value;
+        // 背景图
+        const back = { background_img: up_slide_background_img, background_img_style: up_slide_background_img_style };
+        style += background_computer(back);
     }
     return style;
 });
@@ -135,5 +162,8 @@ const position_class = computed(() => (form.value?.indicator_location == 'center
     right: 0;
     text-align: center;
     top: 0;
+}
+.up_slide_bg {
+    z-index: -1;
 }
 </style>

@@ -42,6 +42,10 @@ interface DefaultFooterNav {
         function_buttons_type: string;
         immersive_style: string;
         up_slide_display: string;
+        up_slide_background_color_list: color_list[];
+        up_slide_background_direction: string;
+        up_slide_background_img_style: number;
+        up_slide_background_img: uploadList[];
         icon_color: string;
         button_inner_color: string;
         search_botton_color_list: color_list[];
@@ -97,6 +101,10 @@ const defaultFooterNav: DefaultFooterNav = {
         function_buttons_type: 'black',
         immersive_style: '0',
         up_slide_display: '1',
+        up_slide_background_color_list: [{ color: '#fff', color_percentage: undefined }],
+        up_slide_background_direction: '180deg',
+        up_slide_background_img_style: 2,
+        up_slide_background_img: [],
         icon_color: '#ccc',
         button_inner_color: '#fff',
         search_botton_color_list: [

@@ -15,17 +15,17 @@
                                 <div class="size-12">背景图</div>
                                 <el-radio-group v-model="form.header_background_img_style" is-button>
                                     <el-tooltip content="单张" placement="top" effect="light">
-                                        <el-radio-button value="0">
+                                        <el-radio-button :value="0">
                                             <icon name="single-sheet"></icon>
                                         </el-radio-button>
                                     </el-tooltip>
                                     <el-tooltip content="平铺" placement="top" effect="light">
-                                        <el-radio-button value="1">
+                                        <el-radio-button :value="1">
                                             <icon name="tile"></icon>
                                         </el-radio-button>
                                     </el-tooltip>
                                     <el-tooltip content="铺满" placement="top" effect="light">
-                                        <el-radio-button value="2">
+                                        <el-radio-button :value="2">
                                             <icon name="spread-over"></icon>
                                         </el-radio-button>
                                     </el-tooltip>
@@ -54,6 +54,32 @@
                 </el-form-item>
                 <el-form-item label="上滑展示">
                     <el-switch v-model="form.up_slide_display" active-value="1" inactive-value="0"></el-switch>
+                </el-form-item>
+                <el-form-item label="上滑背景">
+                    <div class="flex-col gap-10">
+                        <mult-color-picker :value="form.up_slide_background_color_list" :type="form.up_slide_background_direction" @update:value="up_slide_mult_color_picker_event"></mult-color-picker>
+                        <div class="flex-row jc-sb align-c">
+                            <div class="size-12">背景图</div>
+                            <el-radio-group v-model="form.up_slide_background_img_style" is-button>
+                                <el-tooltip content="单张" placement="top" effect="light">
+                                    <el-radio-button :value="0">
+                                        <icon name="single-sheet"></icon>
+                                    </el-radio-button>
+                                </el-tooltip>
+                                <el-tooltip content="平铺" placement="top" effect="light">
+                                    <el-radio-button :value="1">
+                                        <icon name="tile"></icon>
+                                    </el-radio-button>
+                                </el-tooltip>
+                                <el-tooltip content="铺满" placement="top" effect="light">
+                                    <el-radio-button :value="2">
+                                        <icon name="spread-over"></icon>
+                                    </el-radio-button>
+                                </el-tooltip>
+                            </el-radio-group>
+                        </div>
+                        <upload v-model="form.up_slide_background_img" :limit="1"></upload>
+                    </div>
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
@@ -130,6 +156,10 @@ const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.header_background_color_list = arry;
     form.value.header_background_direction = type.toString();
 };
+const up_slide_mult_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.up_slide_background_color_list = arry;
+    form.value.up_slide_background_direction = type.toString();
+}
 const change_immersive_style = (val: string | number | boolean) => {
     if (val === '0') {
         common_store.set_is_immersion_model(false);

@@ -60,13 +60,13 @@
                             <div class="size-12">背景图</div>
                             <el-radio-group v-model="form.container_background_img_style" is-button>
                                 <el-tooltip content="单张" placement="top" effect="light">
-                                    <el-radio-button value="0"><icon name="single-sheet"></icon></el-radio-button>
+                                    <el-radio-button :value="0"><icon name="single-sheet"></icon></el-radio-button>
                                 </el-tooltip>
                                 <el-tooltip content="平铺" placement="top" effect="light">
-                                    <el-radio-button value="1"><icon name="tile"></icon></el-radio-button>
+                                    <el-radio-button :value="1"><icon name="tile"></icon></el-radio-button>
                                 </el-tooltip>
                                 <el-tooltip content="铺满" placement="top" effect="light">
-                                    <el-radio-button value="2"><icon name="spread-over"></icon></el-radio-button>
+                                    <el-radio-button :value="2"><icon name="spread-over"></icon></el-radio-button>
                                 </el-tooltip>
                             </el-radio-group>
                         </div>
