@@ -41,6 +41,9 @@
                         <el-radio value="white">白色</el-radio>
                     </el-radio-group>
                 </el-form-item>
+                <el-form-item v-if="['1', '2'].includes(search_content.theme)" label="标题名称">
+                    <color-text-size-group v-model:color="form.header_background_title_color" v-model:typeface="form.header_background_title_typeface" v-model:size="form.header_background_title_size" default-color="#000000"></color-text-size-group>
+                </el-form-item>
                 <el-form-item v-if="form.header_background_type == 'transparent'" label="沉浸样式">
                     <div class="flex-row align-c gap-10">
                         <el-switch v-model="form.immersive_style" active-value="1" inactive-value="0" :disabled="is_have_tabs" @change="change_immersive_style"></el-switch>
@@ -51,9 +54,6 @@
                 </el-form-item>
                 <el-form-item label="上滑展示">
                     <el-switch v-model="form.up_slide_display" active-value="1" inactive-value="0"></el-switch>
-                </el-form-item>
-                <el-form-item v-if="['1', '2'].includes(search_content.theme)" label="标题名称">
-                    <color-text-size-group v-model:color="form.header_background_title_color" v-model:typeface="form.header_background_title_typeface" v-model:size="form.header_background_title_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />

@@ -4,7 +4,12 @@
             <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选项卡置顶">
-                    <el-switch v-model="form.tabs_top_up" active-value="1" inactive-value="0" :disabled="is_immersion_model" />
+                    <div class="flex-row align-c gap-10">
+                        <el-switch v-model="form.tabs_top_up" active-value="1" inactive-value="0" :disabled="is_immersion_model" />
+                        <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>开启沉浸样式时，选项卡置顶功能禁用</span>" raw-content placement="top">
+                            <icon name="tips" size="16"></icon>
+                        </el-tooltip>
+                    </div>
                 </el-form-item>
                 <el-form-item label="选项卡风格">
                     <el-radio-group v-model="form.tabs_theme" @change="tabs_theme_change">
