@@ -79,7 +79,7 @@ const tabs_theme_style = computed(() => {
 const title_style = (index: number) => {
     // 默认是未选中的状态
     let style = `${tabs_theme_style.value.tabs_title}`;
-    if (index == 0) {
+    if (index == props.activeIndex) {
         let checked_style = tabs_theme_style.value.tabs_title_checked;
         if (['2', '4'].includes(tabs_theme_index.value)) {
             checked_style += tabs_check.value;
