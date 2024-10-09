@@ -86,7 +86,7 @@ const up_slide_style = computed(() => {
         const { up_slide_background_color_list,  up_slide_background_direction } = new_style.value;
         // 渐变
         const gradient = { color_list: up_slide_background_color_list, direction: up_slide_background_direction };
-        style += gradient_computer(gradient) + `opacity: ${(props.scollTop + 20) / 90 > 1 ? 1 :(props.scollTop + 20) / 90 };`
+        style += gradient_computer(gradient) + `opacity: ${props.scollTop / 90 > 1 ? 1 : (props.scollTop / 90).toFixed(2) };`
     }
     return style;
 });
