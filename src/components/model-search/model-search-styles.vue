@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-form :model="form" label-width="70">
-            <template v-if="search_content.is_icon_show">
+            <template v-if="search_content.is_icon_show == '1'">
                 <card-container>
                     <div class="mb-12">左侧图标</div>
                     <el-form-item label="图标">
@@ -10,7 +10,7 @@
                 </card-container>
                 <div class="bg-f5 divider-line" />
             </template>
-            <template v-if="search_content.is_search_show">
+            <template v-if="search_content.is_search_show == '1'">
                 <card-container>
                     <div class="mb-12">搜索按钮</div>
                     <el-form-item label="搜索按钮">
