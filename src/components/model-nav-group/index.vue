@@ -165,12 +165,12 @@ const carousel_change = (index: number) => {
 </script>
 <style lang="scss" scoped>
 .top-img {
-    height: 4rem;
-    width: 4rem;
+    height: 3.6rem;
+    width: 3.6rem;
     border-radius: 4px;
     :deep(.image-slot) {
-        height: 4rem;
-        width: 4rem;
+        height: 3.6rem;
+        width: 3.6rem;
         img {
             width: 3.5rem;
             height: 3.5rem;
