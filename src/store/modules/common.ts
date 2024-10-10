@@ -24,6 +24,9 @@ export const commonStore = defineStore('common', () => {
             currency_symbol: '',
             attachment_host: '',
             store_diy_url: '',
+            site_logo_app: '',
+            site_logo_wap: '',
+            site_logo: '',
         } as any, // 基础数据配置参数
     });
     // 存储链接数据

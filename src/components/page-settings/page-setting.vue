@@ -7,8 +7,10 @@
     </template>
 </template>
 <script setup lang="ts">
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isEmpty } from 'lodash';
 import { get_math } from '@/utils';
+import { commonStore } from '@/store';
+const common_store = commonStore();
 const props = defineProps({
     type: {
         type: String,
@@ -22,6 +24,7 @@ const props = defineProps({
 const default_data = {
     content: {
         indicator_location: 'flex-start',
+        logo: [],
         icon_setting: [
             { id: get_math(), img: [], icon: 'applet-me-message-acquiesce', link: {} },
         ],
@@ -67,6 +70,10 @@ const default_data = {
         },
     }
 }
+const common_config = computed(() => {
+    const { site_logo_app, site_logo_wap, site_logo} = common_store.common.config;
+    return !isEmpty(site_logo_app) ? site_logo_app : !isEmpty(site_logo_wap) ? site_logo_wap : site_logo;
+});
 const default_config = {
     style: {
         theme_1: {
@@ -76,11 +83,15 @@ const default_config = {
             style: {}
         },
         theme_2: {
-            content: {},
+            content: {
+                logo: [{ id: 1, url: common_config, original: '', title: '', ext: '.png', type: 'img' }],
+            },
             style: {}
         },
         theme_3: {
-            content: {},
+            content: {
+                logo: [{ id: 1, url: common_config, original: '', title: '', ext: '.png', type: 'img' }],
+            },
             style: {}
         },
         theme_4: {

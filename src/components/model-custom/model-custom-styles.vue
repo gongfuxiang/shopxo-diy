@@ -1,10 +1,9 @@
 <template>
     <div class="w">
-        <common-styles :value="form.common_style" @update:value="common_style_update" />
+        <common-styles :value="value.common_style" />
     </div>
 </template>
 <script setup lang="ts">
-import { pick } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
@@ -12,16 +11,6 @@ const props = defineProps({
     }
 });
 
-// 默认值
-const state = reactive({
-    form: props.value
-});
-// 如果需要解构，确保使用toRefs
-const { form } = toRefs(state);
-
-const common_style_update = (value: any) => {
-    form.value.common_style = value;
-};
 </script>
 <style lang="scss" scoped>
 .topic {

@@ -15,7 +15,7 @@ const props = defineProps({
         required: true
     },
     sourceList: {
-        type: Object,
+        type: [Object, Array],
         default: () => {
             return {};
         }
