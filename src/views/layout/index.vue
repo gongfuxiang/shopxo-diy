@@ -21,6 +21,7 @@
 import { is_obj } from '@/utils';
 import { Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
+import defaultConfigSetting from '@/config/setting';
 import { cloneDeep } from 'lodash';
 import DiyAPI, { diyData, headerAndFooter, diyConfig } from '@/api/diy';
 import CommonAPI from '@/api/common';
@@ -205,23 +206,49 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                 };
             });
             item.com_data.content.data_auto_list = [];
+            if (item.com_data.content.data_type == '0') {
+                item.com_data.content.category_ids = defaultConfigSetting.category_ids;
+                item.com_data.content.number = defaultConfigSetting.page_size;
+                item.com_data.content.order_by_rule = defaultConfigSetting.order_by_rule;
+                item.com_data.content.order_by_type = defaultConfigSetting.order_by_type;
+                if (item.key == new_array_1[0]) {
+                    item.com_data.content.brand_ids = defaultConfigSetting.brand_ids;
+                } else {
+                    item.com_data.content.is_cover = defaultConfigSetting.is_cover;
+                }
+            }
         } else if (new_array_2.includes(item.key)) {
             item.com_data.content.tabs_active_index = 0;
-            item.com_data.content.tabs_list.map((item: any) => {
-                item.data_ids = item.data_list.map((item1: any) => item1.data.id).join(',') || '';
-                item.data_list = item.data_list.map((item2: any) => {
+            item.com_data.content.tabs_list.map((item0: any) => {
+                item0.data_ids = item0.data_list.map((item1: any) => item1.data.id).join(',') || '';
+                item0.data_list = item0.data_list.map((item2: any) => {
                     return {
                         ...item2,
                         data: [],
                         data_id: item2.data.id,
                     };
                 });
-                item.data_auto_list = [];
+                item0.data_auto_list = [];
+                if (item0.data_type == '0') {
+                    item0.category_ids = defaultConfigSetting.category_ids;
+                    item0.number = defaultConfigSetting.page_size;
+                    item0.order_by_rule = defaultConfigSetting.order_by_rule;
+                    item0.order_by_type = defaultConfigSetting.order_by_type;
+                    if (item.key == new_array_1[0]) {
+                        item0.brand_ids = defaultConfigSetting.brand_ids;
+                    } else {
+                        item0.is_cover = defaultConfigSetting.is_cover;
+                    }
+                }
             });
         } else if (new_array_3.includes(item.key)) {
             item.com_data.content.data_ids = item.com_data.content.data_list.map((item: any) => item.id).join(',') || '';
             item.com_data.content.data_list = [];
             item.com_data.content.data_auto_list = [];
+            if (item.com_data.content.data_type == '1') {
+                item.com_data.content.type = defaultConfigSetting.coupon_ids;
+                item.com_data.content.number = defaultConfigSetting.page_size;
+            }
         } else if (new_array_4.includes(item.key)) {
             item.com_data.content.data_magic_list.map((item1: any) => {
                 item1.data_content.goods_ids = item1.data_content.goods_list.map((item2: any) => item2.data.id).join(',') || '';
