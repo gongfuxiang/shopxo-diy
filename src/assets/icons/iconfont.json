@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "42058437",
+      "name": "居下",
+      "font_class": "down",
+      "unicode": "e779",
+      "unicode_decimal": 59257
+    },
+    {
+      "icon_id": "42058436",
+      "name": "居上",
+      "font_class": "up",
+      "unicode": "e79b",
+      "unicode_decimal": 59291
+    },
+    {
       "icon_id": "40963305",
       "name": "左对齐",
       "font_class": "left",
@@ -70,8 +84,8 @@
     },
     {
       "icon_id": "40963296",
-      "name": "单张",
-      "font_class": "single-sheet",
+      "name": "居中",
+      "font_class": "middle",
       "unicode": "e752",
       "unicode_decimal": 59218
     },
