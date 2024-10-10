@@ -1,73 +1,75 @@
 <template>
     <div :style="style_container">
-        <div ref="swiperSize" class="swiper-container w h">
-            <swiper
-                :key="carouselKey"
-                :class="[`swiper-right-${swiper_style.slidesPerView}`, {'swiper-card': interval_types}]"
-                direction="horizontal"
-                :loop="true"
-                :effect="interval_types ? 'coverflow': 'slide'"
-                :autoplay="autoplay"
-                :allow-touch-move="false"
-                :speed="500"
-                :slides-per-view="swiper_style.slidesPerView"
-                :space-between="swiper_style.spaceBetween"
-                :centered-slides="swiper_style.centeredSlides"
-                :pause-on-mouse-enter="true"
-                :modules="modules"
-                :coverflow-effect="interval_types ? {
-                    rotate: 50,
-                    stretch: 0,
-                    depth: 100,
-                    modifier: 1,
-                    slideShadows: true
-                } : undefined"
-                @slide-change="slideChange"
-            >
-                <swiper-slide v-for="(item, index) in form.carousel_list" :key="index">
-                    <div class="item-image flex align-c w h re" :style="img_style">
-                        <image-empty v-model="item.carousel_img[0]" :style="img_style" :fit="img_fit" error-style="width:5rem;height:5rem"></image-empty>
-                        <div v-if="new_style.video_is_show == '1' && item.carousel_video.length > 0" :class="{'x-middle': new_style.video_location == 'center', 'right-0': new_style.video_location == 'flex-end' }" class="z-deep video-class flex-row abs gap-10 align-c oh" :style="video_style">
-                            <template v-if="new_style.video_type == 'img'">
-                                <image-empty v-model="new_style.video_img[0]" class="video_img" error-img-style="width: 1.4rem;height: 1.4rem;" />
-                            </template>
-                            <template v-else>
-                                <el-icon :class="`iconfont ${ !isEmpty(new_style.video_icon_class) ? 'icon-' + new_style.video_icon_class : 'icon-bofang' } size-14`" :style="`color:${new_style.video_icon_color};`" />
-                            </template>
-                            <span v-if="!isEmpty(item.video_title)" :style="`color:${new_style.video_title_color};font-size: ${new_style.video_title_size}px;text-wrap: nowrap;`">{{ item.video_title }}</span>
+        <div :style="style_img_container">
+            <div ref="swiperSize" class="swiper-container w h">
+                <swiper
+                    :key="carouselKey"
+                    :class="[`swiper-right-${swiper_style.slidesPerView}`, {'swiper-card': interval_types}]"
+                    direction="horizontal"
+                    :loop="true"
+                    :effect="interval_types ? 'coverflow': 'slide'"
+                    :autoplay="autoplay"
+                    :allow-touch-move="false"
+                    :speed="500"
+                    :slides-per-view="swiper_style.slidesPerView"
+                    :space-between="swiper_style.spaceBetween"
+                    :centered-slides="swiper_style.centeredSlides"
+                    :pause-on-mouse-enter="true"
+                    :modules="modules"
+                    :coverflow-effect="interval_types ? {
+                        rotate: 50,
+                        stretch: 0,
+                        depth: 100,
+                        modifier: 1,
+                        slideShadows: true
+                    } : undefined"
+                    @slide-change="slideChange"
+                >
+                    <swiper-slide v-for="(item, index) in form.carousel_list" :key="index">
+                        <div class="item-image flex align-c w h re" :style="img_style">
+                            <image-empty v-model="item.carousel_img[0]" :style="img_style" :fit="img_fit" error-style="width:5rem;height:5rem"></image-empty>
+                            <div v-if="new_style.video_is_show == '1' && item.carousel_video.length > 0" :class="{'x-middle': new_style.video_location == 'center', 'right-0': new_style.video_location == 'flex-end' }" class="z-deep video-class flex-row abs gap-10 align-c oh" :style="video_style">
+                                <template v-if="new_style.video_type == 'img'">
+                                    <image-empty v-model="new_style.video_img[0]" class="video_img" error-img-style="width: 1.4rem;height: 1.4rem;" />
+                                </template>
+                                <template v-else>
+                                    <el-icon :class="`iconfont ${ !isEmpty(new_style.video_icon_class) ? 'icon-' + new_style.video_icon_class : 'icon-bofang' } size-14`" :style="`color:${new_style.video_icon_color};`" />
+                                </template>
+                                <span v-if="!isEmpty(item.video_title)" :style="`color:${new_style.video_title_color};font-size: ${new_style.video_title_size}px;text-wrap: nowrap;`">{{ item.video_title }}</span>
+                            </div>
                         </div>
+                    </swiper-slide>
+                    <swiper-slide v-for="(item, index1) in seat_list" :key="index1">
+                        <div class="item-image flex align-c w h re" :style="img_style">
+                            <image-empty v-model="item.carousel_img[0]" :style="img_style" :fit="img_fit" error-style="width:5rem;height:5rem"></image-empty>
+                            <div v-if="new_style.video_is_show == '1' && item.carousel_video.length > 0" :class="{'x-middle': new_style.video_location == 'center', 'right-0': new_style.video_location == 'flex-end' }" class="z-deep video-class flex-row abs gap-10 align-c oh" :style="video_style">
+                                <template v-if="new_style.video_type == 'img'">
+                                    <image-empty v-model="new_style.video_img[0]" class="video_img" error-img-style="width: 1.4rem;height: 1.4rem;" />
+                                </template>
+                                <template v-else>
+                                    <el-icon :class="`iconfont ${ !isEmpty(new_style.video_icon_class) ? 'icon-' + new_style.video_icon_class : 'icon-bofang' } size-14`" :style="`color:${new_style.video_icon_color};`" />
+                                </template>
+                                <span v-if="!isEmpty(item.video_title)" :style="`color:${new_style.video_title_color};font-size: ${new_style.video_title_size}px;text-wrap: nowrap;`">{{ item.video_title }}</span>
+                            </div>
+                        </div>
+                    </swiper-slide>
+                    <div v-if="new_style.is_show == '1'" :class="{'x-middle': new_style.indicator_location == 'center', 'right-0': new_style.indicator_location == 'flex-end' }" class="dot flex abs" :style="`bottom: ${new_style.indicator_bottom}px;`">
+                        <template v-if="new_style.indicator_style == 'num'">
+                            <div :style="indicator_style" class="dot-item">
+                                <span class="num-active">{{ actived_index + 1 }}</span><span>/{{ form.carousel_list.length }}</span>
+                            </div>
+                        </template>
+                        <template v-else>
+                            <div v-for="(item, index2) in form.carousel_list" :key="index2" :style="indicator_style" :class="{'dot-item': true, 'active': actived_index == index2 }" />
+                        </template>
                     </div>
-                </swiper-slide>
-                <swiper-slide v-for="(item, index1) in seat_list" :key="index1">
-                    <div class="item-image flex align-c w h re" :style="img_style">
-                        <image-empty v-model="item.carousel_img[0]" :style="img_style" :fit="img_fit" error-style="width:5rem;height:5rem"></image-empty>
-                        <div v-if="new_style.video_is_show == '1' && item.carousel_video.length > 0" :class="{'x-middle': new_style.video_location == 'center', 'right-0': new_style.video_location == 'flex-end' }" class="z-deep video-class flex-row abs gap-10 align-c oh" :style="video_style">
-                            <template v-if="new_style.video_type == 'img'">
-                                <image-empty v-model="new_style.video_img[0]" class="video_img" error-img-style="width: 1.4rem;height: 1.4rem;" />
-                            </template>
-                            <template v-else>
-                                <el-icon :class="`iconfont ${ !isEmpty(new_style.video_icon_class) ? 'icon-' + new_style.video_icon_class : 'icon-bofang' } size-14`" :style="`color:${new_style.video_icon_color};`" />
-                            </template>
-                            <span v-if="!isEmpty(item.video_title)" :style="`color:${new_style.video_title_color};font-size: ${new_style.video_title_size}px;text-wrap: nowrap;`">{{ item.video_title }}</span>
-                        </div>
-                    </div>
-                </swiper-slide>
-                <div v-if="new_style.is_show == '1'" :class="{'x-middle': new_style.indicator_location == 'center', 'right-0': new_style.indicator_location == 'flex-end' }" class="dot flex abs" :style="`bottom: ${new_style.indicator_bottom}px;`">
-                    <template v-if="new_style.indicator_style == 'num'">
-                        <div :style="indicator_style" class="dot-item">
-                            <span class="num-active">{{ actived_index + 1 }}</span><span>/{{ form.carousel_list.length }}</span>
-                        </div>
-                    </template>
-                    <template v-else>
-                        <div v-for="(item, index2) in form.carousel_list" :key="index2" :style="indicator_style" :class="{'dot-item': true, 'active': actived_index == index2 }" />
-                    </template>
-                </div>
-            </swiper>
+                </swiper>
+            </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, radius_computer, get_math, gradient_computer, padding_computer } from '@/utils';
+import { common_styles_computer, radius_computer, get_math, gradient_computer, padding_computer, common_img_computer } from '@/utils';
 import { isEmpty, cloneDeep, throttle } from 'lodash';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay, EffectCoverflow } from 'swiper/modules';
@@ -90,6 +92,8 @@ const form = computed(() => props.value.content);
 const new_style = computed(() => props.value.style);
 // 用于样式显示
 const style_container = computed(() => props.isCommon ? common_styles_computer(new_style.value.common_style) : '');
+const style_img_container = computed(() => props.isCommon ? common_img_computer(new_style.value.common_style) : '');
+
 const autoplay = ref<boolean | object>(false)
 // 图片的设置
 const img_style = computed(() => radius_computer(new_style.value) );

@@ -1,50 +1,56 @@
 <template>
     <div :style="style_container">
-        <template v-if="form.notice_style == 'inherit'">
-            <div class="flex-row align-c news-box gap-y-8" :style="container_background_style">
-                <template v-if="form.title_type == 'img-icon'">
-                    <div v-if="!isEmpty(form.img_src)">
-                        <image-empty v-model="form.img_src[0]" :style="img_style"></image-empty>
-                    </div>
-                    <div v-else>
-                        <icon :name="form.icon_class" :size="new_style.icon_size + ''" :color="new_style.icon_color"></icon>
-                    </div>
-                </template>
-                <template v-else>
-                    <div :style="topic_style" class="pl-6 pr-6 radius-sm">{{ form.title || '公告' }}</div>
-                </template>
-                <el-carousel :key="carouselKey" class="flex-1" indicator-position="none" :interval="interval_time" arrow="never" :direction="direction_type" :autoplay="true">
-                    <el-carousel-item v-for="(item, index) in notice_list" :key="index" :style="`${news_style} color: ${new_style.news_color}`">{{ item.notice_title }}</el-carousel-item>
-                </el-carousel>
-                <div v-if="form.is_right_button == '1'" class="size-12"><icon name="arrow-right" :color="new_style.button_color || '#999'"></icon></div>
-            </div>
-        </template>
-        <template v-else>
-            <div class="news-card flex-col gap-10" :style="container_background_style">
-                <div class="flex-row w jc-sb">
-                    <template v-if="form.title_type == 'img-icon'">
-                        <template v-if="!isEmpty(form.icon_class)">
-                            <icon :name="form.icon_class" :size="new_style.icon_size + ''" :color="new_style.icon_color"></icon>
+        <div :style="style_img_container">
+            <template v-if="form.notice_style == 'inherit'">
+                <div class="news-box" :style="container_background_style">
+                    <div class="flex-row align-c gap-y-8" :style="container_background_img_style">
+                        <template v-if="form.title_type == 'img-icon'">
+                            <div v-if="!isEmpty(form.img_src)">
+                                <image-empty v-model="form.img_src[0]" :style="img_style"></image-empty>
+                            </div>
+                            <div v-else>
+                                <icon :name="form.icon_class" :size="new_style.icon_size + ''" :color="new_style.icon_color"></icon>
+                            </div>
                         </template>
                         <template v-else>
-                            <image-empty v-model="form.img_src[0]" :style="img_style" error-img-style="width:1.6rem;height:1.6rem;"></image-empty>
+                            <div :style="topic_style" class="pl-6 pr-6 radius-sm">{{ form.title || '公告' }}</div>
                         </template>
-                    </template>
-                    <template v-else>
-                        <div :style="topic_style" class="pl-6 pr-6 radius-sm">{{ form.title || '公告' }}</div>
-                    </template>
-                    <div v-if="form.is_right_button == '1'" class="size-12" :style="`color: ${new_style.button_color || '#999'}`">更多<icon name="arrow-right" :color="new_style.button_color || '#999'"></icon></div>
+                        <el-carousel :key="carouselKey" class="flex-1" indicator-position="none" :interval="interval_time" arrow="never" :direction="direction_type" :autoplay="true">
+                            <el-carousel-item v-for="(item, index) in notice_list" :key="index" :style="`${news_style} color: ${new_style.news_color}`">{{ item.notice_title }}</el-carousel-item>
+                        </el-carousel>
+                        <div v-if="form.is_right_button == '1'" class="size-12"><icon name="arrow-right" :color="new_style.button_color || '#999'"></icon></div>
+                    </div>
                 </div>
-                <div v-for="(item, index) in notice_list" :key="index" class="flex align-c" :style="news_style">
-                    <span :class="`num one${index + 1}`">{{ index + 1 }}</span>
-                    <div class="break" :style="`color: ${new_style.news_color}`">{{ item.notice_title }}</div>
+            </template>
+            <template v-else>
+                <div class="news-card" :style="container_background_style">
+                    <div class="flex-col gap-10" :style="container_background_img_style">
+                        <div class="flex-row w jc-sb">
+                            <template v-if="form.title_type == 'img-icon'">
+                                <template v-if="!isEmpty(form.icon_class)">
+                                    <icon :name="form.icon_class" :size="new_style.icon_size + ''" :color="new_style.icon_color"></icon>
+                                </template>
+                                <template v-else>
+                                    <image-empty v-model="form.img_src[0]" :style="img_style" error-img-style="width:1.6rem;height:1.6rem;"></image-empty>
+                                </template>
+                            </template>
+                            <template v-else>
+                                <div :style="topic_style" class="pl-6 pr-6 radius-sm">{{ form.title || '公告' }}</div>
+                            </template>
+                            <div v-if="form.is_right_button == '1'" class="size-12" :style="`color: ${new_style.button_color || '#999'}`">更多<icon name="arrow-right" :color="new_style.button_color || '#999'"></icon></div>
+                        </div>
+                        <div v-for="(item, index) in notice_list" :key="index" class="flex align-c" :style="news_style">
+                            <span :class="`num one${index + 1}`">{{ index + 1 }}</span>
+                            <div class="break" :style="`color: ${new_style.news_color}`">{{ item.notice_title }}</div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </template>
+            </template>
+        </div>
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, common_styles_computer, get_math, gradient_computer, gradient_handle, radius_computer } from '@/utils';
+import { background_computer, common_img_computer, common_styles_computer, get_math, gradient_computer, gradient_handle, radius_computer } from '@/utils';
 import { isEmpty, cloneDeep, throttle } from 'lodash';
 
 const props = defineProps({
@@ -65,6 +71,7 @@ const { form, new_style } = toRefs(state);
 
 // 用于样式显示
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));
+const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
 // 容器高度
 const container_height = computed(() => new_style.value.container_height + 'px');
 // 容器背景
@@ -76,7 +83,15 @@ const container_background_style = computed(() => {
         background_img: container_background_img,
         background_img_style: container_background_img_style,
     };
-    return gradient_computer(styles) + radius_computer(new_style.value.container_radius) + background_computer(styles) + `overflow:hidden;`;
+    return gradient_computer(styles) + radius_computer(new_style.value.container_radius) + `overflow:hidden;`;
+});
+const container_background_img_style = computed(() => {
+    const { container_background_img_style, container_background_img } = new_style.value;
+    const styles = {
+        background_img: container_background_img,
+        background_img_style: container_background_img_style,
+    };
+    return background_computer(styles) + `overflow:hidden;`;
 });
 // 图片设置
 const img_style = computed(() => `height: ${new_style.value.title_height}px; width: ${new_style.value.title_width}px`);

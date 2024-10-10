@@ -1,13 +1,15 @@
 <template>
     <div :style="style_container">
-        <tabs-view ref="tabs" :value="props.value" :active-index="tabs_active_index"></tabs-view>
-        <div class="pt-10">
-            <model-goods-list :value="tabs_list" :is-common-style="false"></model-goods-list>
+        <div :style="style_img_container">
+            <tabs-view ref="tabs" :value="props.value" :active-index="tabs_active_index"></tabs-view>
+            <div class="pt-10">
+                <model-goods-list :value="tabs_list" :is-common-style="false"></model-goods-list>
+            </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer } from '@/utils';
+import { common_img_computer, common_styles_computer } from '@/utils';
 import { cloneDeep } from 'lodash';
 
 const props = defineProps({
@@ -20,6 +22,7 @@ const props = defineProps({
 });
 
 const style_container = ref('');
+const style_img_container = ref('');
 const tabs_list = ref({});
 const tabs_active_index = ref(0);
 watch(
@@ -42,6 +45,7 @@ watch(
         tabs_list.value = new_data;
         // 公共样式
         style_container.value += common_styles_computer(new_style.common_style);
+        style_img_container.value = common_img_computer(new_style.common_style);
     },
     { immediate: true, deep: true }
 );

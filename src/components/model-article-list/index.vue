@@ -1,57 +1,59 @@
 <template>
     <div class="oh" :style="style_container">
-        <div class="re oh" :style="style">
-            <div v-if="!['4'].includes(article_theme)" class="flex-warp" :class="article_theme_class" :style="article_theme != '3' ? article_spacing : ''">
-                <div v-for="(item, index) in data_list" :key="index" class="item bg-f oh" :class="article_theme == '0' ? 'flex-row' : 'flex-col'" :style="article_style">
-                    <template v-if="article_theme != '3'">
-                        <template v-if="item.new_cover.length > 0">
-                            <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
+        <div :style="style_img_container">
+            <div class="re oh" :style="style">
+                <div v-if="!['4'].includes(article_theme)" class="flex-warp" :class="article_theme_class" :style="article_theme != '3' ? article_spacing : ''">
+                    <div v-for="(item, index) in data_list" :key="index" class="item bg-f oh" :class="article_theme == '0' ? 'flex-row' : 'flex-col'" :style="article_style">
+                        <template v-if="article_theme != '3'">
+                            <template v-if="item.new_cover.length > 0">
+                                <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
+                            </template>
+                            <template v-else> <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty> </template>
                         </template>
-                        <template v-else> <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty> </template>
-                    </template>
-                    <div class="jc-sb flex-1" :class="article_theme == '3' ? 'flex-row align-c' : 'flex-col'" :style="article_theme != '0' ? content_padding : ''">
-                        <div class="title" :class="article_theme == '3' ? 'text-line-1 flex-1 flex-width' : 'text-line-2'" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
-                        <div class="flex-row jc-sb gap-8" :class="article_theme == '3' ? 'ml-10' : 'align-e mt-10'">
-                            <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
-                            <div v-show="field_show.includes('1')" class="flex-row align-c gap-3" :style="article_page_view">
-                                <icon name="eye"></icon>
-                                <div>
-                                    {{ item.data.access_count ? item.data.access_count : '16' }}
+                        <div class="jc-sb flex-1" :class="article_theme == '3' ? 'flex-row align-c' : 'flex-col'" :style="article_theme != '0' ? content_padding : ''">
+                            <div class="title" :class="article_theme == '3' ? 'text-line-1 flex-1 flex-width' : 'text-line-2'" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                            <div class="flex-row jc-sb gap-8" :class="article_theme == '3' ? 'ml-10' : 'align-e mt-10'">
+                                <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
+                                <div v-show="field_show.includes('1')" class="flex-row align-c gap-3" :style="article_page_view">
+                                    <icon name="eye"></icon>
+                                    <div>
+                                        {{ item.data.access_count ? item.data.access_count : '16' }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div v-else class="oh" :class="article_theme_class">
-                <el-carousel :key="carousel_key" indicator-position="none" :interval="interval_time" arrow="never" :autoplay="is_roll ? true : false">
-                    <el-carousel-item v-for="(item1, index1) in article_carousel_list" :key="index1" class="flex" :style="article_spacing">
-                        <div v-for="(item, index) in item1.carousel_list" :key="index" class="item bg-f oh flex-col" :style="article_style">
-                            <template v-if="item.new_cover.length > 0">
-                                <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
-                            </template>
-                            <template v-else> <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty> </template>
-                            <div class="jc-sb flex-1 flex-col" :style="article_theme != '0' ? content_padding : ''">
-                                <div class="title text-line-2" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
-                                <div class="flex-row jc-sb gap-8 align-e mt-10">
-                                    <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
-                                    <div v-show="field_show.includes('1')" class="flex-row align-c gap-3" :style="article_page_view">
-                                        <icon name="eye"></icon>
-                                        <div>
-                                            {{ item.data.access_count ? item.data.access_count : '16' }}
+                <div v-else class="oh" :class="article_theme_class">
+                    <el-carousel :key="carousel_key" indicator-position="none" :interval="interval_time" arrow="never" :autoplay="is_roll ? true : false">
+                        <el-carousel-item v-for="(item1, index1) in article_carousel_list" :key="index1" class="flex" :style="article_spacing">
+                            <div v-for="(item, index) in item1.carousel_list" :key="index" class="item bg-f oh flex-col" :style="article_style">
+                                <template v-if="item.new_cover.length > 0">
+                                    <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
+                                </template>
+                                <template v-else> <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty> </template>
+                                <div class="jc-sb flex-1 flex-col" :style="article_theme != '0' ? content_padding : ''">
+                                    <div class="title text-line-2" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                                    <div class="flex-row jc-sb gap-8 align-e mt-10">
+                                        <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
+                                        <div v-show="field_show.includes('1')" class="flex-row align-c gap-3" :style="article_page_view">
+                                            <icon name="eye"></icon>
+                                            <div>
+                                                {{ item.data.access_count ? item.data.access_count : '16' }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </el-carousel-item>
-                </el-carousel>
+                        </el-carousel-item>
+                    </el-carousel>
+                </div>
             </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, padding_computer, radius_computer, get_math, is_obj_empty } from '@/utils';
+import { common_styles_computer, padding_computer, radius_computer, get_math, is_obj_empty, common_img_computer } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 import ArticleAPI from '@/api/article';
 const props = defineProps({
@@ -67,6 +69,7 @@ const props = defineProps({
 const error_img = ref('width:50px;padding:10px;');
 const style = ref('');
 const style_container = ref('');
+const style_img_container = ref('');
 interface dataObj {
     cover?: string;
     add_time?: string;
@@ -248,6 +251,7 @@ watch(
         }
         if (new_style.common_style && props.isCommonStyle) {
             style_container.value = common_styles_computer(new_style.common_style);
+            style_img_container.value = common_img_computer(new_style.common_style);
         }
     },
     { deep: true, immediate: true }

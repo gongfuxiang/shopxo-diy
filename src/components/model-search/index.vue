@@ -1,37 +1,39 @@
 <template>
     <div :style="style_container">
-        <div class="search w re" :style="style">
-            <div class="box h oh flex align-c gap-10 bg-f" :style="box_style">
-                <template v-if="form.is_icon_show == '1'">
-                    <template v-if="form.icon_img.length > 0">
-                        <div class="img-box">
-                            <image-empty v-model="form.icon_img[0]" class="img" error-img-style="width: 4rem;height: 2.5rem;" />
-                        </div>
+        <div :style="style_img_container">
+            <div class="search w re" :style="style">
+                <div class="box h oh flex align-c gap-10 bg-f" :style="box_style">
+                    <template v-if="form.is_icon_show == '1'">
+                        <template v-if="form.icon_img.length > 0">
+                            <div class="img-box">
+                                <image-empty v-model="form.icon_img[0]" class="img" error-img-style="width: 4rem;height: 2.5rem;" />
+                            </div>
+                        </template>
+                        <template v-else>
+                            <el-icon :class="`iconfont ${ !isEmpty(form.icon_class) ? 'icon-' + form.icon_class : 'icon-search' } size-14`" :style="`color:${new_style.icon_color};`" />
+                        </template>
+                    </template>
+                    <span v-if="form.is_tips_show == '1'" :class="[props.isPageSettings ? 'size-12 text-line-1' : 'size-14 text-line-1']" :style="`color: ${ new_style.tips_color }`">{{ form.tips }}</span>
+                </div>
+                <div v-if="form.is_search_show == '1'" class="abs search-botton h flex align-c jc-c" :style="search_button">
+                    <template v-if="form.search_type === 'text'">
+                        <div :class="['ptb-3 size-12', props.isPageSettings ? 'plr-12' : 'plr-16']">{{ form.search_tips }}</div>
+                    </template>
+                    <template v-else-if="!isEmpty(form.search_botton_img) && form.search_botton_img.length > 0">
+                        <image-empty v-model="form.search_botton_img[0]" class="img" :style="search_button_radius" error-img-style="width: 4rem;height: 2.8rem;" />
                     </template>
                     <template v-else>
-                        <el-icon :class="`iconfont ${ !isEmpty(form.icon_class) ? 'icon-' + form.icon_class : 'icon-search' } size-14`" :style="`color:${new_style.icon_color};`" />
+                        <div :class="['ptb-3 size-12', props.isPageSettings ? 'plr-12' : 'plr-16']">
+                            <el-icon :class="`iconfont ${ !isEmpty(form.search_botton_icon) ? 'icon-' + form.search_botton_icon : '' } size-14`" />
+                        </div>
                     </template>
-                </template>
-                <span v-if="form.is_tips_show == '1'" :class="[props.isPageSettings ? 'size-12 text-line-1' : 'size-14 text-line-1']" :style="`color: ${ new_style.tips_color }`">{{ form.tips }}</span>
-            </div>
-            <div v-if="form.is_search_show == '1'" class="abs search-botton h flex align-c jc-c" :style="search_button">
-                <template v-if="form.search_type === 'text'">
-                    <div :class="['ptb-3 size-12', props.isPageSettings ? 'plr-12' : 'plr-16']">{{ form.search_tips }}</div>
-                </template>
-                <template v-else-if="!isEmpty(form.search_botton_img) && form.search_botton_img.length > 0">
-                    <image-empty v-model="form.search_botton_img[0]" class="img" :style="search_button_radius" error-img-style="width: 4rem;height: 2.8rem;" />
-                </template>
-                <template v-else>
-                    <div :class="['ptb-3 size-12', props.isPageSettings ? 'plr-12' : 'plr-16']">
-                        <el-icon :class="`iconfont ${ !isEmpty(form.search_botton_icon) ? 'icon-' + form.search_botton_icon : '' } size-14`" />
-                    </div>
-                </template>
+                </div>
             </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, common_styles_computer, gradient_computer, radius_computer } from '@/utils';
+import { background_computer, common_styles_computer, gradient_computer, radius_computer, common_img_computer } from '@/utils';
 import { isEmpty } from 'lodash';
 
 const props = defineProps({
@@ -65,6 +67,7 @@ const style = computed(() => {
     return common_styles;
 });
 const style_container = computed(() => props.isPageSettings ? '' : common_styles_computer(new_style.value.common_style));
+const style_img_container = computed(() => props.isPageSettings ? '' : common_img_computer(new_style.value.common_style));
 
 const search_button_radius = computed(() => radius_computer(new_style.value.search_button_radius));
 // 搜索框设置

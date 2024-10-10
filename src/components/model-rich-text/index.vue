@@ -1,10 +1,12 @@
 <template>
     <div class="rich-text" :style="style_container">
-        <div class="rich-text-content" :innerHTML="safe_content"></div>
+        <div :style="style_img_container">
+            <div class="rich-text-content" :innerHTML="safe_content"></div>
+        </div>
     </div>
 </template>
 <script lang="ts" setup>
-import { common_styles_computer } from '@/utils';
+import { common_img_computer, common_styles_computer } from '@/utils';
 // 引入dompurify模块 安全地清理HTML内容，确保插入到DOM中的内容不会导致XSS攻击。
 import DOMPurify from 'dompurify';
 const props = defineProps({
@@ -14,6 +16,7 @@ const props = defineProps({
     },
 });
 const style_container = ref('');
+const style_img_container = ref('');
 const content = ref('');
 watch(
     props.value,
@@ -22,6 +25,7 @@ watch(
         const new_style = newVal?.style || {};
         content.value = new_content.html;
         style_container.value = common_styles_computer(new_style.common_style);
+        style_img_container.value = common_img_computer(new_style.common_style);
     },
     { immediate: true, deep: true }
 );

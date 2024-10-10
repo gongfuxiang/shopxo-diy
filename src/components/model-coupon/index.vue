@@ -1,68 +1,91 @@
 <template>
     <div class="coupon-theme-container">
         <div class="re" :style="style_container">
-            <el-scrollbar class="hide-scrollbar">
-                <template v-if="theme == '1'">
-                    <div class="coupon-theme-1">
-                        <div v-for="(item, index) in data_list" :key="index" class="item">
-                            <div class="coupon-theme-1-content tc" :style="'background-image: url(' + theme_bg_img.url_1 + ');background-size: 100% 100%;'">
-                                <div class="name text-line-1">{{ item.name }}</div>
-                                <div class="price">
-                                    <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
-                                    <span class="number">{{ item.discount_value }}</span>
-                                    <span v-if="item.type == '1'" class="symbol">折</span>
-                                </div>
-                            </div>
-                            <div class="coupon-btn">立即领取</div>
-                        </div>
-                    </div>
-                </template>
-                <template v-else-if="theme == '2'">
-                    <div class="coupon-theme-2">
-                        <div v-for="(item, index) in data_list" :key="index" class="item" :style="'background-image: url(' + theme_bg_img.url_2 + ');background-size: 100% 100%;'">
-                            <div class="tc">
-                                <div class="price">
-                                    <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
-                                    <span class="number">{{ item.discount_value }}</span>
-                                    <span v-if="item.type == '1'" class="symbol">折</span>
-                                </div>
-                                <div class="name text-line-1">{{ item.name }}</div>
-                                <div class="desc text-line-1">{{ item.desc }}</div>
-                            </div>
-                            <div class="coupon-btn">立即领取</div>
-                        </div>
-                    </div>
-                </template>
-                <template v-else-if="theme == '3'">
-                    <div class="coupon-theme-3">
-                        <div v-for="(item, index) in data_list" :key="index" class="item">
-                            <div class="left">
-                                <div class="price">
-                                    <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
-                                    <span class="number">{{ item.discount_value }}</span>
-                                    <span v-if="item.type == '1'" class="symbol self-e">折</span>
-                                </div>
-                                <div class="text pl-3 pr-8">
+            <div :style="style_img_container">
+                <el-scrollbar class="hide-scrollbar">
+                    <template v-if="theme == '1'">
+                        <div class="coupon-theme-1">
+                            <div v-for="(item, index) in data_list" :key="index" class="item">
+                                <div class="coupon-theme-1-content tc" :style="'background-image: url(' + theme_bg_img.url_1 + ');background-size: 100% 100%;'">
                                     <div class="name text-line-1">{{ item.name }}</div>
-                                    <div class="desc text-line-1">{{ item.use_limit_type_name }}</div>
-                                    <div v-if="item.limit_send_count && item.limit_send_count > 0" class="limit text-line-1">(限领{{ item.limit_send_count }}张)</div>
+                                    <div class="price">
+                                        <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
+                                        <span class="number">{{ item.discount_value }}</span>
+                                        <span v-if="item.type == '1'" class="symbol">折</span>
+                                    </div>
                                 </div>
+                                <div class="coupon-btn">立即领取</div>
                             </div>
-                            <div class="right">
-                                <div class="coupon-btn">
-                                    <text>立即领取</text>
-                                    <icon name="arrow-right-o" class="icon"></icon>
+                        </div>
+                    </template>
+                    <template v-else-if="theme == '2'">
+                        <div class="coupon-theme-2">
+                            <div v-for="(item, index) in data_list" :key="index" class="item" :style="'background-image: url(' + theme_bg_img.url_2 + ');background-size: 100% 100%;'">
+                                <div class="tc">
+                                    <div class="price">
+                                        <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
+                                        <span class="number">{{ item.discount_value }}</span>
+                                        <span v-if="item.type == '1'" class="symbol">折</span>
+                                    </div>
+                                    <div class="name text-line-1">{{ item.name }}</div>
+                                    <div class="desc text-line-1">{{ item.desc }}</div>
+                                </div>
+                                <div class="coupon-btn">立即领取</div>
+                            </div>
+                        </div>
+                    </template>
+                    <template v-else-if="theme == '3'">
+                        <div class="coupon-theme-3">
+                            <div v-for="(item, index) in data_list" :key="index" class="item">
+                                <div class="left">
+                                    <div class="price">
+                                        <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
+                                        <span class="number">{{ item.discount_value }}</span>
+                                        <span v-if="item.type == '1'" class="symbol self-e">折</span>
+                                    </div>
+                                    <div class="text pl-3 pr-8">
+                                        <div class="name text-line-1">{{ item.name }}</div>
+                                        <div class="desc text-line-1">{{ item.use_limit_type_name }}</div>
+                                        <div v-if="item.limit_send_count && item.limit_send_count > 0" class="limit text-line-1">(限领{{ item.limit_send_count }}张)</div>
+                                    </div>
+                                </div>
+                                <div class="right">
+                                    <div class="coupon-btn">
+                                        <text>立即领取</text>
+                                        <icon name="arrow-right-o" class="icon"></icon>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </template>
-                <template v-else-if="theme == '4'">
-                    <div class="coupon-theme-4">
-                        <el-scrollbar class="hide-scrollbar">
-                            <div class="left">
-                                <div v-for="(item, index) in data_list" :key="index" class="item">
-                                    <div class="type">通用券</div>
+                    </template>
+                    <template v-else-if="theme == '4'">
+                        <div class="coupon-theme-4">
+                            <el-scrollbar class="hide-scrollbar">
+                                <div class="left">
+                                    <div v-for="(item, index) in data_list" :key="index" class="item">
+                                        <div class="type">通用券</div>
+                                        <div class="price">
+                                            <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
+                                            <span class="number">{{ item.discount_value }}</span>
+                                            <span v-if="item.type == '1'" class="symbol">折</span>
+                                        </div>
+                                        <div class="name text-line-1">{{ item.name }}</div>
+                                    </div>
+                                </div>
+                            </el-scrollbar>
+                            <div class="right">
+                                <div class="re z-i flex-col jc-c align-c">
+                                    <div class="title text-line-1">{{ content_title }}</div>
+                                    <div class="desc text-line-1">{{ content_desc }}</div>
+                                    <div class="coupon-btn">领取全部</div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <template v-else-if="theme == '5'">
+                        <div class="coupon-theme-5">
+                            <div v-for="(item, index) in data_list" :key="index" class="item">
+                                <div class="left" :style="'background-image: url(' + theme_bg_img.url_3 + ');background-size: 100% 100%;'">
                                     <div class="price">
                                         <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
                                         <span class="number">{{ item.discount_value }}</span>
@@ -70,74 +93,53 @@
                                     </div>
                                     <div class="name text-line-1">{{ item.name }}</div>
                                 </div>
-                            </div>
-                        </el-scrollbar>
-                        <div class="right">
-                            <div class="re z-i flex-col jc-c align-c">
-                                <div class="title text-line-1">{{ content_title }}</div>
-                                <div class="desc text-line-1">{{ content_desc }}</div>
-                                <div class="coupon-btn">领取全部</div>
-                            </div>
-                        </div>
-                    </div>
-                </template>
-                <template v-else-if="theme == '5'">
-                    <div class="coupon-theme-5">
-                        <div v-for="(item, index) in data_list" :key="index" class="item">
-                            <div class="left" :style="'background-image: url(' + theme_bg_img.url_3 + ');background-size: 100% 100%;'">
-                                <div class="price">
-                                    <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
-                                    <span class="number">{{ item.discount_value }}</span>
-                                    <span v-if="item.type == '1'" class="symbol">折</span>
+                                <div class="right">
+                                    <div class="coupon-btn">领取</div>
                                 </div>
-                                <div class="name text-line-1">{{ item.name }}</div>
-                            </div>
-                            <div class="right">
-                                <div class="coupon-btn">领取</div>
                             </div>
                         </div>
-                    </div>
-                </template>
-                <template v-else-if="theme == '6'">
-                    <div class="coupon-theme-6">
-                        <div v-for="(item, index) in data_list" :key="index" class="item">
-                            <div class="top">
-                                <div class="price">
-                                    <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
-                                    <span class="number">{{ item.discount_value }}</span>
-                                    <span v-if="item.type == '1'" class="symbol">折</span>
+                    </template>
+                    <template v-else-if="theme == '6'">
+                        <div class="coupon-theme-6">
+                            <div v-for="(item, index) in data_list" :key="index" class="item">
+                                <div class="top">
+                                    <div class="price">
+                                        <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
+                                        <span class="number">{{ item.discount_value }}</span>
+                                        <span v-if="item.type == '1'" class="symbol">折</span>
+                                    </div>
+                                    <div class="name text-line-1">{{ item.name }}</div>
                                 </div>
-                                <div class="name text-line-1">{{ item.name }}</div>
-                            </div>
-                            <div class="bottom">
-                                <div class="coupon-btn">立即领取</div>
-                            </div>
-                        </div>
-                    </div>
-                </template>
-                <template v-else-if="theme == '7'">
-                    <div class="coupon-theme-7">
-                        <div v-for="(item, index) in data_list" :key="index" class="item">
-                            <div class="left">
-                                <div class="price">
-                                    <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
-                                    <span class="number">{{ item.discount_value }}</span>
-                                    <span v-if="item.type == '1'" class="symbol">折</span>
+                                <div class="bottom">
+                                    <div class="coupon-btn">立即领取</div>
                                 </div>
-                                <div class="name text-line-1">{{ item.name }}</div>
-                            </div>
-                            <div class="right">
-                                <div class="coupon-btn">立即领取</div>
                             </div>
                         </div>
-                    </div>
-                </template>
-            </el-scrollbar>
+                    </template>
+                    <template v-else-if="theme == '7'">
+                        <div class="coupon-theme-7">
+                            <div v-for="(item, index) in data_list" :key="index" class="item">
+                                <div class="left">
+                                    <div class="price">
+                                        <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
+                                        <span class="number">{{ item.discount_value }}</span>
+                                        <span v-if="item.type == '1'" class="symbol">折</span>
+                                    </div>
+                                    <div class="name text-line-1">{{ item.name }}</div>
+                                </div>
+                                <div class="right">
+                                    <div class="coupon-btn">立即领取</div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                </el-scrollbar>
+            </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, gradient_computer, online_url } from '@/utils';
+import { common_img_computer, common_styles_computer, gradient_computer, online_url } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 import CouponAPI from '@/api/coupon';
 import { commonStore } from '@/store';
@@ -163,6 +165,9 @@ const default_list = {
 // 公共样式
 const style_container = computed(() => {
     return common_styles_computer(new_style.value.common_style);
+});
+const style_img_container = computed(() => {
+    return common_img_computer(new_style.value.common_style);
 });
 // 内容标题
 const content_title = computed(() => {

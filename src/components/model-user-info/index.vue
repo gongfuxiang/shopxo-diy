@@ -1,34 +1,36 @@
 <template>
     <div :style="style_container">
-        <div class="re pa-20" :style="style">
-            <div class="flex-row jc-sb align-c mb-20">
-                <div class="flex-1 flex-row align-c gap-12">
-                    <img class="round" src="@/assets/images/components/model-user-info/avatar.png" :width="base_data.user_avatar_size" :height="base_data.user_avatar_size" />
-                    <div class="flex-col gap-8">
-                        <div class="size-16 fw" :style="user_name_style">昵称</div>
-                        <div v-if="id_bool" class="plr-6 ptb-1 radius-sm" :style="number_code_style">ID:88888888</div>
+        <div :style="style_img_container">
+            <div class="re pa-20" :style="style">
+                <div class="flex-row jc-sb align-c mb-20">
+                    <div class="flex-1 flex-row align-c gap-12">
+                        <img class="round" src="@/assets/images/components/model-user-info/avatar.png" :width="base_data.user_avatar_size" :height="base_data.user_avatar_size" />
+                        <div class="flex-col gap-8">
+                            <div class="size-16 fw" :style="user_name_style">昵称</div>
+                            <div v-if="id_bool" class="plr-6 ptb-1 radius-sm" :style="number_code_style">ID:88888888</div>
+                        </div>
+                    </div>
+                    <div class="flex-row align-c" :class="'gap-' + base_data.img_space">
+                        <div v-for="(item, index) in icon_setting" :key="index" :style="{ width: base_data.img_size + 'px', height: base_data.img_size + 'px' }">
+                            <image-empty v-if="item.img.length > 0" v-model="item.img[0]" :error-img-style="'width: ' + Number(base_data.img_size) / 2 + 'px;height:' + Number(base_data.img_size) / 2 + 'px;'"></image-empty>
+                            <icon v-else :name="item.icon" :size="base_data.img_size + ''" color="6"></icon>
+                        </div>
                     </div>
                 </div>
-                <div class="flex-row align-c" :class="'gap-' + base_data.img_space">
-                    <div v-for="(item, index) in icon_setting" :key="index" :style="{ width: base_data.img_size + 'px', height: base_data.img_size + 'px' }">
-                        <image-empty v-if="item.img.length > 0" v-model="item.img[0]" :error-img-style="'width: ' + Number(base_data.img_size) / 2 + 'px;height:' + Number(base_data.img_size) / 2 + 'px;'"></image-empty>
-                        <icon v-else :name="item.icon" :size="base_data.img_size + ''" color="6"></icon>
-                    </div>
+                <div class="flex-row jc-sa align-c">
+                    <template v-for="(item, index) in stats_list" :key="index">
+                        <div v-if="config.includes(item.id)" class="tc">
+                            <div class="size-16 fw mb-6" :style="stats_number_style">{{ item.value }}</div>
+                            <div class="size-12" :style="stats_name_style">{{ item.name }}</div>
+                        </div>
+                    </template>
                 </div>
-            </div>
-            <div class="flex-row jc-sa align-c">
-                <template v-for="(item, index) in stats_list" :key="index">
-                    <div v-if="config.includes(item.id)" class="tc">
-                        <div class="size-16 fw mb-6" :style="stats_number_style">{{ item.value }}</div>
-                        <div class="size-12" :style="stats_name_style">{{ item.name }}</div>
-                    </div>
-                </template>
             </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, gradient_computer } from '@/utils';
+import { common_styles_computer, gradient_computer, common_img_computer } from '@/utils';
 const props = defineProps({
     value: {
         type: Object,
@@ -37,6 +39,7 @@ const props = defineProps({
 });
 const style = ref('');
 const style_container = ref('');
+const style_img_container = ref('');
 const id_bool = ref(true);
 const stats_list = reactive([
     { id: 'order_count', name: '订单总数', value: '100' },
@@ -133,6 +136,7 @@ watch(
             base_data.stats_number_size = new_style.stats_number_size;
 
             style_container.value = common_styles_computer(new_style.common_style);
+            style_img_container.value = common_img_computer(new_style.common_style);
         }
         // 人物名称样式
         user_name_style.value = 'color:' + base_data.user_name_color + ';' + 'font-size:' + base_data.user_name_size + 'px;' + 'font-weight:' + base_data.user_name_weight + ';';

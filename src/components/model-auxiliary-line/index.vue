@@ -1,10 +1,12 @@
 <template>
     <div :style="style_container">
-        <div :style="style"></div>
+        <div :style="style_img_container">
+            <div :style="style"></div>
+        </div>
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer } from '@/utils';
+import { common_img_computer, common_styles_computer } from '@/utils';
 const props = defineProps({
     value: {
         type: Object,
@@ -14,6 +16,7 @@ const props = defineProps({
 
 const style = ref('');
 const style_container = ref('');
+const style_img_container = ref('');
 watch(
     props.value,
     (newVal, oldValue) => {
@@ -24,6 +27,7 @@ watch(
         style.value = border_content + border_style;
 
         style_container.value = common_styles_computer(new_style.common_style);
+        style_img_container.value = common_img_computer(new_style.common_style);
     },
     { immediate: true, deep: true }
 );

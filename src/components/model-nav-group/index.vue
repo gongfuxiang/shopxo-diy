@@ -1,31 +1,33 @@
 <template>
     <div :style="style_container">
-        <el-carousel :key="carouselKey" indicator-position="none" :interval="interval_time" arrow="never" :autoplay="is_roll" @change="carousel_change">
-            <el-carousel-item v-for="(item, index) in nav_content_list" :key="index">
-                <div ref="bannerImg" class="flex flex-wrap gap-x-10">
-                    <div v-for="(item1, index1) in item.split_list" :key="index1" class="item flex-col gap-10 align-c">
-                        <div v-if="['image_with_text', 'image'].includes(nav_style)" class="top-img flex align-c jc-c">
-                            <image-empty v-model="item1.img[0]" :style="img_style"></image-empty>
+        <div :style="style_img_container">
+            <el-carousel :key="carouselKey" indicator-position="none" :interval="interval_time" arrow="never" :autoplay="is_roll" @change="carousel_change">
+                <el-carousel-item v-for="(item, index) in nav_content_list" :key="index">
+                    <div ref="bannerImg" class="flex flex-wrap gap-x-10">
+                        <div v-for="(item1, index1) in item.split_list" :key="index1" class="item flex-col gap-10 align-c">
+                            <div v-if="['image_with_text', 'image'].includes(nav_style)" class="top-img flex align-c jc-c">
+                                <image-empty v-model="item1.img[0]" :style="img_style"></image-empty>
+                            </div>
+                            <p v-if="['image_with_text', 'text'].includes(nav_style)" class="size-12 ma-0" :style="text_style">{{ item1.title }}</p>
                         </div>
-                        <p v-if="['image_with_text', 'text'].includes(nav_style)" class="size-12 ma-0" :style="text_style">{{ item1.title }}</p>
                     </div>
-                </div>
-            </el-carousel-item>
-        </el-carousel>
-        <div v-if="form.display_style == 'slide' && new_style.is_show == '1'" :style="{ 'justify-content': new_style?.indicator_location || 'center'}" class="dot flex mt-10 mb-4">
-            <template v-if="new_style.indicator_style == 'num'">
-                <div :style="indicator_style" class="dot-item">
-                    <span class="num-active">{{ actived_index + 1 }}</span><span>/{{ nav_content_list.length }}</span>
-                </div>
-            </template>
-            <template v-else>
-                <div v-for="(item, index) in nav_content_list" :key="index" :style="indicator_style" :class="{'dot-item': true, 'active': actived_index == index }" />
-            </template>
+                </el-carousel-item>
+            </el-carousel>
+            <div v-if="form.display_style == 'slide' && new_style.is_show == '1'" :style="{ 'justify-content': new_style?.indicator_location || 'center'}" class="dot flex mt-10 mb-4">
+                <template v-if="new_style.indicator_style == 'num'">
+                    <div :style="indicator_style" class="dot-item">
+                        <span class="num-active">{{ actived_index + 1 }}</span><span>/{{ nav_content_list.length }}</span>
+                    </div>
+                </template>
+                <template v-else>
+                    <div v-for="(item, index) in nav_content_list" :key="index" :style="indicator_style" :class="{'dot-item': true, 'active': actived_index == index }" />
+                </template>
+            </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, radius_computer, get_math } from '@/utils';
+import { common_styles_computer, radius_computer, get_math, common_img_computer } from '@/utils';
 import { isEmpty, cloneDeep, throttle } from 'lodash';
 
 const props = defineProps({
@@ -47,6 +49,7 @@ const { form, new_style } = toRefs(state);
 
 // 用于样式显示
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));
+const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
 // 图片的设置
 const img_style = computed(() => radius_computer(new_style.value));
 // 标题的样式
