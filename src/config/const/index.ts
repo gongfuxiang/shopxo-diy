@@ -1,7 +1,7 @@
 const defaultCommon: componentsCommonCommonStyle = {
     direction: '90deg',
     color_list: [{ color: '', color_percentage: undefined }],
-    background_img_style: 2,
+    background_img_style: '0',
     floating_up: 0,
     padding: 0,
     padding_top: 0,

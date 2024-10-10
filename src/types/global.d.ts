@@ -77,7 +77,7 @@ declare global {
      */
     type backgroundImgUrlStyle = {
         background_img: uploadList[];
-        background_img_style: number;
+        background_img_style: string;
     };
 
     /**
@@ -86,7 +86,7 @@ declare global {
     type componentsCommonCommonStyle = {
         color_list: color_list[];
         direction: string;
-        background_img_style: number;
+        background_img_style: string;
         floating_up: number;
         padding: number;
         padding_top: number;

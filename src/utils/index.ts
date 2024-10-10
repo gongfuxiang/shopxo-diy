@@ -1,7 +1,6 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { commonStore } from '@/store';
-import CommonAPI from '@/api/common';
 import App from '@/App.vue';
 const app = createApp(App);
 const pinia = createPinia();
@@ -196,12 +195,28 @@ export function box_shadow_computer(new_style: boxShadowStyle) {
 export function background_computer(new_style: backgroundImgUrlStyle) {
     if (new_style.background_img.length > 0) {
         let url_styke = '';
-        if (new_style.background_img_style == 1) {
+        if (new_style.background_img_style == '1') {
             url_styke = 'background-repeat: repeat;';
-        } else if (new_style.background_img_style == 2) {
-            url_styke = 'background-size: cover;background-position: center;';
+        } else if (new_style.background_img_style == '2') {
         } else {
             url_styke = `background-repeat: no-repeat;background-position: center;`;
+        }
+        switch (new_style.background_img_style) {
+            case '1':
+                url_styke = `background-repeat: no-repeat;background-position: bottom;background-size: 100% auto;`;
+                break;
+            case '2':
+                url_styke = `background-repeat: no-repeat;background-position: center;background-size: 100% auto;`;
+                break;
+            case '3':
+                url_styke = 'background-repeat: repeat;';
+                break;
+            case '4':
+                url_styke = 'background-size: cover;background-position: center;';
+                break;
+            default:
+                url_styke = `background-repeat: no-repeat;background-position: top;background-size: 100% auto;`;
+                break;
         }
         return `background-image:url(${new_style.background_img[0].url});${url_styke}`;
     } else {
