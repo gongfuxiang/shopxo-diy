@@ -21,8 +21,8 @@
                 </el-form-item>
                 <el-form-item label="功能按钮">
                     <el-radio-group v-model="form.function_buttons_type">
-                        <el-radio value="#000">黑色</el-radio>
-                        <el-radio value="#fff">白色</el-radio>
+                        <el-radio value="0">黑色</el-radio>
+                        <el-radio value="1">白色</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item v-if="['1', '2'].includes(search_content.theme)" label="标题名称">
