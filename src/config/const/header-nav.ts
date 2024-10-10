@@ -34,7 +34,7 @@ interface DefaultFooterNav {
         header_background_type: string;
         header_background_color_list: color_list[];
         header_background_direction: string;
-        header_background_img_style: number;
+        header_background_img_style: string;
         header_background_img: uploadList[];
         header_background_title_color: string;
         header_background_title_typeface: string;
@@ -44,7 +44,7 @@ interface DefaultFooterNav {
         up_slide_display: string;
         up_slide_background_color_list: color_list[];
         up_slide_background_direction: string;
-        up_slide_background_img_style: number;
+        up_slide_background_img_style: string;
         up_slide_background_img: uploadList[];
         icon_color: string;
         button_inner_color: string;
@@ -91,7 +91,7 @@ const defaultFooterNav: DefaultFooterNav = {
         header_background_type: 'color_image',
         header_background_color_list: [{ color: '#fff', color_percentage: undefined }],
         header_background_direction: '180deg',
-        header_background_img_style: 2,
+        header_background_img_style: '2',
         header_background_img: [],
         header_background_title_color: '#333',
         header_background_title_typeface: '500',
@@ -101,7 +101,7 @@ const defaultFooterNav: DefaultFooterNav = {
         up_slide_display: '1',
         up_slide_background_color_list: [{ color: '#fff', color_percentage: undefined }],
         up_slide_background_direction: '180deg',
-        up_slide_background_img_style: 2,
+        up_slide_background_img_style: '2',
         up_slide_background_img: [],
         icon_color: '#ccc',
         button_inner_color: '#fff',
@@ -110,7 +110,7 @@ const defaultFooterNav: DefaultFooterNav = {
             { color: '#FF3131', color_percentage: undefined },
         ],
         search_botton_direction: '90deg',
-        search_botton_background_img_style: '',
+        search_botton_background_img_style: '2',
         search_botton_background_img: [],
         search_button_radius: {
             radius: 16,
@@ -131,7 +131,10 @@ const defaultFooterNav: DefaultFooterNav = {
             radius_bottom_left: 16,
             radius_bottom_right: 16,
         },
-        common_style: defaultCommon,
+        common_style: {
+            ...defaultCommon,
+            color_list: [{ color: '#f5f5f5', color_percentage: undefined }],
+        },
     },
 };
 

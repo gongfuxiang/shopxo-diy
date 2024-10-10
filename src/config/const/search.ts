@@ -57,7 +57,7 @@ const defaultSearch: defaultSearch = {
         button_inner_color: '#fff',
         search_botton_color_list: [{ color: '#FF973D', color_percentage: undefined }, { color: '#FF3131', color_percentage: undefined }],
         search_botton_direction: '90deg',
-        search_botton_background_img_style: '',
+        search_botton_background_img_style: '2',
         search_botton_background_img: [],
         search_button_radius: {
             radius: 16,

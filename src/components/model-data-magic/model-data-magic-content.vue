@@ -59,7 +59,7 @@ const style_list = ['heng2', 'shu2', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zu
 const data_style = {
     color_list: [{ color: '#FFD9C3', color_percentage: 0 }, { color: '#FFECE2', color_percentage: 12 }, { color: '#FFFFFF', color_percentage: 30 }],
     direction: '180deg',
-    background_img_style: 2,
+    background_img_style: '2',
     background_img: [],
     is_roll: '0',
     rotation_direction: 'horizontal',

@@ -33,7 +33,7 @@ const default_data = {
         header_background_type: 'color_image',
         header_background_color_list: [{ color: '#fff', color_percentage: undefined }],
         header_background_direction: '180deg',
-        header_background_img_style: 2,
+        header_background_img_style: '2',
         header_background_img: [],
         header_background_title_color: '#333',
         header_background_title_typeface: '500',

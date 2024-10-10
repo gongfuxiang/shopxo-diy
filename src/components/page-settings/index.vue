@@ -1,7 +1,7 @@
 <template>
     <div class="model-top">
         <div :class="[{ 'page-settings-border': showPage }]" :style="roll_style" @click="page_settings">
-            <div class="roll" :style="roll_img_style">
+            <div class="roll re" :style="roll_img_style">
                 <div class="w h abs up_slide_bg" :style="up_slide_style">
                     <div class="w h" :style="up_slide_img_style"></div>
                 </div>
@@ -130,6 +130,7 @@ const position_class = computed(() => (form.value?.indicator_location == 'center
         padding-bottom: 0.9rem;
         margin: 0 auto;
         cursor: pointer;
+        z-index: 1;
     }
     .img {
         width: 34rem;

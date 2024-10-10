@@ -36,7 +36,7 @@ export const text_com_data = {
     border_size: 1,
     direction: '90deg',
     color_list: [{ color: '', color_percentage: undefined }],
-    bottom_up: '1',
+    bottom_up: '0',
 }
 // 图片的默认值
 export const img_com_data = {
@@ -68,7 +68,7 @@ export const img_com_data = {
         radius_bottom_right: 0,
     },
     border_size: 1,
-    bottom_up: '1',
+    bottom_up: '0',
 }
 // 线条的默认值
 export const line_com_data = {
@@ -120,8 +120,31 @@ export const icon_com_data = {
     border_size: 1,
     direction: '90deg',
     color_list: [{ color: '', color_percentage: undefined }],
-    bottom_up: '1',
+    bottom_up: '0',
 }
+
+// 面板的默认值
+export const panel_com_data = {
+    com_width: 100,
+    com_height: 100,
+    staging_height: 100,
+    icon_rotate: 0,
+    border_show: '0',
+    border_color: '#FF5D5D',
+    border_style: 'solid',
+    bg_radius: {
+        radius: 0,
+        radius_top_left: 0,
+        radius_top_right: 0,
+        radius_bottom_left: 0,
+        radius_bottom_right: 0,
+    },
+    border_size: 1,
+    direction: '90deg',
+    color_list: [{ color: '#fff', color_percentage: undefined }],
+    bottom_up: '0',
+}
+
 // 判断两个矩形是否有交集或者被包裹
 export const isRectangleIntersecting = (rect1: react1, rect2: react1) => {
     // 矩形的格式为 { x, y, width, height }

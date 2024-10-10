@@ -1,6 +1,6 @@
 <template>
-    <div :class="showFooter ? 'br-2 br-primary' : ''" @click="footer_nav_event">
-        <div class="footer-nav flex-row jc-c align-c" :style="style_container">
+    <div class="footer-nav" :class="showFooter ? 'br-2 br-primary' : ''" @click="footer_nav_event">
+        <div class="flex-row jc-c align-c" :style="style_container">
             <div class="footer-nav-content flex-row jc-c align-c w" :style="style_img_container">
                 <ul class="flex-row jc-sa align-c w">
                     <li v-for="(item, index) in nav_content" :key="index" class="flex-1 flex-col jc-c align-c gap-5" @mouseenter="is_hover = index" @mouseleave="is_hover = 0">

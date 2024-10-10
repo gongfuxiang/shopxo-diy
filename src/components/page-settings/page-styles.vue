@@ -4,7 +4,7 @@
             <card-container>
                 <div class="mb-12">头部样式</div>
                 <el-form-item label="顶部背景">
-                    <div class="flex-col gap-10">
+                    <div class="w h flex-col gap-10">
                         <el-radio-group v-model="form.header_background_type" @change="header_background_type_change_event">
                             <el-radio value="transparent">透明</el-radio>
                             <el-radio value="color_image">颜色/图片</el-radio>
@@ -40,7 +40,7 @@
                     <el-switch v-model="form.up_slide_display" active-value="1" inactive-value="0"></el-switch>
                 </el-form-item>
                 <el-form-item label="上滑背景">
-                    <div class="flex-col gap-10">
+                    <div class="w h flex-col gap-10">
                         <mult-color-picker :value="form.up_slide_background_color_list" :type="form.up_slide_background_direction" @update:value="up_slide_mult_color_picker_event"></mult-color-picker>
                         <div class="flex-row jc-sb align-c">
                             <div class="size-12">背景图</div>

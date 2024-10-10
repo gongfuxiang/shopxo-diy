@@ -17,7 +17,7 @@
         </card-container>
         <card-container class="mb-8">
             <div class="mb-12">内容设置</div>
-            <slider v-model="center_height" :max="3000">组件高度</slider>
+            <slider v-model="center_height" :max="1000">组件高度</slider>
         </card-container>
         <card-container class="h selected">
             <div class="mb-12 flex-row align-c jc-sb">已选组件<span class="clear-selection" @click="cancel">清除选中</span></div>
@@ -59,6 +59,9 @@
                                         <template v-else-if="item.key == 'icon'">
                                             <model-icon :key="item.id" :value="item.com_data" :source-list="props.sourceList"></model-icon>
                                         </template>
+                                        <template v-else-if="item.key == 'panel'">
+                                            <model-panel :key="item.id" :value="item.com_data" :source-list="props.sourceList"></model-panel>
+                                        </template>
                                     </div>
                                 </Vue3DraggableResizable>
                             </DraggableContainer>
@@ -85,7 +88,7 @@
 <script setup lang="ts">
 import { cloneDeep, isEmpty } from 'lodash';
 import { get_math } from '@/utils';
-import { text_com_data, img_com_data, line_com_data, icon_com_data, isRectangleIntersecting } from "./index-default";
+import { text_com_data, img_com_data, line_com_data, icon_com_data, panel_com_data, isRectangleIntersecting } from "./index-default";
 // 删除
 const app = getCurrentInstance();
 //#region 传递参数和传出数据的处理
@@ -122,6 +125,11 @@ const components = reactive([
                 key: 'icon',
                 name: '图标',
                 com_data: icon_com_data,
+            },
+            {
+                key: 'panel',
+                name: '面板',
+                com_data: panel_com_data,
             },
         ],
     },
@@ -662,7 +670,9 @@ defineExpose({
     overflow-y: scroll;
     .model-wall {
         width: 39rem;
-        background: #fff;
+        background-image: linear-gradient(45deg, #e5e5e5 25%, transparent 25%), linear-gradient(135deg, #e5e5e5 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e5e5e5 75%), linear-gradient(135deg, transparent 75%, #e5e5e5 75%);
+        background-size: 32px 32px;
+        background-position: 0 0, 16px 0, 16px -16px, 0 16px;
         margin: 0 auto;
         .drag-area {
             height: v-bind(drag_area_height);
