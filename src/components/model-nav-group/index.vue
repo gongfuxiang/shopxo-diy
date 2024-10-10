@@ -13,14 +13,15 @@
                     </div>
                 </el-carousel-item>
             </el-carousel>
-            <div v-if="form.display_style == 'slide' && new_style.is_show == '1'" :style="{ 'justify-content': new_style?.indicator_location || 'center'}" class="dot flex mt-10 mb-4">
+            <div v-if="form.display_style == 'slide' && new_style.is_show == '1'" :style="{ 'justify-content': new_style?.indicator_location || 'center' }" class="dot flex mt-10 mb-4">
                 <template v-if="new_style.indicator_style == 'num'">
                     <div :style="indicator_style" class="dot-item">
-                        <span class="num-active">{{ actived_index + 1 }}</span><span>/{{ nav_content_list.length }}</span>
+                        <span class="num-active">{{ actived_index + 1 }}</span
+                        ><span>/{{ nav_content_list.length }}</span>
                     </div>
                 </template>
                 <template v-else>
-                    <div v-for="(item, index) in nav_content_list" :key="index" :style="indicator_style" :class="{'dot-item': true, 'active': actived_index == index }" />
+                    <div v-for="(item, index) in nav_content_list" :key="index" :style="indicator_style" :class="{ 'dot-item': true, active: actived_index == index }" />
                 </template>
             </div>
         </div>
@@ -58,7 +59,7 @@ const text_style = computed(() => `font-size: ${new_style.value.title_size || 12
 const indicator_style = computed(() => {
     let indicator_styles = '';
     if (!isEmpty(new_style.value.indicator_radius)) {
-        indicator_styles += radius_computer(new_style.value.indicator_radius)
+        indicator_styles += radius_computer(new_style.value.indicator_radius);
     }
     const size = new_style.value?.indicator_size || 5;
     if (new_style.value.indicator_style == 'num') {
@@ -75,7 +76,7 @@ const indicator_style = computed(() => {
 });
 // 获取轮播图片的节点
 const bannerImg = ref();
-// 轮播图自适应高度 
+// 轮播图自适应高度
 const newHeight = ref('100px');
 // 轮播图定时显示
 const interval_time = ref(2000);
@@ -91,16 +92,16 @@ const actived_color = computed(() => new_style.value?.actived_color || '#2A94FF'
 const interval_list = ref({
     time: 2000,
     is_roll: '0',
-})
+});
 
 //监听屏幕缩放事件
 onMounted(() => {
     window.onresize = () => {
         newHeight.value = bannerImg.value[0].clientHeight + 'px';
-    }
+    };
 });
 // 每个导航所占位置
-const group_width = computed(() => `${100 / (form.value.single_line || 4)}%`); 
+const group_width = computed(() => `${100 / (form.value.single_line || 4)}%`);
 // 是否显示文字和图片
 const nav_style = computed(() => form.value?.nav_style || 'image_with_text');
 
@@ -123,52 +124,56 @@ const nav_content_list = computed(() => {
         // 否则的话，就返回全部的信息
         return [{ split_list: list }];
     }
-})
+});
 
 // 内容参数的集合
-watch(props.value, (val) => {
-    const new_style = val.style;
-    const form = val.content;
-    //#region 轮播图设置
-    const time = (new_style.interval_time || 2) * 1000;
-    const display_is_roll = form.display_style == 'slide' ? new_style.is_roll || true : new_style.is_roll || false;
-    // 判断跟历史的是否相等，不相等更新组件时间
-    if (interval_list.value.time != time || interval_list.value.is_roll != display_is_roll) {
-        // 滚动时间
-        interval_time.value = time;
-        // 是否滚动
-        is_roll.value = display_is_roll == '1' ? true : false;
-        // 记录历史保存的时间
-        interval_list.value = {
-            time: time,
-            is_roll: display_is_roll,
-        };
-        // 更新轮播图的key，确保更换时能重新更新轮播图
-        carouselKey.value = get_math();
-    }
-    nextTick(() => {
-        if (!isEmpty(bannerImg.value)) {
-            newHeight.value = (bannerImg.value[0]?.clientHeight || 100) + 'px';
+watch(
+    props.value,
+    (val) => {
+        const new_style = val.style;
+        const form = val.content;
+        //#region 轮播图设置
+        const time = (new_style.interval_time || 2) * 1000;
+        const display_is_roll = form.display_style == 'slide' ? new_style.is_roll || true : new_style.is_roll || false;
+        // 判断跟历史的是否相等，不相等更新组件时间
+        if (interval_list.value.time != time || interval_list.value.is_roll != display_is_roll) {
+            // 滚动时间
+            interval_time.value = time;
+            // 是否滚动
+            is_roll.value = display_is_roll == '1' ? true : false;
+            // 记录历史保存的时间
+            interval_list.value = {
+                time: time,
+                is_roll: display_is_roll,
+            };
+            // 更新轮播图的key，确保更换时能重新更新轮播图
+            carouselKey.value = get_math();
         }
-    });
-    //#endregion
-}, {immediate: true, deep: true});
+        nextTick(() => {
+            if (!isEmpty(bannerImg.value)) {
+                newHeight.value = (bannerImg.value[0]?.clientHeight || 100) + 'px';
+            }
+        });
+        //#endregion
+    },
+    { immediate: true, deep: true }
+);
 
 const carousel_change = (index: number) => {
     actived_index.value = index;
-}
+};
 </script>
 <style lang="scss" scoped>
 .top-img {
-    height: 5rem;
-    width: 5rem;
+    height: 4rem;
+    width: 4rem;
     border-radius: 4px;
     :deep(.image-slot) {
-        height: 5rem;
-        width: 5rem;
+        height: 4rem;
+        width: 4rem;
         img {
             width: 3.5rem;
-            height: 3.5rem
+            height: 3.5rem;
         }
     }
 }
