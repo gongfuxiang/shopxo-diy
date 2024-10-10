@@ -6,7 +6,7 @@
                 <slot :row="item" :index="index" />
                 <el-icon v-if="isShowEdit" class="iconfont icon-commodity-edit size-16 cr-primary do-not-trigger two-click" @click.stop="edit(index)" />
                 <el-icon v-if="type == 'line'" class="iconfont icon-del-o size-16 do-not-trigger" @click.stop="remove(index)" />
-                <el-icon v-if="type == 'card'" class="iconfont icon-close-o size-16 abs cr-c top-de-5 right-de-5" @click.stop="remove(index)" />
+                <el-icon v-if="type == 'card'" class="iconfont icon-close-o1 size-16 abs cr-c top-de-5 right-de-5" @click.stop="remove(index)" />
             </li>
         </TransitionGroup>
     </VueDraggable>

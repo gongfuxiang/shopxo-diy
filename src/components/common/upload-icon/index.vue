@@ -21,7 +21,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import searchIcons from '@/assets/search-icons/iconfont.json';
+import searchIcons from '@/assets/icons/iconfont.json';
 import { isEmpty } from 'lodash';
 interface Props {
     size: number;

@@ -51,7 +51,7 @@ const defaultSearch: defaultSearch = {
         img_src: [],
         icon_class: '',
         is_right_button: '1',
-        interval_time: 2,
+        interval_time: 3,
         more_link: {},
         notice_list: [
             {

@@ -63,7 +63,7 @@ const data_style = {
     background_img: [],
     is_roll: '0',
     rotation_direction: 'horizontal',
-    interval_time: 2,
+    interval_time: 3,
     heading_color: '#000',
     heading_typeface: '400',
     heading_size: 20,

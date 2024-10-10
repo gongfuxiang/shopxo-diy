@@ -126,7 +126,7 @@ const defaultArticleTabs: DefaultArticleTabs = {
         content_spacing: 10, // 内容间距
         article_spacing: 10, // 文章间距
         article_height: 155, // 文章高度
-        interval_time: 2, //滚动时间
+        interval_time: 3, //滚动时间
         is_roll: 1, // 是否轮播
         common_style: { ...defaultCommon, padding: 10, padding_top: 10, padding_left: 10, padding_right: 10, padding_bottom: 10 },
     },

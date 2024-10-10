@@ -112,7 +112,7 @@ onBeforeMount(async () => {
             progress_button_icon_color: '#FF2525',
             progress_text_color: '#FF3434',
             is_roll: '1',
-            interval_time: 2,
+            interval_time: 3,
             rolling_fashion: 'translation',
         }
     }
