@@ -1,4 +1,5 @@
 import defaultCommon from './index';
+import defaultSetting from '../setting/index';
 import { online_url } from '@/utils';
 const new_url = await online_url('/static/plugins/coupon/images/diy/').then((res) => res);
 interface DefaultCoupon {
@@ -40,9 +41,9 @@ interface DefaultCoupon {
 const defaultCoupoin: DefaultCoupon = {
     content: {
         theme: '1',
-        data_type: '1',
-        type: [],
-        number: 4,
+        data_type: '0',
+        type: defaultSetting.coupon_ids,
+        number: defaultSetting.page_size,
         // 只有主题4用到
         title: '先领券 再购物',
         // 只有主题4用到

@@ -1,4 +1,5 @@
 import defaultCommon from './index';
+import defaultSetting from '../setting/index';
 import { online_url } from '@/utils';
 const new_url = await online_url('/static/app/common/').then((res) => res);
 interface DefaultProductList {
@@ -63,13 +64,13 @@ const defaultProductList: DefaultProductList = {
         product_show_list: [],
         data_list: [],
         data_auto_list: [],
-        category_ids: [],
-        brand_ids: [],
+        category_ids: defaultSetting.category_ids,
+        brand_ids: defaultSetting.brand_ids,
         data_ids: [],
         is_price_solo: '1',
-        number: 4,
-        order_by_type: '0',
-        order_by_rule: '0',
+        number: defaultSetting.page_size,
+        order_by_type: defaultSetting.order_by_type,
+        order_by_rule: defaultSetting.order_by_rule,
         is_show: ['title', 'plugins_view_icon', 'price', 'sales_count', 'original_price'],
         static_img: [{ id: 2, url: new_url + 'price.png', original: '角标', title: '角标', ext: '.png', type: 'img' }],
         is_shop_show: '1',

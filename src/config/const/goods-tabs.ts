@@ -1,4 +1,5 @@
 import defaultCommon from './index';
+import defaultSetting from '../setting/index';
 import { online_url } from '@/utils';
 const new_url = await online_url('/static/app/common/').then((res) => res);
 interface articleTabsList {
@@ -80,10 +81,10 @@ const defaultProductList: DefaultProductList = {
         theme: '0',
         carousel_col: 3,
         tabs_list: [
-            { id: '1', title: '热门推荐', img: [], desc: '简介', data_type: '0', category_ids: [], brand_ids: [], data_ids: [], number: 4, order_by_type: '0', order_by_rule: '0', data_list: [], data_auto_list: [] },
-            { id: '2', title: '测试一', img: [], desc: '简介', data_type: '0', category_ids: [], brand_ids: [], data_ids: [], number: 4, order_by_type: '0', order_by_rule: '0', data_list: [], data_auto_list: [] },
-            { id: '3', title: '测试二', img: [], desc: '简介', data_type: '0', category_ids: [], brand_ids: [], data_ids: [], number: 4, order_by_type: '0', order_by_rule: '0', data_list: [], data_auto_list: [] },
-            { id: '4', title: '测试三', img: [], desc: '简介', data_type: '0', category_ids: [], brand_ids: [], data_ids: [], number: 4, order_by_type: '0', order_by_rule: '0', data_list: [], data_auto_list: [] },
+            { id: '1', title: '热门推荐', img: [], desc: '简介', data_type: '0', category_ids: defaultSetting.category_ids, brand_ids: defaultSetting.brand_ids, data_ids: [], number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_type, data_list: [], data_auto_list: [] },
+            { id: '2', title: '测试一', img: [], desc: '简介', data_type: '0', category_ids: defaultSetting.category_ids, brand_ids: defaultSetting.brand_ids, data_ids: [], number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_type, data_list: [], data_auto_list: [] },
+            { id: '3', title: '测试二', img: [], desc: '简介', data_type: '0', category_ids: defaultSetting.category_ids, brand_ids: defaultSetting.brand_ids, data_ids: [], number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_type, data_list: [], data_auto_list: [] },
+            { id: '4', title: '测试三', img: [], desc: '简介', data_type: '0', category_ids: defaultSetting.category_ids, brand_ids: defaultSetting.brand_ids, data_ids: [], number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_type, data_list: [], data_auto_list: [] },
         ],
         tabs_active_index: 0,
         static_img: [{ id: 2, url: new_url + 'price.png', original: '角标', title: '角标', ext: '.png', type: 'img' }],

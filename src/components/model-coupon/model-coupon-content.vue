@@ -15,7 +15,7 @@
                         <el-radio v-for="item in base_list.data_type_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <template v-if="form.data_type === '0'">
+                <template v-if="form.data_type === '1'">
                     <el-form-item label="手动选择">
                         <div class="flex-col gap-20 w">
                             <drag v-if="form.data_list.length > 0" :data="form.data_list" :space-col="20" @remove="remove" @on-sort="on_sort">
@@ -73,8 +73,8 @@ const url_value_dialog_visible = ref(false);
 const new_url = ref('');
 const base_list = reactive({
     data_type_list: [
-        { name: '自动', value: '1' },
-        { name: '手动', value: '0' },
+        { name: '自动', value: '0' },
+        { name: '手动', value: '1' },
     ],
     themeList: Array.from({ length: 7 }, (_, index) => ({
         id: String(index + 1),

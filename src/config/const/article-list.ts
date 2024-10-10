@@ -1,4 +1,5 @@
 import defaultCommon from './index';
+import defaultSetting from '../setting/index';
 
 interface ArticleList {
     id: number | string;
@@ -48,15 +49,15 @@ const defaultArticleList: DefaultArticleList = {
         theme: '0',
         carousel_col: '2',
         data_type: '0',
-        category_ids: [],
+        category_ids: defaultSetting.category_ids,
         data_list: [],
         data_ids: '',
         data_auto_list: [],
-        number: 4,
-        order_by_type: '0',
-        order_by_rule: '0',
+        number: defaultSetting.page_size,
+        order_by_type: defaultSetting.order_by_type,
+        order_by_rule: defaultSetting.order_by_rule,
         field_show: ['0', '1'],
-        is_cover: '1',
+        is_cover: defaultSetting.is_cover,
     },
     style: {
         name_weight: '500',

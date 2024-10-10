@@ -1,4 +1,5 @@
 import defaultCommon from './index';
+import defaultSetting from '../setting/index';
 interface ArticleList {
     id: number | string;
     data: object;
@@ -66,12 +67,12 @@ const defaultArticleTabs: DefaultArticleTabs = {
         article_theme: '0',
         article_carousel_col: '2',
         tabs_list: [
-            { id: '1', title: '热门推荐', desc: '简介', data_type: '0', category_ids: [], data_ids: '', number: 4, order_by_type: '0', order_by_rule: '0', is_cover: '1', data_list: [], data_auto_list: [] },
-            { id: '2', title: '测试一', desc: '简介', data_type: '0', category_ids: [], data_ids: '', number: 4, order_by_type: '0', order_by_rule: '0', is_cover: '1', data_list: [], data_auto_list: [] },
-            { id: '3', title: '测试二', desc: '简介', data_type: '0', category_ids: [], data_ids: '', number: 4, order_by_type: '0', order_by_rule: '0', is_cover: '1', data_list: [], data_auto_list: [] },
-            { id: '4', title: '测试三', desc: '简介', data_type: '0', category_ids: [], data_ids: '', number: 4, order_by_type: '0', order_by_rule: '0', is_cover: '1', data_list: [], data_auto_list: [] },
-            { id: '5', title: '测试四', desc: '简介', data_type: '0', category_ids: [], data_ids: '', number: 4, order_by_type: '0', order_by_rule: '0', is_cover: '1', data_list: [], data_auto_list: [] },
-            { id: '6', title: '测试五', desc: '简介', data_type: '0', category_ids: [], data_ids: '', number: 4, order_by_type: '0', order_by_rule: '0', is_cover: '1', data_list: [], data_auto_list: [] },
+            { id: '1', title: '热门推荐', desc: '简介', data_type: '0', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
+            { id: '2', title: '测试一', desc: '简介', data_type: '0', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
+            { id: '3', title: '测试二', desc: '简介', data_type: '0', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
+            { id: '4', title: '测试三', desc: '简介', data_type: '0', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
+            { id: '5', title: '测试四', desc: '简介', data_type: '0', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
+            { id: '6', title: '测试五', desc: '简介', data_type: '0', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
         ],
         tabs_active_index: 0,
         field_show: ['0', '1'],
