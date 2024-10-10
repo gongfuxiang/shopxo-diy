@@ -1,8 +1,8 @@
 <template>
     <div class="mult-color-picker">
         <el-radio-group v-model="direction_type" @change="direction_type_change">
-            <el-radio value="180deg">横向</el-radio>
-            <el-radio value="90deg">纵向</el-radio>
+            <el-radio value="180deg">纵向</el-radio>
+            <el-radio value="90deg">横向</el-radio>
             <el-radio value="45deg">左斜</el-radio>
             <el-radio value="315deg">右斜</el-radio>
         </el-radio-group>
