@@ -154,11 +154,9 @@ watchEffect(() => {
     height: v-bind(container_height);
     overflow: hidden;
     padding: 0 1rem;
-    background: #fff;
 }
 .news-card {
     padding: 1.5rem;
-    background: #fff;
 }
 .num {
     padding-right: 0.7rem;

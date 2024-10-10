@@ -12,8 +12,10 @@
                     <div class="model-head-content flex-row align-c jc-sb gap-16 re">
                         <div v-if="['1', '2', '3'].includes(form.theme)" class="flex-1">
                             <div class="flex-row align-c jc-c h gap-16" :class="position_class" :style="[{ 'justify-content': form?.indicator_location || 'center' }, text_style]">
-                                <template v-if="['2', '3'].includes(form.theme)">
-                                    <div class="logo-outer-style"><image-empty v-model="form.logo[0]" class="logo-style" error-img-style="width:2rem;height:2rem;"></image-empty></div>
+                                <template v-if="['2', '3'].includes(form.theme) && form.logo.length > 0">
+                                    <div class="logo-outer-style">
+                                        <img class="logo-style" :src="form.logo[0].url" />
+                                    </div>
                                 </template>
                                 <div v-if="['1', '2'].includes(form.theme)">{{ form.title }}</div>
                                 <template v-if="['3', '5'].includes(form.theme)">
@@ -25,8 +27,8 @@
                         </div>
                         <div v-else-if="['4', '5'].includes(form.theme)" class="flex-1 flex-row align-c h gap-10">
                             <div class="flex-row gap-2">
-                                <icon name="position" size="12" color="0"></icon><span class="size-14 cr-3 text-line-1">{{ form.positioning_name }}</span>
-                                <icon v-if="form.is_arrows_show == '1'" name="arrow-right" size="12" color="0"></icon>
+                                <icon name="location" size="12" color="0"></icon><span class="size-14 cr-3 text-line-1">{{ form.positioning_name }}</span>
+                                <icon v-if="form.is_arrows_show == '1'" name="arrow-bottom" size="12" color="0"></icon>
                             </div>
                             <template v-if="['5'].includes(form.theme)">
                                 <div class="flex-1">

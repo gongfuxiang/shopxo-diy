@@ -1,5 +1,5 @@
 <template>
-    <div ref="container" class="custom-other" :style="style_container">
+    <div class="custom-other" :style="style_container">
         <div class="w h" :style="style_img_container">
             <div class="w h re">
                 <div v-for="item in form.custom_list" :key="item.id" class="main-content" :style="{'left': percentage_count(item.location.x, div_width) , 'top': percentage_count(item.location.y, form.height), 'width': percentage_count(item.com_data.com_width, div_width), 'height': percentage_count(item.com_data.com_height, form.height)}">
