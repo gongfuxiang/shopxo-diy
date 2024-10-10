@@ -160,13 +160,13 @@ const position_class = computed(() => (form.value?.indicator_location == 'center
     box-sizing: border-box;
 }
 .logo-outer-style {
-    height: 2.5rem;
+    height: 2.8rem;
     .logo-style {
-        max-height: 2.5rem;
+        max-height: 2.8rem;
         max-width: 100%;
         :deep(.image-slot) {
-            height: 2.5rem;
-            width: 2.5rem;
+            height: 2.8rem;
+            width: 2.8rem;
         }
     }
 }
