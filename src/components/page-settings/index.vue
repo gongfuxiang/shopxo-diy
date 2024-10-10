@@ -58,7 +58,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     pageData: () => ({}),
     showPage: true,
-    scollTop: 0
+    scollTop: 0,
 });
 const emits = defineEmits(['page_settings']);
 const page_settings = () => {
@@ -94,10 +94,10 @@ const roll_img_style = computed(() => {
 const up_slide_style = computed(() => {
     let style = ``;
     if (props.scollTop > 0) {
-        const { up_slide_background_color_list,  up_slide_background_direction } = new_style.value;
+        const { up_slide_background_color_list, up_slide_background_direction } = new_style.value;
         // 渐变
         const gradient = { color_list: up_slide_background_color_list, direction: up_slide_background_direction };
-        style += gradient_computer(gradient) + `opacity: ${props.scollTop / 90 > 1 ? 1 : (props.scollTop / 90).toFixed(2) };`
+        style += gradient_computer(gradient) + `opacity: ${props.scollTop / 90 > 1 ? 1 : (props.scollTop / 90).toFixed(2)};`;
     }
     return style;
 });
@@ -105,7 +105,7 @@ const up_slide_style = computed(() => {
 const up_slide_img_style = computed(() => {
     let style = ``;
     if (props.scollTop > 0) {
-        const { up_slide_background_img,  up_slide_background_img_style } = new_style.value;
+        const { up_slide_background_img, up_slide_background_img_style } = new_style.value;
         // 背景图
         const back = { background_img: up_slide_background_img, background_img_style: up_slide_background_img_style };
         style += background_computer(back);
@@ -157,13 +157,13 @@ const position_class = computed(() => (form.value?.indicator_location == 'center
     box-sizing: border-box;
 }
 .logo-outer-style {
-    height: 3.2rem;
+    height: 2.5rem;
     .logo-style {
-        max-height: 3.2rem;
+        max-height: 2.5rem;
         max-width: 100%;
         :deep(.image-slot) {
-            height: 3.2rem;
-            width: 3.2rem;
+            height: 2.5rem;
+            width: 2.5rem;
         }
     }
 }
