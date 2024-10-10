@@ -6,17 +6,7 @@
                 <mult-color-picker :key="form.carouselKey" :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
                 <div class="flex-row jc-sb align-c">
                     <div class="size-12">背景图</div>
-                    <el-radio-group v-model="form.background_img_style" is-button>
-                        <el-tooltip content="单张" placement="top" effect="light">
-                            <el-radio-button :value="0"><icon name="single-sheet"></icon></el-radio-button>
-                        </el-tooltip>
-                        <el-tooltip content="平铺" placement="top" effect="light">
-                            <el-radio-button :value="1"><icon name="tile"></icon></el-radio-button>
-                        </el-tooltip>
-                        <el-tooltip content="铺满" placement="top" effect="light">
-                            <el-radio-button :value="2"><icon name="spread-over"></icon></el-radio-button>
-                        </el-tooltip>
-                    </el-radio-group>
+                    <bg-btn-style v-model="form.background_img_style"></bg-btn-style>
                 </div>
                 <upload v-model="form.background_img" :limit="1"></upload>
             </div>
@@ -68,7 +58,7 @@ const props = defineProps({
     isShowTitle: {
         type: Boolean,
         default: true,
-    }
+    },
 });
 
 const form = ref(props.value);
@@ -79,19 +69,13 @@ const mult_color_picker_event = (arry: string[], type: number) => {
     form.value.direction = type.toString();
 };
 const chunk_padding_change = (padding: any) => {
-    form.value.chunk_padding = Object.assign(form.value.chunk_padding, pick(padding, [
-        'padding', 
-        'padding_top', 
-        'padding_bottom', 
-        'padding_left', 
-        'padding_right'
-    ]));
+    form.value.chunk_padding = Object.assign(form.value.chunk_padding, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
 };
 
 watchEffect(() => {
     form.value = props.value;
     tabs_content.value = props.content;
-})
+});
 </script>
 <style lang="scss" scoped>
 .card.mb-8 {

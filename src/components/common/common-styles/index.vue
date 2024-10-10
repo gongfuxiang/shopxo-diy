@@ -10,23 +10,7 @@
                         <mult-color-picker :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
                         <div class="flex-row jc-sb align-c">
                             <div class="size-12">背景图</div>
-                            <el-radio-group v-model="form.background_img_style" is-button @change="background_img_style_change">
-                                <el-tooltip content="居上" placement="top" effect="light">
-                                    <el-radio-button value="0"><icon name="spread-over"></icon></el-radio-button>
-                                </el-tooltip>
-                                <el-tooltip content="居下" placement="top" effect="light">
-                                    <el-radio-button value="1"><icon name="spread-over"></icon></el-radio-button>
-                                </el-tooltip>
-                                <el-tooltip content="居中" placement="top" effect="light">
-                                    <el-radio-button value="2"><icon name="single-sheet"></icon></el-radio-button>
-                                </el-tooltip>
-                                <el-tooltip content="平铺" placement="top" effect="light">
-                                    <el-radio-button value="3"><icon name="tile"></icon></el-radio-button>
-                                </el-tooltip>
-                                <el-tooltip content="铺满" placement="top" effect="light">
-                                    <el-radio-button value="4"><icon name="spread-over"></icon></el-radio-button>
-                                </el-tooltip>
-                            </el-radio-group>
+                            <bg-btn-style v-model="form.background_img_style"></bg-btn-style>
                         </div>
                         <upload v-model="form.background_img" :limit="1" @update:model-value="background_img_change"></upload>
                     </div>

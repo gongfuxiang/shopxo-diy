@@ -13,23 +13,7 @@
                             <mult-color-picker :value="form.header_background_color_list" :type="form.header_background_direction" @update:value="mult_color_picker_event"></mult-color-picker>
                             <div class="flex-row jc-sb align-c">
                                 <div class="size-12">背景图</div>
-                                <el-radio-group v-model="form.header_background_img_style" is-button>
-                                    <el-tooltip content="单张" placement="top" effect="light">
-                                        <el-radio-button :value="0">
-                                            <icon name="single-sheet"></icon>
-                                        </el-radio-button>
-                                    </el-tooltip>
-                                    <el-tooltip content="平铺" placement="top" effect="light">
-                                        <el-radio-button :value="1">
-                                            <icon name="tile"></icon>
-                                        </el-radio-button>
-                                    </el-tooltip>
-                                    <el-tooltip content="铺满" placement="top" effect="light">
-                                        <el-radio-button :value="2">
-                                            <icon name="spread-over"></icon>
-                                        </el-radio-button>
-                                    </el-tooltip>
-                                </el-radio-group>
+                                <bg-btn-style v-model="form.header_background_img_style"></bg-btn-style>
                             </div>
                             <upload v-model="form.header_background_img" :limit="1"></upload>
                         </template>
@@ -60,23 +44,7 @@
                         <mult-color-picker :value="form.up_slide_background_color_list" :type="form.up_slide_background_direction" @update:value="up_slide_mult_color_picker_event"></mult-color-picker>
                         <div class="flex-row jc-sb align-c">
                             <div class="size-12">背景图</div>
-                            <el-radio-group v-model="form.up_slide_background_img_style" is-button>
-                                <el-tooltip content="单张" placement="top" effect="light">
-                                    <el-radio-button :value="0">
-                                        <icon name="single-sheet"></icon>
-                                    </el-radio-button>
-                                </el-tooltip>
-                                <el-tooltip content="平铺" placement="top" effect="light">
-                                    <el-radio-button :value="1">
-                                        <icon name="tile"></icon>
-                                    </el-radio-button>
-                                </el-tooltip>
-                                <el-tooltip content="铺满" placement="top" effect="light">
-                                    <el-radio-button :value="2">
-                                        <icon name="spread-over"></icon>
-                                    </el-radio-button>
-                                </el-tooltip>
-                            </el-radio-group>
+                            <bg-btn-style v-model="form.up_slide_background_img_style"></bg-btn-style>
                         </div>
                         <upload v-model="form.up_slide_background_img" :limit="1"></upload>
                     </div>
@@ -159,14 +127,14 @@ const mult_color_picker_event = (arry: color_list[], type: number) => {
 const up_slide_mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.up_slide_background_color_list = arry;
     form.value.up_slide_background_direction = type.toString();
-}
+};
 const change_immersive_style = (val: string | number | boolean) => {
     if (val === '0') {
         common_store.set_is_immersion_model(false);
         return;
     }
     common_store.set_is_immersion_model(true);
-}
+};
 </script>
 <style lang="scss" scoped>
 .styles {

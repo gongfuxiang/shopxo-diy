@@ -25,23 +25,7 @@
                             <mult-color-picker :value="form.header_background_color_list" :type="form.header_background_direction" @update:value="mult_color_picker_event"></mult-color-picker>
                             <div class="flex-row jc-sb align-c">
                                 <div class="size-12">背景图</div>
-                                <el-radio-group v-model="form.header_background_img_style" is-button>
-                                    <el-tooltip content="单张" placement="top" effect="light">
-                                        <el-radio-button :value="0">
-                                            <icon name="single-sheet"></icon>
-                                        </el-radio-button>
-                                    </el-tooltip>
-                                    <el-tooltip content="平铺" placement="top" effect="light">
-                                        <el-radio-button :value="1">
-                                            <icon name="tile"></icon>
-                                        </el-radio-button>
-                                    </el-tooltip>
-                                    <el-tooltip content="铺满" placement="top" effect="light">
-                                        <el-radio-button :value="2">
-                                            <icon name="spread-over"></icon>
-                                        </el-radio-button>
-                                    </el-tooltip>
-                                </el-radio-group>
+                                <bg-btn-style v-model="form.header_background_img_style"></bg-btn-style>
                             </div>
                             <upload v-model="form.header_background_img" :limit="1"></upload>
                         </div>
@@ -169,7 +153,7 @@ const props = defineProps({
     content: {
         type: Object,
         default: () => ({}),
-    }
+    },
 });
 
 // 默认值
@@ -192,7 +176,7 @@ const base_list = {
     rolling_fashion_list: [
         { name: '平移', value: 'translation' },
         { name: '切屏', value: 'cut-screen' },
-    ]
+    ],
 };
 
 const common_style_update = (value: any) => {

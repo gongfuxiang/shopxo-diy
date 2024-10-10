@@ -58,17 +58,7 @@
                         <mult-color-picker :value="form.container_color_list" :type="form.container_direction" @update:value="mult_color_picker_event"></mult-color-picker>
                         <div class="flex-row jc-sb align-c">
                             <div class="size-12">背景图</div>
-                            <el-radio-group v-model="form.container_background_img_style" is-button>
-                                <el-tooltip content="单张" placement="top" effect="light">
-                                    <el-radio-button :value="0"><icon name="single-sheet"></icon></el-radio-button>
-                                </el-tooltip>
-                                <el-tooltip content="平铺" placement="top" effect="light">
-                                    <el-radio-button :value="1"><icon name="tile"></icon></el-radio-button>
-                                </el-tooltip>
-                                <el-tooltip content="铺满" placement="top" effect="light">
-                                    <el-radio-button :value="2"><icon name="spread-over"></icon></el-radio-button>
-                                </el-tooltip>
-                            </el-radio-group>
+                            <bg-btn-style v-model="form.container_background_img_style"></bg-btn-style>
                         </div>
                         <upload v-model="form.container_background_img" :limit="1"></upload>
                     </div>
@@ -83,7 +73,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { isEmpty } from "lodash";
+import { isEmpty } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
@@ -92,12 +82,12 @@ const props = defineProps({
     content: {
         type: Object,
         default: () => {},
-    }
+    },
 });
 
 const state = reactive({
     form: props.value,
-    substance: props.content
+    substance: props.content,
 });
 // 如果需要解构，确保使用toRefs
 const { form, substance } = toRefs(state);
