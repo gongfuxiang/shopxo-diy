@@ -55,6 +55,7 @@ interface DefaultFooterNav {
         search_button_radius: object;
         img_size: string;
         img_space: string;
+        img_color: string;
         tips_color: string;
         hot_words_color: string;
         search_border: string;
@@ -121,6 +122,7 @@ const defaultFooterNav: DefaultFooterNav = {
         },
         img_size: '23',
         img_space: '15',
+        img_color: '#666',
         tips_color: '#ccc',
         hot_words_color: '#000',
         search_border: '#E4E4E4',

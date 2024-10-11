@@ -67,6 +67,9 @@
                         <el-radio value="10">小</el-radio>
                     </el-radio-group>
                 </el-form-item>
+                <el-form-item label="图标颜色">
+                    <color-picker v-model="form.img_color" default-color="#666"></color-picker>
+                </el-form-item>
             </card-container>
         </el-form>
         <template v-if="['3', '5'].includes(content.theme)">
