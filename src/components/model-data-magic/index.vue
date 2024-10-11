@@ -239,12 +239,7 @@ const commodity_list = (list: any[], num: number) => {
         return [{ split_list: Array(num).fill(default_list)}];
     }
 }
-const background_style = (item: any) => {
-    return gradient_computer(item);
-};
-const background_img_style = (item: any) => {
-    return background_computer(item);
-};
+
 const old_list = ref<any>({});
 const data_magic_list = ref<data_magic[]>([]);
 watch(props.value.content, (val) => {
@@ -257,8 +252,8 @@ watch(props.value.content, (val) => {
         item.actived_index = 0;
         // 指示器样式
         data_style.indicator_styles = indicator_style(data_style);
-        data_style.background_style = background_style(data_style);
-        data_style.background_img_style = background_img_style(data_style);
+        data_style.background_style = gradient_computer(data_style);
+        data_style.background_img_style = background_computer(data_style);
 
         const { is_roll, rotation_direction, interval_time } = data_style;
         const { goods_list, images_list } = data_content;

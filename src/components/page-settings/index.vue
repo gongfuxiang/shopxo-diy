@@ -107,7 +107,7 @@ const up_slide_style = computed(() => {
 const up_slide_img_style = computed(() => {
     let style = ``;
     if (props.scollTop > 0) {
-        const { up_slide_background_img, up_slide_background_img_style } = new_style.value;
+        const { up_slide_background_img = '', up_slide_background_img_style = '' } = new_style.value;
         // 背景图
         const back = { background_img: up_slide_background_img, background_img_style: up_slide_background_img_style };
         style += background_computer(back);

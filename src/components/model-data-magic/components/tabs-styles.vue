@@ -41,6 +41,16 @@
     </card-container>
     <div class="bg-f5 divider-line" />
     <card-container>
+        <div class="mb-12">商品样式</div>
+        <el-form-item label="商品名称">
+            <color-text-size-group v-model:color="form.shop_title_color" v-model:typeface="form.shop_title_typeface" v-model:size="form.shop_title_size" default-color="#000000"></color-text-size-group>
+        </el-form-item>
+        <el-form-item label="商品价格">
+            <color-text-size-group v-model:color="form.shop_price_color" v-model:typeface="form.shop_price_typeface" v-model:size="form.shop_price_size" default-color="#000000"></color-text-size-group>
+        </el-form-item>
+    </card-container>
+    <div class="bg-f5 divider-line" />
+    <card-container>
         <carousel-indicator :key="form.carouselKey" :value="form"></carousel-indicator>
     </card-container>
 </template>

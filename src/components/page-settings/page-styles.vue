@@ -19,7 +19,7 @@
                         </template>
                     </div>
                 </el-form-item>
-                <el-form-item label="功能按钮">
+                <el-form-item label="状态栏">
                     <el-radio-group v-model="form.function_buttons_type">
                         <el-radio value="black">黑色</el-radio>
                         <el-radio value="white">白色</el-radio>
@@ -41,7 +41,7 @@
                 </el-form-item>
                 <el-form-item label="上滑背景">
                     <div class="w h flex-col gap-10">
-                        <mult-color-picker :value="form.up_slide_background_color_list" :type="form.up_slide_background_direction" @update:value="up_slide_mult_color_picker_event"></mult-color-picker>
+                        <mult-color-picker :value="form?.up_slide_background_color_list || []" :type="form?.up_slide_background_direction || '180deg'" @update:value="up_slide_mult_color_picker_event"></mult-color-picker>
                         <div class="flex-row jc-sb align-c">
                             <div class="size-12">背景图</div>
                             <bg-btn-style v-model="form.up_slide_background_img_style"></bg-btn-style>
@@ -103,6 +103,7 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, search_content } = toRefs(state);
+console.log(form);
 
 const header_background_type_change_event = (val: any) => {
     if (val === 'color_image') {
