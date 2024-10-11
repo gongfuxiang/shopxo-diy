@@ -68,7 +68,7 @@ service.interceptors.response.use(
         }
     },
     (error: any) => {
-        if (error.response.data) {
+        if (error.response && error.response.data) {
             const { msg, message } = error.response.data;
             message_error(msg || message || '系统出错');
         }
