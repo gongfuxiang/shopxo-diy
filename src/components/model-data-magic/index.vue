@@ -177,6 +177,16 @@ const indicator_style = (item: any) => {
 const style_actived_color = (item: any, index: number) => {
    return item.actived_index == index ? `background: ${ item.data_style.actived_color };` : ''
 }
+// 根据传递的参数，从对象中取值
+const goods_trends_config = (style: any, key: string) => {
+    return text_style(style[`goods_${key}_typeface`], style[`goods_${key}_size`], style[`goods_${key}_color`]);
+}
+const trends_config = (style: any, key: string) => {
+    return text_style(style[`${key}_typeface`], style[`${key}_size`], style[`${key}_color`]);
+}
+const text_style = (typeface: string, size: number, color: string) => {
+    return `font-weight:${ typeface }; font-size: ${ size }px; color: ${ color };`;
+} 
 // 设置默认值
 const default_list = {
     title: '测试商品标题',
@@ -298,16 +308,6 @@ const carousel_change = (index: number, key: number) => {
         data_magic_list.value[key].actived_index = index;
     }
 }
-// 根据传递的参数，从对象中取值
-const goods_trends_config = (style: any, key: string) => {
-    return text_style(style[`goods_${key}_typeface`], style[`goods_${key}_size`], style[`goods_${key}_color`]);
-}
-const trends_config = (style: any, key: string) => {
-    return text_style(style[`${key}_typeface`], style[`${key}_size`], style[`${key}_color`]);
-}
-const text_style = (typeface: string, size: number, color: string) => {
-    return `font-weight:${ typeface }; font-size: ${ size }px; color: ${ color };`;
-} 
 
 // 不属于第9个，并且第9个的第一个和第二个
 const spacing_processing = (index: number) => {

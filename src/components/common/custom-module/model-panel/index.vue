@@ -1,8 +1,10 @@
 <template>
-    <div class="w h re oh" :style="com_style"></div>
+    <div class="w h re oh" :style="com_style">
+        <div class="w h" :style="com_img_style"></div>
+    </div>
 </template>
 <script setup lang="ts">
-import { radius_computer, gradient_handle } from '@/utils';
+import { radius_computer, gradient_handle, background_computer } from '@/utils';
 const props = defineProps({
     value: {
         type: Object,
@@ -31,6 +33,14 @@ const com_style = computed(() => {
         style += `border: ${form.border_size}px ${form.border_style} ${form.border_color};`;
     }
     return style;
+});
+
+const com_img_style = computed(() => {
+    const data = {
+        background_img: form?.background_img || [],
+        background_img_style: form?.background_img_style || '2'
+    }
+    return background_computer(data);
 });
 const set_count = () => {
     if (props.isPercentage) {

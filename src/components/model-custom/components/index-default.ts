@@ -129,6 +129,8 @@ export const panel_com_data = {
     com_height: 100,
     staging_height: 100,
     icon_rotate: 0,
+    background_img_style: '2',
+    background_img: [],
     border_show: '0',
     border_color: '#FF5D5D',
     border_style: 'solid',

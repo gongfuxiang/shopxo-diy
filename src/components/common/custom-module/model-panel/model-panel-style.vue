@@ -4,7 +4,15 @@
             <card-container>
                 <div class="mb-12">容器设置</div>
                 <el-form-item label="背景颜色">
-                    <mult-color-picker :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
+                    <div class="flex-col gap-10 w">
+                        <div class="size-12">背景色</div>
+                        <mult-color-picker :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
+                        <div class="flex-row jc-sb align-c">
+                            <div class="size-12">背景图</div>
+                            <bg-btn-style v-model="form.background_img_style"></bg-btn-style>
+                        </div>
+                        <upload v-model="form.background_img" :limit="1"></upload>
+                    </div>
                 </el-form-item>
                 <el-form-item label="圆角">
                     <radius :value="form.bg_radius" @update:value="bg_radius_change"></radius>
