@@ -133,7 +133,14 @@ const init = () => {
     if (get_id()) {
         DiyAPI.getInit({ id: get_id() }).then((res: any) => {
             if (res.data) {
-                form.value = form_data_transfor_diy_data(res.data);
+                let data = form_data_transfor_diy_data(res.data);
+                // 默认数据合并
+                data.header.com_data = default_merge(data.header.com_data, 'header_nav');
+                data.footer.com_data = default_merge(data.footer.com_data, 'footer_nav');
+                data.diy_data = data_merge(data.diy_data);
+                data.tabs_data = data_merge(data.tabs_data);
+
+                form.value = data;
             } else {
                 is_empty.value = true;
             }
@@ -145,6 +152,19 @@ const init = () => {
         form.value = cloneDeep(temp_form.value);
         loading_event();
     }
+};
+// 数据合并
+const data_merge = (list: string[]) => {
+    list.forEach((item: any) => {
+        item.com_data = default_merge(item.com_data, item.key);;
+    });
+    return list;
+};
+// 浅层数据合并
+const default_merge = (data: any, key: string) => {
+    data.style = Object.assign({}, cloneDeep((defaultSettings as any)[key.replace(/-/g, '_')]).style, data.style);
+    data.content = Object.assign({}, cloneDeep((defaultSettings as any)[key.replace(/-/g, '_')]), data.content);
+    return data;
 };
 
 // 初始化公共数据

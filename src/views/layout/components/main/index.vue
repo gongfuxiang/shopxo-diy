@@ -181,16 +181,19 @@ watchEffect(() => {
 
 // 已选组件逻辑处理
 const drawer_selected = ref(false);
+const is_show_drawer = ref(true);
 watchEffect(() => {
-    if (diy_data.value.length > 0 || tabs_data.value.length > 0) {
+    if ((diy_data.value.length > 0 || tabs_data.value.length > 0) && is_show_drawer.value) {
         drawer_selected.value = true;
     } else {
         drawer_selected.value = false;
     }
 });
 const toggle_drawer = () => {
+    is_show_drawer.value = !is_show_drawer.value;
     drawer_selected.value = !drawer_selected.value;
 };
+
 // 父组件调用的方法
 const emits = defineEmits(['rightUpdate', 'import', 'export', 'clear']);
 const activeNames = reactive(['base', 'plugins', 'tool']);

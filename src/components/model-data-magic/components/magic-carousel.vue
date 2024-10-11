@@ -5,7 +5,7 @@
                 <image-empty v-model="item1.carousel_img[0]" :style="contentImgRadius"></image-empty>
             </template>
             <template v-else>
-                <product-list-show :outerflex="form.outerflex" :flex="form.flex" :num="form.num" :actived="props.actived" :is-show="form.data_content.is_show" :chunk-padding="form.data_style.chunk_padding" :value="item1.split_list" :content-img-radius="contentImgRadius"></product-list-show>
+                <product-list-show :outerflex="form.outerflex" :flex="form.flex" :num="form.num" :actived="props.actived" :is-show="form.data_content.is_show" :chunk-padding="form.data_style.chunk_padding" :value="item1.split_list" :good-style="props.goodStyle" :content-img-radius="contentImgRadius"></product-list-show>
             </template>
         </el-carousel-item>
     </el-carousel>
@@ -17,18 +17,19 @@ interface Props {
     contentImgRadius: string;
     type: string;
     actived: number;
+    goodStyle?: any;
 }
 
-const props = defineProps<Props>();
+const props = withDefaults(defineProps<Props>(), {
+    goodStyle: {},
+});
 
-const form = ref(props.value);
+const form = computed(() => props.value);
+
 const emits = defineEmits(['carousel_change']);
 const carousel_change = (index: number) => {
     emits('carousel_change', index);
 };
-watchEffect(() => {
-    form.value = props.value;
-});
 </script>
 
 <style lang="scss" scoped>

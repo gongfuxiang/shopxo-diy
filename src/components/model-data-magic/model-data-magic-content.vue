@@ -70,6 +70,12 @@ const data_style = {
     subtitle_color: '#FF852A',
     subtitle_typeface: '400',
     subtitle_size: 14,
+    goods_title_typeface: '500',
+    goods_title_size: 14,    
+    goods_title_color: "#333333",
+    goods_price_typeface: '500',
+    goods_price_size: 18,
+    goods_price_color: "#EA3323;",
     chunk_padding: {
         padding: 0,
         padding_top: 20, 

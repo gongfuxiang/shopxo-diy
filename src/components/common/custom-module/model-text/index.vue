@@ -47,7 +47,7 @@ const text_title = computed(() => {
 });
 
 const text_style = computed(() => {
-    let style = `font-size: ${ form.text_size }px;color: ${ form.text_color }; text-align: ${ form.text_location }; transform: rotate(${form.text_rotate}deg);text-decoration: ${ form.text_option };${ padding_computer(form.text_padding) };`;
+    let style = `font-size: ${ form.text_size }px;line-height: ${ form.text_size }px;color: ${ form.text_color }; text-align: ${ form.text_location }; transform: rotate(${form.text_rotate}deg);text-decoration: ${ form.text_option };${ padding_computer(form.text_padding) };`;
     if (form.text_weight == 'italic') {
         style += `font-style: italic`;
     } else if (form.text_weight == '500') {

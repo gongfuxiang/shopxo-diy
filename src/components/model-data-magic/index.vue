@@ -6,7 +6,7 @@
                 <template v-if="form.style_actived == 7">
                     <div class="flex-row align-c jc-c style-size flex-wrap">
                         <div v-for="(item, index) in data_magic_list" :key="index" :style="`${ item.data_style.background_style } ${ content_radius }`" :class="['img-spacing-border', { 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index) }]">
-                            <div class="w h" :style="`${ item.data_style.background_style }`">
+                            <div class="w h" :style="`${ item.data_style.background_img_style }`">
                                 <template v-if="item.data_content.data_type == 'goods'">
                                     <div class="w h flex-col gap-20" :style="`${ [0, 1].includes(index) ? padding_computer(item.data_style.chunk_padding) : '' }`">
                                         <div v-if="(!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)) && [0, 1].includes(index)" class="flex-col gap-5 tl">
@@ -14,7 +14,7 @@
                                             <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
                                         </div>
                                         <div class="w h">
-                                            <magic-carousel :value="item" :content-img-radius="content_img_radius" :actived="form.style_actived" type="product" @carousel_change="carousel_change($event, index)"></magic-carousel>
+                                            <magic-carousel :value="item" :good-style="item.data_style" :content-img-radius="content_img_radius" :actived="form.style_actived" type="product" @carousel_change="carousel_change($event, index)"></magic-carousel>
                                         </div>
                                     </div>
                                 </template>
@@ -37,7 +37,7 @@
                 </template>
                 <template v-else>
                     <div v-for="(item, index) in data_magic_list" :key="index" class="cube-selected img-spacing-border" :style="`${ selected_style(item) } ${ item.data_style.background_style } ${ content_radius }`">
-                        <div class="w h" :style="`${ item.data_style.background_style }`">
+                        <div class="w h" :style="`${ item.data_style.background_img_style }`">
                             <template v-if="item.data_content.data_type == 'goods'">
                                 <div :class="[spacing_processing(index) ? 'gap-20 w h flex-col' : 'gap-10 w h flex-col']" :style="`${ padding_computer(item.data_style.chunk_padding) }`">
                                     <div v-if="!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)" class="flex-col gap-5 tl">
@@ -45,7 +45,7 @@
                                         <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
                                     </div>
                                     <div class="w h">
-                                        <magic-carousel :value="item" :content-img-radius="content_img_radius" type="product" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
+                                        <magic-carousel :value="item" :good-style="item.data_style" :content-img-radius="content_img_radius" type="product" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
                                     </div>
                                 </div>
                             </template>
@@ -239,12 +239,7 @@ const commodity_list = (list: any[], num: number) => {
         return [{ split_list: Array(num).fill(default_list)}];
     }
 }
-const background_style = (item: any) => {
-    return gradient_computer(item);
-};
-const background_img_style = (item: any) => {
-    return background_computer(item);
-};
+
 const old_list = ref<any>({});
 const data_magic_list = ref<data_magic[]>([]);
 watch(props.value.content, (val) => {
@@ -257,8 +252,11 @@ watch(props.value.content, (val) => {
         item.actived_index = 0;
         // 指示器样式
         data_style.indicator_styles = indicator_style(data_style);
-        data_style.background_style = background_style(data_style);
-        data_style.background_img_style = background_img_style(data_style);
+        data_style.background_style = gradient_computer(data_style);
+        data_style.background_img_style = background_computer(data_style);
+        // 商品名称和价格样式
+        data_style.goods_title_style = goods_trends_config(item.data_style, 'title');
+        data_style.goods_price_style = goods_trends_config(item.data_style, 'price');
 
         const { is_roll, rotation_direction, interval_time } = data_style;
         const { goods_list, images_list } = data_content;
@@ -301,6 +299,9 @@ const carousel_change = (index: number, key: number) => {
     }
 }
 // 根据传递的参数，从对象中取值
+const goods_trends_config = (style: any, key: string) => {
+    return text_style(style[`goods_${key}_typeface`], style[`goods_${key}_size`], style[`goods_${key}_color`]);
+}
 const trends_config = (style: any, key: string) => {
     return text_style(style[`${key}_typeface`], style[`${key}_size`], style[`${key}_color`]);
 }
