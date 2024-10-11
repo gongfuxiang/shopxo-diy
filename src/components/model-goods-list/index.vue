@@ -269,19 +269,22 @@ const watch_data = computed(() => {
     return { category_ids: category_ids, brand: brand, number: number, order_by_type: order_by_type, order_by_rule: order_by_rule, data_type: data_type, data_list: data_list };
 })
 // 初始化的时候不执行, 监听数据变化
-watch(() => watch_data.value, (val) => {
-    if (val.data_type == '0') {
-        if (!isEmpty(val.data_list)) {
-            list.value = cloneDeep(val.data_list).map((item: any) => ({
-                ...item.data,
-                title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
-                new_cover: item.new_cover,
-            }));
+watch(() => watch_data.value, (val, oldVal) => {
+    // 使用JSON.stringify()进行判断 新值和旧值是否一样 不一样就重新获取数据
+    if (JSON.stringify(val) !== JSON.stringify(oldVal)) {
+        if (val.data_type == '0') {
+            if (!isEmpty(val.data_list)) {
+                list.value = cloneDeep(val.data_list).map((item: any) => ({
+                    ...item.data,
+                    title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
+                    new_cover: item.new_cover,
+                }));
+            } else {
+                list.value = Array(4).fill(default_list);
+            }
         } else {
-            list.value = Array(4).fill(default_list);
+            get_products();
         }
-    } else {
-        get_products();
     }
 }, { deep: true });
 //#endregion
