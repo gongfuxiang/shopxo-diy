@@ -21,8 +21,8 @@
                 </el-form-item>
                 <el-form-item label="状态栏">
                     <el-radio-group v-model="form.function_buttons_type">
-                        <el-radio value="black">黑色</el-radio>
-                        <el-radio value="white">白色</el-radio>
+                        <el-radio value="0">黑色</el-radio>
+                        <el-radio value="1">白色</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item v-if="['1', '2'].includes(search_content.theme)" label="标题名称">
@@ -66,6 +66,9 @@
                         <el-radio value="15">中</el-radio>
                         <el-radio value="10">小</el-radio>
                     </el-radio-group>
+                </el-form-item>
+                <el-form-item label="图标颜色">
+                    <color-picker v-model="form.img_color" default-color="#666"></color-picker>
                 </el-form-item>
             </card-container>
         </el-form>

@@ -63,7 +63,7 @@
                             <el-scrollbar class="hide-scrollbar">
                                 <div class="left">
                                     <div v-for="(item, index) in data_list" :key="index" class="item">
-                                        <div class="type">通用券</div>
+                                        <div class="type">{{ item.type_name }}</div>
                                         <div class="price">
                                             <span v-if="item.type == '0'" class="symbol">{{ currency_symbol }}</span>
                                             <span class="number">{{ item.discount_value }}</span>

@@ -55,6 +55,7 @@ interface DefaultFooterNav {
         search_button_radius: object;
         img_size: string;
         img_space: string;
+        img_color: string;
         tips_color: string;
         hot_words_color: string;
         search_border: string;
@@ -96,7 +97,7 @@ const defaultFooterNav: DefaultFooterNav = {
         header_background_title_color: '#333',
         header_background_title_typeface: '500',
         header_background_title_size: 16,
-        function_buttons_type: 'black',
+        function_buttons_type: '0',
         immersive_style: '0',
         up_slide_display: '1',
         up_slide_background_color_list: [{ color: '#fff', color_percentage: undefined }],
@@ -121,6 +122,7 @@ const defaultFooterNav: DefaultFooterNav = {
         },
         img_size: '23',
         img_space: '15',
+        img_color: '#666',
         tips_color: '#ccc',
         hot_words_color: '#000',
         search_border: '#E4E4E4',

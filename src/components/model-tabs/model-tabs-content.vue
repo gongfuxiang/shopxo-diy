@@ -32,11 +32,11 @@
                                 </el-form-item>
                                 <el-form-item label="数据类型" class="w mb-0">
                                     <el-radio-group v-model="scoped.row.data_type">
-                                        <el-radio value="0">微页面</el-radio>
+                                        <el-radio value="0">DIY页面</el-radio>
                                         <el-radio value="1">选择分类</el-radio>
                                     </el-radio-group>
                                 </el-form-item>
-                                <el-form-item :label="scoped.row.data_type == '0' ? '微页面' : '商品分类'" class="w mb-0">
+                                <el-form-item :label="scoped.row.data_type == '0' ? 'DIY页面' : '商品分类'" class="w mb-0">
                                     <template v-if="scoped.row.data_type == '0'">
                                         <url-value v-model="scoped.row.micro_page_list" :type="['diy']"></url-value>
                                     </template>

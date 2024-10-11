@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7561087",
+      "name": "域名服务",
+      "font_class": "domain",
+      "unicode": "e7cf",
+      "unicode_decimal": 59343
+    },
+    {
+      "icon_id": "38422858",
+      "name": "yiny-xiaz2",
+      "font_class": "download-btn",
+      "unicode": "e707",
+      "unicode_decimal": 59143
+    },
+    {
+      "icon_id": "38735708",
+      "name": "yinyong-shangchuan",
+      "font_class": "upload-file",
+      "unicode": "e72d",
+      "unicode_decimal": 59181
+    },
+    {
+      "icon_id": "42061177",
+      "name": "面板",
+      "font_class": "panel",
+      "unicode": "e79e",
+      "unicode_decimal": 59294
+    },
+    {
       "icon_id": "42058437",
       "name": "居下",
       "font_class": "down",
@@ -84,8 +112,8 @@
     },
     {
       "icon_id": "40963296",
-      "name": "居中",
-      "font_class": "middle",
+      "name": "平铺",
+      "font_class": "tile",
       "unicode": "e752",
       "unicode_decimal": 59218
     },
@@ -126,8 +154,8 @@
     },
     {
       "icon_id": "40963290",
-      "name": "平铺",
-      "font_class": "tile",
+      "name": "居中",
+      "font_class": "middle",
       "unicode": "e761",
       "unicode_decimal": 59233
     },

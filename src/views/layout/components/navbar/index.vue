@@ -38,7 +38,6 @@
                     <el-input v-model="form.describe" placeholder="请输入描述" :rows="4" type="textarea" clearable />
                 </el-form-item>
                 <el-form-item label="状态">
-                    {{ form.is_enable }}
                     <el-switch v-model="form.is_enable" active-value="1" inactive-value="0"></el-switch>
                 </el-form-item>
             </el-form>

@@ -6,7 +6,7 @@
                     <div class="w h" :style="up_slide_img_style"></div>
                 </div>
                 <div class="pt-15 pl-18 pr-22 w pb-6">
-                    <img class="img" :style="`Filter: brightness(${new_style.function_buttons_type == 'black' ? 0 : 100})`" src="@/assets/images/layout/main/main-top.png" />
+                    <img class="img" :style="`Filter: brightness(${new_style.function_buttons_type == '0' ? 0 : 100})`" src="@/assets/images/layout/main/main-top.png" />
                 </div>
                 <div class="model-head tc re mlr-12 mt-6">
                     <div class="model-head-content flex-row align-c jc-sb gap-16 re">
@@ -39,7 +39,7 @@
                         <div v-if="!isEmpty(form.icon_setting)" class="flex-row align-c" :class="'gap-' + new_style.img_space">
                             <div v-for="(item, index) in form.icon_setting" :key="index" :style="{ width: new_style.img_size + 'px', height: new_style.img_size + 'px' }">
                                 <image-empty v-if="item.img.length > 0" v-model="item.img[0]" :error-img-style="'width: ' + Number(new_style.img_size) / 2 + 'px;height:' + Number(new_style.img_size) / 2 + 'px;'"></image-empty>
-                                <icon v-else :name="item.icon" :size="new_style.img_size + ''" color="6"></icon>
+                                <icon v-else :name="item.icon" :size="new_style.img_size + ''" :color="new_style.img_color"></icon>
                             </div>
                         </div>
                     </div>
@@ -160,13 +160,13 @@ const position_class = computed(() => (form.value?.indicator_location == 'center
     box-sizing: border-box;
 }
 .logo-outer-style {
-    height: 2.5rem;
+    height: 2.8rem;
     .logo-style {
-        max-height: 2.5rem;
+        max-height: 2.8rem;
         max-width: 100%;
         :deep(.image-slot) {
-            height: 2.5rem;
-            width: 2.5rem;
+            height: 2.8rem;
+            width: 2.8rem;
         }
     }
 }
