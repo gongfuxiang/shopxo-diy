@@ -15,6 +15,7 @@ interface nav_group_content {
 
 interface nav_group_styles {
     space: number;
+    img_size: number;
     radius: number;
     radius_top_left: number;
     radius_top_right: number;

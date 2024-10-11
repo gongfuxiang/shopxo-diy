@@ -16,6 +16,7 @@ interface defaultSearch {
     };
     style: {
         space: number;
+        img_size: number;
         radius: number;
         radius_top_left: number;
         radius_top_right: number;
@@ -72,6 +73,7 @@ const defaultSearch: defaultSearch = {
     },
     style: {
         space: 10,
+        img_size: 36,
         radius: 0,
         radius_top_left: 0,
         radius_top_right: 0,

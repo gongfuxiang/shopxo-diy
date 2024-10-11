@@ -12,6 +12,9 @@
                 <el-form-item label="圆角">
                     <radius :value="form" @update:value="radius_change"></radius>
                 </el-form-item>
+                <el-form-item label="大小">
+                    <slider v-model="form.img_size" :max="100"></slider>
+                </el-form-item>
             </card-container>
             <div class="divider-line"></div>
             <template v-if="display_style_show">
@@ -56,6 +59,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     value: () => ({
         space: 0,
+        img_size: 0,
         radius: 0,
         radius_top_left: 0,
         radius_top_right: 0,

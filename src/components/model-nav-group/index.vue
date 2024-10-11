@@ -104,6 +104,8 @@ onMounted(() => {
         newHeight.value = bannerImg.value[0].clientHeight + 'px';
     };
 });
+// 导航图片大小
+const img_size = computed(() => (new_style.value?.img_size || '0') + 'px');
 // 每个导航所占位置
 const group_width = computed(() => `${100 / (form.value.single_line || 4)}%`);
 // 是否显示文字和图片
@@ -169,12 +171,12 @@ const carousel_change = (index: number) => {
 </script>
 <style lang="scss" scoped>
 .top-img {
-    height: 3.6rem;
-    width: 3.6rem;
+    height: v-bind(img_size);
+    width: v-bind(img_size);
     border-radius: 4px;
     :deep(.image-slot) {
-        height: 3.6rem;
-        width: 3.6rem;
+        height: v-bind(img_size);
+        width: v-bind(img_size);
         img {
             width: 3.5rem;
             height: 3.5rem;
