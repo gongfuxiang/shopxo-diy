@@ -1,5 +1,5 @@
 <template>
-    <div class="flex align-c jc-c suspension" :style="style">
+    <div class="flex align-c jc-c suspension pa-5" :style="style">
         <div class="spread flex align-c jc-c">
             <template v-if="new_style.float_style == 'diffuse'">
                 <div class="ring"></div>
@@ -59,7 +59,7 @@ watch(props.value, (val) => {
     }
 }
 .shadow {
-    box-shadow: 0 5px 20px v-bind(color);
+    box-shadow: 0 0 20px v-bind(color);
 }
 /**
 * 呼吸灯
