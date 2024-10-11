@@ -9,11 +9,11 @@
             </card-container>
             <card-container>
                 <div class="mb-12">图片样式</div>
-                <el-form-item label="圆角">
+                <el-form-item label="图片圆角">
                     <radius :value="form" @update:value="radius_change"></radius>
                 </el-form-item>
-                <el-form-item label="大小">
-                    <slider v-model="form.img_size" :max="100"></slider>
+                <el-form-item label="图片大小">
+                    <slider v-model="form.img_size" :max="100" :min="10"></slider>
                 </el-form-item>
             </card-container>
             <div class="divider-line"></div>
