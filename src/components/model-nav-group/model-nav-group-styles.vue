@@ -2,6 +2,12 @@
     <div class="common-style-height">
         <el-form :model="form" label-width="80">
             <card-container>
+                <div class="mb-12">导航组</div>
+                <el-form-item label="间距">
+                    <slider v-model="form.space"></slider>
+                </el-form-item>
+            </card-container>
+            <card-container>
                 <div class="mb-12">图片样式</div>
                 <el-form-item label="圆角">
                     <radius :value="form" @update:value="radius_change"></radius>
@@ -32,6 +38,9 @@
                 <el-form-item label="标题字号">
                     <slider v-model="form.title_size" :max="100"></slider>
                 </el-form-item>
+                <el-form-item label="标题间距">
+                    <slider v-model="form.title_space" :max="100"></slider>
+                </el-form-item>
             </card-container>
         </el-form>
         <div class="divider-line"></div>
@@ -46,6 +55,7 @@ interface Props {
 }
 const props = withDefaults(defineProps<Props>(), {
     value: () => ({
+        space: 0,
         radius: 0,
         radius_top_left: 0,
         radius_top_right: 0,
@@ -68,6 +78,7 @@ const props = withDefaults(defineProps<Props>(), {
         color: '#DDDDDD',
         title_color: '#000',
         title_size: 12,
+        title_space: 10,
         common_style: {},
     }),
 });

@@ -2,7 +2,7 @@ interface nav_group {
     id: string;
     img: uploadList[];
     title: string;
-    link: object,
+    link: object;
 }
 
 interface nav_group_content {
@@ -14,6 +14,7 @@ interface nav_group_content {
 }
 
 interface nav_group_styles {
+    space: number;
     radius: number;
     radius_top_left: number;
     radius_top_right: number;
@@ -30,6 +31,6 @@ interface nav_group_styles {
     color: string;
     title_color: string;
     title_size: number;
+    title_space: number;
     common_style: object;
 }
-

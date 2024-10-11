@@ -15,6 +15,7 @@ interface defaultSearch {
         nav_content_list: nav_group[];
     };
     style: {
+        space: number;
         radius: number;
         radius_top_left: number;
         radius_top_right: number;
@@ -31,6 +32,7 @@ interface defaultSearch {
         color: string;
         title_color: string;
         title_size: number;
+        title_space: number;
         common_style: object;
     };
 }
@@ -69,6 +71,7 @@ const defaultSearch: defaultSearch = {
         ],
     },
     style: {
+        space: 10,
         radius: 0,
         radius_top_left: 0,
         radius_top_right: 0,
@@ -91,6 +94,7 @@ const defaultSearch: defaultSearch = {
         color: '#DDDDDD',
         title_color: '#000',
         title_size: 12,
+        title_space: 10,
         common_style: {
             ...defaultCommon,
             padding_top: 9,

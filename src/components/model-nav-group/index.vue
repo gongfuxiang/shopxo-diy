@@ -3,8 +3,8 @@
         <div :style="style_img_container">
             <el-carousel :key="carouselKey" indicator-position="none" :interval="interval_time" arrow="never" :autoplay="is_roll" @change="carousel_change">
                 <el-carousel-item v-for="(item, index) in nav_content_list" :key="index">
-                    <div ref="bannerImg" class="flex flex-wrap gap-x-10">
-                        <div v-for="(item1, index1) in item.split_list" :key="index1" class="item flex-col gap-10 align-c">
+                    <div ref="bannerImg" class="flex flex-wrap" :style="nav_space">
+                        <div v-for="(item1, index1) in item.split_list" :key="index1" class="item flex-col align-c" :style="nav_title_space">
                             <div v-if="['image_with_text', 'image'].includes(nav_style)" class="top-img flex align-c jc-c">
                                 <image-empty v-model="item1.img[0]" :style="img_style"></image-empty>
                             </div>
@@ -74,6 +74,10 @@ const indicator_style = computed(() => {
     }
     return indicator_styles;
 });
+// 导航间距
+const nav_space = computed(() => 'row-gap:' + (new_style.value?.space || '0') + 'px');
+// 导航标题间距
+const nav_title_space = computed(() => 'row-gap:' + (new_style.value?.title_space || '0') + 'px');
 // 获取轮播图片的节点
 const bannerImg = ref();
 // 轮播图自适应高度
