@@ -53,6 +53,7 @@ interface DefaultFooterNav {
         search_botton_background_img_style: string;
         search_botton_background_img: uploadList[];
         search_button_radius: object;
+        position_color: string;
         img_size: string;
         img_space: string;
         img_color: string;
@@ -120,6 +121,7 @@ const defaultFooterNav: DefaultFooterNav = {
             radius_bottom_left: 16,
             radius_bottom_right: 16,
         },
+        position_color: '#333',
         img_size: '23',
         img_space: '15',
         img_color: '#666',

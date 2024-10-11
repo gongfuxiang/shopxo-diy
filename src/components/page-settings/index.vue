@@ -26,9 +26,10 @@
                             </div>
                         </div>
                         <div v-else-if="['4', '5'].includes(form.theme)" class="flex-1 flex-row align-c h gap-10">
-                            <div class="flex-row gap-2">
-                                <icon name="location" size="12" color="0"></icon><span class="size-14 cr-3 text-line-1">{{ form.positioning_name }}</span>
-                                <icon v-if="form.is_arrows_show == '1'" name="arrow-bottom" size="12" color="0"></icon>
+                            <div class="flex-row gap-2" :style="'color:' + new_style.position_color">
+                                <icon name="location" size="12"></icon>
+                                <span class="size-14 text-line-1">{{ form.positioning_name }}</span>
+                                <icon v-if="form.is_arrows_show == '1'" name="arrow-bottom" size="12"></icon>
                             </div>
                             <template v-if="['5'].includes(form.theme)">
                                 <div class="flex-1">
@@ -95,18 +96,18 @@ const roll_img_style = computed(() => {
 
 const up_slide_style = computed(() => {
     let style = ``;
-    if (props.scollTop > 0) {
+    if (props.scollTop > 20) {
         const { up_slide_background_color_list, up_slide_background_direction } = new_style.value;
         // 渐变
         const gradient = { color_list: up_slide_background_color_list, direction: up_slide_background_direction };
-        style += gradient_computer(gradient) + `opacity: ${props.scollTop / 90 > 1 ? 1 : (props.scollTop / 90).toFixed(2)};`;
+        style += gradient_computer(gradient) + `opacity: ${(props.scollTop - 20) / 90 > 1 ? 1 : ((props.scollTop - 20) / 90).toFixed(2)};`;
     }
     return style;
 });
 
 const up_slide_img_style = computed(() => {
     let style = ``;
-    if (props.scollTop > 0) {
+    if (props.scollTop > 20) {
         const { up_slide_background_img = '', up_slide_background_img_style = '' } = new_style.value;
         // 背景图
         const back = { background_img: up_slide_background_img, background_img_style: up_slide_background_img_style };
