@@ -30,7 +30,12 @@
                                 </template>
                             </el-upload>
                         </div>
-                        <el-button @click="clear_list_event">清空列表</el-button>
+                        <div class="flex-row align-c gap-10 size-12">
+                            <div class="cr-success">上传成功:{{ form.file.filter((obj) => obj.status == 'success').length }}</div>
+                            <div class="cr-error">上传失败:{{ form.file.filter((obj) => obj.status == 'error').length }}</div>
+                            <div>等待上传:{{ form.file.filter((obj) => obj.status == 'ready').length }}</div>
+                            <el-button @click="clear_list_event">清空列表</el-button>
+                        </div>
                     </div>
                     <div class="table mt-10">
                         <div class="table-header">
