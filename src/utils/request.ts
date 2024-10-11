@@ -9,7 +9,12 @@ const message_error = (info: string) => {
     if (messageInstance) {
         messageInstance.close();
     }
-    messageInstance = ElMessage.error(info);
+    messageInstance = ElMessage.error({
+        type: 'error',
+        message: info,
+        duration: 30000,
+        showClose: true,
+    });
 };
 
 // 创建一个状态变量来跟踪是否已经弹出了退出登录的弹窗
@@ -20,7 +25,7 @@ const index = window.location.href.lastIndexOf('?s=');
 const pro_url = window.location.href.substring(0, index);
 const service = axios.create({
     baseURL: import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API : pro_url + '?s=',
-    timeout: 50000,
+    timeout: 3000,
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
 });
 /** @ts-ignore  */
@@ -71,7 +76,10 @@ service.interceptors.response.use(
         if (error.response && error.response.data) {
             const { msg, message } = error.response.data;
             message_error(msg || message || '系统出错');
+        } else {
+            message_error(error.message);
         }
+
         return Promise.reject(error.message);
     }
 );
