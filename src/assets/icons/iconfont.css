@@ -1,9 +1,9 @@
 @font-face {
   font-family: "iconfont"; /* Project id 4227145 */
-  src: url('iconfont.woff2?t=1728532347903') format('woff2'),
-       url('iconfont.woff?t=1728532347903') format('woff'),
-       url('iconfont.ttf?t=1728532347903') format('truetype'),
-       url('iconfont.svg?t=1728532347903#iconfont') format('svg');
+  src: url('iconfont.woff2?t=1728611284151') format('woff2'),
+       url('iconfont.woff?t=1728611284151') format('woff'),
+       url('iconfont.ttf?t=1728611284151') format('truetype'),
+       url('iconfont.svg?t=1728611284151#iconfont') format('svg');
 }
 
 .iconfont {
@@ -12,6 +12,22 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-domain:before {
+  content: "\e7cf";
+}
+
+.icon-download-btn:before {
+  content: "\e707";
+}
+
+.icon-upload-file:before {
+  content: "\e72d";
+}
+
+.icon-panel:before {
+  content: "\e79e";
 }
 
 .icon-down:before {
@@ -58,7 +74,7 @@
   content: "\e75c";
 }
 
-.icon-middle:before {
+.icon-tile:before {
   content: "\e752";
 }
 
@@ -82,7 +98,7 @@
   content: "\e760";
 }
 
-.icon-tile:before {
+.icon-middle:before {
   content: "\e761";
 }
 
