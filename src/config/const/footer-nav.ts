@@ -13,7 +13,7 @@ interface DefaultFooterNav {
         common_style: object;
     };
 }
-const defaultFooterNav = ref<DefaultFooterNav>({
+const defaultFooterNav: DefaultFooterNav = {
     content: {
         nav_style: '0',
         nav_type: '0',
@@ -65,6 +65,6 @@ const defaultFooterNav = ref<DefaultFooterNav>({
         default_text_color: 'rgba(0, 0, 0, 1)',
         common_style: { ...defaultCommon, color_list: [{ color: 'rgba(255,255,255,1)', color_percentage: undefined }] },
     },
-});
+};
 
 export default defaultFooterNav;

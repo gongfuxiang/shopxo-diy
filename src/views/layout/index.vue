@@ -162,8 +162,17 @@ const data_merge = (list: string[]) => {
 };
 // 浅层数据合并
 const default_merge = (data: any, key: string) => {
-    data.style = Object.assign({}, cloneDeep((defaultSettings as any)[key.replace(/-/g, '_')]).style, data.style);
-    data.content = Object.assign({}, cloneDeep((defaultSettings as any)[key.replace(/-/g, '_')]), data.content);
+    if (data.style) {
+        data.style = Object.assign({}, cloneDeep((defaultSettings as any)[key.replace(/-/g, '_')]).style, data.style);
+    } else {
+        data.style = cloneDeep((defaultSettings as any)[key.replace(/-/g, '_')]).style;
+    }
+    if (data.content) {
+        data.content = Object.assign({}, cloneDeep((defaultSettings as any)[key.replace(/-/g, '_')]).content, data.content);
+    } else {
+        console.log(data.content);
+        data.content = cloneDeep((defaultSettings as any)[key.replace(/-/g, '_')]).content;
+    }
     return data;
 };
 
