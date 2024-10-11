@@ -6,7 +6,7 @@
                     <div class="w h" :style="up_slide_img_style"></div>
                 </div>
                 <div class="pt-15 pl-18 pr-22 w pb-6">
-                    <img class="img" :style="`Filter: brightness(${new_style.function_buttons_type == 'black' ? 0 : 100})`" src="@/assets/images/layout/main/main-top.png" />
+                    <img class="img" :style="`Filter: brightness(${new_style.function_buttons_type == '0' ? 0 : 100})`" src="@/assets/images/layout/main/main-top.png" />
                 </div>
                 <div class="model-head tc re mlr-12 mt-6">
                     <div class="model-head-content flex-row align-c jc-sb gap-16 re">
