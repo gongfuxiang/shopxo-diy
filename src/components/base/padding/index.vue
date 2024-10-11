@@ -1,18 +1,18 @@
 <template>
     <div class="flex-col gap-10 w">
-        <slider v-model="form.padding" @update:model-value="padding_event"></slider>
+        <slider v-model="form.padding" :max="200" @update:model-value="padding_event"></slider>
         <div class="flex-row flex-wrap gap-x-20 mt-10">
             <div class="flex-width-half pr-10">
-                <input-number v-model="form.padding_top" icon-name="enter-t" @update:model-value="pt_event"></input-number>
+                <input-number v-model="form.padding_top" :max="200" icon-name="enter-t" @update:model-value="pt_event"></input-number>
             </div>
             <div class="flex-width-half pl-10">
-                <input-number v-model="form.padding_bottom" icon-name="enter-b" @update:model-value="pb_event"></input-number>
+                <input-number v-model="form.padding_bottom" :max="200" icon-name="enter-b" @update:model-value="pb_event"></input-number>
             </div>
             <div class="flex-width-half pr-10">
-                <input-number v-model="form.padding_left" icon-name="enter-l" @update:model-value="pl_event"></input-number>
+                <input-number v-model="form.padding_left" :max="200" icon-name="enter-l" @update:model-value="pl_event"></input-number>
             </div>
             <div class="flex-width-half pl-10">
-                <input-number v-model="form.padding_right" icon-name="enter-r" @update:model-value="pr_event"></input-number>
+                <input-number v-model="form.padding_right" :max="200" icon-name="enter-r" @update:model-value="pr_event"></input-number>
             </div>
         </div>
     </div>
