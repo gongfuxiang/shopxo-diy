@@ -10,8 +10,8 @@
                         <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
                     </template>
                     <div v-if="!isEmpty(isShow)" class="flex-col w h tl gap-10">
-                        <div v-if="isShow.includes('title')" class="text-line-2 size-14 shop-title">{{ item.title }}</div>
-                        <div v-if="isShow.includes('price')" class="identifying">
+                        <div v-if="isShow.includes('title')" class="text-line-2 size-14 shop-title" :style="goodStyle.goods_title_style">{{ item.title }}</div>
+                        <div v-if="isShow.includes('price')" class="identifying" :style="goodStyle.goods_price_style">
                             <span class="num">{{ item.show_price_symbol }}</span>{{ item.min_price }}
                             <template v-if="isShow.includes('price_unit')">
                                 <span class="num">{{ item.show_price_unit }}</span>
@@ -29,14 +29,14 @@
                         <template v-else>
                             <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
                         </template>
-                        <div v-if="isShow.includes('price')" class="price-suspension text-line-1">
+                        <div v-if="isShow.includes('price')" class="price-suspension text-line-1" :style="goodStyle.goods_price_style">
                             {{ item.show_price_symbol }}{{ item.min_price }}
                             <template v-if="isShow.includes('price_unit')">
                                 {{ item.show_price_unit }}
                             </template>
                         </div>
                     </div>
-                    <div v-if="isShow.includes('title')" class="text-line-1 size-14 shop-title tl w" style="overflow: inherit;">{{ item.title }}</div>
+                    <div v-if="isShow.includes('title')" class="text-line-1 size-14 shop-title tl w" style="overflow: inherit;" :style="goodStyle.goods_title_style">{{ item.title }}</div>
                 </div>
             </template>
             <template v-else>
@@ -48,8 +48,8 @@
                         <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
                     </template>
                     <div v-if="!isEmpty(isShow)" class="flex-col w tl gap-10" :style="`${ padding_computer(props.chunkPadding) }`">
-                        <div v-if="isShow.includes('title')" class="text-line-2 size-14 shop-title">{{ item.title }}</div>
-                        <div v-if="isShow.includes('price')" class="identifying">
+                        <div v-if="isShow.includes('title')" class="text-line-2 size-14 shop-title" :style="goodStyle.goods_title_style">{{ item.title }}</div>
+                        <div v-if="isShow.includes('price')" class="identifying" :style="goodStyle.goods_price_style">
                             <span class="num">{{ item.show_price_symbol }}</span>{{ item.min_price }}
                             <template v-if="isShow.includes('price_unit')">
                                 <span class="num">{{ item.show_price_unit }}</span>
@@ -71,8 +71,8 @@
                         <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
                     </template>
                     <div v-if="!isEmpty(isShow)" class="flex-col w h tl gap-20">
-                        <div v-if="isShow.includes('title')" class="text-line-2 size-14 shop-title">{{ item.title }}</div>
-                        <div v-if="isShow.includes('price')" class="identifying">
+                        <div v-if="isShow.includes('title')" class="text-line-2 size-14 shop-title" :style="goodStyle.goods_title_style">{{ item.title }}</div>
+                        <div v-if="isShow.includes('price')" class="identifying" :style="goodStyle.goods_price_style">
                             <span class="num">{{ item.show_price_symbol }}</span>{{ item.min_price }}
                             <template v-if="isShow.includes('price_unit')">
                                 <span class="num">{{ item.show_price_unit }}</span>
@@ -98,6 +98,7 @@ interface Props {
     actived: number;
     isShow: Array<string>;
     chunkPadding: paddingStyle;
+    goodStyle: any;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -105,11 +106,8 @@ const props = withDefaults(defineProps<Props>(), {
     outerflex: 'row',
     flex: 'row',
 });
-const split_list = ref(props.value);
 
-watchEffect(() => {
-    split_list.value = props.value;
-})
+const split_list = computed(() => props.value || {});
 </script>
 
 <style lang="scss" scoped>
@@ -123,13 +121,10 @@ watchEffect(() => {
         width: 4rem !important;
     }
 }
-.identifying {
-    font-size: 1.4rem;
-    color: #EA3323;
-    .num {
-        font-size: 0.9rem;
-    }
+.identifying .num {
+    font-size: 0.9rem;
 }
+
 .price-suspension {
     width: calc(100% - 0.8rem);
     margin: 0 0.4rem;
@@ -147,8 +142,5 @@ watchEffect(() => {
 }
 .half-width {
     width: 50%;
-}
-.shop-title {
-    line-height: 2rem;
 }
 </style>
