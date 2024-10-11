@@ -156,7 +156,7 @@ const init = () => {
 // 数据合并
 const data_merge = (list: string[]) => {
     list.forEach((item: any) => {
-        item.com_data = default_merge(item.com_data, item.key);;
+        item.com_data = default_merge(item.com_data, item.key);
     });
     return list;
 };
@@ -291,38 +291,41 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
     });
     // 数据改造
     const new_data = diy_data_transfor_form_data(clone_form);
-    DiyAPI.save(new_data).then((res) => {
-        // 如果是导出或预览模式，则不显示保存成功的消息
-        if (!(is_export || is_preview)) {
-            ElMessage.success('保存成功');
-        }
-        if (close) {
-            ElMessageBox.confirm('您确定要关闭本页吗？', '提示')
-                .then(() => {
-                    // 关闭页面
-                    window.close();
-                })
-                .catch(() => {});
-        } else {
-            // 判断是否需要导出
-            if (is_export) {
-                const index = window.location.href.lastIndexOf('?s=');
-                const pro_url = window.location.href.substring(0, index);
-                const new_url = import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API_URL : pro_url;
-                window.open(new_url + '?s=diyapi/diydownload/id/' + res.data + '.html', '_blank');
+    DiyAPI.save(new_data)
+        .then((res) => {
+            setTimeout(() => {
+                save_disabled.value = false;
+            }, 500);
+            // 如果是导出或预览模式，则不显示保存成功的消息
+            if (!(is_export || is_preview)) {
+                ElMessage.success('保存成功');
             }
-            if (is_preview) {
-                preview_dialog.value = true;
-                diy_id.value = String(res.data);
+            if (close) {
+                ElMessageBox.confirm('您确定要关闭本页吗？', '提示')
+                    .then(() => {
+                        // 关闭页面
+                        window.close();
+                    })
+                    .catch(() => {});
+            } else {
+                // 判断是否需要导出
+                if (is_export) {
+                    const index = window.location.href.lastIndexOf('?s=');
+                    const pro_url = window.location.href.substring(0, index);
+                    const new_url = import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API_URL : pro_url;
+                    window.open(new_url + '?s=diyapi/diydownload/id/' + res.data + '.html', '_blank');
+                }
+                if (is_preview) {
+                    preview_dialog.value = true;
+                    diy_id.value = String(res.data);
+                }
+                form.value.id = String(res.data);
+                history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
             }
-            form.value.id = String(res.data);
-            history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
-        }
-
-        setTimeout(() => {
+        })
+        .catch((err) => {
             save_disabled.value = false;
-        }, 500);
-    });
+        });
 };
 //#endregion 顶部导航回调方法 ---------------------end
 // 数据改造

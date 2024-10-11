@@ -16,8 +16,8 @@
         <div class="nav-right">
             <el-button class="btn-plain" @click="upload_manage">上传管理</el-button>
             <el-button class="btn-plain" @click="preview_event">预览</el-button>
-            <el-button class="btn-plain" :disabled="saveDisabled" @click="save_event">仅保存</el-button>
-            <el-button class="btn-white" :disabled="saveDisabled" @click="save_close_event">保存关闭</el-button>
+            <el-button class="btn-plain" :class="saveDisabled ? 'disabled' : ''" :disabled="saveDisabled" @click="save_event">仅保存</el-button>
+            <el-button class="btn-white" :class="saveDisabled ? 'disabled' : ''" :disabled="saveDisabled" @click="save_close_event">保存关闭</el-button>
         </div>
     </div>
     <el-dialog v-model="dialog_visible" class="radius-lg" width="650" draggable :close-on-click-modal="false" append-to-body>
@@ -166,6 +166,14 @@ const confirm_event = async (formEl: FormInstance | undefined) => {
                 border-color: #fff;
                 color: $cr-primary;
             }
+            &.disabled {
+                opacity: 0.5;
+                &:hover {
+                    background-color: transparent;
+                    border-color: #fff;
+                    color: #fff;
+                }
+            }
         }
         .btn-white {
             background-color: #fff;
@@ -175,6 +183,14 @@ const confirm_event = async (formEl: FormInstance | undefined) => {
                 background-color: #1e7ede;
                 border-color: #1e7ede;
                 color: #fff;
+            }
+            &.disabled {
+                opacity: 0.5;
+                &:hover {
+                    background-color: #fff;
+                    border-color: #fff;
+                    color: $cr-primary;
+                }
             }
         }
     }
