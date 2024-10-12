@@ -3,7 +3,7 @@
         <div v-if="item.show_tabs == '1'" class="plug-in-right" chosenClass="close">
             <el-icon :class="`iconfont ${item.is_enable == '1' ? 'icon-eye' : 'icon-eye-close'}`" @click.stop="set_enable(index)" />
             <el-icon class="iconfont icon-del" @click.stop="del(index)" />
-            <el-icon :class="['iconfont icon-copy', {'disabled': props.isTabs }] " @click.stop="copy(index)" />
+            <el-icon :class="['iconfont icon-copy', { disabled: props.isTabs }]" @click.stop="copy(index)" />
             <el-icon :class="['iconfont', 'icon-arrow-top', icon_arrow_disable(item.key, index, 'moveUp')]" @click.stop="moveUp(index, arrow_disable_method(item.key, index, 'moveUp'))" />
             <el-icon :class="['iconfont', 'icon-arrow-bottom', icon_arrow_disable(item.key, index, 'moveDown')]" @click.stop="moveDown(index, arrow_disable_method(item.key, index, 'moveDown'))" />
         </div>
@@ -118,13 +118,17 @@ const props = withDefaults(defineProps<Props>(), {
     diyData: () => [],
     showModelBorder: false,
     isTabs: false,
-    mainContentStyle: ''
+    mainContentStyle: '',
 });
 const diy_data = ref(props.diyData);
 
-watch(() => props.diyData, (val) => {
-    diy_data.value = val;
-}, {immediate: true, deep: true});
+watch(
+    () => props.diyData,
+    (val) => {
+        diy_data.value = val;
+    },
+    { immediate: true, deep: true }
+);
 
 // 模块的class
 const model_class = computed(() => {
@@ -137,11 +141,11 @@ interface com_data {
     style: {
         common_style: {
             floating_up: number;
-        }
-    }
+        };
+    };
 }
 const model_style = computed(() => {
-    return (item: { id: string; key: string, com_data: com_data }) => {
+    return (item: { id: string; key: string; com_data: com_data }) => {
         // 40是容器的上下间距， 60是顶部的高度
         const container_height = window.innerHeight - 100;
         let bottom = 0;
@@ -167,7 +171,7 @@ const model_style = computed(() => {
         if (item.com_data.style.common_style?.floating_up != 0) {
             z_index = `z-index: 1`;
         }
-        return item.key == 'float-window' ? `bottom: ${((bottom / window.innerHeight) * 100).toFixed(4) + '%'};` : `margin-top: -${ item.com_data.style.common_style?.floating_up || 0 }px;${ z_index };`;
+        return item.key == 'float-window' ? `bottom: ${((bottom / window.innerHeight) * 100).toFixed(4) + '%'};` : `margin-top: -${item.com_data.style.common_style?.floating_up || 0}px;${z_index};`;
     };
 });
 
@@ -278,11 +282,10 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
 .plug-in-border::before {
     content: '';
     width: calc(100% + 0.4rem);
-    height: calc(100% + 0.4rem);
+    height: 100%;
     position: absolute;
-    top: -0.2rem;
+    top: 0;
     left: -0.2rem;
-    // z-index: 1;
     border: 0.2rem solid $cr-main;
 }
 .plug-in-animation {

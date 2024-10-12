@@ -6,10 +6,10 @@
                 <el-form-item label="选中装饰">
                     <mult-color-picker :value="form.tabs_checked" :type="form.tabs_direction" @update:value="tabs_checked_event"></mult-color-picker>
                 </el-form-item>
-                <el-form-item label="选中文字">
+                <el-form-item label="选中标题">
                     <color-text-size-group v-model:color="form.tabs_color_checked" v-model:typeface="form.tabs_weight_checked" v-model:size="form.tabs_size_checked" default-color="rgba(51,51,51,1)"></color-text-size-group>
                 </el-form-item>
-                <el-form-item label="未选文字">
+                <el-form-item label="未选标题">
                     <color-text-size-group v-model:color="form.tabs_color" v-model:typeface="form.tabs_weight" v-model:size="form.tabs_size" default-color="rgba(51,51,51,1)"></color-text-size-group>
                 </el-form-item>
                 <el-form-item label="选项卡间距">
@@ -44,12 +44,12 @@ const props = defineProps({
     },
     isCommon: {
         type: Boolean,
-        default: true
-    }
+        default: true,
+    },
 });
 
 const state = reactive({
-    form: props.value
+    form: props.value,
 });
 // 如果需要解构，确保使用toRefs
 const { form } = toRefs(state);
@@ -61,5 +61,4 @@ const tabs_checked_event = (arry: string[], type: number) => {
     form.value.tabs_direction = type.toString();
 };
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

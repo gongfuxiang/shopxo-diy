@@ -78,7 +78,7 @@ const defaultFooterNav: DefaultFooterNav = {
         is_icon_show: '1',
         icon_link: {},
         icon_img: [],
-        icon_class: '',
+        icon_class: 'search',
         search_botton_img: [],
         search_botton_icon: '',
         is_tips_show: '1',

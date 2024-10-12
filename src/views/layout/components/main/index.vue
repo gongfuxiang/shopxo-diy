@@ -63,10 +63,13 @@
                 </div>
                 <!-- 拖拽区 -->
                 <div ref="scrollTop" class="model-drag" @scroll="on_scroll_event">
+                    <div class="page-bg" :style="content_style">
+                        <div class="page-bg-img" :style="content_img_style"></div>
+                    </div>
                     <!-- 页面设置 -->
                     <page-settings :show-page="page_data.show_tabs == '1'" :page-data="page_data" :scoll-top="scoll_top" @page_settings="page_settings"></page-settings>
-                    <div class="model-wall" :style="content_style">
-                        <div class="model-wall-content" :style="`padding-top:${top_padding}px; margin-top: ${top_margin}px;padding-bottom:${bottom_navigation_show ? footer_nav_counter_store.padding_footer : 0}px;${content_img_style}`">
+                    <div class="model-wall" :style="`margin-top: ${top_margin}px;`">
+                        <div class="model-wall-content" :style="`padding-top:${top_padding}px;padding-bottom:${bottom_navigation_show ? footer_nav_counter_store.padding_footer : 0}px;`">
                             <div-content :diy-data="tabs_data" :show-model-border="show_model_border" :is-tabs="true" :main-content-style="main_content_style" @on_choose="set_tabs_event(true)" @del="del"></div-content>
                             <div v-if="tabs_data.length > 0" class="seat"></div>
                             <VueDraggable v-model="diy_data" :animation="500" :touch-start-threshold="2" group="people" class="drag-area re" ghost-class="ghost" :on-sort="on_sort" :on-start="on_start" :on-end="on_end">
@@ -146,6 +149,7 @@ watch(
 );
 const top_padding = ref(90);
 const top_margin = ref(0);
+const model_wall_top = ref(0);
 const content_style = ref('');
 const content_img_style = ref('');
 const main_content_style = ref('');
@@ -166,7 +170,7 @@ watchEffect(() => {
         const { immersive_style, up_slide_display } = new_style;
         // 不开启沉浸式 和 上滑显示
         if (immersive_style == '1' || up_slide_display != '1') {
-            top_padding.value = 2;
+            top_padding.value = 0;
         } else {
             top_padding.value = 90;
         }
@@ -214,7 +218,7 @@ const show_model_border = ref(true);
 // 点击添加tabs组件
 const draggable_click = (item: componentsData) => {
     const type_data = ['tabs', 'tabs-carousel'];
-    
+
     if (common_store.is_immersion_model) {
         ElMessage.error('开启沉浸样式下不可以添加该组件');
         return;
@@ -432,7 +436,7 @@ const scroll = () => {
 const scoll_top = ref(0);
 const on_scroll_event = (e: any) => {
     scoll_top.value = e.target.scrollTop;
-}
+};
 //#endregion
 //#region 页面设置 导出 导入
 // 在组件挂载时默认执行
