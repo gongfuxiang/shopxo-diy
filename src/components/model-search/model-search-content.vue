@@ -14,7 +14,7 @@
                             </el-col>
                         </el-row>
                         <el-row class="mt-10 w">
-                            <el-col :span="24"><url-value v-model="form.icon_src"></url-value></el-col>
+                            <el-col :span="24"><url-value v-model="form.icon_link"></url-value></el-col>
                         </el-row>
                     </template>
                 </el-form-item>

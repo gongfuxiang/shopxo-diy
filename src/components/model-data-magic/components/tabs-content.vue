@@ -29,7 +29,7 @@
                             <url-value v-model="item.carousel_link"></url-value>
                         </el-form-item>
                     </div>
-                    <el-icon class="iconfont icon-close-o size-16 abs cr-c top-de-5 right-de-5" @click="img_remove(index)" />
+                    <el-icon class="iconfont icon-close-o1 size-16 abs cr-c top-de-5 right-de-5" @click="img_remove(index)" />
                 </div>
             </div>
             <el-button class="mt-20 mb-20 w" @click="img_add">+添加</el-button>

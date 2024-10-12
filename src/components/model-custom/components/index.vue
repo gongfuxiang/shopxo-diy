@@ -629,6 +629,7 @@ const data_handling = (x: number, y: number) => {
                 // Y轴不小于0 并且不大于容器高度
                 if (isWithinBounds(item.location.y + y, item.com_data.com_height, center_height.value)) {
                     item.location.y += y;
+                    item.location.staging_y += y;
                 }
             }
         });
@@ -643,6 +644,7 @@ const data_handling = (x: number, y: number) => {
                 // Y轴不小于0 并且不大于容器高度
                 if (isWithinBounds(item.location.y + y, item.com_data.com_height, center_height.value)) {
                     item.location.y += y;
+                    item.location.staging_y += y;
                 }
             }
         });

@@ -126,8 +126,8 @@ const position_class = computed(() => (form.value?.indicator_location == 'center
     left: 50%;
     z-index: 3;
     transform: translateX(-50%);
+    width: 39rem;
     .roll {
-        width: 39rem;
         padding-bottom: 0.9rem;
         margin: 0 auto;
         cursor: pointer;
