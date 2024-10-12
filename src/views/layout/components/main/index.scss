@@ -95,9 +95,18 @@
                 &::-webkit-scrollbar {
                     display: none;
                 }
+                .page-bg {
+                    position: absolute;
+                    left: 50;
+                    background: #f5f5f5;
+                    top: 0;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    width: 39rem;
+                    min-height: 100%;
+                }
                 .model-wall {
                     width: 39rem;
-                    background: #f5f5f5;
                     margin: 0 auto;
                     min-height: 100%;
                     display: flex;

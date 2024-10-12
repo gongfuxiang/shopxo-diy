@@ -165,6 +165,7 @@ const position_class = computed(() => (form.value?.indicator_location == 'center
         left: -0.2rem;
         right: -0.2rem;
         border: 0.2rem solid $cr-main;
+        z-index: 2;
     }
 }
 .logo-outer-style {
