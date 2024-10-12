@@ -18,6 +18,7 @@ interface defaultTabs {
         tabs_list: tabs_page[];
     };
     style: {
+        tabs_one_theme: string;
         tabs_checked: color_list[];
         tabs_direction: string;
         tabs_weight_checked: string;
@@ -45,6 +46,7 @@ const defaultTabs: defaultTabs = {
         ],
     },
     style: {
+        tabs_one_theme: '0',
         tabs_checked: [
             { color: '#FF2222', color_percentage: undefined },
             { color: '#FF9898', color_percentage: undefined },

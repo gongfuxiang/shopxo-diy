@@ -4,6 +4,10 @@
             <card-container>
                 <div class="mb-12">选项卡样式</div>
                 <el-form-item label="选中装饰">
+                    <el-radio-group v-model="form.tabs_one_theme">
+                        <el-radio value="0">样式一</el-radio>
+                        <el-radio value="1">样式二</el-radio>
+                    </el-radio-group>
                     <mult-color-picker :value="form.tabs_checked" :type="form.tabs_direction" @update:value="tabs_checked_event"></mult-color-picker>
                 </el-form-item>
                 <el-form-item label="选中标题">

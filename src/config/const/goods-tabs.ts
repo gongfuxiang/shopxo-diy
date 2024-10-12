@@ -36,6 +36,7 @@ interface DefaultProductList {
         shop_button_size: string;
     };
     style: {
+        tabs_one_theme: string;
         tabs_checked: color_list[];
         tabs_direction: string;
         tabs_weight_checked: string;
@@ -98,6 +99,7 @@ const defaultProductList: DefaultProductList = {
         shop_button_size: '1',
     },
     style: {
+        tabs_one_theme: '0',
         tabs_checked: [
             { color: '#FF2222', color_percentage: undefined },
             { color: '#FF9898', color_percentage: undefined },
