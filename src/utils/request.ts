@@ -12,7 +12,7 @@ const message_error = (info: string) => {
     messageInstance = ElMessage.error({
         type: 'error',
         message: info,
-        duration: 30000,
+        duration: 60000,
         showClose: true,
     });
 };

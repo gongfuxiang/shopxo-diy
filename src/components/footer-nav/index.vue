@@ -86,8 +86,8 @@ const footer_nav_event = () => {
     .footer-nav-content {
         min-height: 7rem;
         .img {
-            width: 2rem;
-            height: 2rem;
+            width: 2.2rem;
+            height: 2.2rem;
             .img-item {
                 width: 2.2rem;
                 height: 2.2rem;

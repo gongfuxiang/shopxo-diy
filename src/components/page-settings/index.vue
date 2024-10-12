@@ -28,7 +28,7 @@
                         <div v-else-if="['4', '5'].includes(form.theme)" class="flex-1 flex-row align-c h gap-10">
                             <div class="flex-row gap-2" :style="'color:' + new_style.position_color">
                                 <icon name="location" size="12"></icon>
-                                <span class="size-14 text-line-1">{{ form.positioning_name }}</span>
+                                <span class="location-name size-14 text-line-1">{{ form.positioning_name }}</span>
                                 <icon v-if="form.is_arrows_show == '1'" name="arrow-bottom" size="12"></icon>
                             </div>
                             <template v-if="['5'].includes(form.theme)">
@@ -142,6 +142,9 @@ const position_class = computed(() => (form.value?.indicator_location == 'center
     overflow: hidden;
     .model-head-content {
         height: 3.2rem;
+        .location-name {
+            max-width: 15rem;
+        }
     }
 }
 .model-head-icon {
