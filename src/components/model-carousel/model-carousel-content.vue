@@ -49,7 +49,7 @@
                                 <el-input v-model="item.video_title" placeholder="请输入视频按钮名称" clearable></el-input>
                             </el-form-item>
                         </div>
-                        <el-icon class="iconfont icon-close-o size-16 abs cr-c top-de-5 right-de-5" @click="remove(index)" />
+                        <el-icon class="iconfont icon-close-o1 size-16 abs cr-c top-de-5 right-de-5" @click="remove(index)" />
                     </div>
                 </div>
                 <el-button class="mt-20 mb-20 w" @click="add">+添加</el-button>

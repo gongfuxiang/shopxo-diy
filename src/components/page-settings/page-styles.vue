@@ -109,7 +109,11 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, search_content } = toRefs(state);
-console.log(form);
+// 监听属性变化 
+watchEffect(() => {
+    form.value = props.value;
+    search_content.value = props.content;
+});
 
 const header_background_type_change_event = (val: any) => {
     if (val === 'color_image') {
