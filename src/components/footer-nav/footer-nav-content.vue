@@ -21,7 +21,7 @@
             <card-container>
                 <div class="mb-12 flex-row gap-10 jc-sb">
                     <div>导航内容</div>
-                    <div class="flex-row gap-10 align-c">
+                    <div class="flex-row gap-20 align-c">
                         <div class="cr-primary c-pointer" @click="sync_sys_event">同步到系统</div>
                         <div class="cr-primary c-pointer" @click="reset_event">恢复默认</div>
                     </div>
