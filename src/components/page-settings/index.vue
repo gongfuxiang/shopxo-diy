@@ -128,7 +128,7 @@ const position_class = computed(() => (form.value?.indicator_location == 'center
     transform: translateX(-50%);
     width: 39rem;
     .roll {
-        padding-bottom: 0.9rem;
+        padding-bottom: 1rem;
         margin: 0 auto;
         cursor: pointer;
         z-index: 1;
@@ -154,11 +154,18 @@ const position_class = computed(() => (form.value?.indicator_location == 'center
     }
 }
 .page-settings-border {
-    // border: 0.2rem solid $cr-main;
     position: relative;
-    box-shadow: 0px 0 0px 0.2rem $cr-main !important;
     z-index: 3;
     box-sizing: border-box;
+    &::before {
+        content: '';
+        height: 100%;
+        width: calc(100% + 0.4rem);
+        position: absolute;
+        left: -0.2rem;
+        right: -0.2rem;
+        border: 0.2rem solid $cr-main;
+    }
 }
 .logo-outer-style {
     height: 2.8rem;

@@ -166,7 +166,7 @@ watchEffect(() => {
         const { immersive_style, up_slide_display } = new_style;
         // 不开启沉浸式 和 上滑显示
         if (immersive_style == '1' || up_slide_display != '1') {
-            top_padding.value = 2;
+            top_padding.value = 0;
         } else {
             top_padding.value = 90;
         }
@@ -214,7 +214,7 @@ const show_model_border = ref(true);
 // 点击添加tabs组件
 const draggable_click = (item: componentsData) => {
     const type_data = ['tabs', 'tabs-carousel'];
-    
+
     if (common_store.is_immersion_model) {
         ElMessage.error('开启沉浸样式下不可以添加该组件');
         return;
@@ -432,7 +432,7 @@ const scroll = () => {
 const scoll_top = ref(0);
 const on_scroll_event = (e: any) => {
     scoll_top.value = e.target.scrollTop;
-}
+};
 //#endregion
 //#region 页面设置 导出 导入
 // 在组件挂载时默认执行

@@ -89,7 +89,7 @@
 
             .model-drag {
                 overflow-y: auto;
-                padding-top: 0.2rem;
+                // padding-top: 0.2rem;
                 max-height: 84.4rem;
                 height: 100%;
                 &::-webkit-scrollbar {
@@ -194,7 +194,8 @@
     transform: translateY(-50%);
     left: 0;
     z-index: 3;
-    .layout-toggle-bar-top, .layout-toggle-bar-bottom {
+    .layout-toggle-bar-top,
+    .layout-toggle-bar-bottom {
         position: absolute;
         width: 0.2rem;
         border-radius: 0.2rem;
@@ -208,7 +209,8 @@
     }
 }
 .layout-toggle-bar-close:hover {
-    .layout-toggle-bar-top, .layout-toggle-bar-bottom {
+    .layout-toggle-bar-top,
+    .layout-toggle-bar-bottom {
         background: $cr-main;
         transition: 1s ease;
     }
@@ -221,7 +223,8 @@
 }
 
 .layout-toggle-bar-open:hover {
-    .layout-toggle-bar-top, .layout-toggle-bar-bottom {
+    .layout-toggle-bar-top,
+    .layout-toggle-bar-bottom {
         background: $cr-main;
         transition: 1s ease;
     }
