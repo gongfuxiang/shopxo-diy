@@ -6,6 +6,9 @@
                 <el-form-item label="数据间距">
                     <slider v-model="form.space"></slider>
                 </el-form-item>
+                <el-form-item label="图文间距">
+                    <slider v-model="form.title_space" :max="100"></slider>
+                </el-form-item>
             </card-container>
             <div class="divider-line"></div>
             <card-container>
@@ -41,9 +44,6 @@
                 </el-form-item>
                 <el-form-item label="标题字号">
                     <slider v-model="form.title_size" :max="100"></slider>
-                </el-form-item>
-                <el-form-item label="标题间距">
-                    <slider v-model="form.title_space" :max="100"></slider>
                 </el-form-item>
             </card-container>
         </el-form>
