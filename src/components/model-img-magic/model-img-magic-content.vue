@@ -45,7 +45,7 @@
                         </div>
                     </template>
                     <template v-else>
-                        <magic-cube :key="form.style_actived" :list="form.img_magic_list" :flag="form.style_actived == 11" :cube-width="cubeWidth" :cube-height="cubeHeight" @selected_click="selected_click"></magic-cube>
+                        <magic-cube :key="form.style_actived" :list="form.img_magic_list" :style-actived="form.style_actived" :flag="form.style_actived == 11" :cube-width="cubeWidth" :cube-height="cubeHeight" @selected_click="selected_click"></magic-cube>
                     </template>
                 </el-form-item>
             </card-container>

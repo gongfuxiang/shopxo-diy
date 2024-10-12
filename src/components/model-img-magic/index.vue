@@ -18,6 +18,11 @@
                         </div>
                     </div>
                 </template>
+                <template v-else-if="form.style_actived == 10">
+                    <div v-for="(item, index) in form.img_magic_list" :key="index" :class="['img-spacing-border', { 'h': item.img.length > 0, 'style_actived_10': item.img.length == 0 }]" :style="selected_style(item)">
+                        <image-empty v-model="item.img[0]" :style="content_img_radius"></image-empty>
+                    </div>
+                </template>
                 <template v-else>
                     <div v-for="(item, index) in form.img_magic_list" :key="index" class="cube-selected img-spacing-border" :style="selected_style(item)">
                         <image-empty v-model="item.img[0]" :style="content_img_radius"></image-empty>
@@ -53,7 +58,8 @@ const spacing = computed(() => new_style.value.image_spacing / 2 + 'px');
 const content_img_radius = computed(() => radius_computer(new_style.value));
 //#region 容器大小计算
 const div_width = ref(0);
-const container_size = computed(() => div_width.value + 'px');
+const container_size = computed(() => form.value.style_actived === 10 ? '100%' : div_width.value + 'px');
+const container_size_10 = computed(() => div_width.value + 'px');
 const container = ref<HTMLElement | null>(null);
 onMounted(() => {
     if (container.value) {
@@ -128,6 +134,9 @@ const style_img_container = computed(() => common_img_computer(new_style.value.c
 }
 .img-spacing-border {
     padding: v-bind(spacing);
+}
+.style_actived_10 {
+    height: v-bind(container_size_10) !important;
 }
 .style-size {
     height: 100%;

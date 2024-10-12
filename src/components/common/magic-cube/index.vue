@@ -13,17 +13,20 @@
                     <icon name="close" color="f" size="8"></icon>
                 </div>
                 <template v-if="item.img && !isEmpty(item.img[0] || '') && props.type == 'img'">
-                    <image-empty v-model="item.img[0]"></image-empty>
+                    <image-empty v-model="item.img[0]" :fit="styleActived == 10 ? 'contain' : 'cover'"></image-empty>
                 </template>
                 <template v-else>
                     <div class="cube-selected-text">
-                        {{ Math.round((750 / densityNum) * (item.end.x - item.start.x + 1)) }}
-                        x
-                        {{ Math.round((750 / densityNum) * (item.end.y - item.start.y + 1)) }}
-                        像素
-                        <template v-if="props.type == 'data'">
-                            <div>{{ data_title(item) }}</div>
+                        <template v-if="styleActived !== 10">
+                            {{ Math.round((750 / densityNum) * (item.end.x - item.start.x + 1)) }}
+                            x
+                            {{ Math.round((750 / densityNum) * (item.end.y - item.start.y + 1)) }}
+                            像素
+                            <template v-if="props.type == 'data'">
+                                <div>{{ data_title(item) }}</div>
+                            </template>
                         </template>
+                        <template v-else>不限尺寸</template>
                     </div>
                 </template>
             </div>
@@ -57,6 +60,7 @@ interface Props {
     type?: string;
     cubeWidth: number;
     cubeHeight: number;
+    styleActived?: number;
 }
 const props = withDefaults(defineProps<Props>(), {
     list: () => [],
@@ -64,6 +68,7 @@ const props = withDefaults(defineProps<Props>(), {
     type: 'img',
     cubeWidth: 390,
     cubeHeight: 390,
+    styleActived: 0
 });
 
 const selected_active = ref(0);
