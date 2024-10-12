@@ -287,6 +287,7 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
     top: 0;
     left: -0.2rem;
     border: 0.2rem solid $cr-main;
+    z-index: 1;
 }
 .plug-in-animation {
     transition: all 0.3s ease-in-out;
