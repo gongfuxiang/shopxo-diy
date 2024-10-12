@@ -43,7 +43,7 @@ const tabs_name = ref('tabs');
         width: 10rem;
         font-size: 1.4rem;
     }
-    .el-tabs__active-bar{
+    .el-tabs__active-bar {
         width: 100%;
     }
 }

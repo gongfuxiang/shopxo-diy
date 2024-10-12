@@ -1,7 +1,7 @@
 <template>
     <div class="setting-content">
         <template v-if="type == '1'">
-            <model-tabs-carousel-content :value="value.content" :tab-style="value.style"></model-tabs-carousel-content>
+            <model-tabs-carousel-content :value="value.content" :tab-carousel-style="value.style"></model-tabs-carousel-content>
         </template>
         <template v-if="type == '2'">
             <model-tabs-carousel-styles :value="value.style" :content="value.content"></model-tabs-carousel-styles>
