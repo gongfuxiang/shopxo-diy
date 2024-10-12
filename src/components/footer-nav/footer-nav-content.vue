@@ -21,7 +21,10 @@
             <card-container>
                 <div class="mb-12 flex-row gap-10 jc-sb">
                     <div>导航内容</div>
-                    <div class="cr-primary c-pointer" @click="reset_event">恢复默认</div>
+                    <div class="flex-row gap-10 align-c">
+                        <div class="cr-primary c-pointer" @click="sync_sys_event">同步到系统</div>
+                        <div class="cr-primary c-pointer" @click="reset_event">恢复默认</div>
+                    </div>
                 </div>
                 <div class="size-12 cr-c mb-20">图片建议宽高80*80,鼠标拖拽左侧圆点可调整导航顺序</div>
                 <div class="nav-list">
@@ -56,9 +59,15 @@
 <script setup lang="ts">
 import { cloneDeep } from 'lodash';
 import { get_math } from '@/utils';
+import DiyAPI from '@/api/tabbar';
 import defaultFooterNav from '@/config/const/footer-nav';
+const app = getCurrentInstance();
 const props = defineProps({
     value: {
+        type: Object,
+        default: () => {},
+    },
+    footerStyle: {
         type: Object,
         default: () => {},
     },
@@ -94,13 +103,26 @@ const add = () => {
     });
     emit('update:value', form.value);
 };
-interface DefaultFooterNav {
-    content: {
-        nav_content: any; // 根据实际类型替换 any
+// 同步到系统
+const sync_sys_event = () => {
+    const new_form = {
+        content: form.value,
+        style: props.footerStyle,
     };
-}
+    const clone_form = cloneDeep(new_form);
+    const new_data = {
+        type: 'home',
+        config: clone_form,
+    };
+    app?.appContext.config.globalProperties.$common.message_box('将数据同步到系统底部菜单，确定继续吗？', 'warning').then(() => {
+        DiyAPI.saveTabbar(new_data).then((res: any) => {
+            ElMessage.success('同步成功');
+        });
+    });
+};
+// 恢复默认数据
 const reset_event = () => {
-    const clone_data = cloneDeep(defaultFooterNav.value);
+    const clone_data = cloneDeep(defaultFooterNav);
     form.value.nav_content = clone_data.content.nav_content;
     emit('update:value', form.value);
 };
