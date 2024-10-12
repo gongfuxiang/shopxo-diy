@@ -22,15 +22,19 @@ const props = defineProps({
     isPercentage: {
         type: Boolean,
         default: false
+    },
+    scale: {
+        type: Number,
+        default: 1
     }
 });
 // 用于页面判断显示
 const form = reactive(props.value);
 
 const com_style = computed(() => {
-    let style = `${ set_count() } ${ gradient_handle(form.color_list, form.direction) } ${ radius_computer(form.bg_radius) }; transform: rotate(${form.panel_rotate}deg);`;
+    let style = `${ set_count() } ${ gradient_handle(form.color_list, form.direction) } ${ radius_computer(form.bg_radius, props.scale) }; transform: rotate(${form.panel_rotate}deg);`;
     if (form.border_show == '1') {
-        style += `border: ${form.border_size}px ${form.border_style} ${form.border_color};`;
+        style += `border: ${form.border_size * props.scale }px ${form.border_style} ${form.border_color};`;
     }
     return style;
 });

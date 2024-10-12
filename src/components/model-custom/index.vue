@@ -4,19 +4,19 @@
             <div class="w h re">
                 <div v-for="item in form.custom_list" :key="item.id" class="main-content" :style="{'left': percentage_count(item.location.x * scale, div_width) , 'top': percentage_count(item.location.y * scale, form.height), 'width': percentage_count(item.com_data.com_width * scale, div_width), 'height': percentage_count(item.com_data.com_height * scale, form.height)}">
                     <template v-if="item.key == 'text'">
-                        <model-text :key="item.com_data" :value="item.com_data" :source-list="form.data_source_content" :is-percentage="true"></model-text>
+                        <model-text :key="item.com_data" :value="item.com_data" :scale="scale" :source-list="form.data_source_content" :is-percentage="true"></model-text>
                     </template>
                     <template v-else-if="item.key == 'img'">
-                        <model-image :key="item.com_data" :value="item.com_data" :source-list="form.data_source_content" :is-percentage="true"></model-image>
+                        <model-image :key="item.com_data" :value="item.com_data" :scale="scale" :source-list="form.data_source_content" :is-percentage="true"></model-image>
                     </template>
                     <template v-else-if="item.key == 'auxiliary-line'">
-                        <model-lines :key="item.com_data" :value="item.com_data" :source-list="form.data_source_content" :is-percentage="true"></model-lines>
+                        <model-lines :key="item.com_data" :value="item.com_data" :scale="scale" :source-list="form.data_source_content" :is-percentage="true"></model-lines>
                     </template>
                     <template v-else-if="item.key == 'icon'">
-                        <model-icon :key="item.com_data" :value="item.com_data" :source-list="form.data_source_content" :is-percentage="true"></model-icon>
+                        <model-icon :key="item.com_data" :value="item.com_data" :scale="scale" :source-list="form.data_source_content" :is-percentage="true"></model-icon>
                     </template>
                     <template v-else-if="item.key == 'panel'">
-                        <model-panel :key="item.com_data" :value="item.com_data" :source-list="form.data_source_content" :is-percentage="true"></model-panel>
+                        <model-panel :key="item.com_data" :value="item.com_data" :scale="scale" :source-list="form.data_source_content" :is-percentage="true"></model-panel>
                     </template>
                 </div>
             </div>
@@ -45,7 +45,7 @@ const { form, new_style } = toRefs(state);
 const custom_height = computed(() => form.value.height + 'px');
 const container = ref<HTMLElement | null>(null);
 const div_width = ref(0);
-const scale = ref(0);
+const scale = ref(1);
 onMounted(() => {
     if (container.value) {
         div_width.value = container.value.offsetWidth;
