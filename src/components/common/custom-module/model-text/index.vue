@@ -30,6 +30,10 @@ const props = defineProps({
     isPercentage: {
         type: Boolean,
         default: false
+    },
+    scale: {
+        type: Number,
+        default: 1
     }
 });
 // 用于页面判断显示
@@ -47,7 +51,8 @@ const text_title = computed(() => {
 });
 
 const text_style = computed(() => {
-    let style = `font-size: ${ form.text_size }px;line-height: ${ form.text_size }px;color: ${ form.text_color }; text-align: ${ form.text_location }; transform: rotate(${form.text_rotate}deg);text-decoration: ${ form.text_option };${ padding_computer(form.text_padding) };`;
+    console.log(form.text_size * props.scale);
+    let style = `font-size: ${ form.text_size * props.scale }px;line-height: ${ form.text_size * props.scale}px;color: ${ form.text_color }; text-align: ${ form.text_location }; transform: rotate(${form.text_rotate}deg);text-decoration: ${ form.text_option };${ padding_computer(form.text_padding, props.scale) };`;
     if (form.text_weight == 'italic') {
         style += `font-style: italic`;
     } else if (form.text_weight == '500') {
@@ -57,7 +62,7 @@ const text_style = computed(() => {
 });
 
 const com_style = computed(() => {
-    let style = `${ set_count() } ${ gradient_handle(form.color_list, form.direction) } ${ radius_computer(form.bg_radius) }`;
+    let style = `${ set_count() } ${ gradient_handle(form.color_list, form.direction) } ${ radius_computer(form.bg_radius, props.scale) }`;
     if (form.border_show == '1') {
         style += `border: ${form.border_size}px ${form.border_style} ${form.border_color};`;
     }

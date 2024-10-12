@@ -152,8 +152,8 @@ export function gradient_handle(color_list: color_list[], direction: string, is_
  * @param {string[], string} path
  * @returns {string}
  */
-export function padding_computer(new_style: paddingStyle) {
-    return `padding: ${new_style.padding_top || 0}px ${new_style.padding_right || 0}px ${new_style.padding_bottom || 0}px ${new_style.padding_left || 0}px;`;
+export function padding_computer(new_style: paddingStyle, scale: number = 1) {
+    return `padding: ${new_style.padding_top * scale || 0}px ${new_style.padding_right * scale || 0}px ${new_style.padding_bottom * scale || 0}px ${new_style.padding_left * scale || 0}px;`;
 }
 
 /**
@@ -172,8 +172,8 @@ export function margin_computer(new_style: marginStyle) {
  * @param {string[], string} path
  * @returns {string}
  */
-export function radius_computer(new_style: radiusStyle) {
-    return `border-radius: ${new_style.radius_top_left || 0}px ${new_style.radius_top_right || 0}px ${new_style.radius_bottom_right || 0}px ${new_style.radius_bottom_left || 0}px;`;
+export function radius_computer(new_style: radiusStyle, scale: number = 1) {
+    return `border-radius: ${new_style.radius_top_left * scale || 0}px ${new_style.radius_top_right * scale || 0}px ${new_style.radius_bottom_right * scale || 0}px ${new_style.radius_bottom_left * scale || 0}px;`;
 }
 
 /**

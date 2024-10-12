@@ -23,6 +23,10 @@ const props = defineProps({
     isPercentage: {
         type: Boolean,
         default: false
+    },
+    scale: {
+        type: Number,
+        default: 1
     }
 });
 // 用于页面判断显示
@@ -40,13 +44,13 @@ const img = computed(() => {
 });
 
 const image_style = computed(() => {
-    return `${ set_count() };transform: rotate(${form.img_rotate}deg); ${ radius_computer(form.img_radius) };`;
+    return `${ set_count() };transform: rotate(${form.img_rotate}deg); ${ radius_computer(form.img_radius, props.scale) };`;
 });
 
 const border_style = computed(() => {
     let style = ``;
     if (form.border_show == '1') {
-        style += `border: ${form.border_size}px ${form.border_style} ${form.border_color}; ${ radius_computer(form.border_radius) };`
+        style += `border: ${form.border_size * props.scale}px ${form.border_style} ${form.border_color}; ${ radius_computer(form.border_radius, props.scale) };`
     }
     return style;
 });
