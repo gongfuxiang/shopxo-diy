@@ -108,7 +108,7 @@ onMounted(() => {
 const img_size = computed(() => (new_style.value?.img_size || '0') + 'px');
 // 每个导航所占位置
 const group_width = computed(() => `${100 / (form.value.single_line || 4)}%`);
-// 是否显示文字和图片
+// 是否显示标题和图片
 const nav_style = computed(() => form.value?.nav_style || 'image_with_text');
 
 const nav_content_list = computed(() => {

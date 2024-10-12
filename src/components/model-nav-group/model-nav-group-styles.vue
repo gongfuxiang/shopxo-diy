@@ -3,10 +3,11 @@
         <el-form :model="form" label-width="80">
             <card-container>
                 <div class="mb-12">导航组</div>
-                <el-form-item label="间距">
+                <el-form-item label="数据间距">
                     <slider v-model="form.space"></slider>
                 </el-form-item>
             </card-container>
+            <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">图片样式</div>
                 <el-form-item label="图片圆角">

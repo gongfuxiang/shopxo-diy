@@ -28,10 +28,12 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    // 是否为tabs
     isTabs: {
         type: Boolean,
         default: false,
     },
+    // 当前选中的tabs
     activeIndex: {
         type: Number,
         default: 0,
