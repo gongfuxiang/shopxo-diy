@@ -105,7 +105,7 @@ onBeforeMount(() => {
 });
 // 处理显示的图片和传递到下去的数据结构
 const model_data_source = ref<data_list[]>([]);
-const is_show_more = ref(true);
+const is_show_more = ref(false);
 const processing_data = (key: string) => {
     const list = options.value.filter((item) => item.type == key);
     if (list.length > 0) {

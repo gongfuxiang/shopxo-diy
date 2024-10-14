@@ -24,12 +24,22 @@
                 <div class="flex-row align-c jc-sb">已选组件<span class="clear-selection" @click="cancel">清除选中</span></div>
                 <div ref="left_scrollTop" class="drawer-drag-area">
                     <VueDraggable v-model="diy_data" :animation="500" target=".sort-target" :scroll="true" @sort="on_sort">
-                        <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col">
+                        <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col h">
                             <template v-if="!isEmpty(diy_data)">
-                                <li v-for="(item, index) in diy_data" :key="index" :class="['flex-row ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-custom-drag-bg': item.show_tabs == '1' }]" @click="on_choose(index, item.show_tabs)">
+                                <li v-for="(item, index) in diy_data" :key="index" :class="['flex-row gap-y-8 re align-c drawer-drag', { 'drawer-custom-drag-bg': item.show_tabs == '1' }]" @click="on_choose(index, item.show_tabs)" @dblclick="double_click(index)">
                                     <el-icon class="iconfont icon-drag size-16 cr-d" />
-                                    <span class="size-12 cr-6">{{ item.name }}</span>
-                                    <el-icon class="iconfont icon-close-b size-16 abs" :style="[item.show_tabs == '1' ? '' : 'display:none']" @click.stop="del(index)" />
+                                    <div class="text-line-1 flex align-c" style="width: 70%;">
+                                        <template v-if="edit_index == index">
+                                            <el-input v-model="item.new_name" placeholder="请输入组件别名" size="small" clearable type="textarea" class="flex-1 do-not-trigger" :rows="1" />
+                                        </template>
+                                        <template v-else>
+                                            <span class="size-12 cr-6 break">{{ !isEmpty(item.new_name) ? item.new_name : item.name  }}</span>
+                                        </template>
+                                    </div>
+                                    <div class="abs draggable-icon" :style="item.show_tabs == '1' ? 'opacity: 1;' : 'opacity: 0.5;'">
+                                        <el-icon class="iconfont icon-commodity-edit size-16 cr-primary do-not-trigger two-click"  @click="on_edit(index)" />
+                                        <el-icon class="iconfont icon-close-b size-16" @click.stop="del(index)" />
+                                    </div>
                                 </li>
                             </template>
                             <div v-else class="w h flex jc-c align-c">
@@ -44,9 +54,11 @@
     <!-- 视图渲染 -->
     <div class="main">
         <div class="model-content">
-            <div class="plug-in-right" chosenClass="close">
-                <el-icon class="iconfont icon-del" @click.stop="del(select_index)" />
-                <el-icon class="iconfont icon-copy" @click.stop="copy(select_index)" />
+            <div v-if="typeof select_index === 'number' && !isNaN(select_index)" class="acticons">
+                <div class="plug-in-right" chosenClass="close">
+                    <el-icon class="iconfont icon-del" @click.stop="del(select_index)" />
+                    <el-icon class="iconfont icon-copy" @click.stop="copy(select_index)" />
+                </div>
             </div>
             <!-- 拖拽区 -->
             <div class="model-drag">
@@ -120,26 +132,31 @@ const components = reactive([
             {
                 key: 'text',
                 name: '文本',
+                new_name: '',
                 com_data: text_com_data
             },
             {
                 key: 'img',
                 name: '图片',
+                new_name: '',
                 com_data: img_com_data,
             },
             {
                 key: 'auxiliary-line',
                 name: '线条',
+                new_name: '',
                 com_data: line_com_data,
             },
             {
                 key: 'icon',
                 name: '图标',
+                new_name: '',
                 com_data: icon_com_data,
             },
             {
                 key: 'panel',
                 name: '面板',
+                new_name: '',
                 com_data: panel_com_data,
             },
         ],
@@ -169,10 +186,53 @@ const diy_data = toRef(props.list);
 //         on_choose(0, false);
 //     }
 // });
+onMounted(() => {
+    // 监听点击事件
+    document.addEventListener('click', outerClick);
+});
+onUnmounted(() => {
+    // 移除监听事件
+    document.removeEventListener('click', outerClick);
+});
 
+const edit_index = ref(-1);
+const on_edit = (index: number) => {
+    if (edit_index.value === index) {
+        edit_close_processing(index);
+        edit_index.value = -1;
+    } else {
+        edit_index.value = index;
+        edit_processing(index);
+    }
+};
+// 判断点击的是否是可以点击的区域，其他区域隐藏掉编辑属性
+const outerClick = (e: any) => {
+    if (!e.target.className.includes('do-not-trigger') && !e.target.parentNode.className.includes('do-not-trigger')) {
+        edit_close_processing(edit_index.value);
+        edit_index.value = -1;
+    }
+};
+const double_click = (index: number) => {
+    edit_index.value = index;
+    edit_processing(index);
+};
+// 编辑时的数据处理
+const edit_processing = (index: number) => {
+    const list = diy_data.value[index];
+    if (!isEmpty(list) && isEmpty(list.new_name)) {
+        list.new_name = list.name;
+    }
+};
+//编辑关闭前的处理
+const edit_close_processing = (index: number) => {
+    const list = diy_data.value[index];
+    if (!isEmpty(list) && !isEmpty(list.new_name) && list.new_name === list.name) {
+        list.new_name = '';
+    }
+};
 // 复制
 const copy = (index: null | number) => {
-    if (index) {
+    if (typeof index === 'number' && !isNaN(index)) {
         // 获取当前数据, 复制的时候id更换一下
         const new_data = {
             ...cloneDeep(get_diy_index_data(index)),
@@ -186,23 +246,29 @@ const copy = (index: null | number) => {
 
 // 删除
 const del = (index: null | number) => {
-    if (index) {
+    if (typeof index === 'number' && !isNaN(index)) {
         app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
             ElMessage({
                 type: 'success',
                 message: '删除成功!',
             });
-            // 调用删除接口，然后，更新数据
-            diy_data.value.splice(index, 1);
-            if (diy_data.value.length > 0) {
-                let new_index: number = index;
-                // 删除的时候如果大于0，则显示上边的数据
-                if (index > 0) {
-                    new_index = new_index - 1;
+            const show_tabs_index = diy_data.value.findIndex((item: any) => item.show_tabs == '1');
+            // 删除的是当前的这个数据
+            if (show_tabs_index == index) {
+                // 调用删除接口，然后，更新数据
+                diy_data.value.splice(index, 1);
+                if (diy_data.value.length > 0) {
+                    let new_index: number = index;
+                    // 删除的时候如果大于0，则显示上边的数据
+                    if (index > 0) {
+                        new_index = new_index - 1;
+                    }
+                    set_show_tabs(new_index);
+                } else {
+                    emits('rightUpdate', {});
                 }
-                set_show_tabs(new_index);
             } else {
-                emits('rightUpdate', {});
+                diy_data.value.splice(index, 1);
             }
         });
     }
