@@ -342,3 +342,15 @@
     word-wrap: break-word;
     word-break:break-all;
 }
+
+.plug-in-show-component-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 0.1rem dashed #999;
+    border-radius: inherit;
+    pointer-events: none; /* 防止影子部分阻止鼠标事件 */
+}

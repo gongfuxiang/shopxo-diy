@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "42097664",
+      "name": "取消置底",
+      "font_class": "cancel-bottom-placement",
+      "unicode": "e79f",
+      "unicode_decimal": 59295
+    },
+    {
+      "icon_id": "42097665",
+      "name": "置底",
+      "font_class": "bottom-up",
+      "unicode": "e7a0",
+      "unicode_decimal": 59296
+    },
+    {
       "icon_id": "7561087",
       "name": "域名服务",
       "font_class": "domain",
@@ -21,7 +35,7 @@
     },
     {
       "icon_id": "38735708",
-      "name": "yinyong-shangchuan",
+      "name": "文件上传",
       "font_class": "upload-file",
       "unicode": "e72d",
       "unicode_decimal": 59181
@@ -302,14 +316,14 @@
     {
       "icon_id": "40047124",
       "name": "进销存左箭头",
-      "font_class": "arrow-left1",
+      "font_class": "arrow-left",
       "unicode": "e73f",
       "unicode_decimal": 59199
     },
     {
       "icon_id": "40047129",
       "name": "进销存右箭头",
-      "font_class": "arrow-right1",
+      "font_class": "arrow-right",
       "unicode": "e737",
       "unicode_decimal": 59191
     },
@@ -986,13 +1000,6 @@
       "unicode_decimal": 59092
     },
     {
-      "icon_id": "37356823",
-      "name": "箭头-向左",
-      "font_class": "arrow-left",
-      "unicode": "e6d1",
-      "unicode_decimal": 59089
-    },
-    {
       "icon_id": "37354114",
       "name": "扫一扫",
       "font_class": "scan",
@@ -1119,13 +1126,6 @@
       "unicode_decimal": 59073
     },
     {
-      "icon_id": "37288621",
-      "name": "箭头-向右",
-      "font_class": "arrow-right",
-      "unicode": "e6c2",
-      "unicode_decimal": 59074
-    },
-    {
       "icon_id": "37272530",
       "name": "zhibo-shixiao",
       "font_class": "zhibo-shixiao",
@@ -1156,7 +1156,7 @@
     {
       "icon_id": "37217394",
       "name": "分类更多",
-      "font_class": "categroy-more",
+      "font_class": "category-more",
       "unicode": "e6b7",
       "unicode_decimal": 59063
     },

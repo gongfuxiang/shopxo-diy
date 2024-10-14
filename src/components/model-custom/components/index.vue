@@ -21,7 +21,12 @@
         </card-container>
         <card-container class="h selected">
             <div class="flex-col gap-10 drawer-container">
-                <div class="flex-row align-c jc-sb">已选组件<span class="clear-selection" @click="cancel">清除选中</span></div>
+                <div class="flex-row align-c jc-sb">已选组件
+                    <div class="flex-row align-c gap-10">
+                        <span class="clear-selection" @click="show_computer_line">{{ !is_show_component_line ? '显示' : '关闭' }}参考线</span>
+                        <span class="clear-selection" @click="cancel">清除选中</span>
+                    </div>
+                </div>
                 <div ref="left_scrollTop" class="drawer-drag-area">
                     <VueDraggable v-model="diy_data" :animation="500" target=".sort-target" :scroll="true" @sort="on_sort">
                         <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col h">
@@ -56,8 +61,18 @@
         <div class="model-content">
             <div v-if="typeof select_index === 'number' && !isNaN(select_index)" class="acticons">
                 <div class="plug-in-right" chosenClass="close">
-                    <el-icon class="iconfont icon-del" @click.stop="del(select_index)" />
-                    <el-icon class="iconfont icon-copy" @click.stop="copy(select_index)" />
+                    <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="删除组件" placement="top">
+                        <el-icon class="iconfont icon-del" @click.stop="del(select_index)" />
+                    </el-tooltip>
+                    <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="复制组件" placement="top">
+                        <el-icon class="iconfont icon-copy" @click.stop="copy(select_index)" />
+                    </el-tooltip>
+                    <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="组件置底" placement="top">
+                        <el-icon class="iconfont icon-bottom-up" @click.stop="bottom_up(select_index)" />
+                    </el-tooltip>
+                    <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="取消置底" placement="top">
+                        <el-icon class="iconfont icon-cancel-bottom-placement" @click.stop="cancel_bottom_up(select_index)" />
+                    </el-tooltip>
                 </div>
             </div>
             <!-- 拖拽区 -->
@@ -65,9 +80,9 @@
                 <div class="model-wall">
                     <div ref="imgBoxRef" class="drag-area re dropzone" @dragover.prevent @dragenter.prevent @drop="drop">
                         <div class="w h" @mousedown.prevent="start_drag" @mousemove.prevent="move_drag" @mouseup.prevent="end_drag">
-                            <DraggableContainer v-if="draggable_container" :reference-line-visible="true" :disabled="false" reference-line-color="#ddd" @selectstart.prevent @contextmenu.prevent @dragstart.prevent>
+                            <DraggableContainer v-if="draggable_container" style="z-index:0" :reference-line-visible="true" :disabled="false" reference-line-color="#ddd" @selectstart.prevent @contextmenu.prevent @dragstart.prevent>
                                 <!-- @mouseover="on_choose(index)" -->
-                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="{ 'plug-in-show-tabs': item.show_tabs == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1', 'z-index': item.com_data.bottom_up == '1' ? 0 : 1}" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index)" @resize-end="resizingHandle($event, item.key, index)">
+                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="{'plug-in-show-component-line': is_show_component_line, 'plug-in-show-tabs': item.show_tabs == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1' }" :style="{ 'z-index': item.com_data.z_index }" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index)" @resize-end="resizingHandle($event, item.key, index)">
                                     <div :class="['main-content', { 'plug-in-border': item.show_tabs == '1' }]">
                                         <template v-if="item.key == 'text'">
                                             <model-text :key="item.id" :value="item.com_data" :source-list="props.sourceList"></model-text>
@@ -165,6 +180,14 @@ const components = reactive([
 const url_computer = (name: string) => {
     const new_url = ref(new URL(`../../../assets/images/custom/${name}.png`, import.meta.url).href).value;
     return new_url;
+};
+//#endregion
+//#region 组件边线相关
+const is_show_component_line = ref(false);
+const show_computer_line = () => {
+    is_show_component_line.value = !is_show_component_line.value;
+    // set_show_tabs(0);
+    cancel();
 };
 //#endregion
 //#region 左侧处理逻辑
@@ -273,12 +296,32 @@ const del = (index: null | number) => {
         });
     }
 };
+const bottom_up = (index: number) => {
+    console.log('bottom_up', index);
+    if (typeof index === 'number' && !isNaN(index)) {
+        if (!isEmpty(diy_data.value[index])) {
+            const new_z_index = z_index.value - 1;
+            diy_data.value[index].com_data.z_index = new_z_index;
+            z_index.value = new_z_index;
+        }
+    }
+};
+
+const cancel_bottom_up = (index: number) => {
+    if (typeof index === 'number' && !isNaN(index)) {
+        if (!isEmpty(diy_data.value[index])) {
+            diy_data.value[index].com_data.z_index = 0;
+        }
+    }
+};
+
 // 获取当前传递过来的index对应的diy_data中的数据
 const get_diy_index_data = (index: number) => {
     return (<arrayIndex>diy_data.value)[index.toString()];
 };
 // 设置当前选中的是那个
 const set_show_tabs = (index: number) => {
+    is_show_component_line.value = false;
     diy_data.value.forEach((item, for_index) => {
         // 先将全部的设置为false,再将当前选中的设置为true
         item.show_tabs = '0';
@@ -330,7 +373,7 @@ const center_height = defineModel('height', { type: Number, default: 0 });
 const drag_area_height = computed(() => center_height.value + 'px');
 const draggable_container = ref(true);
 let data = reactive<diy_content[]>([]);
-
+const z_index = ref(0);
 watch(() => center_height.value, () => {
     data = diy_data.value;
     // 从 DOM 中删除组件
@@ -352,6 +395,10 @@ watch(() => center_height.value, () => {
                 com_height: item.com_data.staging_height,
             },
         }));
+        if (diy_data.value.length > 0) {
+            const list = diy_data.value.sort((a, b) => a.com_data.z_index - b.com_data.z_index);
+            z_index.value = list[list.length - 1].com_data.z_index || 0;
+        }
         // 容器高度变化时，组件不绑定右侧数据
         emits('rightUpdate', {});
         draggable_container.value = true;
