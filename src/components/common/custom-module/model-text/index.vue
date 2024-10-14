@@ -51,7 +51,6 @@ const text_title = computed(() => {
 });
 
 const text_style = computed(() => {
-    console.log(form.text_size * props.scale);
     let style = `font-size: ${ form.text_size * props.scale }px;line-height: ${ form.text_size * props.scale}px;color: ${ form.text_color }; text-align: ${ form.text_location }; transform: rotate(${form.text_rotate}deg);text-decoration: ${ form.text_option };${ padding_computer(form.text_padding, props.scale) };`;
     if (form.text_weight == 'italic') {
         style += `font-style: italic`;

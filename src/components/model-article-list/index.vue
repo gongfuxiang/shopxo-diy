@@ -179,7 +179,7 @@ watch(
     () => data_list_computer.value,
     (new_value, old_value) => {
         // 使用JSON.stringify()进行判断 新值和旧值是否一样 不一样就重新获取数据
-        if (JSON.stringify(new_value) !== JSON.stringify(old_value)) {
+        if ((JSON.stringify(new_value) !== JSON.stringify(old_value)) || props.isCommonStyle) {
             if (new_value.data_type == '1') {
                 get_auto_data_list();
             } else {

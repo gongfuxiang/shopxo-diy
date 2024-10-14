@@ -20,13 +20,23 @@
             <slider v-model="center_height" :max="1000">组件高度</slider>
         </card-container>
         <card-container class="h selected">
-            <div class="mb-12 flex-row align-c jc-sb">已选组件<span class="clear-selection" @click="cancel">清除选中</span></div>
-            <div class="assembly">
-                <div v-if="!isEmpty(diy_data)" class="flex-row flex-wrap gap-10">
-                    <div v-for="(item, index) in diy_data" :key="index" class="item flex jc-sb align-c size-14 cr-3" :class="{ 'item-active': item.show_tabs == '1' }" @click="on_choose(index, item.show_tabs)">{{ item.name }}<icon name="close" color="3" size="10" class="c-pointer" @click="del(index)"></icon></div>
-                </div>
-                <div v-else class="w h flex jc-c align-c">
-                    <no-data></no-data>
+            <div class="flex-col gap-10 drawer-container">
+                <div class="flex-row align-c jc-sb">已选组件<span class="clear-selection" @click="cancel">清除选中</span></div>
+                <div ref="left_scrollTop" class="drawer-drag-area">
+                    <VueDraggable v-model="diy_data" :animation="500" target=".sort-target" :scroll="true" @sort="on_sort">
+                        <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col">
+                            <template v-if="!isEmpty(diy_data)">
+                                <li v-for="(item, index) in diy_data" :key="index" :class="['flex-row ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-custom-drag-bg': item.show_tabs == '1' }]" @click="on_choose(index, item.show_tabs)">
+                                    <el-icon class="iconfont icon-drag size-16 cr-d" />
+                                    <span class="size-12 cr-6">{{ item.name }}</span>
+                                    <el-icon class="iconfont icon-close-b size-16 abs" :style="[item.show_tabs == '1' ? '' : 'display:none']" @click.stop="del(index)" />
+                                </li>
+                            </template>
+                            <div v-else class="w h flex jc-c align-c">
+                                <no-data></no-data>
+                            </div>
+                        </TransitionGroup>
+                    </VueDraggable>
                 </div>
             </div>
         </card-container>
@@ -34,6 +44,10 @@
     <!-- 视图渲染 -->
     <div class="main">
         <div class="model-content">
+            <div class="plug-in-right" chosenClass="close">
+                <el-icon class="iconfont icon-del" @click.stop="del(select_index)" />
+                <el-icon class="iconfont icon-copy" @click.stop="copy(select_index)" />
+            </div>
             <!-- 拖拽区 -->
             <div class="model-drag">
                 <div class="model-wall">
@@ -41,12 +55,8 @@
                         <div class="w h" @mousedown.prevent="start_drag" @mousemove.prevent="move_drag" @mouseup.prevent="end_drag">
                             <DraggableContainer v-if="draggable_container" :reference-line-visible="true" :disabled="false" reference-line-color="#ddd" @selectstart.prevent @contextmenu.prevent @dragstart.prevent>
                                 <!-- @mouseover="on_choose(index)" -->
-                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="{ 'plug-in-show-tabs': item.show_tabs == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1'}" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index)" @resize-end="resizingHandle($event, item.key, index)">
-                                    <div v-if="item.show_tabs == '1'" class="plug-in-right" chosenClass="close">
-                                        <el-icon class="iconfont icon-del" @click.stop="del(index)" />
-                                        <el-icon class="iconfont icon-copy" @click.stop="copy(index)" />
-                                    </div>
-                                    <div :class="['main-content', { 'plug-in-border': item.show_tabs == '1' }]" :style="{ 'z-index': item.com_data.bottom_up == '1' ? 0 : 1 }">
+                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="{ 'plug-in-show-tabs': item.show_tabs == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1', 'z-index': item.com_data.bottom_up == '1' ? 0 : 1}" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index)" @resize-end="resizingHandle($event, item.key, index)">
+                                    <div :class="['main-content', { 'plug-in-border': item.show_tabs == '1' }]">
                                         <template v-if="item.key == 'text'">
                                             <model-text :key="item.id" :value="item.com_data" :source-list="props.sourceList"></model-text>
                                         </template>
@@ -89,6 +99,7 @@
 import { cloneDeep, isEmpty } from 'lodash';
 import { get_math } from '@/utils';
 import { text_com_data, img_com_data, line_com_data, icon_com_data, panel_com_data, isRectangleIntersecting } from "./index-default";
+import { SortableEvent, VueDraggable } from 'vue-draggable-plus';
 // 删除
 const app = getCurrentInstance();
 //#region 传递参数和传出数据的处理
@@ -139,6 +150,15 @@ const url_computer = (name: string) => {
     return new_url;
 };
 //#endregion
+//#region 左侧处理逻辑
+const select_index = ref<null | number>(null);
+// 任何行动都会触发
+const on_sort = (item: SortableEvent) => {
+    let index = item?.newIndex || 0;
+    // 设置对应的位置为显示
+    set_show_tabs(index);
+};
+//#endregion 
 //#region 中间区域的处理逻辑
 const diy_data = toRef(props.list);
 
@@ -151,37 +171,41 @@ const diy_data = toRef(props.list);
 // });
 
 // 复制
-const copy = (index: number) => {
-    // 获取当前数据, 复制的时候id更换一下
-    const new_data = {
-        ...cloneDeep(get_diy_index_data(index)),
-        id: get_math(),
-    };
-    // 在当前位置下插入数据
-    diy_data.value.splice(index, 0, new_data);
-    set_show_tabs(index + 1);
+const copy = (index: null | number) => {
+    if (index) {
+        // 获取当前数据, 复制的时候id更换一下
+        const new_data = {
+            ...cloneDeep(get_diy_index_data(index)),
+            id: get_math(),
+        };
+        // 在当前位置下插入数据
+        diy_data.value.splice(index, 0, new_data);
+        set_show_tabs(index + 1);
+    }
 };
 
 // 删除
-const del = (index: number) => {
-    app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
-        ElMessage({
-            type: 'success',
-            message: '删除成功!',
-        });
-        // 调用删除接口，然后，更新数据
-        diy_data.value.splice(index, 1);
-        if (diy_data.value.length > 0) {
-            let new_index: number = index;
-            // 删除的时候如果大于0，则显示上边的数据
-            if (index > 0) {
-                new_index = new_index - 1;
+const del = (index: null | number) => {
+    if (index) {
+        app?.appContext.config.globalProperties.$common.message_box('删除后不可恢复，确定继续吗?', 'warning').then(() => {
+            ElMessage({
+                type: 'success',
+                message: '删除成功!',
+            });
+            // 调用删除接口，然后，更新数据
+            diy_data.value.splice(index, 1);
+            if (diy_data.value.length > 0) {
+                let new_index: number = index;
+                // 删除的时候如果大于0，则显示上边的数据
+                if (index > 0) {
+                    new_index = new_index - 1;
+                }
+                set_show_tabs(new_index);
+            } else {
+                emits('rightUpdate', {});
             }
-            set_show_tabs(new_index);
-        } else {
-            emits('rightUpdate', {});
-        }
-    });
+        });
+    }
 };
 // 获取当前传递过来的index对应的diy_data中的数据
 const get_diy_index_data = (index: number) => {
@@ -193,8 +217,28 @@ const set_show_tabs = (index: number) => {
         // 先将全部的设置为false,再将当前选中的设置为true
         item.show_tabs = '0';
         if (for_index == index) {
+            select_index.value = for_index;
             item.show_tabs = '1';
+            scroll();
             emits('rightUpdate', item);
+        }
+    });
+};
+// 左边已选组件的滚动效果
+const left_scrollTop = ref<HTMLElement | null>(null);
+const left_activeCard = ref<HTMLElement | null>(null);
+// 滚动到指定位置
+const scroll = () => {
+    nextTick(() => {
+        // 左边已选组件的滚动效果
+        left_activeCard.value = document.querySelector('.drawer-custom-drag-bg');
+        if (left_activeCard.value) {
+            // 获取选中内容的位置
+            const left_scrollY = left_activeCard.value.offsetTop;
+            if (left_scrollTop.value) {
+                // 选中的滚动到指定位置
+                left_scrollTop.value.scrollTo({ top: left_scrollY - 200, behavior: 'smooth' });
+            }
         }
     });
 };
@@ -211,6 +255,7 @@ const cancel = () => {
     diy_data.value.forEach((item) => {
         item.show_tabs = '0';
     });
+    select_index.value = null;
     emits('rightUpdate', {});
 };
 //#endregion
@@ -387,6 +432,7 @@ const end_drag = (event: MouseEvent) => {
         diy_data.value.forEach((item: any) => {
             item.show_tabs = '0';
         });
+        select_index.value = null;
         emits('rightUpdate', {});
     }
     rect_start.value = { x: 0, y: 0, width: 0, height: 0 };

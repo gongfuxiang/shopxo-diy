@@ -249,3 +249,31 @@
     cursor: pointer;
     color: $cr-main;
 }
+
+.drawer-container {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    .drawer-custom-drag-bg {
+        background: #f2f8ff;
+    }
+    .drawer-drag-area {
+        height: 100%;
+        overflow-y: auto;
+    }
+    .drawer-drag {
+        cursor: move;
+    }
+    .drawer-drag:hover {
+        background: #f2f8ff;
+        .iconfont.icon-close-b {
+            display: block !important;
+        }
+    }
+    .iconfont.icon-close-b {
+        right: 1rem;
+        top: 1.4rem;
+        color: #8a8a8a;
+        cursor: pointer;
+    }
+}

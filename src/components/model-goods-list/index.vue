@@ -265,13 +265,13 @@ const get_products = () => {
 };
 // 取出监听的数据
 const watch_data = computed(() => {
-    const { category_ids, brand, number, order_by_type, order_by_rule, data_type, data_list } = form.value;
-    return { category_ids: category_ids, brand: brand, number: number, order_by_type: order_by_type, order_by_rule: order_by_rule, data_type: data_type, data_list: data_list };
+    const { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, data_list } = form.value;
+    return { category_ids: category_ids, brand_ids: brand_ids, number: number, order_by_type: order_by_type, order_by_rule: order_by_rule, data_type: data_type, data_list: data_list };
 })
 // 初始化的时候不执行, 监听数据变化
 watch(() => watch_data.value, (val, oldVal) => {
     // 使用JSON.stringify()进行判断 新值和旧值是否一样 不一样就重新获取数据
-    if (JSON.stringify(val) !== JSON.stringify(oldVal)) {
+    if ((JSON.stringify(val) !== JSON.stringify(oldVal)) || props.isCommonStyle) {
         if (val.data_type == '0') {
             if (!isEmpty(val.data_list)) {
                 list.value = cloneDeep(val.data_list).map((item: any) => ({
