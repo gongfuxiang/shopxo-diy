@@ -159,7 +159,9 @@ const accomplish = () => {
     if (!draglist.value) {
         return;
     } else {
+        // 规整数据逻辑
         const list = draglist.value.diy_data.sort((a, b) => a.com_data.z_index - b.com_data.z_index);
+        // 将z-index重置为初始效果
         let z_index = 0;
         if (list.length > 0) {
             list.forEach((item) => {
@@ -170,7 +172,6 @@ const accomplish = () => {
                 }
             });
         }
-        console.log(draglist.value.diy_data);
         form.custom_list = draglist.value.diy_data;
     }
     form.height = center_height.value;

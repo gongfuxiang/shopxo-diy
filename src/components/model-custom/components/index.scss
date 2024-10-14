@@ -134,30 +134,6 @@
             box-shadow: 0rem 0 0rem 0.1rem $cr-main;
             border: 0;
         }
-        .plug-in-right {
-            cursor: default;
-            background: $cr-main;
-            // position: absolute;
-            // right: -5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-            padding: 2rem 1.2rem;
-            color: #fff;
-            border-radius: 0.4rem;
-            z-index: 2;
-            & > i {
-                cursor: pointer;
-            }
-            & > i.disabled {
-                color: #5db2ff;
-                cursor: not-allowed;
-            }
-            & .icon-arrow-top,
-            & .icon-arrow-bottom {
-                height: 0.9rem;
-            }
-        }
         .area-box {
             position: absolute;
             background: rgba(42, 148, 255, 0.25);
@@ -294,17 +270,6 @@
 .clear-selection {
     cursor: pointer;
     color: $cr-main;
-}
-.acticons {
-    position: absolute;
-    left: 50%;
-    margin-left: 23rem;
-    top: 50%;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    z-index: 1;
-    transform: translate(-50%, -50%);
 }
 
 .drawer-container {

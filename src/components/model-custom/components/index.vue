@@ -59,22 +59,7 @@
     <!-- 视图渲染 -->
     <div class="main">
         <div class="model-content">
-            <div v-if="typeof select_index === 'number' && !isNaN(select_index)" class="acticons">
-                <div class="plug-in-right" chosenClass="close">
-                    <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="删除组件" placement="top">
-                        <el-icon class="iconfont icon-del" @click.stop="del(select_index)" />
-                    </el-tooltip>
-                    <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="复制组件" placement="top">
-                        <el-icon class="iconfont icon-copy" @click.stop="copy(select_index)" />
-                    </el-tooltip>
-                    <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="组件置底" placement="top">
-                        <el-icon class="iconfont icon-bottom-up" @click.stop="bottom_up(select_index)" />
-                    </el-tooltip>
-                    <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="取消置底" placement="top">
-                        <el-icon class="iconfont icon-cancel-bottom-placement" @click.stop="cancel_bottom_up(select_index)" />
-                    </el-tooltip>
-                </div>
-            </div>
+            <right-side-operation v-if="typeof select_index === 'number' && !isNaN(select_index)" v-model="select_index" @del="del" @copy="copy" @previous_layer="previous_layer" @underlying_layer="underlying_layer" @top_up="top_up" @bottom_up="bottom_up"></right-side-operation>
             <!-- 拖拽区 -->
             <div class="model-drag">
                 <div class="model-wall">
@@ -296,24 +281,64 @@ const del = (index: null | number) => {
         });
     }
 };
-const bottom_up = (index: number) => {
-    console.log('bottom_up', index);
-    if (typeof index === 'number' && !isNaN(index)) {
-        if (!isEmpty(diy_data.value[index])) {
-            const new_z_index = z_index.value - 1;
-            diy_data.value[index].com_data.z_index = new_z_index;
-            z_index.value = new_z_index;
+//前置一层 + 1
+const previous_layer = (index: number) => {
+    if (diy_data.value.length > 0) {
+        const old_z_index = cloneDeep(diy_data.value[index].com_data.z_index);
+        // 数据排序
+        const list = cloneDeep(diy_data.value).sort((a, b) => a.com_data.z_index - b.com_data.z_index);
+        // 找到当前元素的索引
+        const regular_index = list.findIndex(item => item.com_data.z_index == old_z_index);
+        if (regular_index + 1 <= diy_data.value.length - 1) {
+            // 取出上一个的值
+            const new_z_index = list[regular_index + 1].com_data.z_index;
+            // 替换原始数组中的值
+            const new_regular_index_1 = diy_data.value.findIndex(item => item.com_data.z_index == old_z_index);
+            const new_regular_index_2 = diy_data.value.findIndex(item => item.com_data.z_index == new_z_index);
+            // 数据互换
+            diy_data.value[new_regular_index_1].com_data.z_index = new_z_index;
+            diy_data.value[new_regular_index_2].com_data.z_index = old_z_index;
         }
     }
-};
+}
 
-const cancel_bottom_up = (index: number) => {
-    if (typeof index === 'number' && !isNaN(index)) {
-        if (!isEmpty(diy_data.value[index])) {
-            diy_data.value[index].com_data.z_index = 0;
+//后置一层 - 1
+const underlying_layer = (index: number) => {
+    if (diy_data.value.length > 0) {
+        const old_z_index = cloneDeep(diy_data.value[index].com_data.z_index);
+        // 数据排序
+        const list = cloneDeep(diy_data.value).sort((a, b) => a.com_data.z_index - b.com_data.z_index);
+        // 找到当前元素的索引
+        const regular_index = list.findIndex(item => item.com_data.z_index == old_z_index);
+        if (regular_index - 1 >= 0) {
+            // 取出上一个的值
+            const new_z_index = list[regular_index - 1].com_data.z_index;
+            // 替换原始数组中的值
+            const new_regular_index_1 = diy_data.value.findIndex(item => item.com_data.z_index == old_z_index);
+            const new_regular_index_2 = diy_data.value.findIndex(item => item.com_data.z_index == new_z_index);
+            // 数据互换
+            diy_data.value[new_regular_index_1].com_data.z_index = new_z_index;
+            diy_data.value[new_regular_index_2].com_data.z_index = old_z_index;
         }
     }
-};
+}
+//组件置顶
+const top_up = (index: number) => {
+    if (!isEmpty(diy_data.value[index])) {
+        const new_z_index = top_z_index.value + 1;
+        diy_data.value[index].com_data.z_index = new_z_index;
+        top_z_index.value = new_z_index;
+    }
+}
+
+//组件置底
+const bottom_up = (index: number) => {
+    if (!isEmpty(diy_data.value[index])) {
+        const new_z_index = z_index.value - 1;
+        diy_data.value[index].com_data.z_index = new_z_index;
+        z_index.value = new_z_index;
+    }
+}
 
 // 获取当前传递过来的index对应的diy_data中的数据
 const get_diy_index_data = (index: number) => {
@@ -373,14 +398,17 @@ const center_height = defineModel('height', { type: Number, default: 0 });
 const drag_area_height = computed(() => center_height.value + 'px');
 const draggable_container = ref(true);
 let data = reactive<diy_content[]>([]);
+// 最低的层级
 const z_index = ref(0);
+// 最高的层级
+const top_z_index = ref(0);
 watch(() => center_height.value, () => {
     data = diy_data.value;
     // 从 DOM 中删除组件
     draggable_container.value = false;
     nextTick(() => {
         // 在 DOM 中添加组件
-        diy_data.value = data.map((item) => ({
+        diy_data.value = data.map((item, index) => ({
             ...item,
             show_tabs: '0',
             location: {
@@ -392,12 +420,26 @@ watch(() => center_height.value, () => {
             },
             com_data: {
                 ...item.com_data,
+                z_index: typeof item.com_data.z_index === 'number' && !isNaN(item.com_data.z_index) ? item.com_data.z_index : 0,
                 com_height: item.com_data.staging_height,
             },
         }));
         if (diy_data.value.length > 0) {
             const list = diy_data.value.sort((a, b) => a.com_data.z_index - b.com_data.z_index);
-            z_index.value = list[list.length - 1].com_data.z_index || 0;
+            // 将z-index重置为初始效果
+            let list_z_index = -1;
+            // 设置默认值
+            list.forEach((item) => {
+                if (item.com_data.z_index == 0) {
+                    const new_z_index = list_z_index + 1;
+                    item.com_data.z_index = new_z_index;
+                    list_z_index = new_z_index;
+                }
+            });
+            // 获取更新后的数据
+            const new_list = list.sort((a, b) => a.com_data.z_index - b.com_data.z_index);
+            z_index.value = new_list[0].com_data.z_index || 0;
+            top_z_index.value = new_list[new_list.length - 1].com_data.z_index || 0;
         }
         // 容器高度变化时，组件不绑定右侧数据
         emits('rightUpdate', {});
@@ -408,6 +450,7 @@ watch(() => center_height.value, () => {
 //#region 左侧拖拽过来的处理
 let draggedItem = ref<any>({});
 const dragStart = (item: any, event: any) => {
+    const new_z_index = top_z_index.value + 1;
     // 初始化拖拽的数据
     draggedItem.value = {
         name: item.name,
@@ -418,8 +461,12 @@ const dragStart = (item: any, event: any) => {
         id: get_math(),
         key: item.key,
         is_hot: '0',
-        com_data: cloneDeep(item.com_data),
+        com_data: {
+            ...cloneDeep(item.com_data),
+            z_index: new_z_index,
+        },
     };
+    top_z_index.value = new_z_index;
     // 拖拽的时候清空热区
     hot_list.data = [];
 };

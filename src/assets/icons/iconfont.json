@@ -6,11 +6,11 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "42097664",
-      "name": "取消置底",
-      "font_class": "cancel-bottom-placement",
-      "unicode": "e79f",
-      "unicode_decimal": 59295
+      "icon_id": "42105733",
+      "name": "置顶",
+      "font_class": "top-up",
+      "unicode": "e7a1",
+      "unicode_decimal": 59297
     },
     {
       "icon_id": "42097665",
