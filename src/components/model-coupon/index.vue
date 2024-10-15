@@ -283,8 +283,8 @@ const theme_7_background_style = computed(() => {
         flex-basis: auto;
         flex-shrink: 0;
         background: v-bind('theme_style.background');
-        width: 9rem;
-        height: 9rem;
+        width: 8.4rem;
+        height: 8.4rem;
         border-radius: 1rem;
         margin-top: 1rem;
         .name {
@@ -327,7 +327,7 @@ const theme_7_background_style = computed(() => {
             background: v-bind('theme_style.btn_background');
             border-radius: 2.3rem;
             position: relative;
-            top: -0.2rem;
+            top: -0.5rem;
         }
     }
 }
@@ -685,8 +685,8 @@ const theme_7_background_style = computed(() => {
         flex-shrink: 0;
         border-radius: 1.2rem;
         padding: 0.6rem;
-        width: 14rem;
-        height: 10rem;
+        width: 13.4rem;
+        height: 9.4rem;
         position: relative;
         background: v-bind('theme_style.background');
         .top {
@@ -747,12 +747,12 @@ const theme_7_background_style = computed(() => {
             }
         }
         .bottom {
-            margin-top: 0.6rem;
+            margin-top: 0.4rem;
             text-align: center;
             .coupon-btn {
                 color: v-bind('theme_style.btn_color');
                 position: relative;
-                font-size: 1.6rem;
+                font-size: 1.4rem;
                 line-height: 2.2rem;
                 font-weight: 500;
                 text-align: center;

@@ -26,6 +26,7 @@ watch(
         content.value = new_content.html;
         style_container.value = common_styles_computer(new_style.common_style);
         style_img_container.value = common_img_computer(new_style.common_style);
+        console.log(new_content.html);
     },
     { immediate: true, deep: true }
 );
