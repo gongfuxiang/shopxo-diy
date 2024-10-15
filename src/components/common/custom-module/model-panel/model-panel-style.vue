@@ -3,6 +3,9 @@
         <el-form :model="form" label-width="70">
             <card-container>
                 <div class="mb-12">容器设置</div>
+                <el-form-item label="链接">
+                    <url-value v-model="form.link"></url-value>
+                </el-form-item>
                 <el-form-item label="背景颜色">
                     <div class="flex-col gap-10 w">
                         <div class="size-12">背景色</div>

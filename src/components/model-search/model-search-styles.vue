@@ -44,10 +44,25 @@
                 <el-form-item label="搜索框线">
                     <color-picker v-model="form.search_border" default-color="#fff"></color-picker>
                 </el-form-item>
+                <el-form-item label="搜索背景">
+                    <color-picker v-model="form.search_bg_color" default-color="#fff"></color-picker>
+                </el-form-item>
                 <el-form-item label="框体圆角">
                     <radius :value="form.search_border_radius" @update:value="border_radius_change"></radius>
                 </el-form-item>
             </card-container>
+            <template v-if="search_content.is_hot_word_show == '1'">
+                <div class="bg-f5 divider-line" />
+                <card-container>
+                    <div class="mb-12">轮播设置</div>
+                    <el-form-item label="自动轮播">
+                        <el-switch v-model="form.is_roll" active-value="1" inactive-value="0" />
+                    </el-form-item>
+                    <el-form-item label="间隔时间">
+                        <slider v-model="form.interval_time" :min="1" :max="100"></slider>
+                    </el-form-item>
+                </card-container>
+            </template>
         </el-form>
         <template v-if="isShowCommon">
             <div class="bg-f5 divider-line" />

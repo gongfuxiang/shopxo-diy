@@ -128,6 +128,7 @@ export const panel_com_data = {
     com_width: 100,
     com_height: 100,
     staging_height: 100,
+    link: {},
     icon_rotate: 0,
     background_img_style: '2',
     background_img: [],

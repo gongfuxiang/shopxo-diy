@@ -19,6 +19,7 @@ interface defaultSearch {
         is_search_show: string;
         search_type: string;
         search_tips: string;
+        is_hot_word_show: string;
         hot_word_list: hot_word_list[];
     };
     style: {
@@ -32,7 +33,10 @@ interface defaultSearch {
         tips_color: string;
         hot_words_color: string;
         search_border: string;
+        search_bg_color: string;
         search_border_radius: object;
+        is_roll: string;
+        interval_time: number;
         common_style: object;
     };
 }
@@ -50,6 +54,7 @@ const defaultSearch: defaultSearch = {
         is_search_show: '0',
         search_type: 'text',
         search_tips: '搜索',
+        is_hot_word_show: '0',
         hot_word_list: [],
     },
     style: {
@@ -69,6 +74,7 @@ const defaultSearch: defaultSearch = {
         tips_color: '#ccc',
         hot_words_color: '#000',
         search_border: '#fff',
+        search_bg_color: '#fff',
         search_border_radius: {
             radius: 16,
             radius_top_left: 16,
@@ -76,6 +82,8 @@ const defaultSearch: defaultSearch = {
             radius_bottom_left: 16,
             radius_bottom_right: 16,
         },
+        is_roll: '1',
+        interval_time: 3,
         common_style: {
             ...defaultCommon,
             padding_top: 9,

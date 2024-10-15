@@ -288,10 +288,9 @@ const previous_layer = (index: number) => {
         const old_data = get_diy_index_data(index);
         // 删除当前位置信息
         diy_data.value.splice(index, 1);
-        // 将数据插入上一层数据中
-        diy_data.value.splice(index + 1, 0, old_data);
-        // 设置对应的位置为显示
-        set_show_tabs(index + 1);
+        // 将数据插入下一层数据中
+        diy_data.value.splice(index - 1, 0, old_data);
+        set_show_tabs(index - 1);
     }
 }
 
@@ -301,9 +300,10 @@ const underlying_layer = (index: number) => {
         const old_data = get_diy_index_data(index);
         // 删除当前位置信息
         diy_data.value.splice(index, 1);
-        // 将数据插入下一层数据中
-        diy_data.value.splice(index - 1, 0, old_data);
-        set_show_tabs(index - 1);
+        // 将数据插入上一层数据中
+        diy_data.value.splice(index + 1, 0, old_data);
+        // 设置对应的位置为显示
+        set_show_tabs(index + 1);
     }
 }
 //组件置顶
@@ -337,7 +337,7 @@ const get_diy_index_data = (index: number) => {
 };
 // 设置当前选中的是那个
 const set_show_tabs = (index: number) => {
-    is_show_component_line.value = false;
+    // is_show_component_line.value = false;
     diy_data.value.forEach((item, for_index) => {
         // 先将全部的设置为false,再将当前选中的设置为true
         item.show_tabs = '0';
@@ -447,8 +447,11 @@ const drop = (event: any) => {
         let location_y = event.offsetY;
         // 使用新函数调整位置
         const { x: adjustedX, y: adjustedY } = adjustPosition(location_x, location_y, com_width, com_height, 390, center_height.value);
+        // 计算存在多少个相同的key
+        const list = diy_data.value.filter(item => item.key == draggedItem.value.key);
         const newItem = {
             ...draggedItem.value,
+            new_name: list.length > 0 ? draggedItem.value.name + list.length : draggedItem.value.name, // 默认添加别名
             location: {
                 x: adjustedX,
                 y: adjustedY,

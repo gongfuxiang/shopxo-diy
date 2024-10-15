@@ -54,6 +54,9 @@
             <div class="bg-f5 divider-line" />
             <card-container>
                 <div class="mb-12">搜索热词</div>
+                <el-form-item label="是否显示" class="align-s">
+                    <el-switch v-model="form.is_hot_word_show" active-value="1" inactive-value="0"></el-switch>
+                </el-form-item>
                 <drag :data="form.hot_word_list" @remove="remove" @on-sort="on_sort">
                     <template #default="scoped">
                         <el-input v-model="scoped.row.value" placeholder="请输入搜索热词" clearable />

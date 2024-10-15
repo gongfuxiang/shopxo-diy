@@ -70,7 +70,7 @@
                     <template v-else>
                         <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
                     </template>
-                    <div v-if="!isEmpty(isShow)" class="flex-col w h tl gap-20">
+                    <div v-if="!isEmpty(isShow)" class="flex-col w h tl gap-10">
                         <div v-if="isShow.includes('title')" class="text-line-2 size-14 shop-title" :style="goodStyle.goods_title_style">{{ item.title }}</div>
                         <div v-if="isShow.includes('price')" class="identifying" :style="goodStyle.goods_price_style">
                             <span class="num">{{ item.show_price_symbol }}</span>{{ item.min_price }}
