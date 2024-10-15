@@ -4,7 +4,7 @@
             <model-tabs-carousel-content :value="value.content" :tab-carousel-style="value.style"></model-tabs-carousel-content>
         </template>
         <template v-if="type == '2'">
-            <model-tabs-carousel-styles :value="value.style" :content="value.content"></model-tabs-carousel-styles>
+            <model-tabs-carousel-styles :value="value.style" :tabs-style="value.content.tabs_theme" :content="value.content"></model-tabs-carousel-styles>
         </template>
     </div>
 </template>
@@ -20,5 +20,4 @@ const props = defineProps({
     },
 });
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
