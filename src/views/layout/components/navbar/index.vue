@@ -27,7 +27,7 @@
             </div>
         </template>
         <div class="content pa-20">
-            <el-form ref="ruleFormRef" :model="form" :rules="rules" label-width="50" status-icon>
+            <el-form ref="ruleFormRef" :model="form" :rules="rules" label-width="50" status-icon @submit.prevent>
                 <el-form-item label="封面">
                     <upload v-model="form.logo" :limit="1"></upload>
                 </el-form-item>
