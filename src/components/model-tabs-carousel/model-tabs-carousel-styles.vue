@@ -1,6 +1,5 @@
 <template>
     <div class="w">
-        {{ tabs_name }}
         <el-tabs v-model="tabs_name" class="content-tabs" @tab-change="change_tab_event">
             <el-tab-pane label="选项卡" name="tabs">
                 <model-tabs-styles :value="form" :tabs-style="tabsStyle" :is-common="false"></model-tabs-styles>

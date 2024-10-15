@@ -1,6 +1,5 @@
 <template>
     <div class="setting-content">
-        {{ tabs_active }}
         <template v-if="type == '1'">
             <model-tabs-carousel-content :value="value.content" :tabs-active="tabs_active" :tab-carousel-style="value.style" @update:tabs="update_tabs"></model-tabs-carousel-content>
         </template>
