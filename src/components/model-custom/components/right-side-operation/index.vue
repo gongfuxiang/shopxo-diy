@@ -8,10 +8,10 @@
                 <el-icon class="iconfont icon-copy" @click.stop="copy(index)" />
             </el-tooltip>
             <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="前置一层" placement="right">
-                <el-icon :class="['iconfont icon-arrow-top', { 'disabled': index === dataLength - 1 }]" @click.stop="previous_layer(index, index === dataLength - 1)" />
+                <el-icon :class="['iconfont icon-arrow-top', { 'disabled': index === 0 }]" @click.stop="previous_layer(index, index === 0)" />
             </el-tooltip>
             <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="后置一层" placement="right">
-                <el-icon :class="['iconfont icon-arrow-bottom', { 'disabled': index === 0 }]" @click.stop="underlying_layer(index, index === 0)" />
+                <el-icon :class="['iconfont icon-arrow-bottom', { 'disabled': index === dataLength - 1 }]" @click.stop="underlying_layer(index, index === dataLength - 1)" />
             </el-tooltip>
             <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="组件置顶" placement="right">
                 <el-icon :class="['iconfont icon-top-up', { 'disabled': index === 0 }]" @click.stop="top_up(index, index === 0)" />

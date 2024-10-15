@@ -117,15 +117,15 @@ const data_content = {
 
 // 不同风格的数据
 const style_show_list = [
-    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'row', outerflex: 'row' }, { start: {x: 1, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'row', outerflex: 'row'}], // 风格1
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 3, flex: 'row', outerflex: 'col' }, { start: {x: 3, y: 1}, end: {x: 4, y: 4}, num: 3, flex: 'row', outerflex: 'col' }], // 风格2
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 1, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'row', outerflex: 'row' }],// 风格3
-    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'row', outerflex: 'row' }, { start: {x: 1, y: 3}, end: {x: 2, y: 4}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'col', outerflex: 'row' }],// 风格4
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 3, flex: 'row', outerflex: 'col' }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'col', outerflex: 'row' }],// 风格5
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 1, y: 3}, end: {x: 2, y: 4}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 1}, end: {x: 4, y: 4}, num: 3, flex: 'row', outerflex: 'col' }],// 风格6
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 1, y: 3}, end: {x: 2, y: 4}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'col', outerflex: 'row' }],// 风格7
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 3}, end: {x: 3, y: 4}, num: 1, flex: 'col', outerflex: 'row' }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col', outerflex: 'row' }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col', outerflex: 'row' }],// 风格8
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 3, flex: 'row', outerflex: 'col' }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row' }, { start: {x: 3, y: 3}, end: {x: 3, y: 4}, num: 1, flex: 'col', outerflex: 'row' }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col', outerflex: 'row' }],// 风格9
+    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'row', outerflex: 'row', title_text_gap: 20 }, { start: {x: 1, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'row', outerflex: 'row', title_text_gap: 20 }], // 风格1
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 3, flex: 'row', outerflex: 'col', title_text_gap: 20 }, { start: {x: 3, y: 1}, end: {x: 4, y: 4}, num: 3, flex: 'row', outerflex: 'col', title_text_gap: 20 }], // 风格2
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 1, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'row', outerflex: 'row', title_text_gap: 20 }],// 风格3
+    [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'row', outerflex: 'row', title_text_gap: 20 }, { start: {x: 1, y: 3}, end: {x: 2, y: 4}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 3, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }],// 风格4
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 3, flex: 'row', outerflex: 'col', title_text_gap: 20 }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 3, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }],// 风格5
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 1, y: 3}, end: {x: 2, y: 4}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 3, y: 1}, end: {x: 4, y: 4}, num: 3, flex: 'row', outerflex: 'col', title_text_gap: 20 }],// 风格6
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 1, y: 3}, end: {x: 2, y: 4}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 3, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }],// 风格7
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 3, y: 3}, end: {x: 3, y: 4}, num: 1, flex: 'col', outerflex: 'row', title_text_gap: 20 }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col', outerflex: 'row', title_text_gap: 20 }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col', outerflex: 'row', title_text_gap: 20 }],// 风格8
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 3, flex: 'row', outerflex: 'col', title_text_gap: 20 }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 3, y: 3}, end: {x: 3, y: 4}, num: 1, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col', outerflex: 'row', title_text_gap: 10 }],// 风格9
 ]
 const tabs_name = ref('content');
 const state = reactive({
@@ -180,6 +180,7 @@ const magic_list = (index: number) => {
         data_content: cloneDeep(data_content),
         data_style: {
             ...cloneDeep(data_style),
+            goods_price_size: show_padding(index, map_index) ? 12 : 18,
             chunk_padding: {
                 padding: show_padding(index, map_index) ? 10 : 0,
                 padding_top: show_padding(index, map_index) ? 10 : 20,
@@ -197,8 +198,21 @@ const selected_click = (index: number) => {
     selected_active.value = index;
     tabs_name.value = 'content';
 }
+const padding_handle = [
+    { index: 2, index_index: [0 , 1] },
+    { index: 3, index_index: [1 , 2] },
+    { index: 4, index_index: [1 , 2] },
+    { index: 5, index_index: [0, 1] }, 
+    { index: 6, index_index: [0, 1, 2, 3] },
+    { index: 7, index_index: [0, 1] },
+    { index: 8, index_index: [1] },
+]
 const show_padding = (index:number, map_index:number) => {
-    return index == 7 && ![0, 1].includes(map_index)
+    const list = padding_handle.filter(item => item.index == index && item.index_index.includes(map_index))
+    if (list.length > 0 || (index == 7 && ![0, 1].includes(map_index))) {
+        return true;
+    }
+    return false;
 }
 //#endregion
 const data_title = (item: any) => {

@@ -8,7 +8,7 @@
                         <div v-for="(item, index) in data_magic_list" :key="index" :style="`${ item.data_style.background_style } ${ content_radius }`" :class="['img-spacing-border', { 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index) }]">
                             <div class="w h" :style="`${ item.data_style.background_img_style }`">
                                 <template v-if="item.data_content.data_type == 'goods'">
-                                    <div class="w h flex-col gap-20" :style="`${ [0, 1].includes(index) ? padding_computer(item.data_style.chunk_padding) : '' }`">
+                                    <div :class="`w h flex-col ${ 'gap-' + item.title_text_gap }`" :style="`${ [0, 1].includes(index) ? padding_computer(item.data_style.chunk_padding) : '' }`">
                                         <div v-if="(!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)) && [0, 1].includes(index)" class="flex-col gap-5 tl">
                                             <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
                                             <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
@@ -39,7 +39,7 @@
                     <div v-for="(item, index) in data_magic_list" :key="index" class="cube-selected img-spacing-border" :style="`${ selected_style(item) } ${ item.data_style.background_style } ${ content_radius }`">
                         <div class="w h" :style="`${ item.data_style.background_img_style }`">
                             <template v-if="item.data_content.data_type == 'goods'">
-                                <div :class="[spacing_processing(index) ? 'gap-20 w h flex-col' : 'gap-10 w h flex-col']" :style="`${ padding_computer(item.data_style.chunk_padding) }`">
+                                <div :class="`w h flex-col ${ 'gap-' + item.title_text_gap }`" :style="`${ padding_computer(item.data_style.chunk_padding) }`">
                                     <div v-if="!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)" class="flex-col gap-5 tl">
                                         <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
                                         <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
@@ -118,6 +118,7 @@ interface data_magic {
     };
     num: number;
     flex: string;
+    title_text_gap: number;
     outerflex: string;
     heading_title?: string;
     subtitle?: string;

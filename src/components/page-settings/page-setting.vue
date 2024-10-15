@@ -37,7 +37,7 @@ const default_data = {
         header_background_img: [],
         header_background_title_color: '#333',
         header_background_title_typeface: '500',
-        header_background_title_size: 16,
+        header_background_title_size: 14,
         function_buttons_type: 'black',
         immersive_style: '0',
         up_slide_display: '1',
