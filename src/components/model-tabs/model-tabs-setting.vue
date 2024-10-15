@@ -4,7 +4,7 @@
             <model-tabs-content :value="value.content" :tab-style="value.style"></model-tabs-content>
         </template>
         <template v-if="type == '2'">
-            <model-tabs-styles :value="value.style"></model-tabs-styles>
+            <model-tabs-styles :value="value.style" :tabs-style="value.content.tabs_theme"></model-tabs-styles>
         </template>
     </div>
 </template>
@@ -20,5 +20,4 @@ const props = defineProps({
     },
 });
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

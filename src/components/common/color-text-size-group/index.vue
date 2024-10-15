@@ -4,7 +4,7 @@
         <el-radio-group v-if="typeList.includes('typeface')" v-model="typeface">
             <el-radio v-for="item in font_weight" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
         </el-radio-group>
-        <el-form-item v-if="typeList.includes('size')" label="字号" label-width="40" class="mb-0 w form-item-child-label">
+        <el-form-item v-if="typeList.includes('size')" :label="sliderName" label-width="40" class="mb-0 w form-item-child-label">
             <slider v-model="size" :max="100"></slider>
         </el-form-item>
     </div>
@@ -14,22 +14,24 @@
 interface Props {
     defaultColor?: string;
     typeList?: string[]; // 默认显示3个，传递了之后按照传递的显示
+    sliderName?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
     defaultColor: '',
     typeList: () => ['color', 'typeface', 'size'],
+    sliderName: '字号',
 });
 const color = defineModel('color', {
     type: String,
-    default: ''
+    default: '',
 });
 const typeface = defineModel('typeface', {
     type: String,
-    default: '400'
+    default: '400',
 });
 const size = defineModel('size', {
     type: Number,
-    default: 15
+    default: 15,
 });
 
 const font_weight = [
@@ -38,5 +40,4 @@ const font_weight = [
 ];
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -2,7 +2,7 @@
     <div class="w">
         <el-tabs v-model="tabs_name" class="content-tabs">
             <el-tab-pane label="选项卡" name="tabs">
-                <model-tabs-styles :value="form" :is-common="false"></model-tabs-styles>
+                <model-tabs-styles :value="form" :tabs-style="tabsStyle" :is-common="false"></model-tabs-styles>
             </el-tab-pane>
             <el-tab-pane label="轮播" name="carousel">
                 <model-carousel-styles :value="form" :content="new_content" :is-common="false"></model-carousel-styles>
@@ -31,7 +31,11 @@ const props = defineProps({
     content: {
         type: Object,
         default: () => {},
-    }
+    },
+    tabsStyle: {
+        type: String,
+        default: () => {},
+    },
 });
 
 const state = reactive({
@@ -59,7 +63,7 @@ const common_styles_update = (val: Object) => {
         width: 10rem;
         font-size: 1.4rem;
     }
-    .el-tabs__active-bar{
+    .el-tabs__active-bar {
         width: 100%;
     }
 }

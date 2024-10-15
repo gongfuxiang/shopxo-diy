@@ -4,6 +4,10 @@
             <card-container>
                 <div class="mb-12">选项卡样式</div>
                 <el-form-item label="选中装饰">
+                    <el-radio-group v-if="tabsStyle == '0'" v-model="form.tabs_one_theme">
+                        <el-radio value="0">样式一</el-radio>
+                        <el-radio value="1">样式二</el-radio>
+                    </el-radio-group>
                     <mult-color-picker :value="form.tabs_checked" :type="form.tabs_direction" @update:value="tabs_checked_event"></mult-color-picker>
                 </el-form-item>
                 <el-form-item label="选中文字">
@@ -27,7 +31,7 @@
                 </el-form-item>
                 <template v-if="theme != '6'">
                     <el-form-item label="已售数量">
-                        <color-text-size-group v-model:color="form.shop_sold_number_color" v-model:typeface="form.shop_sold_number_typeface" v-model:size="form.shop_sold_number_size" default-color="#000000"></color-text-size-group>
+                        <color-text-size-group v-model:color="form.shop_sold_number_color" v-model:typeface="form.shop_sold_number_typeface" v-model:size="form.shop_sold_number_size" slider-name="大小" default-color="#000000"></color-text-size-group>
                     </el-form-item>
                 </template>
                 <el-form-item label="内容圆角">
@@ -64,7 +68,7 @@
                 <card-container>
                     <div class="mb-12">轮播设置</div>
                     <el-form-item label="自动轮播">
-                        <el-switch v-model="form.is_roll" active-value="1" inactive-value="0"/>
+                        <el-switch v-model="form.is_roll" active-value="1" inactive-value="0" />
                     </el-form-item>
                     <el-form-item v-if="form.is_roll == '1'" label="间隔时间">
                         <slider v-model="form.interval_time" :min="1" :max="100"></slider>
@@ -84,7 +88,7 @@
                 </template>
                 <template v-else>
                     <el-form-item label="图标设置">
-                        <color-text-size-group v-model:color="form.shop_icon_color" v-model:size="form.shop_icon_size" default-color="#fff" :type-list="['color', 'size']"></color-text-size-group>
+                        <color-text-size-group v-model:color="form.shop_icon_color" v-model:size="form.shop_icon_size" slider-name="大小" default-color="#fff" :type-list="['color', 'size']"></color-text-size-group>
                     </el-form-item>
                 </template>
             </card-container>
@@ -110,6 +114,11 @@ const props = defineProps({
             img_radius_0: 4,
             img_radius_1: 0,
         }),
+    },
+    // 选项卡的风格
+    tabsStyle: {
+        type: String,
+        default: '',
     },
 });
 

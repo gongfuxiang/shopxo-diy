@@ -12,7 +12,7 @@
                     <div class="title" :style="title_style(index)">{{ item.title }}</div>
                     <div class="desc" :style="tabs_theme_index == '1' && index == activeIndex ? tabs_check : ''">{{ item.desc }}</div>
                     <icon name="checked-1" class="icon" :style="tabs_theme_index == '3' ? icon_tabs_check() : ''"></icon>
-                    <div class="bottom_line" :style="tabs_check"></div>
+                    <div class="bottom_line" :class="tabs_bottom_line_theme" :style="tabs_check"></div>
                 </div>
             </template>
         </div>
@@ -61,6 +61,10 @@ const tabs_theme = computed(() => {
     }
     return tabs_theme;
 });
+const tabs_bottom_line_theme = computed(() => {
+    return new_style.value.tabs_one_theme == '1' ? 'tabs-bottom-line-theme' : '';
+});
+
 // 选中的背景渐变色样式
 const tabs_check = computed(() => {
     const new_gradient_params = {
@@ -151,6 +155,15 @@ const icon_tabs_check = () => {
                 .bottom_line {
                     display: block;
                 }
+            }
+            .tabs-bottom-line-theme {
+                opacity: 0.6;
+                bottom: 0.8rem;
+                z-index: 0;
+                height: 0.7rem;
+                border-radius: 0;
+                width: 76%;
+                left: 12%;
             }
         }
         &.tabs-style-2 {

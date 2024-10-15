@@ -24,11 +24,12 @@ interface defaultTabs {
         tabs_list: tabs_page[];
         carousel_type: string;
         carousel_list: carousel_list[];
-        img_fit: string,
+        img_fit: string;
         is_roll: string;
         interval_time: number;
     };
     style: {
+        tabs_one_theme: string;
         tabs_checked: color_list[];
         tabs_direction: string;
         tabs_weight_checked: string;
@@ -48,8 +49,8 @@ interface defaultTabs {
         radius_bottom_left: number;
         radius_bottom_right: number;
         is_show: string;
-        height: number,
-        image_spacing: number,
+        height: number;
+        image_spacing: number;
         indicator_style: string;
         indicator_location: string;
         indicator_size: number;
@@ -92,23 +93,24 @@ const defaultTabs: defaultTabs = {
                 carousel_img: [],
                 carousel_video: [],
                 carousel_link: {},
-                video_title: '视频名称'
+                video_title: '视频名称',
             },
             {
                 carousel_img: [],
                 carousel_video: [],
                 carousel_link: {},
-                video_title: '视频名称'
+                video_title: '视频名称',
             },
             {
                 carousel_img: [],
                 carousel_video: [],
                 carousel_link: {},
-                video_title: '视频名称'
-            }
-        ]
+                video_title: '视频名称',
+            },
+        ],
     },
     style: {
+        tabs_one_theme: '0',
         tabs_checked: [
             { color: '#FF2222', color_percentage: undefined },
             { color: '#FF9898', color_percentage: undefined },

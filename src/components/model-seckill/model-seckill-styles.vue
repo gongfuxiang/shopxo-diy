@@ -93,7 +93,7 @@
                     </template>
                     <template v-else>
                         <el-form-item label="图标设置">
-                            <color-text-size-group v-model:color="form.shop_icon_color" v-model:size="form.shop_icon_size" default-color="#fff" :type-list="['color', 'size']"></color-text-size-group>
+                            <color-text-size-group v-model:color="form.shop_icon_color" v-model:size="form.shop_icon_size" slider-name="大小" default-color="#fff" :type-list="['color', 'size']"></color-text-size-group>
                         </el-form-item>
                     </template>
                 </card-container>

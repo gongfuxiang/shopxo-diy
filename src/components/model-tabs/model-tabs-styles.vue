@@ -4,6 +4,10 @@
             <card-container>
                 <div class="mb-12">选项卡样式</div>
                 <el-form-item label="选中装饰">
+                    <el-radio-group v-if="tabsStyle == '0'" v-model="form.tabs_one_theme" @change="tabs_one_theme_event">
+                        <el-radio value="0">样式一</el-radio>
+                        <el-radio value="1">样式二</el-radio>
+                    </el-radio-group>
                     <mult-color-picker :value="form.tabs_checked" :type="form.tabs_direction" @update:value="tabs_checked_event"></mult-color-picker>
                 </el-form-item>
                 <el-form-item label="选中标题">
@@ -46,6 +50,10 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
+    tabsStyle: {
+        type: String,
+        default: '',
+    },
 });
 
 const state = reactive({
@@ -56,6 +64,11 @@ const { form } = toRefs(state);
 const common_styles_update = (val: Object) => {
     form.value.common_style = val;
 };
+// 选项卡选中主题1时的主题选择事件
+const tabs_one_theme_event = (val: any) => {
+    
+};
+// 选项卡选中
 const tabs_checked_event = (arry: string[], type: number) => {
     form.value.tabs_checked = arry;
     form.value.tabs_direction = type.toString();
