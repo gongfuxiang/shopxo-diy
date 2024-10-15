@@ -46,6 +46,7 @@ interface DefaultFooterNav {
         up_slide_background_direction: string;
         up_slide_background_img_style: string;
         up_slide_background_img: uploadList[];
+        left_back_btn_color: string;
         icon_color: string;
         button_inner_color: string;
         search_botton_color_list: color_list[];
@@ -97,7 +98,7 @@ const defaultFooterNav: DefaultFooterNav = {
         header_background_img: [],
         header_background_title_color: '#333',
         header_background_title_typeface: '500',
-        header_background_title_size: 16,
+        header_background_title_size: 14,
         function_buttons_type: '0',
         immersive_style: '0',
         up_slide_display: '1',
@@ -105,6 +106,7 @@ const defaultFooterNav: DefaultFooterNav = {
         up_slide_background_direction: '180deg',
         up_slide_background_img_style: '2',
         up_slide_background_img: [],
+        left_back_btn_color: '#333',
         icon_color: '#ccc',
         button_inner_color: '#fff',
         search_botton_color_list: [
