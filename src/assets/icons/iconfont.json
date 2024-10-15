@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "42124616",
+      "name": "删除",
+      "font_class": "delete-o",
+      "unicode": "e7a3",
+      "unicode_decimal": 59299
+    },
+    {
+      "icon_id": "42124615",
+      "name": "更多",
+      "font_class": "more-o",
+      "unicode": "e7a4",
+      "unicode_decimal": 59300
+    },
+    {
+      "icon_id": "42116249",
+      "name": "标签",
+      "font_class": "label",
+      "unicode": "e79f",
+      "unicode_decimal": 59295
+    },
+    {
+      "icon_id": "42116244",
+      "name": "热门",
+      "font_class": "fire",
+      "unicode": "e7a2",
+      "unicode_decimal": 59298
+    },
+    {
       "icon_id": "42105733",
       "name": "置顶",
       "font_class": "top-up",
@@ -903,43 +931,43 @@
     },
     {
       "icon_id": "37539354",
-      "name": "bowenxiangqing-dianzan-xuaz",
-      "font_class": "bowenxiangqing-dianzan-xuaz",
+      "name": "点赞",
+      "font_class": "givealike",
       "unicode": "e6dd",
       "unicode_decimal": 59101
     },
     {
       "icon_id": "37538544",
-      "name": "bowenxiangqing-fenxiang",
-      "font_class": "bowenxiangqing-fenxiang",
+      "name": "分享",
+      "font_class": "share",
       "unicode": "e6dc",
       "unicode_decimal": 59100
     },
     {
       "icon_id": "37538541",
-      "name": "bowenxiangqing-huifu",
-      "font_class": "bowenxiangqing-huifu",
+      "name": "消息-方正",
+      "font_class": "message-square",
       "unicode": "e6ce",
       "unicode_decimal": 59086
     },
     {
       "icon_id": "37538540",
-      "name": "bowenxiangqing-dianzan",
-      "font_class": "bowenxiangqing-dianzan",
+      "name": "点赞-空心",
+      "font_class": "givealike-o",
       "unicode": "e6da",
       "unicode_decimal": 59098
     },
     {
       "icon_id": "37494984",
-      "name": "wodeqianbao-eyeclo2",
-      "font_class": "wodeqianbao-eyeclo2",
+      "name": "眼睛-半个",
+      "font_class": "eye-half",
       "unicode": "e6db",
       "unicode_decimal": 59099
     },
     {
       "icon_id": "37482928",
-      "name": "zuhedap-shoping",
-      "font_class": "zuhedap-shoping",
+      "name": "购物车+",
+      "font_class": "cart-add",
       "unicode": "e6d9",
       "unicode_decimal": 59097
     },

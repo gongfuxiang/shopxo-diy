@@ -26,7 +26,7 @@
     </card-container>
     <template v-if="form.data_type == 'images'">
         <div class="bg-f5 divider-line" />
-        <card-container >
+        <card-container>
             <div class="mb-12">图片设置</div>
             <div class="flex-col gap-20">
                 <div v-for="(item, index) in form.images_list" :key="index" class="card-background box-shadow-sm re">
@@ -48,14 +48,14 @@
         <div class="bg-f5 divider-line" />
         <card-container>
             <div class="mb-12">商品设置</div>
-            <drag-group :list="form.goods_list" img-params="images" @onsort="goods_list_sort" @remove="goods_list_remove"></drag-group>
+            <drag-group :list="form.goods_list" img-params="images" @onsort="goods_list_sort" @remove="goods_list_remove" @replace="goods_list_replace"></drag-group>
             <el-button class="mtb-20 w" @click="goods_list_add">+添加</el-button>
             <el-form-item label="展示信息" label-width="60">
                 <el-checkbox-group v-model="form.is_show">
                     <el-checkbox v-for="item in list_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
                 </el-checkbox-group>
             </el-form-item>
-            <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['goods']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
+            <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['goods']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
         </card-container>
     </template>
 </template>
@@ -71,10 +71,14 @@ const props = defineProps({
     isShowTitle: {
         type: Boolean,
         default: true,
-    }
+    },
 });
 
-const list_show_list = [{ name: '商品名称', value: 'title' }, { name: '商品售价', value: 'price' }, { name: '售价单位', value: 'price_unit' }];
+const list_show_list = [
+    { name: '商品名称', value: 'title' },
+    { name: '商品售价', value: 'price' },
+    { name: '售价单位', value: 'price_unit' },
+];
 
 const form = ref(props.value);
 
@@ -83,37 +87,54 @@ const img_add = () => {
         carousel_img: [],
         carousel_link: {},
     });
-}
+};
 const img_remove = (index: number) => {
     form.value.images_list.splice(index, 1);
-}
+};
 const goods_list_remove = (index: number) => {
     form.value.goods_list.splice(index, 1);
 };
 // 拖拽更新之后，更新数据
 const goods_list_sort = (new_list: any) => {
     form.value.goods_list = cloneDeep(new_list);
-}
+};
+const url_value_multiple_bool = ref(true);
+const data_list_replace_index = ref(0);
+const goods_list_replace = (index: number) => {
+    data_list_replace_index.value = index;
+    url_value_multiple_bool.value = false;
+    url_value_dialog_visible.value = true;
+};
 
 watchEffect(() => {
     form.value = props.value;
 });
 
 const goods_list_add = () => {
+    url_value_multiple_bool.value = true;
     url_value_dialog_visible.value = true;
 };
 // 打开弹出框
 const url_value_dialog_visible = ref(false);
 // 弹出框选择的内容
 const url_value_dialog_call_back = (item: any[]) => {
-    item.forEach((item: any) => {
-        form.value.goods_list.push({
+    if (url_value_multiple_bool.value) {
+        item.forEach((item: any) => {
+            form.value.goods_list.push({
+                id: get_math(),
+                new_cover: [],
+                new_title: '',
+                data: item,
+            });
+        });
+    } else {
+        form.value.goods_list[data_list_replace_index.value] = {
             id: get_math(),
             new_cover: [],
             new_title: '',
-            data: item,
-        });
-    });
+            data: item[0],
+        };
+    }
 };
 </script>
 <style lang="scss" scoped>
@@ -133,7 +154,7 @@ const url_value_dialog_call_back = (item: any[]) => {
     width: 100%;
     height: 12.4rem;
 }
-:deep(.el-checkbox-group .el-checkbox){
+:deep(.el-checkbox-group .el-checkbox) {
     margin-right: 2rem;
 }
 </style>

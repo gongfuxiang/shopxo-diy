@@ -27,7 +27,7 @@
                 </el-form-item>
                 <template v-if="form.data_type === '0'">
                     <div class="nav-list">
-                        <drag-group :list="form.data_list" img-params="images" @onsort="goods_list_sort" @remove="goods_list_remove"></drag-group>
+                        <drag-group :list="form.data_list" img-params="images" @onsort="goods_list_sort" @remove="goods_list_remove" @replace="data_list_replace"></drag-group>
                         <el-button class="mt-20 w" @click="add">+添加</el-button>
                     </div>
                 </template>
@@ -60,7 +60,7 @@
             <div class="divider-line"></div>
             <!-- 商品显示的配置信息 -->
             <product-show-config :value="form" @change_shop_type="change_shop_type"></product-show-config>
-            <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['goods']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
+            <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['goods']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
         </el-form>
     </div>
 </template>
@@ -139,21 +139,38 @@ onBeforeMount(() => {
 const goods_list_remove = (index: number) => {
     form.value.data_list.splice(index, 1);
 };
+const url_value_multiple_bool = ref(true);
+const data_list_replace_index = ref(0);
+const data_list_replace = (index: number) => {
+    data_list_replace_index.value = index;
+    url_value_multiple_bool.value = false;
+    url_value_dialog_visible.value = true;
+};
 const add = () => {
+    url_value_multiple_bool.value = true;
     url_value_dialog_visible.value = true;
 };
 // 打开弹出框
 const url_value_dialog_visible = ref(false);
 // 弹出框选择的内容
 const url_value_dialog_call_back = (item: any[]) => {
-    item.forEach((item: any) => {
-        form.value.data_list.push({
+    if (url_value_multiple_bool.value) {
+        item.forEach((item: any) => {
+            form.value.data_list.push({
+                id: get_math(),
+                new_cover: [],
+                new_title: '',
+                data: item,
+            });
+        });
+    } else {
+        form.value.data_list[data_list_replace_index.value] = {
             id: get_math(),
             new_cover: [],
             new_title: '',
-            data: item,
-        });
-    });
+            data: item[0],
+        };
+    }
 };
 // 拖拽更新之后，更新数据
 const goods_list_sort = (new_list: any) => {
