@@ -1,5 +1,5 @@
 <template>
-    <drag :data="drag_list" :space-col="20" :is-show-edit="true" @remove="remove" @on-sort="on_sort" @edit="edit">
+    <drag :data="drag_list" :space-col="20" :is-show-edit="true" @remove="remove" @on-sort="on_sort" @edit="edit" @replace="replace">
         <template #default="{ row, index }">
             <upload v-model="row.new_cover" :limit="1" size="40" styles="2"></upload>
             <el-image :src="row.data[imgParams]" fit="contain" class="img">
@@ -52,7 +52,7 @@ const outerClick = (e: any) => {
         edit_index.value = -1;
     }
 };
-const emits = defineEmits(['remove', 'onsort']);
+const emits = defineEmits(['remove', 'onsort', 'replace']);
 const remove = (index: number) => {
     if (edit_index.value === index) {
         edit_close_processing(index);
@@ -90,6 +90,11 @@ const edit_close_processing = (index: number) => {
     if (!isEmpty(list) && !isEmpty(list.new_title) && list.new_title === list.data.title) {
         list.new_title = '';
     }
+};
+
+// 替换
+const replace = (index: number) => {
+    emits('replace', index);
 };
 </script>
 <style lang="scss" scoped>

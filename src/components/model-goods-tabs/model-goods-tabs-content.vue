@@ -5,7 +5,7 @@
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选项卡置顶">
                     <div class="flex-row align-c gap-10">
-                        <el-switch v-model="form.tabs_top_up" active-value="1" inactive-value="0" :disabled="is_immersion_model"/>
+                        <el-switch v-model="form.tabs_top_up" active-value="1" inactive-value="0" :disabled="is_immersion_model" />
                         <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>开启沉浸样式时，选项卡置顶功能禁用</span>" raw-content placement="top">
                             <icon name="miaosha-hdgz" size="12" color="#999"></icon>
                         </el-tooltip>
@@ -54,7 +54,7 @@
                                     </el-form-item>
                                     <template v-if="row.data_type === '0'">
                                         <div class="nav-list">
-                                            <drag-group :list="row.data_list" img-params="images" @onsort="goods_list_sort($event, index)" @remove="goods_list_remove($event, index)"></drag-group>
+                                            <drag-group :list="row.data_list" img-params="images" @onsort="goods_list_sort($event, index)" @remove="goods_list_remove($event, index)" @replace="data_list_replace"></drag-group>
                                             <el-button class="mtb-20 w" @click="product_add(index)">+添加</el-button>
                                         </div>
                                     </template>
@@ -93,7 +93,7 @@
             <div class="divider-line"></div>
             <!-- 商品显示的配置信息 -->
             <product-show-config :value="form" @change_shop_type="change_shop_type"></product-show-config>
-            <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['goods']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
+            <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['goods']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
         </el-form>
     </div>
 </template>
@@ -223,8 +223,17 @@ const goods_list_sort = (item: any, index: number) => {
     form.value.tabs_list[index].data_list = item;
 };
 let click_index = 0;
+
+const url_value_multiple_bool = ref(true);
+const data_list_replace_index = ref(0);
+const data_list_replace = (index: number) => {
+    data_list_replace_index.value = index;
+    url_value_multiple_bool.value = false;
+    url_value_dialog_visible.value = true;
+};
 const product_add = (index: number) => {
     click_index = index;
+    url_value_multiple_bool.value = true;
     url_value_dialog_visible.value = true;
 };
 
@@ -232,14 +241,23 @@ const product_add = (index: number) => {
 const url_value_dialog_visible = ref(false);
 // 弹出框选择的内容
 const url_value_dialog_call_back = (item: any[]) => {
-    item.forEach((item: any) => {
-        form.value.tabs_list[click_index].data_list.push({
+    if (url_value_multiple_bool.value) {
+        item.forEach((item: any) => {
+            form.value.tabs_list[click_index].data_list.push({
+                id: get_math(),
+                new_cover: [],
+                new_title: '',
+                data: item,
+            });
+        });
+    } else {
+        form.value.tabs_list[click_index].data_list[data_list_replace_index.value] = {
             id: get_math(),
             new_cover: [],
             new_title: '',
-            data: item,
-        });
-    });
+            data: item[0],
+        };
+    }
 };
 
 const tabs_theme_change = (val: string | number | boolean | undefined): void => {
@@ -282,7 +300,7 @@ watchEffect(() => {
     if (is_immersion_model.value) {
         form.value.tabs_top_up = '0';
     }
-})
+});
 </script>
 <style lang="scss" scoped>
 .content {

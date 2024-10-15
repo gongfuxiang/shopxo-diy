@@ -1,6 +1,6 @@
 <template>
     <div class="common-content-height">
-        <el-tabs v-model="tabs_name" class="content-tabs">
+        <el-tabs v-model="tabs_name" class="content-tabs" @tab-change="change_tab_event">
             <el-tab-pane label="选项卡" name="tabs">
                 <model-tabs-content :value="form" :tab-style="styles"></model-tabs-content>
             </el-tab-pane>
@@ -33,6 +33,10 @@ const state = reactive({
 const { form, styles } = toRefs(state);
 
 const tabs_name = ref(props.tabsActive);
+const emit = defineEmits(['update:tabs']);
+const change_tab_event = (val: any) => {
+    emit('update:tabs', val);
+};
 </script>
 <style lang="scss" scoped>
 :deep(.el-tabs.content-tabs) {

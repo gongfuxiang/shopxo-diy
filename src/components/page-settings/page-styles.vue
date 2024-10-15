@@ -52,6 +52,9 @@
                         <upload v-model="form.up_slide_background_img" :limit="1"></upload>
                     </div>
                 </el-form-item>
+                <el-form-item label="返回颜色">
+                    <color-picker v-model="form.left_back_btn_color" default-color="#333"></color-picker>
+                </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>
@@ -109,7 +112,7 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, search_content } = toRefs(state);
-// 监听属性变化 
+// 监听属性变化
 watchEffect(() => {
     form.value = props.value;
     search_content.value = props.content;

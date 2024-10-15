@@ -24,7 +24,7 @@
                 </el-form-item>
                 <template v-if="form.data_type === '0'">
                     <div class="nav-list">
-                        <drag-group :list="form.data_list" img-params="cover" @onsort="data_list_sort" @remove="data_list_remove"></drag-group>
+                        <drag-group :list="form.data_list" img-params="cover" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
                         <el-button class="mtb-20 w" @click="add">+添加</el-button>
                     </div>
                 </template>
@@ -62,7 +62,7 @@
                 </el-form-item>
             </card-container>
         </el-form>
-        <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['article']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
+        <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['article']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
     </div>
 </template>
 <script setup lang="ts">
@@ -159,27 +159,43 @@ const theme_change = (val: any) => {
         }
     }
 };
-
 const data_list_remove = (index: number) => {
     form.value.data_list.splice(index, 1);
+};
+const url_value_multiple_bool = ref(true);
+const data_list_replace_index = ref(0);
+const data_list_replace = (index: number) => {
+    data_list_replace_index.value = index;
+    url_value_multiple_bool.value = false;
+    url_value_dialog_visible.value = true;
 };
 const data_list_sort = (item: any) => {
     form.value.data_list = item;
 };
 const add = () => {
+    url_value_multiple_bool.value = true;
     url_value_dialog_visible.value = true;
 };
 // 开启关闭链接
 const url_value_dialog_visible = ref(false);
 const url_value_dialog_call_back = (item: any[]) => {
-    item.forEach((child: any) => {
-        form.value.data_list.push({
+    if (url_value_multiple_bool.value) {
+        item.forEach((child: any) => {
+            form.value.data_list.push({
+                id: get_math(),
+                new_title: '',
+                new_cover: [],
+                data: child,
+            });
+        });
+    } else {
+        form.value.data_list[data_list_replace_index.value] = {
             id: get_math(),
             new_title: '',
             new_cover: [],
-            data: child,
-        });
-    });
+            data: item[0],
+        };
+    }
 };
 </script>
 <style lang="scss" scoped>

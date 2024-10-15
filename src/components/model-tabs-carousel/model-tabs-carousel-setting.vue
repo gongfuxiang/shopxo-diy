@@ -1,11 +1,10 @@
 <template>
     <div class="setting-content">
-        {{ tabs_active }}
         <template v-if="type == '1'">
-            <model-tabs-carousel-content :value="value.content" :tabs-active="tabs_active" :tab-carousel-style="value.style"></model-tabs-carousel-content>
+            <model-tabs-carousel-content :value="value.content" :tabs-active="tabs_active" :tab-carousel-style="value.style" @update:tabs="update_tabs"></model-tabs-carousel-content>
         </template>
         <template v-if="type == '2'">
-            <model-tabs-carousel-styles :value="value.style" :tabs-active="tabs_active" :tabs-style="value.content.tabs_theme" :content="value.content"></model-tabs-carousel-styles>
+            <model-tabs-carousel-styles :value="value.style" :tabs-active="tabs_active" :tabs-style="value.content.tabs_theme" :content="value.content" @update:tabs="update_tabs"></model-tabs-carousel-styles>
         </template>
     </div>
 </template>
@@ -21,5 +20,12 @@ const props = defineProps({
     },
 });
 const tabs_active = ref('tabs');
+const update_tabs = (val: string) => {
+    if (val === 'common') {
+        tabs_active.value = 'tabs';
+    } else {
+        tabs_active.value = val;
+    }
+};
 </script>
 <style lang="scss" scoped></style>

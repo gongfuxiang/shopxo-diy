@@ -48,7 +48,7 @@
                                     </el-form-item>
                                     <template v-if="row.data_type === '0'">
                                         <div class="nav-list">
-                                            <drag-group :list="row.data_list" img-params="cover" @onsort="data_list_sort($event, index)" @remove="data_list_remove($event, index)"></drag-group>
+                                            <drag-group :list="row.data_list" img-params="cover" @onsort="data_list_sort($event, index)" @remove="data_list_remove($event, index)" @replace="data_list_replace"></drag-group>
                                             <el-button class="mtb-20 w" @click="article_add(index)">+添加</el-button>
                                         </div>
                                     </template>
@@ -92,7 +92,7 @@
                 </el-form-item>
             </card-container>
         </el-form>
-        <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['article']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
+        <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['article']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
     </div>
 </template>
 <script setup lang="ts">
@@ -214,6 +214,7 @@ const tabs_list_sort = (item: any) => {
     // 拖拽完成后更新数组
     form.tabs_list = item;
 };
+
 const tabs_add = () => {
     form.tabs_list.push({
         id: get_math(),
@@ -238,21 +239,39 @@ const data_list_sort = (item: any, index: number) => {
     form.tabs_list[index].data_list = item;
 };
 
+const url_value_multiple_bool = ref(true);
+const data_list_replace_index = ref(0);
+const data_list_replace = (index: number) => {
+    data_list_replace_index.value = index;
+    url_value_multiple_bool.value = false;
+    url_value_dialog_visible.value = true;
+};
+
 const article_index = ref(0);
 const article_add = (index: number) => {
+    url_value_multiple_bool.value = true;
     url_value_dialog_visible.value = true;
     article_index.value = index;
 };
 const url_value_dialog_call_back = (item: any[]) => {
-    // console.log(item);
-    item.forEach((child: any) => {
-        form.tabs_list[article_index.value].data_list.push({
+    if (url_value_multiple_bool.value) {
+        // console.log(item);
+        item.forEach((child: any) => {
+            form.tabs_list[article_index.value].data_list.push({
+                id: get_math(),
+                new_title: '',
+                new_cover: [],
+                data: child,
+            });
+        });
+    } else {
+        form.tabs_list[article_index.value].data_list[data_list_replace_index.value] = {
             id: get_math(),
             new_title: '',
             new_cover: [],
-            data: child,
-        });
-    });
+            data: item[0],
+        };
+    }
 };
 
 const styles = reactive(props.tabStyle);
@@ -264,7 +283,7 @@ watchEffect(() => {
     if (is_immersion_model.value) {
         form.tabs_top_up = '0';
     }
-})
+});
 </script>
 <style lang="scss" scoped>
 .content {

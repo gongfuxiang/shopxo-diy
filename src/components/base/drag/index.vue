@@ -4,9 +4,18 @@
             <li v-for="(item, index) in from" :key="index" :class="className" class="flex gap-y-16 re" @click="on_click(item, index)">
                 <el-icon class="iconfont icon-drag size-16 cursor-move" />
                 <slot :row="item" :index="index" />
-                <el-icon v-if="isShowEdit" class="iconfont icon-commodity-edit size-16 cr-primary do-not-trigger two-click" @click.stop="edit(index)" />
-                <el-icon v-if="type == 'line'" class="iconfont icon-del-o size-16 do-not-trigger" @click.stop="remove(index)" />
                 <el-icon v-if="type == 'card'" class="iconfont icon-close-o1 size-16 abs cr-c top-de-5 right-de-5" @click.stop="remove(index)" />
+                <el-icon v-if="type == 'line'" class="iconfont icon-delete-o size-16 do-not-trigger cr-6" @click.stop="remove(index)" />
+                <!-- <el-icon v-if="isShowEdit" class="iconfont size-16 cr-primary do-not-trigger two-click" @click.stop="edit(index)" /> -->
+                <el-dropdown v-if="isShowEdit" placement="bottom">
+                    <icon name="more-o" size="16" class="icon-commodity-edit" color="primary"></icon>
+                    <template #dropdown>
+                        <el-dropdown-menu>
+                            <el-dropdown-item @click.stop="edit(index)">编辑</el-dropdown-item>
+                            <el-dropdown-item @click.stop="replace(index)">替换</el-dropdown-item>
+                        </el-dropdown-menu>
+                    </template>
+                </el-dropdown>
             </li>
         </TransitionGroup>
     </VueDraggable>
@@ -14,7 +23,7 @@
 
 <script setup lang="ts">
 import { VueDraggable } from 'vue-draggable-plus';
-const emits = defineEmits(['click', 'remove', 'edit', 'onSort']);
+const emits = defineEmits(['click', 'remove', 'edit', 'onSort', 'replace']);
 
 interface Props {
     data: any; // 拖拽列表数据
@@ -55,11 +64,17 @@ const on_click = (item: any, index: number) => {
     emits('click', item, index);
 };
 
+// 删除
 const remove = (index: number) => {
     emits('remove', index);
 };
+// 编辑
 const edit = (index: number) => {
     emits('edit', index);
+};
+// 替换
+const replace = (index: number) => {
+    emits('replace', index);
 };
 // 拖拽更新之后用户更新数据
 const on_sort = () => {
