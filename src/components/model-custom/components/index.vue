@@ -22,7 +22,7 @@
         <card-container class="h selected">
             <div class="flex-col gap-10 drawer-container">
                 <div class="flex-row align-c jc-sb">已选组件
-                    <div class="flex-row align-c gap-10">
+                    <div class="flex-row align-c gap-20">
                         <span class="clear-selection" @click="show_computer_line">{{ !is_show_component_line ? '显示' : '关闭' }}参考线</span>
                         <span class="clear-selection" @click="cancel">清除选中</span>
                     </div>
@@ -59,7 +59,7 @@
     <!-- 视图渲染 -->
     <div class="main">
         <div class="model-content">
-            <right-side-operation v-if="typeof select_index === 'number' && !isNaN(select_index)" v-model:index="select_index" v-model:dataLength="diy_data.length" @del="del" @copy="copy" @previous_layer="previous_layer" @underlying_layer="underlying_layer" @top_up="top_up" @bottom_up="bottom_up"></right-side-operation>
+            <right-side-operation v-if="typeof select_index === 'number' && !isNaN(select_index) && diy_data.length > 0" v-model:index="select_index" v-model:dataLength="diy_data.length" @del="del" @copy="copy" @previous_layer="previous_layer" @underlying_layer="underlying_layer" @top_up="top_up" @bottom_up="bottom_up"></right-side-operation>
             <!-- 拖拽区 -->
             <div class="model-drag">
                 <div class="model-wall">
@@ -278,6 +278,7 @@ const del = (index: null | number) => {
             } else {
                 diy_data.value.splice(index, 1);
             }
+            select_index.value = diy_data.value.length > 0 ? select_index.value : null;
         });
     }
 };
@@ -458,7 +459,7 @@ const drop = (event: any) => {
         };
 
         diy_data.value.unshift(newItem);
-        set_show_tabs(diy_data.value.length - 1);
+        set_show_tabs(0);
     }
 };
 function adjustPosition(x: number, y: number, width:number, height:number, maxWidth:number, maxHeight:number) {

@@ -1,10 +1,16 @@
 <template>
     <div class="img-outer re oh flex-row w h" :style="com_style">
-        <icon :name="form.icon_class" :color="form.icon_color" :size="form.icon_size + ''"></icon>
+        <template v-if="!isEmpty(form.icon_class)">
+            <icon :name="form.icon_class" :color="form.icon_color" :size="form.icon_size + ''"></icon>
+        </template>
+        <template v-else>
+            <image-empty v-model="form.icon_class"></image-empty>
+        </template>
     </div>
 </template>
 <script setup lang="ts">
 import { radius_computer, padding_computer, gradient_handle } from '@/utils';
+import { isEmpty } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
@@ -54,4 +60,14 @@ const set_count = () => {
 };
 </script>
 <style lang="scss" scoped>
+:deep(.el-image) {
+    height: 100%;
+    width: 100%;
+    .el-image__inner {
+        object-fit: cover;
+    }
+    .image-slot img {
+        width: 2rem;
+    }
+}
 </style>
