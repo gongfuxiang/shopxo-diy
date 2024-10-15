@@ -10,6 +10,13 @@
                         </div>
                     </div>
                 </el-form-item>
+                <el-form-item label="图片设置">
+                    <el-radio-group v-model="form.img_fit">
+                        <el-radio value="contain">等比缩放</el-radio>
+                        <el-radio value="none">铺满</el-radio>
+                        <el-radio value="cover">等比剪切</el-radio>
+                    </el-radio-group>
+                </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>
@@ -45,7 +52,7 @@
                         </div>
                     </template>
                     <template v-else>
-                        <magic-cube :key="form.style_actived" :list="form.img_magic_list" :style-actived="form.style_actived" :flag="form.style_actived == 11" :cube-width="cubeWidth" :cube-height="cubeHeight" @selected_click="selected_click"></magic-cube>
+                        <magic-cube :key="form.style_actived" :list="form.img_magic_list" :style-actived="form.style_actived" :flag="form.style_actived == 11" :cube-width="cubeWidth" :cube-height="cubeHeight" :fit="form.img_fit" @selected_click="selected_click"></magic-cube>
                     </template>
                 </el-form-item>
             </card-container>

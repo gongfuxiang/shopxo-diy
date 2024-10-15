@@ -13,7 +13,7 @@
                     <icon name="close" color="f" size="8"></icon>
                 </div>
                 <template v-if="item.img && !isEmpty(item.img[0] || '') && props.type == 'img'">
-                    <image-empty v-model="item.img[0]" :fit="styleActived == 10 ? 'contain' : 'cover'"></image-empty>
+                    <image-empty v-model="item.img[0]" ></image-empty>
                 </template>
                 <template v-else>
                     <div class="cube-selected-text">
@@ -61,6 +61,7 @@ interface Props {
     cubeWidth: number;
     cubeHeight: number;
     styleActived?: number;
+    img_fit?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
     list: () => [],

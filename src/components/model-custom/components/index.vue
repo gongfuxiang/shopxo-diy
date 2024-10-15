@@ -457,7 +457,7 @@ const drop = (event: any) => {
             },
         };
 
-        diy_data.value.push(newItem);
+        diy_data.value.unshift(newItem);
         set_show_tabs(diy_data.value.length - 1);
     }
 };
@@ -860,5 +860,8 @@ defineExpose({
             overflow: hidden;
         }
     }
+}
+.el-input__textarea {
+  resize: none;
 }
 </style>
