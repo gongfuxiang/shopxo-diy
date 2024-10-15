@@ -31,7 +31,7 @@
                 </el-form-item>
                 <template v-if="theme != '6'">
                     <el-form-item label="已售数量">
-                        <color-text-size-group v-model:color="form.shop_sold_number_color" v-model:typeface="form.shop_sold_number_typeface" v-model:size="form.shop_sold_number_size" default-color="#000000"></color-text-size-group>
+                        <color-text-size-group v-model:color="form.shop_sold_number_color" v-model:typeface="form.shop_sold_number_typeface" v-model:size="form.shop_sold_number_size" slider-name="大小" default-color="#000000"></color-text-size-group>
                     </el-form-item>
                 </template>
                 <el-form-item label="内容圆角">
@@ -88,7 +88,7 @@
                 </template>
                 <template v-else>
                     <el-form-item label="图标设置">
-                        <color-text-size-group v-model:color="form.shop_icon_color" v-model:size="form.shop_icon_size" default-color="#fff" :type-list="['color', 'size']"></color-text-size-group>
+                        <color-text-size-group v-model:color="form.shop_icon_color" v-model:size="form.shop_icon_size" slider-name="大小" default-color="#fff" :type-list="['color', 'size']"></color-text-size-group>
                     </el-form-item>
                 </template>
             </card-container>
