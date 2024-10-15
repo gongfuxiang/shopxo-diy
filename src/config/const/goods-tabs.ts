@@ -94,7 +94,7 @@ const defaultProductList: DefaultProductList = {
         is_price_solo: '1',
         shop_type: 'text',
         shop_button_text: '购买',
-        shop_button_icon_class: '',
+        shop_button_icon_class: 'cart',
         shop_button_effect: '0',
         shop_button_size: '1',
     },

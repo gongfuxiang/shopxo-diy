@@ -59,9 +59,9 @@
                 <el-form-item label="旋转角度">
                     <slider v-model="form.text_rotate" :max="1000"></slider>
                 </el-form-item>
-                <el-form-item label="是否置底">
+                <!-- <el-form-item label="是否置底">
                     <el-switch v-model="form.bottom_up" active-value="1" inactive-value="0" />
-                </el-form-item>
+                </el-form-item> -->
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>

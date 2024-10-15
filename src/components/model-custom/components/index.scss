@@ -53,7 +53,53 @@
             .vdr-handle.vdr-handle-bl,
             .vdr-handle.vdr-handle-bm,
             .vdr-handle.vdr-handle-br {
+                width: 5px;
+                height: 5px;
                 display: none !important;
+            }
+            .vdr-handle-tl {
+                top: -3px;
+                left: -3px;
+                cursor: nw-resize;
+            }
+            .vdr-handle-tm {
+                top: -3px;
+                left: 50%;
+                margin-left: -3px;
+                cursor: n-resize;
+            }
+            .vdr-handle-tr {
+                top: -3px;
+                right: -3px;
+                cursor: ne-resize;
+            }
+            .vdr-handle-ml {
+                top: 50%;
+                margin-top: -3px;
+                left: -3px;
+                cursor: w-resize;
+            }
+            .vdr-handle-mr {
+                top: 50%;
+                margin-top: -3px;
+                right: -3px;
+                cursor: e-resize;
+            }
+            .vdr-handle-bl {
+                bottom: -3px;
+                left: -3px;
+                cursor: sw-resize;
+            }
+            .vdr-handle-bm {
+                bottom: -3px;
+                left: 50%;
+                margin-left: -3px;
+                cursor: s-resize;
+            }
+            .vdr-handle-br {
+                bottom: -3px;
+                right: -3px;
+                cursor: se-resize;
             }
         }
         :deep(.plug-in-show-tabs.vdr-container) {
@@ -85,32 +131,8 @@
         .plug-in-border {
             cursor: pointer;
             position: relative;
-            box-shadow: 0px 0 0px 0.2rem $cr-main;
+            box-shadow: 0rem 0 0rem 0.1rem $cr-main;
             border: 0;
-        }
-        .plug-in-right {
-            cursor: default;
-            background: $cr-main;
-            position: absolute;
-            right: -5rem;
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-            padding: 2rem 1.2rem;
-            color: #fff;
-            border-radius: 0.4rem;
-            z-index: 2;
-            & > i {
-                cursor: pointer;
-            }
-            & > i.disabled {
-                color: #5db2ff;
-                cursor: not-allowed;
-            }
-            & .icon-arrow-top,
-            & .icon-arrow-bottom {
-                height: 0.9rem;
-            }
         }
         .area-box {
             position: absolute;
@@ -147,10 +169,10 @@
             }
             .drag-btn {
                 position: absolute;
-                width: 7px;
-                height: 7px;
+                width: 0.7rem;
+                height: 0.7rem;
                 background: #f0f0f0;
-                border: 1px solid #333;
+                border: 0.1rem solid #333;
                 z-index: 1;
             }
             .drag-tl {
@@ -237,10 +259,10 @@
     position: absolute;
     background: rgba(41, 128, 185, 0.3);
     border: 1px dashed #34495e;
-    width: 0px;
-    height: 0px;
-    left: 0px;
-    top: 0px;
+    width: 0rem;
+    height: 0rem;
+    left: 0rem;
+    top: 0rem;
     z-index: 6;
     display: none;
 }
@@ -248,4 +270,52 @@
 .clear-selection {
     cursor: pointer;
     color: $cr-main;
+}
+
+.drawer-container {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    .drawer-custom-drag-bg {
+        background: #f2f8ff;
+    }
+    .drawer-drag-area {
+        height: 100%;
+        overflow-y: auto;
+    }
+    .drawer-drag {
+        height: 4rem;
+        cursor: move;
+    }
+    .drawer-drag:hover {
+        background: #f2f8ff;
+        .draggable-icon {
+            opacity: 1 !important;
+        }
+    }
+    .draggable-icon {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        right: 1rem;
+        color: #8a8a8a;
+        cursor: pointer;
+    }
+}
+
+.break{
+    word-wrap: break-word;
+    word-break:break-all;
+}
+
+.plug-in-show-component-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 0.1rem dashed #999;
+    border-radius: inherit;
+    pointer-events: none; /* 防止影子部分阻止鼠标事件 */
 }

@@ -20,9 +20,9 @@
                 <el-form-item label="旋转角度">
                     <slider v-model="form.panel_rotate" :max="1000"></slider>
                 </el-form-item>
-                <el-form-item label="是否置底">
+                <!-- <el-form-item label="是否置底">
                     <el-switch v-model="form.bottom_up" active-value="1" inactive-value="0" />
-                </el-form-item>
+                </el-form-item> -->
                 <el-form-item label="容器宽度">
                     <slider v-model="form.com_width" :max="1000"></slider>
                 </el-form-item>

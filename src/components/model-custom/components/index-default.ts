@@ -36,7 +36,7 @@ export const text_com_data = {
     border_size: 1,
     direction: '90deg',
     color_list: [{ color: '', color_percentage: undefined }],
-    bottom_up: '0',
+    z_index: 0
 }
 // 图片的默认值
 export const img_com_data = {
@@ -68,7 +68,7 @@ export const img_com_data = {
         radius_bottom_right: 0,
     },
     border_size: 1,
-    bottom_up: '0',
+    z_index: 0
 }
 // 线条的默认值
 export const line_com_data = {
@@ -80,7 +80,7 @@ export const line_com_data = {
     line_width: 306,
     line_size: 1,
     line_color: '#000',
-    bottom_up: '1',
+    z_index: 0,
 }
 
 // icon的默认值
@@ -120,7 +120,7 @@ export const icon_com_data = {
     border_size: 1,
     direction: '90deg',
     color_list: [{ color: '', color_percentage: undefined }],
-    bottom_up: '0',
+    z_index: 0
 }
 
 // 面板的默认值
@@ -144,7 +144,7 @@ export const panel_com_data = {
     border_size: 1,
     direction: '90deg',
     color_list: [{ color: '#fff', color_percentage: undefined }],
-    bottom_up: '0',
+    z_index: 0
 }
 
 // 判断两个矩形是否有交集或者被包裹

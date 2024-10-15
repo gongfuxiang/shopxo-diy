@@ -14,6 +14,7 @@ interface diy_content extends diy{
     com_width: number,
     com_height: number,
     name: string,
+    new_name: string,
     show_tabs: string,
     is_enable: string,
     src: string,
