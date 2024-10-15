@@ -20,6 +20,10 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    tabsActive: {
+        type: String,
+        default: 'tabs',
+    },
 });
 
 const state = reactive({
@@ -28,7 +32,7 @@ const state = reactive({
 });
 const { form, styles } = toRefs(state);
 
-const tabs_name = ref('tabs');
+const tabs_name = ref(props.tabsActive);
 </script>
 <style lang="scss" scoped>
 :deep(.el-tabs.content-tabs) {
