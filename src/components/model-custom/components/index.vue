@@ -59,7 +59,7 @@
     <!-- 视图渲染 -->
     <div class="main">
         <div class="model-content">
-            <right-side-operation v-if="typeof select_index === 'number' && !isNaN(select_index)" v-model="select_index" @del="del" @copy="copy" @previous_layer="previous_layer" @underlying_layer="underlying_layer" @top_up="top_up" @bottom_up="bottom_up"></right-side-operation>
+            <right-side-operation v-if="typeof select_index === 'number' && !isNaN(select_index)" v-model:index="select_index" v-model:dataLength="diy_data.length" @del="del" @copy="copy" @previous_layer="previous_layer" @underlying_layer="underlying_layer" @top_up="top_up" @bottom_up="bottom_up"></right-side-operation>
             <!-- 拖拽区 -->
             <div class="model-drag">
                 <div class="model-wall">
@@ -67,7 +67,7 @@
                         <div class="w h" @mousedown.prevent="start_drag" @mousemove.prevent="move_drag" @mouseup.prevent="end_drag">
                             <DraggableContainer v-if="draggable_container" style="z-index:0" :reference-line-visible="true" :disabled="false" reference-line-color="#ddd" @selectstart.prevent @contextmenu.prevent @dragstart.prevent>
                                 <!-- @mouseover="on_choose(index)" -->
-                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="{'plug-in-show-component-line': is_show_component_line, 'plug-in-show-tabs': item.show_tabs == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1' }" :style="{ 'z-index': item.com_data.z_index }" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index)" @resize-end="resizingHandle($event, item.key, index)">
+                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="{'plug-in-show-component-line': is_show_component_line, 'plug-in-show-tabs': item.show_tabs == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1' }" :style="{ 'z-index': (diy_data.length - 1) - index }" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index)" @resize-end="resizingHandle($event, item.key, index)">
                                     <div :class="['main-content', { 'plug-in-border': item.show_tabs == '1' }]">
                                         <template v-if="item.key == 'text'">
                                             <model-text :key="item.id" :value="item.com_data" :source-list="props.sourceList"></model-text>
@@ -284,59 +284,49 @@ const del = (index: null | number) => {
 //前置一层 + 1
 const previous_layer = (index: number) => {
     if (diy_data.value.length > 0) {
-        const old_z_index = cloneDeep(diy_data.value[index].com_data.z_index);
-        // 数据排序
-        const list = cloneDeep(diy_data.value).sort((a, b) => a.com_data.z_index - b.com_data.z_index);
-        // 找到当前元素的索引
-        const regular_index = list.findIndex(item => item.com_data.z_index == old_z_index);
-        if (regular_index + 1 <= diy_data.value.length - 1) {
-            // 取出上一个的值
-            const new_z_index = list[regular_index + 1].com_data.z_index;
-            // 替换原始数组中的值
-            const new_regular_index_1 = diy_data.value.findIndex(item => item.com_data.z_index == old_z_index);
-            const new_regular_index_2 = diy_data.value.findIndex(item => item.com_data.z_index == new_z_index);
-            // 数据互换
-            diy_data.value[new_regular_index_1].com_data.z_index = new_z_index;
-            diy_data.value[new_regular_index_2].com_data.z_index = old_z_index;
-        }
+        const old_data = get_diy_index_data(index);
+        // 删除当前位置信息
+        diy_data.value.splice(index, 1);
+        // 将数据插入上一层数据中
+        diy_data.value.splice(index + 1, 0, old_data);
+        // 设置对应的位置为显示
+        set_show_tabs(index + 1);
     }
 }
 
 //后置一层 - 1
 const underlying_layer = (index: number) => {
     if (diy_data.value.length > 0) {
-        const old_z_index = cloneDeep(diy_data.value[index].com_data.z_index);
-        // 数据排序
-        const list = cloneDeep(diy_data.value).sort((a, b) => a.com_data.z_index - b.com_data.z_index);
-        // 找到当前元素的索引
-        const regular_index = list.findIndex(item => item.com_data.z_index == old_z_index);
-        if (regular_index - 1 >= 0) {
-            // 取出上一个的值
-            const new_z_index = list[regular_index - 1].com_data.z_index;
-            // 替换原始数组中的值
-            const new_regular_index_1 = diy_data.value.findIndex(item => item.com_data.z_index == old_z_index);
-            const new_regular_index_2 = diy_data.value.findIndex(item => item.com_data.z_index == new_z_index);
-            // 数据互换
-            diy_data.value[new_regular_index_1].com_data.z_index = new_z_index;
-            diy_data.value[new_regular_index_2].com_data.z_index = old_z_index;
-        }
+        const old_data = get_diy_index_data(index);
+        // 删除当前位置信息
+        diy_data.value.splice(index, 1);
+        // 将数据插入下一层数据中
+        diy_data.value.splice(index - 1, 0, old_data);
+        set_show_tabs(index - 1);
     }
 }
 //组件置顶
 const top_up = (index: number) => {
     if (!isEmpty(diy_data.value[index])) {
-        const new_z_index = top_z_index.value + 1;
-        diy_data.value[index].com_data.z_index = new_z_index;
-        top_z_index.value = new_z_index;
+        const old_data = get_diy_index_data(index);
+        // 删除当前位置信息
+        diy_data.value.splice(index, 1);
+        // 将数据插入下一层数据中
+        diy_data.value.splice(0, 0, old_data);
+        set_show_tabs(0);
     }
 }
 
 //组件置底
 const bottom_up = (index: number) => {
     if (!isEmpty(diy_data.value[index])) {
-        const new_z_index = z_index.value - 1;
-        diy_data.value[index].com_data.z_index = new_z_index;
-        z_index.value = new_z_index;
+        const old_data = get_diy_index_data(index);
+        const old_length = diy_data.value.length - 1;
+        // 删除当前位置信息
+        diy_data.value.splice(index, 1);
+        // 将数据插入下一层数据中
+        diy_data.value.splice(old_length, 0, old_data);
+        set_show_tabs(old_length);
     }
 }
 
@@ -398,10 +388,6 @@ const center_height = defineModel('height', { type: Number, default: 0 });
 const drag_area_height = computed(() => center_height.value + 'px');
 const draggable_container = ref(true);
 let data = reactive<diy_content[]>([]);
-// 最低的层级
-const z_index = ref(0);
-// 最高的层级
-const top_z_index = ref(0);
 watch(() => center_height.value, () => {
     data = diy_data.value;
     // 从 DOM 中删除组件
@@ -420,27 +406,9 @@ watch(() => center_height.value, () => {
             },
             com_data: {
                 ...item.com_data,
-                z_index: typeof item.com_data.z_index === 'number' && !isNaN(item.com_data.z_index) ? item.com_data.z_index : 0,
                 com_height: item.com_data.staging_height,
             },
         }));
-        if (diy_data.value.length > 0) {
-            const list = diy_data.value.sort((a, b) => a.com_data.z_index - b.com_data.z_index);
-            // 将z-index重置为初始效果
-            let list_z_index = -1;
-            // 设置默认值
-            list.forEach((item) => {
-                if (item.com_data.z_index == 0) {
-                    const new_z_index = list_z_index + 1;
-                    item.com_data.z_index = new_z_index;
-                    list_z_index = new_z_index;
-                }
-            });
-            // 获取更新后的数据
-            const new_list = list.sort((a, b) => a.com_data.z_index - b.com_data.z_index);
-            z_index.value = new_list[0].com_data.z_index || 0;
-            top_z_index.value = new_list[new_list.length - 1].com_data.z_index || 0;
-        }
         // 容器高度变化时，组件不绑定右侧数据
         emits('rightUpdate', {});
         draggable_container.value = true;
@@ -450,7 +418,6 @@ watch(() => center_height.value, () => {
 //#region 左侧拖拽过来的处理
 let draggedItem = ref<any>({});
 const dragStart = (item: any, event: any) => {
-    const new_z_index = top_z_index.value + 1;
     // 初始化拖拽的数据
     draggedItem.value = {
         name: item.name,
@@ -463,10 +430,8 @@ const dragStart = (item: any, event: any) => {
         is_hot: '0',
         com_data: {
             ...cloneDeep(item.com_data),
-            z_index: new_z_index,
         },
     };
-    top_z_index.value = new_z_index;
     // 拖拽的时候清空热区
     hot_list.data = [];
 };

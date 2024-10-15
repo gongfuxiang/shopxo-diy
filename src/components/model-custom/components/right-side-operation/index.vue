@@ -8,22 +8,23 @@
                 <el-icon class="iconfont icon-copy" @click.stop="copy(index)" />
             </el-tooltip>
             <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="前置一层" placement="right">
-                <el-icon class="iconfont icon-arrow-top" @click.stop="previous_layer(index)" />
+                <el-icon :class="['iconfont icon-arrow-top', { 'disabled': index === dataLength - 1 }]" @click.stop="previous_layer(index, index === dataLength - 1)" />
             </el-tooltip>
             <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="后置一层" placement="right">
-                <el-icon class="iconfont icon-arrow-bottom" @click.stop="underlying_layer(index)" />
+                <el-icon :class="['iconfont icon-arrow-bottom', { 'disabled': index === 0 }]" @click.stop="underlying_layer(index, index === 0)" />
             </el-tooltip>
             <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="组件置顶" placement="right">
-                <el-icon class="iconfont icon-top-up" @click.stop="top_up(index)" />
+                <el-icon :class="['iconfont icon-top-up', { 'disabled': index === 0 }]" @click.stop="top_up(index, index === 0)" />
             </el-tooltip>
             <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="组件置底" placement="right">
-                <el-icon class="iconfont icon-bottom-up" @click.stop="bottom_up(index)" />
+                <el-icon :class="['iconfont icon-bottom-up', { 'disabled': index === dataLength - 1 }]" @click.stop="bottom_up(index, index === dataLength - 1)" />
             </el-tooltip>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-const index = defineModel({ type: Number , default: null });
+const index = defineModel('index', { type: Number , default: null });
+const dataLength = defineModel('dataLength', { type: Number , default: 0 });
 const emits = defineEmits(['del', 'copy', 'previous_layer', 'underlying_layer', 'top_up', 'bottom_up']);
 // 删除
 const del = (index: number) => {
@@ -34,20 +35,28 @@ const copy = (index: number) => {
     emits('copy', index)
 }
 //前置一层
-const previous_layer = (index: number) => {
-    emits('previous_layer', index)
+const previous_layer = (index: number, flag: boolean) => {
+    if (!flag) {
+        emits('previous_layer', index);
+    }
 }
 //后置一层
-const underlying_layer = (index: number) => {
-    emits('underlying_layer', index)
+const underlying_layer = (index: number, flag: boolean) => {
+    if (!flag) {
+        emits('underlying_layer', index)
+    }
 }
 //组件置顶
-const top_up = (index: number) => {
-    emits('top_up', index)
+const top_up = (index: number, flag: boolean) => {
+    if (!flag) {
+        emits('top_up', index)
+    }
 }
 //组件置底
-const bottom_up = (index: number) => {
-    emits('bottom_up', index)
+const bottom_up = (index: number, flag: boolean) => {
+    if (!flag) {
+        emits('bottom_up', index)
+    }
 }
 </script>
 

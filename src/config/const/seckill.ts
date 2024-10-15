@@ -86,7 +86,7 @@ const defaultSeckill: DefaultSeckill = {
         is_shop_show: '1',
         shop_type: 'text',
         shop_button_text: '去抢购',
-        shop_button_icon_class: '',
+        shop_button_icon_class: 'cart',
         seckill_subscript_show: '1',
         subscript_text: '秒杀',
     },
