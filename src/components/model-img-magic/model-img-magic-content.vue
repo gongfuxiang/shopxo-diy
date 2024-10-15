@@ -10,7 +10,7 @@
                         </div>
                     </div>
                 </el-form-item>
-                <el-form-item label="图片设置">
+                <el-form-item v-if="form.style_actived !== 10" label="图片设置">
                     <el-radio-group v-model="form.img_fit">
                         <el-radio value="contain">等比缩放</el-radio>
                         <el-radio value="none">铺满</el-radio>
@@ -27,7 +27,7 @@
                         <div class="flex-row align-c jc-c gap-2 style-size">
                             <div v-for="(item, index) in form.img_magic_list" :key="index" :class="['three bg-f5', {'cube-selected-active': selected_active == index}]" @click="selected_click(index)">
                                 <template v-if="!isEmpty(item.img[0])">
-                                    <image-empty v-model="item.img[0]"></image-empty>
+                                    <image-empty v-model="item.img[0]" :fit="form.img_fit" ></image-empty>
                                 </template>
                                 <template v-else>
                                     <div class="cube-selected-text"> 250 x 750 像素</div>
@@ -40,7 +40,7 @@
                         <div class="flex-row align-c jc-c gap-2 style-size flex-wrap">
                             <div v-for="(item, index) in form.img_magic_list" :key="index" :class="['bg-f5', {'cube-selected-active': selected_active == index, 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index)}]" @click="selected_click(index)">
                                 <template v-if="!isEmpty(item.img[0])">
-                                    <image-empty v-model="item.img[0]"></image-empty>
+                                    <image-empty v-model="item.img[0]" :fit="form.img_fit"></image-empty>
                                 </template>
                                 <template v-else>
                                     <div class="cube-selected-text">
@@ -52,7 +52,7 @@
                         </div>
                     </template>
                     <template v-else>
-                        <magic-cube :key="form.style_actived" :list="form.img_magic_list" :style-actived="form.style_actived" :flag="form.style_actived == 11" :cube-width="cubeWidth" :cube-height="cubeHeight" :fit="form.img_fit" @selected_click="selected_click"></magic-cube>
+                        <magic-cube :key="form.style_actived" :list="form.img_magic_list" :style-actived="form.style_actived" :flag="form.style_actived == 11" :cube-width="cubeWidth" :cube-height="cubeHeight" :img-fit="form.img_fit" @selected_click="selected_click"></magic-cube>
                     </template>
                 </el-form-item>
             </card-container>

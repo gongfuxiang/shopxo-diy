@@ -14,6 +14,15 @@
                 <el-input v-model="form.subtitle" placeholder="请输入副标题" clearable></el-input>
             </el-form-item>
         </template>
+        <template v-else-if="form.data_type === 'images'">
+            <el-form-item label="图片设置">
+                <el-radio-group v-model="form.img_fit">
+                    <el-radio value="contain">等比缩放</el-radio>
+                    <el-radio value="none">铺满</el-radio>
+                    <el-radio value="cover">等比剪切</el-radio>
+                </el-radio-group>
+            </el-form-item>
+        </template>
     </card-container>
     <template v-if="form.data_type == 'images'">
         <div class="bg-f5 divider-line" />

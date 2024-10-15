@@ -35,7 +35,7 @@
                                     <el-icon class="iconfont icon-drag size-16 cr-d" />
                                     <div class="text-line-1 flex align-c" style="width: 70%;">
                                         <template v-if="edit_index == index">
-                                            <el-input v-model="item.new_name" placeholder="请输入组件别名" size="small" clearable type="textarea" class="flex-1 do-not-trigger" :rows="1" />
+                                            <el-input v-model="item.new_name" placeholder="请输入组件别名" size="small" clearable type="textarea" class="flex-1 do-not-trigger" :rows="1" resize="none" />
                                         </template>
                                         <template v-else>
                                             <span class="size-12 cr-6 break">{{ !isEmpty(item.new_name) ? item.new_name : item.name  }}</span>
@@ -860,8 +860,5 @@ defineExpose({
             overflow: hidden;
         }
     }
-}
-.el-input__textarea {
-  resize: none;
 }
 </style>

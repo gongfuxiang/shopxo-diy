@@ -3,7 +3,7 @@
         <el-form :model="form" label-width="70">
             <card-container>
                 <div class="mb-12">图片魔方</div>
-                <el-form-item label="图片间距">
+                <el-form-item v-if="new_content.style_actived !== 10" label="图片间距">
                     <slider v-model="form.image_spacing" :max="100"></slider>
                 </el-form-item>
                 <el-form-item label="图片圆角">
@@ -21,15 +21,20 @@ const props = defineProps({
     value: {
         type: Object,
         default: () => ({}),
+    },
+    content: {
+        type: Object,
+        default: () => ({}),
     }
 });
 
 // 默认值
 const state = reactive({
-    form: props.value
+    form: props.value,
+    new_content: props.content
 });
 // 如果需要解构，确保使用toRefs
-const { form } = toRefs(state);
+const { form, new_content } = toRefs(state);
 
 const common_style_update = (value: any) => {
     form.value.common_style = value;

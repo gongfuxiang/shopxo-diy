@@ -106,6 +106,7 @@ const data_content = {
     goods_list:[],
     goods_ids: '',
     is_show: ['title', 'price'],
+    img_fit: 'cover',
     images_list:[
         {
             carousel_img: [],
