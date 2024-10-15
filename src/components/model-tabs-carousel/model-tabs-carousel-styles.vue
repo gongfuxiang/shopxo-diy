@@ -1,5 +1,6 @@
 <template>
     <div class="w">
+        {{ tabs_name }}
         <el-tabs v-model="tabs_name" class="content-tabs">
             <el-tab-pane label="选项卡" name="tabs">
                 <model-tabs-styles :value="form" :tabs-style="tabsStyle" :is-common="false"></model-tabs-styles>
@@ -36,6 +37,10 @@ const props = defineProps({
         type: String,
         default: () => {},
     },
+    tabsActive: {
+        type: String,
+        default: 'tabs',
+    },
 });
 
 const state = reactive({
@@ -43,7 +48,7 @@ const state = reactive({
     new_content: props.content,
 });
 
-const tabs_name = ref('tabs');
+const tabs_name = ref(props.tabsActive);
 // 如果需要解构，确保使用toRefs
 const { form, new_content } = toRefs(state);
 const common_styles_update = (val: Object) => {
