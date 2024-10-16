@@ -584,7 +584,6 @@ const del_event = (item: uploadList) => {
             view_list_value.value = view_list_value.value.filter((items: any) => {
                 return items.id != item.id;
             });
-            console.log(view_list_value.value);
         });
     });
 };

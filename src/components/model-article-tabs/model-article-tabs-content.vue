@@ -255,7 +255,6 @@ const article_add = (index: number) => {
 };
 const url_value_dialog_call_back = (item: any[]) => {
     if (url_value_multiple_bool.value) {
-        // console.log(item);
         item.forEach((child: any) => {
             form.tabs_list[article_index.value].data_list.push({
                 id: get_math(),

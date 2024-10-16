@@ -302,12 +302,10 @@ const folder_mode = (type: boolean) => {
     }
     nextTick(() => {
         (state.uploadEle as HTMLInputElement).webkitdirectory = type;
-        // console.log(state.uploadEle);
     });
 };
 // 文件状态改变时的钩子，添加文件、上传成功和上传失败时都会被调用
 const upload_change = async (uploadFile: UploadFile, uploadFiles: UploadFiles) => {
-    // console.log('文件状态改变时的钩子', uploadFile, uploadFiles);
     // // 过滤已上传的文件和重复的文件
     const results = uploadFiles.flat(Infinity).filter((f: any) => validExt(f.name) && validSize(f.size));
     const new_upload_files = results.filter((item: UploadFile) => {
@@ -333,10 +331,8 @@ const validSize = (size: number) => size <= props.fileSize;
 const before_upload = (file: any) => {
     // 检查文件是否为图片
     if (validExt(file.name) && validSize(file.size)) {
-        console.log('允许上传');
         return true; // 允许上传
     } else {
-        console.log('不允许上传');
         return false; // 不允许上传
     }
 };
@@ -443,14 +439,12 @@ const del_upload = (index: number) => {
 };
 // 粘贴上传
 const handle_paste = (event: any) => {
-    console.log(event);
     // 获取粘贴板中的文件列表
     const files = event.clipboardData.files;
     // 过滤符合条件的数据   文件后缀名，文件大小过滤
     const results = [...files].filter((f: any) => validExt(f.name) && validSize(f.size));
     // 遍历过滤后的数据，过滤重复数据后并添加到上传列表中
     if (results.length + form.value.file.length <= props.limit) {
-        console.log(results);
         results.forEach((file: any) => {
             // 判断是否重复
             // 如果上传列表中没有与当前文件相同的文件，则添加到上传列表中
@@ -489,9 +483,7 @@ const submit_event = async (formEl: FormInstance | undefined) => {
                 if (item.status == 'ready') {
                     item.status = 'loading';
                     const on_upload_progress = (progressEvent: any) => {
-                        console.log('progressEvent', progressEvent);
                         item.progress = Number(((progressEvent.loaded / progressEvent.total) * 100).toFixed(2));
-                        console.log('1', item.progress);
                     };
                     UploadAPI.uploadAttachment(formData, on_upload_progress)
                         .then((res) => {
@@ -504,9 +496,10 @@ const submit_event = async (formEl: FormInstance | undefined) => {
                         });
                 }
             });
-        } else {
-            console.log('error submit!', fields);
-        }
+        } 
+        // else {
+        //     console.log('error submit!', fields);
+        // }
     });
 };
 
@@ -553,9 +546,10 @@ const extract_images = async (formEl: FormInstance | undefined) => {
             } else {
                 ElMessage.warning('请输入地址后再提取!');
             }
-        } else {
-            console.log('error submit!', fields);
         }
+        //  else {
+        //     console.log('error submit!', fields);
+        // }
     });
 };
 const emit = defineEmits(['closeAll', 'close']);

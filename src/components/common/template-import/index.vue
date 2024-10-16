@@ -166,7 +166,6 @@ const upload_file = ref({
 const file_list = ref<UploadFile[]>([]);
 // 文件状态改变时的钩子，添加文件、上传成功和上传失败时都会被调用
 const upload_change = async (uploadFile: UploadFile) => {
-    console.log('文件状态改变时的钩子', uploadFile);
     upload_file.value.name = uploadFile.name || '';
     upload_file.value.size = uploadFile.size || 0;
     file_list.value = [uploadFile];
@@ -241,7 +240,6 @@ const buy_event = (item: any, status: number) => {
         loading.value = true;
         Loading_text.value = '正在获取中...';
         install(new_data);
-        console.log(1);
     }
 };
 interface install_data {

@@ -170,7 +170,6 @@ const default_merge = (data: any, key: string) => {
     if (data.content) {
         data.content = Object.assign({}, cloneDeep((defaultSettings as any)[key.replace(/-/g, '_')]).content, data.content);
     } else {
-        console.log(data.content);
         data.content = cloneDeep((defaultSettings as any)[key.replace(/-/g, '_')]).content;
     }
     return data;

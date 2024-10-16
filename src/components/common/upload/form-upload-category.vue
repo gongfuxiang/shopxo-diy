@@ -130,9 +130,10 @@ const confirm_event = async (formEl: FormInstance | undefined) => {
                 emit('confirm');
             });
             cancel_event(formEl);
-        } else {
-            console.log('error submit!', fields);
         }
+        //  else {
+        //     console.log('error submit!', fields);
+        // }
     });
 };
 </script>

@@ -115,9 +115,10 @@ const confirm_event = async (formEl: FormInstance | undefined) => {
                 ...form.value,
                 logo: form.value.logo.length > 0 ? form.value.logo[0].url : '',
             };
-        } else {
-            console.log('error submit!', fields);
         }
+        //  else {
+        //     console.log('error submit!', fields);
+        // }
     });
 };
 </script>
