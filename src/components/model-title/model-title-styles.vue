@@ -28,6 +28,9 @@
                         <slider v-model="form.title_size" :max="100"></slider>
                     </el-form-item>
                 </el-form-item>
+                <el-form-item label="图片高度">
+                    <slider v-model="form.img_height" :max="500"></slider>
+                </el-form-item>
             </card-container>
             <template v-if="!isEmpty(content.subtitle)">
                 <div class="bg-f5 divider-line" />

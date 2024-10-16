@@ -13,7 +13,7 @@
                 <el-form-item v-if="form.style_actived !== 10" label="图片设置">
                     <el-radio-group v-model="form.img_fit">
                         <el-radio value="contain">等比缩放</el-radio>
-                        <el-radio value="none">铺满</el-radio>
+                        <el-radio value="fill">铺满</el-radio>
                         <el-radio value="cover">等比剪切</el-radio>
                     </el-radio-group>
                 </el-form-item>

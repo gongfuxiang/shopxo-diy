@@ -10,7 +10,7 @@
                         <template v-else-if="!isEmpty(form.icon_class)">
                             <icon :name="form.icon_class" :size="new_style.icon_size + ''" :color="new_style.icon_color"></icon>
                         </template>
-                        <div class="pr-15 nowrap" :style="title_style">{{ form.title || '标题' }}</div>
+                        <div class="pr-15 nowrap" :style="title_style">{{ form.title }}</div>
                     </div>
                     <div class="flex-row gap-10 align-c right-0 abs">
                         <template v-if="form.keyword_show == '1'">
@@ -84,6 +84,7 @@ const keyword_style = computed(() => {
 const right_style = computed(() => {
     return `color:${new_style.value.right_color}; font-size: ${new_style.value.right_size}px;`;
 });
+const title_img_height = computed(() => new_style.value.img_height + 'px');
 // 通用样式区
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));
 const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
@@ -99,7 +100,8 @@ const style_img_container = computed(() => common_img_computer(new_style.value.c
     word-wrap: break-word;
 }
 .title-img {
-    max-width: 6rem;
-    max-height: 3rem;
+    // max-width: 6rem;
+    // max-height: 3rem;
+    height: v-bind(title_img_height);
 }
 </style>

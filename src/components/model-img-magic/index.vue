@@ -19,9 +19,16 @@
                     </div>
                 </template>
                 <template v-else-if="form.style_actived == 10">
-                    <div v-for="(item, index) in form.img_magic_list" :key="index" :class="['img-spacing-border', { 'h': item.img.length > 0, 'style_actived_10': item.img.length == 0 }]" :style="selected_style(item)">
-                        <image-empty v-model="item.img[0]" :style="content_img_radius"></image-empty>
-                    </div>
+                    <template v-if="form.limit_size == '0'">
+                        <div v-for="(item, index) in form.img_magic_list" :key="index" :class="['img-spacing-border', { 'h': item.img.length > 0, 'style_actived_10': item.img.length == 0 }]" :style="selected_style(item)">
+                            <image-empty v-model="item.img[0]" :style="content_img_radius" fit="contain"></image-empty>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <div v-for="(item, index) in form.img_magic_list" :key="index" class="img-spacing-border" :style="`${ selected_style(item) };height: ${ new_style.image_height }px;`">
+                            <image-empty v-model="item.img[0]" :style="content_img_radius" fit="contain"></image-empty>
+                        </div>
+                    </template>
                 </template>
                 <template v-else>
                     <div v-for="(item, index) in form.img_magic_list" :key="index" class="cube-selected img-spacing-border" :style="selected_style(item)">
