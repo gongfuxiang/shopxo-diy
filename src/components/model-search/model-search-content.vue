@@ -60,7 +60,7 @@
                 <drag :data="form.hot_word_list" @remove="remove" @on-sort="on_sort">
                     <template #default="scoped">
                         <el-input v-model="scoped.row.value" placeholder="请输入搜索热词" clearable />
-                        <color-picker v-model="scoped.row.color" :default-color="'#000000'" @update:value="search_color_change($event, scoped.row)"></color-picker>
+                        <color-picker v-model="scoped.row.color" @update:value="search_color_change($event, scoped.row)"></color-picker>
                     </template>
                 </drag>
                 <el-button class="mt-20 mb-20 w" @click="add">+添加</el-button>
@@ -87,7 +87,7 @@ const add = () => {
     form.value.hot_word_list.push({
         id: get_math(),
         value: '',
-        color: '#000000',
+        color: '',
     });
 };
 const remove = (index: number) => {

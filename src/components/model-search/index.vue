@@ -15,7 +15,7 @@
                     </template>
                     <template v-if="!isEmpty(form.hot_word_list) && form.is_hot_word_show == '1'">
                         <el-carousel :key="carouselKey" class="flex-1" indicator-position="none" :interval="interval_list.time" arrow="never" height="32px" direction="vertical" :autoplay="interval_list.is_roll == '1'">
-                            <el-carousel-item v-for="(item, index) in form.hot_word_list" :key="index" class="flex align-c" :style="{ 'color': !isEmpty(new_style.hot_words_color) ? new_style.hot_words_color : item.color }">{{ item.value }}</el-carousel-item>
+                            <el-carousel-item v-for="(item, index) in form.hot_word_list" :key="index" class="flex align-c" :style="{ 'color': !isEmpty(item.color) ? item.color : !isEmpty(new_style.hot_words_color) ? new_style.hot_words_color : '#999' }">{{ item.value }}</el-carousel-item>
                         </el-carousel>
                     </template>
                     <template v-else>

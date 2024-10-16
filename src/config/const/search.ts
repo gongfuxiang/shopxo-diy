@@ -72,7 +72,7 @@ const defaultSearch: defaultSearch = {
             radius_bottom_right: 16,
         },
         tips_color: '#ccc',
-        hot_words_color: '#000',
+        hot_words_color: '#999',
         search_border: '#fff',
         search_bg_color: '#fff',
         search_border_radius: {

@@ -61,6 +61,7 @@ const default_data = {
         tips_color: '#ccc',
         hot_words_color: '#000',
         search_border: '#E4E4E4',
+        search_bg_color: '#fff',
         search_border_radius: {
             radius: 16,
             radius_top_left: 16,
