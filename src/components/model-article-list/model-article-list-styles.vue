@@ -57,6 +57,12 @@
     </div>
 </template>
 <script setup lang="ts">
+/**
+ * @description: 文章列表（样式）
+ * @param value{Object} 样式数据
+ * @param content{Object} 内容数据
+ * @param defaultConfig{Object} 默认配置
+ */
 const props = defineProps({
     value: {
         type: Object,

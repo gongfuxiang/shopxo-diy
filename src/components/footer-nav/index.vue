@@ -23,6 +23,11 @@
 import { common_img_computer, common_styles_computer } from '@/utils';
 import { footerNavCounterStore } from '@/store';
 const footer_nav_counter_store = footerNavCounterStore();
+/**
+ * @description: 底部导航（渲染）
+ * @param showFooter{Boolean} 是否显示底部导航
+ * @param footerData{Object} 底部导航数据
+ */
 const props = defineProps({
     showFooter: {
         type: Boolean,

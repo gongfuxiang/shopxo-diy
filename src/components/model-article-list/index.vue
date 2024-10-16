@@ -56,6 +56,11 @@
 import { common_styles_computer, padding_computer, radius_computer, get_math, is_obj_empty, common_img_computer } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 import ArticleAPI from '@/api/article';
+/**
+ * @description: 文章列表（渲染）
+ * @param value{Object} 样式数据
+ * @param isCommonStyle{Object} 是否为通用样式
+ */
 const props = defineProps({
     value: {
         type: Object,

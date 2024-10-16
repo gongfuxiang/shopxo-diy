@@ -9,6 +9,11 @@
     </div>
 </template>
 <script setup lang="ts">
+/**
+ * @description: 文章列表（切换）
+ * @param type{String} 类型是进入内容组件还是样式组件
+ * @param value{Object} 样式数据
+ */
 const props = defineProps({
     type: {
         type: String,

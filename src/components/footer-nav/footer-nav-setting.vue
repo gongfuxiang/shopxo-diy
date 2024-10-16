@@ -9,6 +9,12 @@
     </div>
 </template>
 <script setup lang="ts">
+/**
+ * @description: 底部导航（切换）
+ * @param type{String} 类型是进入内容组件还是样式组件
+ * @param value{Object} 底部导航样式
+ * @param footerDialogPositionTop{Number} 底部导航弹窗样式
+ */
 const props = defineProps({
     type: {
         type: String,
@@ -25,6 +31,7 @@ const props = defineProps({
 });
 const form = ref(props.value);
 const emit = defineEmits(['update:value']);
+// 内容更新回调事件
 const content_update = (value: any) => {
     form.value.content = value;
     const new_arry = ['margin', 'margin_left', 'margin_right', 'margin_top', 'margin_bottom', 'padding', 'padding_left', 'padding_right', 'padding_top', 'padding_bottom', 'radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right'];

@@ -11,7 +11,10 @@
 <script setup lang="ts">
 import { common_img_computer, common_styles_computer } from '@/utils';
 import { cloneDeep } from 'lodash';
-
+/**
+ * @description: 文章选项啊哭列表（渲染）
+ * @param value{Object} 样式数据
+ */
 const props = defineProps({
     value: {
         type: Object,
