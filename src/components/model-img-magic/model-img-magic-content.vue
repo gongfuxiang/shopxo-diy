@@ -17,6 +17,11 @@
                         <el-radio value="cover">等比剪切</el-radio>
                     </el-radio-group>
                 </el-form-item>
+                <el-form-item v-else label="图片设置">
+                    <el-radio-group v-model="img_fit_10">
+                        <el-radio value="contain">等比缩放</el-radio>
+                    </el-radio-group>
+                </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>
@@ -80,7 +85,7 @@ const props = defineProps({
     },
 });
 const style_list = ['heng2', 'shu2', 'shu3', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2', 'a-1ge', 'a-4x4'];
-
+const img_fit_10 = 'contain';
 // 风格
 const style_show_list = [
     [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, img: [], img_link: {} }, { start: {x: 1, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}], // 风格1
