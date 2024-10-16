@@ -139,6 +139,7 @@ const model_class = computed(() => {
 
 interface com_data {
     style: {
+        offset_number_percentage: string,
         common_style: {
             floating_up: number;
         };
@@ -171,6 +172,7 @@ const model_style = computed(() => {
         if (item.com_data.style.common_style?.floating_up != 0) {
             z_index = `z-index: 1`;
         }
+        item.com_data.style.offset_number_percentage = (bottom / window.innerHeight).toFixed(4);
         return item.key == 'float-window' ? `bottom: ${((bottom / window.innerHeight) * 100).toFixed(4) + '%'};` : `margin-top: -${item.com_data.style.common_style?.floating_up || 0}px;${z_index};`;
     };
 });
