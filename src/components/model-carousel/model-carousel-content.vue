@@ -24,6 +24,9 @@
                 <el-form-item v-if="form.is_roll == '1'" label="间隔时间">
                     <slider v-model="form.interval_time" :min="1" :max="100"></slider>
                 </el-form-item>
+                <el-form-item label="高度设置">
+                    <slider v-model="form.height" :max="1000"></slider>
+                </el-form-item>
             </card-container>
             <div class="divider-line"></div>
             <card-container>

@@ -11,6 +11,8 @@ interface defaultSearch {
         style_actived: number;
         img_magic_list: img_magic[];
         img_fit: string;
+        limit_size: string,
+        image_height: number;
     };
     style: {
         radius: number;
@@ -19,8 +21,6 @@ interface defaultSearch {
         radius_bottom_left: number;
         radius_bottom_right: number;
         image_spacing: number;
-        limit_size: boolean,
-        image_height: number;
         common_style: object;
     };
 }
@@ -43,6 +43,8 @@ const defaultSearch: defaultSearch = {
             }
         ],
         img_fit: 'cover',
+        limit_size: '0',
+        image_height: 100,
     },
     style: {
         radius: 0,
@@ -51,8 +53,6 @@ const defaultSearch: defaultSearch = {
         radius_bottom_left: 0,
         radius_bottom_right: 0,
         image_spacing: 2,
-        limit_size: false,
-        image_height: 100,
         common_style: defaultCommon,
     },
 };

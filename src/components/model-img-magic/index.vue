@@ -25,8 +25,8 @@
                         </div>
                     </template>
                     <template v-else>
-                        <div v-for="(item, index) in form.img_magic_list" :key="index" class="img-spacing-border" :style="`${ selected_style(item) };height: ${ new_style.image_height }px;`">
-                            <image-empty v-model="item.img[0]" :style="content_img_radius" fit="contain"></image-empty>
+                        <div v-for="(item, index) in form.img_magic_list" :key="index" class="img-spacing-border" :style="`${ selected_style(item) };height: ${ form.image_height }px;`">
+                            <image-empty v-model="item.img[0]" :style="content_img_radius" :fit="form.img_fit"></image-empty>
                         </div>
                     </template>
                 </template>

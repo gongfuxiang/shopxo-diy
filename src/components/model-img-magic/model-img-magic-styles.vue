@@ -9,14 +9,6 @@
                 <el-form-item label="图片圆角">
                     <radius :value="form" @update:value="radius_change"></radius>
                 </el-form-item>
-                <template v-if="new_content.style_actived === 10">
-                    <el-form-item label="限制尺寸">
-                        <el-switch v-model="form.limit_size" active-value="1" inactive-value="0" />
-                    </el-form-item>
-                    <el-form-item v-if="form.limit_size == '1'" label="图片高度">
-                        <slider v-model="form.image_height" :max="500"></slider>
-                    </el-form-item>
-                </template>
             </card-container>
         </el-form>
         <div class="bg-f5 divider-line" />

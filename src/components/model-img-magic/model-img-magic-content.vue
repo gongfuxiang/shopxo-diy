@@ -17,11 +17,23 @@
                         <el-radio value="cover">等比剪切</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item v-else label="图片设置">
-                    <el-radio-group v-model="img_fit_10">
-                        <el-radio value="contain">等比缩放</el-radio>
-                    </el-radio-group>
-                </el-form-item>
+                <template v-else>
+                    <el-form-item label="限制尺寸">
+                        <el-switch v-model="form.limit_size" active-value="1" inactive-value="0" />
+                    </el-form-item>
+                    <template v-if="form.limit_size == '1'">
+                        <el-form-item label="图片高度">
+                            <slider v-model="form.image_height" :max="500"></slider>
+                        </el-form-item>
+                        <el-form-item label="图片设置">
+                            <el-radio-group v-model="form.img_fit">
+                                <el-radio value="contain">等比缩放</el-radio>
+                                <el-radio value="fill">铺满</el-radio>
+                                <el-radio value="cover">等比剪切</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </template>
+                </template>
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>
