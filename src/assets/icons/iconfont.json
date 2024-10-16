@@ -127,7 +127,7 @@
     {
       "icon_id": "40963300",
       "name": "下箭头",
-      "font_class": "arrow-bottom1",
+      "font_class": "arrow-bottom",
       "unicode": "e759",
       "unicode_decimal": 59225
     },
@@ -172,13 +172,6 @@
       "font_class": "enter-l",
       "unicode": "e75d",
       "unicode_decimal": 59229
-    },
-    {
-      "icon_id": "40963294",
-      "name": "圆点",
-      "font_class": "round-dot",
-      "unicode": "e75e",
-      "unicode_decimal": 59230
     },
     {
       "icon_id": "40963293",
@@ -300,13 +293,6 @@
       "unicode_decimal": 59247
     },
     {
-      "icon_id": "40963363",
-      "name": "复制",
-      "font_class": "copy1",
-      "unicode": "e770",
-      "unicode_decimal": 59248
-    },
-    {
       "icon_id": "40963364",
       "name": "实线",
       "font_class": "line",
@@ -315,8 +301,8 @@
     },
     {
       "icon_id": "40963362",
-      "name": "关闭1",
-      "font_class": "close-o1",
+      "name": "关闭-填满",
+      "font_class": "close-fillup",
       "unicode": "e773",
       "unicode_decimal": 59251
     },
@@ -337,7 +323,7 @@
     {
       "icon_id": "40047131",
       "name": "进销存上箭头",
-      "font_class": "arrow-top1",
+      "font_class": "arrow-top",
       "unicode": "e738",
       "unicode_decimal": 59192
     },
@@ -392,14 +378,14 @@
     },
     {
       "icon_id": "41172226",
-      "name": "文件",
+      "name": "文件夹",
       "font_class": "folder",
       "unicode": "e77c",
       "unicode_decimal": 59260
     },
     {
       "icon_id": "41176712",
-      "name": "文件1",
+      "name": "文件",
       "font_class": "file",
       "unicode": "e77d",
       "unicode_decimal": 59261
@@ -476,7 +462,7 @@
     },
     {
       "icon_id": "39755359",
-      "name": "购物车1",
+      "name": "购物车",
       "font_class": "cart",
       "unicode": "e791",
       "unicode_decimal": 59281
@@ -582,7 +568,7 @@
     {
       "icon_id": "41231177",
       "name": "EXE",
-      "font_class": "EXE",
+      "font_class": "exe",
       "unicode": "e795",
       "unicode_decimal": 59285
     },
@@ -609,8 +595,8 @@
     },
     {
       "icon_id": "41451474",
-      "name": "编辑 (2)",
-      "font_class": "commodity-edit",
+      "name": "编辑-空心",
+      "font_class": "icon-edit-o",
       "unicode": "e797",
       "unicode_decimal": 59287
     },
@@ -630,8 +616,8 @@
     },
     {
       "icon_id": "40047116",
-      "name": "进销存关闭2",
-      "font_class": "close-b",
+      "name": "关闭-圆空心",
+      "font_class": "close-round-o",
       "unicode": "e745",
       "unicode_decimal": 59205
     },
@@ -658,8 +644,8 @@
     },
     {
       "icon_id": "6296355",
-      "name": "面性图标_保洁管理",
-      "font_class": "mianxingtubiao_baojieguanli",
+      "name": "保洁",
+      "font_class": "cleaning",
       "unicode": "e64d",
       "unicode_decimal": 58957
     },
@@ -672,8 +658,8 @@
     },
     {
       "icon_id": "41150407",
-      "name": "选中1",
-      "font_class": "checked-1",
+      "name": "选中-圆滑",
+      "font_class": "checked-smooth",
       "unicode": "e778",
       "unicode_decimal": 59256
     },
@@ -749,8 +735,8 @@
     },
     {
       "icon_id": "39375287",
-      "name": "转换2",
-      "font_class": "convert2",
+      "name": "转换",
+      "font_class": "convert",
       "unicode": "e71d",
       "unicode_decimal": 59165
     },
@@ -770,8 +756,8 @@
     },
     {
       "icon_id": "39374328",
-      "name": "转换",
-      "font_class": "convert",
+      "name": "转换-空心",
+      "font_class": "convert-o",
       "unicode": "e719",
       "unicode_decimal": 59161
     },
@@ -840,29 +826,29 @@
     },
     {
       "icon_id": "38007961",
-      "name": "Shopping cart1107",
-      "font_class": "a-Shoppingcart1107",
+      "name": "菜单-购物车-填满",
+      "font_class": "menu-cart-fillup",
       "unicode": "e6e7",
       "unicode_decimal": 59111
     },
     {
       "icon_id": "38007960",
-      "name": "me1107",
-      "font_class": "me1107",
+      "name": "菜单-用户-填满",
+      "font_class": "menu-user-fillup",
       "unicode": "e6e8",
       "unicode_decimal": 59112
     },
     {
       "icon_id": "38007959",
-      "name": "classify1107",
-      "font_class": "classify1107",
+      "name": "菜单-分类-填满",
+      "font_class": "menu-category-fillup",
       "unicode": "e6e9",
       "unicode_decimal": 59113
     },
     {
       "icon_id": "38007958",
-      "name": "index1107",
-      "font_class": "index1107",
+      "name": "菜单-首页-填满",
+      "font_class": "menu-home-fillup",
       "unicode": "e6ea",
       "unicode_decimal": 59114
     },
@@ -896,36 +882,36 @@
     },
     {
       "icon_id": "37737702",
-      "name": "xzzx-shij",
-      "font_class": "xzzx-shij",
+      "name": "计时时间",
+      "font_class": "timing-time",
       "unicode": "e6e2",
       "unicode_decimal": 59106
     },
     {
       "icon_id": "37737676",
-      "name": "xzzx-rhaz",
-      "font_class": "xzzx-rhaz",
+      "name": "皮夹",
+      "font_class": "billfold",
       "unicode": "e6e0",
       "unicode_decimal": 59104
     },
     {
       "icon_id": "37737675",
-      "name": "xzzx-kfwd",
-      "font_class": "xzzx-kfwd",
+      "name": "日志列表",
+      "font_class": "log-list",
       "unicode": "e6e1",
       "unicode_decimal": 59105
     },
     {
       "icon_id": "37550661",
-      "name": "wenda-wytw",
-      "font_class": "wenda-wytw",
+      "name": "编辑-下划线",
+      "font_class": "edit-below-line",
       "unicode": "e6de",
       "unicode_decimal": 59102
     },
     {
       "icon_id": "37550660",
-      "name": "wenda-wdtw",
-      "font_class": "wenda-wdtw",
+      "name": "列表-点",
+      "font_class": "list-dot",
       "unicode": "e6df",
       "unicode_decimal": 59103
     },
@@ -1063,13 +1049,6 @@
       "unicode_decimal": 59083
     },
     {
-      "icon_id": "37324824",
-      "name": "箭头-向下",
-      "font_class": "arrow-bottom",
-      "unicode": "e6cc",
-      "unicode_decimal": 59084
-    },
-    {
       "icon_id": "37324020",
       "name": "关闭-空心",
       "font_class": "close-o",
@@ -1173,13 +1152,6 @@
       "font_class": "cart-inc",
       "unicode": "e6b9",
       "unicode_decimal": 59065
-    },
-    {
-      "icon_id": "37225044",
-      "name": "箭头-向上",
-      "font_class": "arrow-top",
-      "unicode": "e6b8",
-      "unicode_decimal": 59064
     },
     {
       "icon_id": "37217394",
