@@ -102,6 +102,8 @@ onBeforeUnmount(() => {
 </script>
 <style lang="scss" scoped>
 .rich-text-content {
+    position: relative;
+    z-index: 999;
     .editor {
         position: relative;
         height: calc(100vh - 42.5rem) !important;
