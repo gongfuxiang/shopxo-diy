@@ -34,7 +34,7 @@
                 <el-form-item v-if="form.header_background_type == 'transparent'" label="沉浸样式">
                     <div class="flex-row align-c gap-10">
                         <el-switch v-model="form.immersive_style" active-value="1" inactive-value="0" :disabled="is_have_tabs" @change="change_immersive_style"></el-switch>
-                        <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>开启沉浸样式时，不可添加选项卡和选项卡轮播。<br/>并且商品选项卡和文章选项卡的选项卡置顶功能禁用</span>" raw-content placement="top">
+                        <el-tooltip effect="light" :show-after="200" :hide-after="200" content="<span>开启沉浸样式时，不可添加选项卡和选项卡轮播。<br/>并且商品选项卡和文章选项卡的选项卡置顶功能禁用</span>" raw-content placement="top">
                             <icon name="miaosha-hdgz" size="12" color="#999"></icon>
                         </el-tooltip>
                     </div>
@@ -53,7 +53,10 @@
                     </div>
                 </el-form-item>
                 <el-form-item label="返回颜色">
-                    <color-picker v-model="form.left_back_btn_color" default-color="#333"></color-picker>
+                    <color-picker v-model="form.left_back_btn_color" class="mr-10" default-color="#333"></color-picker>
+                    <el-tooltip effect="light" :show-after="200" :hide-after="200" content="打开新页面才会出现返回按钮" raw-content placement="top">
+                        <icon name="miaosha-hdgz" size="12" color="#999"></icon>
+                    </el-tooltip>
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />

@@ -206,7 +206,7 @@
             </div>
             <template v-else>
                 <div :class="'upload-btn upload-btn-style-' + styles" :style="'height:' + upload_size + ';width:' + upload_size + ';'" @click="dialog_visible = true">
-                    <div v-if="!isEmpty(icon_value)" class="upload-del-icon" @click.stop="del_icon_event">
+                    <div v-if="isDelete && !isEmpty(icon_value)" class="upload-del-icon" @click.stop="del_icon_event">
                         <icon name="close-fillup" color="c" size="14"></icon>
                     </div>
                     <div class="flex-col gap-10 align-c">
@@ -244,6 +244,7 @@ const app = getCurrentInstance();
  * @param tipsText{String} 提示文字
  * @param size{Number|String} 上传图片大小
  * @param style{Number} 样式 0.默认样式 1.自定义样式1 2.自定义样式2
+ * @param isDelete{Boolean} 是否可以删除
  * @return {*} update:model_value_upload
  */
 const props = defineProps({
@@ -286,6 +287,10 @@ const props = defineProps({
     dialogPositionTop: {
         type: Number,
         default: 0,
+    },
+    isDelete: {
+        type: Boolean,
+        default: true,
     },
 });
 
@@ -584,7 +589,6 @@ const del_event = (item: uploadList) => {
             view_list_value.value = view_list_value.value.filter((items: any) => {
                 return items.id != item.id;
             });
-            console.log(view_list_value.value);
         });
     });
 };

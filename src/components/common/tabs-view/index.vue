@@ -11,7 +11,7 @@
                     </template>
                     <div class="title" :style="title_style(index)">{{ item.title }}</div>
                     <div class="desc" :style="tabs_theme_index == '1' && index == activeIndex ? tabs_check : ''">{{ item.desc }}</div>
-                    <icon name="checked-1" class="icon" :style="tabs_theme_index == '3' ? icon_tabs_check() : ''"></icon>
+                    <icon name="checked-smooth" class="icon" :style="tabs_theme_index == '3' ? icon_tabs_check() : ''"></icon>
                     <div class="bottom_line" :class="tabs_bottom_line_theme" :style="tabs_check"></div>
                 </div>
             </template>

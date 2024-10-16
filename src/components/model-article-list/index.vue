@@ -121,6 +121,7 @@ const carousel_key = ref('0');
 const interval_time = ref(2000);
 // 轮播图是否滚动
 const is_roll = ref(1);
+// 获取自动数据
 const get_auto_data_list = async () => {
     const { category_ids, number, order_by_type, order_by_rule, is_cover } = new_content.value;
     const new_data = {
@@ -153,14 +154,16 @@ const get_auto_data_list = async () => {
         data_list.value = Array(4).fill(default_data_list);
     }
 };
-
+// 内容
 const new_content = computed(() => props.value?.content || {});
+// 样式
 const new_style = computed(() => props.value?.style || {});
 onMounted(() => {
+    // 判断数据类型是选择文章且数据不为空
     if (new_content.value.data_type == '0' && !isEmpty(new_content.value.data_list)) {
         data_list.value = new_content.value.data_list;
     } else if (new_content.value.data_type == '1' && !isEmpty(new_content.value.data_auto_list)) {
-        // data_list.value = new_content.value.data_auto_list;
+        // 判断数据是筛选文章且数据不为空
         data_list.value = new_content.value.data_auto_list.map((item: any) => ({
             id: get_math(),
             new_title: '',
@@ -168,18 +171,21 @@ onMounted(() => {
             data: item,
         }));
     } else {
+        // 否则走默认数据
         data_list.value = Array(4).fill(default_data_list);
     }
 });
+// 监听new_content指定的数据变化
 const data_list_computer = computed(() => {
     const { data_type, category_ids, number, order_by_type, order_by_rule, is_cover, data_list } = new_content.value;
     return { data_type, category_ids, number, order_by_type, order_by_rule, is_cover, data_list };
 });
+// 监听new_content指定的数据的变化，来获取最新数据
 watch(
     () => data_list_computer.value,
     (new_value, old_value) => {
         // 使用JSON.stringify()进行判断 新值和旧值是否一样 不一样就重新获取数据
-        if ((JSON.stringify(new_value) !== JSON.stringify(old_value)) || props.isCommonStyle) {
+        if (JSON.stringify(new_value) !== JSON.stringify(old_value) || props.isCommonStyle) {
             if (new_value.data_type == '1') {
                 get_auto_data_list();
             } else {
@@ -204,6 +210,7 @@ const multicolumn_columns_width = computed(() => {
 const article_name_height_computer = computed(() => {
     return new_style.value.name_size * 2.4 + 'px';
 });
+// 文章行高计算
 const article_name_line_height_computer = computed(() => {
     return new_style.value.name_size * 1.2 + 'px';
 });
@@ -211,6 +218,7 @@ const article_name_line_height_computer = computed(() => {
 const carousel_height_computer = computed(() => {
     return new_style.value.name_size * 2 + new_style.value.article_height + 'px';
 });
+// 监听value数据变化
 watch(
     () => props.value,
     (newVal, oldValue) => {
@@ -259,6 +267,7 @@ watch(
     },
     { deep: true, immediate: true }
 );
+// 文章主题class计算
 const article_theme_class = computed(() => {
     switch (article_theme.value) {
         case '0':
@@ -277,6 +286,7 @@ const article_theme_class = computed(() => {
 interface ArticleCarouselList {
     carousel_list: ArticleList[];
 }
+// 文章轮播
 const article_carousel_list = computed(() => {
     // 深拷贝一下，确保不会出现问题
     const cloneList = cloneDeep(data_list.value);

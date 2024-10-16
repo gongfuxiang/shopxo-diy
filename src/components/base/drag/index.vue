@@ -2,13 +2,16 @@
     <VueDraggable v-model="from" :animation="500" target=".sort-target" handle=".icon-drag" :scroll="true" :on-sort="on_sort">
         <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col gap-x-20">
             <li v-for="(item, index) in from" :key="index" :class="className" class="flex gap-y-16 re" @click="on_click(item, index)">
-                <el-icon class="iconfont icon-drag size-16 cursor-move" />
+                <icon name="drag" size="16" class="cursor-move" />
                 <slot :row="item" :index="index" />
-                <el-icon v-if="type == 'card'" class="iconfont icon-close-fillup size-16 abs c-pointer cr-c top-de-5 right-de-5" @click.stop="remove(index)" />
-                <el-icon v-if="type == 'line'" class="iconfont icon-delete-o size-16 c-pointer do-not-trigger cr-6" @click.stop="remove(index)" />
-                <!-- <el-icon v-if="isShowEdit" class="iconfont size-16 cr-primary do-not-trigger two-click" @click.stop="edit(index)" /> -->
+                <div class="abs c-pointer top-de-5 right-de-5" @click.stop="remove(index)">
+                    <icon v-if="type == 'card'" name="close-fillup" size="18" color="c" />
+                </div>
+                <div class="c-pointer do-not-trigger" @click.stop="remove(index)">
+                    <icon v-if="type == 'line'" name="delete-o" size="18" color="6" />
+                </div>
                 <el-dropdown v-if="isShowEdit" placement="bottom">
-                    <icon name="more-o" size="16" class="icon-edit-o" color="primary"></icon>
+                    <icon name="more-o" size="18" color="primary"></icon>
                     <template #dropdown>
                         <el-dropdown-menu>
                             <el-dropdown-item @click.stop="edit(index)">编辑</el-dropdown-item>
@@ -87,13 +90,7 @@ const on_sort = () => {
     padding-left: 1.6rem;
     padding-right: 2rem;
 }
-.size-16 {
-    font-size: 1.6rem !important;
-}
-.icon-del-o,
-.icon-edit-o {
-    cursor: pointer;
-}
+
 .cursor-move {
     color: #ddd;
     cursor: move;

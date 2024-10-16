@@ -74,7 +74,6 @@ const clear_model_value = () => {
     label.value = '';
     temp_label.value = '';
     cascader_val.value = '';
-    console.log('清空', label.value);
 };
 const temp_label = ref('');
 const cascader_val = ref('');
@@ -90,7 +89,6 @@ const cascader_change = (val: any) => {
 const get_label = (item: any, val: any) => {
     if (!item) return;
     item.forEach((item: any) => {
-        console.log(item.value + '-' + val);
         if (item.value == val) {
             temp_label.value = item.label;
         } else {
@@ -140,7 +138,6 @@ const filterData = (input: string, data: cascaderData[]) => {
 const emit = defineEmits(['call-back']);
 // 确定提交事件
 const confirm = () => {
-    console.log(props.checkImgIds);
     if (props.checkImgIds && category_id.value) {
         app?.appContext.config.globalProperties.$common.message_box('确定转移吗?', 'warning').then(() => {
             // 调用删除接口，然后，更新数据

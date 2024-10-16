@@ -12,7 +12,7 @@ const message_error = (info: string) => {
     messageInstance = ElMessage.error({
         type: 'error',
         message: info,
-        duration: 60000,
+        duration: 30000,
         showClose: true,
     });
 };
@@ -25,7 +25,7 @@ const index = window.location.href.lastIndexOf('?s=');
 const pro_url = window.location.href.substring(0, index);
 const service = axios.create({
     baseURL: import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API : pro_url + '?s=',
-    timeout: 3000,
+    timeout: 60000,
     headers: { 'Content-Type': 'application/json;charset=utf-8' },
 });
 /** @ts-ignore  */

@@ -11,7 +11,10 @@
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="滑动置顶">
-                    <el-switch v-model="form.tabs_top_up" active-value="1" inactive-value="0"></el-switch>
+                    <el-switch v-model="form.tabs_top_up" class="mr-10" active-value="1" inactive-value="0"></el-switch>
+                    <el-tooltip effect="light" :show-after="200" :hide-after="200" content="滑动置顶仅手机端有效" raw-content placement="top">
+                        <icon name="miaosha-hdgz" size="12" color="#999"></icon>
+                    </el-tooltip>
                 </el-form-item>
             </card-container>
             <div class="divider-line"></div>

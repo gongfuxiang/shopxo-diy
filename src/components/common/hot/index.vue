@@ -392,7 +392,6 @@ const open_hot_event = () => {
             temp_data.img_width = imgBoxRef.value?.clientWidth || 0;
             // 根据原始数据的宽高和更新后的宽高的比例，计算出事实的坐标比例
             const scale = temp_data.img_width / modelValue.value.img_width;
-            console.log(scale);
             temp_data.data.forEach((item) => {
                 item.drag_start.x = item.drag_start.x * scale;
                 item.drag_start.y = item.drag_start.y * scale;
