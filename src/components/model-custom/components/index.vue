@@ -43,7 +43,7 @@
                                     </div>
                                     <div class="abs draggable-icon" :style="item.show_tabs == '1' ? 'opacity: 1;' : 'opacity: 0.5;'">
                                         <el-icon class="iconfont icon-commodity-edit size-16 cr-primary do-not-trigger two-click"  @click="on_edit(index)" />
-                                        <el-icon class="iconfont icon-close-b size-16" @click.stop="del(index)" />
+                                        <el-icon class="iconfont icon-close-round-o size-16" @click.stop="del(index)" />
                                     </div>
                                 </li>
                             </template>

@@ -7,7 +7,7 @@
         <el-form-item label="样式">
             <el-radio-group v-model="form.indicator_style" is-button>
                 <el-tooltip content="点" placement="top" effect="light">
-                    <el-radio-button value="dot"><icon name="iconfont icon-round-dot"></icon></el-radio-button>
+                    <el-radio-button value="dot"><icon name="iconfont icon-ellipsis"></icon></el-radio-button>
                 </el-tooltip>
                 <el-tooltip content="线" placement="top" effect="light">
                     <el-radio-button value="elliptic"><icon name="iconfont icon-elliptic"></icon></el-radio-button>
