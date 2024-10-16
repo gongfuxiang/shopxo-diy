@@ -4,10 +4,14 @@
             <li v-for="(item, index) in from" :key="index" :class="className" class="flex gap-y-16 re" @click="on_click(item, index)">
                 <icon name="drag" size="16" class="cursor-move" />
                 <slot :row="item" :index="index" />
-                <icon v-if="type == 'card'" name="close-fillup" class="abs c-pointer cr-c top-de-5 right-de-5" size="18" color="6" @click="remove(index)" />
-                <icon v-if="type == 'line'" name="delete-o" class="c-pointer do-not-trigger" size="18" color="6" @click="remove(index)" />
+                <div class="abs c-pointer top-de-5 right-de-5" @click.stop="remove(index)">
+                    <icon v-if="type == 'card'" name="close-fillup" size="18" color="c" />
+                </div>
+                <div class="c-pointer do-not-trigger" @click.stop="remove(index)">
+                    <icon v-if="type == 'line'" name="delete-o" size="18" color="6" />
+                </div>
                 <el-dropdown v-if="isShowEdit" placement="bottom">
-                    <icon name="more-o" size="18" class="icon-edit-o" color="primary"></icon>
+                    <icon name="more-o" size="18" color="primary"></icon>
                     <template #dropdown>
                         <el-dropdown-menu>
                             <el-dropdown-item @click.stop="edit(index)">编辑</el-dropdown-item>
@@ -86,13 +90,7 @@ const on_sort = () => {
     padding-left: 1.6rem;
     padding-right: 2rem;
 }
-.size-16 {
-    font-size: 1.6rem !important;
-}
-.icon-del-o,
-.icon-edit-o {
-    cursor: pointer;
-}
+
 .cursor-move {
     color: #ddd;
     cursor: move;
