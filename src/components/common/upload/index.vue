@@ -174,7 +174,7 @@
             <div v-if="model_value_upload.length > 0" class="flex-row flex-wrap gap-10 h">
                 <div v-for="(item, index) in model_value_upload" :key="item.id" :class="'upload-btn upload-btn-style-' + styles + ' ' + (styles == 2 ? 'br-none' : '')" :style="'height:' + upload_size + ';width:' + upload_size + ';'" @click="replace_file_event(index)">
                     <div class="upload-del-icon" @click.stop="del_upload_event(index)">
-                        <icon name="close-o1" color="c" size="14"></icon>
+                        <icon name="close-fillup" color="c" size="14"></icon>
                     </div>
                     <template v-if="type == 'video'">
                         <video :src="item.url" class="w h"></video>
@@ -207,7 +207,7 @@
             <template v-else>
                 <div :class="'upload-btn upload-btn-style-' + styles" :style="'height:' + upload_size + ';width:' + upload_size + ';'" @click="dialog_visible = true">
                     <div v-if="!isEmpty(icon_value)" class="upload-del-icon" @click.stop="del_icon_event">
-                        <icon name="close-o1" color="c" size="14"></icon>
+                        <icon name="close-fillup" color="c" size="14"></icon>
                     </div>
                     <div class="flex-col gap-10 align-c">
                         <icon :name="!isEmpty(icon_value) ? icon_value : 'add'" :size="upload_size == '100%' ? '36' : Number(size) / 2 + ''" color="c"></icon>
