@@ -4,11 +4,10 @@
             <li v-for="(item, index) in from" :key="index" :class="className" class="flex gap-y-16 re" @click="on_click(item, index)">
                 <el-icon class="iconfont icon-drag size-16 cursor-move" />
                 <slot :row="item" :index="index" />
-                <el-icon v-if="type == 'card'" class="iconfont icon-close-fillup size-16 abs c-pointer cr-c top-de-5 right-de-5" @click.stop="remove(index)" />
-                <el-icon v-if="type == 'line'" class="iconfont icon-delete-o size-16 c-pointer do-not-trigger cr-6" @click.stop="remove(index)" />
-                <!-- <el-icon v-if="isShowEdit" class="iconfont size-16 cr-primary do-not-trigger two-click" @click.stop="edit(index)" /> -->
+                <el-icon v-if="type == 'card'" class="iconfont icon-close-fillup size-18 abs c-pointer cr-c top-de-5 right-de-5" @click.stop="remove(index)" />
+                <el-icon v-if="type == 'line'" class="iconfont icon-delete-o size-18 c-pointer do-not-trigger cr-6" @click.stop="remove(index)" />
                 <el-dropdown v-if="isShowEdit" placement="bottom">
-                    <icon name="more-o" size="16" class="icon-edit-o" color="primary"></icon>
+                    <icon name="more-o" size="18" class="icon-edit-o" color="primary"></icon>
                     <template #dropdown>
                         <el-dropdown-menu>
                             <el-dropdown-item @click.stop="edit(index)">编辑</el-dropdown-item>
