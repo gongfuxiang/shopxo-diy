@@ -139,7 +139,7 @@ const seat_list = computed(() => {
     }
 })
 // 轮播图自适应高度 
-const newHeight = computed(() => new_style.value.height + 'px');
+const newHeight = computed(() => form.value.height + 'px');
 // 轮播图样式
 const interval_type = ref('');
 // 轮播图key值

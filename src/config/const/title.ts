@@ -25,6 +25,7 @@ interface defaultSearch {
         title_color: string;
         title_size: number;
         title_weight: string;
+        img_height: number;
         icon_size: number;
         icon_color: string;
         subtitle_color: string;
@@ -39,7 +40,7 @@ interface defaultSearch {
 }
 const defaultSearch: defaultSearch = {
     content: {
-        title: '',
+        title: '标题',
         title_link: {},
         img_src: [],
         icon_class: '',
@@ -62,6 +63,7 @@ const defaultSearch: defaultSearch = {
         title_color: '#000',
         title_size: 12,
         title_weight: 'normal',
+        img_height: 30,
         icon_size: 12,
         icon_color: '#999',
         subtitle_color: '#999',

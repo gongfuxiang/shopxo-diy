@@ -13,10 +13,27 @@
                 <el-form-item v-if="form.style_actived !== 10" label="图片设置">
                     <el-radio-group v-model="form.img_fit">
                         <el-radio value="contain">等比缩放</el-radio>
-                        <el-radio value="none">铺满</el-radio>
+                        <el-radio value="fill">铺满</el-radio>
                         <el-radio value="cover">等比剪切</el-radio>
                     </el-radio-group>
                 </el-form-item>
+                <template v-else>
+                    <el-form-item label="限制尺寸">
+                        <el-switch v-model="form.limit_size" active-value="1" inactive-value="0" />
+                    </el-form-item>
+                    <template v-if="form.limit_size == '1'">
+                        <el-form-item label="图片高度">
+                            <slider v-model="form.image_height" :max="500"></slider>
+                        </el-form-item>
+                        <el-form-item label="图片设置">
+                            <el-radio-group v-model="form.img_fit">
+                                <el-radio value="contain">等比缩放</el-radio>
+                                <el-radio value="fill">铺满</el-radio>
+                                <el-radio value="cover">等比剪切</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </template>
+                </template>
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>
@@ -80,7 +97,7 @@ const props = defineProps({
     },
 });
 const style_list = ['heng2', 'shu2', 'shu3', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2', 'a-1ge', 'a-4x4'];
-
+const img_fit_10 = 'contain';
 // 风格
 const style_show_list = [
     [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, img: [], img_link: {} }, { start: {x: 1, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}], // 风格1

@@ -11,6 +11,8 @@ interface defaultSearch {
         style_actived: number;
         img_magic_list: img_magic[];
         img_fit: string;
+        limit_size: string,
+        image_height: number;
     };
     style: {
         radius: number;
@@ -41,6 +43,8 @@ const defaultSearch: defaultSearch = {
             }
         ],
         img_fit: 'cover',
+        limit_size: '0',
+        image_height: 100,
     },
     style: {
         radius: 0,

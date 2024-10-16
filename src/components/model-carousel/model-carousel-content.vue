@@ -14,7 +14,7 @@
                 <el-form-item label="图片设置">
                     <el-radio-group v-model="form.img_fit">
                         <el-radio value="contain">等比缩放</el-radio>
-                        <el-radio value="none">铺满</el-radio>
+                        <el-radio value="fill">铺满</el-radio>
                         <el-radio value="cover">等比剪切</el-radio>
                     </el-radio-group>
                 </el-form-item>
@@ -23,6 +23,9 @@
                 </el-form-item>
                 <el-form-item v-if="form.is_roll == '1'" label="间隔时间">
                     <slider v-model="form.interval_time" :min="1" :max="100"></slider>
+                </el-form-item>
+                <el-form-item label="高度设置">
+                    <slider v-model="form.height" :max="1000"></slider>
                 </el-form-item>
             </card-container>
             <div class="divider-line"></div>
