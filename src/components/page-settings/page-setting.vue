@@ -54,7 +54,6 @@ const default_data = {
         up_slide_background_direction: '180deg',
         up_slide_background_img_style: '2',
         up_slide_background_img: [],
-        left_back_btn_color: '#333',
         icon_color: '#ccc',
         button_inner_color: '#fff',
         search_botton_color_list: [
