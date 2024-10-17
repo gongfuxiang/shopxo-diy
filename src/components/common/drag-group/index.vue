@@ -2,7 +2,7 @@
     <drag :data="drag_list" :space-col="20" :is-show-edit="true" @remove="remove" @on-sort="on_sort" @edit="edit" @replace="replace">
         <template #default="{ row, index }">
             <upload v-model="row.new_cover" :limit="1" size="40" styles="2"></upload>
-            <el-image :src="row.data[imgParams]" fit="contain" class="img">
+            <el-image :src="row.data[imgParams]" fit="contain" class="img radius-xs">
                 <template #error>
                     <div class="bg-f5 flex-row jc-c align-c radius h w">
                         <icon name="error-img" size="16" color="9"></icon>
