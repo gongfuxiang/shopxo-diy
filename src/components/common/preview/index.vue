@@ -11,7 +11,7 @@
     </el-dialog>
 </template>
 <script setup lang="ts">
-import { get_cookie } from '@/utils';
+import { get_cookie, get_math } from '@/utils';
 const props = defineProps({
     dataId: {
         type: String,
@@ -40,7 +40,7 @@ watch(
     () => dialog_visible.value,
     (newVal) => {
         if (newVal) {
-            new_link.value = (import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API_URL : pro_url) + '?s=diy/preview/id/' + props.dataId + '&system_type=default' + token.value;
+            new_link.value = (import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API_URL : pro_url) + '?s=diy/preview/id/' + props.dataId + '&system_type=default' + token.value + '&uid=' + get_math();
         }
     }
 );

@@ -160,7 +160,7 @@ const icon_tabs_check = () => {
                 opacity: 0.6;
                 bottom: 0.8rem;
                 z-index: 0;
-                height: 0.7rem;
+                height: 0.6rem;
                 border-radius: 0;
                 width: 76%;
                 left: 12%;

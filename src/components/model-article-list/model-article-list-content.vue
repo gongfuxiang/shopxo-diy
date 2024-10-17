@@ -69,6 +69,12 @@
 import { get_math } from '@/utils';
 import { commonStore } from '@/store';
 const common_store = commonStore();
+/**
+ * @description 文章列表（内容）
+ * @param value{Object} 传过来的数据，用于数据渲染
+ * @param styles{Object} 样式
+ * @param defaultConfig{Object} 默认配置
+ */
 const props = defineProps({
     value: {
         type: Object,
@@ -135,6 +141,7 @@ onMounted(() => {
         }
     });
 });
+// 主题改变
 const theme_change = (val: any) => {
     if (val == '3' || val == '4') {
         form.value.field_show = ['1'];
@@ -159,19 +166,23 @@ const theme_change = (val: any) => {
         }
     }
 };
+// 移除
 const data_list_remove = (index: number) => {
     form.value.data_list.splice(index, 1);
 };
 const url_value_multiple_bool = ref(true);
 const data_list_replace_index = ref(0);
+// 替换
 const data_list_replace = (index: number) => {
     data_list_replace_index.value = index;
     url_value_multiple_bool.value = false;
     url_value_dialog_visible.value = true;
 };
+// 拖动排序
 const data_list_sort = (item: any) => {
     form.value.data_list = item;
 };
+//  新增
 const add = () => {
     url_value_multiple_bool.value = true;
     url_value_dialog_visible.value = true;

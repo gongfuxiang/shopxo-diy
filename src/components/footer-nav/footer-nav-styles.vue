@@ -16,7 +16,10 @@
     </div>
 </template>
 <script setup lang="ts">
-import { omit } from 'lodash';
+/**
+ * @description: 底部导航（样式）
+ * @param value{Object} 传过来的数据，用于数据渲染
+ */
 const props = defineProps({
     value: {
         type: Object,

@@ -62,6 +62,12 @@ import { get_math } from '@/utils';
 import DiyAPI from '@/api/tabbar';
 import defaultFooterNav from '@/config/const/footer-nav';
 const app = getCurrentInstance();
+/**
+ * @description: 底部导航（内容）
+ * @param value{Object} 传过来的数据，用于数据渲染
+ * @param footerStyle{Object} 底部导航样式
+ * @param footerDialogPositionTop{Number} 底部导航弹窗样式
+ */
 const props = defineProps({
     value: {
         type: Object,
@@ -78,21 +84,26 @@ const props = defineProps({
 });
 const form = ref(props.value);
 const emit = defineEmits(['update:value']);
+// 导航样式change事件
 const nav_style_change = (style: any) => {
     form.value.nav_style = style;
     emit('update:value', form.value);
 };
+// 导航类型change事件
 const nav_type_change = (type: any) => {
     form.value.nav_type = type;
     emit('update:value', form.value);
 };
+// data_list移除事件
 const nav_content_remove = (index: number) => {
     form.value.nav_content.splice(index, 1);
     emit('update:value', form.value);
 };
+// 拖拽排序事件
 const on_sort = (item: any) => {
     form.value.nav_content = item;
 };
+// 添加导航
 const add = () => {
     form.value.nav_content.push({
         id: get_math(),
