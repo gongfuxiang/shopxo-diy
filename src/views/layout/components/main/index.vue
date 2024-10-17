@@ -167,16 +167,22 @@ watchEffect(() => {
 
         main_content_style.value = padding_computer(new_style.common_style);
 
-        const { immersive_style, up_slide_display } = new_style;
+        const { immersive_style, up_slide_display, data_alone_row_space } = new_style;
         // 不开启沉浸式 和 上滑显示
         if (immersive_style == '1' || up_slide_display != '1') {
             top_padding.value = 0;
+        } else if (content.data_alone_row_value.length > 0) {
+            top_padding.value = 90 + 32 + data_alone_row_space;
         } else {
             top_padding.value = 90;
         }
         // 开启沉浸式并且没有开通上滑显示
         if (immersive_style == '1' && up_slide_display != '1') {
-            top_margin.value = -90;
+            if (content.data_alone_row_value.length > 0) {
+                top_margin.value = -90 - 32 - data_alone_row_space;
+            } else {
+                top_margin.value = -90;
+            }
         } else {
             top_margin.value = 0;
         }

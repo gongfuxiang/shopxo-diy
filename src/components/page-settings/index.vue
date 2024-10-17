@@ -27,7 +27,7 @@
                                 </div>
                             </div>
                             <div v-else-if="['4', '5'].includes(form.theme)" class="flex-1 flex-row align-c h gap-10">
-                                <div class="flex-1 flex-row gap-2" :style="'color:' + new_style.position_color">
+                                <div class="flex-row gap-2 align-c" :style="'color:' + new_style.position_color">
                                     <template v-if="form.is_location_left_icon_show == '1'">
                                         <image-empty v-if="form.location_left_img.length > 0" v-model="form.location_left_img[0]" fit="contain" :error-img-style="'width: 12px; height:12px'"></image-empty>
                                         <icon v-else :name="form.location_left_icon" size="12"></icon>
@@ -170,10 +170,15 @@ const position_class = computed(() => (form.value?.indicator_location == 'center
         .location-name {
             line-height: 3.2rem;
             max-width: 15rem;
+            width: 100%;
+            flex-basis: content;
+            flex-shrink: 1;
         }
         :deep(.el-image) {
             width: 100%;
-            max-height: 3.2rem;
+            height: 2.8rem;
+            flex-basis: content;
+            flex-shrink: 1;
         }
     }
 }
