@@ -11,11 +11,17 @@ interface DefaultFooterNav {
         logo: uploadList[];
         title: string;
         link: object;
+        data_alone_row_value: string[];
         indicator_location: string;
         bottom_navigation_show: string;
         positioning_name: string;
         icon_setting: { id: string; img: uploadList[]; link: object; icon: string }[];
-        is_arrows_show: string;
+        is_location_left_icon_show: string,
+        location_left_img: uploadList[],
+        location_left_icon: string,
+        is_location_right_icon_show: string,
+        location_right_img: uploadList[],
+        location_right_icon: string,
         is_center: string;
         is_icon_show: string;
         icon_link: object;
@@ -40,6 +46,7 @@ interface DefaultFooterNav {
         header_background_title_typeface: string;
         header_background_title_size: number;
         function_buttons_type: string;
+        data_alone_row_space: number;
         immersive_style: string;
         up_slide_display: string;
         up_slide_background_color_list: color_list[];
@@ -72,10 +79,16 @@ const defaultFooterNav: DefaultFooterNav = {
         logo: [],
         title: '新建页面',
         link: {},
+        data_alone_row_value: [],
         indicator_location: 'center',
         positioning_name: '未选择位置',
         icon_setting: [{ id: get_math(), img: [], icon: 'applet-me-message-acquiesce', link: { name: '我的消息', page: '/pages/message/message' } }],
-        is_arrows_show: '1',
+        is_location_left_icon_show: '1',
+        location_left_img: [],
+        location_left_icon: 'location',
+        is_location_right_icon_show: '1',
+        location_right_img: [],
+        location_right_icon: 'arrow-bottom',
         is_center: '0',
         is_icon_show: '1',
         icon_link: {},
@@ -100,6 +113,7 @@ const defaultFooterNav: DefaultFooterNav = {
         header_background_title_color: '#333',
         header_background_title_typeface: '500',
         header_background_title_size: 14,
+        data_alone_row_space: 5,
         function_buttons_type: '0',
         immersive_style: '0',
         up_slide_display: '1',

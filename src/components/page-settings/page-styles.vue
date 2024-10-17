@@ -25,10 +25,10 @@
                         <el-radio value="1">白色</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item v-if="['1', '2'].includes(search_content.theme)" label="标题名称">
+                <el-form-item v-if="['1', '2'].includes(page_content.theme)" label="标题名称">
                     <color-text-size-group v-model:color="form.header_background_title_color" v-model:typeface="form.header_background_title_typeface" v-model:size="form.header_background_title_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
-                <el-form-item v-if="['4', '5'].includes(search_content.theme)" label="定位颜色">
+                <el-form-item v-if="['4', '5'].includes(page_content.theme)" label="定位颜色">
                     <color-picker v-model="form.position_color" default-color="#333"></color-picker>
                 </el-form-item>
                 <el-form-item v-if="form.header_background_type == 'transparent'" label="沉浸样式">
@@ -57,6 +57,9 @@
                     <el-tooltip effect="light" :show-after="200" :hide-after="200" content="打开新页面才会出现返回按钮" raw-content placement="top">
                         <icon name="miaosha-hdgz" size="12" color="#999"></icon>
                     </el-tooltip>
+                </el-form-item>
+                <el-form-item v-if="page_content.data_alone_row_value.length > 0" label="换行间距">
+                    <slider v-model="form.data_alone_row_space" :max="100"></slider>
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
@@ -111,14 +114,14 @@ const is_have_tabs = computed(() => {
 const emit = defineEmits(['update:value']);
 const state = reactive({
     form: props.value,
-    search_content: props.content,
+    page_content: props.content,
 });
 // 如果需要解构，确保使用toRefs
-const { form, search_content } = toRefs(state);
+const { form, page_content } = toRefs(state);
 // 监听属性变化
 watchEffect(() => {
     form.value = props.value;
-    search_content.value = props.content;
+    page_content.value = props.content;
 });
 
 const header_background_type_change_event = (val: any) => {

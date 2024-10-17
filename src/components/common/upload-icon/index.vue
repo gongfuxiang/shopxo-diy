@@ -17,7 +17,9 @@
     </el-dialog>
     <div class="search-icon re" :style="'height:' + upload_size + ';width:' + upload_size + ';'" @click="icon_click">
         <icon :name="!isEmpty(icon_class) ? icon_class : 'add'" :size="Number(size) / 2 + ''" color="c"></icon>
-        <el-icon v-if="!isEmpty(icon_class)" class="iconfont icon-close-fillup size-16 abs cr-c top-de-5 right-de-5" @click.stop="remove_icon" />
+        <div v-if="!isEmpty(icon_class)" class="abs top-de-5 right-de-5" @click.stop="remove_icon">
+            <icon name="close-fillup" size="16" color="c"></icon>
+        </div>
     </div>
 </template>
 <script setup lang="ts">
