@@ -55,7 +55,7 @@
                             <div class="flex-col gap-10 w flex-1 jc-sb" :style="content_style">
                                 <div class="flex-col gap-10 w">
                                     <!-- 标题 -->
-                                    <div v-if="is_show('title')" :style="trends_config('title')" class="text-line-2">{{ item.title }}</div>
+                                    <div v-if="is_show('title')" :style="trends_config('title')" class="text-line-2 multi-text">{{ item.title }}</div>
                                     <!-- 进度条 -->
                                     <!-- <div v-if="form.shop_style_type == '1'" class="flex-row align-c gap-6">
                                         <div class="re flex-1">
@@ -69,13 +69,13 @@
                                 </div>
                                 <div class="flex-row align-e gap-10 jc-sb">
                                     <div class="flex-col gap-5">
-                                        <div v-if="is_show('price') && !isEmpty(item.min_price)" class="num" :style="`color: ${new_style.shop_price_color}`">
+                                        <div v-if="is_show('price') && (!isEmpty(item.min_price) || !isNaN(Number(item.min_price)))" class="num" :style="`color: ${new_style.shop_price_color}`">
                                             <span v-if="form.shop_style_type == '1'" class="size-10 pr-4">秒杀价</span>
                                             <span class="identifying">{{ item.show_price_symbol }}</span
                                             ><span :style="trends_config('price')">{{ item.min_price }}</span>
                                             <span v-if="is_show('price_unit')" class="identifying">{{ item.show_price_unit }}</span>
                                         </div>
-                                        <div v-if="is_show('original_price') && !isEmpty(item.min_original_price)" class="size-11 flex" :style="`color: ${new_style.original_price_color}`">
+                                        <div v-if="is_show('original_price') && (!isEmpty(item.min_original_price) || !isNaN(Number(item.min_original_price)))" class="size-11 flex" :style="`color: ${new_style.original_price_color}`">
                                             <span class="original-price text-line-1 flex-1"
                                                 >{{ item.show_original_price_symbol }}{{ item.min_original_price }}
                                                 <template v-if="is_show('original_price_unit')">
@@ -116,7 +116,7 @@
                             <div class="flex-col gap-10 w flex-1 jc-sb" :style="content_style">
                                 <div class="flex-col gap-10 w">
                                     <!-- 标题 -->
-                                    <div v-if="is_show('title')" :style="trends_config('title')" class="text-line-2">{{ item.title }}</div>
+                                    <div v-if="is_show('title')" :style="trends_config('title')" class="text-line-2 multi-text">{{ item.title }}</div>
                                     <!-- 进度条 -->
                                     <div v-if="form.shop_style_type == '1'" class="flex-row align-c gap-6">
                                         <div class="re flex-1">
