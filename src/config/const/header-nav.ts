@@ -1,5 +1,8 @@
 import { get_math } from '@/utils';
 import defaultCommon from './index';
+import { isEmpty } from 'lodash';
+import { commonStore } from '@/store';
+const common_store = commonStore();
 interface hot_word_list {
     id: string;
     value: string;
@@ -77,7 +80,7 @@ const defaultFooterNav: DefaultFooterNav = {
     content: {
         theme: '1',
         logo: [],
-        title: '新建页面',
+        title: !isEmpty(common_store.common.config.site_name) ? common_store.common.config.site_name : '新建页面',
         link: {},
         data_alone_row_value: [],
         indicator_location: 'center',

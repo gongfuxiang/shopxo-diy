@@ -27,6 +27,7 @@ export const commonStore = defineStore('common', () => {
             site_logo_app: '',
             site_logo_wap: '',
             site_logo: '',
+            site_name: '',
         } as any, // 基础数据配置参数
     });
     // 存储链接数据
