@@ -6,7 +6,7 @@
                     <template v-if="form.is_icon_show == '1'">
                         <template v-if="form.icon_img.length > 0">
                             <div class="img-box">
-                                <image-empty v-model="form.icon_img[0]" class="img" error-img-style="width: 4rem;height: 2.5rem;" />
+                                <image-empty v-model="form.icon_img[0]" class="img" fit="contain" error-img-style="width: 4rem;height: 2.5rem;" />
                             </div>
                         </template>
                         <template v-else>

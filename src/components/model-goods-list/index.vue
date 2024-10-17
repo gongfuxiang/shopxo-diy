@@ -32,12 +32,12 @@
                                 </div>
                                 <div v-if="!['3', '4', '5'].includes(form.theme)" class="flex-col gap-5 oh">
                                     <div :class="[form.is_price_solo == '1' ? 'flex-row align-c nowrap' : 'flex-col gap-5']">
-                                        <div v-if="is_show('price') && !isEmpty(item.min_price)" class="num" :style="`color: ${new_style.shop_price_color}`">
+                                        <div v-if="is_show('price') && (!isEmpty(item.min_price) || typeof item.min_price == 'number')" class="num" :style="`color: ${new_style.shop_price_color}`">
                                             <span class="identifying">{{ item.show_price_symbol }}</span
                                             ><span :style="trends_config('price')">{{ item.min_price }}</span>
                                             <span v-if="is_show('price_unit')" class="identifying">{{ item.show_price_unit }}</span>
                                         </div>
-                                        <div v-if="show_content && is_show('original_price') && !isEmpty(item.min_original_price)" class="size-10 flex">
+                                        <div v-if="show_content && is_show('original_price') && (!isEmpty(item.min_original_price) || typeof item.min_original_price == 'number')" class="size-10 flex">
                                             <img class="original-price-left" :src="form.static_img[0].url" />
                                             <span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo == '1' }]"
                                                 >{{ item.show_original_price_symbol }}{{ item.min_original_price }}
@@ -67,12 +67,12 @@
                                 </div>
                                 <div v-else class="flex-row align-c jc-sb">
                                     <div class="flex-row align-c nowrap">
-                                        <div v-if="is_show('price') && !isEmpty(item.min_price)" class="num" :style="`color: ${new_style.shop_price_color}`">
+                                        <div v-if="is_show('price') && (!isEmpty(item.min_price) || typeof item.min_price == 'number')" class="num" :style="`color: ${new_style.shop_price_color}`">
                                             <span class="identifying">{{ item.show_price_symbol }}</span
                                             ><span :style="trends_config('price')">{{ item.min_price }}</span>
                                             <span v-if="is_show('price_unit')" class="identifying">{{ item.show_price_unit }}</span>
                                         </div>
-                                        <div v-if="show_content && is_show('original_price') && !isEmpty(item.min_original_price)" class="size-10 flex">
+                                        <div v-if="show_content && is_show('original_price') && (!isEmpty(item.min_original_price) || typeof item.min_original_price == 'number')" class="size-10 flex">
                                             <img class="original-price-left" :src="form.static_img[0].url" />
                                             <span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo == '1' }]"
                                                 >{{ item.show_original_price_symbol }}{{ item.min_original_price }}
@@ -116,12 +116,12 @@
                                     </div>
                                     <div class="flex-row align-c jc-sb">
                                         <div class="flex-row align-c nowrap">
-                                            <div v-if="is_show('price') && !isEmpty(item.min_price)" class="num" :style="`color: ${new_style.shop_price_color}`">
+                                            <div v-if="is_show('price') && (!isEmpty(item.min_price) || typeof item.min_price == 'number')" class="num" :style="`color: ${new_style.shop_price_color}`">
                                                 <span class="identifying">{{ item.show_price_symbol }}</span
                                                 ><span :style="trends_config('price')">{{ item.min_price }}</span>
                                                 <span v-if="is_show('price_unit')" class="identifying">{{ item.show_price_unit }}</span>
                                             </div>
-                                            <div v-if="show_content && is_show('original_price') && !isEmpty(item.min_original_price)" class="size-10 flex">
+                                            <div v-if="show_content && (!isEmpty(item.min_original_price) || typeof item.min_original_price == 'number')" class="size-10 flex">
                                                 <img class="original-price-left" :src="form.static_img[0].url" />
                                                 <span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo == '1' }]"
                                                     >{{ item.show_original_price_symbol }}{{ item.min_original_price }}

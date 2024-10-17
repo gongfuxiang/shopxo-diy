@@ -27,7 +27,7 @@
                                 </div>
                             </div>
                             <div v-else-if="['4', '5'].includes(form.theme)" class="flex-1 flex-row align-c h gap-10">
-                                <div class="flex-row gap-2 align-c" :style="'color:' + new_style.position_color">
+                                <div class="model-head-location flex-row gap-2 align-c" :style="'color:' + new_style.position_color">
                                     <template v-if="form.is_location_left_icon_show == '1'">
                                         <image-empty v-if="form.location_left_img.length > 0" v-model="form.location_left_img[0]" fit="contain" :error-img-style="'width: 12px; height:12px'"></image-empty>
                                         <icon v-else :name="form.location_left_icon" size="12"></icon>
@@ -46,7 +46,7 @@
                             </div>
                             <div v-if="!isEmpty(form.icon_setting) && !is_icon_alone_row" class="flex-row align-c" :class="'gap-' + new_style.img_space">
                                 <div v-for="(item, index) in form.icon_setting" :key="index" :style="{ width: new_style.img_size + 'px', height: new_style.img_size + 'px' }">
-                                    <image-empty v-if="item.img.length > 0" v-model="item.img[0]" :error-img-style="'width: ' + Number(new_style.img_size) / 2 + 'px;height:' + Number(new_style.img_size) / 2 + 'px;'"></image-empty>
+                                    <image-empty v-if="item.img.length > 0" v-model="item.img[0]" fit="contain" :error-img-style="'width: ' + Number(new_style.img_size) / 2 + 'px;height:' + Number(new_style.img_size) / 2 + 'px;'"></image-empty>
                                     <icon v-else :name="item.icon" :size="new_style.img_size + ''" :color="new_style.img_color"></icon>
                                 </div>
                             </div>
@@ -59,7 +59,7 @@
                             </template>
                             <div v-if="!isEmpty(form.icon_setting) && is_icon_alone_row" class="flex-row align-c" :class="'gap-' + new_style.img_space">
                                 <div v-for="(item, index) in form.icon_setting" :key="index" :style="{ width: new_style.img_size + 'px', height: new_style.img_size + 'px' }">
-                                    <image-empty v-if="item.img.length > 0" v-model="item.img[0]" :error-img-style="'width: ' + Number(new_style.img_size) / 2 + 'px;height:' + Number(new_style.img_size) / 2 + 'px;'"></image-empty>
+                                    <image-empty v-if="item.img.length > 0" v-model="item.img[0]" fit="contain" :error-img-style="'width: ' + Number(new_style.img_size) / 2 + 'px;height:' + Number(new_style.img_size) / 2 + 'px;'"></image-empty>
                                     <icon v-else :name="item.icon" :size="new_style.img_size + ''" :color="new_style.img_color"></icon>
                                 </div>
                             </div>
@@ -174,11 +174,13 @@ const position_class = computed(() => (form.value?.indicator_location == 'center
             flex-basis: content;
             flex-shrink: 1;
         }
-        :deep(.el-image) {
-            width: 100%;
-            height: 2.8rem;
-            flex-basis: content;
-            flex-shrink: 1;
+        .model-head-location {
+            :deep(.el-image) {
+                width: 100%;
+                height: 2.8rem;
+                flex-basis: content;
+                flex-shrink: 1;
+            }
         }
     }
 }
