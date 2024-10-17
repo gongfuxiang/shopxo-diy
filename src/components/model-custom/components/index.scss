@@ -3,6 +3,15 @@
     overflow: hidden;
     :deep(.el-collapse) {
         border: 0;
+        .el-collapse-item__header {
+            height: 20px;
+            font-size: 14px;
+            color: #606266;
+            font-weight: 400;
+        }
+        .el-collapse-item__wrap {
+            margin-top: 12px;
+        }
         .el-collapse-item__wrap,
         .el-collapse-item__header {
             border: 0;

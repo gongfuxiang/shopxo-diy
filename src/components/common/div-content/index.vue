@@ -1,11 +1,21 @@
 <template>
     <div v-for="(item, index) in diy_data" :key="item.id" :class="model_class(item)" :style="model_style(item)" @click="on_choose(index, item.show_tabs)">
         <div v-if="item.show_tabs == '1'" class="plug-in-right" chosenClass="close">
-            <el-icon :class="`iconfont ${item.is_enable == '1' ? 'icon-eye' : 'icon-eye-close'}`" @click.stop="set_enable(index)" />
-            <el-icon class="iconfont icon-del" @click.stop="del(index)" />
-            <el-icon :class="['iconfont icon-copy', { disabled: props.isTabs }]" @click.stop="copy(index)" />
-            <el-icon :class="['iconfont', 'icon-arrow-top', icon_arrow_disable(item.key, index, 'moveUp')]" @click.stop="moveUp(index, arrow_disable_method(item.key, index, 'moveUp'))" />
-            <el-icon :class="['iconfont', 'icon-arrow-bottom', icon_arrow_disable(item.key, index, 'moveDown')]" @click.stop="moveDown(index, arrow_disable_method(item.key, index, 'moveDown'))" />
+            <div class="plug-in-icon" @click.stop="set_enable(index)">
+                <icon :name="`${item.is_enable == '1' ? 'eye' : 'eye-close'}`" size="14" color="f" />
+            </div>
+            <div class="plug-in-icon" @click.stop="del(index)">
+                <icon name="del" size="14" color="f" />
+            </div>
+            <div :class="['plug-in-icon', { 'disabled': props.isTabs }]" @click.stop="copy(index)">
+                <icon name="copy" size="14" color="f" />
+            </div>
+            <div :class="['plug-in-icon plug-in-icon-arrow flex', icon_arrow_disable(item.key, index, 'moveUp')]" @click.stop="moveUp(index, arrow_disable_method(item.key, index, 'moveUp'))">
+                <icon name="arrow-top" size="14" color="f" />
+            </div>
+            <div :class="['plug-in-icon plug-in-icon-arrow flex', icon_arrow_disable(item.key, index, 'moveDown')]" @click.stop="moveDown(index, arrow_disable_method(item.key, index, 'moveDown'))">
+                <icon name="arrow-bottom" size="14" color="f" />
+            </div>
         </div>
         <div class="plug-in-name">{{ item.name }}</div>
         <div class="main-content" :class="{ 'plug-in-close': item.is_enable != '1' }" :style="mainContentStyle">
@@ -368,15 +378,14 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
     padding: 2rem 1.2rem;
     color: #fff;
     border-radius: 0.4rem;
-    & > i {
+    & > .plug-in-icon {
         cursor: pointer;
     }
-    & > i.disabled {
+    & > .plug-in-icon.disabled {
         color: #5db2ff;
         cursor: not-allowed;
     }
-    & .icon-arrow-top,
-    & .icon-arrow-bottom {
+    & .plug-in-icon-arrow {
         height: 0.9rem;
     }
 }

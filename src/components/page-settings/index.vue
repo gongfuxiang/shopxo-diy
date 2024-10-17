@@ -9,38 +9,59 @@
                     <img class="img" :style="`Filter: brightness(${new_style.function_buttons_type == '0' ? 0 : 100})`" src="@/assets/images/layout/main/main-top.png" />
                 </div>
                 <div class="model-head tc re mlr-12 mt-6">
-                    <div class="model-head-content flex-row align-c jc-sb gap-16 re">
-                        <div v-if="['1', '2', '3'].includes(form.theme)" class="flex-1">
-                            <div class="flex-row align-c jc-c h gap-16" :class="position_class" :style="[{ 'justify-content': form?.indicator_location || 'center' }, text_style]">
-                                <template v-if="['2', '3'].includes(form.theme) && form.logo.length > 0">
-                                    <div class="logo-outer-style">
-                                        <img class="logo-style" :src="form.logo[0].url" />
-                                    </div>
-                                </template>
-                                <div v-if="['1', '2'].includes(form.theme)">{{ form.title }}</div>
-                                <template v-if="['3', '5'].includes(form.theme)">
+                    <div class="flex-col" :style="`gap: ${ new_style.data_alone_row_space }px`">
+                        <div class="model-head-content flex-row align-c jc-sb gap-16 re">
+                            <div v-if="['1', '2', '3'].includes(form.theme)" class="flex-1">
+                                <div class="flex-1 flex-row align-c jc-c h gap-16" :class="position_class" :style="[{ 'justify-content': form?.indicator_location || 'center' }, text_style]">
+                                    <template v-if="['2', '3'].includes(form.theme) && form.logo.length > 0">
+                                        <div class="logo-outer-style">
+                                            <img class="logo-style" :src="form.logo[0].url" />
+                                        </div>
+                                    </template>
+                                    <div v-if="['1', '2'].includes(form.theme)">{{ form.title }}</div>
+                                    <template v-if="['3', '5'].includes(form.theme) && !is_search_alone_row">
+                                        <div class="flex-1">
+                                            <model-search :value="pageData.com_data" :is-page-settings="true"></model-search>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                            <div v-else-if="['4', '5'].includes(form.theme)" class="flex-1 flex-row align-c h gap-10">
+                                <div class="flex-1 flex-row gap-2" :style="'color:' + new_style.position_color">
+                                    <template v-if="form.is_location_left_icon_show == '1'">
+                                        <image-empty v-if="form.location_left_img.length > 0" v-model="form.location_left_img[0]" fit="contain" :error-img-style="'width: 12px; height:12px'"></image-empty>
+                                        <icon v-else :name="form.location_left_icon" size="12"></icon>
+                                    </template>
+                                    <span class="location-name size-14 text-line-1">{{ form.positioning_name }}</span>
+                                    <template v-if="form.is_location_right_icon_show == '1'">
+                                        <image-empty v-if="form.location_right_img.length > 0" v-model="form.location_right_img[0]" fit="contain" :error-img-style="'width: 12px; height:12px'"></image-empty>
+                                        <icon v-else :name="form.location_right_icon" size="12"></icon>
+                                    </template>
+                                </div>
+                                <template v-if="['5'].includes(form.theme) && !is_search_alone_row">
                                     <div class="flex-1">
                                         <model-search :value="pageData.com_data" :is-page-settings="true"></model-search>
                                     </div>
                                 </template>
                             </div>
-                        </div>
-                        <div v-else-if="['4', '5'].includes(form.theme)" class="flex-1 flex-row align-c h gap-10">
-                            <div class="flex-row gap-2" :style="'color:' + new_style.position_color">
-                                <icon name="location" size="12"></icon>
-                                <span class="location-name size-14 text-line-1">{{ form.positioning_name }}</span>
-                                <icon v-if="form.is_arrows_show == '1'" name="arrow-bottom" size="12"></icon>
+                            <div v-if="!isEmpty(form.icon_setting) && !is_icon_alone_row" class="flex-row align-c" :class="'gap-' + new_style.img_space">
+                                <div v-for="(item, index) in form.icon_setting" :key="index" :style="{ width: new_style.img_size + 'px', height: new_style.img_size + 'px' }">
+                                    <image-empty v-if="item.img.length > 0" v-model="item.img[0]" :error-img-style="'width: ' + Number(new_style.img_size) / 2 + 'px;height:' + Number(new_style.img_size) / 2 + 'px;'"></image-empty>
+                                    <icon v-else :name="item.icon" :size="new_style.img_size + ''" :color="new_style.img_color"></icon>
+                                </div>
                             </div>
-                            <template v-if="['5'].includes(form.theme)">
+                        </div>
+                        <div v-if="is_search_alone_row || is_icon_alone_row" class="model-head-content flex-row align-c gap-16">
+                            <template v-if="['3', '5'].includes(form.theme) && is_search_alone_row">
                                 <div class="flex-1">
                                     <model-search :value="pageData.com_data" :is-page-settings="true"></model-search>
                                 </div>
                             </template>
-                        </div>
-                        <div v-if="!isEmpty(form.icon_setting)" class="flex-row align-c" :class="'gap-' + new_style.img_space">
-                            <div v-for="(item, index) in form.icon_setting" :key="index" :style="{ width: new_style.img_size + 'px', height: new_style.img_size + 'px' }">
-                                <image-empty v-if="item.img.length > 0" v-model="item.img[0]" :error-img-style="'width: ' + Number(new_style.img_size) / 2 + 'px;height:' + Number(new_style.img_size) / 2 + 'px;'"></image-empty>
-                                <icon v-else :name="item.icon" :size="new_style.img_size + ''" :color="new_style.img_color"></icon>
+                            <div v-if="!isEmpty(form.icon_setting) && is_icon_alone_row" class="flex-row align-c" :class="'gap-' + new_style.img_space">
+                                <div v-for="(item, index) in form.icon_setting" :key="index" :style="{ width: new_style.img_size + 'px', height: new_style.img_size + 'px' }">
+                                    <image-empty v-if="item.img.length > 0" v-model="item.img[0]" :error-img-style="'width: ' + Number(new_style.img_size) / 2 + 'px;height:' + Number(new_style.img_size) / 2 + 'px;'"></image-empty>
+                                    <icon v-else :name="item.icon" :size="new_style.img_size + ''" :color="new_style.img_color"></icon>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -69,6 +90,10 @@ const page_settings = () => {
 };
 const form = computed(() => props.pageData.com_data.content);
 const new_style = computed(() => props.pageData.com_data.style);
+
+const is_search_alone_row = computed(() => form.value.data_alone_row_value.includes('search'));
+const is_icon_alone_row = computed(() => form.value.data_alone_row_value.includes('icon'));
+
 const position = computed(() => (new_style.value.up_slide_display == '1' ? 'absolute' : 'relative'));
 const roll_style = computed(() => {
     let style = ``;
@@ -138,12 +163,17 @@ const position_class = computed(() => (form.value?.indicator_location == 'center
     }
 }
 .model-head {
-    height: 3.2rem;
+    // height: 3.2rem;
     overflow: hidden;
     .model-head-content {
         height: 3.2rem;
         .location-name {
+            line-height: 3.2rem;
             max-width: 15rem;
+        }
+        :deep(.el-image) {
+            width: 100%;
+            max-height: 3.2rem;
         }
     }
 }

@@ -44,11 +44,35 @@
                     <el-form-item label="定位名称">
                         <el-input v-model="form.positioning_name" placeholder="请输入默认定位名称" clearable></el-input>
                     </el-form-item>
-                    <el-form-item label="箭头按钮">
-                        <el-switch v-model="form.is_arrows_show" active-value="1" inactive-value="0"></el-switch>
-                    </el-form-item>
                 </template>
+                <el-form-item label="数据换行">
+                    <el-checkbox-group v-model="form.data_alone_row_value">
+                        <el-checkbox v-for="item in base_list.list_show_list.filter(item => item.type.includes(form.theme))" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
+                    </el-checkbox-group>
+                </el-form-item>
             </card-container>
+            <template v-if="['4', '5'].includes(form.theme)">
+                <div class="bg-f5 divider-line" />
+                <card-container>
+                    <div class="mb-12">定位设置</div>
+                    <el-form-item label="左侧图标">
+                        <el-row class="w">
+                            <el-col :span="24"><el-switch v-model="form.is_location_left_icon_show" active-value="1" inactive-value="0"></el-switch></el-col>
+                        </el-row>
+                        <el-row v-if="form.is_location_left_icon_show == '1'" class="mt-10 w">
+                            <el-col :span="24"><upload v-model="form.location_left_img" v-model:icon-value="form.location_left_icon" is-icon :limit="1" size="50"></upload></el-col>
+                        </el-row>
+                    </el-form-item>
+                    <el-form-item label="右侧图标">
+                        <el-row class="w">
+                            <el-col :span="24"><el-switch v-model="form.is_location_right_icon_show" active-value="1" inactive-value="0"></el-switch></el-col>
+                        </el-row>
+                        <el-row v-if="form.is_location_right_icon_show == '1'" class="mt-10 w">
+                            <el-col :span="24"><upload v-model="form.location_right_img" v-model:icon-value="form.location_right_icon" is-icon :limit="1" size="50"></upload></el-col>
+                        </el-row>
+                    </el-form-item>
+                </card-container>
+            </template>
             <div class="bg-f5 divider-line" />
             <template v-if="['3', '5'].includes(form.theme)">
                 <model-search-content :value="form"></model-search-content>
@@ -97,7 +121,11 @@ const base_list = reactive({
         { id: '3', name: '风格3', url: new URL(`../../assets/images/components/page-settings/theme-3.png`, import.meta.url).href },
         { id: '4', name: '风格4', url: new URL(`../../assets/images/components/page-settings/theme-4.png`, import.meta.url).href },
         { id: '5', name: '风格5', url: new URL(`../../assets/images/components/page-settings/theme-5.png`, import.meta.url).href },
-    ]
+    ],
+    list_show_list: [
+        { name: '搜索', value: 'search', type: ['3', '5'] },
+        { name: '右侧图标', value: 'icon', type: ['1', '2', '3', '4', '5' ] },
+    ],
 });
 
 const icon_setting_remove = (index: number) => {

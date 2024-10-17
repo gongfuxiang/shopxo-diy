@@ -10,7 +10,7 @@
                         <template v-else-if="!isEmpty(form.icon_class)">
                             <icon :name="form.icon_class" :size="new_style.icon_size + ''" :color="new_style.icon_color"></icon>
                         </template>
-                        <div class="pr-15 nowrap" :style="title_style">{{ form.title }}</div>
+                        <div v-if="!isEmpty(form.title)" class="pr-15 nowrap" :style="title_style">{{ form.title }}</div>
                     </div>
                     <div class="flex-row gap-10 align-c right-0 abs">
                         <template v-if="form.keyword_show == '1'">
