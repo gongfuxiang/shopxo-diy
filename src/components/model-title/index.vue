@@ -21,7 +21,7 @@
                         <div v-if="form.right_show == '1'" class="nowrap" :style="right_style">{{ form.right_title }}<el-icon class="iconfont icon-arrow-right" :color="new_style.right_color || '#999'"></el-icon></div>
                     </div>
                 </div>
-                <div v-if="!isEmpty(form.subtitle)" class="break" :style="subtitle_style">{{ form.subtitle }}</div>
+                <div v-if="!isEmpty(form.subtitle)" class="txet-word-break" :style="subtitle_style">{{ form.subtitle }}</div>
             </div>
         </div>
     </div>
@@ -93,11 +93,6 @@ const style_img_container = computed(() => common_img_computer(new_style.value.c
 .right-0.abs {
     top: 50%;
     transform: translateY(-50%);
-}
-.break {
-    word-break: break-word;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
 }
 .title-img {
     // max-width: 6rem;

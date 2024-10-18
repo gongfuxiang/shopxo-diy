@@ -285,3 +285,9 @@
     font-size: 1.4rem;
     white-space: initial;
 }
+// 数字和文字超出范围不整体换行
+.txet-word-break {
+    word-break: break-all;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+}

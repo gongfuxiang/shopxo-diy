@@ -311,7 +311,8 @@ $line: 5;
         -webkit-line-clamp: #{$i};
         line-clamp: #{$i}; // 添加标准属性以增加兼容性
         -webkit-box-orient: vertical;
-        word-break: break-word;
+        // word-break: break-word;
+        word-break: break-all;
         overflow-wrap: break-word;
         word-wrap: break-word;
     }

@@ -6,6 +6,13 @@
                 <el-form-item label="商品名称">
                     <color-text-size-group v-model:color="form.shop_title_color" v-model:typeface="form.shop_title_typeface" v-model:size="form.shop_title_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
+                <el-form-item label="商品简述">
+                    <color-text-size-group v-model:color="form.shop_simple_desc_color" v-model:size="form.shop_simple_desc_size" default-color="#999" :type-list="['color', 'size']">
+                        <el-form-item label="间距" label-width="40" class="mb-0 w form-item-child-label">
+                            <slider v-model="form.title_simple_desc_spacing" :max="100"></slider>
+                        </el-form-item>
+                    </color-text-size-group>
+                </el-form-item>
                 <el-form-item label="商品价格">
                     <color-text-size-group v-model:color="form.shop_price_color" v-model:typeface="form.shop_price_typeface" v-model:size="form.shop_price_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
