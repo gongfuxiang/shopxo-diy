@@ -10,7 +10,7 @@
 </template>
 <script setup lang="ts">
 /**
- * @description: 文章选项卡列表（设置）
+ * @description: 文章选项卡列表 （设置）
  * @param type{String} 类型（1：内容，2：样式）
  * @param value{Object} 传过来的数据，用于数据渲染
  */

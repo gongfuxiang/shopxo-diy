@@ -99,7 +99,10 @@
     </div>
 </template>
 <script setup lang="ts">
-import { omit } from 'lodash';
+/**
+ * @description: 用户信息 （样式）
+ * @param value{Object} 样式数据
+ */
 const props = defineProps({
     value: {
         type: Object,
@@ -112,10 +115,12 @@ const font_weight = reactive([
 ]);
 // 默认值
 let form = ref(props.value);
+// 多颜色选择器事件
 const mult_color_picker_event = (arry: string[], type: number) => {
     form.value.number_code_color_list = arry;
     form.value.number_code_direction = type.toString();
 };
+// 公共样式回调
 const common_styles_update = (val: Object) => {
     form.value.common_style = val;
 };

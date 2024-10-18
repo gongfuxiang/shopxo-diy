@@ -4,6 +4,10 @@
     </div>
 </template>
 <script setup lang="ts">
+/**
+ * @description: 富文本（样式）
+ * @param value{Object} 样式数据
+ */
 const props = defineProps({
     value: {
         type: Object,
@@ -15,6 +19,7 @@ const props = defineProps({
 const emit = defineEmits(['update:value']);
 // 默认值
 let form = reactive(props.value);
+// 公共样式回调
 const common_styles_update = (val: Object) => {
     form.common_style = val;
 };

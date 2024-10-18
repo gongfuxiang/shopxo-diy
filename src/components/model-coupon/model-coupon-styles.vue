@@ -61,6 +61,11 @@
 </template>
 <script setup lang="ts">
 import { cloneDeep } from 'lodash';
+/**
+ * @description: 优惠券（样式）
+ * @param value{Object} 样式数据
+ * @param theme{String} 主题
+ */
 const props = defineProps({
     value: {
         type: Object,
@@ -76,22 +81,26 @@ const emit = defineEmits(['update:value']);
 let form = reactive(props.value);
 let clone_form = cloneDeep(props.value);
 
+// 背景色
 const background_event = (arry: color_list[], type: number) => {
     form.background = arry;
     form.direction = type.toString();
     emit('update:value', form);
 };
+// 内背景色
 const background_inside_event = (arry: color_list[], type: number) => {
     form.background_inside = arry;
     form.direction_inside = type.toString();
     emit('update:value', form);
 };
 
+// 按钮背景色
 const btn_background_event = (arry: color_list[], type: number) => {
     form.btn_background = arry;
     form.btn_direction = type.toString();
     emit('update:value', form);
 };
+// 公共样式回调
 const common_styles_update = (val: Object) => {
     form.common_style = val;
 };

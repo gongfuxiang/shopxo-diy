@@ -21,6 +21,10 @@
     </div>
 </template>
 <script setup lang="ts">
+/**
+ * @description: 视频 （内容）
+ * @param value{Object} 内容数据
+ */
 const props = defineProps({
     value: {
         type: Object,

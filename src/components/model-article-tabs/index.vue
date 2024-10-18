@@ -12,8 +12,8 @@
 import { common_img_computer, common_styles_computer } from '@/utils';
 import { cloneDeep } from 'lodash';
 /**
- * @description: 文章选项卡列表（渲染）
- * @param value{Object} 样式数据
+ * @description: 文章选项卡列表 （渲染）
+ * @param value{Object} 传过来的数据，用于数据渲染
  */
 const props = defineProps({
     value: {

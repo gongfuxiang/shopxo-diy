@@ -27,6 +27,7 @@ const props = defineProps({
 });
 const form = ref(props.value);
 const new_url = ref('');
+// 默认配置
 const default_config = ref({
     style: {
         theme_1: {
@@ -205,10 +206,12 @@ const default_config = ref({
         },
     },
 });
+// 获取图片路径
 onMounted(async () => {
     new_url.value = await online_url('/static/plugins/coupon/images/diy/').then((res) => res);
     default_config.value.common_style.theme_2.background_img = [{ url: new_url.value + 'theme-2-bg.png' }];
 });
+// 切换主题
 const change_theme = (val: string) => {
     if (val) {
         if (val == '2') {

@@ -10,6 +10,10 @@
 </template>
 <script setup lang="ts">
 import { common_img_computer, common_styles_computer } from '@/utils';
+/**
+ * @description: 热区（渲染）
+ * @param value{Object} 传过来的数据，用于数据渲染
+ */
 const props = defineProps({
     value: {
         type: Object,
@@ -45,7 +49,7 @@ watch(
     },
     { immediate: true, deep: true }
 );
-
+// 图片加载完毕
 const on_load_img = () => {
     container_ref_h.value = containerRef.value?.clientHeight || 0;
     container_ref_w.value = containerRef.value?.clientWidth || 0;
@@ -57,6 +61,7 @@ const w_scale1 = computed(() => {
     // 此处使用容器高度，因为图片是按照容器高度等比缩放的
     return container_ref_h.value / img_width.value;
 });
+// containerRef的宽高
 const h_scale1 = computed(() => {
     return container_ref_h.value / img_height.value;
 });
@@ -64,10 +69,11 @@ const h_scale1 = computed(() => {
 const w_scale2 = computed(() => {
     return hot_ref_w.value / container_ref_h.value;
 });
+//  hotRef的宽高
 const h_scale2 = computed(() => {
     return hot_ref_h.value / container_ref_h.value;
 });
-
+// 计算坐标和宽高的比例
 const rect_style = computed(() => {
     return (start: rectCoords, end: rectCoords) => {
         return `left: ${start.x * w_scale1.value * w_scale2.value}px;top: ${start.y * h_scale1.value * h_scale2.value}px;width: ${Math.max(end.width * w_scale1.value * w_scale2.value, 1)}px;height: ${Math.max(end.height * h_scale1.value * h_scale2.value, 1)}px;display: flex;`;

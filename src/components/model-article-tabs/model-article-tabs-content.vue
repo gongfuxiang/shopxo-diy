@@ -100,7 +100,7 @@ import { get_math, tabs_style } from '@/utils';
 import { commonStore } from '@/store';
 const common_store = commonStore();
 /**
- * @description: 文章选项卡列表（内容）
+ * @description: 文章选项卡列表 （内容）
  * @param value{Object} 内容数据
  * @param tabsStyle{Object} tabs样式数据
  * @param defaultConfig{Object} 默认配置

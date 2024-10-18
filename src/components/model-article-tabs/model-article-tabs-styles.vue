@@ -85,7 +85,7 @@
 </template>
 <script setup lang="ts">
 /**
- * @description: 文章选项卡列表（样式）
+ * @description: 文章选项卡列表 （样式）
  * @param value{Object} 样式数据
  * @param content{Object} 内容数据
  * @param defaultConfig{Object} 默认配置

@@ -31,6 +31,10 @@
 </template>
 <script setup lang="ts">
 import { common_styles_computer, gradient_computer, common_img_computer } from '@/utils';
+/**
+ * @description: 用户信息（渲染）
+ * @param value{Object} 传过来的数据，用于数据渲染
+ */
 const props = defineProps({
     value: {
         type: Object,
@@ -58,6 +62,7 @@ const icon_setting = ref<icon_params[]>([
     { id: '1', img: [], icon: '', link: {} },
     { id: '2', img: [], icon: '', link: {} },
 ]);
+// 数据
 const base_data = reactive({
     // 头像大小
     user_avatar_size: '60',
@@ -102,6 +107,7 @@ const user_name_style = ref('');
 const number_code_style = ref('');
 const stats_name_style = ref('');
 const stats_number_style = ref('');
+// 监听
 watch(
     props.value,
     (newVal, oldValue) => {

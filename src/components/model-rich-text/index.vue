@@ -9,6 +9,10 @@
 import { common_img_computer, common_styles_computer } from '@/utils';
 // 引入dompurify模块 安全地清理HTML内容，确保插入到DOM中的内容不会导致XSS攻击。
 import DOMPurify from 'dompurify';
+/**
+ * @description: 富文本（渲染）
+ * @param value{Object} 传过来的数据，用于数据渲染
+ */
 const props = defineProps({
     value: {
         type: Object,

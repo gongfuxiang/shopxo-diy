@@ -147,7 +147,7 @@ const common_store = commonStore();
 const currency_symbol = common_store.common.config.currency_symbol;
 /**
  * @description: 优惠券（渲染）
- * @param value{Object} 样式数据
+ * @param value{Object} 传过来的数据，用于数据渲染
  */
 const props = defineProps({
     value: {

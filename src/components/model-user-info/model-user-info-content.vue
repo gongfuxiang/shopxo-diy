@@ -28,6 +28,10 @@
 </template>
 <script setup lang="ts">
 import { get_math } from '@/utils';
+/**
+ * @description: 用户信息（内容）
+ * @param value{Object} 内容数据
+ */
 const props = defineProps({
     value: {
         type: Object,

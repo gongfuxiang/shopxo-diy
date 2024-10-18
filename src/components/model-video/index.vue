@@ -15,6 +15,10 @@
 </template>
 <script setup lang="ts">
 import { common_styles_computer, common_img_computer } from '@/utils';
+/**
+ * @description: 视频 （渲染）
+ * @param value{Object} 传过来的数据，用于数据渲染
+ */
 const props = defineProps({
     value: {
         type: Object,

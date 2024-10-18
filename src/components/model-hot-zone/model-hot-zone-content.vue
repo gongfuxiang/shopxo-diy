@@ -12,6 +12,10 @@
     </div>
 </template>
 <script setup lang="ts">
+/**
+ * @description: 热曲（内容）
+ * @param value{Object} 内容数据
+ */
 const props = defineProps({
     value: {
         type: Object,
@@ -22,7 +26,7 @@ const props = defineProps({
     },
 });
 const form = ref(props.value);
-
+// 监听图片上传
 const update_upload_data = (val: any) => {
     if (val.length > 0) {
         form.value.hot.img = val[0].url;

@@ -15,6 +15,10 @@
 <script setup lang="ts">
 import '@wangeditor/editor/dist/css/style.css'; // 引入 css
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
+/**
+ * @description: 富文本（内容）
+ * @param value{Object} 内容数据
+ */
 const props = defineProps({
     value: {
         type: Object,
@@ -40,6 +44,7 @@ const rich_upload_type = ref('img');
 interface InsertFnType {
     (url: string, alt?: string, link?: string): void;
 }
+// 编辑器配置
 const editor_config = ref({
     placeholder: '请输入内容...',
     MENU_CONF: {
@@ -66,14 +71,17 @@ const editor_config = ref({
 });
 // 获取到对应的触发事件
 const upload_insert = ref<any>(null);
+// 创建编辑器实例
 const handle_created = (editor: any) => {
     editor_ref.value = editor; // 记录 editor 实例，重要！
 };
 
 const emit = defineEmits(['update:value']);
+// 内容改变
 const handle_change = (editor: any) => {
     form.html = editor.getHtml();
 };
+// 上传列表改变
 const upload_list_change = (arry: uploadList[]) => {
     const editor = editor_ref.value;
     let new_html = '';
