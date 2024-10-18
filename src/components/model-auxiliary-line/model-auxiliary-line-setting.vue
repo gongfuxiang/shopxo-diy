@@ -9,6 +9,11 @@
     </div>
 </template>
 <script setup lang="ts">
+/**
+ * @description: 辅助线（设置）
+ * @param type{String} 类型（1：内容，2：样式）
+ * @param value{Object} 样式数据
+ */
 const props = defineProps({
     type: {
         type: String,

@@ -54,6 +54,12 @@
 import { online_url, is_obj_empty } from '@/utils';
 import { commonStore } from '@/store';
 const common_store = commonStore();
+/**
+ * @description: 文章选项卡列表（内容）
+ * @param value{Object} 内容数据
+ * @param styles{Object} 样式数据
+ * @param defaultConfig{Object} 默认配置
+ */
 const props = defineProps({
     value: {
         type: Object,
@@ -84,7 +90,9 @@ const base_list = reactive({
     coupon_type_list: [] as select_2[],
 });
 onMounted(async () => {
+    // 获取图片地址
     new_url.value = await online_url('/static/plugins/coupon/images/diy/').then((res) => res);
+    // 添加图片地址
     base_list.themeList.forEach((item) => {
         item.url = `${new_url.value}${item.url}`;
     });
@@ -96,18 +104,23 @@ onMounted(async () => {
     });
 });
 const emit = defineEmits(['update:change-theme']);
+// 触发主题切换事件
 const themeChange = (val: string) => {
     emit('update:change-theme', val);
 };
+// 移除
 const remove = (index: number) => {
     form.value.data_list.splice(index, 1);
 };
+// 排序
 const on_sort = (item: any) => {
     form.value.data_list = item;
 };
+// 新增
 const add = () => {
     url_value_dialog_visible.value = true;
 };
+// 弹窗回调
 const url_value_dialog_call_back = (item: any[]) => {
     item.forEach((child: any) => {
         form.value.data_list.push(child);

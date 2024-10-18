@@ -84,6 +84,13 @@
     </div>
 </template>
 <script setup lang="ts">
+/**
+ * @description: 文章选项卡列表（样式）
+ * @param value{Object} 样式数据
+ * @param content{Object} 内容数据
+ * @param defaultConfig{Object} 默认配置
+ * @param tabsStyle{String} 选项卡风格
+ */
 const props = defineProps({
     value: {
         type: Object,
@@ -113,7 +120,9 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, data } = toRefs(state);
+// 主题
 const theme = computed(() => data.value.article_theme);
+// 兼容旧数据
 if (theme.value == '0') {
     if (form.value.img_radius.radius == props.defaultConfig.img_radius_0 || (form.value.img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && form.value.img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && form.value.img_radius.radius_top_left == props.defaultConfig.img_radius_1 && form.value.img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
         form.value.img_radius.radius = props.defaultConfig.img_radius_0;
@@ -131,10 +140,12 @@ if (theme.value == '0') {
         form.value.img_radius.radius_top_right = props.defaultConfig.img_radius_1;
     }
 }
+//  选项卡选中事件
 const tabs_checked_event = (arry: string[], type: number) => {
     form.value.tabs_checked = arry;
     form.value.tabs_direction = type.toString();
 };
+// 通用样式回调
 const common_styles_update = (val: Object) => {
     form.value.common_style = val;
 };

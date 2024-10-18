@@ -97,9 +97,14 @@
 </template>
 <script setup lang="ts">
 import { get_math, tabs_style } from '@/utils';
-import ArticleAPI from '@/api/article';
 import { commonStore } from '@/store';
 const common_store = commonStore();
+/**
+ * @description: 文章选项卡列表（内容）
+ * @param value{Object} 内容数据
+ * @param tabsStyle{Object} tabs样式数据
+ * @param defaultConfig{Object} 默认配置
+ */
 const props = defineProps({
     value: {
         type: Object,
@@ -167,6 +172,7 @@ onMounted(() => {
         }
     });
 });
+// 监听tabs_theme_list的变化
 const article_theme_change = (val: any) => {
     if (val == '3' || val == '4') {
         form.field_show = ['1'];
@@ -194,6 +200,8 @@ const article_theme_change = (val: any) => {
 
 // 开启关闭链接
 const url_value_dialog_visible = ref(false);
+
+// 选项卡点击
 const tabs_list_click = (item: any, index: number) => {
     form.tabs_active_index = index;
 };
@@ -211,11 +219,12 @@ const tabs_list_remove = (index: number) => {
         ElMessage.warning('至少保留一个选项卡');
     }
 };
+// 拖拽排序
 const tabs_list_sort = (item: any) => {
     // 拖拽完成后更新数组
     form.tabs_list = item;
 };
-
+// 添加选项卡
 const tabs_add = () => {
     form.tabs_list.push({
         id: get_math(),
@@ -236,12 +245,15 @@ const tabs_add = () => {
 const data_list_remove = (index: number, article_index: number) => {
     form.tabs_list[article_index].data_list.splice(index, 1);
 };
+// 拖拽排序
 const data_list_sort = (item: any, index: number) => {
     form.tabs_list[index].data_list = item;
 };
 
 const url_value_multiple_bool = ref(true);
 const data_list_replace_index = ref(0);
+
+// 替换
 const data_list_replace = (index: number) => {
     data_list_replace_index.value = index;
     url_value_multiple_bool.value = false;
@@ -249,11 +261,13 @@ const data_list_replace = (index: number) => {
 };
 
 const article_index = ref(0);
+// 添加文章
 const article_add = (index: number) => {
     url_value_multiple_bool.value = true;
     url_value_dialog_visible.value = true;
     article_index.value = index;
 };
+// 添加回调
 const url_value_dialog_call_back = (item: any[]) => {
     if (url_value_multiple_bool.value) {
         item.forEach((child: any) => {
@@ -275,10 +289,13 @@ const url_value_dialog_call_back = (item: any[]) => {
 };
 
 const styles = reactive(props.tabStyle);
+// 颜色主题切换
 const tabs_theme_change = (val: string | number | boolean | undefined): void => {
     styles.tabs_color_checked = tabs_style(styles.tabs_color_checked, val);
 };
+// 监听是否开启沉浸式
 const is_immersion_model = computed(() => common_store.is_immersion_model);
+// 监听沉浸式开启
 watchEffect(() => {
     if (is_immersion_model.value) {
         form.tabs_top_up = '0';

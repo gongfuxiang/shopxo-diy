@@ -7,6 +7,10 @@
 </template>
 <script setup lang="ts">
 import { common_img_computer, common_styles_computer } from '@/utils';
+/**
+ * @description: 辅助线（渲染）
+ * @param value{Object} 样式数据
+ */
 const props = defineProps({
     value: {
         type: Object,
@@ -17,6 +21,7 @@ const props = defineProps({
 const style = ref('');
 const style_container = ref('');
 const style_img_container = ref('');
+// 监听数据变化
 watch(
     props.value,
     (newVal, oldValue) => {

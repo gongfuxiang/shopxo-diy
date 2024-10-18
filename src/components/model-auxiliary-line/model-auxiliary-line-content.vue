@@ -21,6 +21,10 @@
     </div>
 </template>
 <script setup lang="ts">
+/**
+ * @description: 辅助线（内容）
+ * @param value{Object} 内容数据
+ */
 const props = defineProps({
     value: {
         type: Object,
@@ -28,6 +32,7 @@ const props = defineProps({
     },
 });
 const form = reactive(props.value);
+// 线条样式切换
 const line_change = (val: any) => {
     form.styles = val;
 };

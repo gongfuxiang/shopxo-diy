@@ -16,6 +16,10 @@
     </div>
 </template>
 <script setup lang="ts">
+/**
+ * @description: 辅助线（样式）
+ * @param value{Object} 样式数据
+ */
 const props = defineProps({
     value: {
         type: Object,
@@ -35,6 +39,7 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form } = toRefs(state);
+// 公共样式的变化回调
 const common_styles_update = (val: Object) => {
     form.value.common_style = val;
 };

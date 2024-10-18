@@ -145,6 +145,10 @@ import CouponAPI from '@/api/coupon';
 import { commonStore } from '@/store';
 const common_store = commonStore();
 const currency_symbol = common_store.common.config.currency_symbol;
+/**
+ * @description: 优惠券（渲染）
+ * @param value{Object} 样式数据
+ */
 const props = defineProps({
     value: {
         type: Object,
@@ -188,6 +192,7 @@ const theme_bg_img = ref<themeBgImg>({
     url_2: ``,
     url_3: ``,
 });
+// 初始化数据
 onMounted(() => {
     if (!isEmpty(form.value.data_list) && form.value.data_type == '1') {
         data_list.value = form.value.data_list;
@@ -206,6 +211,7 @@ onMounted(() => {
         url_3: form.value.theme_5_static_img[0].url,
     };
 });
+// 获取优惠券列表
 const get_coupon = () => {
     const { number, type } = form.value;
     const params = {
@@ -222,10 +228,12 @@ const get_coupon = () => {
         }
     });
 };
+// 监听数据类型
 const data_list_computer = computed(() => {
     const { data_type, type, number, data_list } = form.value;
     return { data_type, type, number, data_list };
 });
+// 监听数据类型变化
 watch(
     () => data_list_computer.value,
     (new_value) => {
@@ -241,7 +249,9 @@ watch(
     },
     { deep: true }
 );
+// 主题
 const theme = computed(() => props.value?.content?.theme);
+// 主题样式
 const theme_style = computed(() => {
     const new_background = gradient_computer({ color_list: props.value?.style?.background, direction: props.value?.style?.direction }, false);
     const new_background_inside = gradient_computer({ color_list: props.value?.style?.background_inside, direction: props.value?.style?.direction_inside }, false);
@@ -263,9 +273,11 @@ const theme_style = computed(() => {
         ...(!['1', '2', '3', '5', '6', '7'].includes(theme.value) && { content_desc_color: props.value?.style?.content_desc_color }),
     };
 });
+// 主题3边框样式
 const theme_3_border_style = computed(() => {
     return props.value?.style?.background[0].color;
 });
+// 主题7背景样式
 const theme_7_background_style = computed(() => {
     if (props.value?.style?.common_style.color_list.length > 0) {
         return props.value?.style?.common_style.color_list[0].color;

@@ -10,7 +10,7 @@
 </template>
 <script setup lang="ts">
 /**
- * @description: 文章列表（切换）
+ * @description: 文章选项卡列表（设置）
  * @param type{String} 类型是进入内容组件还是样式组件
  * @param value{Object} 样式数据
  */
