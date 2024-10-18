@@ -15,11 +15,17 @@ interface defaultSearch {
 }
 const defaultSearch: defaultSearch = {
     content: {
+        // 自定义内容高度
         height: 390,
+        // 图片key  
         img_key: '',
+        // 存放数据内容的id
         data_source_content_value: '',
+        // 数据源内容
         data_source_content: {},
+        // 数据源
         data_source:'',
+        // 自定义内容列表
         custom_list: []
     },
     style: {

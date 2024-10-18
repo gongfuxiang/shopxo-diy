@@ -178,6 +178,7 @@ const swiper_style = computed(() => {
     let slidesPerView: number | "auto" | undefined = 'auto';
     let centeredSlides = true;
     let spaceBetween = 0;
+    // 轮播图类型 一拖一，二拖一不同状态下的不同风格
     if (form.value.carousel_type == 'oneDragOne') {
         slidesPerView = 2;
         centeredSlides = false;

@@ -282,7 +282,7 @@ const del = (index: null | number) => {
         });
     }
 };
-//前置一层 + 1
+//前置一层 - 1
 const previous_layer = (index: number) => {
     if (diy_data.value.length > 0) {
         const old_data = get_diy_index_data(index);
@@ -294,7 +294,7 @@ const previous_layer = (index: number) => {
     }
 }
 
-//后置一层 - 1
+//后置一层 + 1
 const underlying_layer = (index: number) => {
     if (diy_data.value.length > 0) {
         const old_data = get_diy_index_data(index);
@@ -344,6 +344,7 @@ const set_show_tabs = (index: number) => {
         if (for_index == index) {
             select_index.value = for_index;
             item.show_tabs = '1';
+            // 滚动到指定位置
             scroll();
             emits('rightUpdate', item);
         }
@@ -460,8 +461,9 @@ const drop = (event: any) => {
                 staging_y: adjustedY,
             },
         };
-
+        // 因为修改层级之后z-index是递减的，所以新添加的元素，需要添加到头部    
         diy_data.value.unshift(newItem);
+        // 选中第0个
         set_show_tabs(0);
     }
 };
@@ -483,11 +485,15 @@ const dragEndHandle = (item: any, index: number) => {
 // {x: number, y: number, w: number, h: number}
 const resizingHandle = (new_location: any, key: string, index: number) => {
     const { x, y, w, h } = new_location;
+    // 对应位置的定位修改为当前更新的位置
     diy_data.value[index].location = { x, y, record_x: x, record_y: y, staging_y: y };
+    // 获取到当前更新的内容
     const com_data = diy_data.value[index].com_data;
+    // 更新组件的宽高
     com_data.com_width = w;
     com_data.com_height = h;
     com_data.staging_height = h;
+    // 图片和线的宽高需要重新计算
     if (key == 'img') {
         const { img_width, img_height } = handleImg(com_data, w, h);
         com_data.img_width = img_width;
@@ -530,6 +536,7 @@ const drag_bool = ref(false);
 const drag_box_bool = ref(false);
 // 拖拽放大缩小盒子的开关
 const drag_box_scale_bool = ref(false);
+// 开始拖拽生成时的坐标
 const start_drag = (event: MouseEvent) => {
     drag_bool.value = true;
     if (!imgBoxRef.value) return;
@@ -538,6 +545,7 @@ const start_drag = (event: MouseEvent) => {
     rect_start.value.width = 0;
     rect_start.value.height = 0;
 };
+// 拖动中
 const move_drag = (event: MouseEvent) => {
     if (drag_bool.value) {
         if (!imgBoxRef.value) return;
@@ -551,16 +559,19 @@ const move_drag = (event: MouseEvent) => {
         init_drag_style.value = `left: ${rect_start.value.x}px;top: ${rect_start.value.y}px;width: ${Math.max(rect_end.value.width, 1)}px;height: ${Math.max(rect_end.value.height, 1)}px;display: flex;`;
     }
 };
+// 拖动结束时的处理
 const end_drag = (event: MouseEvent) => {
     drag_bool.value = false;
     if (areaRef.value) areaRef.value.style.display = 'none';
     if (!imgBoxRef.value) return;
     init_drag_style.value = ``;
+    // 大于16px才添加热区
     if (rect_end.value.width > 16 && rect_end.value.height > 16) {
         hot_list.data = [{ name: '热区' + (hot_list.data.length + 1), link: {}, drag_start: cloneDeep(rect_start.value), drag_end: cloneDeep(rect_end.value) }];
         diy_data.value.forEach((item: any) => {
             item.show_tabs = '0';
         });
+        // 清除选中
         select_index.value = null;
         emits('rightUpdate', {});
     }
@@ -572,6 +583,7 @@ const area_box_point = ref({ x: 0, y: 0 });
 const dbl_drag_event = (item: hotListData, index: number) => {
     hot_list_index.value = index;
 };
+// 开始拖拽生成的热区时候
 const start_drag_area_box = (index: number, event: MouseEvent) => {
     hot_list_index.value = index;
     event.stopPropagation();
@@ -749,10 +761,11 @@ const updateDragEnd = (dragStart: { x: number; y: number }, dragEnd: { x: number
 
 // 辅助函数用于处理边界
 const handleBoundary = (value: number, min: number, max: number) => Math.max(min, Math.min(value, max));
-
+// 删除拖拽热区
 const del_area_event = (index: number) => {
     hot_list.data.splice(index, 1);
 };
+// 获取热区样式
 const rect_style = computed(() => {
     return (start: rectCoords, end: rectCoords) => {
         return `left: ${start.x}px;top: ${start.y}px;width: ${Math.max(end.width, 1)}px;height: ${Math.max(end.height, 1)}px;display: flex;`;

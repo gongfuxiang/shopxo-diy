@@ -49,11 +49,12 @@ interface defaultSearch {
 }
 const defaultSearch: defaultSearch = {
     content: {
-        carousel_type: 'inherit',
-        img_fit: 'contain',
-        is_roll: '1',
-        interval_time: 3,
-        height: 300,
+        carousel_type: 'inherit', //轮播风格
+        img_fit: 'contain', //图片裁剪方式
+        is_roll: '1',//是否轮播
+        interval_time: 3,//轮播时间
+        height: 300,//轮播高度
+        // 轮播图片
         carousel_list: [
             {
                 carousel_img: [],
@@ -76,17 +77,29 @@ const defaultSearch: defaultSearch = {
         ]
     },
     style: {
+        //圆角
         radius: 0,
         radius_top_left: 0,
         radius_top_right: 0,
         radius_bottom_left: 0,
         radius_bottom_right: 0,
-        is_show: '1',
+        // 图片间距
         image_spacing: 10,
+        // 指示器是否显示
+        is_show: '1',
+        // 指示器样式
         indicator_style: 'dot',
+        // 指示器选中颜色
+        actived_color: '#2A94FF',
+        // 常规颜色
+        color: '#DDDDDD',
+        // 指示器位置
         indicator_location: 'center',
+        // 指示器大小
         indicator_size: 5,
+        // 指示器距离底部位置
         indicator_bottom: 6,
+        // 指示器圆角
         indicator_radius: {
             radius: 4,
             radius_top_left: 4,
@@ -94,8 +107,9 @@ const defaultSearch: defaultSearch = {
             radius_bottom_left: 4,
             radius_bottom_right: 4,
         },
+        // 视频是否显示
         video_is_show: '1',
-        video_type: 'icon',
+        // 视频圆角
         video_radius: {
             radius: 20,
             radius_top_left: 20,
@@ -103,6 +117,7 @@ const defaultSearch: defaultSearch = {
             radius_bottom_left: 20,
             radius_bottom_right: 20,
         },
+        // 视频边距
         video_padding: {
             padding: 0,
             padding_top: 3,
@@ -110,17 +125,24 @@ const defaultSearch: defaultSearch = {
             padding_left: 6,
             padding_right: 12,
         },
+        // 视频左侧类型
+        video_type: 'icon',
+        // 视频左侧图片
         video_img: [],
+        // 视频左侧icon
         video_icon_class: '',
+        // 视频左侧icon颜色
         video_icon_color: '#ff6868',
+        // 视频位置
         video_location: 'center',
+        // 视频距离底部距离
         video_bottom: 20,
+        // 视频标题设置
         video_title_color: '#666',
         video_title_size: 12,
         video_color_list: [{ color: '#F0F0F0', color_percentage: undefined }],
         video_direction: '180deg',
-        actived_color: '#2A94FF',
-        color: '#DDDDDD',
+        // 公共样式
         common_style: {
             ...defaultCommon,
             padding: 10,
