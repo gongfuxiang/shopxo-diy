@@ -27,6 +27,7 @@ interface defaultTabs {
         img_fit: string;
         is_roll: string;
         interval_time: number;
+        height: number;
     };
     style: {
         tabs_one_theme: string;
@@ -49,7 +50,6 @@ interface defaultTabs {
         radius_bottom_left: number;
         radius_bottom_right: number;
         is_show: string;
-        height: number;
         image_spacing: number;
         indicator_style: string;
         indicator_location: string;
@@ -108,6 +108,7 @@ const defaultTabs: defaultTabs = {
                 video_title: '视频名称',
             },
         ],
+        height: 300,
     },
     style: {
         tabs_one_theme: '0',
@@ -133,7 +134,6 @@ const defaultTabs: defaultTabs = {
         radius_bottom_left: 0,
         radius_bottom_right: 0,
         is_show: '1',
-        height: 300,
         image_spacing: 10,
         indicator_style: 'dot',
         indicator_location: 'center',

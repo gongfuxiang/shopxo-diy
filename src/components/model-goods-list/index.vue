@@ -25,7 +25,10 @@
                             </template>
                             <div class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
                                 <div class="flex-col gap-10 top-title">
+                                    <div v-if="is_show('shop')" class="flex-col" :style="`gap: ${ item.title_simple_desc_spacing }px;`">
+                                    </div>
                                     <div v-if="is_show('title')" :class="text_line" :style="trends_config('title')">{{ item.title }}</div>
+                                    <div v-if="['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc')" class="text-line-1" :style="trends_config('simple_desc')">{{ item.simple_desc }}</div>
                                     <div v-if="show_content && is_show('plugins_view_icon') && !isEmpty(item.plugins_view_icon_data)" class="flex-row gap-5 align-c">
                                         <div v-for="(icon_data, icon_index) in item.plugins_view_icon_data" :key="icon_index" class="radius-sm size-9 pl-3 pr-3" :style="icon_style(icon_data)">{{ icon_data.name }}</div>
                                     </div>
@@ -110,6 +113,7 @@
                                 <div class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
                                     <div class="flex-col gap-10 top-title">
                                         <div v-if="is_show('title')" :class="text_line" :style="trends_config('title')">{{ item.title }}</div>
+                                        <div v-if="['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc')" class="text-line-1" :style="trends_config('simple_desc')">{{ item.simple_desc }}</div>
                                         <div v-if="show_content && is_show('plugins_view_icon') && !isEmpty(item.plugins_view_icon_data)" class="flex-row gap-5 align-c">
                                             <div v-for="(icon_data, icon_index) in item.plugins_view_icon_data" :key="icon_index" class="radius-sm size-9 pl-3 pr-3" :style="icon_style(icon_data)">{{ icon_data.name }}</div>
                                         </div>
@@ -184,7 +188,9 @@ interface data_list {
     min_original_price: string;
     show_original_price_symbol: string;
     show_original_price_unit: string;
+    simple_desc: string;
     min_price: string;
+    title_simple_desc_spacing: string;
     show_price_symbol: string;
     show_price_unit: string;
     sales_count: string;
@@ -369,7 +375,7 @@ const text_line = computed(() => {
     if (['1', '6'].includes(theme.value)) {
         line = 'text-line-1';
     } else if (['0', '2', '3', '4', '5'].includes(theme.value)) {
-        line = 'text-line-2';
+        line = 'text-line-2 multi-text';
     }
     return line;
 });

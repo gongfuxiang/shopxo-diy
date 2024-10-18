@@ -228,7 +228,7 @@ import { ext_img_name_list, ext_video_name_list, ext_file_name_list, ext_file_na
 import UploadAPI, { Tree } from '@/api/upload';
 import { uploadStore, commonStore } from '@/store';
 import { isEmpty } from 'lodash';
-import searchIcons from '@/assets/icons/iconfont.json';
+import search_icons from '@/assets/icons/iconfont.json';
 const upload_store = uploadStore();
 const common_store = commonStore();
 const app = getCurrentInstance();
@@ -621,7 +621,7 @@ const transform_category_event = () => {
 const icon_value = defineModel('iconValue', { type: String, default: '' });
 const temp_icon_value = ref('');
 const search_icon = ref('');
-const icon_list = computed(() => searchIcons.glyphs.filter((item) => item.name.includes(search_icon.value)));
+const icon_list = computed(() => search_icons.glyphs.filter((item) => item.name.includes(search_icon.value) || item.font_class.includes(search_icon.value)));
 const icon_index = ref(-1);
 const handle_select_icon = (item: any, index: number) => {
     icon_index.value = index;

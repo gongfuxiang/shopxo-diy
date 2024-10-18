@@ -10,8 +10,8 @@
                                 <template v-if="item.data_content.data_type == 'goods'">
                                     <div :class="`w h flex-col ${ 'gap-' + item.title_text_gap }`" :style="`${ [0, 1].includes(index) ? padding_computer(item.data_style.chunk_padding) : '' }`">
                                         <div v-if="(!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)) && [0, 1].includes(index)" class="flex-col gap-5 tl">
-                                            <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
-                                            <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
+                                            <p class="ma-0 w txet-word-break text-line-1" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
+                                            <p class="ma-0 w txet-word-break text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
                                         </div>
                                         <div class="w h">
                                             <magic-carousel :value="item" :good-style="item.data_style" :content-img-radius="content_img_radius" :actived="form.style_actived" type="product" @carousel_change="carousel_change($event, index)"></magic-carousel>
@@ -41,8 +41,8 @@
                             <template v-if="item.data_content.data_type == 'goods'">
                                 <div :class="`w h flex-col ${ 'gap-' + item.title_text_gap }`" :style="`${ padding_computer(item.data_style.chunk_padding) }`">
                                     <div v-if="!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)" class="flex-col gap-5 tl">
-                                        <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
-                                        <p class="ma-0 w text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
+                                        <p class="ma-0 w txet-word-break text-line-1" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
+                                        <p class="ma-0 w txet-word-break text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
                                     </div>
                                     <div class="w h">
                                         <magic-carousel :value="item" :good-style="item.data_style" :content-img-radius="content_img_radius" type="product" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
@@ -338,11 +338,6 @@ const style_img_container = computed(() => common_img_computer(new_style.value.c
 }
 .img-spacing-border {
     margin: v-bind(spacing);
-}
-.text-line-1 {
-    word-break: break-word;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
 }
 .style-size {
     height: 100%;

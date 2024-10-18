@@ -7,6 +7,8 @@
         <el-form-item v-if="typeList.includes('size')" :label="sliderName" label-width="40" class="mb-0 w form-item-child-label">
             <slider v-model="size" :max="100"></slider>
         </el-form-item>
+        <!-- 额外的使用内容 -->
+        <slot></slot>
     </div>
 </template>
 

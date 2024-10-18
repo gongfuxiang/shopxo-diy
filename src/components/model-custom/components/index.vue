@@ -21,7 +21,7 @@
         </card-container>
         <card-container class="h selected">
             <div class="flex-col gap-10 drawer-container">
-                <div class="flex-row align-c jc-sb">已选组件
+                <div class="flex-row align-c jc-sb">已选组件({{ diy_data.length }})
                     <div class="flex-row align-c gap-20">
                         <span class="clear-selection" @click="show_computer_line">{{ !is_show_component_line ? '显示' : '关闭' }}参考线</span>
                         <span class="clear-selection" @click="cancel">清除选中</span>
@@ -38,7 +38,7 @@
                                             <el-input v-model="item.new_name" placeholder="请输入组件别名" size="small" clearable type="textarea" class="flex-1 do-not-trigger" :rows="1" resize="none" />
                                         </template>
                                         <template v-else>
-                                            <span class="size-12 cr-6 break">{{ !isEmpty(item.new_name) ? item.new_name : item.name  }}</span>
+                                            <span class="size-12 cr-6 txet-word-break">{{ !isEmpty(item.new_name) ? item.new_name : item.name  }}</span>
                                         </template>
                                     </div>
                                     <div class="abs draggable-icon" :style="item.show_tabs == '1' ? 'opacity: 1;' : 'opacity: 0.5;'">

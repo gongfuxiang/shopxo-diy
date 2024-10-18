@@ -53,6 +53,7 @@ const { form } = toRefs(state);
 const base_list = {
     list_show_list: [
         { name: '商品名称', value: 'title', type:['0', '1', '2', '3', '4', '5', '6']},
+        { name: '商品简述', value: 'simple_desc', type:['0', '1', '2', '3', '5'] },
         { name: '商品标签', value: 'plugins_view_icon', type:['0', '1', '2'] },
         { name: '商品售价', value: 'price', type:['0', '1', '2', '3', '4', '5', '6'] },
         { name: '商品销量', value: 'sales_count', type:['0', '1', '2'] },

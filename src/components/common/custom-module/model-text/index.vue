@@ -1,6 +1,6 @@
 <template>
     <div class="img-outer re oh" :style="com_style">
-        <div :style="text_style" class="break">
+        <div :style="text_style" class="txet-word-break">
             <template v-if="form.is_rich_text == '1'">
                 <div class="rich-text-content" :innerHTML="text_title"></div>
             </template>
@@ -80,10 +80,6 @@ const set_count = () => {
 };
 </script>
 <style lang="scss" scoped>
-.break{
-    word-wrap: break-word;
-    word-break:break-all;
-}
 .rich-text-content {
     white-space: normal;
     word-break:break-all;
