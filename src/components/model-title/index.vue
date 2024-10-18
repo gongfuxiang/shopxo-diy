@@ -5,7 +5,7 @@
                 <div class="re flex-row" :class="title_center">
                     <div class="z-i flex-row align-c gap-10">
                         <template v-if="!isEmpty(form.img_src)">
-                            <image-empty v-model="form.img_src[0]" class="title-img"></image-empty>
+                            <image-empty v-model="form.img_src[0]" fit="contain" class="title-img"></image-empty>
                         </template>
                         <template v-else-if="!isEmpty(form.icon_class)">
                             <icon :name="form.icon_class" :size="new_style.icon_size + ''" :color="new_style.icon_color"></icon>
