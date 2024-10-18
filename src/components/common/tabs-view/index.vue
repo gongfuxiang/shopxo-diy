@@ -16,7 +16,7 @@
                 </div>
             </template>
         </div>
-        <icon v-if="isTabs" :name="new_style.more_icon_class || 'fenlei-more'" :size="new_style.more_icon_size + '' || '14'" :color="new_style.more_icon_color || '#000'"></icon>
+        <icon v-if="isTabs" :name="new_style.more_icon_class || 'category-more'" :size="new_style.more_icon_size + '' || '14'" :color="new_style.more_icon_color || '#000'"></icon>
     </div>
 </template>
 

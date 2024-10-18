@@ -11,7 +11,10 @@
                             <template v-else> <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty> </template>
                         </template>
                         <div class="jc-sb flex-1" :class="article_theme == '3' ? 'flex-row align-c' : 'flex-col'" :style="article_theme != '0' ? content_padding : ''">
-                            <div class="title" :class="article_theme == '3' ? 'text-line-1 flex-1 flex-width' : 'text-line-2'" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                            <div class="flex-col" :class="article_theme == '3' ? 'flex-1 flex-width' : ''" :style="'gap:' + new_style.name_desc_space + 'px;'">
+                                <div class="title" :class="article_theme == '3' ? 'text-line-1' : 'text-line-2'" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                                <div v-if="field_show.includes('2')" class="desc text-line-1" :style="article_desc">{{ item.data.describe || '' }}</div>
+                            </div>
                             <div class="flex-row jc-sb gap-8" :class="article_theme == '3' ? 'ml-10' : 'align-e mt-10'">
                                 <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
                                 <div v-show="field_show.includes('1')" class="flex-row align-c gap-3" :style="article_page_view">
@@ -33,7 +36,10 @@
                                 </template>
                                 <template v-else> <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty> </template>
                                 <div class="jc-sb flex-1 flex-col" :style="article_theme != '0' ? content_padding : ''">
-                                    <div class="title text-line-2" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                                    <div class="flex-col" :style="'gap:' + new_style.name_desc_space + 'px;'">
+                                        <div class="title text-line-2" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                                        <div v-if="field_show.includes('2')" class="desc text-line-1" :style="article_desc">{{ item.data.describe || '' }}</div>
+                                    </div>
                                     <div class="flex-row jc-sb gap-8 align-e mt-10">
                                         <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
                                         <div v-show="field_show.includes('1')" class="flex-row align-c gap-3" :style="article_page_view">
@@ -80,6 +86,7 @@ interface dataObj {
     add_time?: string;
     access_count?: string;
     title?: string;
+    describe?: string;
 }
 interface ArticleList {
     id: number | string;
@@ -95,6 +102,8 @@ const article_theme = ref('0');
 const field_show = ref(['0', '1']);
 // 文章
 const article_name = ref('');
+// 文章描述
+const article_desc = ref('');
 // 日期
 const article_date = ref('');
 // 浏览量
@@ -126,6 +135,11 @@ const carousel_key = ref('0');
 const interval_time = ref(2000);
 // 轮播图是否滚动
 const is_roll = ref(1);
+
+// 内容
+const new_content = computed(() => props.value?.content || {});
+// 样式
+const new_style = computed(() => props.value?.style || {});
 // 获取自动数据
 const get_auto_data_list = async () => {
     const { category_ids, number, order_by_type, order_by_rule, is_cover } = new_content.value;
@@ -159,10 +173,6 @@ const get_auto_data_list = async () => {
         data_list.value = Array(4).fill(default_data_list);
     }
 };
-// 内容
-const new_content = computed(() => props.value?.content || {});
-// 样式
-const new_style = computed(() => props.value?.style || {});
 onMounted(() => {
     // 判断数据类型是选择文章且数据不为空
     if (new_content.value.data_type == '0' && !isEmpty(new_content.value.data_list)) {
@@ -233,6 +243,7 @@ watch(
         field_show.value = new_content.field_show;
         // 样式
         article_name.value = 'font-size:' + new_style.name_size + 'px;' + 'font-weight:' + new_style.name_weight + ';' + 'color:' + new_style.name_color + ';';
+        article_desc.value = 'font-size:' + new_style.desc_size + 'px;' + 'color:' + new_style.desc_color + ';';
         article_date.value = 'font-size:' + new_style.time_size + 'px;' + 'font-weight:' + new_style.time_weight + ';' + 'color:' + new_style.time_color + ';';
         article_page_view.value = 'font-size:' + new_style.page_view_size + 'px;' + 'font-weight:' + new_style.page_view_weight + ';' + 'color:' + new_style.page_view_color + ';';
         content_radius.value = radius_computer(new_style.content_radius);

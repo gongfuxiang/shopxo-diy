@@ -156,6 +156,7 @@ const base_list = reactive({
     field_show_list: [
         { name: '日期时间', value: '0' },
         { name: '浏览量', value: '1' },
+        { name: '描述', value: '2' },
     ],
 });
 onMounted(() => {

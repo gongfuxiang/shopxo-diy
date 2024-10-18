@@ -59,7 +59,7 @@ const defaultTabs: defaultTabs = {
         tabs_size: 14,
         tabs_color: 'rgba(51,51,51,1)',
         tabs_spacing: 20,
-        more_icon_class: 'fenlei-more',
+        more_icon_class: 'category-more',
         more_icon_color: '#000',
         more_icon_size: 14,
         common_style: {

@@ -44,6 +44,9 @@ interface DefaultArticleTabs {
         name_weight: string;
         name_size: number;
         name_color: string;
+        desc_color: string;
+        desc_size: number;
+        name_desc_space: number;
         time_weight: string;
         time_size: number;
         time_color: string;
@@ -95,6 +98,9 @@ const defaultArticleTabs: DefaultArticleTabs = {
         name_weight: '500',
         name_size: 14,
         name_color: 'rgba(51, 51, 51, 1)',
+        desc_color: '#999',
+        desc_size: 12,
+        name_desc_space: 4,
         time_weight: '400',
         time_size: 12,
         time_color: 'rgba(153, 153, 153, 1)',

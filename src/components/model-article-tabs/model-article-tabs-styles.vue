@@ -26,6 +26,13 @@
                 <el-form-item label="文章名称">
                     <color-text-size-group v-model:color="form.name_color" v-model:typeface="form.name_weight" v-model:size="form.name_size"></color-text-size-group>
                 </el-form-item>
+                <el-form-item label="文章描述">
+                    <color-text-size-group v-model:color="form.desc_color" v-model:size="form.desc_size" :type-list="['color', 'size']">
+                        <el-form-item label="间距" label-width="40" class="mb-0 w form-item-child-label">
+                            <slider v-model="form.name_desc_space"></slider>
+                        </el-form-item>
+                    </color-text-size-group>
+                </el-form-item>
                 <el-form-item label="日期时间">
                     <color-text-size-group v-model:color="form.time_color" v-model:typeface="form.time_weight" v-model:size="form.time_size"></color-text-size-group>
                 </el-form-item>
