@@ -52,10 +52,13 @@
                                     </div>
                                 </div>
                             </template>
-                            <div class="flex-col gap-10 w flex-1 jc-sb" :style="content_style">
+                            <div v-if="is_show('title') || is_show('simple_desc') || is_show('price') || is_show('original_price') || form.is_shop_show == '1'" class="flex-col gap-10 w flex-1 jc-sb" :style="content_style">
                                 <div class="flex-col gap-10 w">
                                     <!-- 标题 -->
-                                    <div v-if="is_show('title')" :style="trends_config('title')" class="text-line-2 multi-text">{{ item.title }}</div>
+                                    <div v-if="is_show('title') || is_show('simple_desc')" class="flex-col" :style="`gap: ${ new_style.title_simple_desc_spacing }px;`">
+                                        <div v-if="is_show('title')" :style="trends_config('title', 'title')" class="text-line-2">{{ item.title }}</div>
+                                        <div v-if="is_show('simple_desc')" class="text-line-1" :style="trends_config('simple_desc', 'desc')">{{ item.simple_desc }}</div>
+                                    </div>
                                     <!-- 进度条 -->
                                     <!-- <div v-if="form.shop_style_type == '1'" class="flex-row align-c gap-6">
                                         <div class="re flex-1">
@@ -113,10 +116,13 @@
                                     </div>
                                 </div>
                             </template>
-                            <div class="flex-col gap-10 w flex-1 jc-sb" :style="content_style">
+                            <div v-if="is_show('title') || is_show('simple_desc') || is_show('price') || is_show('original_price') || form.is_shop_show == '1'" class="flex-col gap-10 w flex-1 jc-sb" :style="content_style">
                                 <div class="flex-col gap-10 w">
                                     <!-- 标题 -->
-                                    <div v-if="is_show('title')" :style="trends_config('title')" class="text-line-2 multi-text">{{ item.title }}</div>
+                                    <div v-if="is_show('title') || is_show('simple_desc')" class="flex-col" :style="`gap: ${ new_style.title_simple_desc_spacing }px;`">
+                                        <div v-if="is_show('title')" :style="trends_config('title', 'title')" class="text-line-2">{{ item.title }}</div>
+                                        <div v-if="is_show('simple_desc')" class="text-line-1" :style="trends_config('simple_desc', 'desc')">{{ item.simple_desc }}</div>
+                                    </div>
                                     <!-- 进度条 -->
                                     <div v-if="form.shop_style_type == '1'" class="flex-row align-c gap-6">
                                         <div class="re flex-1">
@@ -234,6 +240,7 @@ interface data_list {
     min_original_price: string;
     show_original_price_symbol: string;
     show_original_price_unit: string;
+    simple_desc: string;
     min_price: string;
     show_price_symbol: string;
     show_price_unit: string;
@@ -400,6 +407,10 @@ const style_config = (typeface: string, size: number, color: string | object, ty
     let style = `font-weight:${typeface}; font-size: ${size}px;`;
     if (type == 'gradient') {
         style += button_gradient();
+    } else if (type == 'title') {
+        style += `line-height: ${size > 0 ? size + 3 : 0}px;height: ${size > 0 ? (size + 3) * 2 : 0}px;color: ${color};`;
+    } else if (type == 'desc') {
+        style += `line-height: ${size}px;height: ${size}px;color: ${color};`;
     } else {
         style += `color: ${color};`;
     }

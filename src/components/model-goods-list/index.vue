@@ -6,7 +6,7 @@
                     <div v-for="(item, index) in list" :key="index" class="re" :class="layout_type" :style="layout_style">
                         <template v-if="theme == '6'">
                             <div :class="['flex-row align-c jc-sb ptb-15 mlr-10 gap-20', { 'br-b-e': index != list.length - 1 }]">
-                                <div v-if="is_show('title')" :class="text_line" :style="trends_config('title')">{{ item.title }}</div>
+                                <div v-if="is_show('title')" :class="text_line" :style="trends_config('title', 'title')">{{ item.title }}</div>
                                 <div v-if="is_show('price') && !isEmpty(item.min_price)" class="num nowrap" :style="`color: ${new_style.shop_price_color}`">
                                     <span class="identifying">{{ item.show_price_symbol }}</span
                                     ><span :style="trends_config('price')">{{ item.min_price }}</span>
@@ -23,12 +23,12 @@
                                     <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
                                 </template>
                             </template>
-                            <div class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
+                            <div v-if="is_show('title') || is_show('simple_desc') || is_show('price') || is_show('original_price') || is_show('sales_count') || is_show('plugins_view_icon') || form.is_shop_show == '1'" class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
                                 <div class="flex-col gap-10 top-title">
-                                    <div v-if="is_show('shop')" class="flex-col" :style="`gap: ${ item.title_simple_desc_spacing }px;`">
+                                    <div v-if="is_show('title') || (['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc'))" class="flex-col" :style="`gap: ${ new_style.title_simple_desc_spacing }px;`">
+                                        <div v-if="is_show('title')" :class="text_line" :style="trends_config('title', 'title')">{{ item.title }}</div>
+                                        <div v-if="['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc')" class="text-line-1" :style="trends_config('simple_desc', 'desc')">{{ item.simple_desc }}</div>
                                     </div>
-                                    <div v-if="is_show('title')" :class="text_line" :style="trends_config('title')">{{ item.title }}</div>
-                                    <div v-if="['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc')" class="text-line-1" :style="trends_config('simple_desc')">{{ item.simple_desc }}</div>
                                     <div v-if="show_content && is_show('plugins_view_icon') && !isEmpty(item.plugins_view_icon_data)" class="flex-row gap-5 align-c">
                                         <div v-for="(icon_data, icon_index) in item.plugins_view_icon_data" :key="icon_index" class="radius-sm size-9 pl-3 pr-3" :style="icon_style(icon_data)">{{ icon_data.name }}</div>
                                     </div>
@@ -110,10 +110,12 @@
                                         <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
                                     </template>
                                 </template>
-                                <div class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
+                                <div v-if="is_show('title') || is_show('simple_desc') || is_show('price') || is_show('plugins_view_icon') || is_show('original_price') || form.is_shop_show == '1'" class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
                                     <div class="flex-col gap-10 top-title">
-                                        <div v-if="is_show('title')" :class="text_line" :style="trends_config('title')">{{ item.title }}</div>
-                                        <div v-if="['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc')" class="text-line-1" :style="trends_config('simple_desc')">{{ item.simple_desc }}</div>
+                                        <div v-if="is_show('title') || (['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc'))" class="flex-col" :style="`gap: ${ new_style.title_simple_desc_spacing }px;`">
+                                            <div v-if="is_show('title')" :class="text_line" :style="trends_config('title', 'title')">{{ item.title }}</div>
+                                            <div v-if="['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc')" class="text-line-1" :style="trends_config('simple_desc', 'desc')">{{ item.simple_desc }}</div>
+                                        </div>
                                         <div v-if="show_content && is_show('plugins_view_icon') && !isEmpty(item.plugins_view_icon_data)" class="flex-row gap-5 align-c">
                                             <div v-for="(icon_data, icon_index) in item.plugins_view_icon_data" :key="icon_index" class="radius-sm size-9 pl-3 pr-3" :style="icon_style(icon_data)">{{ icon_data.name }}</div>
                                         </div>
@@ -125,7 +127,7 @@
                                                 ><span :style="trends_config('price')">{{ item.min_price }}</span>
                                                 <span v-if="is_show('price_unit')" class="identifying">{{ item.show_price_unit }}</span>
                                             </div>
-                                            <div v-if="show_content && (!isEmpty(item.min_original_price) || typeof item.min_original_price == 'number')" class="size-10 flex">
+                                            <div v-if="show_content && is_show('original_price') && (!isEmpty(item.min_original_price) || typeof item.min_original_price == 'number')" class="size-10 flex">
                                                 <img class="original-price-left" :src="form.static_img[0].url" />
                                                 <span :class="['original-price text-line-1', { 'flex-1': form.is_price_solo == '1' }]"
                                                     >{{ item.show_original_price_symbol }}{{ item.min_original_price }}
@@ -375,7 +377,7 @@ const text_line = computed(() => {
     if (['1', '6'].includes(theme.value)) {
         line = 'text-line-1';
     } else if (['0', '2', '3', '4', '5'].includes(theme.value)) {
-        line = 'text-line-2 multi-text';
+        line = 'text-line-2';
     }
     return line;
 });
@@ -392,6 +394,14 @@ const style_config = (typeface: string, size: number, color: string | object, ty
     let style = `font-weight:${typeface}; font-size: ${size}px;`;
     if (type == 'gradient') {
         style += button_gradient();
+    } else if (type == 'title') {
+        if (['1', '6'].includes(theme.value)) {
+            style += `line-height: ${size}px;height: ${size}px;color: ${color};`;
+        } else if (['0', '2', '3', '4', '5'].includes(theme.value)) {
+            style += `line-height: ${size > 0 ? size + 3 : 0}px;height: ${size > 0 ? (size + 3) * 2 : 0}px;color: ${color};`;
+        }
+    } else if (type == 'desc') {
+        style += `line-height: ${size}px;height: ${size}px;color: ${color};`;
     } else {
         style += `color: ${color};`;
     }
@@ -532,7 +542,7 @@ watchEffect(() => {
 .flex-img0 {
     height: auto;
     min-height: 11rem;
-    max-height: 12rem;
+    // max-height: 12rem;
     width: 11rem;
 }
 .flex-img1 {

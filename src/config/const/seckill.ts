@@ -44,6 +44,10 @@ interface DefaultSeckill {
         shop_title_color: string;
         shop_title_typeface: string;
         shop_title_size: number;
+        shop_simple_desc_typeface: string;
+        shop_simple_desc_size: number;
+        shop_simple_desc_color: string;
+        title_simple_desc_spacing: 4,
         shop_price_typeface: string;
         shop_price_size: number;
         shop_price_color: string;
@@ -130,6 +134,10 @@ const defaultSeckill: DefaultSeckill = {
         shop_title_typeface: '500',
         shop_title_size: 14,
         shop_title_color: '#333333',
+        shop_simple_desc_typeface: '400',
+        shop_simple_desc_size: 12,    
+        shop_simple_desc_color: "#999",
+        title_simple_desc_spacing: 4,
         shop_price_typeface: '500',
         shop_price_size: 18,
         shop_price_color: '#EA3323;',

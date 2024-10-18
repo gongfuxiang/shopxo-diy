@@ -137,6 +137,7 @@ const base_list = {
     ],
     list_show_list: [
         { name: '商品名称', value: 'title'},
+        { name: '商品简述', value: 'simple_desc'},
         { name: '商品售价', value: 'price'},
         { name: '商品原价', value: 'original_price' },
         { name: '售价单位', value: 'price_unit' },
