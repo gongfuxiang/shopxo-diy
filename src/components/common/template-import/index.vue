@@ -168,7 +168,9 @@ const file_list = ref<UploadFile[]>([]);
 const upload_change = async (uploadFile: UploadFile) => {
     upload_file.value.name = uploadFile.name || '';
     upload_file.value.size = uploadFile.size || 0;
-    file_list.value = [uploadFile];
+    nextTick(() => {
+        file_list.value = [uploadFile];
+    });
 };
 
 watch(
@@ -299,12 +301,14 @@ const confirm_event = () => {
         if (file_list.value && file_list.value[0].raw) {
             form_data.append('file', file_list.value[0]?.raw);
         }
-        DiyAPI.import(form_data).then((res: any) => {
-            ElMessage.success(res.msg);
-            history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
-            close_event();
-            emit('confirm');
-        });
+        DiyAPI.import(form_data)
+            .then((res: any) => {
+                ElMessage.success(res.msg);
+                history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
+                close_event();
+                emit('confirm');
+            })
+            .catch(() => {});
     }
 };
 
