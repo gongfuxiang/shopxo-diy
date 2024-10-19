@@ -309,11 +309,6 @@ const carousel_change = (index: number, key: number) => {
         data_magic_list.value[key].actived_index = index;
     }
 }
-
-// 不属于第9个，并且第9个的第一个和第二个
-const spacing_processing = (index: number) => {
-    return form.value.style_actived != 8 || (form.value.style_actived === 8 && [0, 1].includes(index))
-}
 // 公共样式
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));
 const style_img_container = computed(() => common_img_computer(new_style.value.common_style));

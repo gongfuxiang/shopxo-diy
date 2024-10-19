@@ -139,7 +139,10 @@ const init = () => {
                 data.footer.com_data = default_merge(data.footer.com_data, 'footer_nav');
                 data.diy_data = data_merge(data.diy_data);
                 data.tabs_data = data_merge(data.tabs_data);
-
+                // 判断默认数据是否开启沉浸式
+                if (data.header.com_data.style.immersive_style === '1') {
+                    common_store.set_is_immersion_model(true);
+                }
                 form.value = data;
             } else {
                 is_empty.value = true;

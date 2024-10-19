@@ -39,6 +39,14 @@
                         </el-tooltip>
                     </div>
                 </el-form-item>
+                <el-form-item v-if="form.header_background_type == 'transparent' && form.immersive_style === '1'" label="安全距离">
+                    <div class="flex-row align-c gap-10">
+                        <el-switch v-model="form.general_safe_distance_value" active-value="1" inactive-value="0"></el-switch>
+                        <el-tooltip effect="light" :show-after="200" :hide-after="200" content="开启后第一个组件上内边距将增加顶部安全距离+导航高度" placement="top">
+                            <icon name="miaosha-hdgz" size="12" color="#999"></icon>
+                        </el-tooltip>
+                    </div>
+                </el-form-item>
                 <el-form-item label="上滑展示">
                     <el-switch v-model="form.up_slide_display" active-value="1" inactive-value="0"></el-switch>
                 </el-form-item>
@@ -127,6 +135,8 @@ watchEffect(() => {
 const header_background_type_change_event = (val: any) => {
     if (val === 'color_image') {
         form.value.immersive_style = '0';
+        // 沉浸模式关闭的时候，安全距离关闭
+        form.value.general_safe_distance_value = '0';
         common_store.set_is_immersion_model(false);
     } else {
         // 没有tabs的情况下，默认开启沉浸模式
@@ -150,6 +160,8 @@ const up_slide_mult_color_picker_event = (arry: color_list[], type: number) => {
 };
 const change_immersive_style = (val: string | number | boolean) => {
     if (val === '0') {
+        // 沉浸模式关闭的时候，安全距离关闭
+        form.value.general_safe_distance_value = '0';
         common_store.set_is_immersion_model(false);
         return;
     }

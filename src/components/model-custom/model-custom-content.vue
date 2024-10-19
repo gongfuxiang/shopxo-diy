@@ -21,7 +21,9 @@
         </el-form>
         <Dialog ref="dialog" @accomplish="accomplish">
             <div class="flex-row h w">
+                <!-- 左侧和中间区域 -->
                 <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" :source-list="form.data_source_content" :list="custom_list" @right-update="right_update"></DragIndex>
+                <!-- 右侧配置区域 -->
                 <div class="settings">
                     <template v-if="diy_data.key === 'img'">
                         <model-image-style :key="key" v-model:height="center_height" :options="model_data_source" :value="diy_data"></model-image-style>

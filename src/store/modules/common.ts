@@ -5,6 +5,7 @@ export const commonStore = defineStore('common', () => {
     const is_common_api = ref(false);
     const is_immersion_model = ref(false);
     const is_have_tabs = ref(false);
+    const header_height = ref(0);
     const common = ref({
         article_category: [] as any[], //---- 文章分类
         attachment_category: [] as any[], //---- 附件分类
@@ -48,14 +49,20 @@ export const commonStore = defineStore('common', () => {
         is_have_tabs.value = bool;
     };
 
+    const set_header_height = (height: number) => {
+        header_height.value = height;
+    };
+
     return {
         common,
         is_common_api,
         is_immersion_model,
         is_have_tabs,
+        header_height,
         set_common,
         set_is_common_api,
         set_is_immersion_model,
         set_is_have_tabs,
+        set_header_height,
     };
 });

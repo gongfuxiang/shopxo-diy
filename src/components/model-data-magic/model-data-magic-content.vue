@@ -33,6 +33,7 @@
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
+            <!-- 内容和样式组件 -->
             <el-tabs v-model="tabs_name" class="content-tabs">
                 <el-tab-pane label="内容设置" name="content">
                     <tabs-content :value="form.data_magic_list[selected_active].data_content" :is-show-title="is_show_title"></tabs-content>

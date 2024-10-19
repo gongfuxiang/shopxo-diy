@@ -135,7 +135,6 @@ const carousel_key = ref('0');
 const interval_time = ref(2000);
 // 轮播图是否滚动
 const is_roll = ref(1);
-
 // 内容
 const new_content = computed(() => props.value?.content || {});
 // 样式
