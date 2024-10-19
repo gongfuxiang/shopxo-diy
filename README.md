@@ -31,13 +31,21 @@ npm install
 ### Compile and Hot-Reload for Development
 
 ```sh
+开发调试
 npm run dev
 ```
 
 ### Type-Check, Compile and Minify for Production
 
 ```sh
+开发环境
 npm run build
+## 想要运行项目，需要在根目录上新增一个文件temp.d.ts文件，否则运行和打包都会报错
+```
+
+```sh
+生产环境
+npm run build-pro
 ```
 
 ### Lint with [ESLint](https://eslint.org/)
