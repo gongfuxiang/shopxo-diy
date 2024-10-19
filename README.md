@@ -16,7 +16,7 @@
 
 ### 项目介绍
 * 后端支持依托于ShopXO免费开源电商系统开发的DIY装修源码
-* 内置几十种标准组件，热区、自定义等等，支持拖拽可视化自由设计、满足各大行业需求
+* 内置几十种标准组件，热区、魔方、自定义等等...，支持拖拽可视化自由设计、满足各大行业需求
 * 已支持小程序（微信、QQ、百度、支付宝、头条&抖音、快手）+ H5 + APP
 
 #### 官方QQ群、答案`shopxo.net`
@@ -33,7 +33,7 @@
 * Coding：[https://zongzhige.coding.net/public/shopxo/shopxo/git](https://zongzhige.coding.net/public/shopxo/shopxo/git)
 * GitCode：[https://gitcode.net/zongzhige/shopxo](https://gitcode.net/zongzhige/shopxo)
 
-### uniapp端源代码平台
+### uniapp手机端源代码平台
 * Gitee：[https://gitee.com/zongzhige/shopxo-uniapp](https://gitee.com/zongzhige/shopxo-uniapp)
 * GitHub：[https://github.com/gongfuxiang/shopxo-uniapp](https://github.com/gongfuxiang/shopxo-uniapp)
 * Coding：[https://zongzhige.coding.net/public/shopxo/uniapp/git](https://zongzhige.coding.net/public/shopxo/uniapp/git)
