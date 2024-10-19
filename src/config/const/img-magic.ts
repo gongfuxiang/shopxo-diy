@@ -27,7 +27,9 @@ interface defaultSearch {
 
 const defaultSearch: defaultSearch = {
     content: {
+        // 图标风格
         style_actived: 0,
+        // 图标数据
         img_magic_list: [
             {
                 start: {x: 1, y: 1},
@@ -42,16 +44,21 @@ const defaultSearch: defaultSearch = {
                 img_link: {}
             }
         ],
+        // 图标填充方式
         img_fit: 'cover',
+        // 是否限制尺寸
         limit_size: '0',
+        // 图片高度
         image_height: 100,
     },
     style: {
+        // 图片圆角
         radius: 0,
         radius_top_left: 0,
         radius_top_right: 0,
         radius_bottom_left: 0,
         radius_bottom_right: 0,
+        // 图片间距
         image_spacing: 2,
         common_style: defaultCommon,
     },

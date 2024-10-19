@@ -6,20 +6,18 @@ interface DefaultRowLine {
     style: {
         line_color: string;
         line_width: number;
-        padding_top: number;
-        padding_bottom: number;
         common_style: object;
     };
 }
 const defaultRowLine: DefaultRowLine = {
     content: {
+        // 线条样式
         styles: 'solid',
     },
     style: {
+        // 线条颜色
         line_color: 'rgba(204, 204, 204, 1)',
         line_width: 1,
-        padding_top: 10,
-        padding_bottom: 10,
         common_style: {
             ...defaultCommon,
             padding_top: 10,

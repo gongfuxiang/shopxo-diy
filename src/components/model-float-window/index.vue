@@ -37,12 +37,13 @@ watch(props.value, (val) => {
     form.value = val?.content || {};
     // 样式
     new_style.value = val?.style || {};
+    // 默认是靠右
     let location = `justify-content: flex-end;`;
     if (new_style.value.display_location == 'left') {
         location = `justify-content: flex-start;`;
     }
-
     style.value = location;
+    // 手机端要做悬浮效果，需要抛给父组件
     emits('change', { bottom: new_style.value.offset_number, location: new_style.value.display_location });
 }, {immediate: true, deep: true});
 </script>

@@ -242,7 +242,7 @@ watch(
         field_show.value = new_content.field_show;
         // 样式
         article_name.value = 'font-size:' + new_style.name_size + 'px;' + 'font-weight:' + new_style.name_weight + ';' + 'color:' + new_style.name_color + ';';
-        article_desc.value = 'font-size:' + new_style.desc_size + 'px;' + 'color:' + new_style.desc_color + ';';
+        article_desc.value = 'font-size:' + new_style.desc_size + 'px;line-height:' + new_style.desc_size + 'px;height:'+ new_style.desc_size + 'px;color:' + new_style.desc_color + ';';
         article_date.value = 'font-size:' + new_style.time_size + 'px;' + 'font-weight:' + new_style.time_weight + ';' + 'color:' + new_style.time_color + ';';
         article_page_view.value = 'font-size:' + new_style.page_view_size + 'px;' + 'font-weight:' + new_style.page_view_weight + ';' + 'color:' + new_style.page_view_color + ';';
         content_radius.value = radius_computer(new_style.content_radius);

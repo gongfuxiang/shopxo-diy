@@ -126,6 +126,7 @@ interface data_magic {
     data_content: any;
     data_style: any;
 }
+// 屏幕分块
 const density = ref('4');
 //单元魔方宽度。
 const cubeCellWidth = computed(() => div_width.value / parseInt(density.value));

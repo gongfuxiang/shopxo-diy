@@ -79,36 +79,52 @@ interface DefaultFooterNav {
 }
 const defaultFooterNav: DefaultFooterNav = {
     content: {
+        // 页面设置的风格
         theme: '1',
         logo: [],
+        // 默认文字
         title: !isEmpty(common_store.common.config.site_name) ? common_store.common.config.site_name : '新建页面',
+        // 跳转地址
         link: {},
+        // 换行内容
         data_alone_row_value: [],
+        // 对齐方式
         indicator_location: 'center',
-        positioning_name: '未选择位置',
+        // 右侧图标信息
         icon_setting: [{ id: get_math(), img: [], icon: 'applet-me-message-acquiesce', link: { name: '我的消息', page: '/pages/message/message' } }],
+        // 定位左侧图标内容
         is_location_left_icon_show: '1',
         location_left_img: [],
         location_left_icon: 'location',
+        // 定位内容
+        positioning_name: '未选择位置',
+        // 定位右侧图标内容
         is_location_right_icon_show: '1',
         location_right_img: [],
         location_right_icon: 'arrow-bottom',
+        // 搜索框处理 内容是否居中显示
         is_center: '0',
+        // 是否显示图标
         is_icon_show: '1',
         icon_link: {},
         icon_img: [],
         icon_class: 'search',
+        // 搜索提示信息
+        tips: '请输入搜索内容',
+        // 搜索按钮右侧搜索内容
+        is_search_show: '0',
         search_botton_img: [],
         search_botton_icon: '',
         is_tips_show: '1',
-        tips: '请输入搜索内容',
-        is_search_show: '0',
         search_type: 'text',
         search_tips: '搜索',
+        // 热词数据信息
         hot_word_list: [],
+        // 底部导航显示 0 不显示 1 显示
         bottom_navigation_show: '0',
     },
     style: {
+        // 头部背景显示
         header_background_type: 'color_image',
         header_background_color_list: [{ color: '#fff', color_percentage: undefined }],
         header_background_direction: '180deg',
@@ -117,19 +133,45 @@ const defaultFooterNav: DefaultFooterNav = {
         header_background_title_color: '#333',
         header_background_title_typeface: '500',
         header_background_title_size: 14,
+        // 换行间距
         data_alone_row_space: 5,
+        // 状态栏风格
         function_buttons_type: '0',
         // 沉浸样式
         immersive_style: '0',
         // 安全距离
         general_safe_distance_value: '0',
+        // 上滑显示处理
         up_slide_display: '1',
         up_slide_background_color_list: [{ color: '#fff', color_percentage: undefined }],
         up_slide_background_direction: '180deg',
         up_slide_background_img_style: '2',
         up_slide_background_img: [],
+        // 左侧返回按钮颜色
         left_back_btn_color: '#333',
         icon_color: '#ccc',
+        // 定位颜色
+        position_color: '#333',
+        // 右侧图标大小和间距
+        img_size: '23',
+        img_space: '15',
+        img_color: '#666',
+        // 搜索提示文字颜色
+        tips_color: '#ccc',
+        // 搜索热词文字颜色
+        hot_words_color: '#999',
+        // 搜索边框颜色
+        search_border: '#E4E4E4',
+        // 搜索背景颜色
+        search_bg_color: '#fff',
+        search_border_radius: {
+            radius: 16,
+            radius_top_left: 16,
+            radius_top_right: 16,
+            radius_bottom_left: 16,
+            radius_bottom_right: 16,
+        },
+        // 搜索按钮显示样式
         button_inner_color: '#fff',
         search_botton_color_list: [
             { color: '#FF973D', color_percentage: undefined },
@@ -139,21 +181,6 @@ const defaultFooterNav: DefaultFooterNav = {
         search_botton_background_img_style: '2',
         search_botton_background_img: [],
         search_button_radius: {
-            radius: 16,
-            radius_top_left: 16,
-            radius_top_right: 16,
-            radius_bottom_left: 16,
-            radius_bottom_right: 16,
-        },
-        position_color: '#333',
-        img_size: '23',
-        img_space: '15',
-        img_color: '#666',
-        tips_color: '#ccc',
-        hot_words_color: '#999',
-        search_border: '#E4E4E4',
-        search_bg_color: '#fff',
-        search_border_radius: {
             radius: 16,
             radius_top_left: 16,
             radius_top_right: 16,

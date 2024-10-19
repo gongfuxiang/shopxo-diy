@@ -62,7 +62,7 @@ const title_style = computed(() => {
     }
     return `color:${new_style.value.title_color}; font-size: ${new_style.value.title_size}px; ${common_styles}`;
 });
-// 标题的设置
+// 副标题的设置
 const subtitle_style = computed(() => {
     let common_styles = '';
     if (new_style.value.subtitle_weight == 'italic') {

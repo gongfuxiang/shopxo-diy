@@ -21,10 +21,13 @@ interface defaultSearch {
 
 const defaultSearch: defaultSearch = {
     content: {
+        // 样式风格
         style_actived: 0,
+        // 数据列表
         data_magic_list: [],
     },
     style: {
+        // 图片圆角
         img_radius: {
             radius: 0,
             radius_top_left: 0,
@@ -32,6 +35,7 @@ const defaultSearch: defaultSearch = {
             radius_bottom_left: 0,
             radius_bottom_right: 0,
         },
+        // 内容圆角
         data_radius: {
             radius: 0,
             radius_top_left: 0,
@@ -39,7 +43,9 @@ const defaultSearch: defaultSearch = {
             radius_bottom_left: 0,
             radius_bottom_right: 0,
         },
+        // 图片间距
         image_spacing: 2,
+        // 公共样式
         common_style: defaultCommon,
     },
 };

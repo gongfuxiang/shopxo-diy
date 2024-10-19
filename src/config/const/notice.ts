@@ -44,15 +44,21 @@ interface defaultSearch {
 }
 const defaultSearch: defaultSearch = {
     content: {
+        // 风格
         notice_style: 'inherit',
-        direction: 'vertical',
+        // 标题类型
         title_type: 'img-icon',
         title: '测试标题',
         img_src: [],
-        icon_class: '',
-        is_right_button: '1',
+        
+        // 滚动方式
+        direction: 'vertical',
         interval_time: 3,
+        // 更多配置
+        is_right_button: '1',
         more_link: {},
+        icon_class: '',
+        // 公告内容
         notice_list: [
             {
                 id: get_math(),
@@ -63,9 +69,11 @@ const defaultSearch: defaultSearch = {
         ],
     },
     style: {
+        // 内容标题
         news_color: '#000',
         news_typeface: '400',
         news_size: 12,
+        // 标题背景
         title_color_list: [
             {
                 color: '',
@@ -76,15 +84,18 @@ const defaultSearch: defaultSearch = {
                 color_percentage: undefined,
             },
         ],
+        // 标题信息
         title_color: '#000',
         title_typeface: '400',
         title_size: 14,
         title_width: 24,
-        title_height: 24,
-        container_height: 44,
+        title_height: 24, 
         icon_size: 12,
         icon_color: '#999',
         button_color: '#999',
+        // 容器高度
+        container_height: 44,
+        // 容器信息
         container_color_list: [{ color: '#fff', color_percentage: undefined }],
         container_direction: '180deg',
         container_background_img_style: '2',

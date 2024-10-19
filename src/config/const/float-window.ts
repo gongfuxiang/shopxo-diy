@@ -16,15 +16,22 @@ interface defaultSearch {
 }
 const defaultSearch: defaultSearch = {
     content: {
+        // 跳转方式
         button_jump: 'link',
+        // 图片信息
         button_img: [],
+        // 跳转地址
         button_link: {},
     },
     style: {
+        // 显示位置
         display_location: 'right',
+        // 距离底部位置
         offset_number: 120,
         offset_number_percentage: '100%',
+        // 浮动样式
         float_style: 'shadow',
+        // 浮动样式颜色
         float_style_color: '#32373a1a',
     },
 };

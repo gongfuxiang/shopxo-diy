@@ -40,10 +40,15 @@ interface defaultSearch {
 
 const defaultSearch: defaultSearch = {
     content: {
+        // 展示样式
         display_style: 'fixed',
+        // 导航样式
         nav_style: 'image_with_text',
+        // 每行显示数量
         single_line: 4,
+        // 行数
         row: 1,
+        // 导航组内容
         nav_content_list: [
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
@@ -72,16 +77,21 @@ const defaultSearch: defaultSearch = {
         ],
     },
     style: {
+        // 数据间距
         space: 10,
+        // 图片大小
         img_size: 36,
+        // 图片圆角
         radius: 0,
         radius_top_left: 0,
         radius_top_right: 0,
         radius_bottom_left: 0,
         radius_bottom_right: 0,
-        is_show: '1',
+        // 轮播处理
         is_roll: '1',
         interval_time: 3,
+        // 指示器处理逻辑
+        is_show: '1',
         indicator_style: 'dot',
         indicator_location: 'center',
         indicator_size: 5,
@@ -94,6 +104,7 @@ const defaultSearch: defaultSearch = {
         },
         actived_color: '#2A94FF',
         color: '#DDDDDD',
+        // 标题样式
         title_color: '#000',
         title_size: 12,
         title_space: 10,

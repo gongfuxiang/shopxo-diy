@@ -75,38 +75,50 @@ interface DefaultSeckill {
 }
 const defaultSeckill: DefaultSeckill = {
     content: {
+        // 头部状态
         head_state: '1',
+        // 主题风格配置
         theme: '1',
         title_type: 'image',
         title_src: [{ id: 1, url: new_url + 'header-title.png', original: '标题', title: '标题', ext: '.png', type: 'img' }],
         theme_4_static_img: [{ id: 2, url: new_url + 'time.png', original: '时钟', title: '时钟', ext: '.png', type: 'img' }],
         title_text: '限时秒杀',
+        // 右侧按钮处理
         button_status: '1',
         button_text: '更多',
+        // 风格类型
         shop_style_type: '1',
+        // 轮播数量
         carousel_col: 3,
         shop_number: 10,
+        // 商品显示信息
         is_show: ['title', 'price', 'original_price'],
+        // 商品按钮显示
         is_shop_show: '1',
         shop_type: 'text',
         shop_button_text: '去抢购',
         shop_button_icon_class: 'cart',
+        // 秒杀角标配置
         seckill_subscript_show: '1',
         subscript_text: '秒杀',
     },
     style: {
+        // 文字颜色
         title_color: '#fff',
         title_size: 18,
+        // 按钮设置
         head_button_color: '#fff',
         head_button_size: 12,
         end_text_color: '#fff',
         countdown_bg_color_list: [{ color: '#fff', color_percentage: undefined }],
         countdown_direction: '180deg',
         countdown_color: '#FF1818',
+        // 头部背景设置
         header_background_color_list: [{ color: '', color_percentage: undefined }],
         header_background_direction: '180deg',
         header_background_img_style: '2',
         header_background_img: [{ id: 1, url: new_url + 'header-bg.png', original: '背景', title: '背景1', ext: '.png', type: 'img' }],
+        // 商品内容圆角
         shop_radius: {
             radius: 8,
             radius_top_left: 8,
@@ -114,6 +126,7 @@ const defaultSeckill: DefaultSeckill = {
             radius_bottom_left: 8,
             radius_bottom_right: 8,
         },
+        // 商品图片圆角
         shop_img_radius: {
             radius: 4,
             radius_top_left: 4,
@@ -121,6 +134,7 @@ const defaultSeckill: DefaultSeckill = {
             radius_bottom_left: 4,
             radius_bottom_right: 4,
         },
+        // 商品间距
         shop_padding: {
             padding: 10,
             padding_top: 10,
@@ -128,8 +142,10 @@ const defaultSeckill: DefaultSeckill = {
             padding_left: 10,
             padding_right: 10,
         },
-        content_outer_spacing: 10, // 商品间距
+        content_outer_spacing: 10, // 商品外间距
+        // 商品内间距
         content_spacing: 10,
+        // 商品高度
         content_outer_height: 232,
         shop_title_typeface: '500',
         shop_title_size: 14,

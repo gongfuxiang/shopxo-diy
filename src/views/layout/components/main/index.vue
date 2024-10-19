@@ -156,11 +156,18 @@ const bottom_navigation_show = ref(true);
 // 更新数据第一个的安全距离
 const set_padding_top_value = () => {
     if (diy_data.value.length > 0) {
+        // 初始数据为0
+        let padding_top_index = 0;
+        // 如果前几个为悬浮按钮，则加一，找到不是悬浮按钮的第一个处理
         diy_data.value.forEach((item: any, index: number) => {
-            if (index === 0) {
-                item.com_data.style.common_style.padding_top_safe_value = common_store.header_height;
+            if (index === padding_top_index && item.key === 'float-window') {
+                padding_top_index = index + 1;
             } else {
-                item.com_data.style.common_style.padding_top_safe_value = 0;
+                if (index === padding_top_index && item.key !== 'float-window') {
+                    item.com_data.style.common_style.padding_top_safe_value = common_store.header_height;
+                } else {
+                    item.com_data.style.common_style.padding_top_safe_value = 0;
+                }
             }
         });
     }
