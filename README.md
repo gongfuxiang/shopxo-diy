@@ -51,7 +51,6 @@ npm install
 
 ### 本地开发调试
 ```sh
-开发调试
 npm run dev
 ```
 
