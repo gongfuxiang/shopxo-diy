@@ -135,84 +135,85 @@ $size: 50;
     }
 }
 
+$color_key: '#';
 /* 常用颜色1 */
 @each $color in c, d, e, f, 0, 3, 5, 6, 8, 9 {
     .cr-#{$color} {
-        color: ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+        color: #{$color_key}#{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
     }
     .bg-#{$color} {
-        background-color: ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+        background-color: #{$color_key}#{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
     }
     .br-#{$color} {
-        border: 1px solid ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+        border: 1px solid #{$color_key}#{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
     }
     .br-t-#{$color} {
-        border-top: 1px solid ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+        border-top: 1px solid #{$color_key}#{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
     }
     .br-l-#{$color} {
-        border-left: 1px solid ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+        border-left: 1px solid #{$color_key}#{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
     }
     .br-r-#{$color} {
-        border-right: 1px solid ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+        border-right: 1px solid #{$color_key}#{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
     }
     .br-b-#{$color} {
-        border-bottom: 1px solid ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+        border-bottom: 1px solid #{$color_key}#{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
     }
     .br-#{$color}-dashed {
-        border: 1px dashed ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+        border: 1px dashed #{$color_key}#{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
     }
     .br-t-#{$color}-dashed {
-        border-top: 1px dashed ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+        border-top: 1px dashed #{$color_key}#{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
     }
     .br-l-#{$color}-dashed {
-        border-left: 1px dashed ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+        border-left: 1px dashed #{$color_key}#{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
     }
     .br-r-#{$color}-dashed {
-        border-right: 1px dashed ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+        border-right: 1px dashed #{$color_key}#{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
     }
     .br-b-#{$color}-dashed {
-        border-bottom: 1px dashed ##{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
+        border-bottom: 1px dashed #{$color_key}#{$color}#{$color}#{$color}#{$color}#{$color}#{$color};
     }
 }
 
 /* 常用颜色2 */
 @each $color in f5, f8, f7, e9, 80 {
     .cr-#{$color} {
-        color: ##{$color}#{$color}#{$color};
+        color: #{$color_key}#{$color}#{$color}#{$color};
     }
     .bg-#{$color} {
-        background-color: ##{$color}#{$color}#{$color};
+        background-color: #{$color_key}#{$color}#{$color}#{$color};
     }
     .br-#{$color} {
-        border: 1px solid ##{$color}#{$color}#{$color};
+        border: 1px solid #{$color_key}#{$color}#{$color}#{$color};
     }
     .br-t-#{$color} {
-        border-top: 1px solid ##{$color}#{$color}#{$color};
+        border-top: 1px solid #{$color_key}#{$color}#{$color}#{$color};
     }
     .br-l-#{$color} {
-        border-left: 1px solid ##{$color}#{$color}#{$color};
+        border-left: 1px solid #{$color_key}#{$color}#{$color}#{$color};
     }
     .br-r-#{$color} {
-        border-right: 1px solid ##{$color}#{$color}#{$color};
+        border-right: 1px solid #{$color_key}#{$color}#{$color}#{$color};
     }
     .br-b-#{$color} {
-        border-bottom: 1px solid ##{$color}#{$color}#{$color};
+        border-bottom: 1px solid #{$color_key}#{$color}#{$color}#{$color};
     }
 
     .br-#{$color}-dashed {
-        border: 1px dashed ##{$color}#{$color}#{$color};
+        border: 1px dashed #{$color_key}#{$color}#{$color}#{$color};
     }
     .br-t-#{$color}-dashed {
-        border-top: 1px dashed ##{$color}#{$color}#{$color};
+        border-top: 1px dashed #{$color_key}#{$color}#{$color}#{$color};
     }
     .br-l-#{$color}-dashed {
-        border-left: 1px dashed ##{$color}#{$color}#{$color};
+        border-left: 1px dashed #{$color_key}#{$color}#{$color}#{$color};
     }
     .br-r-#{$color}-dashed {
-        border-right: 1px dashed ##{$color}#{$color}#{$color};
+        border-right: 1px dashed #{$color_key}#{$color}#{$color}#{$color};
     }
     .br-b-#{$color}-dashed {
-        border-bottom: 1px dashed ##{$color}#{$color}#{$color};
+        border-bottom: 1px dashed #{$color_key}#{$color}#{$color}#{$color};
     }
 }
 
