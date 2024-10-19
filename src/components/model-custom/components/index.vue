@@ -59,7 +59,7 @@
     <!-- 视图渲染 -->
     <div class="main">
         <div class="model-content">
-            <right-side-operation v-if="typeof select_index === 'number' && !isNaN(select_index) && diy_data.length > 0" v-model:index="select_index" v-model:dataLength="diy_data.length" @del="del" @copy="copy" @previous_layer="previous_layer" @underlying_layer="underlying_layer" @top_up="top_up" @bottom_up="bottom_up"></right-side-operation>
+            <right-side-operation v-if="typeof select_index === 'number' && !isNaN(select_index) && diy_data.length > 0" v-model:index="select_index" v-model:data-length="diy_data.length" @del="del" @copy="copy" @previous_layer="previous_layer" @underlying_layer="underlying_layer" @top_up="top_up" @bottom_up="bottom_up"></right-side-operation>
             <!-- 拖拽区 -->
             <div class="model-drag">
                 <div class="model-wall">
