@@ -45,3 +45,5 @@ npm run build
 ```sh
 npm run lint
 ```
+
+## 想要运行项目，需要在根目录上新增一个文件temp.d.ts文件，否则运行和打包都会报错
