@@ -46,6 +46,7 @@ const custom_height = computed(() => form.value.height + 'px');
 const container = ref<HTMLElement | null>(null);
 const div_width = ref(0);
 const scale = ref(1);
+// 获取当前宽度 和 缩放比例
 onMounted(() => {
     if (container.value) {
         div_width.value = container.value.offsetWidth;

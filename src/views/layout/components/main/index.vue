@@ -44,7 +44,7 @@
     </div>
     <!-- 视图渲染 -->
     <div class="main re">
-        <div v-if="diy_data.length > 0" :class="['layout-toggle-bar', drawer_selected ? 'layout-toggle-bar-close' : 'layout-toggle-bar-open']" @click="toggle_drawer">
+        <div v-if="diy_data.length > 0 || tabs_data.length > 0" :class="['layout-toggle-bar', drawer_selected ? 'layout-toggle-bar-close' : 'layout-toggle-bar-open']" @click="toggle_drawer">
             <div class="layout-toggle-bar-top"></div>
             <div class="layout-toggle-bar-bottom"></div>
         </div>
@@ -149,11 +149,30 @@ watch(
 );
 const top_padding = ref(90);
 const top_margin = ref(0);
-const model_wall_top = ref(0);
 const content_style = ref('');
 const content_img_style = ref('');
 const main_content_style = ref('');
 const bottom_navigation_show = ref(true);
+// 更新数据第一个的安全距离
+const set_padding_top_value = () => {
+    if (diy_data.value.length > 0) {
+        // 初始数据为0
+        let padding_top_index = 0;
+        // 如果前几个为悬浮按钮，则加一，找到不是悬浮按钮的第一个处理
+        diy_data.value.forEach((item: any, index: number) => {
+            if (index === padding_top_index && item.key === 'float-window') {
+                padding_top_index = index + 1;
+            } else {
+                if (index === padding_top_index && item.key !== 'float-window') {
+                    item.com_data.style.common_style.padding_top_safe_value = common_store.header_height;
+                } else {
+                    item.com_data.style.common_style.padding_top_safe_value = 0;
+                }
+            }
+        });
+    }
+};
+
 watchEffect(() => {
     const data = page_data.value.com_data;
     if (data) {
@@ -167,7 +186,7 @@ watchEffect(() => {
 
         main_content_style.value = padding_computer(new_style.common_style);
 
-        const { immersive_style, up_slide_display, data_alone_row_space } = new_style;
+        const { immersive_style, up_slide_display, data_alone_row_space, general_safe_distance_value } = new_style;
         // 不开启沉浸式 和 上滑显示
         if (immersive_style == '1' || up_slide_display != '1') {
             top_padding.value = 0;
@@ -186,6 +205,18 @@ watchEffect(() => {
         } else {
             top_margin.value = 0;
         }
+        // 开始沉浸式并且开启安全距离
+        if (immersive_style == '1' && general_safe_distance_value == '1') {
+            if (content.data_alone_row_value.length > 0) {
+                common_store.set_header_height(90 + 32 + data_alone_row_space);
+            } else {
+                common_store.set_header_height(90);
+            }
+        } else {
+            // 没有开沉浸模式或者没有开启安全距离
+            common_store.set_header_height(0);
+        }
+        set_padding_top_value();
     }
 });
 
@@ -275,6 +306,8 @@ const on_sort = (item: SortableEvent) => {
     let index = item?.newIndex || 0;
     // 设置对应的位置为显示
     set_show_tabs(index);
+    // 操作的时候更新一下数据的安全距离
+    set_padding_top_value();
 };
 // 开始拖拽时
 const on_start = () => {
@@ -340,6 +373,8 @@ const del = (index: number, is_tabs: boolean) => {
                 diy_data.value.splice(index, 1);
             }
         }
+        // 操作的时候更新一下数据的安全距离
+        set_padding_top_value();
     });
 };
 // 向上移动
@@ -355,6 +390,8 @@ const moveUp = (index: number, flag: boolean) => {
         diy_data.value.splice(index - count, 0, old_data);
         // 设置对应的位置为显示
         set_show_tabs(index - count);
+        // 操作的时候更新一下数据的安全距离
+        set_padding_top_value();
     }
 };
 // 向下移动
@@ -369,6 +406,8 @@ const moveDown = (index: number, flag: boolean) => {
         // 将数据插入下一层数据中
         diy_data.value.splice(index + count, 0, old_data);
         set_show_tabs(index + count);
+        // 操作的时候更新一下数据的安全距离
+        set_padding_top_value();
     }
 };
 

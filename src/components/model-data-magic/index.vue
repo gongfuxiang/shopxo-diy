@@ -126,6 +126,7 @@ interface data_magic {
     data_content: any;
     data_style: any;
 }
+// 屏幕分块
 const density = ref('4');
 //单元魔方宽度。
 const cubeCellWidth = computed(() => div_width.value / parseInt(density.value));
@@ -308,11 +309,6 @@ const carousel_change = (index: number, key: number) => {
     if (data_magic_list.value[key]) {
         data_magic_list.value[key].actived_index = index;
     }
-}
-
-// 不属于第9个，并且第9个的第一个和第二个
-const spacing_processing = (index: number) => {
-    return form.value.style_actived != 8 || (form.value.style_actived === 8 && [0, 1].includes(index))
 }
 // 公共样式
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));

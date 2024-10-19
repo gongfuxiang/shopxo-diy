@@ -73,10 +73,9 @@ const style = computed(() => {
     }
     return common_styles;
 });
+// 公共样式
 const style_container = computed(() => props.isPageSettings ? '' : common_styles_computer(new_style.value.common_style));
 const style_img_container = computed(() => props.isPageSettings ? '' : common_img_computer(new_style.value.common_style));
-
-const search_button_radius = computed(() => radius_computer(new_style.value.search_button_radius));
 // 搜索框设置
 const box_style = computed(() => {
     let style = `background: ${ new_style.value.search_bg_color };border: 1px solid ${ new_style.value.search_border }; ${ radius_computer(new_style.value.search_border_radius) };`;
@@ -85,6 +84,8 @@ const box_style = computed(() => {
     }
     return style;
 });
+// 搜索按钮圆角
+const search_button_radius = computed(() => radius_computer(new_style.value.search_button_radius));
 const search_button = computed(() => {
     let style = search_button_radius.value;
     const { search_botton_color_list, search_botton_direction, search_botton_background_img_style, search_botton_background_img  } = new_style.value;

@@ -42,23 +42,31 @@ interface defaultSearch {
 }
 const defaultSearch: defaultSearch = {
     content: {
+        // 搜索提示是否居中
         is_center: '0',
+        // 是否显示左侧icon
         is_icon_show: '1',
         icon_link: {},
         icon_img: [],
         icon_class: '',
-        search_botton_img: [],
-        search_botton_icon: '',
+        // 搜索提示信息
         is_tips_show: '1',
         tips: '请输入搜索内容',
+        // 搜索按钮显示逻辑
+        search_botton_img: [],
+        search_botton_icon: '',
         is_search_show: '0',
         search_type: 'text',
         search_tips: '搜索',
+        // 是否显示热词
         is_hot_word_show: '0',
+        // 热词数据
         hot_word_list: [],
     },
     style: {
+        // 搜索图标颜色
         icon_color: '#ccc',
+        // 搜索按钮显示样式
         button_inner_color: '#fff',
         search_botton_color_list: [{ color: '#FF973D', color_percentage: undefined }, { color: '#FF3131', color_percentage: undefined }],
         search_botton_direction: '90deg',
@@ -71,10 +79,15 @@ const defaultSearch: defaultSearch = {
             radius_bottom_left: 16,
             radius_bottom_right: 16,
         },
+        // 搜索提示颜色
         tips_color: '#ccc',
+        // 搜索热词颜色
         hot_words_color: '#999',
+        // 搜索边框颜色
         search_border: '#fff',
+        // 搜索背景颜色
         search_bg_color: '#fff',
+        // 搜索圆角
         search_border_radius: {
             radius: 16,
             radius_top_left: 16,
@@ -82,6 +95,7 @@ const defaultSearch: defaultSearch = {
             radius_bottom_left: 16,
             radius_bottom_right: 16,
         },
+        // 热词轮播
         is_roll: '1',
         interval_time: 3,
         common_style: {

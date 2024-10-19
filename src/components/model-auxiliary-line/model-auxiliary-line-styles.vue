@@ -27,8 +27,6 @@ const props = defineProps({
             return {
                 line_color: 'rgba(204, 204, 204, 1)',
                 line_width: 1,
-                padding_top: 10,
-                padding_bottom: 10,
             };
         },
     },

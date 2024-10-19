@@ -351,7 +351,7 @@ const layout_type = computed(() => {
     }
     return class_type;
 });
-
+// 外部的样式
 const layout_style = computed(() => {
     const radius = theme.value == '6' ? '' : content_radius.value;
     const padding = ['0', '4'].includes(theme.value) ? content_padding.value : '';
@@ -563,7 +563,8 @@ watchEffect(() => {
 }
 .flex-img5 {
     width: 100%;
-    min-height: 10.4rem;
+    height: 100%;
+    // min-height: 10.4rem;
 }
 :deep(.el-carousel) {
     width: 100%;

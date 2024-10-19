@@ -90,11 +90,13 @@ const page_settings = () => {
 };
 const form = computed(() => props.pageData.com_data.content);
 const new_style = computed(() => props.pageData.com_data.style);
-
+// 是否搜索换行
 const is_search_alone_row = computed(() => form.value.data_alone_row_value.includes('search'));
+// 是否图标换行
 const is_icon_alone_row = computed(() => form.value.data_alone_row_value.includes('icon'));
-
+// 沉浸式和上滑显示处理逻辑
 const position = computed(() => (new_style.value.up_slide_display == '1' ? 'absolute' : 'relative'));
+// 公共样式
 const roll_style = computed(() => {
     let style = ``;
     const { header_background_color_list, header_background_direction, header_background_type } = new_style.value;
@@ -118,7 +120,7 @@ const roll_img_style = computed(() => {
     }
     return style;
 });
-
+// 上滑显示渐变效果
 const up_slide_style = computed(() => {
     let style = ``;
     if (props.scollTop > 20) {
@@ -129,7 +131,7 @@ const up_slide_style = computed(() => {
     }
     return style;
 });
-
+// 上滑显示图片效果
 const up_slide_img_style = computed(() => {
     let style = ``;
     if (props.scollTop > 20) {
@@ -140,7 +142,7 @@ const up_slide_img_style = computed(() => {
     }
     return style;
 });
-
+// 文字样式
 const text_style = computed(() => `font-weight:${new_style.value.header_background_title_typeface}; font-size: ${new_style.value.header_background_title_size}px; color: ${new_style.value.header_background_title_color};`);
 const position_class = computed(() => (form.value?.indicator_location == 'center' ? `indicator-center` : ''));
 </script>

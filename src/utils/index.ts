@@ -2,6 +2,7 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { commonStore } from '@/store';
 import App from '@/App.vue';
+import { isEmpty } from 'element-plus/es/utils';
 const app = createApp(App);
 const pinia = createPinia();
 app.use(pinia);
@@ -152,8 +153,15 @@ export function gradient_handle(color_list: color_list[], direction: string, is_
  * @param {string[], string} path
  * @returns {string}
  */
-export function padding_computer(new_style: paddingStyle, scale: number = 1) {
-    return `padding: ${new_style.padding_top * scale || 0}px ${new_style.padding_right * scale || 0}px ${new_style.padding_bottom * scale || 0}px ${new_style.padding_left * scale || 0}px;`;
+interface newPaddingStyle extends paddingStyle {
+    padding_top_safe_value: number;
+}
+export function padding_computer(new_style: newPaddingStyle, scale: number = 1) {
+    let top = new_style.padding_top;
+    if (typeof new_style.padding_top_safe_value == 'number') {
+        top += new_style.padding_top_safe_value;
+    }
+    return `padding: ${ top * scale || 0}px ${new_style.padding_right * scale || 0}px ${new_style.padding_bottom * scale || 0}px ${new_style.padding_left * scale || 0}px;`;
 }
 
 /**

@@ -283,18 +283,22 @@ const default_list = {
     ],
 };
 const list = ref<data_list[]>([]);
+// 显示时间
 const time_config = reactive([
     { key: 'hour', value: '00' },
     { key: 'minute', value: '00' },
     { key: 'second', value: '00' },
 ]);
+// 定时任务器
 const intervalId = ref<any>(undefined);
+// 数据存放，用于倒计时
 const seckill_time = ref({
     endTime: '2024-09-04 18:51:00',
     startTime: '2024-09-04 18:51:00',
     status: 0,
     time_first_text: '距结束',
 });
+// 倒计时执行的方法
 const updateCountdown = () => {
     const now = new Date();
     let endTime = seckill_time.value.endTime;
@@ -358,6 +362,7 @@ onBeforeMount(() => {
         }
     });
 });
+// 组件销毁时，清除定时器
 onUnmounted(() => {
     clearInterval(intervalId.value);
 })
