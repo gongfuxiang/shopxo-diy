@@ -40,16 +40,23 @@ interface defaultSearch {
 }
 const defaultSearch: defaultSearch = {
     content: {
-        title: '标题',
-        title_link: {},
+        // 左侧图片或icon
         img_src: [],
         icon_class: '',
+        // 标题
+        title: '标题',
+        title_link: {},
+        // 副标题
         subtitle: '',
+        // 内容居中
         is_title_center: '0',
-        keyword_show: '1',
+        // 右侧内容设置
         right_show: '1',
         right_title: '更多',
         right_link: {},
+        // 是否显示关键字
+        keyword_show: '1',
+        // 关键字数组
         keyword_list: [
             {
                 id: get_math(),
@@ -60,17 +67,23 @@ const defaultSearch: defaultSearch = {
         ],
     },
     style: {
+        // 标题设置
         title_color: '#000',
         title_size: 12,
         title_weight: 'normal',
+        // 图片高度
         img_height: 30,
+        // icon 大小
         icon_size: 12,
         icon_color: '#999',
+        // 副标题设置
         subtitle_color: '#999',
         subtitle_size: 12,
         subtitle_weight: 'normal',
+        // 关键字设置
         keyword_color: '#000',
         keyword_size: 12,
+        // 右侧更多按钮设置
         right_color: '#999',
         right_size: 12,
         common_style: {

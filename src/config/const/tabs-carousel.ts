@@ -76,18 +76,25 @@ interface defaultTabs {
 }
 const defaultTabs: defaultTabs = {
     content: {
+        // 选项卡风格
         tabs_theme: '0',
+        // 是否置顶
         tabs_top_up: '1',
+        // 选项卡数据
         home_data: { id: get_math(), title: '首页', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
         tabs_list: [
             { id: get_math(), title: '热门推荐', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
             { id: get_math(), title: '测试一', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
             { id: get_math(), title: '测试二', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
         ],
+        // 轮播类型
         carousel_type: 'inherit',
+        // 轮播图片方式
         img_fit: 'contain',
+        // 轮播是否滚动
         is_roll: '1',
         interval_time: 3,
+        // 轮播图片列表
         carousel_list: [
             {
                 carousel_img: [],
@@ -108,9 +115,11 @@ const defaultTabs: defaultTabs = {
                 video_title: '视频名称',
             },
         ],
+        // 轮播高度
         height: 300,
     },
     style: {
+        // 选项卡设置
         tabs_one_theme: '0',
         tabs_checked: [
             { color: '#FF2222', color_percentage: undefined },
@@ -124,17 +133,22 @@ const defaultTabs: defaultTabs = {
         tabs_size: 14,
         tabs_color: 'rgba(51,51,51,1)',
         tabs_spacing: 20,
+        // 更多设置
         more_icon_class: 'fenlei-more',
         more_icon_color: '#000',
         more_icon_size: 14,
+        // 选项卡与轮播之间的间距
         data_spacing: 10,
+        // 图片圆角
         radius: 0,
         radius_top_left: 0,
         radius_top_right: 0,
         radius_bottom_left: 0,
         radius_bottom_right: 0,
-        is_show: '1',
+        // 图片间距
         image_spacing: 10,
+        // 指示器设置
+        is_show: '1',
         indicator_style: 'dot',
         indicator_location: 'center',
         indicator_size: 5,
@@ -146,6 +160,9 @@ const defaultTabs: defaultTabs = {
             radius_bottom_left: 4,
             radius_bottom_right: 4,
         },
+        actived_color: '#2A94FF',
+        color: '#DDDDDD',
+        // 轮播视频处理
         video_is_show: '1',
         video_type: 'icon',
         video_radius: {
@@ -167,12 +184,13 @@ const defaultTabs: defaultTabs = {
         video_icon_color: '#ff6868',
         video_location: 'center',
         video_bottom: 20,
+        // 视频标题设置
         video_title_color: '#666',
         video_title_size: 12,
+        // 轮播视频背景
         video_color_list: [{ color: '#F0F0F0', color_percentage: undefined }],
         video_direction: '180deg',
-        actived_color: '#2A94FF',
-        color: '#DDDDDD',
+        // 公共样式
         common_style: {
             ...defaultCommon,
             padding: 10,
