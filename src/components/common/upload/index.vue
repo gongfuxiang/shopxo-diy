@@ -178,19 +178,19 @@
                     </div>
                     <template v-if="type == 'video'">
                         <video :src="item.url" class="w h"></video>
-                        <div v-if="item.error == true" class="bg-f5 img flex-row jc-c align-c radius h w abs top-0">
+                        <div v-if="item.error == true" class="bg-f5 img flex-row jc-c align-c radius-xs h w abs top-0">
                             <icon name="video" :size="Number(size) / 2 + ''" color="9"></icon>
                         </div>
                     </template>
                     <template v-else-if="type == 'file'">
-                        <div class="bg-f5 img flex-row jc-c align-c radius h w">
+                        <div class="bg-f5 img flex-row jc-c align-c radius-xs h w">
                             <icon :name="ext_file_name_list_map.filter((ext) => ext.type == item.type).length > 0 && ext_file_name_list_map.filter((ext) => ext.type == item.type)[0].type == item.type ? ext_file_name_list_map.filter((ext) => ext.type == item.type)[0].icon : 'file'" :size="Number(size) / 2 + ''" color="9"></icon>
                         </div>
                     </template>
                     <template v-else>
                         <el-image :src="item.url" fit="contain" class="w h radius-xs">
                             <template #error>
-                                <div class="bg-f5 img flex-row jc-c align-c radius h w">
+                                <div class="bg-f5 img flex-row jc-c align-c radius-xs h w">
                                     <icon name="error-img" :size="Number(size) / 2 + ''" color="9"></icon>
                                 </div>
                             </template>

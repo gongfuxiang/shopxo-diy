@@ -4,7 +4,7 @@
             <upload v-model="row.new_cover" :limit="1" size="40" styles="2"></upload>
             <el-image :src="row.data[imgParams]" fit="contain" class="img radius-xs">
                 <template #error>
-                    <div class="bg-f5 flex-row jc-c align-c radius h w">
+                    <div class="bg-f5 flex-row jc-c align-c radius-xs h w">
                         <icon name="error-img" size="16" color="9"></icon>
                     </div>
                 </template>
