@@ -44,7 +44,7 @@
     </div>
     <!-- 视图渲染 -->
     <div class="main re">
-        <div v-if="diy_data.length > 0" :class="['layout-toggle-bar', drawer_selected ? 'layout-toggle-bar-close' : 'layout-toggle-bar-open']" @click="toggle_drawer">
+        <div v-if="diy_data.length > 0 || tabs_data.length > 0" :class="['layout-toggle-bar', drawer_selected ? 'layout-toggle-bar-close' : 'layout-toggle-bar-open']" @click="toggle_drawer">
             <div class="layout-toggle-bar-top"></div>
             <div class="layout-toggle-bar-bottom"></div>
         </div>

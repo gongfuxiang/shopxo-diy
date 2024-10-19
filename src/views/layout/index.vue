@@ -121,6 +121,8 @@ const clear_data_event = () => {
     form.value.footer.com_data = new_tem_form.footer.com_data;
     form.value.tabs_data = [];
     form.value.diy_data = [];
+    // 数据清空之后，将公共沉浸模式判断为false
+    common_store.set_is_immersion_model(false);
     diy_data_item.value = new_tem_form.header;
 };
 //#region 页面初始化数据 ---------------------start
