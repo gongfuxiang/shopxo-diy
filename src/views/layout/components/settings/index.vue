@@ -157,6 +157,9 @@ const radio = ref('1'); // 创建一个响应式的数字变量，初始值为0
         overflow: auto;
         background-color: #fff;
     }
+    :deep(.el-input-number) {
+        width: 100%;
+    }
 }
 @media screen and (max-width: 1560px) {
     .settings {
