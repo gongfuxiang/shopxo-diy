@@ -26,7 +26,7 @@ const pro_url = window.location.href.substring(0, index);
 const service = axios.create({
     baseURL: import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API : pro_url + '?s=',
     timeout: 60000,
-    headers: { 'Content-Type': 'application/json;charset=utf-8' },
+    headers: { 'Content-Type': 'application/json;charset=utf-8', 'X-Requested-With': 'XMLHttpRequest' },
 });
 /** @ts-ignore  */
 // 请求拦截器
@@ -43,6 +43,7 @@ service.interceptors.request.use(
                 config.url = config.url + '&token=' + JSON.parse(cookie).token;
             }
         }
+        console.log(config);
         return config;
     },
     (error: any) => {
