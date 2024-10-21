@@ -12,7 +12,7 @@ interface defaultSearch {
         data_magic_list: data_magic[];
     };
     style: {
-        img_radius: object
+        image_spacing: number;
         data_radius: object;
         common_style: object;
     };
