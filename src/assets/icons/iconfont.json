@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "42182269",
+      "name": "圆背景右箭头",
+      "font_class": "arrow-right-bg-round",
+      "unicode": "e7a5",
+      "unicode_decimal": 59301
+    },
+    {
       "icon_id": "42124616",
       "name": "删除",
       "font_class": "delete-o",
@@ -1091,13 +1098,6 @@
       "unicode_decimal": 59075
     },
     {
-      "icon_id": "37288627",
-      "name": "qiandao-dqxz",
-      "font_class": "qiandao-dqxz",
-      "unicode": "e6bc",
-      "unicode_decimal": 59068
-    },
-    {
       "icon_id": "37288626",
       "name": "分享-正方形",
       "font_class": "share-square",
@@ -1176,112 +1176,105 @@
     },
     {
       "icon_id": "37187704",
-      "name": "icon-zhibo-zt",
-      "font_class": "zhibo-zt",
+      "name": "暂停",
+      "font_class": "player-pause",
       "unicode": "e6b5",
       "unicode_decimal": 59061
     },
     {
       "icon_id": "37187703",
-      "name": "icon-zhibo-jies",
-      "font_class": "zhibo-jies",
+      "name": "结束",
+      "font_class": "player-end",
       "unicode": "e6b6",
       "unicode_decimal": 59062
     },
     {
       "icon_id": "37176907",
-      "name": "icon-md-phone",
+      "name": "电话",
       "font_class": "md-phone",
       "unicode": "e6b1",
       "unicode_decimal": 59057
     },
     {
       "icon_id": "37176908",
-      "name": "icon-md-dh",
+      "name": "发送",
       "font_class": "md-dh",
       "unicode": "e6b2",
       "unicode_decimal": 59058
     },
     {
       "icon_id": "37137572",
-      "name": "icon-index-zxmd-phone",
+      "name": "电话+背景",
       "font_class": "index-zxmd-phone",
       "unicode": "e6ac",
       "unicode_decimal": 59052
     },
     {
       "icon_id": "37137571",
-      "name": "icon-index-zxmd-dh",
+      "name": "发送+背景",
       "font_class": "index-zxmd-dh",
       "unicode": "e6ad",
       "unicode_decimal": 59053
     },
     {
       "icon_id": "37137569",
-      "name": "icon-index-zxmd-time",
+      "name": "时间",
       "font_class": "index-zxmd-time",
       "unicode": "e6ae",
       "unicode_decimal": 59054
     },
     {
       "icon_id": "37137568",
-      "name": "icon-index-zxmd-dress",
+      "name": "地址定位",
       "font_class": "index-zxmd-dress",
       "unicode": "e6af",
       "unicode_decimal": 59055
     },
     {
       "icon_id": "37131264",
-      "name": "icon-index-notice",
+      "name": "通知",
       "font_class": "index-notice",
       "unicode": "e6a8",
       "unicode_decimal": 59048
     },
     {
       "icon_id": "37131263",
-      "name": "icon-index-search",
+      "name": "搜索",
       "font_class": "index-search",
       "unicode": "e6a9",
       "unicode_decimal": 59049
     },
     {
       "icon_id": "37113110",
-      "name": "icon-applet-me-settings-acquiesce",
+      "name": "我的设置-默认",
       "font_class": "applet-me-settings-acquiesce",
       "unicode": "e6a6",
       "unicode_decimal": 59046
     },
     {
       "icon_id": "37113109",
-      "name": "icon-applet-me-message-acquiesce",
+      "name": "我的消息-默认",
       "font_class": "applet-me-message-acquiesce",
       "unicode": "e6a7",
       "unicode_decimal": 59047
     },
     {
       "icon_id": "37112559",
-      "name": "icon-applet-me-acquiesce",
+      "name": "我的-默认",
       "font_class": "applet-me-acquiesce",
       "unicode": "e6a2",
       "unicode_decimal": 59042
     },
     {
-      "icon_id": "37112562",
-      "name": "icon-applet-sort-acquiesce",
-      "font_class": "applet-sort-acquiesce",
-      "unicode": "e6a5",
-      "unicode_decimal": 59045
-    },
-    {
       "icon_id": "37112561",
-      "name": "icon-applet-index-acquiesce",
+      "name": "首页",
       "font_class": "applet-index-acquiesce",
       "unicode": "e6a4",
       "unicode_decimal": 59044
     },
     {
       "icon_id": "37112560",
-      "name": "icon-applet-shop-acquiesce",
+      "name": "购物车",
       "font_class": "applet-shop-acquiesce",
       "unicode": "e6a3",
       "unicode_decimal": 59043

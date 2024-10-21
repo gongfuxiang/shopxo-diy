@@ -12,7 +12,7 @@
             </el-input>
         </div>
         <div class="content">
-            <el-table :data="tableData" class="w" :header-cell-style="{ background: '#f7f7f7' }" row-key="id" height="438" fixed @row-click="row_click" @select="handle_select" @select-all="handle_select">
+            <el-table v-loading="loading" :data="tableData" class="w" :header-cell-style="{ background: '#f7f7f7' }" row-key="id" height="438" fixed @row-click="row_click" @select="handle_select" @select-all="handle_select">
                 <el-table-column v-if="multiple" type="selection" width="60" />
                 <el-table-column v-else label="#" width="60" type="">
                     <template #default="scope">
@@ -73,11 +73,7 @@ onMounted(() => {
 const modelValue = defineModel({ type: Object, default: {} });
 const tableData = ref<pageLinkList[]>([]);
 const search_value = ref('');
-const cascader_config = {
-    value: 'id',
-    label: 'name',
-    children: 'items',
-};
+const loading = ref(false);
 const init = () => {
     template_selection.value = '';
     category_ids.value = [];
@@ -110,10 +106,14 @@ const get_list = (new_page: number) => {
         page_size: page_size.value,
         category_ids: brand_ids.value,
     };
+    loading.value = true;
     UrlValueAPI.getBrandList(new_data).then((res: any) => {
         tableData.value = res.data.data_list;
         data_total.value = res.data.data_total;
         page.value = res.data.page;
+        setTimeout(() => {
+            loading.value = false;
+        }, 500);
     });
 };
 //#region 分页 -----------------------------------------------end

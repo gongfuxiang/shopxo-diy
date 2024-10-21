@@ -16,7 +16,7 @@
                 </div>
             </template>
         </div>
-        <icon v-if="isTabs" :name="new_style.more_icon_class || 'category-more'" :size="new_style.more_icon_size + '' || '14'" :color="new_style.more_icon_color || '#000'" class="pb-5"></icon>
+        <icon v-if="isTabs" :name="new_style.more_icon_class || 'category-more'" :size="new_style.more_icon_size + '' || '14'" :color="new_style.more_icon_color || '#000'" :class="tabs_theme_index == '3' ? 'pb-12' : 'pb-6'"></icon>
     </div>
 </template>
 
@@ -103,10 +103,9 @@ const icon_tabs_check = () => {
 .tabs-container {
     .tabs {
         max-width: 39rem;
-        min-height: 2.9rem;
+        min-height: 3rem;
         .item {
-            padding: 0 0 0.5rem 0;
-            // margin: 0 1rem;
+            padding: 0 0 0.8rem 0;
             position: relative;
             &:first-of-type {
                 margin-left: 0;
@@ -132,14 +131,14 @@ const icon_tabs_check = () => {
                 position: absolute;
                 left: 0;
                 right: 0;
-                bottom: 0;
+                bottom: 0.4rem;
                 display: none;
             }
             .icon {
                 position: absolute;
                 left: 0;
                 right: 0;
-                bottom: -0.6rem;
+                bottom: 0;
                 text-align: center;
                 font-size: 2rem;
                 display: none;
@@ -159,7 +158,7 @@ const icon_tabs_check = () => {
                 }
                 .tabs-bottom-line-theme {
                     opacity: 0.6;
-                    bottom: 0.8rem;
+                    bottom: 1.2rem;
                     z-index: 0;
                     height: 0.6rem;
                     border-radius: 0;
@@ -191,7 +190,7 @@ const icon_tabs_check = () => {
                 }
             }
             &.tabs-style-4 {
-                padding-bottom: 0.8rem;
+                padding-bottom: 1.2rem;
                 &.active {
                     .title {
                         color: #ff2222;
