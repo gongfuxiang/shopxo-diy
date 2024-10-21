@@ -217,10 +217,12 @@ const seckill_head_style = computed(() => {
 
 const seckill_head_img_style = computed(() => {
     let style = ``;
-    const { header_background_img, header_background_img_style } = new_style.value;
+    const { header_background_img, header_background_img_style, seckill_head_padding } = new_style.value;
     // 背景图
     const back = { background_img: header_background_img, background_img_style: header_background_img_style };
-    style += background_computer(back);
+    // 秒杀头部内间距设置， 没有的时候默认15px
+    const padding = !isEmpty(seckill_head_padding) ? seckill_head_padding : { padding: 0, padding_top: 15, padding_bottom: 15, padding_left: 13, padding_right: 13};
+    style += background_computer(back) + padding_computer(padding);
     return style;
 });
 
@@ -496,7 +498,7 @@ const corner_marker = computed(() => {
     font-size: 0.9rem;
 }
 .seckill-head {
-    padding: 1.5rem 1.3rem;
+    // padding: 1.5rem 1.3rem;
     width: 100%;
     height: 5.1rem;
     border-radius: 0.8rem 0.8rem 0 0;

@@ -35,6 +35,7 @@ interface DefaultSeckill {
         header_background_direction: string;
         header_background_img_style: string;
         header_background_img: uploadList[];
+        seckill_head_padding: paddingStyle;
         shop_radius: radiusStyle;
         shop_img_radius: radiusStyle;
         shop_padding: paddingStyle;
@@ -118,6 +119,14 @@ const defaultSeckill: DefaultSeckill = {
         header_background_direction: '180deg',
         header_background_img_style: '2',
         header_background_img: [{ id: 1, url: new_url + 'header-bg.png', original: '背景', title: '背景1', ext: '.png', type: 'img' }],
+        // 头部内边距
+        seckill_head_padding: {
+            padding: 0,
+            padding_top: 15,
+            padding_bottom: 15,
+            padding_left: 13,
+            padding_right: 13,
+        },
         // 商品内容圆角
         shop_radius: {
             radius: 8,
