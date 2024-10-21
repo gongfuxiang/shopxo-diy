@@ -154,7 +154,7 @@ export function gradient_handle(color_list: color_list[], direction: string, is_
  * @returns {string}
  */
 interface newPaddingStyle extends paddingStyle {
-    padding_top_safe_value: number;
+    padding_top_safe_value?: number;
 }
 export function padding_computer(new_style: newPaddingStyle, scale: number = 1) {
     let top = new_style.padding_top;
