@@ -1,5 +1,5 @@
 <template>
-    <div class="flex-row gap-10 jc-sb align-c">
+    <div class="tabs-container flex-row gap-10 jc-sb align-c">
         <div class="tabs flex-row oh" :style="`column-gap: ${new_style.tabs_spacing}px;`">
             <template v-for="(item, index) in form.tabs_list" :key="index">
                 <div class="item nowrap flex-col jc-c gap-4" :class="tabs_theme + (index == activeIndex ? ' active' : '')">
@@ -16,7 +16,7 @@
                 </div>
             </template>
         </div>
-        <icon v-if="isTabs" :name="new_style.more_icon_class || 'category-more'" :size="new_style.more_icon_size + '' || '14'" :color="new_style.more_icon_color || '#000'"></icon>
+        <icon v-if="isTabs" :name="new_style.more_icon_class || 'category-more'" :size="new_style.more_icon_size + '' || '14'" :color="new_style.more_icon_color || '#000'" class="pb-5"></icon>
     </div>
 </template>
 
@@ -100,123 +100,125 @@ const icon_tabs_check = () => {
 };
 </script>
 <style lang="scss" scoped>
-.tabs {
-    max-width: 39rem;
-    .item {
-        padding: 0 0 0.5rem 0;
-        // margin: 0 1rem;
-        position: relative;
-        transition: all 0.3s ease-in-out;
-        &:first-of-type {
-            margin-left: 0;
-        }
-        &:last-of-type {
-            margin-right: 0;
-        }
-        .title {
-            font-size: 1.4rem;
-            text-align: center;
-        }
-        .desc {
-            font-size: 1.1rem;
-            color: #999;
-            text-align: center;
-            display: none;
-        }
-        .bottom_line {
-            width: 100%;
-            height: 0.3rem;
-            border-radius: 1rem;
-            background-color: red;
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: none;
-        }
-        .icon {
-            position: absolute;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            text-align: center;
-            font-size: 2rem;
-            display: none;
-        }
-        .img {
-            width: 3.9rem;
-            height: 3.9rem;
-            border-radius: 100%;
-            border: 0.1rem solid transparent;
-            display: none;
-        }
-        &.tabs-style-1 {
-            &.active {
-                .bottom_line {
-                    display: block;
-                }
+.tabs-container {
+    .tabs {
+        max-width: 39rem;
+        min-height: 2.9rem;
+        .item {
+            padding: 0 0 0.5rem 0;
+            // margin: 0 1rem;
+            position: relative;
+            &:first-of-type {
+                margin-left: 0;
             }
-            .tabs-bottom-line-theme {
-                opacity: 0.6;
-                bottom: 0.8rem;
-                z-index: 0;
-                height: 0.6rem;
-                border-radius: 0;
-                width: 76%;
-                left: 12%;
+            &:last-of-type {
+                margin-right: 0;
             }
-        }
-        &.tabs-style-2 {
-            &.active {
-                .desc {
-                    background: #ff5e5e;
-                    color: #fff;
-                }
+            .title {
+                font-size: 1.4rem;
+                text-align: center;
             }
             .desc {
-                border-radius: 2rem;
-                padding: 0.2rem 0.6rem;
-                display: inline-block;
+                font-size: 1.1rem;
+                color: #999;
+                text-align: center;
+                display: none;
             }
-        }
-        &.tabs-style-3 {
-            &.active {
-                .title {
-                    background: #ff2222;
-                    border-radius: 2rem;
-                    padding: 0.2rem 1.2rem;
-                    color: #fff;
-                }
+            .bottom_line {
+                width: 100%;
+                height: 0.3rem;
+                border-radius: 1rem;
+                background-color: red;
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                display: none;
             }
-        }
-        &.tabs-style-4 {
-            padding-bottom: 1.8rem;
-            &.active {
-                .title {
-                    color: #ff2222;
-                }
-                .icon {
-                    color: #ff2222;
-                    display: block;
-                }
-            }
-        }
-        &.tabs-style-5 {
-            align-items: center;
-            &.active {
-                .title {
-                    font-size: 1.1rem;
-                    background: #ff5e5e;
-                    border-radius: 2rem;
-                    padding: 0.2rem 0.7rem;
-                    color: #fff;
-                }
-                .img {
-                    border-color: #ff5e5e;
-                }
+            .icon {
+                position: absolute;
+                left: 0;
+                right: 0;
+                bottom: -0.6rem;
+                text-align: center;
+                font-size: 2rem;
+                display: none;
             }
             .img {
-                display: block;
+                width: 3.9rem;
+                height: 3.9rem;
+                border-radius: 100%;
+                border: 0.1rem solid transparent;
+                display: none;
+            }
+            &.tabs-style-1 {
+                &.active {
+                    .bottom_line {
+                        display: block;
+                    }
+                }
+                .tabs-bottom-line-theme {
+                    opacity: 0.6;
+                    bottom: 0.8rem;
+                    z-index: 0;
+                    height: 0.6rem;
+                    border-radius: 0;
+                    width: 76%;
+                    left: 12%;
+                }
+            }
+            &.tabs-style-2 {
+                &.active {
+                    .desc {
+                        background: #ff5e5e;
+                        color: #fff;
+                    }
+                }
+                .desc {
+                    border-radius: 2rem;
+                    padding: 0.2rem 0.6rem;
+                    display: inline-block;
+                }
+            }
+            &.tabs-style-3 {
+                &.active {
+                    .title {
+                        background: #ff2222;
+                        border-radius: 2rem;
+                        padding: 0.2rem 1.2rem;
+                        color: #fff;
+                    }
+                }
+            }
+            &.tabs-style-4 {
+                padding-bottom: 0.8rem;
+                &.active {
+                    .title {
+                        color: #ff2222;
+                    }
+                    .icon {
+                        color: #ff2222;
+                        display: block;
+                    }
+                }
+            }
+            &.tabs-style-5 {
+                align-items: center;
+                &.active {
+                    .title {
+                        font-size: 1.1rem;
+                        background: #ff5e5e;
+                        border-radius: 2rem;
+                        padding: 0.2rem 0.7rem;
+                        color: #fff;
+                    }
+                    .img {
+                        border-color: #ff5e5e;
+                    }
+                }
+                .img {
+                    display: block;
+                }
             }
         }
     }

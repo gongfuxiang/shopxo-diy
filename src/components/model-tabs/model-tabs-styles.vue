@@ -24,7 +24,7 @@
             <card-container>
                 <div class="mb-12">更多样式</div>
                 <el-form-item label="图标">
-                    <upload v-model:icon-value="form.more_icon_class" type="icon" is-icon :limit="1" size="50"></upload>
+                    <upload v-model:icon-value="form.more_icon_class" type="icon" :is-delete="false" is-icon :limit="1" size="50"></upload>
                 </el-form-item>
                 <el-form-item label="图标颜色">
                     <color-picker v-model="form.more_icon_color" default-color="#CCCCCC"></color-picker>
