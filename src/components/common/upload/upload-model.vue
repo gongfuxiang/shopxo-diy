@@ -496,7 +496,7 @@ const submit_event = async (formEl: FormInstance | undefined) => {
                         });
                 }
             });
-        } 
+        }
         // else {
         //     console.log('error submit!', fields);
         // }
@@ -574,7 +574,7 @@ const reset_data = () => {
     dialogVisible.value = false;
     form.value = {
         type: 'loc',
-        category_id: [],
+        category_id: form.value.category_id,
         file: [],
         qrcode: '',
         web_image: '',

@@ -87,10 +87,10 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, new_style } = toRefs(state);
-const outer_spacing = computed(() => new_style.value.image_spacing + 'px');
-const outer_sx = computed(() => -(new_style.value.image_spacing / 2) + 'px');
+const outer_spacing = computed(() => (new_style.value?.image_spacing || 0) + 'px');
+const outer_sx = computed(() => -((new_style.value?.image_spacing || 0) / 2) + 'px');
 // 图片间距设置
-const spacing = computed(() => new_style.value.image_spacing / 2 + 'px');
+const spacing = computed(() => (new_style.value?.image_spacing || 0) / 2 + 'px');
 // 内容圆角设置
 const content_radius = computed(() => radius_computer(new_style.value.data_radius));
 // 图片圆角设置
