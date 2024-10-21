@@ -134,7 +134,7 @@ const defaultTabs: defaultTabs = {
         tabs_color: 'rgba(51,51,51,1)',
         tabs_spacing: 20,
         // 更多设置
-        more_icon_class: 'fenlei-more',
+        more_icon_class: 'category-more',
         more_icon_color: '#000',
         more_icon_size: 14,
         // 选项卡与轮播之间的间距
