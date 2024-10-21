@@ -1,8 +1,8 @@
 <template>
-    <div class="tabs-container flex-row gap-10 jc-sb align-c">
+    <div class="flex-row gap-10 jc-sb align-c">
         <div class="tabs flex-row oh" :style="`column-gap: ${new_style.tabs_spacing}px;`">
             <template v-for="(item, index) in form.tabs_list" :key="index">
-                <div class="item nowrap flex-col jc-c gap-4" :class="tabs_theme + (index == activeIndex ? ' active' : '')">
+                <div class="item nowrap flex-col jc-c gap-4" :class="tabs_theme + (index == activeIndex ? ' active' : '') + ((tabs_theme_index == '0' && tabs_theme_1_style) || tabs_theme_index == '1' || tabs_theme_index == '2' ? ' pb-0' : '')">
                     <template v-if="!isEmpty(item.img)">
                         <image-empty v-model="item.img[0]" class="img" error-img-style="width:2rem;height:2rem;"></image-empty>
                     </template>
@@ -16,7 +16,7 @@
                 </div>
             </template>
         </div>
-        <icon v-if="isTabs" :name="new_style.more_icon_class || 'category-more'" :size="new_style.more_icon_size + '' || '14'" :color="new_style.more_icon_color || '#000'" :class="tabs_theme_index == '3' ? 'pb-12' : 'pb-6'"></icon>
+        <icon v-if="isTabs" :name="new_style.more_icon_class || 'category-more'" :size="new_style.more_icon_size + '' || '14'" :color="new_style.more_icon_color || '#000'" :class="tabs_theme_index == '3' ? 'pb-14' : (tabs_theme_index == '0' && tabs_theme_1_style) || tabs_theme_index == '1' || tabs_theme_index == '2' ? '' : 'pb-5'"></icon>
     </div>
 </template>
 
@@ -64,6 +64,9 @@ const tabs_theme = computed(() => {
 const tabs_bottom_line_theme = computed(() => {
     return new_style.value.tabs_one_theme == '1' ? 'tabs-bottom-line-theme' : '';
 });
+const tabs_theme_1_style = computed(() => {
+    return new_style.value.tabs_one_theme == '1';
+});
 
 // 选中的背景渐变色样式
 const tabs_check = computed(() => {
@@ -100,126 +103,129 @@ const icon_tabs_check = () => {
 };
 </script>
 <style lang="scss" scoped>
-.tabs-container {
-    .tabs {
-        max-width: 39rem;
-        min-height: 3rem;
-        .item {
-            padding: 0 0 0.8rem 0;
-            position: relative;
-            &:first-of-type {
-                margin-left: 0;
+.tabs {
+    max-width: 39rem;
+    .item {
+        padding: 0 0 0.5rem 0;
+        // margin: 0 1rem;
+        position: relative;
+        transition: all 0.3s ease-in-out;
+        &:first-of-type {
+            margin-left: 0;
+        }
+        &:last-of-type {
+            margin-right: 0;
+        }
+        .title {
+            font-size: 1.4rem;
+            text-align: center;
+        }
+        .desc {
+            font-size: 1.1rem;
+            color: #999;
+            text-align: center;
+            display: none;
+        }
+        .bottom_line {
+            width: 100%;
+            height: 0.3rem;
+            border-radius: 1rem;
+            background-color: red;
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: none;
+        }
+        .icon {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            text-align: center;
+            font-size: 2rem;
+            line-height: 1rem !important;
+            display: none;
+        }
+        .img {
+            width: 3.9rem;
+            height: 3.9rem;
+            border-radius: 100%;
+            border: 0.1rem solid transparent;
+            display: none;
+        }
+        &.tabs-style-1 {
+            &.active {
+                .bottom_line {
+                    display: block;
+                }
             }
-            &:last-of-type {
-                margin-right: 0;
+            .tabs-bottom-line-theme {
+                opacity: 0.6;
+                bottom: 0.8rem;
+                z-index: 0;
+                height: 0.6rem;
+                border-radius: 0;
+                width: 76%;
+                left: 12%;
             }
-            .title {
-                font-size: 1.4rem;
-                text-align: center;
+        }
+        &.tabs-style-2 {
+            &.active {
+                .desc {
+                    background: #ff5e5e;
+                    color: #fff;
+                }
             }
             .desc {
-                font-size: 1.1rem;
-                color: #999;
-                text-align: center;
-                display: none;
+                border-radius: 2rem;
+                padding: 0.2rem 0.6rem;
+                display: inline-block;
             }
-            .bottom_line {
-                width: 100%;
-                height: 0.3rem;
-                border-radius: 1rem;
-                background-color: red;
-                position: absolute;
-                left: 0;
-                right: 0;
-                bottom: 0.4rem;
-                display: none;
-            }
-            .icon {
-                position: absolute;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                text-align: center;
-                font-size: 2rem;
-                display: none;
-            }
-            .img {
-                width: 3.9rem;
-                height: 3.9rem;
-                border-radius: 100%;
-                border: 0.1rem solid transparent;
-                display: none;
-            }
-            &.tabs-style-1 {
-                &.active {
-                    .bottom_line {
-                        display: block;
-                    }
-                }
-                .tabs-bottom-line-theme {
-                    opacity: 0.6;
-                    bottom: 1.2rem;
-                    z-index: 0;
-                    height: 0.6rem;
-                    border-radius: 0;
-                    width: 76%;
-                    left: 12%;
-                }
-            }
-            &.tabs-style-2 {
-                &.active {
-                    .desc {
-                        background: #ff5e5e;
-                        color: #fff;
-                    }
-                }
-                .desc {
+        }
+        &.tabs-style-3 {
+            &.active {
+                .title {
+                    background: #ff2222;
                     border-radius: 2rem;
-                    padding: 0.2rem 0.6rem;
-                    display: inline-block;
+                    padding: 0.2rem 1.2rem;
+                    color: #fff;
                 }
             }
-            &.tabs-style-3 {
-                &.active {
-                    .title {
-                        background: #ff2222;
-                        border-radius: 2rem;
-                        padding: 0.2rem 1.2rem;
-                        color: #fff;
-                    }
+        }
+        &.tabs-style-4 {
+            padding-bottom: 1.4rem;
+            &.active {
+                .title {
+                    color: #ff2222;
                 }
-            }
-            &.tabs-style-4 {
-                padding-bottom: 1.2rem;
-                &.active {
-                    .title {
-                        color: #ff2222;
-                    }
-                    .icon {
-                        color: #ff2222;
-                        display: block;
-                    }
-                }
-            }
-            &.tabs-style-5 {
-                align-items: center;
-                &.active {
-                    .title {
-                        font-size: 1.1rem;
-                        background: #ff5e5e;
-                        border-radius: 2rem;
-                        padding: 0.2rem 0.7rem;
-                        color: #fff;
-                    }
-                    .img {
-                        border-color: #ff5e5e;
-                    }
-                }
-                .img {
+                .icon {
+                    color: #ff2222;
                     display: block;
                 }
             }
         }
+        &.tabs-style-5 {
+            align-items: center;
+            &.active {
+                .title {
+                    font-size: 1.1rem;
+                    background: #ff5e5e;
+                    border-radius: 2rem;
+                    padding: 0.2rem 0.7rem;
+                    color: #fff;
+                }
+                .img {
+                    border-color: #ff5e5e;
+                }
+            }
+            .img {
+                display: block;
+            }
+        }
     }
+}
+.pb-0 {
+    padding-bottom: 0 !important;
 }
 </style>

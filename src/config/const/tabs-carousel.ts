@@ -138,7 +138,7 @@ const defaultTabs: defaultTabs = {
         more_icon_color: '#000',
         more_icon_size: 14,
         // 选项卡与轮播之间的间距
-        data_spacing: 10,
+        data_spacing: 0,
         // 图片圆角
         radius: 0,
         radius_top_left: 0,

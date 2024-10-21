@@ -2,7 +2,9 @@
     <div :style="style_container">
         <div class="flex-col oh" :style="style_img_container">
             <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true" :active-index="tabs_active_index"></tabs-view>
-            <model-carousel :value="value" :is-common="false"></model-carousel>
+            <div class="pt-10">
+                <model-carousel :value="value" :is-common="false"></model-carousel>
+            </div>
         </div>
     </div>
 </template>
