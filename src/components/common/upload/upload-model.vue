@@ -246,6 +246,10 @@ const upload_type_change = (type: any) => {
                 scan_file_list.value = data || [];
             }
         }, 3000);
+        // 如果已经选择了分组，则重新设置二维码
+        if (form.value.category_id.length > 0) {
+            category_id_change(form.value.category_id);
+        }
     }
 };
 // 选择分组

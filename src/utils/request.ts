@@ -43,7 +43,6 @@ service.interceptors.request.use(
                 config.url = config.url + '&token=' + JSON.parse(cookie).token;
             }
         }
-        console.log(config);
         return config;
     },
     (error: any) => {
