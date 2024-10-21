@@ -38,7 +38,13 @@ const props = defineProps({
 });
 // 用于页面判断显示
 const state = reactive({
-    form: props.value || {},
+    form: props.value || {
+        radius: 0,
+        radius_top_left: 0,
+        radius_top_right: 0,
+        radius_bottom_left: 0,
+        radius_bottom_right: 0,
+    },
 });
 // 如果需要解构，确保使用toRefs
 const { form } = toRefs(state);

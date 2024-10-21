@@ -14,7 +14,6 @@ interface defaultSearch {
     style: {
         img_radius: object
         data_radius: object;
-        image_spacing: number;
         common_style: object;
     };
 }
@@ -27,14 +26,6 @@ const defaultSearch: defaultSearch = {
         data_magic_list: [],
     },
     style: {
-        // 图片圆角
-        img_radius: {
-            radius: 0,
-            radius_top_left: 0,
-            radius_top_right: 0,
-            radius_bottom_left: 0,
-            radius_bottom_right: 0,
-        },
         // 内容圆角
         data_radius: {
             radius: 0,

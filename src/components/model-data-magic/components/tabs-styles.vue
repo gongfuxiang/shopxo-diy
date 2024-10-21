@@ -38,6 +38,9 @@
                 <padding :key="form.carouselKey" :value="form.chunk_padding" @update:value="chunk_padding_change"></padding>
             </el-form-item>
         </template>
+        <el-form-item label="图片圆角">
+            <radius :key="form.carouselKey" :value="form.img_radius" @update:value="img_radius_change"></radius>
+        </el-form-item>
     </card-container>
     <div class="bg-f5 divider-line" />
     <card-container v-if="tabs_content.data_type === 'goods'">
@@ -55,7 +58,7 @@
     </card-container>
 </template>
 <script setup lang="ts">
-import { pick } from 'lodash';
+import { pick, isEmpty } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
@@ -81,6 +84,17 @@ const mult_color_picker_event = (arry: string[], type: number) => {
 const chunk_padding_change = (padding: any) => {
     form.value.chunk_padding = Object.assign(form.value.chunk_padding, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
 };
+// 内容圆角
+const img_radius_change = (radius: any) => {
+    const data = !isEmpty(form.value.img_radius) ? form.value.img_radius : { radius: 4, radius_top_left: 4, radius_top_right: 4, radius_bottom_left: 4, radius_bottom_right: 4 };
+    form.value.img_radius = Object.assign(data, pick(radius, [
+        'radius',
+        'radius_top_left',
+        'radius_top_right',
+        'radius_bottom_left',
+        'radius_bottom_right',
+    ]));
+}
 
 watchEffect(() => {
     form.value = props.value;

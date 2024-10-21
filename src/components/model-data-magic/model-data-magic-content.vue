@@ -84,6 +84,14 @@ const data_style = {
         padding_left: 15,
         padding_right: 15,
     },
+    // 图片圆角
+    img_radius: {
+        radius: 4,
+        radius_top_left: 4,
+        radius_top_right: 4,
+        radius_bottom_left: 4,
+        radius_bottom_right: 4,
+    },
     is_show: '1',
     indicator_style: 'dot',
     indicator_location: 'center',

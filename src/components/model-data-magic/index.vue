@@ -14,12 +14,12 @@
                                             <p class="ma-0 w txet-word-break text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
                                         </div>
                                         <div class="w h">
-                                            <magic-carousel :value="item" :good-style="item.data_style" :content-img-radius="content_img_radius" :actived="form.style_actived" type="product" @carousel_change="carousel_change($event, index)"></magic-carousel>
+                                            <magic-carousel :value="item" :good-style="item.data_style" :actived="form.style_actived" type="product" @carousel_change="carousel_change($event, index)"></magic-carousel>
                                         </div>
                                     </div>
                                 </template>
                                 <template v-else>
-                                    <magic-carousel :value="item" :content-img-radius="content_img_radius" type="img" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
+                                    <magic-carousel :value="item" type="img" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
                                 </template>
                                 <div v-if="item.data_style.is_show == '1' && item.data_content.list.length > 1" :class="{'dot-center': item.data_style?.indicator_location == 'center', 'dot-right': item.data_style?.indicator_location == 'flex-end' }" class="dot flex abs" :style="`bottom: ${item.data_style?.indicator_bottom}px;`">
                                     <template v-if="item.data_style.indicator_style == 'num'">
@@ -45,12 +45,12 @@
                                         <p class="ma-0 w txet-word-break text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
                                     </div>
                                     <div class="w h">
-                                        <magic-carousel :value="item" :good-style="item.data_style" :content-img-radius="content_img_radius" type="product" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
+                                        <magic-carousel :value="item" :good-style="item.data_style" type="product" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
                                     </div>
                                 </div>
                             </template>
                             <template v-else>
-                                <magic-carousel :value="item" :content-img-radius="content_img_radius" type="img" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
+                                <magic-carousel :value="item" type="img" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
                             </template>
                             <div v-if="item.data_style.is_show == '1' && item.data_content.list.length > 1" :class="{'dot-center': item.data_style?.indicator_location == 'center', 'dot-right': item.data_style?.indicator_location == 'flex-end' }" class="dot flex abs" :style="`bottom: ${item.data_style?.indicator_bottom}px;`">
                                 <template v-if="item.data_style.indicator_style == 'num'">
@@ -93,8 +93,6 @@ const outer_sx = computed(() => -((new_style.value?.image_spacing || 0) / 2) + '
 const spacing = computed(() => (new_style.value?.image_spacing || 0) / 2 + 'px');
 // 内容圆角设置
 const content_radius = computed(() => radius_computer(new_style.value.data_radius));
-// 图片圆角设置
-const content_img_radius = computed(() => radius_computer(new_style.value.img_radius));
 //#region 容器大小计算
 const div_width = ref(0);
 const container_size = computed(() => div_width.value + 'px');
@@ -266,6 +264,9 @@ watch(props.value.content, (val) => {
         data_style.indicator_styles = indicator_style(data_style);
         data_style.background_style = gradient_computer(data_style);
         data_style.background_img_style = background_computer(data_style);
+        const radius = !isEmpty(data_style.img_radius) ? data_style.img_radius : { radius: 4, radius_top_left: 4, radius_top_right: 4, radius_bottom_left: 4, radius_bottom_right: 4 };
+        data_style.get_img_radius = radius_computer(radius);
+        
         // 商品名称和价格样式
         data_style.goods_title_style = goods_trends_config(item.data_style, 'title');
         data_style.goods_price_style = goods_trends_config(item.data_style, 'price');
