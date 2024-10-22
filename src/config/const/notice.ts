@@ -15,6 +15,7 @@ interface defaultSearch {
         direction: string;
         img_src: uploadList[];
         icon_class: string;
+        right_title: string;
         more_link: object;
         interval_time: number;
         is_right_button: string;
@@ -56,6 +57,7 @@ const defaultSearch: defaultSearch = {
         interval_time: 3,
         // 更多配置
         is_right_button: '1',
+        right_title: '',
         more_link: {},
         icon_class: '',
         // 公告内容
