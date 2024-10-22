@@ -165,7 +165,7 @@ const set_padding_top_value = () => {
             } else {
                 if (index === padding_top_index && item.key !== 'float-window') {
                     item.com_data.style.common_style.padding_top_safe_value = common_store.header_height;
-                } else {
+                } else if (item.key !== 'float-window') {
                     item.com_data.style.common_style.padding_top_safe_value = 0;
                 }
             }
