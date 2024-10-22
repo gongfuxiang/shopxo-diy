@@ -82,6 +82,9 @@ p {
     --el-form-label-font-size: var(--el-font-size-base);
     --el-form-inline-content-width: 220px;
 }
+.el-checkbox {
+    --el-checkbox-font-size: 1.2rem;
+}
 
 // 取色器样式调整
 .el-color-picker__trigger {
