@@ -80,8 +80,8 @@ const tabs_check = computed(() => {
 // 选中的内部样式
 const tabs_theme_style = computed(() => {
     return {
-        tabs_title_checked: `font-weight: ${new_style.value.tabs_weight_checked};font-size: ${new_style.value.tabs_size_checked}px;color:${new_style.value.tabs_color_checked};`,
-        tabs_title: `font-weight: ${new_style.value.tabs_weight};font-size: ${new_style.value.tabs_size}px;color:${new_style.value.tabs_color};`,
+        tabs_title_checked: `font-weight: ${new_style.value.tabs_weight_checked};font-size: ${new_style.value.tabs_size_checked}px;line-height: ${new_style.value.tabs_size_checked}px;color:${new_style.value.tabs_color_checked};`,
+        tabs_title: `font-weight: ${new_style.value.tabs_weight};font-size: ${new_style.value.tabs_size}px;line-height: ${new_style.value.tabs_size}px;color:${new_style.value.tabs_color};`,
     };
 });
 
@@ -162,7 +162,7 @@ const icon_tabs_check = () => {
             }
             .tabs-bottom-line-theme {
                 opacity: 0.6;
-                bottom: 0.8rem;
+                bottom: 0;
                 z-index: 0;
                 height: 0.6rem;
                 border-radius: 0;
