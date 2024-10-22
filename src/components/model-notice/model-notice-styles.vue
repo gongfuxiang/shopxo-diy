@@ -37,11 +37,18 @@
                         </el-form-item>
                     </template>
                 </template>
-                <el-form-item label="右侧按钮">
-                    <color-picker v-model="form.button_color" default-color="#999"></color-picker>
-                </el-form-item>
                 <el-form-item label="内容标题">
                     <color-text-size-group v-model:color="form.news_color" v-model:typeface="form.news_typeface" v-model:size="form.news_size" default-color="#000000"></color-text-size-group>
+                </el-form-item>
+            </card-container>
+            <div class="bg-f5 divider-line" />
+            <card-container>
+                <div class="mb-12">更多设置</div>
+                <el-form-item label="按钮颜色">
+                    <color-picker v-model="form.right_button_color" default-color="#999"></color-picker>
+                </el-form-item>
+                <el-form-item label="按钮文字">
+                    <slider v-model="form.right_button_size" :max="100"></slider>
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
