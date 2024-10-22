@@ -161,7 +161,7 @@ export function padding_computer(new_style: newPaddingStyle, scale: number = 1) 
     if (typeof new_style.padding_top_safe_value == 'number') {
         top += new_style.padding_top_safe_value;
     }
-    return `padding: ${ top * scale || 0}px ${new_style.padding_right * scale || 0}px ${new_style.padding_bottom * scale || 0}px ${new_style.padding_left * scale || 0}px;`;
+    return `padding: ${top * scale || 0}px ${new_style.padding_right * scale || 0}px ${new_style.padding_bottom * scale || 0}px ${new_style.padding_left * scale || 0}px;`;
 }
 
 /**
@@ -384,6 +384,9 @@ export const set_cookie = (name: string, value: string, expire_time?: number) =>
         // 计算过期时间
         var expire_date = new Date(now.getTime() + expire_time * 86400);
         cookie_str += ';expires=' + expire_date.toUTCString();
+        // 将新增的cookie储存到cookie中，可以存储多个而不是替换
+        document.cookie = cookie_str;
+    } else {
         // 将新增的cookie储存到cookie中，可以存储多个而不是替换
         document.cookie = cookie_str;
     }
