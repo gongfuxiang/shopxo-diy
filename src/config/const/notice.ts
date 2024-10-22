@@ -15,13 +15,15 @@ interface defaultSearch {
         direction: string;
         img_src: uploadList[];
         icon_class: string;
+        right_title: string;
         more_link: object;
         interval_time: number;
         is_right_button: string;
         notice_list: carousel_list[];
     };
     style: {
-        button_color: string;
+        right_button_color: string;
+        right_button_size: number;
         news_color: string;
         news_typeface: string;
         news_size: number;
@@ -50,12 +52,12 @@ const defaultSearch: defaultSearch = {
         title_type: 'img-icon',
         title: '测试标题',
         img_src: [],
-        
         // 滚动方式
         direction: 'vertical',
         interval_time: 3,
         // 更多配置
         is_right_button: '1',
+        right_title: '',
         more_link: {},
         icon_class: '',
         // 公告内容
@@ -92,7 +94,8 @@ const defaultSearch: defaultSearch = {
         title_height: 24, 
         icon_size: 12,
         icon_color: '#999',
-        button_color: '#999',
+        right_button_color: '#999',
+        right_button_size: 12,
         // 容器高度
         container_height: 44,
         // 容器信息
