@@ -1,17 +1,17 @@
 <template>
-    <el-dialog v-model="dialog_visible" class="radius-lg dialog-center oh" width="1168" :close-on-click-modal="false" append-to-body>
+    <el-dialog v-model="dialog_visible" class="radius-lg dialog-center oh" width="1168" :close-on-click-modal="false" destroy-on-close append-to-body>
         <template #header>
             <div class="title re">
                 <div class="middle size-16 fw">预览</div>
             </div>
         </template>
         <div class="flex-row iframe-content oh">
-            <iframe :src="new_link" width="100%" height="100%" frameborder="0"></iframe>
+            <iframe :key="key" :src="new_link + '&key=' + key" width="100%" height="100%" frameborder="0"></iframe>
         </div>
     </el-dialog>
 </template>
 <script setup lang="ts">
-import { get_cookie, get_math } from '@/utils';
+import { get_cookie, set_cookie, get_math } from '@/utils';
 const props = defineProps({
     dataId: {
         type: String,
@@ -25,6 +25,7 @@ const pro_url = window.location.href.substring(0, index);
 // 如果是本地则使用静态tonken如果是线上则使用cookie的token
 const cookie = get_cookie('admin_info');
 const token = ref('');
+const key = ref(0);
 onMounted(async () => {
     if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
         let temp_data = await import(import.meta.env.VITE_APP_BASE_API == '/dev-api' ? '../../../../temp.d.ts' : '../../../../temp_pro.d');
@@ -39,8 +40,17 @@ onMounted(async () => {
 watch(
     () => dialog_visible.value,
     (newVal) => {
+        key.value = new Date().getTime();
         if (newVal) {
-            new_link.value = (import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API_URL : pro_url) + '?s=diy/preview/id/' + props.dataId + '&system_type=default' + token.value + '&uid=' + get_math();
+            let uid_val = '';
+            if (get_cookie('uid_name')) {
+                uid_val = get_cookie('uid_name');
+            } else {
+                uid_val = get_math();
+                set_cookie('uid_name', uid_val);
+                console.log(get_cookie('uid_name'));
+            }
+            new_link.value = (import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API_URL : pro_url) + '?s=diy/preview/id/' + props.dataId + '&system_type=default' + token.value + '&uid=' + uid_val;
         }
     }
 );
