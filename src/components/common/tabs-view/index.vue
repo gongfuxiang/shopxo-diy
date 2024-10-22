@@ -188,7 +188,7 @@ const icon_tabs_check = () => {
                 .title {
                     background: #ff2222;
                     border-radius: 2rem;
-                    padding: 0.2rem 1.2rem;
+                    padding: 0.6rem 1.2rem;
                     color: #fff;
                 }
             }
