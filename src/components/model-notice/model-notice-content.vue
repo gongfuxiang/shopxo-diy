@@ -43,9 +43,14 @@
                 <el-form-item label="右侧按钮">
                     <el-switch v-model="form.is_right_button" active-value="1" inactive-value="0"></el-switch>
                 </el-form-item>
-                <el-form-item v-if="form.is_right_button != '0'" label="链接">
-                    <url-value v-model="form.more_link"></url-value>
-                </el-form-item>
+                <template v-if="form.is_right_button != '0'">
+                    <el-form-item label="右侧文字">
+                        <el-input v-model="form.right_title" placeholder="请输入标题" clearable></el-input>
+                    </el-form-item>
+                    <el-form-item label="链接">
+                        <url-value v-model="form.more_link"></url-value>
+                    </el-form-item>
+                </template>
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>
