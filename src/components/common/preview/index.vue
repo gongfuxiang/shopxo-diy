@@ -23,7 +23,7 @@ const new_link = ref('');
 const index = window.location.href.lastIndexOf('?s=');
 const pro_url = window.location.href.substring(0, index);
 // 如果是本地则使用静态tonken如果是线上则使用cookie的token
-const cookie = get_cookie('admin_info');
+const cookie = get_cookie('admin_info') || '';
 const token = ref('');
 const key = ref(0);
 onMounted(async () => {
@@ -31,7 +31,7 @@ onMounted(async () => {
         let temp_data = await import(import.meta.env.VITE_APP_BASE_API == '/dev-api' ? '../../../../temp.d.ts' : '../../../../temp_pro.d');
         token.value = '&token=' + temp_data.default.temp_token;
     } else {
-        if (cookie) {
+        if (cookie && cookie !== null && cookie !== 'null') {
             token.value = '&token=' + JSON.parse(cookie).token;
         }
     }
