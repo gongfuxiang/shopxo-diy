@@ -18,6 +18,8 @@
     </div>
 </template>
 <script setup lang="ts">
+import { commonStore } from '@/store';
+const common_store = commonStore();
 const props = defineProps({
     footer: {
         type: Object,
@@ -25,8 +27,8 @@ const props = defineProps({
     },
 });
 const footer_nav = ref(props.footer);
-const header_image = ref(new URL(`../../../../assets/images/components/page-settings/theme-1.png`, import.meta.url).href);
-const content_image = ref(new URL(`../../../../assets/images/tabbar/phone-temp-bg.jpg`, import.meta.url).href);
+const header_image = ref(common_store.common.config.attachment_host + `/static/diy/images/components/page-settings/theme-1.png`);
+const content_image = ref(common_store.common.config.attachment_host + `/static/diy/images/tabbar/phone-temp-bg.jpg`);
 watch(
     () => props.footer,
     (newValue) => {

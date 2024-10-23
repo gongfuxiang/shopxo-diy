@@ -139,7 +139,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_img_computer, common_styles_computer, gradient_computer, online_url } from '@/utils';
+import { common_img_computer, common_styles_computer, gradient_computer } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 import CouponAPI from '@/api/coupon';
 import { commonStore } from '@/store';

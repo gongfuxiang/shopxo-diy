@@ -47,7 +47,7 @@
                 </template>
                 <el-form-item label="数据换行">
                     <el-checkbox-group v-model="form.data_alone_row_value">
-                        <el-checkbox v-for="item in base_list.list_show_list.filter(item => item.type.includes(form.theme))" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
+                        <el-checkbox v-for="item in base_list.list_show_list.filter((item) => item.type.includes(form.theme))" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
             </card-container>
@@ -102,6 +102,8 @@
 </template>
 <script setup lang="ts">
 import { get_math } from '@/utils';
+import { commonStore } from '@/store';
+const common_store = commonStore();
 const props = defineProps({
     value: {
         type: Object,
@@ -116,15 +118,15 @@ watchEffect(() => {
 
 const base_list = reactive({
     themeList: [
-        { id: '1', name: '风格1', url: new URL(`../../assets/images/components/page-settings/theme-1.png`, import.meta.url).href },
-        { id: '2', name: '风格2', url: new URL(`../../assets/images/components/page-settings/theme-2.png`, import.meta.url).href },
-        { id: '3', name: '风格3', url: new URL(`../../assets/images/components/page-settings/theme-3.png`, import.meta.url).href },
-        { id: '4', name: '风格4', url: new URL(`../../assets/images/components/page-settings/theme-4.png`, import.meta.url).href },
-        { id: '5', name: '风格5', url: new URL(`../../assets/images/components/page-settings/theme-5.png`, import.meta.url).href },
+        { id: '1', name: '风格1', url: common_store.common.config.attachment_host + `/static/diy/images/components/page-settings/theme-1.png` },
+        { id: '2', name: '风格2', url: common_store.common.config.attachment_host + `/static/diy/images/components/page-settings/theme-2.png` },
+        { id: '3', name: '风格3', url: common_store.common.config.attachment_host + `/static/diy/images/components/page-settings/theme-3.png` },
+        { id: '4', name: '风格4', url: common_store.common.config.attachment_host + `/static/diy/images/components/page-settings/theme-4.png` },
+        { id: '5', name: '风格5', url: common_store.common.config.attachment_host + `/static/diy/images/components/page-settings/theme-5.png` },
     ],
     list_show_list: [
         { name: '搜索', value: 'search', type: ['3', '5'] },
-        { name: '右侧图标', value: 'icon', type: ['1', '2', '3', '4', '5' ] },
+        { name: '右侧图标', value: 'icon', type: ['1', '2', '3', '4', '5'] },
     ],
 });
 

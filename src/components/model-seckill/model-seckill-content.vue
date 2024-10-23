@@ -95,8 +95,8 @@
     </div>
 </template>
 <script setup lang="ts">
-import { get_math } from '@/utils';
-
+import { commonStore } from '@/store';
+const common_store = commonStore();
 const props = defineProps({
     value: {
         type: Object,
@@ -125,10 +125,10 @@ watchEffect(() => {
 
 const base_list = {
     themeList: [
-        { id: '1', name: '风格1', url: new URL(`../../assets/images/components/model-seckill/theme-1.png`, import.meta.url).href },
-        { id: '2', name: '风格2', url: new URL(`../../assets/images/components/model-seckill/theme-2.png`, import.meta.url).href },
-        { id: '3', name: '风格3', url: new URL(`../../assets/images/components/model-seckill/theme-3.png`, import.meta.url).href },
-        { id: '4', name: '风格4', url: new URL(`../../assets/images/components/model-seckill/theme-4.png`, import.meta.url).href },
+        { id: '1', name: '风格1', url: common_store.common.config.attachment_host + `/static/diy/images/components/model-seckill/theme-1.png` },
+        { id: '2', name: '风格2', url: common_store.common.config.attachment_host + `/static/diy/images/components/model-seckill/theme-2.png` },
+        { id: '3', name: '风格3', url: common_store.common.config.attachment_host + `/static/diy/images/components/model-seckill/theme-3.png` },
+        { id: '4', name: '风格4', url: common_store.common.config.attachment_host + `/static/diy/images/components/model-seckill/theme-4.png` },
     ],
     shop_style_type_list: [
         { name: '单列', value: '1' },
@@ -136,9 +136,9 @@ const base_list = {
         { name: '横向滑动', value: '3' },
     ],
     list_show_list: [
-        { name: '商品名称', value: 'title'},
-        { name: '商品简述', value: 'simple_desc'},
-        { name: '商品售价', value: 'price'},
+        { name: '商品名称', value: 'title' },
+        { name: '商品简述', value: 'simple_desc' },
+        { name: '商品售价', value: 'price' },
         { name: '商品原价', value: 'original_price' },
         { name: '售价单位', value: 'price_unit' },
         { name: '原价单位', value: 'original_price_unit' },
