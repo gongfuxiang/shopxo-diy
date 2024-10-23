@@ -88,7 +88,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, get_math, gradient_computer, padding_computer } from '@/utils';
+import { background_computer, get_math, gradient_computer, padding_computer, online_url } from '@/utils';
 import { cloneDeep, isEmpty } from 'lodash';
 import { SortableEvent, VueDraggable } from 'vue-draggable-plus';
 import defaultSettings from './index';
@@ -245,7 +245,7 @@ interface componentsData {
 }
 const components = ref<componentsData[]>([]);
 const url_computer = (name: string) => {
-    const new_url = ref(new URL(`../../../../assets/images/layout/siderbar/${name}.png`, import.meta.url).href).value;
+    const new_url = common_store.common.config.attachment_host + `/static/diy/images/layout/siderbar/${name}.png`;
     return new_url;
 };
 
@@ -485,7 +485,7 @@ const on_scroll_event = (e: any) => {
 //#endregion
 //#region 页面设置 导出 导入
 // 在组件挂载时默认执行
-onMounted(() => {
+onMounted(async () => {
     page_settings();
     nextTick(() => {
         const interval = setInterval(() => {

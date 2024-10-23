@@ -1,7 +1,13 @@
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import { commonStore } from '@/store';
+import App from '@/App.vue';
+const app = createApp(App);
+const pinia = createPinia();
+app.use(pinia);
 import { get_math } from '@/utils';
 import defaultCommon from './index';
 import { isEmpty } from 'lodash';
-import { commonStore } from '@/store';
 const common_store = commonStore();
 interface hot_word_list {
     id: string;
@@ -19,12 +25,12 @@ interface DefaultFooterNav {
         bottom_navigation_show: string;
         positioning_name: string;
         icon_setting: { id: string; img: uploadList[]; link: object; icon: string }[];
-        is_location_left_icon_show: string,
-        location_left_img: uploadList[],
-        location_left_icon: string,
-        is_location_right_icon_show: string,
-        location_right_img: uploadList[],
-        location_right_icon: string,
+        is_location_left_icon_show: string;
+        location_left_img: uploadList[];
+        location_left_icon: string;
+        is_location_right_icon_show: string;
+        location_right_img: uploadList[];
+        location_right_icon: string;
         is_center: string;
         is_icon_show: string;
         icon_link: object;

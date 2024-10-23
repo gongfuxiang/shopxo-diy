@@ -1,11 +1,3 @@
-import { createApp } from 'vue';
-import { createPinia } from 'pinia';
-import { commonStore } from '@/store';
-import App from '@/App.vue';
-const app = createApp(App);
-const pinia = createPinia();
-app.use(pinia);
-const { common, set_common } = commonStore();
 // 定义一组预定义的颜色数组，用于在各种场景中轻松引用这些颜色
 // 这些颜色包括从白色到黑色的不同灰度，以及一些鲜艳的颜色，格式有十六进制、RGB、RGBA、HSV、HSL等
 export const predefine_colors = ['#fff', '#ddd', '#ccc', '#999', '#666', '#333', '#000', '#ff4500', '#ff8c00', '#ffd700', '#90ee90', '#00ced1', '#c71585', 'rgba(255, 69, 0, 0.68)', 'rgb(255, 120, 0)', 'hsv(51, 100, 98)', 'hsva(120, 40, 94, 0.5)', 'hsl(181, 100%, 37%)', '#1F93FF', '#c7158577'];
@@ -416,12 +408,12 @@ export const tabs_style = (color: string, style: string | number | boolean | und
  * @returns {Promise<string>} 返回一个Promise，解析为包含资源URL的字符串
  */
 export const online_url = async (directory: string = '') => {
-    console.log(2);
     if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
         let temp_data = await import(import.meta.env.VITE_APP_BASE_API == '/dev-api' ? '../../temp.d' : '../../temp_pro.d');
         return temp_data.default.temp_attachment_host + directory;
     } else {
-        let attachemnt_host = common.config.attachment_host;
+        // let attachemnt_host = common.config.attachment_host;
+        let attachemnt_host = get_cookie('attachment_host') && get_cookie('attachment_host') !== 'null' && get_cookie('attachment_host') !== null ? get_cookie('attachment_host') : '';
         return attachemnt_host + directory;
     }
 };

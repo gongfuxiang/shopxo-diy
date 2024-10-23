@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { is_obj } from '@/utils';
+import { is_obj, set_cookie } from '@/utils';
 import { Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
 import defaultConfigSetting from '@/config/setting';
@@ -184,6 +184,7 @@ const default_merge = (data: any, key: string) => {
 const common_init = () => {
     CommonAPI.getInit().then((res: any) => {
         common_store.set_common(res.data);
+        set_cookie('attachment_host', res.data.config.attachment_host);
         init();
     });
 };

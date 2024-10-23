@@ -10,6 +10,8 @@
 <script setup lang="ts">
 import { is_obj } from '@/utils';
 import type { ImageProps } from 'element-plus';
+import { commonStore } from '@/store';
+const common_store = commonStore();
 const props = defineProps({
     errorImgStyle: {
         type: String,
@@ -25,7 +27,7 @@ const props = defineProps({
     },
 });
 const image = defineModel({ type: [Object, String], default: () => {} });
-const error_image = ref(new URL(`../../../assets/images/empty.png`, import.meta.url).href);
+const error_image = ref(common_store.common.config.attachment_host + `/static/diy/images/empty.png`);
 const emit = defineEmits(['load']);
 const on_load = (e: any) => {
     const { width, height } = e.target;

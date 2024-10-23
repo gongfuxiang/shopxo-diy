@@ -112,6 +112,8 @@ import { cloneDeep, isEmpty } from 'lodash';
 import { get_math } from '@/utils';
 import { text_com_data, img_com_data, line_com_data, icon_com_data, panel_com_data, isRectangleIntersecting } from "./index-default";
 import { SortableEvent, VueDraggable } from 'vue-draggable-plus';
+import { commonStore } from '@/store';
+const common_store = commonStore();
 // 删除
 const app = getCurrentInstance();
 //#region 传递参数和传出数据的处理
@@ -163,7 +165,7 @@ const components = reactive([
     },
 ]);
 const url_computer = (name: string) => {
-    const new_url = ref(new URL(`../../../assets/images/custom/${name}.png`, import.meta.url).href).value;
+    const new_url = ref(common_store.common.config.attachment_host + `/static/diy/images/custom/${name}.png`).value;
     return new_url;
 };
 //#endregion

@@ -6,6 +6,8 @@
 </template>
 
 <script setup lang="ts">
+import { commonStore } from '@/store';
+const common_store = commonStore();
 interface Props {
     imgWidth?: string;
     height?: string;
@@ -18,7 +20,7 @@ const props = withDefaults(defineProps<Props>(), {
     size: '14px',
     text: '暂无数据',
 });
-const noData_image = ref(new URL(`../../../assets/images/noData.png`, import.meta.url).href);
+const noData_image = ref(common_store.common.config.attachment_host + `/static/diy/images/noData.png`);
 const style = computed(() => {
     return {
         width: props.imgWidth,
