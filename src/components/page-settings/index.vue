@@ -6,10 +6,10 @@
                     <div class="w h" :style="up_slide_img_style"></div>
                 </div>
                 <div class="pt-15 pl-18 pr-22 w pb-6">
-                    <img class="img" :style="`Filter: brightness(${new_style.function_buttons_type == '0' ? 0 : 100})`" src="@/assets/images/layout/main/main-top.png" />
+                    <img class="img" :style="`Filter: brightness(${new_style.function_buttons_type == '0' ? 0 : 100})`" :src="main_top_img" />
                 </div>
                 <div class="model-head tc re mlr-12 mt-6">
-                    <div class="flex-col" :style="`gap: ${ new_style.data_alone_row_space }px`">
+                    <div class="flex-col" :style="`gap: ${new_style.data_alone_row_space}px`">
                         <div class="model-head-content flex-row align-c jc-sb gap-16 re">
                             <div v-if="['1', '2', '3'].includes(form.theme)" class="flex-1">
                                 <div class="flex-1 flex-row align-c jc-c h gap-16" :class="position_class" :style="[{ 'justify-content': form?.indicator_location || 'center' }, text_style]">
@@ -73,6 +73,8 @@
 <script setup lang="ts">
 import { background_computer, gradient_computer } from '@/utils';
 import { isEmpty } from 'lodash';
+import { commonStore } from '@/store';
+const common_store = commonStore();
 
 interface Props {
     pageData: any;
@@ -85,6 +87,7 @@ const props = withDefaults(defineProps<Props>(), {
     scollTop: 0,
 });
 const emits = defineEmits(['page_settings']);
+const main_top_img = ref(common_store.common.config.attachment_host + `/static/diy/images/layout/main/main-top.png`);
 const page_settings = () => {
     emits('page_settings');
 };

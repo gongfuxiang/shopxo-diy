@@ -4,7 +4,7 @@
             <div class="re pa-20" :style="style">
                 <div class="flex-row jc-sb align-c mb-20">
                     <div class="flex-1 flex-row align-c gap-12">
-                        <img class="round" src="@/assets/images/components/model-user-info/avatar.png" :width="base_data.user_avatar_size" :height="base_data.user_avatar_size" />
+                        <img class="round" :src="avatar_image" :width="base_data.user_avatar_size" :height="base_data.user_avatar_size" />
                         <div class="flex-col gap-8">
                             <div class="size-16 fw" :style="user_name_style">昵称</div>
                             <div v-if="id_bool" class="plr-6 ptb-1 radius-sm" :style="number_code_style">ID:88888888</div>
@@ -31,6 +31,8 @@
 </template>
 <script setup lang="ts">
 import { common_styles_computer, gradient_computer, common_img_computer } from '@/utils';
+import { commonStore } from '@/store';
+const common_store = commonStore();
 /**
  * @description: 用户信息（渲染）
  * @param value{Object} 传过来的数据，用于数据渲染
@@ -57,6 +59,8 @@ interface icon_params {
     icon: string;
     link: pageLinkList;
 }
+
+const avatar_image = ref(common_store.common.config.attachment_host + `/static/diy/images/components/model-user-info/avatar.png`);
 const config = ref<string[]>(['order_count', 'goods_favor_count', 'goods_browse_count', 'integral_number']);
 const icon_setting = ref<icon_params[]>([
     { id: '1', img: [], icon: '', link: {} },
