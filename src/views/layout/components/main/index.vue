@@ -245,7 +245,7 @@ interface componentsData {
 }
 const components = ref<componentsData[]>([]);
 const url_computer = (name: string) => {
-    let new_url = ref(new URL(`../../../../assets/images/layout/siderbar/${name}.png`, import.meta.url).href).value;
+    const new_url = ref(new URL(`../../../../assets/images/layout/siderbar/${name}.png`, import.meta.url).href).value;
     return new_url;
 };
 
