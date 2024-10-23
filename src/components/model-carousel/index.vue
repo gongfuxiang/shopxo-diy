@@ -29,7 +29,7 @@
                         <div class="item-image flex align-c w h re" :style="img_style">
                             <image-empty v-model="item.carousel_img[0]" :style="img_style" :fit="img_fit"></image-empty>
                             <div v-if="new_style.video_is_show == '1' && item.carousel_video.length > 0" :class="{'x-middle': new_style.video_location == 'center', 'right-0': new_style.video_location == 'flex-end' }" class="z-deep abs oh video-class" :style="`bottom: ${new_style.video_bottom}px;`">
-                                <div class="flex-row gap-10 align-c" :style="video_style">
+                                <div class="flex-row gap-5 align-c" :style="video_style">
                                     <template v-if="new_style.video_type == 'img'">
                                         <image-empty v-model="new_style.video_img[0]" class="video_img" error-img-style="width: 1.4rem;height: 1.4rem;" />
                                     </template>
@@ -45,7 +45,7 @@
                         <div class="item-image flex align-c w h re" :style="img_style">
                             <image-empty v-model="item.carousel_img[0]" :style="img_style" :fit="img_fit"></image-empty>
                             <div v-if="new_style.video_is_show == '1' && item.carousel_video.length > 0" :class="{'x-middle': new_style.video_location == 'center', 'right-0': new_style.video_location == 'flex-end' }" class="z-deep abs oh video-class" :style="`bottom: ${new_style.video_bottom}px;`">
-                                <div class="flex-row gap-10 align-c" :style="video_style">
+                                <div class="flex-row gap-5 align-c" :style="video_style">
                                     <template v-if="new_style.video_type == 'img'">
                                         <image-empty v-model="new_style.video_img[0]" class="video_img" error-img-style="width: 1.4rem;height: 1.4rem;" />
                                     </template>
