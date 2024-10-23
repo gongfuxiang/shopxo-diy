@@ -2,7 +2,6 @@ import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { commonStore } from '@/store';
 import App from '@/App.vue';
-import { isEmpty } from 'element-plus/es/utils';
 const app = createApp(App);
 const pinia = createPinia();
 app.use(pinia);
@@ -417,6 +416,7 @@ export const tabs_style = (color: string, style: string | number | boolean | und
  * @returns {Promise<string>} 返回一个Promise，解析为包含资源URL的字符串
  */
 export const online_url = async (directory: string = '') => {
+    console.log(2);
     if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
         let temp_data = await import(import.meta.env.VITE_APP_BASE_API == '/dev-api' ? '../../temp.d' : '../../temp_pro.d');
         return temp_data.default.temp_attachment_host + directory;
