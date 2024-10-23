@@ -40,7 +40,7 @@ service.interceptors.request.use(
             config.url = config.url + symbol + 'token=' + temp_data.default.temp_token;
         } else {
             if (cookie && cookie !== null && cookie !== 'null') {
-                config.url = config.url + '&token=' + JSON.parse(cookie) !== 'null' ? JSON.parse(cookie)?.token : '';
+                config.url = config.url + '&token=' + (JSON.parse(cookie) !== 'null' ? JSON.parse(cookie)?.token : '');
             }
         }
         return config;
