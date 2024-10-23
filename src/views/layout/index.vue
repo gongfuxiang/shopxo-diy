@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { is_obj, set_cookie } from '@/utils';
+import { is_obj, set_cookie, get_cookie } from '@/utils';
 import { Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
 import defaultConfigSetting from '@/config/setting';
@@ -182,11 +182,23 @@ const default_merge = (data: any, key: string) => {
 
 // 初始化公共数据
 const common_init = () => {
-    CommonAPI.getInit().then((res: any) => {
-        common_store.set_common(res.data);
-        set_cookie('attachment_host', res.data.config.attachment_host);
-        init();
-    });
+    if (get_cookie('attachment_host') || get_cookie('attachment_host') !== 'null' || get_cookie('attachment_host') !== null) {
+        CommonAPI.getInit().then((res: any) => {
+            common_store.set_common(res.data);
+            set_cookie('attachment_host', res.data.config.attachment_host);
+            init();
+        });
+    } else {
+        // 将localStorage中的数据读取出
+        // 判断localStorage中是否有数据
+        if (localStorage.getItem('diy_init_common')) {
+            const data = JSON.parse(localStorage.getItem('diy_init_common') || '');
+            common_store.set_common(data);
+            // 清除缓存
+            localStorage.removeItem('diy_init_common');
+            init();
+        }
+    }
 };
 // 加载动画
 const loading = ref(true);
