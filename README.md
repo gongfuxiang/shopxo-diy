@@ -43,6 +43,11 @@
 ### DIY图片展示
 ![DIY图片](https://shopxoserver.oss-cn-beijing.aliyuncs.com/demo/diy/diy.jpg "DIY图片")
 
+### 当前DIY端对应ShopXO后端版本
+| DIY端 | 后端 |
+|----|----|
+| v1.0.0 | v6.3.0 |
+
 
 ## 安装依赖包
 ```sh
