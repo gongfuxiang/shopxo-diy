@@ -13,7 +13,7 @@ const defaultSetting: DefaultSetting = {
     order_by_type: '0',
     order_by_rule: '0',
     // 文章封面
-    is_cover: '1',
+    is_cover: '0',
     // 分类id
     category_ids: [],
     // 品牌分类id
