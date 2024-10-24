@@ -255,30 +255,32 @@ const show_model_border = ref(true);
 // 点击添加tabs组件
 const draggable_click = (item: componentsData) => {
     const type_data = ['tabs', 'tabs-carousel'];
+    if (type_data.includes(item.key)) {
+        
+        if (common_store.is_immersion_model) {
+            ElMessage.error('开启沉浸样式下不可以添加该组件');
+            return;
+        }
 
-    if (type_data.includes(item.key) && common_store.is_immersion_model) {
-        ElMessage.error('开启沉浸样式下不可以添加该组件');
-        return;
-    }
-
-    if (type_data.includes(item.key) && isEmpty(tabs_data.value)) {
-        // 添加tabs组件
-        tabs_data.value.push({
-            name: item.name,
-            show_tabs: '1',
-            is_enable: '1',
-            src: '',
-            id: get_math(),
-            key: item.key,
-            com_data: cloneDeep((defaultSettings as any)[item.key.replace(/-/g, '_')]),
-        });
-        common_store.set_is_have_tabs(true);
-        set_tabs_event(true);
-    } else if (type_data.includes(item.key) && !isEmpty(tabs_data.value)) {
-        if (tabs_data.value[0].key == item.key) {
-            ElMessage.error('该组件只可以添加一次');
-        } else if (tabs_data.value[0].key != item.key) {
-            ElMessage.error('选项卡轮播不能与选项卡同时存在');
+        if (isEmpty(tabs_data.value)) {
+            // 添加tabs组件
+            tabs_data.value.push({
+                name: item.name,
+                show_tabs: '1',
+                is_enable: '1',
+                src: '',
+                id: get_math(),
+                key: item.key,
+                com_data: cloneDeep((defaultSettings as any)[item.key.replace(/-/g, '_')]),
+            });
+            common_store.set_is_have_tabs(true);
+            set_tabs_event(true);
+        } else if (!isEmpty(tabs_data.value)) {
+            if (tabs_data.value[0].key == item.key) {
+                ElMessage.error('该组件只可以添加一次');
+            } else if (tabs_data.value[0].key != item.key) {
+                ElMessage.error('选项卡轮播不能与选项卡同时存在');
+            }
         }
     }
 };
