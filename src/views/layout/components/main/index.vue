@@ -256,7 +256,7 @@ const show_model_border = ref(true);
 const draggable_click = (item: componentsData) => {
     const type_data = ['tabs', 'tabs-carousel'];
 
-    if (common_store.is_immersion_model) {
+    if (type_data.includes(item.key) && common_store.is_immersion_model) {
         ElMessage.error('开启沉浸样式下不可以添加该组件');
         return;
     }
