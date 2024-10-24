@@ -1,6 +1,6 @@
 <template>
     <div class="flex-col align-c jc-c w h bg-f" :style="container_style">
-        <img :style="style" :src="noData_image" />
+        <img :style="style" :src="no_data_image" />
         <p class="cr-c mt-12" :style="text_style">{{ text }}</p>
     </div>
 </template>
@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<Props>(), {
     size: '14px',
     text: '暂无数据',
 });
-const noData_image = ref(common_store.common.config.attachment_host + `/static/diy/images/noData.png`);
+const no_data_image = ref(common_store.common.config.attachment_host + `/static/diy/images/no-data.png`);
 const style = computed(() => {
     return {
         width: props.imgWidth,

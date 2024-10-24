@@ -8,13 +8,15 @@
                 <template v-else>
                     <image-empty v-model="video_img" error-img-style="width:60px;height:60px;"></image-empty>
                 </template>
-                <img src="@/assets/images/components/model-video/video.png" class="middle box-shadow-sm round" width="60" height="60" />
+                <img :src="video_src" class="middle box-shadow-sm round" width="60" height="60" />
             </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
 import { common_styles_computer, common_img_computer } from '@/utils';
+import { commonStore } from '@/store';
+const common_store = commonStore();
 /**
  * @description: 视频 （渲染）
  * @param value{Object} 传过来的数据，用于数据渲染
@@ -25,7 +27,7 @@ const props = defineProps({
         default: () => ({}),
     },
 });
-
+const video_src = ref(common_store.common.config.attachment_host + `/static/diy/images/components/model-video/video.png`);
 const style = ref('');
 const style_container = ref('');
 const style_img_container = ref('');
@@ -51,7 +53,7 @@ watch(
         }
         style.value = video_ratio;
         style_container.value = common_styles_computer(new_style.common_style);
-        style_img_container.value = common_img_computer(new_style.common_style);        
+        style_img_container.value = common_img_computer(new_style.common_style);
     },
     { immediate: true, deep: true }
 );
