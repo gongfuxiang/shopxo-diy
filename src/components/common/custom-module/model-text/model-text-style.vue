@@ -29,8 +29,11 @@
                         <el-radio value="normal">正常</el-radio>
                         <el-radio value="italic">倾斜</el-radio>
                     </el-radio-group>
-                    <el-form-item label="字号" label-width="40" class="mb-0 w">
+                    <el-form-item label="字号" label-width="50" class="mb-0 w">
                         <slider v-model="form.text_size" :max="100"></slider>
+                    </el-form-item>
+                    <el-form-item label="行间距" label-width="50" class="mb-0 w">
+                        <slider v-model="form.line_text_size" :max="200"></slider>
                     </el-form-item>
                 </el-form-item>
                 <el-form-item label="字符选项">
@@ -146,15 +149,19 @@ const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.direction = type.toString();
 };
 
+watchEffect(() => {
+    form.value.line_text_size  = form.value.text_size;
+});
+
 watch(
     diy_data,
     (val) => {
+
         diy_data.value.location.x = location_compute(form.value.com_width, val.location.x, 390);
         diy_data.value.location.y = location_compute(form.value.com_height, val.location.y, center_height.value);
         diy_data.value.location.record_x = location_compute(form.value.com_width, val.location.record_x, 390);
         diy_data.value.location.record_y = location_compute(form.value.com_height, val.location.record_y, center_height.value);
         diy_data.value.location.staging_y = location_compute(form.value.com_height, val.location.staging_y, center_height.value);
-
         form.value.staging_height = form.value.com_height;
     },
     { immediate: true, deep: true }
