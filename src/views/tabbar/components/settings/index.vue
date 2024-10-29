@@ -10,7 +10,7 @@
         <div class="box-shadow-sm">
             <div class="setting-content">
                 <!-- 底部导航 -->
-                <footer-nav-setting :type="radio" :value="value" :footer-dialog-position-top="footerDialogPositionTop"></footer-nav-setting>
+                <footer-nav-setting :type="radio" :value="value" :config="footer_config" :footer-dialog-position-top="footerDialogPositionTop"></footer-nav-setting>
             </div>
         </div>
     </div>
@@ -27,6 +27,10 @@ const props = defineProps({
     },
 });
 const radio = ref('1'); // 创建一个响应式的数字变量，初始值为0
+const footer_config = {
+    // 是否开启同步
+    sync_bool: false,
+};
 </script>
 <style lang="scss" scoped>
 .settings {

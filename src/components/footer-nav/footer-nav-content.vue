@@ -22,7 +22,7 @@
                 <div class="mb-12 flex-row gap-10 jc-sb">
                     <div>导航内容</div>
                     <div class="flex-row gap-20 align-c">
-                        <div class="cr-primary c-pointer" @click="sync_sys_event">同步到系统</div>
+                        <div v-if="config.sync_bool" class="cr-primary c-pointer" @click="sync_sys_event">同步到系统</div>
                         <div class="cr-primary c-pointer" @click="reset_event">恢复默认</div>
                     </div>
                 </div>
@@ -80,6 +80,10 @@ const props = defineProps({
     footerDialogPositionTop: {
         type: Number,
         default: 0,
+    },
+    config: {
+        type: Object,
+        default: () => {},
     },
 });
 const form = ref(props.value);

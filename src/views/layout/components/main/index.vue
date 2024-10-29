@@ -63,8 +63,8 @@
                 </div>
                 <!-- 拖拽区 -->
                 <div ref="scrollTop" class="model-drag" @scroll="on_scroll_event">
-                    <div class="page-bg" :style="content_style">
-                        <div class="page-bg-img" :style="content_img_style"></div>
+                    <div class="page-bg h" :style="content_style">
+                        <div class="page-bg-img h" :style="content_img_style"></div>
                     </div>
                     <!-- 页面设置 -->
                     <page-settings :show-page="page_data.show_tabs == '1'" :page-data="page_data" :scoll-top="scoll_top" @page_settings="page_settings"></page-settings>

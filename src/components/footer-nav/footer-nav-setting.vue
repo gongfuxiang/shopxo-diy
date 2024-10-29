@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <template v-if="type == '1'">
-            <footer-nav-content :value="form.content" :footer-style="form.style" :footer-dialog-position-top="footerDialogPositionTop" @update:value="content_update"></footer-nav-content>
+            <footer-nav-content :value="form.content" :footer-style="form.style" :config="config" :footer-dialog-position-top="footerDialogPositionTop" @update:value="content_update"></footer-nav-content>
         </template>
         <template v-else-if="type == '2'">
             <footer-nav-styles :value="form.style"></footer-nav-styles>
@@ -27,6 +27,10 @@ const props = defineProps({
     footerDialogPositionTop: {
         type: Number,
         default: 0,
+    },
+    config: {
+        type: Object,
+        default: () => ({}),
     },
 });
 const form = ref(props.value);
