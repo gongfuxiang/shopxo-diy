@@ -21,6 +21,9 @@
                 <el-form-item v-if="isFloatingUp" label="组件上浮">
                     <slider v-model="form.floating_up" :min="0" :max="100"></slider>
                 </el-form-item>
+                <el-form-item v-if="isFloatingUp" label="是否置底">
+                    <el-switch v-model="form.is_bottom_up" active-value="1" inactive-value="0" />
+                </el-form-item>
                 <el-form-item label="内边距">
                     <padding :value="form" @update:value="padding_change"></padding>
                 </el-form-item>
@@ -64,6 +67,7 @@ const props = defineProps({
             color_list: [{ color: '', color_percentage: undefined }] as color_list[],
             background_img_style: '0',
             floating_up: 0,
+            is_bottom_up: '0',
             padding: 0,
             padding_top: 0,
             padding_bottom: 0,
