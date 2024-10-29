@@ -16,6 +16,14 @@ export function is_obj_empty(obj: object): boolean {
     return Object.keys(obj).length === 0;
 }
 /**
+ * 判断一个字符串是否是数字。
+ * @param val 要检查的值
+ * @returns 如果字符串为数字，则返回true；否则返回false。
+ */
+export function is_number(val: string | number): boolean {
+    return typeof val == 'number' && !isNaN(val);
+}
+/**
  * 将对象或数组中的字符串转换为数字
  * 此函数递归地遍历给定对象或数组，将所有能转换为数字的字符串转换成数字类型
  * 如果字符串不能转换为数字，则保留原字符串

@@ -9,6 +9,7 @@ interface data_magic {
 interface defaultSearch {
     content: {
         style_actived: number;
+        container_height: number;
         data_magic_list: data_magic[];
     };
     style: {
@@ -22,6 +23,8 @@ const defaultSearch: defaultSearch = {
     content: {
         // 样式风格
         style_actived: 0,
+        // 容器高度
+        container_height: 390,
         // 数据列表
         data_magic_list: [],
     },

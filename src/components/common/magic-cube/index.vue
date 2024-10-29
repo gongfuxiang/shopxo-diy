@@ -18,10 +18,10 @@
                 <template v-else>
                     <div class="cube-selected-text">
                         <template v-if="styleActived !== 10">
-                            {{ Math.round((750 / densityNum) * (item.end.x - item.start.x + 1)) }}
+                            建议{{ Math.round((props.cubeWidth / densityNum) * (item.end.x - item.start.x + 1)) }}
                             x
-                            {{ Math.round((750 / densityNum) * (item.end.y - item.start.y + 1)) }}
-                            像素
+                            {{ Math.round((props.cubeHeight / densityNum) * (item.end.y - item.start.y + 1)) }}
+                            px
                             <template v-if="props.type == 'data'">
                                 <div>{{ data_title(item) }}</div>
                             </template>
@@ -264,6 +264,7 @@ const data_title = (item: CubeItem) => {
         text-align: center;
         box-sizing: border-box;
         position: relative;
+        overflow: hidden;
         .item {
             border: 1px solid #fff;
             border-top: 0;
@@ -307,6 +308,7 @@ const data_title = (item: CubeItem) => {
     }
     .cube-selected {
         position: absolute;
+        overflow: hidden;
         background-color: #eee;
         border: 1px solid #fff;
         text-align: center;

@@ -61,7 +61,7 @@
         </div>
     </template>
     <template v-else>
-        <div class="flex-col gap-20 align-c w h">
+        <div class="flex-col gap-10 align-c w h">
             <template v-if="props.flex === 'row'">
                 <div v-for="(item, index) in split_list" :key="index" class="flex-row gap-10 align-c w h shop-max-height">
                     <template v-if="!isEmpty(item.new_cover)">
@@ -108,6 +108,7 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const split_list = computed(() => props.value || {});
+const gap_height = computed(() => 20 / 3 + 'px');
 </script>
 
 <style lang="scss" scoped>
@@ -138,7 +139,7 @@ const split_list = computed(() => props.value || {});
     border-radius: 0.8rem;
 }
 .shop-max-height{
-    max-height: 33%;
+    max-height: calc((100% / 3) - v-bind(gap_height));
 }
 .half-width {
     width: 50%;

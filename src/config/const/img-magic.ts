@@ -10,6 +10,7 @@ interface defaultSearch {
     content: {
         style_actived: number;
         img_magic_list: img_magic[];
+        container_height: number;
         img_fit: string;
         limit_size: string,
         image_height: number;
@@ -44,6 +45,8 @@ const defaultSearch: defaultSearch = {
                 img_link: {}
             }
         ],
+        // 容器高度
+        container_height: 390,
         // 图标填充方式
         img_fit: 'cover',
         // 是否限制尺寸

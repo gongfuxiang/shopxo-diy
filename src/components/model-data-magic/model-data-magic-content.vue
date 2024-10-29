@@ -10,6 +10,9 @@
                         </div>
                     </div>
                 </el-form-item>
+                <el-form-item label="容器高度" label-width="60">
+                    <slider v-model="form.container_height" :min="30" :max="500" @update:model-value="handleResize"></slider>
+                </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>
@@ -18,10 +21,10 @@
                     <!-- 风格9 -->
                     <template v-if="form.style_actived == 7">
                         <div class="flex-row align-c jc-c gap-2 style-size flex-wrap">
-                            <div v-for="(item, index) in form.data_magic_list" :key="index" :class="['bg-f5', {'cube-selected-active': selected_active == index, 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index)}]" @click="selected_click(index)">
+                            <div v-for="(item, index) in form.data_magic_list" :key="index" :class="['bg-f5 oh', {'cube-selected-active': selected_active == index, 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index)}]" @click="selected_click(index)">
                                 <div class="cube-selected-text">
-                                    <template v-if="[0, 1].includes(index)">375 x 375 像素</template> 
-                                    <template v-else>250 x 375 像素</template>
+                                    <template v-if="[0, 1].includes(index)">建议195 x {{ Math.round(form.container_height / 2) }}px</template> 
+                                    <template v-else>建议130 x {{ Math.round(form.container_height / 2) }}px</template>
                                     <div>{{ data_title(item) }}</div>
                                 </div>
                             </div>
@@ -163,11 +166,12 @@ onUnmounted(() => {
 
 const handleResize = () => {
     if (window.innerWidth <= 1560) {
+        const sales = 330 / 390;
         cubeWidth.value = 330;
-        cubeHeight.value = 330;
+        cubeHeight.value = form.value.container_height * sales;
     } else {
         cubeWidth.value = 390;
-        cubeHeight.value = 390;
+        cubeHeight.value = form.value.container_height;
     }
 }
 //#endregion
@@ -176,7 +180,6 @@ const selected_active = ref(0);
 // 切换风格
 const style_click = (index: number) => {
     form.value.data_magic_list = magic_list(index);
-
     form.value.style_actived = index;
     selected_active.value = 0;
     tabs_name.value = 'content';

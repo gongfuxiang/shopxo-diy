@@ -10,20 +10,25 @@
                         </div>
                     </div>
                 </el-form-item>
-                <el-form-item v-if="form.style_actived !== 10" label="图片设置">
-                    <el-radio-group v-model="form.img_fit">
-                        <el-radio value="contain">等比缩放</el-radio>
-                        <el-radio value="fill">铺满</el-radio>
-                        <el-radio value="cover">等比剪切</el-radio>
-                    </el-radio-group>
-                </el-form-item>
+                <template v-if="form.style_actived !== 10">
+                    <el-form-item label="容器高度">
+                        <slider v-model="form.container_height" :min="30" :max="500" @update:model-value="handleResize"></slider>
+                    </el-form-item>
+                    <el-form-item label="图片设置">
+                        <el-radio-group v-model="form.img_fit">
+                            <el-radio value="contain">等比缩放</el-radio>
+                            <el-radio value="fill">铺满</el-radio>
+                            <el-radio value="cover">等比剪切</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                </template>
                 <template v-else>
                     <el-form-item label="限制尺寸">
                         <el-switch v-model="form.limit_size" active-value="1" inactive-value="0" />
                     </el-form-item>
                     <template v-if="form.limit_size == '1'">
                         <el-form-item label="图片高度">
-                            <slider v-model="form.image_height" :max="500"></slider>
+                            <slider v-model="form.image_height" :max="500" @update:model-value="handleResize"></slider>
                         </el-form-item>
                         <el-form-item label="图片设置">
                             <el-radio-group v-model="form.img_fit">
@@ -47,7 +52,7 @@
                                     <image-empty v-model="item.img[0]" :fit="form.img_fit" ></image-empty>
                                 </template>
                                 <template v-else>
-                                    <div class="cube-selected-text"> 250 x 750 像素</div>
+                                    <div class="cube-selected-text">建议130 x {{ form.container_height }}px</div>
                                 </template>
                             </div>
                         </div>
@@ -61,8 +66,8 @@
                                 </template>
                                 <template v-else>
                                     <div class="cube-selected-text">
-                                        <template v-if="[0, 1].includes(index)">375 x 375 像素</template> 
-                                        <template v-else>250 x 375 像素</template> 
+                                        <template v-if="[0, 1].includes(index)">建议195 x {{ Math.round(form.container_height / 2) }}px</template>
+                                        <template v-else>建议130 x {{ Math.round(form.container_height / 2) }}px</template> 
                                     </div>
                                 </template>
                             </div>
@@ -130,11 +135,12 @@ onUnmounted(() => {
 
 const handleResize = () => {
     if (window.innerWidth <= 1560) {
+        const sales = 330 / 390;
         cubeWidth.value = 330;
-        cubeHeight.value = 330;
+        cubeHeight.value = form.value.container_height * sales;
     } else {
         cubeWidth.value = 390;
-        cubeHeight.value = 390;
+        cubeHeight.value = form.value.container_height;
     }
 }
 //#endregion
@@ -147,6 +153,15 @@ const style_click = (index: number) => {
     form.value.img_magic_list = cloneDeep(style_show_list[index]);
     form.value.style_actived = index;
     selected_active.value = 0;
+    if (index === 10) {
+        if (window.innerWidth <= 1560) {
+            cubeWidth.value = 330;
+            cubeHeight.value = 330;
+        } else {
+            cubeWidth.value = 390;
+            cubeHeight.value = 390;
+        }
+    }
 }
 // 选中的点击事件
 const selected_click = (index: number) => {
