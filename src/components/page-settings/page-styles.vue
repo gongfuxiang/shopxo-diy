@@ -50,6 +50,9 @@
                 <el-form-item label="上滑展示">
                     <el-switch v-model="form.up_slide_display" active-value="1" inactive-value="0"></el-switch>
                 </el-form-item>
+                <el-form-item v-if="['2', '3'].includes(page_content.theme) && !isEmpty(page_content.logo)" label="上滑logo">
+                    <upload v-model="form.up_slide_logo" :limit="1"></upload>
+                </el-form-item>
                 <el-form-item label="上滑背景">
                     <div class="w h flex-col gap-10">
                         <mult-color-picker :value="form?.up_slide_background_color_list || []" :type="form?.up_slide_background_direction || '180deg'" @update:value="up_slide_mult_color_picker_event"></mult-color-picker>
@@ -101,6 +104,7 @@
     </div>
 </template>
 <script setup lang="ts">
+import { isEmpty } from "lodash";
 import { commonStore } from '@/store';
 const common_store = commonStore();
 const props = defineProps({

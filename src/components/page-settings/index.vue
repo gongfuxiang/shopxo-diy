@@ -14,8 +14,11 @@
                             <div v-if="['1', '2', '3'].includes(form.theme)" class="flex-1">
                                 <div class="flex-1 flex-row align-c jc-c h gap-16" :class="position_class" :style="[{ 'justify-content': form?.indicator_location || 'center' }, text_style]">
                                     <template v-if="['2', '3'].includes(form.theme) && form.logo.length > 0">
-                                        <div class="logo-outer-style">
-                                            <img class="logo-style" :src="form.logo[0].url" />
+                                        <div class="logo-outer-style re">
+                                            <img class="logo-style" :style="up_slide_old_logo_style" :src="form.logo[0].url" />
+                                            <template v-if="new_style.up_slide_logo && new_style.up_slide_logo.length > 0">
+                                                <img class="logo-style abs left-0" :style="'opacity:0;' + up_slide_opacity" :src="new_style.up_slide_logo[0].url" />
+                                            </template>
                                         </div>
                                     </template>
                                     <div v-if="['1', '2'].includes(form.theme)">{{ form.title }}</div>
@@ -123,22 +126,37 @@ const roll_img_style = computed(() => {
     }
     return style;
 });
+const up_slide_opacity = computed(() => {
+    let opacity = '1';
+    if (props.scollTop > 20 && new_style.value.up_slide_display == '1') {
+        opacity = `opacity: ${(props.scollTop - 20) / 90 > 1 ? 1 : ((props.scollTop - 20) / 90).toFixed(2)};`;
+    }
+    return opacity;
+});
+// 上滑时原logo 隐藏效果
+const up_slide_old_logo_style = computed(() => {
+    let style = ``;
+    if (props.scollTop > 5 && new_style.value.up_slide_display == '1') {
+        style += `opacity: ${(props.scollTop - 5) / 90 > 1 ? 0 : (1 - (props.scollTop - 5) / 90).toFixed(2)};`;
+    }
+    return style;
+});
 // 上滑显示渐变效果
 const up_slide_style = computed(() => {
     let style = ``;
-    if (props.scollTop > 20) {
-        const { up_slide_background_color_list, up_slide_background_direction } = new_style.value;
+    const { up_slide_background_color_list, up_slide_background_direction, up_slide_display } = new_style.value;
+    if (props.scollTop > 20 && up_slide_display == '1') {
         // 渐变
         const gradient = { color_list: up_slide_background_color_list, direction: up_slide_background_direction };
-        style += gradient_computer(gradient) + `opacity: ${(props.scollTop - 20) / 90 > 1 ? 1 : ((props.scollTop - 20) / 90).toFixed(2)};`;
+        style += gradient_computer(gradient) + up_slide_opacity.value;
     }
     return style;
 });
 // 上滑显示图片效果
 const up_slide_img_style = computed(() => {
     let style = ``;
-    if (props.scollTop > 20) {
-        const { up_slide_background_img = '', up_slide_background_img_style = '' } = new_style.value;
+    const { up_slide_background_img = '', up_slide_background_img_style = '', up_slide_display } = new_style.value;
+    if (props.scollTop > 20 && up_slide_display == '1') {
         // 背景图
         const back = { background_img: up_slide_background_img, background_img_style: up_slide_background_img_style };
         style += background_computer(back);

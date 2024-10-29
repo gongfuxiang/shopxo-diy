@@ -49,6 +49,7 @@ const default_data = {
         data_alone_row_space: 5,
         function_buttons_type: '0',
         immersive_style: '0',
+        up_slide_logo: [],
         up_slide_display: '1',
         up_slide_background_color_list: [{ color: '#fff', color_percentage: undefined }],
         up_slide_background_direction: '180deg',

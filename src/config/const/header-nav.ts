@@ -58,6 +58,7 @@ interface DefaultFooterNav {
         data_alone_row_space: number;
         immersive_style: string;
         general_safe_distance_value: string;
+        up_slide_logo: uploadList[];
         up_slide_display: string;
         up_slide_background_color_list: color_list[];
         up_slide_background_direction: string;
@@ -148,6 +149,7 @@ const defaultFooterNav: DefaultFooterNav = {
         // 安全距离
         general_safe_distance_value: '0',
         // 上滑显示处理
+        up_slide_logo: [],
         up_slide_display: '1',
         up_slide_background_color_list: [{ color: '#fff', color_percentage: undefined }],
         up_slide_background_direction: '180deg',
