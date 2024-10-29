@@ -24,7 +24,7 @@
                 </template>
                 <template v-else>
                     <el-form-item label="限制尺寸">
-                        <el-switch v-model="form.limit_size" active-value="1" inactive-value="0" />
+                        <el-switch v-model="form.limit_size" active-value="1" inactive-value="0" @change="handleResize"/>
                     </el-form-item>
                     <template v-if="form.limit_size == '1'">
                         <el-form-item label="图片高度">
@@ -134,13 +134,14 @@ onUnmounted(() => {
 });
 
 const handleResize = () => {
+    const height = form.value.style_actived !== 10 ? form.value.container_height : form.value.limit_size == '1' ? form.value.image_height : 390;
     if (window.innerWidth <= 1560) {
         const sales = 330 / 390;
         cubeWidth.value = 330;
-        cubeHeight.value = form.value.container_height * sales;
+        cubeHeight.value = height * sales;
     } else {
         cubeWidth.value = 390;
-        cubeHeight.value = form.value.container_height;
+        cubeHeight.value = height;
     }
 }
 //#endregion
