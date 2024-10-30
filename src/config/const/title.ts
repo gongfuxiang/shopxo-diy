@@ -31,6 +31,7 @@ interface defaultSearch {
         subtitle_color: string;
         subtitle_size: number;
         subtitle_weight: string;
+        title_line: string;
         keyword_color: string;
         keyword_size: number;
         right_color: string;
@@ -80,6 +81,7 @@ const defaultSearch: defaultSearch = {
         subtitle_color: '#999',
         subtitle_size: 12,
         subtitle_weight: 'normal',
+        title_line: '0',
         // 关键字设置
         keyword_color: '#000',
         keyword_size: 12,

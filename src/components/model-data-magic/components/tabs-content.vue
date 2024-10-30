@@ -82,7 +82,7 @@ const props = defineProps({
     isShowTitle: {
         type: Boolean,
         default: true,
-    },
+    }
 });
 
 const list_show_list = [

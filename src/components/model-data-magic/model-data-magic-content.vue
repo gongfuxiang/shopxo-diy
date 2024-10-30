@@ -81,6 +81,24 @@ const data_style = {
     goods_price_typeface: '500',
     goods_price_size: 18,
     goods_price_color: "#EA3323;",
+    goods_color_list: [{ color: '', color_percentage: undefined }],
+    goods_direction: '180deg',
+    goods_background_img_style: '2',
+    goods_background_img: [],
+    goods_chunk_padding: {
+        padding: 0,
+        padding_top: 0, 
+        padding_bottom: 0, 
+        padding_left: 0,
+        padding_right: 0,
+    },
+    goods_radius: {
+        radius: 4,
+        radius_top_left: 4,
+        radius_top_right: 4,
+        radius_bottom_left: 4,
+        radius_bottom_right: 4,
+    },
     chunk_padding: {
         padding: 0,
         padding_top: 20, 
@@ -97,6 +115,24 @@ const data_style = {
         radius_bottom_right: 4,
     },
     is_show: '1',
+    data_color_list: [{ color: '', color_percentage: undefined }],
+    data_direction: '180deg',
+    data_background_img_style: '2',
+    data_background_img: [],
+    data_chunk_padding: {
+        padding: 0,
+        padding_top: 0, 
+        padding_bottom: 0, 
+        padding_left: 0,
+        padding_right: 0,
+    },
+    data_radius: {
+        radius: 4,
+        radius_top_left: 4,
+        radius_top_right: 4,
+        radius_bottom_left: 4,
+        radius_bottom_right: 4,
+    },
     indicator_style: 'dot',
     indicator_location: 'center',
     indicator_size: 5,
@@ -156,6 +192,12 @@ const style_height = computed(() => cubeHeight.value + 'px');
 onBeforeMount(() => {
     if (isEmpty(form.value.data_magic_list)) {
         form.value.data_magic_list = magic_list(0);
+    } else {
+        // 历史数据处理一下，避免有新增字段导致报错
+        form.value.data_magic_list.forEach((item: any) => {
+            item.data_style = Object.assign({}, cloneDeep(data_style), item.data_style);
+            item.data_content = Object.assign({}, cloneDeep(data_content), item.data_content);
+        });
     }
 })
 onMounted(() => {

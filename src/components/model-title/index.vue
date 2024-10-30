@@ -11,7 +11,7 @@
                             <icon :name="form.icon_class" :size="new_style.icon_size + ''" :color="new_style.icon_color"></icon>
                         </template>
                         <div v-if="!isEmpty(form.title)" class="nowrap" :style="title_style">{{ form.title }}</div>
-                        <div v-if="!isEmpty(form.subtitle)" class="text-word-break" :style="subtitle_style">{{ form.subtitle }}</div>
+                        <div v-if="!isEmpty(form.subtitle) && new_style.title_line == '1'" class="text-word-break nowrap" :style="subtitle_style">{{ form.subtitle }}</div>
                     </div>
                     <div class="flex-row gap-10 align-c right-0 abs">
                         <template v-if="form.keyword_show == '1'">
@@ -22,7 +22,7 @@
                         <div v-if="form.right_show == '1'" class="nowrap" :style="right_style">{{ form.right_title }}<el-icon class="iconfont icon-arrow-right" :color="new_style.right_color || '#999'"></el-icon></div>
                     </div>
                 </div>
-                <div v-if="!isEmpty(form.subtitle)" class="text-word-break" :style="subtitle_style">{{ form.subtitle }}</div>
+                <div v-if="!isEmpty(form.subtitle) && new_style.title_line == '0'" class="text-word-break" :style="subtitle_style">{{ form.subtitle }}</div>
             </div>
         </div>
     </div>

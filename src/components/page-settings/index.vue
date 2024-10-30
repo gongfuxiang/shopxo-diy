@@ -5,7 +5,7 @@
                 <div class="w h abs up_slide_bg" :style="up_slide_style">
                     <div class="w h" :style="up_slide_img_style"></div>
                 </div>
-                <div class="pt-15 pl-18 pr-22 w pb-6">
+                <div class="pt-15 pl-18 pr-22 w pb-6 status-bar">
                     <img class="img" :style="`Filter: brightness(${new_style.function_buttons_type == '0' ? 0 : 100})`" :src="main_top_img" />
                 </div>
                 <div class="model-head tc re mlr-12 mt-6">
@@ -191,6 +191,9 @@ const position_class = computed(() => (form.value?.indicator_location == 'center
     .img {
         width: 34rem;
     }
+}
+.status-bar {
+    height: 4.2rem;
 }
 .model-head {
     // height: 3.2rem;
