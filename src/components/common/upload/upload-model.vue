@@ -583,6 +583,7 @@ const reset_data = () => {
         qrcode: '',
         web_image: '',
     };
+    file_list.value = [];
     scan_file_list.value = [];
     scan_uuid.value = '';
     // 直接检查 timer.value 是否存在（不是 null 或 undefined）
