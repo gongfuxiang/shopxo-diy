@@ -16,7 +16,7 @@
                     </el-form-item>
                 </template>
                 <el-form-item label="主标题">
-                    <div class="flex-col gap-10">
+                    <div class="flex-col gap-10 w">
                         <color-picker v-model="form.title_color" default-color="#000000"></color-picker>
                         <el-radio-group v-model="form.title_weight">
                             <el-radio value="500">加粗</el-radio>
@@ -30,7 +30,7 @@
                 </el-form-item>
                 <template v-if="!isEmpty(content.subtitle)">
                     <el-form-item label="副标题">
-                        <div class="flex-col gap-10">
+                        <div class="flex-col gap-10 w">
                             <color-picker v-model="form.subtitle_color" default-color="#000000"></color-picker>
                             <el-radio-group v-model="form.subtitle_weight">
                                 <el-radio value="500">加粗</el-radio>

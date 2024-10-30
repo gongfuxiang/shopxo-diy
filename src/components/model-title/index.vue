@@ -22,7 +22,7 @@
                         <div v-if="form.right_show == '1'" class="nowrap" :style="right_style">{{ form.right_title }}<el-icon class="iconfont icon-arrow-right" :color="new_style.right_color || '#999'"></el-icon></div>
                     </div>
                 </div>
-                <div v-if="!isEmpty(form.subtitle) && new_style.title_line == '0'" class="text-word-break" :style="subtitle_style">{{ form.subtitle }}</div>
+                <div v-if="!isEmpty(form.subtitle) && new_style.title_line != '1'" class="text-word-break" :style="subtitle_style">{{ form.subtitle }}</div>
             </div>
         </div>
     </div>
