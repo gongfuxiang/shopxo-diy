@@ -65,17 +65,17 @@ const outer_sx = computed(() => -(new_style_spacing.value / 2) + 'px');
 const spacing = computed(() => new_style_spacing.value / 2 + 'px');
 // 图片圆角设置
 const content_img_radius = computed(() => radius_computer(new_style.value));
+
 //#region 容器大小计算
 const div_width = ref(0);
+const container_size = computed(() => form.value.style_actived === 10 ? '100%' : container_height.value + 'px');
 // 如果容器高度为空，则取容器宽度
 const container_height = computed(() => is_number(form.value.container_height) ? form.value.container_height : div_width.value);
-
-const container_size = computed(() => form.value.style_actived === 10 ? '100%' : container_height.value + 'px');
-const container_size_10 = computed(() => div_width.value + 'px');
+const container_size_10 = computed(() => container_height.value + 'px');
 const container = ref<HTMLElement | null>(null);
 onMounted(() => {
     if (container.value) {
-        div_width.value = container.value.clientWidth;
+        div_width.value = container.value.clientWidth;   
     }
 });
 //#endregion
@@ -96,7 +96,7 @@ const density = ref('4');
 //单元魔方宽度。
 const cubeCellWidth = computed(() => div_width.value / parseInt(density.value));
 //单元魔方高度。
-const cubeCellHeight = computed(() => container_height.value / parseInt(density.value));
+const cubeCellHeight = computed(() => div_width.value / parseInt(density.value));
 const getSelectedWidth = (item: CubeItem) => {
     return (item.end.x - item.start.x + 1) * cubeCellWidth.value;
 };
@@ -114,7 +114,12 @@ const getSelectedLeft = (item: CubeItem) => {
 };
 // 根据当前页面大小计算成百分比
 const selected_style = (item: CubeItem) => {
-    return `width: ${getSelectedWidth(item)}px; height: ${getSelectedHeight(item)}px; top: ${getSelectedTop(item)}px; left: ${getSelectedLeft(item)}px;`;
+    return `width: ${percentage(getSelectedWidth(item))}; height: ${percentage(getSelectedHeight(item))}; top: ${percentage(getSelectedTop(item))}; left: ${percentage(getSelectedLeft(item))};`;
+};
+// 计算成百分比
+const percentage = (num: number) => {
+    const marks = (num / div_width.value) * 100;
+    return marks.toFixed(4) + '%';
 };
 //#endregion
 // 公共样式

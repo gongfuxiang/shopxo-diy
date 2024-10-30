@@ -84,7 +84,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, common_styles_computer, get_math, gradient_computer, radius_computer, padding_computer, common_img_computer, is_number } from '@/utils';
+import { background_computer, common_styles_computer, get_math, gradient_computer, radius_computer, padding_computer, common_img_computer, is_number, percentage_count } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 const props = defineProps({
     value: {
@@ -146,7 +146,7 @@ const density = ref('4');
 //单元魔方宽度。
 const cubeCellWidth = computed(() => div_width.value / parseInt(density.value));
 //单元魔方高度。
-const cubeCellHeight = computed(() => container_height.value / parseInt(density.value));
+const cubeCellHeight = computed(() => div_width.value / parseInt(density.value));
 const getSelectedWidth = (item: data_magic) => {
     return (item.end.x - item.start.x + 1) * cubeCellWidth.value;
 };
@@ -164,7 +164,11 @@ const getSelectedLeft = (item: data_magic) => {
 };
 // 根据当前页面大小计算成百分比
 const selected_style = (item: data_magic) => {
-    return `overflow: hidden;width: calc(${getSelectedWidth(item)}px - ${ outer_spacing.value } ); height: calc(${getSelectedHeight(item)}px - ${ outer_spacing.value } ); top: ${getSelectedTop(item)}px;left: ${getSelectedLeft(item)}px;`;
+    return `overflow: hidden;width: calc(${percentage(getSelectedWidth(item))} - ${ outer_spacing.value } ); height: calc(${percentage(getSelectedHeight(item))} - ${ outer_spacing.value } ); top: ${percentage(getSelectedTop(item))}; left: ${percentage(getSelectedLeft(item))};`;
+};
+// 计算成百分比
+const percentage = (num: number) => {
+    return percentage_count(num, div_width.value);
 };
 //#endregion
 //#region 组装页面显示的数据
