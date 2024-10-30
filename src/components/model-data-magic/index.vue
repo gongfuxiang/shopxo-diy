@@ -9,9 +9,16 @@
                             <div class="w h" :style="`${ item.data_style.background_img_style }`">
                                 <template v-if="item.data_content.data_type == 'goods'">
                                     <div :class="`w h flex-col ${ 'gap-' + item.title_text_gap }`" :style="`${ [0, 1].includes(index) ? padding_computer(item.data_style.chunk_padding) : '' }`">
-                                        <div v-if="(!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)) && [0, 1].includes(index)" class="flex-col gap-5 tl">
-                                            <p class="ma-0 w txet-word-break text-line-1" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
-                                            <p class="ma-0 w txet-word-break text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
+                                        <div v-if="(!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)) && [0, 1].includes(index)" :class="'tl' + (item.data_style.title_line == '1' ? ' flex-row align-c gap-10' : ' flex-col gap-5')">
+                                            <template v-if="item.data_content.heading_title_type == 'text'">
+                                                <p class="ma-0 w text-word-break text-line-1 flex-basis-shrink" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
+                                            </template>
+                                            <template v-else-if="item.data_content.heading_title_img.length > 0">
+                                                <div class="re" :style="`height: ${ item.data_style?.heading_img_height || 0 }px`">
+                                                    <img :style="`height: ${ item.data_style?.heading_img_height || 0 }px`" :src="item.data_content.heading_title_img[0].url" fit="contain" />
+                                                </div>
+                                            </template>
+                                            <p class="ma-0 w text-word-break text-line-1 flex-basis-shrink" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
                                         </div>
                                         <div class="w h">
                                             <magic-carousel :value="item" :good-style="item.data_style" :actived="form.style_actived" type="product" @carousel_change="carousel_change($event, index)"></magic-carousel>
@@ -40,9 +47,16 @@
                         <div class="w h" :style="`${ item.data_style.background_img_style }`">
                             <template v-if="item.data_content.data_type == 'goods'">
                                 <div :class="`w h flex-col ${ 'gap-' + item.title_text_gap }`" :style="`${ padding_computer(item.data_style.chunk_padding) }`">
-                                    <div v-if="!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)" class="flex-col gap-5 tl">
-                                        <p class="ma-0 w txet-word-break text-line-1" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
-                                        <p class="ma-0 w txet-word-break text-line-1" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
+                                    <div v-if="!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)" :class="'gap-5 tl' + (item.data_style.title_line == '1' ? ' flex-row align-c gap-10' : ' flex-col gap-5')">
+                                        <template v-if="item.data_content.heading_title_type == 'text'">
+                                            <p class="ma-0 w text-word-break text-line-1 flex-basis-shrink" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
+                                        </template>
+                                        <template v-else-if="item.data_content.heading_title_img.length > 0">
+                                            <div class="re" :style="`height: ${ item.data_style?.heading_img_height || 0 }px`">
+                                                <img :style="`height: ${ item.data_style?.heading_img_height || 0 }px`" :src="item.data_content.heading_title_img[0].url" fit="contain" />
+                                            </div>
+                                        </template>
+                                        <p class="ma-0 w text-word-break text-line-1 flex-basis-shrink" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
                                     </div>
                                     <div class="w h">
                                         <magic-carousel :value="item" :good-style="item.data_style" type="product" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
@@ -383,5 +397,10 @@ const style_img_container = computed(() => common_img_computer(new_style.value.c
     .image-slot img {
         width: 6rem;
     }
+}
+
+.flex-basis-shrink {
+    flex-basis: content;
+    flex-shrink: 1;
 }
 </style>

@@ -26,14 +26,6 @@
             </el-form-item>
         </template>
         <template v-if="tabs_content.data_type === 'goods'">
-            <template v-if="isShowTitle">
-                <el-form-item label="主标题">
-                    <color-text-size-group v-model:color="form.heading_color" v-model:typeface="form.heading_typeface" v-model:size="form.heading_size" default-color="#000000"></color-text-size-group>
-                </el-form-item>
-                <el-form-item label="副标题">
-                    <color-text-size-group v-model:color="form.subtitle_color" v-model:typeface="form.subtitle_typeface" v-model:size="form.subtitle_size" default-color="#000000"></color-text-size-group>
-                </el-form-item>
-            </template>
             <el-form-item label="内间距">
                 <padding :key="form.carouselKey" :value="form.chunk_padding" @update:value="chunk_padding_change"></padding>
             </el-form-item>
@@ -42,16 +34,40 @@
             <radius :key="form.carouselKey" :value="form.img_radius" @update:value="img_radius_change"></radius>
         </el-form-item>
     </card-container>
-    <div class="bg-f5 divider-line" />
-    <card-container v-if="tabs_content.data_type === 'goods'">
-        <div class="mb-12">商品样式</div>
-        <el-form-item label="商品名称">
-            <color-text-size-group v-model:color="form.goods_title_color" v-model:typeface="form.goods_title_typeface" v-model:size="form.goods_title_size" default-color="#000000"></color-text-size-group>
-        </el-form-item>
-        <el-form-item label="商品价格">
-            <color-text-size-group v-model:color="form.goods_price_color" v-model:typeface="form.goods_price_typeface" v-model:size="form.goods_price_size" default-color="#000000"></color-text-size-group>
-        </el-form-item>
-    </card-container>
+    <template v-if="tabs_content.data_type === 'goods' && isShowTitle">
+        <div class="bg-f5 divider-line" />
+        <card-container>
+            <div class="mb-12">标题样式</div>
+            <el-form-item label="主标题">
+                <template v-if="tabs_content.heading_title_type == 'text'">
+                    <color-text-size-group v-model:color="form.heading_color" v-model:typeface="form.heading_typeface" v-model:size="form.heading_size" default-color="#000000"></color-text-size-group>
+                </template>
+                <template v-else>
+                    <el-form-item label="图片高度" label-width="60" class="w form-item-child-label">
+                        <slider v-model="form.heading_img_height" :min="1" :max="200"></slider>
+                    </el-form-item>
+                </template>
+            </el-form-item>
+            <el-form-item label="副标题">
+                <color-text-size-group v-model:color="form.subtitle_color" v-model:typeface="form.subtitle_typeface" v-model:size="form.subtitle_size" default-color="#000000"></color-text-size-group>
+            </el-form-item>
+            <el-form-item label="标题同行">
+                <el-switch v-model="form.title_line" active-value="1" inactive-value="0" />
+            </el-form-item>
+        </card-container>
+    </template>
+    <template v-if="tabs_content.data_type === 'goods'">
+        <div class="bg-f5 divider-line" />
+        <card-container>
+            <div class="mb-12">商品样式</div>
+            <el-form-item label="商品名称">
+                <color-text-size-group v-model:color="form.goods_title_color" v-model:typeface="form.goods_title_typeface" v-model:size="form.goods_title_size" default-color="#000000"></color-text-size-group>
+            </el-form-item>
+            <el-form-item label="商品价格">
+                <color-text-size-group v-model:color="form.goods_price_color" v-model:typeface="form.goods_price_typeface" v-model:size="form.goods_price_size" default-color="#000000"></color-text-size-group>
+            </el-form-item>
+        </card-container>
+    </template>
     <div class="bg-f5 divider-line" />
     <card-container>
         <carousel-indicator :key="form.carouselKey" :value="form"></carousel-indicator>

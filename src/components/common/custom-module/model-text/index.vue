@@ -1,6 +1,6 @@
 <template>
     <div class="img-outer w h re oh" :style="com_style">
-        <div :style="text_style" class="txet-word-break">
+        <div :style="text_style" class="text-word-break">
             <template v-if="form.is_rich_text == '1'">
                 <div class="rich-text-content" :innerHTML="text_title"></div>
             </template>

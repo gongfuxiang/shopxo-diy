@@ -41,7 +41,7 @@
                         </div>
                         <div v-for="(item, index) in notice_list" :key="index" class="flex align-c" :style="news_style">
                             <span :class="`num one${index + 1}`">{{ index + 1 }}</span>
-                            <div class="txet-word-break" :style="`color: ${new_style.news_color}`">{{ item.notice_title }}</div>
+                            <div class="text-word-break" :style="`color: ${new_style.news_color}`">{{ item.notice_title }}</div>
                         </div>
                     </div>
                 </div>

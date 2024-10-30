@@ -38,7 +38,7 @@
                                             <el-input v-model="item.new_name" placeholder="请输入组件别名" size="small" clearable type="textarea" class="flex-1 do-not-trigger" :rows="1" resize="none" />
                                         </template>
                                         <template v-else>
-                                            <span class="size-12 cr-6 txet-word-break">{{ !isEmpty(item.new_name) ? item.new_name : item.name  }}</span>
+                                            <span class="size-12 cr-6 text-word-break">{{ !isEmpty(item.new_name) ? item.new_name : item.name  }}</span>
                                         </template>
                                     </div>
                                     <div class="abs draggable-icon" :style="item.show_tabs == '1' ? 'opacity: 1;' : 'opacity: 0.5;'">

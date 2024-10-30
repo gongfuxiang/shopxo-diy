@@ -11,7 +11,7 @@
                     </div>
                 </el-form-item>
                 <el-form-item label="容器高度" label-width="60">
-                    <slider v-model="form.container_height" :min="30" :max="500" @update:model-value="handleResize"></slider>
+                    <slider v-model="form.container_height" :min="30" :max="1000" @update:model-value="handleResize"></slider>
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
@@ -71,6 +71,7 @@ const data_style = {
     heading_color: '#000',
     heading_typeface: '400',
     heading_size: 20,
+    heading_img_height: 28,
     subtitle_color: '#FF852A',
     subtitle_typeface: '400',
     subtitle_size: 14,
@@ -113,7 +114,9 @@ const data_style = {
 // 每个小模块独立的内容
 const data_content = {
     data_type: 'goods',
+    heading_title_type: 'text',
     heading_title: '主标题',
+    heading_title_img: [],
     subtitle: '副标题',
     goods_list:[],
     goods_ids: '',

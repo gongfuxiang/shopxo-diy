@@ -12,7 +12,7 @@
                 </el-form-item>
                 <template v-if="form.style_actived !== 10">
                     <el-form-item label="容器高度">
-                        <slider v-model="form.container_height" :min="30" :max="500" @update:model-value="handleResize"></slider>
+                        <slider v-model="form.container_height" :min="30" :max="1000" @update:model-value="handleResize"></slider>
                     </el-form-item>
                     <el-form-item label="图片设置">
                         <el-radio-group v-model="form.img_fit">

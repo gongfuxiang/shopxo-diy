@@ -8,7 +8,18 @@
         </el-form-item>
         <template v-if="form.data_type === 'goods' && isShowTitle">
             <el-form-item label="主标题">
-                <el-input v-model="form.heading_title" placeholder="请输入主标题" clearable></el-input>
+                <div class="flex-col gap-10 w">
+                    <el-radio-group v-model="form.heading_title_type">
+                        <el-radio value="text">文字</el-radio>
+                        <el-radio value="image">图片</el-radio>
+                    </el-radio-group>
+                    <template v-if="form.heading_title_type == 'text'">
+                        <el-input v-model="form.heading_title" placeholder="请输入主标题" clearable></el-input>
+                    </template>
+                    <template v-else>
+                        <upload v-model="form.heading_title_img" :limit="1" size="50"></upload>
+                    </template>
+                </div>
             </el-form-item>
             <el-form-item label="副标题">
                 <el-input v-model="form.subtitle" placeholder="请输入副标题" clearable></el-input>
