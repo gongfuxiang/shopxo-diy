@@ -280,7 +280,7 @@ watch(props.value.content, (val) => {
         
         // 商品名称和价格样式
         data_style.goods_title_style = goods_trends_config(item.data_style, 'title');
-        data_style.goods_price_style = goods_trends_config(item.data_style, 'price');
+        data_style.goods_price_style = goods_trends_config(item.data_style, 'price') + `line-height: ${ item.data_style.goods_price_size }px;`;
 
         const { is_roll, rotation_direction, interval_time } = data_style;
         const { goods_list, images_list } = data_content;

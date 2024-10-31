@@ -177,6 +177,7 @@ const gap_height = computed(() => 20 / 3 + 'px');
 }
 .identifying .num {
     font-size: 0.9rem;
+    line-height: 0.9rem;
 }
 
 .price-suspension {

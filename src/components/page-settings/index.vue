@@ -17,8 +17,8 @@
                                         <template v-if="new_style.up_slide_logo && new_style.up_slide_logo.length > 0">
                                             <!-- 有上滑logo的处理逻辑 -->
                                             <div class="logo-outer-style re">
-                                                <img class="logo-style" :style="up_slide_old_logo_style + 'width:' + ((props.scollTop - 5) / 90 < 1 ? 100 + '%;' : 0)" :src="form.logo[0].url" />
-                                                <img :class="['logo-style', {'abs left-0': (props.scollTop - 5) / 90 <= 1 }]" :style="'opacity:0;' + up_slide_opacity" :src="new_style.up_slide_logo[0].url" />
+                                                <img class="logo-style" :style="up_slide_old_logo_style + 'max-width:' + ((props.scollTop - 5) / 90 < 1 ? 100 + '%;' : 0)" :src="form.logo[0].url" />
+                                                <img :class="['logo-style left-0', {'abs': (props.scollTop - 5) / 90 < 1 }]" :style="'opacity:0;' + up_slide_opacity" :src="new_style.up_slide_logo[0].url" />
                                             </div>
                                         </template>
                                         <template v-else>
@@ -246,7 +246,7 @@ const position_class = computed(() => (form.value?.indicator_location == 'center
     .logo-style {
         max-height: 2.8rem;
         max-width: 100%;
-        transition: all 0.3s;
+        // transition: all 0.3s;
         :deep(.image-slot) {
             height: 2.8rem;
             width: 2.8rem;
