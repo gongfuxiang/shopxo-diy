@@ -14,19 +14,17 @@
                             <div v-if="['1', '2', '3'].includes(form.theme)" class="flex-1">
                                 <div class="flex-1 flex-row align-c jc-c h gap-16" :class="position_class" :style="[{ 'justify-content': form?.indicator_location || 'center' }, text_style]">
                                     <template v-if="['2', '3'].includes(form.theme) && form.logo.length > 0">
-                                        <template v-if="new_style.up_slide_logo && new_style.up_slide_logo.length > 0">
-                                            <!-- 有上滑logo的处理逻辑 -->
-                                            <div class="logo-outer-style re">
-                                                <img class="logo-style" :style="up_slide_old_logo_style + 'max-width:' + ((props.scollTop - 5) / 90 < 1 ? 100 + '%;' : 0)" :src="form.logo[0].url" />
-                                                <img :class="['logo-style left-0', {'abs': (props.scollTop - 5) / 90 < 1 }]" :style="'opacity:0;' + up_slide_opacity" :src="new_style.up_slide_logo[0].url" />
-                                            </div>
-                                        </template>
-                                        <template v-else>
-                                            <!-- 没有上滑logo -->
-                                            <div class="logo-outer-style re">
+                                        <div class="logo-outer-style re">
+                                            <template v-if="new_style.up_slide_logo && new_style.up_slide_logo.length > 0">
+                                                <!-- 有上滑logo的处理逻辑 -->
+                                                <img :src="form.logo[0].url" class="logo-style" :style="up_slide_old_logo_style + 'max-width:' + ((props.scollTop - 5) / 90 < 1 ? 100 + '%;' : 0)" />
+                                                <img :src="new_style.up_slide_logo[0].url" :class="['logo-style left-0', {'abs': (props.scollTop - 5) / 90 < 1 }]" :style="'opacity:0;' + up_slide_opacity" />
+                                            </template>
+                                            <template v-else>
+                                                <!-- 没有上滑logo -->
                                                 <img class="logo-style" :src="form.logo[0].url" />
-                                            </div>
-                                        </template>
+                                            </template>
+                                        </div>
                                     </template>
                                     <div v-if="['1', '2'].includes(form.theme)">{{ form.title }}</div>
                                     <template v-if="['3', '5'].includes(form.theme) && !is_search_alone_row">

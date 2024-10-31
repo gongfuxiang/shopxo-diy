@@ -50,19 +50,21 @@
                 <el-form-item label="上滑展示">
                     <el-switch v-model="form.up_slide_display" active-value="1" inactive-value="0"></el-switch>
                 </el-form-item>
-                <el-form-item v-if="['2', '3'].includes(page_content.theme) && !isEmpty(page_content.logo)" label="上滑logo">
-                    <upload v-model="form.up_slide_logo" :limit="1"></upload>
-                </el-form-item>
-                <el-form-item label="上滑背景">
-                    <div class="w h flex-col gap-10">
-                        <mult-color-picker :value="form?.up_slide_background_color_list || []" :type="form?.up_slide_background_direction || '180deg'" @update:value="up_slide_mult_color_picker_event"></mult-color-picker>
-                        <div class="flex-row jc-sb align-c">
-                            <div class="size-12">背景图</div>
-                            <bg-btn-style v-model="form.up_slide_background_img_style"></bg-btn-style>
+                <template v-if="form.up_slide_display == '1'">
+                    <el-form-item v-if="['2', '3'].includes(page_content.theme) && !isEmpty(page_content.logo)" label="上滑logo">
+                        <upload v-model="form.up_slide_logo" :limit="1"></upload>
+                    </el-form-item>
+                    <el-form-item label="上滑背景">
+                        <div class="w h flex-col gap-10">
+                            <mult-color-picker :value="form?.up_slide_background_color_list || []" :type="form?.up_slide_background_direction || '180deg'" @update:value="up_slide_mult_color_picker_event"></mult-color-picker>
+                            <div class="flex-row jc-sb align-c">
+                                <div class="size-12">背景图</div>
+                                <bg-btn-style v-model="form.up_slide_background_img_style"></bg-btn-style>
+                            </div>
+                            <upload v-model="form.up_slide_background_img" :limit="1"></upload>
                         </div>
-                        <upload v-model="form.up_slide_background_img" :limit="1"></upload>
-                    </div>
-                </el-form-item>
+                    </el-form-item>
+                </template>
                 <el-form-item label="返回颜色">
                     <color-picker v-model="form.left_back_btn_color" class="mr-10" default-color="#333"></color-picker>
                     <el-tooltip effect="light" :show-after="200" :hide-after="200" content="打开新页面才会出现返回按钮" raw-content placement="top">
