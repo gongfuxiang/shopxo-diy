@@ -1,5 +1,5 @@
 <template>
-    <div ref="container" :style="style_container">
+    <div :style="style_container">
         <div class="img-magic" :style="style_img_container">
             <div class="w h re outer-style">
                 <!-- 风格9 -->
@@ -108,17 +108,11 @@ const spacing = computed(() => (new_style.value?.image_spacing || 0) / 2 + 'px')
 // 内容圆角设置
 const content_radius = computed(() => radius_computer(new_style.value.data_radius));
 //#region 容器大小计算
-const div_width = ref(0);
+const div_width = ref(390);
 // 如果容器高度为空，则取容器宽度
 const container_height = computed(() => is_number(form.value.container_height) ? form.value.container_height : div_width.value);
 
 const container_size = computed(() => container_height.value + 'px');
-const container = ref<HTMLElement | null>(null);
-onMounted(() => {
-    if (container.value) {
-        div_width.value = container.value.clientWidth;
-    }
-});
 //#endregion
 //#region 图片位置计算
 //计算选中层的宽度。

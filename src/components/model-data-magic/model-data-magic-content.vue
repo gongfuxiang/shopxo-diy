@@ -228,6 +228,7 @@ const style_click = (index: number) => {
     form.value.style_actived = index;
     selected_active.value = 0;
     tabs_name.value = 'content';
+    handleResize();
 }
 // 规整复制的数据
 const magic_list = (index: number) => {

@@ -162,6 +162,8 @@ const style_click = (index: number) => {
             cubeWidth.value = 390;
             cubeHeight.value = 390;
         }
+    } else {
+        handleResize();
     }
 }
 // 选中的点击事件
