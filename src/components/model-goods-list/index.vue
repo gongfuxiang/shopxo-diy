@@ -329,19 +329,19 @@ const layout_type = computed(() => {
     let class_type = '';
     switch (theme.value) {
         case '0':
-            class_type = `flex-row goods-height bg-f oh`;
+            class_type = `flex-row bg-f oh`;
             break;
         case '1':
-            class_type = `flex-col goods-height two-columns bg-f oh`;
+            class_type = `flex-col two-columns bg-f oh`;
             break;
         case '2':
-            class_type = `flex-col goods-height bg-f oh`;
+            class_type = `flex-col bg-f oh`;
             break;
         case '3':
-            class_type = `flex-col goods-height three-columns bg-f oh`;
+            class_type = `flex-col three-columns bg-f oh`;
             break;
         case '4':
-            class_type = `flex-row goods-height two-columns bg-f oh`;
+            class_type = `flex-row two-columns bg-f oh`;
             break;
         case '5':
             class_type = `flex-col multicolumn-columns bg-f oh`;
@@ -366,7 +366,9 @@ const content_style = computed(() => {
     } else {
         spacing = content_padding.value;
     }
-
+    if (['4'].includes(theme.value)) {
+        spacing += `width: 0;`;
+    }
     return `${spacing}`;
 });
 // 显示除标题外的其他区域
@@ -448,6 +450,41 @@ const multicolumn_columns_width = computed(() => {
     return `calc(${100 / carousel_col.value}% - ${gap}px)`;
 });
 const content_outer_height = computed(() => new_style.value.content_outer_height + 'px');
+const product_style_list = [
+    { name: '单列展示', value: '0', width: 110, height: 120 },
+    { name: '大图展示', value: '2', width: 166, height: 166 },
+    { name: '无图模式', value: '6', width: 0, height: 0 },
+    { name: '两列展示(纵向)', value: '1', width: 180, height: 180 },
+    { name: '两列展示(横向)', value: '4', width: 70, height: 70 },
+    { name: '三列展示', value: '3', width: 116, height: 114 },
+    { name: '左右滑动展示', value: '5', width: 0, height: 0 },
+]
+// 宽度和高度为空的时候，修改默认值
+const goods_img_width = computed(() => {
+    if (typeof new_style.value.content_img_width == 'number') {
+        return new_style.value.content_img_width + 'px';
+    } else {
+        const list = product_style_list.filter(item => item.value == form.value.theme);
+        if (list.length > 0) {
+            return list[0].width + 'px';
+        } else {
+            return 'auto';
+        }
+    }
+});
+// 宽度和高度为空的时候，修改默认值
+const goods_img_height = computed(() => {
+    if (typeof new_style.value.content_img_height == 'number') {
+        return new_style.value.content_img_height + 'px';
+    } else {
+        const list = product_style_list.filter(item => item.value == form.value.theme);
+        if (list.length > 0) {
+            return list[0].height + 'px';
+        } else {
+            return 'auto';
+        }
+    }
+});
 interface nav_list {
     split_list: data_list[];
 }
@@ -539,30 +576,25 @@ watchEffect(() => {
     min-width: v-bind(multicolumn_columns_width);
     height: v-bind(content_outer_height);
 }
-.goods-height {
-    height: v-bind(content_outer_height);
-}
 .flex-img0 {
-    height: 100%;
-    // min-height: 11rem;
-    // max-height: 12rem;
-    width: 11rem;
+    height: v-bind(goods_img_height);
+    width: v-bind(goods_img_width);
 }
 .flex-img1 {
     width: 100%;
-    height: 100%;
+    height: v-bind(goods_img_height);
 }
 .flex-img2 {
     width: 100%;
-    height: 100%;
+    height: v-bind(goods_img_height);
 }
 .flex-img3 {
     width: 100%;
-    height: 100%;
+    height: v-bind(goods_img_height);
 }
 .flex-img4 {
-    width: 7rem;
-    min-height: 100%;
+    height: v-bind(goods_img_height);
+    width: v-bind(goods_img_width);
 }
 .flex-img5 {
     width: 100%;

@@ -60,7 +60,15 @@
                         <slider v-model="form.article_spacing"></slider>
                     </el-form-item>
                 </template>
-                <template v-if="theme != '3'">
+                <template v-if="!['3', '4'].includes(theme)">
+                    <el-form-item v-if="['0'].includes(theme)" label="图片宽度">
+                        <slider v-model="form.content_img_width" :max="1000"></slider>
+                    </el-form-item>
+                    <el-form-item label="图片高度">
+                        <slider v-model="form.content_img_height" :max="1000"></slider>
+                    </el-form-item>
+                </template>
+                <template v-if="theme == '4'">
                     <el-form-item label="内容高度">
                         <slider v-model="form.article_height" :max="1000"></slider>
                     </el-form-item>

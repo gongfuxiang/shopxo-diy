@@ -26,10 +26,9 @@ const data_config = reactive({
     img_radius_1: 0,
 });
 const form = ref(props.value);
-const theme_change = (val: number) => {
-    if (val) {
-        form.value.style.content_outer_height = val;
-    }
+const theme_change = (width: number, height: number) => {
+    form.value.style.content_img_width = width;
+    form.value.style.content_img_height = height;
 };
 </script>
 <style lang="scss" scoped>

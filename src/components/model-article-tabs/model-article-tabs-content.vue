@@ -132,11 +132,11 @@ const base_list = reactive({
         { name: '样式四', value: '3' },
     ],
     article_theme_list: [
-        { name: '单列展示', value: '0', height: 103 },
-        { name: '两列展示（纵向）', value: '1', height: 245 },
-        { name: '大图展示', value: '2', height: 245 },
-        { name: '无图模式', value: '3', height: 0 },
-        { name: '左右滑动展示', value: '4', height: 183 },
+        { name: '单列展示', value: '0', width:110, height: 83 },
+        { name: '两列展示（纵向）', value: '1', width:180, height: 180 },
+        { name: '大图展示', value: '2', width:0, height: 180 },
+        { name: '无图模式', value: '3', width:0, height: 0 },
+        { name: '左右滑动展示', value: '4', width:0, height: 0 },
     ],
     carousel_col_list: [
         { name: '单列展示', value: '0' },
@@ -173,10 +173,12 @@ onMounted(() => {
         }
     });
     // 如果历史数据没有操作，则修改默认值
-    if (styles.article_height == 155 && form.value.theme != '4') {
-        const list = base_list.article_theme_list.filter(item => item.value == form.value.theme);
+    const { content_img_width = '', content_img_height = '' } = styles;
+    // 宽度和高度为空的时候，并且不是无图模式和左右滑动模式的时候，修改默认值
+    if ((typeof content_img_width != 'number' || typeof content_img_height != 'number') && !['3', '4'].includes(form.theme)) {
+        const list = base_list.article_theme_list.filter(item => item.value == form.theme);
         if (list.length > 0) {
-            emits('theme_change', list[0].height);
+            emits('theme_change', list[0].width, list[0].height);
         }
     }
 });
@@ -204,9 +206,10 @@ const article_theme_change = (val: any) => {
             styles.img_radius.radius_top_right = props.defaultConfig.img_radius_1;
         }
     }
+    // 切换风格时，将对应图片的默认值宽度和高度赋值
     const list = base_list.article_theme_list.filter(item => item.value == val);
     if (list.length > 0) {
-        emits('theme_change', list[0].height);
+        emits('theme_change', list[0].width, list[0].height);
     }
 };
 

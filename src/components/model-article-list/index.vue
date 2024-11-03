@@ -10,7 +10,7 @@
                             </template>
                             <template v-else> <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty> </template>
                         </template>
-                        <div class="jc-sb flex-1" :class="article_theme == '3' ? 'flex-row align-c' : 'flex-col'" :style="article_theme != '0' ? content_padding : ''">
+                        <div class="jc-sb flex-1" :class="article_theme == '3' ? 'flex-row align-c' : 'flex-col'" :style="article_theme != '0' ? content_padding : 'width: 0;'">
                             <div class="flex-col" :class="article_theme == '3' ? 'flex-1 flex-width' : ''" :style="'gap:' + new_style.name_desc_space + 'px;'">
                                 <div class="title" :class="article_theme == '3' ? 'text-line-1' : 'text-line-2'" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
                                 <div v-if="field_show.includes('2')" class="desc text-line-1" :style="article_desc">{{ item.data.describe || '' }}</div>
@@ -118,7 +118,7 @@ const content_padding = ref('');
 const content_spacing = ref('');
 // 文章间距
 const article_spacing = ref('');
-const article_item_height = ref('183');
+const article_item_height = ref('155');
 
 const article_style = ref({});
 const default_data_list: ArticleList = {
@@ -229,7 +229,43 @@ const article_name_line_height_computer = computed(() => {
     return new_style.value.name_size * 1.2 + 'px';
 });
 // 轮播高度
-const carousel_height_computer = computed(() => new_style.value.article_height + 'px');
+const carousel_height_computer = computed(() => {
+    return new_style.value.name_size * 2 + new_style.value.article_height + 'px';
+});
+
+const theme_list = [
+    { name: '单列展示', value: '0', width:110, height: 83 },
+    { name: '两列展示（纵向）', value: '1', width:180, height: 180 },
+    { name: '大图展示', value: '2', width:0, height: 180 },
+    { name: '无图模式', value: '3', width:0, height: 0 },
+    { name: '左右滑动展示', value: '4', width:0, height: 0 },
+]
+// 宽度和高度为空的时候，修改默认值
+const article_img_width = computed(() => {
+    if (typeof new_style.value.content_img_width == 'number') {
+        return new_style.value.content_img_width + 'px';
+    } else {
+        const list = theme_list.filter(item => item.value == new_content.value.theme);
+        if (list.length > 0) {
+            return list[0].width + 'px';
+        } else {
+            return 'auto';
+        }
+    }
+});
+// 宽度和高度为空的时候，修改默认值
+const article_img_height = computed(() => {
+    if (typeof new_style.value.content_img_height == 'number') {
+        return new_style.value.content_img_height + 'px';
+    } else {
+        const list = theme_list.filter(item => item.value == new_content.value.theme);
+        if (list.length > 0) {
+            return list[0].height + 'px';
+        } else {
+            return 'auto';
+        }
+    }
+});
 // 监听value数据变化
 watch(
     () => props.value,
@@ -325,23 +361,27 @@ const article_carousel_list = computed(() => {
 .style1 {
     .item {
         width: 100%;
-        height: v-bind(carousel_height_computer);
         .img {
-            height: 100%;
-            width: 11rem;
+            height: v-bind(article_img_height);
+            width: v-bind(article_img_width);
         }
     }
 }
 .style2 {
     .item {
         width: calc(50% - 0.5rem);
-        height: v-bind(carousel_height_computer);
+        .img {
+            height: v-bind(article_img_height);
+        }
     }
 }
 .style3 {
     .item {
         width: 100%;
-        height: v-bind(carousel_height_computer);
+        .img {
+            width: 100%;
+            height: v-bind(article_img_height);
+        }
     }
 }
 .style4 {
@@ -356,7 +396,6 @@ const article_carousel_list = computed(() => {
     .item {
         width: v-bind(multicolumn_columns_width);
         min-width: v-bind(multicolumn_columns_width);
-        height: v-bind(carousel_height_computer);
         .img {
             width: 100%;
             max-height: v-bind(article_item_height);

@@ -50,6 +50,8 @@ interface DefaultProductList {
         shop_radius: radiusStyle;
         content_outer_spacing: number;
         content_outer_height: number;
+        content_img_width: number;
+        content_img_height: number;
         is_roll: string;
         interval_time: number;
         content_spacing: number;
@@ -156,7 +158,10 @@ const defaultProductList: DefaultProductList = {
         // 商品内间距
         content_spacing: 10,
         // 商品高度
-        content_outer_height: 142,
+        content_outer_height: 232,
+        // 商品图片宽度和高度
+        content_img_width: 110,
+        content_img_height: 120,
         // 轮播处理
         is_roll: '1',
         interval_time: 3,

@@ -136,13 +136,13 @@ const base_list = reactive({
         { name: '样式五', value: '4' },
     ],
     product_style_list: [
-        { name: '单列展示', value: '0', height: 142 },
-        { name: '大图展示', value: '2', height: 308 },
-        { name: '无图模式', value: '6', height: 0 },
-        { name: '两列展示(纵向)', value: '1', height: 302 },
-        { name: '两列展示(横向)', value: '4', height: 94 },
-        { name: '三列展示', value: '3', height: 204 },
-        { name: '左右滑动展示', value: '5', height: 232 },
+        { name: '单列展示', value: '0', width: 110, height: 120 },
+        { name: '大图展示', value: '2', width: 166, height: 166 },
+        { name: '无图模式', value: '6', width: 0, height: 0 },
+        { name: '两列展示(纵向)', value: '1', width: 180, height: 180 },
+        { name: '两列展示(横向)', value: '4', width: 70, height: 70 },
+        { name: '三列展示', value: '3', width: 116, height: 114 },
+        { name: '左右滑动展示', value: '5', width: 0, height: 0 },
     ],
     product_list: [
         { name: '指定商品', value: '0' },
@@ -179,10 +179,12 @@ onBeforeMount(() => {
         }, 1000);
     });
     // 如果历史数据没有操作，则修改默认值
-    if (styles.value.content_outer_height == 232 && form.value.theme != '5') {
+    const { content_img_width = '', content_img_height = '' } = styles.value;
+    // 宽度和高度为空的时候，并且不是无图模式和左右滑动模式的时候，修改默认值
+    if ((typeof content_img_width != 'number' || typeof content_img_height != 'number') && !['5', '6'].includes(form.value.theme)) {
         const list = base_list.product_style_list.filter(item => item.value == form.value.theme);
         if (list.length > 0) {
-            emits('theme_change', list[0].height);
+            emits('theme_change', list[0].width, list[0].height);
         }
     }
 });
@@ -297,9 +299,10 @@ const change_style = (val: any): void => {
             styles.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_1;
         }
     }
-    const list = base_list.product_style_list.filter(item => item.value == val);
+    // 切换风格时，将对应图片的默认值宽度和高度赋值
+    const list = base_list.product_style_list.filter(item => item.value == form.value.theme);
     if (list.length > 0) {
-        emits('theme_change', list[0].height);
+        emits('theme_change', list[0].width, list[0].height);
     }
 };
 const is_revise = ref(false);

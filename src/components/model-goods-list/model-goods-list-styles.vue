@@ -43,7 +43,15 @@
                     <el-form-item label="商品间距">
                         <slider v-model="form.content_outer_spacing" :max="100"></slider>
                     </el-form-item>
-                    <template v-if="theme != '6'">
+                    <template v-if="!['5', '6'].includes(theme)">
+                        <el-form-item v-if="['0', '4'].includes(theme)" label="图片宽度">
+                            <slider v-model="form.content_img_width" :max="1000"></slider>
+                        </el-form-item>
+                        <el-form-item label="图片高度">
+                            <slider v-model="form.content_img_height" :max="1000"></slider>
+                        </el-form-item>
+                    </template>
+                    <template v-if="theme == '5'">
                         <el-form-item label="内容高度">
                             <slider v-model="form.content_outer_height" :max="1000"></slider>
                         </el-form-item>
