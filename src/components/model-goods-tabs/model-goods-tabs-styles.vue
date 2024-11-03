@@ -50,7 +50,7 @@
                     <el-form-item label="商品间距">
                         <slider v-model="form.content_outer_spacing" :max="100"></slider>
                     </el-form-item>
-                    <template v-if="theme == '5'">
+                    <template v-if="theme != '6'">
                         <el-form-item label="内容高度">
                             <slider v-model="form.content_outer_height" :max="1000"></slider>
                         </el-form-item>

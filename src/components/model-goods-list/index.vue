@@ -329,19 +329,19 @@ const layout_type = computed(() => {
     let class_type = '';
     switch (theme.value) {
         case '0':
-            class_type = `flex-row bg-f oh`;
+            class_type = `flex-row goods-height bg-f oh`;
             break;
         case '1':
-            class_type = `flex-col two-columns bg-f oh`;
+            class_type = `flex-col goods-height two-columns bg-f oh`;
             break;
         case '2':
-            class_type = `flex-col bg-f oh`;
+            class_type = `flex-col goods-height bg-f oh`;
             break;
         case '3':
-            class_type = `flex-col three-columns bg-f oh`;
+            class_type = `flex-col goods-height three-columns bg-f oh`;
             break;
         case '4':
-            class_type = `flex-row two-columns bg-f oh`;
+            class_type = `flex-row goods-height two-columns bg-f oh`;
             break;
         case '5':
             class_type = `flex-col multicolumn-columns bg-f oh`;
@@ -447,7 +447,7 @@ const multicolumn_columns_width = computed(() => {
     let gap = (new_style.value.content_outer_spacing * (carousel_col.value - 1)) / carousel_col.value;
     return `calc(${100 / carousel_col.value}% - ${gap}px)`;
 });
-const multicolumn_columns_height = computed(() => new_style.value.content_outer_height + 'px');
+const content_outer_height = computed(() => new_style.value.content_outer_height + 'px');
 interface nav_list {
     split_list: data_list[];
 }
@@ -537,29 +537,32 @@ watchEffect(() => {
 .multicolumn-columns {
     width: v-bind(multicolumn_columns_width);
     min-width: v-bind(multicolumn_columns_width);
-    height: v-bind(multicolumn_columns_height);
+    height: v-bind(content_outer_height);
+}
+.goods-height {
+    height: v-bind(content_outer_height);
 }
 .flex-img0 {
-    height: auto;
-    min-height: 11rem;
+    height: 100%;
+    // min-height: 11rem;
     // max-height: 12rem;
     width: 11rem;
 }
 .flex-img1 {
     width: 100%;
-    height: 18rem;
+    height: 100%;
 }
 .flex-img2 {
     width: 100%;
-    height: 16.6rem;
+    height: 100%;
 }
 .flex-img3 {
     width: 100%;
-    height: 11.4rem;
+    height: 100%;
 }
 .flex-img4 {
-    min-width: 7rem;
-    min-height: 7rem;
+    width: 7rem;
+    min-height: 100%;
 }
 .flex-img5 {
     width: 100%;
@@ -569,7 +572,7 @@ watchEffect(() => {
 :deep(.el-carousel) {
     width: 100%;
     .el-carousel__container {
-        height: v-bind(multicolumn_columns_height);
+        height: v-bind(content_outer_height);
     }
 }
 </style>

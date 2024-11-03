@@ -118,7 +118,7 @@ const content_padding = ref('');
 const content_spacing = ref('');
 // 文章间距
 const article_spacing = ref('');
-const article_item_height = ref('155');
+const article_item_height = ref('183');
 
 const article_style = ref({});
 const default_data_list: ArticleList = {
@@ -229,9 +229,7 @@ const article_name_line_height_computer = computed(() => {
     return new_style.value.name_size * 1.2 + 'px';
 });
 // 轮播高度
-const carousel_height_computer = computed(() => {
-    return new_style.value.name_size * 2 + new_style.value.article_height + 'px';
-});
+const carousel_height_computer = computed(() => new_style.value.article_height + 'px');
 // 监听value数据变化
 watch(
     () => props.value,
@@ -327,8 +325,9 @@ const article_carousel_list = computed(() => {
 .style1 {
     .item {
         width: 100%;
+        height: v-bind(carousel_height_computer);
         .img {
-            height: 8.3rem;
+            height: 100%;
             width: 11rem;
         }
     }
@@ -336,18 +335,13 @@ const article_carousel_list = computed(() => {
 .style2 {
     .item {
         width: calc(50% - 0.5rem);
-        .img {
-            height: 18rem;
-        }
+        height: v-bind(carousel_height_computer);
     }
 }
 .style3 {
     .item {
         width: 100%;
-        .img {
-            width: 100%;
-            height: 18rem;
-        }
+        height: v-bind(carousel_height_computer);
     }
 }
 .style4 {
@@ -362,6 +356,7 @@ const article_carousel_list = computed(() => {
     .item {
         width: v-bind(multicolumn_columns_width);
         min-width: v-bind(multicolumn_columns_width);
+        height: v-bind(carousel_height_computer);
         .img {
             width: 100%;
             max-height: v-bind(article_item_height);

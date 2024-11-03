@@ -96,13 +96,13 @@ const { form, data } = toRefs(state);
 
 const base_list = reactive({
     product_style_list: [
-        { name: '单列展示', value: '0' },
-        { name: '大图展示', value: '2' },
-        { name: '无图模式', value: '6' },
-        { name: '两列展示(纵向)', value: '1' },
-        { name: '两列展示(横向)', value: '4' },
-        { name: '三列展示', value: '3' },
-        { name: '左右滑动展示', value: '5' },
+        { name: '单列展示', value: '0', height: 142 },
+        { name: '大图展示', value: '2', height: 308 },
+        { name: '无图模式', value: '6', height: 0 },
+        { name: '两列展示(纵向)', value: '1', height: 302 },
+        { name: '两列展示(横向)', value: '4', height: 94 },
+        { name: '三列展示', value: '3', height: 204 },
+        { name: '左右滑动展示', value: '5', height: 232 },
     ],
     product_list: [
         { name: '指定商品', value: '0' },
@@ -122,7 +122,7 @@ const base_list = reactive({
         { name: '升序(asc)', value: '1' },
     ],
 });
-
+const emits = defineEmits(['theme_change']);
 onBeforeMount(() => {
     nextTick(() => {
         // 定时获取common_store.common.article_category的数据，直到拿到值或者关闭页面为止
@@ -134,6 +134,13 @@ onBeforeMount(() => {
             }
         }, 1000);
     });
+    // 如果历史数据没有操作，则修改默认值
+    if (data.value.content_outer_height == 232 && form.value.theme != '5') {
+        const list = base_list.product_style_list.filter(item => item.value == form.value.theme);
+        if (list.length > 0) {
+            emits('theme_change', list[0].height);
+        }
+    }
 });
 
 const goods_list_remove = (index: number) => {
@@ -177,7 +184,8 @@ const goods_list_sort = (new_list: any) => {
     form.value.data_list = new_list;
 };
 // 选择某些风格时， 切换到对应的按钮
-const change_style = (val: any): void => {
+const change_style = (val: string | number | boolean | undefined): void => {
+    if (typeof val !== 'string') return;
     form.value.theme = val;
     if (!is_revise.value) {
         if (['3', '4', '5'].includes(val) && form.value.shop_type == 'text') {
@@ -202,6 +210,10 @@ const change_style = (val: any): void => {
             data.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_1;
             data.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_1;
         }
+    }
+    const list = base_list.product_style_list.filter(item => item.value == val);
+    if (list.length > 0) {
+        emits('theme_change', list[0].height);
     }
 };
 const is_revise = ref(false);

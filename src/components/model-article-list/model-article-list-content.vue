@@ -102,11 +102,11 @@ const state = reactive({
 const { form, data } = toRefs(state);
 const base_list = reactive({
     theme_list: [
-        { name: '单列展示', value: '0' },
-        { name: '两列展示（纵向）', value: '1' },
-        { name: '大图展示', value: '2' },
-        { name: '无图模式', value: '3' },
-        { name: '左右滑动展示', value: '4' },
+        { name: '单列展示', value: '0', height: 103 },
+        { name: '两列展示（纵向）', value: '1', height: 245 },
+        { name: '大图展示', value: '2', height: 245 },
+        { name: '无图模式', value: '3', height: 0 },
+        { name: '左右滑动展示', value: '4', height: 183 },
     ],
     carousel_col_list: [
         { name: '单列展示', value: '0' },
@@ -134,6 +134,8 @@ const base_list = reactive({
         { name: '描述', value: '2' },
     ],
 });
+
+const emits = defineEmits(['theme_change']);
 onMounted(() => {
     nextTick(() => {
         // 定时获取common_store.common.article_category的数据，直到拿到值或者关闭页面为止
@@ -141,6 +143,13 @@ onMounted(() => {
             base_list.article_category_list = common_store.common.article_category;
         }
     });
+    // 如果历史数据没有操作，则修改默认值
+    if (data.value.article_height == 155 && form.value.theme != '4') {
+        const list = base_list.theme_list.filter(item => item.value == form.value.theme);
+        if (list.length > 0) {
+            emits('theme_change', list[0].height);
+        }
+    }
 });
 // 主题改变
 const theme_change = (val: any) => {
@@ -165,6 +174,10 @@ const theme_change = (val: any) => {
             data.value.img_radius.radius_top_left = props.defaultConfig.img_radius_1;
             data.value.img_radius.radius_top_right = props.defaultConfig.img_radius_1;
         }
+    }
+    const list = base_list.theme_list.filter(item => item.value == val);
+    if (list.length > 0) {
+        emits('theme_change', list[0].height);
     }
 };
 // 移除

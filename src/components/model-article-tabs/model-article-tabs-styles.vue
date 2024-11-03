@@ -60,7 +60,7 @@
                         <slider v-model="form.article_spacing"></slider>
                     </el-form-item>
                 </template>
-                <template v-if="theme == '4'">
+                <template v-if="theme != '3'">
                     <el-form-item label="内容高度">
                         <slider v-model="form.article_height" :max="1000"></slider>
                     </el-form-item>

@@ -124,7 +124,7 @@ const defaultProductList: DefaultProductList = {
         // 商品内间距
         content_spacing: 10,
         // 商品高度
-        content_outer_height: 232,
+        content_outer_height: 142,
         // 是否滚动
         is_roll: '1',
         interval_time: 3,

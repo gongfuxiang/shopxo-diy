@@ -1,10 +1,10 @@
 <template>
     <div class="setting-content">
         <template v-if="type == '1'">
-            <model-article-tabs-content :value="value.content" :tab-style="value.style" :default-config="data_config"></model-article-tabs-content>
+            <model-article-tabs-content :value="form.content" :tab-style="form.style" :default-config="data_config" @theme_change="theme_change"></model-article-tabs-content>
         </template>
         <template v-else-if="type == '2'">
-            <model-article-tabs-styles :value="value.style" :content="value.content" :tabs-style="value.content.tabs_theme" :default-config="data_config"></model-article-tabs-styles>
+            <model-article-tabs-styles :value="form.style" :content="form.content" :tabs-style="form.content.tabs_theme" :default-config="data_config"></model-article-tabs-styles>
         </template>
     </div>
 </template>
@@ -29,4 +29,10 @@ const data_config = reactive({
     img_radius_0: 4,
     img_radius_1: 0,
 });
+const form = ref(props.value);
+const theme_change = (val: number) => {
+    if (val) {
+        form.value.style.article_height = val;
+    }
+};
 </script>
