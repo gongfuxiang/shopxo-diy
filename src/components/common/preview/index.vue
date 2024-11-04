@@ -48,7 +48,6 @@ watch(
             } else {
                 uid_val = get_math();
                 set_cookie('uid_name', uid_val);
-                console.log(get_cookie('uid_name'));
             }
             new_link.value = (import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API_URL : pro_url) + '?s=diy/preview/id/' + props.dataId + '&system_type=default' + token.value + '&uid=' + uid_val;
         }
