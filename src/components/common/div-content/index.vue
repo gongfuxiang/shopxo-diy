@@ -182,8 +182,10 @@ const model_style = computed(() => {
         // 默认组件z-index为1
         let z_index = 'z-index: 1';
         // 如果开通上浮显示的时候，会改变他的z-index值
-        if (item.com_data.style.common_style?.floating_up != 0) {
-            z_index = `z-index: ${ item.com_data.style.common_style?.is_bottom_up == '1' ? '0' : '1'}`;
+        if (item.com_data.style.common_style?.is_bottom_up == '1') {
+            z_index = 'z-index: 0';
+        } else {
+            z_index = 'z-index: 1';
         }
         item.com_data.style.offset_number_percentage = (bottom / window.innerHeight).toFixed(4);
         return item.key == 'float-window' ? `bottom: ${((bottom / window.innerHeight) * 100).toFixed(4) + '%'};` : `margin-top: -${item.com_data.style.common_style?.floating_up || 0}px;${z_index};`;
