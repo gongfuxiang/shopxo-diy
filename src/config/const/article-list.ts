@@ -42,8 +42,8 @@ interface DefaultArticleList {
         article_spacing: number;
         content_spacing: number;
         article_height: number;
-        content_img_width: number;
-        content_img_height: number;
+        content_img_width: number | undefined;
+        content_img_height: number | undefined;
         interval_time: number; //滚动时间
         is_roll: number;
         common_style: object;
@@ -104,8 +104,8 @@ const defaultArticleList: DefaultArticleList = {
         content_spacing: 10, // 内容间距
         article_spacing: 10, // 文章间距
         article_height: 155, // 文章高度
-        content_img_width: 110,
-        content_img_height: 83,
+        content_img_width: undefined,
+        content_img_height: undefined,
         interval_time: 3, //滚动时间
         is_roll: 1, // 是否轮播
         common_style: { ...defaultCommon, padding: 10, padding_top: 10, padding_bottom: 10, padding_left: 10, padding_right: 10 },

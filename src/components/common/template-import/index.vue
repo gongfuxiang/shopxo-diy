@@ -3,7 +3,7 @@
     <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body :close-on-click-modal="false" @close="close_event">
         <template #header>
             <div class="title re">
-                <el-radio-group v-model="temp_active" is-button @change="temp_change">
+                <el-radio-group v-model="temp_active" is-button :disabled="is_disabled" @change="temp_change">
                     <el-radio-button value="1">本地导入</el-radio-button>
                     <el-radio-button value="2">模版市场</el-radio-button>
                 </el-radio-group>
@@ -34,8 +34,8 @@
                 <div v-loading="loading && { text: Loading_text }" :element-loading-text="Loading_text" class="flex-1 flex-col gap-16">
                     <div class="temp-search flex-row jc-sb align-c w">
                         <div class="flex-row gap-10 align-c search-content">
-                            <el-input v-model="form.keywords" class="flex-1" placeholder="搜索关键字" clearable @keyup.enter="get_import_list('1')" />
-                            <el-button type="primary" @click="get_import_list('1')">
+                            <el-input v-model="form.keywords" class="flex-1" placeholder="搜索关键字" clearable @keyup.enter="get_interface('1')" />
+                            <el-button type="primary" @click="get_interface('1')">
                                 <view class="flex-row jc-c gap-4">
                                     <icon name="search"></icon>
                                     <text>搜索</text>
@@ -54,7 +54,7 @@
                         <div class="temp-content flex-1">
                             <div v-if="data_list.length > 0" class="flex-row flex-wrap gap-16">
                                 <div v-for="item in data_list" :key="item.id" class="item flex-col br-f5">
-                                    <div class="re img-content">
+                                    <div class="re img-content oh">
                                         <image-empty v-model="item.images" class="img" error-img-style="width:5rem;height:5rem;"></image-empty>
                                         <!-- 鼠标滑入，显示详情 -->
                                         <div class="mask"></div>
@@ -122,7 +122,7 @@
                     <el-button class="plr-28 ptb-10" type="primary" @click="confirm_event">确定</el-button>
                 </div>
                 <div v-else class="flex-row jc-e">
-                    <el-pagination :current-page="form.page" background :page-size="form.page_size" :pager-count="5" layout="prev, pager, next" :total="form.data_total" @current-change="current_page_change" />
+                    <el-pagination :disabled="is_disabled" :current-page="form.page" background :page-size="form.page_size" :pager-count="5" layout="prev, pager, next" :total="form.data_total" @current-change="current_page_change" />
                 </div>
             </span>
         </template>
@@ -183,9 +183,6 @@ watch(
     }
 );
 
-const init = () => {
-    get_import_list('1');
-};
 const data_list = ref<arrayIndex[]>([]);
 const form = ref({
     keywords: '',
@@ -195,11 +192,16 @@ const form = ref({
     data_total: 0,
 });
 const loading = ref(false);
+const is_disabled = ref(false);
 const Loading_text = ref(' ');
 const get_import_list = (type?: string) => {
-    if (type) {
+    // 如果type为空则重置页码
+    if (!type) {
         form.value.page = 1;
+    } else {
+        form.value.page = Number(type);
     }
+    // 加载中
     loading.value = true;
     const new_data = {
         ...form.value,
@@ -211,21 +213,29 @@ const get_import_list = (type?: string) => {
             form.value.data_total = data.data_total;
             data_list.value = data.data_list;
             loading.value = false;
+            // 解除禁用效果
+            is_disabled.value = false;
         })
         .catch(() => {
             form.value.data_total = 0;
             data_list.value = [];
+            // 解除禁用效果
             loading.value = false;
+            is_disabled.value = false;
         });
 };
 const status_change = (val: any) => {
-    get_import_list('1');
+    get_interface('1');
 };
 // 分页查询
 const current_page_change = (val: number) => {
-    form.value.page = val;
-    init();
+    get_interface(val.toString());
 };
+// 除了初始化调用的时候，其他情况都会执行禁用效果
+const get_interface = (val: string) => {
+    is_disabled.value = true;
+    get_import_list(val);
+}
 // 购买事件
 const buy_event = (item: any, status: number) => {
     if (status == 0) {
@@ -240,6 +250,8 @@ const buy_event = (item: any, status: number) => {
             key: '',
         };
         loading.value = true;
+        // 导入时禁用切换
+        is_disabled.value = true;
         Loading_text.value = '正在获取中...';
         install(new_data);
     }
@@ -272,6 +284,8 @@ const install = async (item: install_data) => {
                     history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
                     Loading_text.value = '';
                     loading.value = false;
+                    // 解除禁用效果
+                    is_disabled.value = false;
                     close_event();
                     emit('confirm');
                     break;
@@ -279,6 +293,8 @@ const install = async (item: install_data) => {
         })
         .catch((err) => {
             loading.value = false;
+            // 解除禁用效果
+            is_disabled.value = false;
             Loading_text.value = '';
         });
 };
