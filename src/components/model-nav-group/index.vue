@@ -101,7 +101,7 @@ const interval_list = ref({
 //监听屏幕缩放事件
 onMounted(() => {
     window.onresize = () => {
-        newHeight.value = bannerImg.value[0].clientHeight + 'px';
+        newHeight.value = bannerImg.value[0]?.clientHeight || 100 + 'px';
     };
 });
 // 导航图片大小
