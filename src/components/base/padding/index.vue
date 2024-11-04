@@ -25,6 +25,7 @@
     </div>
 </template>
 <script setup lang="ts">
+import { areAllEqual } from '@/utils';
 const props = defineProps({
     value: {
         type: Object,
@@ -69,6 +70,13 @@ const pr_event = (val: number | undefined) => {
     emit('update:value', form);
 };
 //#region 展开收起
+onBeforeMount(() => {
+    // 判断是否相等，如果不相等，就展开
+    const flag = areAllEqual(form.value.padding_top, form.value.padding_bottom, form.value.padding_left, form.value.padding_right);
+    if (!flag) {
+        icon_event('unified');
+    }
+});
 const icon_data = reactive({
     name: 'unified',
     title: '统一'

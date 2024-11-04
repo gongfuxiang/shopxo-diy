@@ -26,6 +26,8 @@
     </div>
 </template>
 <script setup lang="ts">
+import { areAllEqual } from '@/utils';
+// 通用样式
 // interface common_radius {
 //     radius: number;
 //     radius_top_left: number;
@@ -86,6 +88,13 @@ const rbr_event = (val: number | undefined) => {
     emit('update:value', form.value);
 };
 //#region 展开收起
+onBeforeMount(() => {
+    // 判断是否相等，如果不相等，就展开
+    const flag = areAllEqual(form.value.radius_top_left, form.value.radius_top_right, form.value.radius_bottom_left, form.value.radius_bottom_right);
+    if (!flag) {
+        icon_event('unified');
+    }
+});
 const icon_data = reactive({
     name: 'unified',
     title: '统一'

@@ -320,6 +320,19 @@ export const percentage_count = (num: number, container_size: number) => {
 };
 
 /**
+ * 判断四个值是否相等
+ *
+ * @param a,b,c,d 对应的四个数字
+ * @returns boolean true表示相等，false表示不相等
+ */
+export const areAllEqual = (a: number, b: number, c: number, d: number) => {
+    if (a === null || a === undefined || b === null || b === undefined || c === null || c === undefined || d === null || d === undefined) {
+      return false;
+    }
+    return a === b && b === c && c === d;
+  }
+
+/**
  * 计算当前偏移量
  *
  * @param size 当前的组件的大小宽或者高。
