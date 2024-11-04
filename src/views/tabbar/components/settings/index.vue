@@ -29,7 +29,7 @@ const props = defineProps({
 const radio = ref('1'); // 创建一个响应式的数字变量，初始值为0
 const footer_config = {
     // 是否开启同步
-    sync_bool: false,
+    sync_bool: true,
 };
 </script>
 <style lang="scss" scoped>

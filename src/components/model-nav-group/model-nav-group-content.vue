@@ -34,7 +34,7 @@
             </card-container>
             <div class="divider-line"></div>
             <card-container>
-                <div class="mb-12">内容设置</div>
+                <div class="mb-12 flex-row align-c jc-sb">内容设置<span class="classify-style" @click="classify_add">从分类添加</span></div>
                 <div class="tips mt-10 mb-20 size-12">最多添加{{ form.nav_content_list.length }}张图片，建议尺寸90*90px</div>
                 <drag :data="form.nav_content_list" type="card" :space-col="27" @remove="remove" @on-sort="on_sort">
                     <template #default="scoped">
@@ -54,10 +54,12 @@
                 <el-button class="mt-20 mb-20 w" @click="add">+添加</el-button>
             </card-container>
         </el-form>
+        <category-dialog v-model:dialog-visible="dialogVisible" @confirm_event="confirm_event"></category-dialog>
     </div>
 </template>
 <script setup lang="ts">
 import { get_math } from "@/utils";
+import { isEmpty } from "lodash";
 
 interface Props {
     value: nav_group_content;
@@ -116,6 +118,31 @@ const remove = (index: number) => {
 const on_sort = (new_list: nav_group[]) => {
     form.value.nav_content_list = new_list;
 }
+//#region 弹窗相关
+const dialogVisible = ref(false);
+const classify_add = () => {
+    dialogVisible.value = true;
+}
+interface categoryList extends pageLinkList {
+    image: string;
+}
+const confirm_event = (list: categoryList[]) => {
+    list.forEach(item => {
+        // 如果图片为空，则为空数组
+        const img = !isEmpty(item.image) ? [{ id: Number(item.id), url: item.image, original: item.name, title: item.name, ext: '.png', type: 'img' }] : [];
+        form.value.nav_content_list.push({
+            id: get_math(),
+            img: img,
+            title: item?.name || '',
+            link: {
+                id: Number(item.id),
+                name: item.name,
+                page: `/pages/goods-search/goods-search?category_id=${ item.id }`
+            },
+        });
+    });
+}
+//#endregion
 </script>
 <style lang="scss" scoped>
 :deep(.size-12.cr-9.mt-10) {
@@ -123,5 +150,9 @@ const on_sort = (new_list: nav_group[]) => {
 }
 .tips {
     color: $cr-info-dark;
+}
+.classify-style {
+    cursor: pointer;
+    color: $cr-main;
 }
 </style>
