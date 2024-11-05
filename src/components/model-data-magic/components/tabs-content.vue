@@ -4,9 +4,11 @@
             <el-radio-group v-model="form.data_type">
                 <el-radio value="goods">商品</el-radio>
                 <el-radio value="images">图片</el-radio>
+                <el-radio value="custom">自定义</el-radio>
+                <el-radio value="video">视频</el-radio>
             </el-radio-group>
         </el-form-item>
-        <template v-if="form.data_type === 'goods' && isShowTitle">
+        <template v-if="form.data_type === 'goods'">
             <el-form-item label="主标题">
                 <div class="flex-col gap-10 w">
                     <el-radio-group v-model="form.heading_title_type">
@@ -23,6 +25,22 @@
             </el-form-item>
             <el-form-item label="副标题">
                 <el-input v-model="form.subtitle" placeholder="请输入副标题" clearable></el-input>
+            </el-form-item>
+            <el-form-item label="商品排列">
+                <el-radio-group v-model="form.goods_outerflex">
+                    <el-radio value="row">横排</el-radio>
+                    <el-radio value="col">竖排</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="内容排列">
+                <el-radio-group v-model="form.goods_flex">
+                    <el-radio value="row">左图右文</el-radio>
+                    <el-radio value="fill">上图下文</el-radio>
+                    <el-radio value="col">上图下文<span class="size-8">(价格浮动)</span></el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="每屏数量">
+                <slider v-model="form.goods_num" :min="1" :max="6"></slider>
             </el-form-item>
         </template>
         <template v-else-if="form.data_type === 'images'">
@@ -161,6 +179,10 @@ const url_value_dialog_call_back = (item: any[]) => {
     height: 12.4rem;
 }
 :deep(.el-checkbox-group .el-checkbox) {
+    margin-right: 2rem;
+}
+
+:deep(.el-radio-group .el-radio) {
     margin-right: 2rem;
 }
 </style>

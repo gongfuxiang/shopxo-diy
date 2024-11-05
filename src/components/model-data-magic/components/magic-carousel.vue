@@ -7,7 +7,7 @@
                         <image-empty v-model="item1.carousel_img[0]" :style="form.data_style.get_img_radius" :fit="form.data_content.img_fit"></image-empty>
                     </template>
                     <template v-else>
-                        <product-list-show :outerflex="form.outerflex" :flex="form.flex" :num="form.num" :actived="props.actived" :is-show="form.data_content.is_show" :chunk-padding="form.data_style.chunk_padding" :value="item1.split_list" :good-style="props.goodStyle" :content-img-radius="form.data_style.get_img_radius"></product-list-show>
+                        <product-list-show :outerflex="form.data_content.goods_outerflex" :flex="form.data_content.goods_flex" :num="form.data_content.goods_num" :actived="props.actived" :is-show="form.data_content.is_show" :chunk-padding="form.data_style.chunk_padding" :value="item1.split_list" :good-style="props.goodStyle" :content-img-radius="form.data_style.get_img_radius"></product-list-show>
                     </template>
                 </el-carousel-item>
             </el-carousel>

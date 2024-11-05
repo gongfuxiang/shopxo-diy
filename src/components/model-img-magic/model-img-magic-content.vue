@@ -42,7 +42,16 @@
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>
-                <div class="mb-12">展示设置</div>
+                <div class="mb-12 flex-row jc-sb align-c">
+                    展示设置 
+                    <template v-if="form.style_actived === 11">
+                        <el-radio-group v-model="form.magic_cube_density" @change="density_change">
+                            <el-radio-button label="4X4" :value="4" />
+                            <el-radio-button label="6X6" :value="6" />
+                            <el-radio-button label="8X8" :value="8" />
+                        </el-radio-group>
+                    </template>
+                </div>
                 <el-form-item label-width="0" class="show-config">
                     <!-- 风格3 -->
                     <template v-if="form.style_actived == 2">
@@ -74,7 +83,7 @@
                         </div>
                     </template>
                     <template v-else>
-                        <magic-cube :key="form.style_actived" :list="form.img_magic_list" :style-actived="form.style_actived" :flag="form.style_actived == 11" :cube-width="cubeWidth" :cube-height="cubeHeight" :img-fit="form.img_fit" @selected_click="selected_click"></magic-cube>
+                        <magic-cube :key="form.style_actived" :list="form.img_magic_list" :style-actived="form.style_actived" :flag="form.style_actived == 11" :magic-cube-density="form.magic_cube_density" :cube-width="cubeWidth" :cube-height="cubeHeight" :img-fit="form.img_fit" @selected_click="selected_click"></magic-cube>
                     </template>
                 </el-form-item>
             </card-container>
@@ -102,7 +111,6 @@ const props = defineProps({
     },
 });
 const style_list = ['heng2', 'shu2', 'shu3', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2', 'a-1ge', 'a-4x4'];
-const img_fit_10 = 'contain';
 // 风格
 const style_show_list = [
     [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, img: [], img_link: {} }, { start: {x: 1, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}], // 风格1
@@ -123,7 +131,6 @@ const cubeWidth = ref(400);
 const cubeHeight = ref(400);
 const style_width = computed(() => cubeWidth.value + 'px');
 const style_height = computed(() => cubeHeight.value + 'px');
-
 onMounted(() => {
     handleResize();
     window.addEventListener('resize', handleResize);
@@ -154,6 +161,9 @@ const style_click = (index: number) => {
     form.value.img_magic_list = cloneDeep(style_show_list[index]);
     form.value.style_actived = index;
     selected_active.value = 0;
+    if (index != 11) {
+        form.value.magic_cube_density = 4;
+    }
     if (index === 10) {
         if (window.innerWidth <= 1560) {
             cubeWidth.value = 330;
@@ -165,6 +175,9 @@ const style_click = (index: number) => {
     } else {
         handleResize();
     }
+}
+const density_change = () => {
+    form.value.img_magic_list = [];
 }
 // 选中的点击事件
 const selected_click = (index: number) => {

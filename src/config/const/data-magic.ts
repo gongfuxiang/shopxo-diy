@@ -8,6 +8,7 @@ interface data_magic {
 }
 interface defaultSearch {
     content: {
+        magic_cube_density: number;
         style_actived: number;
         container_height: number;
         data_magic_list: data_magic[];
@@ -21,6 +22,8 @@ interface defaultSearch {
 
 const defaultSearch: defaultSearch = {
     content: {
+        // 数据密度 4 x 4 | 6 x 6 | 8 x 8
+        magic_cube_density: 4,
         // 样式风格
         style_actived: 0,
         // 容器高度

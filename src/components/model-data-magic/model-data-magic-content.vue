@@ -16,7 +16,16 @@
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>
-                <div class="mb-12">展示设置</div>
+                <div class="mb-12 flex-row jc-sb align-c">
+                    展示设置
+                    <template v-if="form.style_actived === 9">
+                        <el-radio-group v-model="form.magic_cube_density" @change="density_change">
+                            <el-radio-button label="4X4" :value="4" />
+                            <el-radio-button label="6X6" :value="6" />
+                            <el-radio-button label="8X8" :value="8" />
+                        </el-radio-group>
+                    </template>
+                </div>
                 <el-form-item label-width="0" class="show-config">
                     <!-- 风格9 -->
                     <template v-if="form.style_actived == 7">
@@ -31,20 +40,22 @@
                         </div>
                     </template>
                     <template v-else>
-                        <magic-cube :key="form.style_actived" :list="form.data_magic_list" :flag="false" :cube-width="cubeWidth" type="data" :cube-height="cubeHeight" @selected_click="selected_click"></magic-cube>
+                        <magic-cube :key="form.style_actived" :list="form.data_magic_list" :flag="form.style_actived == 9" :magic-cube-density="form.magic_cube_density" :cube-width="cubeWidth" type="data" :cube-height="cubeHeight" :default-content="data_content" :default-style="data_style" @selected_click="selected_click"></magic-cube>
                     </template>
                 </el-form-item>
             </card-container>
-            <div class="bg-f5 divider-line" />
             <!-- 内容和样式组件 -->
-            <el-tabs v-model="tabs_name" class="content-tabs">
-                <el-tab-pane label="内容设置" name="content">
-                    <tabs-content :value="form.data_magic_list[selected_active].data_content" :is-show-title="is_show_title"></tabs-content>
-                </el-tab-pane>
-                <el-tab-pane label="样式设置" name="styles">
-                    <tabs-styles :value="form.data_magic_list[selected_active].data_style" :content="form.data_magic_list[selected_active].data_content" :is-show-title="is_show_title"></tabs-styles>
-                </el-tab-pane>
-            </el-tabs>
+            <template v-if="!isEmpty(form.data_magic_list[selected_active])">
+                <div class="bg-f5 divider-line" />
+                <el-tabs v-model="tabs_name" class="content-tabs">
+                    <el-tab-pane label="内容设置" name="content">
+                        <tabs-content :value="form.data_magic_list[selected_active].data_content" :is-show-title="is_show_title"></tabs-content>
+                    </el-tab-pane>
+                    <el-tab-pane label="样式设置" name="styles">
+                        <tabs-styles :value="form.data_magic_list[selected_active].data_style" :content="form.data_magic_list[selected_active].data_content" :is-show-title="is_show_title"></tabs-styles>
+                    </el-tab-pane>
+                </el-tabs>
+            </template>
         </el-form>
     </div>
 </template>
@@ -58,16 +69,19 @@ const props = defineProps({
     },
 });
 // 风格数组
-const style_list = ['heng2', 'shu2', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2'];
+const style_list = ['heng2', 'shu2', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2', 'a-4x4'];
 // 每个小模块独立的样式
 const data_style = {
     color_list: [{ color: '#FFD9C3', color_percentage: 0 }, { color: '#FFECE2', color_percentage: 12 }, { color: '#FFFFFF', color_percentage: 30 }],
     direction: '180deg',
     background_img_style: '2',
     background_img: [],
+    carouselKey: get_math(),
     is_roll: '0',
     rotation_direction: 'horizontal',
     interval_time: 3,
+    title_gap: 5,
+    title_data_gap: 10,
     heading_color: '#000',
     heading_typeface: '400',
     heading_size: 20,
@@ -115,6 +129,7 @@ const data_style = {
         radius_bottom_right: 4,
     },
     is_show: '1',
+    data_goods_gap: 10,
     data_color_list: [{ color: '', color_percentage: undefined }],
     data_direction: '180deg',
     data_background_img_style: '2',
@@ -156,6 +171,9 @@ const data_content = {
     subtitle: '副标题',
     goods_list:[],
     goods_ids: '',
+    goods_outerflex: 'row',
+    goods_flex: 'row',
+    goods_num: 1,
     is_show: ['title', 'price'],
     img_fit: 'cover',
     images_list:[
@@ -175,8 +193,9 @@ const style_show_list = [
     [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 3, flex: 'row', outerflex: 'col', title_text_gap: 20 }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 3, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }],// 风格5
     [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 1, y: 3}, end: {x: 2, y: 4}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 3, y: 1}, end: {x: 4, y: 4}, num: 3, flex: 'row', outerflex: 'col', title_text_gap: 20 }],// 风格6
     [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 1, y: 3}, end: {x: 2, y: 4}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 3, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }],// 风格7
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 3, y: 3}, end: {x: 3, y: 4}, num: 1, flex: 'col', outerflex: 'row', title_text_gap: 20 }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col', outerflex: 'row', title_text_gap: 20 }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col', outerflex: 'row', title_text_gap: 20 }],// 风格8
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 3, flex: 'row', outerflex: 'col', title_text_gap: 20 }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 3, y: 3}, end: {x: 3, y: 4}, num: 1, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col', outerflex: 'row', title_text_gap: 10 }],// 风格9
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 3, y: 3}, end: {x: 3, y: 4}, num: 1, flex: 'fill', outerflex: 'col', title_text_gap: 20 }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'fill', outerflex: 'col', title_text_gap: 20 }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'fill', outerflex: 'col', title_text_gap: 20 }],// 风格8
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 3, flex: 'row', outerflex: 'col', title_text_gap: 20 }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col', outerflex: 'row', title_text_gap: 10 }, { start: {x: 3, y: 3}, end: {x: 3, y: 4}, num: 1, flex: 'col', outerflex: 'col', title_text_gap: 10 }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col', outerflex: 'col', title_text_gap: 10 }],// 风格9
+    [], //风格10
 ]
 const tabs_name = ref('content');
 const state = reactive({
@@ -224,7 +243,12 @@ const handleResize = () => {
 const selected_active = ref(0);
 // 切换风格
 const style_click = (index: number) => {
-    form.value.data_magic_list = magic_list(index);
+    if (index !== 9) {
+        form.value.magic_cube_density = 4;
+        form.value.data_magic_list = magic_list(index);
+    } else {
+        form.value.data_magic_list = [];
+    }
     form.value.style_actived = index;
     selected_active.value = 0;
     tabs_name.value = 'content';
@@ -235,16 +259,31 @@ const magic_list = (index: number) => {
     return cloneDeep(style_show_list[index]).map((item, map_index) => ({
         ...item,
         actived_index: 0,
-        data_content: cloneDeep(data_content),
+        data_content: {
+            ...cloneDeep(data_content),
+            heading_title: module_7_handle(index, map_index) ? '' : data_content.heading_title,
+            subtitle: module_7_handle(index, map_index) ? '' : data_content.subtitle,
+            goods_outerflex: item.outerflex,
+            goods_flex: item.flex,
+            goods_num: item.num,
+        },
         data_style: {
             ...cloneDeep(data_style),
-            goods_price_size: show_padding(index, map_index) ? 12 : 18,
+            title_data_gap: item.title_text_gap,
+            goods_price_size: different_styles(index, map_index) ? 12 : 18,
             chunk_padding: {
-                padding: show_padding(index, map_index) ? 10 : 0,
-                padding_top: show_padding(index, map_index) ? 10 : 20,
-                padding_bottom: show_padding(index, map_index) ? 10 : 20,
-                padding_left: show_padding(index, map_index) ? 10 : 15,
-                padding_right: show_padding(index, map_index) ? 10 : 15,
+                padding: module_7_handle(index, map_index) ? 0 : 0,
+                padding_top: module_7_handle(index, map_index) ? 0 : 20,
+                padding_bottom: module_7_handle(index, map_index) ? 0 : 20,
+                padding_left: module_7_handle(index, map_index) ? 0 : 15,
+                padding_right: module_7_handle(index, map_index) ? 0 : 15,
+            },
+            goods_chunk_padding: {
+                padding: module_7_handle(index, map_index) ? 10 : 0,
+                padding_top: module_7_handle(index, map_index) ? 10 : 0,
+                padding_bottom: module_7_handle(index, map_index) ? 10 : 0,
+                padding_left: module_7_handle(index, map_index) ? 10 : 0,
+                padding_right: module_7_handle(index, map_index) ? 10 : 0,
             },
             carouselKey: get_math(),
         }
@@ -263,14 +302,22 @@ const padding_handle = [
     { index: 5, index_index: [0, 1] }, 
     { index: 6, index_index: [0, 1, 2, 3] },
     { index: 7, index_index: [0, 1] },
-    { index: 8, index_index: [1] },
+    { index: 8, index_index: [1, 2, 3] },
 ]
-const show_padding = (index:number, map_index:number) => {
+const different_styles = (index:number, map_index:number) => {
     const list = padding_handle.filter(item => item.index == index && item.index_index.includes(map_index))
-    if (list.length > 0 || (index == 7 && ![0, 1].includes(map_index))) {
+    if (list.length > 0) {
         return true;
     }
     return false;
+}
+
+const module_7_handle = (index:number, map_index:number) => {
+    return index == 7 && ![0, 1].includes(map_index);
+}
+// 密度切换时情况数据
+const density_change = () => {
+    form.value.data_magic_list = [];
 }
 //#endregion
 const data_title = (item: any) => {

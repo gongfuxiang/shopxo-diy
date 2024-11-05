@@ -14,6 +14,7 @@ interface defaultSearch {
         img_fit: string;
         limit_size: string,
         image_height: number;
+        magic_cube_density: number;
     };
     style: {
         radius: number;
@@ -53,6 +54,8 @@ const defaultSearch: defaultSearch = {
         limit_size: '0',
         // 图片高度
         image_height: 100,
+        // 魔方密度
+        magic_cube_density: 4,
     },
     style: {
         // 图片圆角

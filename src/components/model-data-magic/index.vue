@@ -8,8 +8,8 @@
                         <div v-for="(item, index) in data_magic_list" :key="index" :style="`${ item.data_style.background_style } ${ content_radius }`" :class="['img-spacing-border', { 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index) }]">
                             <div class="w h" :style="`${ item.data_style.background_img_style }`">
                                 <template v-if="item.data_content.data_type == 'goods'">
-                                    <div :class="`w h flex-col ${ 'gap-' + item.title_text_gap }`" :style="`${ [0, 1].includes(index) ? padding_computer(item.data_style.chunk_padding) : '' }`">
-                                        <div v-if="(!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)) && [0, 1].includes(index)" :class="'tl' + (item.data_style.title_line == '1' ? ' flex-row align-c gap-10' : ' flex-col gap-5')">
+                                    <div :class="`w h flex-col ${ 'gap-' + item.data_style.title_data_gap }`" :style="`${ padding_computer(item.data_style.chunk_padding) }`">
+                                        <div v-if="(!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle))" :class="'tl' + (item.data_style.title_line == '1' ? ' flex-row align-c' : ' flex-col')" :style="'gap:' + item.data_style.title_gap + 'px;'">
                                             <template v-if="item.data_content.heading_title_type && item.data_content.heading_title_type == 'image'">
                                                 <div v-if="item.data_content.heading_title_img.length > 0" class="re" :style="`height: ${ item.data_style?.heading_img_height || 0 }px`">
                                                     <img :style="`height: ${ item.data_style?.heading_img_height || 0 }px`" :src="item.data_content.heading_title_img[0].url" fit="contain" />
@@ -46,8 +46,8 @@
                     <div v-for="(item, index) in data_magic_list" :key="index" class="cube-selected img-spacing-border" :style="`${ selected_style(item) } ${ item.data_style.background_style } ${ content_radius }`">
                         <div class="w h" :style="`${ item.data_style.background_img_style }`">
                             <template v-if="item.data_content.data_type == 'goods'">
-                                <div :class="`w h flex-col ${ 'gap-' + item.title_text_gap }`" :style="`${ padding_computer(item.data_style.chunk_padding) }`">
-                                    <div v-if="!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)" :class="'gap-5 tl' + (item.data_style.title_line == '1' ? ' flex-row align-c gap-10' : ' flex-col gap-5')">
+                                <div :class="`w h flex-col ${ 'gap-' + item.data_style.title_data_gap }`" :style="`${ padding_computer(item.data_style.chunk_padding) }`">
+                                    <div v-if="!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)" :class="'tl' + (item.data_style.title_line == '1' ? ' flex-row align-c' : ' flex-col')" :style="'gap:' + item.data_style.title_gap + 'px;'">
                                         <template v-if="item.data_content.heading_title_type && item.data_content.heading_title_type == 'image'">
                                             <div v-if="item.data_content.heading_title_img.length > 0" class="re" :style="`height: ${ item.data_style?.heading_img_height || 0 }px`">
                                                 <img :style="`height: ${ item.data_style?.heading_img_height || 0 }px`" :src="item.data_content.heading_title_img[0].url" fit="contain" />
@@ -136,7 +136,7 @@ interface data_magic {
     data_style: any;
 }
 // 屏幕分块
-const density = ref('4');
+const density = computed(() => form.value?.magic_cube_density || 4);
 //单元魔方宽度。
 const cubeCellWidth = computed(() => div_width.value / parseInt(density.value));
 //单元魔方高度。
@@ -285,7 +285,7 @@ watch(props.value.content, (val) => {
         const { is_roll, rotation_direction, interval_time } = data_style;
         const { goods_list, images_list } = data_content;
         if (data_content.data_type == 'goods') {
-            data_content.list = commodity_list(data_content.goods_list, item.num);
+            data_content.list = commodity_list(data_content.goods_list, data_content.goods_num);
         } else {
             data_content.list = data_content.images_list;
         }

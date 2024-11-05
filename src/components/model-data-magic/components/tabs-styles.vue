@@ -11,23 +11,31 @@
                 <upload v-model="form.background_img" :limit="1"></upload>
             </div>
         </el-form-item>
-        <el-form-item label="自动轮播">
-            <el-switch v-model="form.is_roll" active-value="1" inactive-value="0" />
-        </el-form-item>
-        <template v-if="form.is_roll == '1'">
-            <el-form-item label="轮播方向">
-                <el-radio-group v-model="form.rotation_direction">
-                    <el-radio value="horizontal">横向</el-radio>
-                    <el-radio value="vertical">纵向</el-radio>
-                </el-radio-group>
+        <template v-if="['goods', 'images'].includes(tabs_content.data_type)">
+            <el-form-item label="自动轮播">
+                <el-switch v-model="form.is_roll" active-value="1" inactive-value="0" />
             </el-form-item>
-            <el-form-item label="间隔时间">
-                <slider v-model="form.interval_time" :min="1" :max="100"></slider>
-            </el-form-item>
+            <template v-if="form.is_roll == '1'">
+                <el-form-item label="轮播方向">
+                    <el-radio-group v-model="form.rotation_direction">
+                        <el-radio value="horizontal">横向</el-radio>
+                        <el-radio value="vertical">纵向</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="间隔时间">
+                    <slider v-model="form.interval_time" :min="1" :max="100"></slider>
+                </el-form-item>
+            </template>
         </template>
         <template v-if="tabs_content.data_type === 'goods'">
             <el-form-item label="内间距">
                 <padding :key="form.carouselKey" :value="form.chunk_padding" @update:value="chunk_padding_change"></padding>
+            </el-form-item>
+            <el-form-item label="标题间距">
+                <slider v-model="form.title_gap" :min="1" :max="100"></slider>
+            </el-form-item>
+            <el-form-item label="标题内容间距">
+                <slider v-model="form.title_data_gap" :min="1" :max="100"></slider>
             </el-form-item>
         </template>
         <el-form-item label="图片圆角">
@@ -76,6 +84,9 @@
             </el-form-item>
             <el-form-item label="圆角">
                 <radius :key="form.carouselKey" :value="form.data_radius" @update:value="data_radius_change"></radius>
+            </el-form-item>
+            <el-form-item label="数据间距">
+                <slider v-model="form.data_goods_gap" :min="0" :max="50"></slider>
             </el-form-item>
         </card-container>
     </template>

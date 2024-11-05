@@ -86,7 +86,7 @@ interface CubeItem {
     };
     img: string;
 }
-const density = ref('4');
+const density = computed(() => form.value?.magic_cube_density || 4);
 //单元魔方宽度。
 const cubeCellWidth = computed(() => div_width.value / parseInt(density.value));
 //单元魔方高度。
@@ -170,7 +170,7 @@ const style_img_container = computed(() => common_img_computer(new_style.value.c
         object-fit: cover;
     }
     .image-slot img {
-        width: 6rem;
+        width: 4rem;
     }
 }
 </style>

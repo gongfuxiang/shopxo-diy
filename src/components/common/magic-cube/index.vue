@@ -35,12 +35,12 @@
 </template>
 
 <script setup lang="ts">
-import { isEmpty } from 'lodash';
-interface content {
-    data_type: string;
-    goods_list: Array<string>;
-    images_list: Array<string>;
-}
+import { isEmpty, cloneDeep } from 'lodash';
+// interface content {
+//     data_type: string;
+//     goods_list: Array<string>;
+//     images_list: Array<string>;
+// }
 interface CubeItem {
     start: {
         x: number;
@@ -51,7 +51,8 @@ interface CubeItem {
         y: number;
     };
     img?: uploadList[];
-    data_content?: content
+    data_content?: any,
+    data_style?: object,
 }
 
 interface Props {
@@ -62,6 +63,9 @@ interface Props {
     cubeHeight: number;
     styleActived?: number;
     imgFit?: "" | "cover" | "fill" | "contain" | "none" | "scale-down";
+    magicCubeDensity?: number;
+    defaultContent?: object;
+    defaultStyle?: object;
 }
 const props = withDefaults(defineProps<Props>(), {
     list: () => [],
@@ -70,12 +74,24 @@ const props = withDefaults(defineProps<Props>(), {
     cubeWidth: 390,
     cubeHeight: 390,
     styleActived: 0,
-    imgFit: 'cover'
+    imgFit: 'cover',
+    magicCubeDensity: 4,
+    defaultContent: () => ({
+        data_type: '',
+        goods_list: [],
+        images_list: []
+    }),
+    defaultStyle: () => ({}),
 });
 
 const selected_active = ref(0);
+// 选中的数据
+const selectedList = ref(props.list);
 //#region 容器大小变更
-const density = ref('4');
+const density = computed(() => props?.magicCubeDensity || 4);
+watchEffect(() => {
+    selectedList.value = props.list;
+});
 //#endregion
 
 const selectingItem = reactive<any>({
@@ -100,14 +116,12 @@ const outerClick = (e: any) => {
     }
 };
 
-const selectedList = ref(props.list);
-
 //单元魔方宽度。
-const cubeCellWidth = computed(() => props.cubeWidth / parseInt(density.value));
+const cubeCellWidth = computed(() => props.cubeWidth / density.value);
 //密度值。
-const densityNum = computed(() => parseInt(density.value));
+const densityNum = computed(() => density.value);
 //单元魔方高度。
-const cubeCellHeight = computed(() => props.cubeHeight / parseInt(density.value));
+const cubeCellHeight = computed(() => props.cubeHeight / density.value);
 const emits = defineEmits(['selected_click']);
 
 // 判断选择的内容的长度是否发生变化
@@ -171,13 +185,23 @@ const onClickCubeItem = (event: any) => {
 
     selectingItem.tempEnd = coord;
     updateSelecting();
-
+    let selectedItem = {} as CubeItem;
     //加入选中的。
-    let selectedItem = {
-        start: selectingItem.start,
-        end: selectingItem.end,
-        img: [],
-    };
+    if (props.type == 'data') {
+        console.log(props.defaultContent);
+        selectedItem = {
+            start: selectingItem.start,
+            end: selectingItem.end,
+            data_content: cloneDeep(props.defaultContent),
+            data_style: cloneDeep(props.defaultStyle),
+        };
+    } else {
+        selectedItem = {
+            start: selectingItem.start,
+            end: selectingItem.end,
+            img: [],
+        };
+    }
     selectedList.value.push(selectedItem);
     clearSelecting();
 };
