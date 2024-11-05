@@ -253,3 +253,9 @@ p {
         }
     }
 }
+
+.el-form .card {
+    .el-form-item:last-child {
+        margin-bottom: 0;
+    }
+}

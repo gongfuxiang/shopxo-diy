@@ -235,12 +235,6 @@ const change_shop_type = () => {
         }
     }
 }
-.card,
-.card.mb-8 {
-    .el-form-item:last-child {
-        margin-bottom: 0;
-    }
-}
 .img {
     width: 4rem;
     height: 4rem;

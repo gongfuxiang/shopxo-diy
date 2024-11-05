@@ -33,11 +33,6 @@ const state = reactive({
 const { form } = toRefs(state);
 </script>
 <style lang="scss" scoped>
-.card.mb-8 {
-    .el-form-item:last-child {
-        margin-bottom: 0;
-    }
-}
 .tips {
     color: $cr-info-dark;
 }

@@ -93,11 +93,6 @@ const on_sort = (new_list: nav_group[]) => {
 };
 </script>
 <style lang="scss" scoped>
-.card.mb-8 {
-    .el-form-item:last-child {
-        margin-bottom: 0;
-    }
-}
 :deep(.size-12.cr-9.mt-10) {
     display: none;
 }

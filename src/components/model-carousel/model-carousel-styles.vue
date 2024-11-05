@@ -122,10 +122,4 @@ const common_styles_update = (val: Object) => {
     form.value.common_style = val;
 };
 </script>
-<style lang="scss" scoped>
-.card.mb-8 {
-    .el-form-item:last-child {
-        margin-bottom: 0;
-    }
-}
-</style>
+<style lang="scss" scoped></style>

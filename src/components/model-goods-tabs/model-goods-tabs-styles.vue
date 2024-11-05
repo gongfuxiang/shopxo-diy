@@ -172,9 +172,4 @@ const tabs_checked_event = (arry: string[], type: number) => {
         flex-direction: column;
     }
 }
-.card.mb-8 {
-    .el-form-item:last-child {
-        margin-bottom: 0;
-    }
-}
 </style>

@@ -186,11 +186,4 @@ const themeChange = (val: string) => {
     emit('update:change-theme', val);
 };
 </script>
-<style lang="scss" scoped>
-.card,
-.card.mb-8 {
-    .el-form-item:last-child {
-        margin-bottom: 0;
-    }
-}
-</style>
+<style lang="scss" scoped></style>

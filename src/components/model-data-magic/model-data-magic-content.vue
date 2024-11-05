@@ -288,11 +288,6 @@ const data_title = (item: any) => {
 const is_show_title = computed(() => !(form.value.style_actived == 7 && ![0, 1].includes(selected_active.value)));
 </script>
 <style lang="scss" scoped>
-.card.mb-8 {
-    .el-form-item:last-child {
-        margin-bottom: 0;
-    }
-}
 .flex-item {
     width: 4.7rem;
     height: 4.7rem;

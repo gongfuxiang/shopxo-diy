@@ -196,10 +196,4 @@ watchEffect(() => {
     tabs_content.value = props.content;
 });
 </script>
-<style lang="scss" scoped>
-.card.mb-8 {
-    .el-form-item:last-child {
-        margin-bottom: 0;
-    }
-}
-</style>
+<style lang="scss" scoped></style>

@@ -111,11 +111,6 @@ const mult_color_picker_event = (arry: color_list[], type: number) => {
 };
 </script>
 <style lang="scss" scoped>
-.card.mb-8 {
-    .el-form-item:last-child {
-        margin-bottom: 0;
-    }
-}
 .topic {
     :deep(.el-form-item__content) {
         align-items: flex-start;

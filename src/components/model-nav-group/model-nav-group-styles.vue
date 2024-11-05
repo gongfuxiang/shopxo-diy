@@ -114,10 +114,4 @@ const display_style_show = computed(() => {
     }
 });
 </script>
-<style lang="scss" scoped>
-.card.mb-8 {
-    .el-form-item:last-child {
-        margin-bottom: 0;
-    }
-}
-</style>
+<style lang="scss" scoped></style>

@@ -149,11 +149,6 @@ const url_value_dialog_call_back = (item: any[]) => {
 };
 </script>
 <style lang="scss" scoped>
-.card.mb-8 {
-    .el-form-item:last-child {
-        margin-bottom: 0;
-    }
-}
 .card-background {
     background: #fff;
     padding-left: 1.6rem;

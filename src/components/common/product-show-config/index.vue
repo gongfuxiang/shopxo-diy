@@ -78,11 +78,6 @@ const change_shop_type = () => {
 </script>
 
 <style lang="scss" scoped>
-.card, .card.mb-8 {
-    .el-form-item:last-child {
-        margin-bottom: 0;
-    }
-}
 .shopping_button {
     height: 2.7rem;
     line-height: 2.7rem;

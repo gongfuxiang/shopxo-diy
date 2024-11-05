@@ -100,11 +100,6 @@ const common_styles_update = (val: Object) => {
 };
 </script>
 <style lang="scss" scoped>
-.card.mb-8 {
-    .el-form-item:last-child {
-        margin-bottom: 0;
-    }
-}
 .topic {
     :deep(.el-form-item__content) {
         align-items: flex-start;

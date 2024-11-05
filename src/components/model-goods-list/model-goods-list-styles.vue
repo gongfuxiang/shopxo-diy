@@ -149,9 +149,4 @@ const common_style_update = (value: any) => {
         flex-direction: column;
     }
 }
-.card.mb-8 {
-    .el-form-item:last-child {
-        margin-bottom: 0;
-    }
-}
 </style>
