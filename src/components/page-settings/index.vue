@@ -177,7 +177,7 @@ const position_class = computed(() => (form.value?.indicator_location == 'center
     position: v-bind(position);
     top: 0;
     left: 50%;
-    z-index: 3;
+    z-index: 13;
     transform: translateX(-50%);
     width: 39rem;
     .roll {

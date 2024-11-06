@@ -59,6 +59,9 @@
                 <el-form-item label="文字大小">
                     <slider v-model="form.keyword_size" :max="100"></slider>
                 </el-form-item>
+                <el-form-item label="间距">
+                    <slider v-model="form.keyword_spacing" :min="0" :max="50"></slider>
+                </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>

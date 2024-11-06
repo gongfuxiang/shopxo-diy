@@ -151,7 +151,7 @@ interface com_data {
     style: {
         offset_number_percentage: string,
         common_style: {
-            is_bottom_up: string;
+            module_z_index: number;
             floating_up: number;
         };
     };
@@ -180,13 +180,7 @@ const model_style = computed(() => {
             }
         }
         // 默认组件z-index为1
-        let z_index = 'z-index: 1';
-        // 如果开通上浮显示的时候，会改变他的z-index值
-        if (item.com_data.style.common_style?.is_bottom_up == '1') {
-            z_index = 'z-index: 0';
-        } else {
-            z_index = 'z-index: 1';
-        }
+        let z_index = `z-index: ${ item.com_data.style.common_style?.module_z_index || 0}`;
         item.com_data.style.offset_number_percentage = (bottom / window.innerHeight).toFixed(4);
         return item.key == 'float-window' ? `bottom: ${((bottom / window.innerHeight) * 100).toFixed(4) + '%'};` : `margin-top: -${item.com_data.style.common_style?.floating_up || 0}px;${z_index};`;
     };
@@ -398,7 +392,7 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
     position: fixed;
     max-width: 39rem;
     margin: 0 auto;
-    z-index: 3;
+    z-index: 13;
 }
 .main-content {
     max-width: 39rem;

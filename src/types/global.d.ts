@@ -88,7 +88,7 @@ declare global {
         direction: string;
         background_img_style: string;
         floating_up: number;
-        is_bottom_up: string;
+        module_z_index: number;
         padding_top_safe_value: number;
         padding: number;
         padding_top: number;

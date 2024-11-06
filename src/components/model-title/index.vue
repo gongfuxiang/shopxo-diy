@@ -15,8 +15,10 @@
                     </div>
                     <div class="flex-row gap-10 align-c right-0 abs">
                         <template v-if="form.keyword_show == '1'">
-                            <div v-for="item in keyword_list" :key="item.id" :style="keyword_style">
-                                {{ item.title }}
+                            <div class="flex-row align-c" :style="'gap:' + new_style.keyword_spacing + 'px;'">
+                                <div v-for="item in keyword_list" :key="item.id" :style="keyword_style">
+                                    {{ item.title }}
+                                </div>
                             </div>
                         </template>
                         <div v-if="form.right_show == '1'" class="nowrap" :style="right_style">{{ form.right_title }}<el-icon class="iconfont icon-arrow-right" :color="new_style.right_color || '#999'"></el-icon></div>

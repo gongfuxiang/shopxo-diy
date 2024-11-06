@@ -34,6 +34,7 @@ interface defaultSearch {
         title_line: string;
         keyword_color: string;
         keyword_size: number;
+        keyword_spacing: number;
         right_color: string;
         right_size: number;
         common_style: object;
@@ -85,6 +86,7 @@ const defaultSearch: defaultSearch = {
         // 关键字设置
         keyword_color: '#000',
         keyword_size: 12,
+        keyword_spacing: 10,
         // 右侧更多按钮设置
         right_color: '#999',
         right_size: 12,
