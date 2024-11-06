@@ -22,7 +22,7 @@
         <Dialog ref="dialog" @accomplish="accomplish">
             <div class="flex-row h w">
                 <!-- 左侧和中间区域 -->
-                <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" :source-list="form.data_source_content" :list="custom_list" @right-update="right_update"></DragIndex>
+                <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="center_width" :source-list="form.data_source_content" :list="custom_list" @right-update="right_update"></DragIndex>
                 <!-- 右侧配置区域 -->
                 <div class="settings">
                     <template v-if="diy_data.key === 'img'">
@@ -64,11 +64,16 @@ const props = defineProps({
         type: Object,
         default: () => {},
     },
+    magicWidth: {
+        type: Number,
+        default: 390,
+    }
 });
 
 const dialog = ref<expose | null>(null);
 const draglist = ref<diy_data | null>(null);
 const form = reactive(props.value);
+const center_width = ref(props.magicWidth);
 // 弹出框里的内容
 let custom_list = reactive([]);
 const center_height = ref(0);

@@ -389,7 +389,11 @@ const cancel = () => {
 //#endregion
 //#region 容器高度发生变化时的处理
 const center_height = defineModel('height', { type: Number, default: 0 });
+const center_width = defineModel('width', { type: Number, default: 390 });
+
 const drag_area_height = computed(() => center_height.value + 'px');
+const drag_area_width = computed(() => center_width.value + 'px');
+
 const draggable_container = ref(true);
 let data = reactive<diy_content[]>([]);
 watch(() => center_height.value, () => {
@@ -861,7 +865,7 @@ defineExpose({
 .model-drag {
     overflow-y: scroll;
     .model-wall {
-        width: 39rem;
+        width: v-bind(drag_area_width);
         background-image: linear-gradient(45deg, #e5e5e5 25%, transparent 25%), linear-gradient(135deg, #e5e5e5 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e5e5e5 75%), linear-gradient(135deg, transparent 75%, #e5e5e5 75%);
         background-size: 32px 32px;
         background-position: 0 0, 16px 0, 16px -16px, 0 16px;

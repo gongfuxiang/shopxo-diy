@@ -23,7 +23,7 @@
                 </div>
             </div>
         </template>
-        <template v-else-if="props.flex == 'col'">
+        <template v-else-if="props.flex == 'col_price_float'">
             <div v-for="(item, index) in split_list" :key="index" :style="block_size">
                 <div class="w h oh" :style="style_container(props.goodStyle)">
                     <div class="w h flex-col gap-10" :style="style_img_container(props.goodStyle)">
@@ -49,7 +49,7 @@
         <template v-else>
             <div v-for="(item, index) in split_list" :key="index" :style="block_size">
                 <div class="w h oh" :style="style_container(props.goodStyle)">
-                    <div class="w h flex-col" :style="style_img_container(props.goodStyle, 'fill')">
+                    <div class="w h flex-col" :style="style_img_container(props.goodStyle, 'col')">
                         <template v-if="!isEmpty(item.new_cover)">
                             <image-empty v-model="item.new_cover[0]" :style="contentImgRadius"></image-empty>
                         </template>
@@ -130,7 +130,7 @@ const style_img_container = computed(() => {
                 background_img: goods_background_img,
                 background_img_style: goods_background_img_style,
             }
-            return type == 'fill' ? background_computer(data) : padding_computer(goods_chunk_padding) + background_computer(data);
+            return type == 'col' ? background_computer(data) : padding_computer(goods_chunk_padding) + background_computer(data);
         } else {
             return '';
         }

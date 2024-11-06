@@ -27,10 +27,10 @@
                 </el-form-item>
             </template>
         </template>
+        <el-form-item label="内间距">
+            <padding :key="form.carouselKey" :value="form.chunk_padding" @update:value="chunk_padding_change"></padding>
+        </el-form-item>
         <template v-if="tabs_content.data_type === 'goods'">
-            <el-form-item label="内间距">
-                <padding :key="form.carouselKey" :value="form.chunk_padding" @update:value="chunk_padding_change"></padding>
-            </el-form-item>
             <el-form-item label="标题间距">
                 <slider v-model="form.title_gap" :min="1" :max="100"></slider>
             </el-form-item>
@@ -42,7 +42,7 @@
             <radius :key="form.carouselKey" :value="form.img_radius" @update:value="img_radius_change"></radius>
         </el-form-item>
     </card-container>
-    <template v-if="tabs_content.data_type === 'goods' && isShowTitle">
+    <template v-if="tabs_content.data_type === 'goods'">
         <div class="bg-f5 divider-line" />
         <card-container>
             <div class="mb-12">标题样式</div>
@@ -119,10 +119,13 @@
             </el-form-item>
         </card-container>
     </template>
-    <div class="bg-f5 divider-line" />
-    <card-container>
-        <carousel-indicator :key="form.carouselKey" :value="form"></carousel-indicator>
-    </card-container>
+    <template v-if="['goods', 'images'].includes(tabs_content.data_type)">
+        <div class="bg-f5 divider-line" />
+        <card-container>
+            <carousel-indicator :key="form.carouselKey" :value="form"></carousel-indicator>
+        </card-container>
+    </template>
+    
 </template>
 <script setup lang="ts">
 import { pick, isEmpty, cloneDeep } from 'lodash';
@@ -134,10 +137,6 @@ const props = defineProps({
     content: {
         type: Object,
         default: () => ({}),
-    },
-    isShowTitle: {
-        type: Boolean,
-        default: true,
     }
 });
 

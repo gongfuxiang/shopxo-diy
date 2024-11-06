@@ -25,8 +25,10 @@
                                         </div>
                                     </div>
                                 </template>
-                                <template v-else>
-                                    <magic-carousel :value="item" type="img" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
+                                <template v-else-if="item.data_content.data_type == 'images'">
+                                    <div class="w h" :style="`${ padding_computer(item.data_style.chunk_padding) }`">
+                                        <magic-carousel :value="item" type="img" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
+                                    </div>
                                 </template>
                                 <div v-if="item.data_style.is_show == '1' && item.data_content.list.length > 1" :class="{'dot-center': item.data_style?.indicator_location == 'center', 'dot-right': item.data_style?.indicator_location == 'flex-end' }" class="dot flex abs" :style="`bottom: ${item.data_style?.indicator_bottom}px;`">
                                     <template v-if="item.data_style.indicator_style == 'num'">
@@ -63,8 +65,13 @@
                                     </div>
                                 </div>
                             </template>
-                            <template v-else>
-                                <magic-carousel :value="item" type="img" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
+                            <template v-else-if="item.data_content.data_type == 'images'">
+                                <div class="w h" :style="`${ padding_computer(item.data_style.chunk_padding) }`">
+                                    <magic-carousel :value="item" type="img" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
+                                </div>
+                            </template>
+                            <template v-else-if="item.data_content.data_type == 'custom'">
+                                <customIndex :value="item" :magic-scale="magic_scale" :data-spacing="new_style.image_spacing"></customIndex>
                             </template>
                             <div v-if="item.data_style.is_show == '1' && item.data_content.list.length > 1" :class="{'dot-center': item.data_style?.indicator_location == 'center', 'dot-right': item.data_style?.indicator_location == 'flex-end' }" class="dot flex abs" :style="`bottom: ${item.data_style?.indicator_bottom}px;`">
                                 <template v-if="item.data_style.indicator_style == 'num'">
@@ -84,6 +91,7 @@
     </div>
 </template>
 <script setup lang="ts">
+import customIndex from './components/custom/index.vue';
 import { background_computer, common_styles_computer, get_math, gradient_computer, radius_computer, padding_computer, common_img_computer, is_number, percentage_count } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 const props = defineProps({
@@ -325,6 +333,16 @@ const carousel_change = (index: number, key: number) => {
 // 公共样式
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));
 const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
+// 图片魔方的缩放比例
+const magic_scale = ref(1);
+const typewidth = ref(0);
+watch(() => new_style.value.common_style, (val) => {
+    const { margin_left, margin_right, padding_left, padding_right } = val;
+    // 根据容器宽度来计算内部大小
+    typewidth.value = 390 - margin_left - margin_right - padding_left - padding_right;
+    // 获得对应宽度的比例
+    magic_scale.value = typewidth.value / 390;
+}, { deep: true });
 </script>
 <style lang="scss" scoped>
 // 图片魔方是一个正方形，根据宽度计算高度

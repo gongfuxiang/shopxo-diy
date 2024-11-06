@@ -35,8 +35,8 @@
             <el-form-item label="内容排列">
                 <el-radio-group v-model="form.goods_flex">
                     <el-radio value="row">左图右文</el-radio>
-                    <el-radio value="fill">上图下文</el-radio>
-                    <el-radio value="col">上图下文<span class="size-8">(价格浮动)</span></el-radio>
+                    <el-radio value="col">上图下文</el-radio>
+                    <el-radio value="col_price_float">上图下文<span class="size-8">(价格浮动)</span></el-radio>
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="每屏数量">
@@ -73,7 +73,7 @@
             <el-button class="mt-20 mb-20 w" @click="img_add">+添加</el-button>
         </card-container>
     </template>
-    <template v-else>
+    <template v-else-if="form.data_type == 'goods'">
         <div class="bg-f5 divider-line" />
         <card-container>
             <div class="mb-12">商品设置</div>
@@ -87,6 +87,17 @@
             <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['goods']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
         </card-container>
     </template>
+    <template v-else-if="form.data_type == 'custom'">
+        <div class="bg-f5 divider-line" />
+        <model-custom-content :value="form" :magic-width="form.width"></model-custom-content>
+    </template>
+    <template v-else>
+        <div class="bg-f5 divider-line" />
+        <card-container>
+            <div class="mb-12">视频设置</div>
+
+        </card-container>
+    </template>
 </template>
 <script setup lang="ts">
 import { get_math } from '@/utils';
@@ -96,10 +107,6 @@ const props = defineProps({
     value: {
         type: Object,
         default: () => {},
-    },
-    isShowTitle: {
-        type: Boolean,
-        default: true,
     }
 });
 

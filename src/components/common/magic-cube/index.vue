@@ -188,11 +188,13 @@ const onClickCubeItem = (event: any) => {
     let selectedItem = {} as CubeItem;
     //加入选中的。
     if (props.type == 'data') {
-        console.log(props.defaultContent);
         selectedItem = {
             start: selectingItem.start,
             end: selectingItem.end,
-            data_content: cloneDeep(props.defaultContent),
+            data_content: {
+               ...cloneDeep(props.defaultContent),
+               width: Math.round((props.cubeWidth / densityNum.value) * (selectingItem.end.x - selectingItem.start.x + 1))
+            },
             data_style: cloneDeep(props.defaultStyle),
         };
     } else {
@@ -262,12 +264,12 @@ const selected_click = (index: number) => {
     emits('selected_click', index);
 };
 const data_title = (item: CubeItem) => {
-    let title = `共有`;
+    let title = '';
     if (item.data_content) {
         if (item.data_content.data_type == 'goods') {
-            title += `${ item.data_content.goods_list.length }个商品`;
-        } else {
-            title += `${ item.data_content.images_list.length }个图片`;
+            title = `共有${ item.data_content.goods_list.length }个商品`;
+        } else if (item.data_content.data_type == 'images') {
+            title = `共有${ item.data_content.images_list.length }个图片`;
         }
     }
     return title;
@@ -324,6 +326,7 @@ const data_title = (item: CubeItem) => {
     }
     .cube-selected-text {
         font-size: 12px;
+        line-height: 16px;
         width: 100%;
         position: absolute;
         top: 50%;
