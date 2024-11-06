@@ -200,7 +200,10 @@ const data_content = {
     // 数据源
     data_source:'',
     // 自定义内容列表
-    custom_list: []
+    custom_list: [],
+    //视频信息
+    video: [],
+    video_img: [],
 }
 
 // 不同风格的数据

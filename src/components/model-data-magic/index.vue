@@ -30,6 +30,12 @@
                                         <magic-carousel :value="item" type="img" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
                                     </div>
                                 </template>
+                                <template v-else-if="item.data_content.data_type == 'custom'">
+                                    <customIndex :value="item" :magic-scale="magic_scale" :data-spacing="new_style.image_spacing"></customIndex>
+                                </template>
+                                <template v-else>
+                                    <videoIndex :value="item.data_content" :data-style="item.data_style"></videoIndex>
+                                </template>
                                 <div v-if="item.data_style.is_show == '1' && item.data_content.list.length > 1" :class="{'dot-center': item.data_style?.indicator_location == 'center', 'dot-right': item.data_style?.indicator_location == 'flex-end' }" class="dot flex abs" :style="`bottom: ${item.data_style?.indicator_bottom}px;`">
                                     <template v-if="item.data_style.indicator_style == 'num'">
                                         <div :style="item.data_style.indicator_styles" class="dot-item">
@@ -73,6 +79,9 @@
                             <template v-else-if="item.data_content.data_type == 'custom'">
                                 <customIndex :value="item" :magic-scale="magic_scale" :data-spacing="new_style.image_spacing"></customIndex>
                             </template>
+                            <template v-else>
+                                <videoIndex :value="item.data_content" :data-style="item.data_style"></videoIndex>
+                            </template>
                             <div v-if="item.data_style.is_show == '1' && item.data_content.list.length > 1" :class="{'dot-center': item.data_style?.indicator_location == 'center', 'dot-right': item.data_style?.indicator_location == 'flex-end' }" class="dot flex abs" :style="`bottom: ${item.data_style?.indicator_bottom}px;`">
                                 <template v-if="item.data_style.indicator_style == 'num'">
                                     <div :style="item.data_style.indicator_styles" class="dot-item">
@@ -92,6 +101,7 @@
 </template>
 <script setup lang="ts">
 import customIndex from './components/custom/index.vue';
+import videoIndex from './components/video/index.vue';
 import { background_computer, common_styles_computer, get_math, gradient_computer, radius_computer, padding_computer, common_img_computer, is_number, percentage_count } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 const props = defineProps({

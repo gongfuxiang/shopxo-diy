@@ -95,7 +95,12 @@
         <div class="bg-f5 divider-line" />
         <card-container>
             <div class="mb-12">视频设置</div>
-
+            <el-form-item label="上传视频">
+                <upload v-model="form.video" :limit="1" type="video"></upload>
+            </el-form-item>
+            <el-form-item label="视频封面">
+                <upload v-model="form.video_img" :limit="1"></upload>
+            </el-form-item>
         </card-container>
     </template>
 </template>
