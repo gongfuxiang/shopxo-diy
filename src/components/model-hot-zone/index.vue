@@ -46,6 +46,10 @@ watch(
         style_container.value = common_styles_computer(new_style.common_style);
         style_img_container.value = common_img_computer(new_style.common_style);
         hot_data.value = new_content?.hot?.data || [];
+        container_ref_h.value = containerRef.value?.clientHeight || 0;
+        container_ref_w.value = containerRef.value?.clientWidth || 0;
+        hot_ref_w.value = hotRef.value?.clientWidth || 0;
+        hot_ref_h.value = hotRef.value?.clientHeight || 0;
     },
     { immediate: true, deep: true }
 );
