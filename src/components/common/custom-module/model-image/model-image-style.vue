@@ -2,6 +2,16 @@
     <div class="w h bg-f">
         <el-form :model="form" label-width="70">
             <card-container>
+                <div class="mb-12">定位设置</div>
+                <el-form-item label="X轴">
+                    <slider v-model="diy_data.location.x" :max="390" @update:model-value="location_x_change"></slider>
+                </el-form-item>
+                <el-form-item label="Y轴">
+                    <slider v-model="diy_data.location.y" :max="1000" @update:model-value="location_y_change"></slider>
+                </el-form-item>
+            </card-container>
+            <div class="bg-f5 divider-line" />
+            <card-container>
                 <div class="mb-12">图片设置</div>
                 <el-form-item label="上传图片">
                     <upload v-model="form.img" :limit="1" size="50" @update:model-value="img_src_change('1')"></upload>
@@ -93,6 +103,16 @@ const img_src_change = (key: string) => {
     } else {
         form.value.data_source_id = '';
     }
+}
+
+// x轴变化时，更新记录的位置
+const location_x_change = (val: number) => {
+    diy_data.value.location.record_x = val;
+}
+// y轴变化时，更新记录的位置
+const location_y_change = (val: number) => {
+    diy_data.value.location.record_y = val;
+    diy_data.value.location.staging_y = val;
 }
 
 watch(

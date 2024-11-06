@@ -15,6 +15,11 @@
                         </div>
                     </el-form-item>
                 </template>
+                <template v-if="!isEmpty(content.img_src)">
+                    <el-form-item label="图片高度">
+                        <slider v-model="form.img_height" :max="500"></slider>
+                    </el-form-item>
+                </template>
                 <el-form-item label="主标题">
                     <div class="flex-col gap-10 w">
                         <color-picker v-model="form.title_color" default-color="#000000"></color-picker>
@@ -46,9 +51,6 @@
                         <el-switch v-model="form.title_line" active-value="1" inactive-value="0" />
                     </el-form-item>
                 </template>
-                <el-form-item label="图片高度">
-                    <slider v-model="form.img_height" :max="500"></slider>
-                </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>

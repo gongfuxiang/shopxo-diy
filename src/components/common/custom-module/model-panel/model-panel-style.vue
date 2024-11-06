@@ -2,6 +2,16 @@
     <div class="w h bg-f">
         <el-form :model="form" label-width="70">
             <card-container>
+                <div class="mb-12">定位设置</div>
+                <el-form-item label="X轴">
+                    <slider v-model="diy_data.location.x" :max="390" @update:model-value="location_x_change"></slider>
+                </el-form-item>
+                <el-form-item label="Y轴">
+                    <slider v-model="diy_data.location.y" :max="1000" @update:model-value="location_y_change"></slider>
+                </el-form-item>
+            </card-container>
+            <div class="bg-f5 divider-line" />
+            <card-container>
                 <div class="mb-12">容器设置</div>
                 <el-form-item label="链接">
                     <url-value v-model="form.link"></url-value>
@@ -94,6 +104,16 @@ const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.color_list = arry;
     form.value.direction = type.toString();
 };
+
+// x轴变化时，更新记录的位置
+const location_x_change = (val: number) => {
+    diy_data.value.location.record_x = val;
+}
+// y轴变化时，更新记录的位置
+const location_y_change = (val: number) => {
+    diy_data.value.location.record_y = val;
+    diy_data.value.location.staging_y = val;
+}
 
 watch(
     diy_data,
