@@ -105,7 +105,7 @@ const padding_bottom = computed(() => {
     } else if (form.value.tabs_theme == '3') {
         bottom = 10;
     }
-    return ['1', '2', '4'].includes(tabs_theme_index.value) ? '' : `padding-bottom: ${(new_style.value?.tabs_sign_spacing || 0) + bottom}px;`;
+    return ['1', '2', '4'].includes(form.value.tabs_theme) ? '' : `padding-bottom: ${(new_style.value?.tabs_sign_spacing || 0) + bottom}px;`;
 });
 // icon的渐变色处理
 const icon_tabs_check = () => {
