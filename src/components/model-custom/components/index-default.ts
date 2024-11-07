@@ -1,6 +1,6 @@
 
 // 文本的默认值
-export const text_com_data = {
+const text_com_data = {
     com_width: 150,
     com_height: 17,
     staging_height: 17,
@@ -13,6 +13,7 @@ export const text_com_data = {
     text_color: '#000',
     text_weight: 'normal',
     text_size: 12,
+    line_text_size: undefined,
     text_option: 'none',
     text_location: 'left',
     text_padding: {
@@ -39,7 +40,7 @@ export const text_com_data = {
     z_index: 0
 }
 // 图片的默认值
-export const img_com_data = {
+const img_com_data = {
     com_width: 50,
     com_height: 50,
     staging_height: 50,
@@ -71,7 +72,7 @@ export const img_com_data = {
     z_index: 0
 }
 // 线条的默认值
-export const line_com_data = {
+const line_com_data = {
     com_width: 306,
     com_height: 11,
     staging_height: 11,
@@ -84,7 +85,7 @@ export const line_com_data = {
 }
 
 // icon的默认值
-export const icon_com_data = {
+const icon_com_data = {
     com_width: 36,
     com_height: 36,
     staging_height: 36,
@@ -124,7 +125,7 @@ export const icon_com_data = {
 }
 
 // 面板的默认值
-export const panel_com_data = {
+const panel_com_data = {
     com_width: 100,
     com_height: 100,
     staging_height: 100,
@@ -164,4 +165,13 @@ export const isRectangleIntersecting = (rect1: react1, rect2: react1) => {
         return '1'; // rect1完全包含rect2
     }
     return '0'; // 无交集
+}
+
+
+export const defaultComData = {
+    text_com_data,
+    img_com_data,
+    line_com_data,
+    icon_com_data,
+    panel_com_data
 }

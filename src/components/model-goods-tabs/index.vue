@@ -1,7 +1,9 @@
 <template>
     <div :style="style_container">
         <div :style="style_img_container">
-            <tabs-view ref="tabs" :value="props.value" :active-index="tabs_active_index"></tabs-view>
+            <div :style="tabs_padding_style">
+                <tabs-view ref="tabs" :value="props.value" :active-index="tabs_active_index"></tabs-view>
+            </div>
             <div class="pt-10">
                 <model-goods-list :value="tabs_list" :is-common-style="false"></model-goods-list>
             </div>
@@ -9,7 +11,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_img_computer, common_styles_computer } from '@/utils';
+import { common_img_computer, common_styles_computer, padding_computer } from '@/utils';
 import { cloneDeep } from 'lodash';
 
 const props = defineProps({
@@ -25,6 +27,7 @@ const style_container = ref('');
 const style_img_container = ref('');
 const tabs_list = ref({});
 const tabs_active_index = ref(0);
+const tabs_padding_style = ref('');
 watch(
     () => props.value,
     (val) => {
@@ -32,6 +35,7 @@ watch(
         const new_style = new_val?.style;
         let new_data = new_val;
         tabs_active_index.value = new_data.content.tabs_active_index;
+        tabs_padding_style.value = padding_computer(new_style?.tabs_padding);
         // 产品的值
         new_data.content.data_type = new_data.content.tabs_list[tabs_active_index.value].data_type;
         new_data.content.category_ids = new_data.content.tabs_list[tabs_active_index.value].category_ids;

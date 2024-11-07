@@ -40,7 +40,7 @@
                         <el-radio value="italic">倾斜</el-radio>
                     </el-radio-group>
                     <el-form-item label="字号" label-width="50" class="mb-0 w">
-                        <slider v-model="form.text_size" :max="100"></slider>
+                        <slider v-model="form.text_size" :max="100" @update:model-value="text_size_change"></slider>
                     </el-form-item>
                     <el-form-item label="行间距" label-width="50" class="mb-0 w">
                         <slider v-model="form.line_text_size" :max="200"></slider>
@@ -145,6 +145,12 @@ const padding_change = (padding: any) => {
 const bg_radius_change = (radius: any) => {
     form.value.bg_radius = Object.assign(form.value.bg_radius, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
 };
+// 如果历史的字体高度为空，就赋值为文字内容的大小
+onBeforeMount(() => {
+    if (typeof form.value.line_text_size != 'number') {
+        form.value.line_text_size = form.value.text_size;
+    }
+});
 
 const text_change = (key: string) => {
     if (key == '2') {
@@ -153,7 +159,10 @@ const text_change = (key: string) => {
         form.value.data_source_id = '';
     }
 };
-
+// 文字大小变化时，同步更新行间距
+const text_size_change = (size: number) => {
+    form.value.line_text_size = size;
+};
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.color_list = arry;
     form.value.direction = type.toString();
@@ -167,10 +176,6 @@ const location_y_change = (val: number) => {
     diy_data.value.location.record_y = val;
     diy_data.value.location.staging_y = val;
 }
-
-watchEffect(() => {
-    form.value.line_text_size  = form.value.text_size;
-});
 
 watch(
     diy_data,

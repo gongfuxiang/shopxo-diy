@@ -16,9 +16,17 @@
                 <el-form-item label="未选标题">
                     <color-text-size-group v-model:color="form.tabs_color" v-model:typeface="form.tabs_weight" v-model:size="form.tabs_size" default-color="rgba(51,51,51,1)"></color-text-size-group>
                 </el-form-item>
-                <el-form-item label="选项卡间距">
+                <el-form-item label="上下间距">
+                    <slider v-model="form.tabs_sign_spacing" :max="50"></slider>
+                </el-form-item>
+                <el-form-item label="左右间距">
                     <slider v-model="form.tabs_spacing" :max="100"></slider>
                 </el-form-item>
+                <template v-if="!isCommon">
+                    <el-form-item label="内边距">
+                        <padding :value="form.tabs_padding"></padding>
+                    </el-form-item>
+                </template>
             </card-container>
             <div class="divider-line"></div>
             <card-container>

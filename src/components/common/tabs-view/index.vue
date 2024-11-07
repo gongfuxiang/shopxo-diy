@@ -2,21 +2,21 @@
     <div class="flex-row gap-10 jc-sb align-c">
         <div class="tabs flex-row oh" :style="`column-gap: ${new_style.tabs_spacing}px;`">
             <template v-for="(item, index) in form.tabs_list" :key="index">
-                <div class="item nowrap flex-col jc-c gap-4" :class="tabs_theme + (index == activeIndex ? ' active' : '') + ((tabs_theme_index == '0' && tabs_theme_1_style) || tabs_theme_index == '1' || tabs_theme_index == '2' ? ' pb-0' : '')">
+                <div class="item nowrap flex-col jc-c" :class="tabs_theme + (index == activeIndex ? ' active' : '') + ((tabs_theme_index == '0' && tabs_theme_1_style) || tabs_theme_index == '1' || tabs_theme_index == '2' ? ' pb-0' : '')" :style="`row-gap: ${new_style.tabs_sign_spacing}px;`">
                     <template v-if="!isEmpty(item.img)">
                         <image-empty v-model="item.img[0]" class="img" error-img-style="width:2rem;height:2rem;"></image-empty>
                     </template>
                     <template v-else>
                         <image-empty class="img" error-img-style="width:2rem;height:2rem;"></image-empty>
                     </template>
-                    <div class="title" :style="title_style(index)">{{ item.title }}</div>
+                    <div class="title" :style="title_style(index) + (index == activeIndex ? '' : padding_bottom)">{{ item.title }}</div>
                     <div class="desc" :style="tabs_theme_index == '1' && index == activeIndex ? tabs_check : ''">{{ item.desc }}</div>
                     <icon name="checked-smooth" class="icon" :style="tabs_theme_index == '3' ? icon_tabs_check() : ''"></icon>
                     <div class="bottom_line" :class="tabs_bottom_line_theme" :style="tabs_check"></div>
                 </div>
             </template>
         </div>
-        <icon v-if="isTabs" :name="new_style.more_icon_class || 'category-more'" :size="new_style.more_icon_size + '' || '14'" :color="new_style.more_icon_color || '#000'" :class="tabs_theme_index == '3' ? 'pb-14' : (tabs_theme_index == '0' && tabs_theme_1_style) || tabs_theme_index == '1' || tabs_theme_index == '2' ? '' : 'pb-5'"></icon>
+        <icon v-if="isTabs" :name="new_style.more_icon_class || 'category-more'" :size="new_style.more_icon_size + '' || '14'" :color="new_style.more_icon_color || '#000'" :styles="padding_bottom"></icon>
     </div>
 </template>
 
@@ -88,6 +88,7 @@ const tabs_theme_style = computed(() => {
 const title_style = (index: number) => {
     // 默认是未选中的状态
     let style = `${tabs_theme_style.value.tabs_title}`;
+    // 选中的状态
     if (index == props.activeIndex) {
         let checked_style = tabs_theme_style.value.tabs_title_checked;
         if (['2', '4'].includes(tabs_theme_index.value)) {
@@ -97,6 +98,15 @@ const title_style = (index: number) => {
     }
     return style;
 };
+const padding_bottom = computed(() => {
+    let bottom = 0;
+    if (form.value.tabs_theme == '0') {
+        bottom = 3;
+    } else if (form.value.tabs_theme == '3') {
+        bottom = 10;
+    }
+    return ['1', '2', '4'].includes(tabs_theme_index.value) ? '' : `padding-bottom: ${(new_style.value?.tabs_sign_spacing || 0) + bottom}px;`;
+});
 // icon的渐变色处理
 const icon_tabs_check = () => {
     return `${tabs_check.value};line-height: 1;background-clip: text;-webkit-background-clip: text;-webkit-text-fill-color: transparent;`;
@@ -106,10 +116,10 @@ const icon_tabs_check = () => {
 .tabs {
     max-width: 39rem;
     .item {
-        padding: 0 0 0.5rem 0;
+        // padding: 0 0 0.5rem 0;
         // margin: 0 1rem;
         position: relative;
-        transition: all 0.3s ease-in-out;
+        // transition: all 0.3s ease-in-out;
         &:first-of-type {
             margin-left: 0;
         }
@@ -131,14 +141,14 @@ const icon_tabs_check = () => {
             height: 0.3rem;
             border-radius: 1rem;
             background-color: red;
-            position: absolute;
+            // position: absolute;
             left: 0;
             right: 0;
             bottom: 0;
             display: none;
         }
         .icon {
-            position: absolute;
+            // position: absolute;
             left: 0;
             right: 0;
             bottom: 0;
@@ -194,7 +204,7 @@ const icon_tabs_check = () => {
             }
         }
         &.tabs-style-4 {
-            padding-bottom: 1.4rem;
+            // padding-bottom: 1.4rem;
             &.active {
                 .title {
                     color: #ff2222;

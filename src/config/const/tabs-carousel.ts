@@ -40,6 +40,8 @@ interface defaultTabs {
         tabs_size: number;
         tabs_color: string;
         tabs_spacing: number;
+        tabs_sign_spacing: number;
+        tabs_padding: paddingStyle;
         more_icon_class: string;
         more_icon_color: string;
         more_icon_size: number;
@@ -133,6 +135,14 @@ const defaultTabs: defaultTabs = {
         tabs_size: 14,
         tabs_color: 'rgba(51,51,51,1)',
         tabs_spacing: 20,
+        tabs_sign_spacing: 4,
+        tabs_padding: {
+            padding: 0,
+            padding_top: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+            padding_right: 0,
+        },
         // 更多设置
         more_icon_class: 'category-more',
         more_icon_color: '#000',

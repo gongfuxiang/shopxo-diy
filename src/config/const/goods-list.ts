@@ -26,6 +26,10 @@ interface DefaultProductList {
         shop_button_effect: string;
     };
     style: {
+        shop_direction: string,
+        shop_color_list: color_list[],
+        shop_background_img_style: string,
+        shop_background_img: uploadList[],
         shop_padding: paddingStyle;
         shop_img_radius: radiusStyle;
         shop_radius: radiusStyle;
@@ -98,6 +102,10 @@ const defaultProductList: DefaultProductList = {
         shop_button_effect: '0',
     },
     style: {
+        shop_direction: '90deg',
+        shop_color_list: [{ color: '#fff', color_percentage: undefined }],
+        shop_background_img_style: '0',
+        shop_background_img: [],
         // 商品内边距
         shop_padding: {
             padding: 10, 

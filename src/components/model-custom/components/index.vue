@@ -99,7 +99,6 @@
                             <!-- 已完成 -->
                             <div class="drag-btn drag-br" :data-index="index" @mousedown.stop="start_drag_btn_br(index, $event)"></div>
                             <div class="drag-btn drag-rc" :data-index="index" @mousedown.stop="start_drag_btn_rc(index, $event)"></div>
-                            
                         </div>
                     </div>
                 </div>
@@ -110,7 +109,7 @@
 <script setup lang="ts">
 import { cloneDeep, isEmpty } from 'lodash';
 import { get_math } from '@/utils';
-import { text_com_data, img_com_data, line_com_data, icon_com_data, panel_com_data, isRectangleIntersecting } from "./index-default";
+import { defaultComData, isRectangleIntersecting } from "./index-default";
 import { SortableEvent, VueDraggable } from 'vue-draggable-plus';
 import { commonStore } from '@/store';
 const common_store = commonStore();
@@ -135,31 +134,31 @@ const components = reactive([
                 key: 'text',
                 name: '文本',
                 new_name: '',
-                com_data: text_com_data
+                com_data: defaultComData.text_com_data
             },
             {
                 key: 'img',
                 name: '图片',
                 new_name: '',
-                com_data: img_com_data,
+                com_data: defaultComData.img_com_data,
             },
             {
                 key: 'auxiliary-line',
                 name: '线条',
                 new_name: '',
-                com_data: line_com_data,
+                com_data: defaultComData.line_com_data,
             },
             {
                 key: 'icon',
                 name: '图标',
                 new_name: '',
-                com_data: icon_com_data,
+                com_data: defaultComData.icon_com_data,
             },
             {
                 key: 'panel',
                 name: '面板',
                 new_name: '',
-                com_data: panel_com_data,
+                com_data: defaultComData.panel_com_data,
             },
         ],
     },
@@ -413,7 +412,8 @@ watch(() => center_height.value, () => {
                 staging_y: item.location.staging_y,
             },
             com_data: {
-                ...item.com_data,
+                // 规整历史数据，避免有新增字段丢失
+                ...Object.assign({}, cloneDeep((defaultComData as any)[`${item.key}_com_data`]), item.com_data),
                 com_height: item.com_data.staging_height,
             },
         }));

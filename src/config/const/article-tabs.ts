@@ -41,6 +41,12 @@ interface DefaultArticleTabs {
         tabs_size: number;
         tabs_color: string;
         tabs_spacing: number;
+        tabs_sign_spacing: number;
+        tabs_padding: paddingStyle;
+        article_direction: string,
+        article_color_list: color_list[],
+        article_background_img_style: string,
+        article_background_img: uploadList[],
         name_weight: string;
         name_size: number;
         name_color: string;
@@ -97,6 +103,19 @@ const defaultArticleTabs: DefaultArticleTabs = {
         tabs_size: 14,
         tabs_color: 'rgba(51,51,51,1)',
         tabs_spacing: 20,
+        tabs_sign_spacing: 4,
+        tabs_padding: {
+            padding: 0,
+            padding_top: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+            padding_right: 0,
+        },
+        // 文章背景设置
+        article_direction: '90deg',
+        article_color_list: [{ color: '#fff', color_percentage: undefined }],
+        article_background_img_style: '0',
+        article_background_img: [],
         name_weight: '500',
         name_size: 14,
         name_color: 'rgba(51, 51, 51, 1)',

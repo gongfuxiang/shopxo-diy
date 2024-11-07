@@ -24,6 +24,10 @@ interface DefaultArticleList {
         is_cover: string;
     };
     style: {
+        article_direction: string,
+        article_color_list: color_list[],
+        article_background_img_style: string,
+        article_background_img: uploadList[],
         name_weight: string;
         name_size: number;
         name_color: string;
@@ -65,6 +69,10 @@ const defaultArticleList: DefaultArticleList = {
         is_cover: defaultSetting.is_cover,
     },
     style: {
+        article_direction: '90deg',
+        article_color_list: [{ color: '#fff', color_percentage: undefined }],
+        article_background_img_style: '0',
+        article_background_img: [],
         name_weight: '500',
         name_size: 14,
         name_color: 'rgba(51, 51, 51, 1)',

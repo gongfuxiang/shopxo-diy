@@ -45,6 +45,12 @@ interface DefaultProductList {
         tabs_size: number;
         tabs_color: string;
         tabs_spacing: number;
+        tabs_sign_spacing: number;
+        tabs_padding: paddingStyle;
+        shop_direction: string,
+        shop_color_list: color_list[],
+        shop_background_img_style: string,
+        shop_background_img: uploadList[],
         shop_padding: paddingStyle;
         shop_img_radius: radiusStyle;
         shop_radius: radiusStyle;
@@ -129,6 +135,19 @@ const defaultProductList: DefaultProductList = {
         tabs_color: 'rgba(51,51,51,1)',
         // tabs间距
         tabs_spacing: 20,
+        tabs_sign_spacing: 4,
+        tabs_padding: {
+            padding: 0,
+            padding_top: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+            padding_right: 0,
+        },
+        // 商品背景设置
+        shop_direction: '90deg',
+        shop_color_list: [{ color: '#fff', color_percentage: undefined }],
+        shop_background_img_style: '0',
+        shop_background_img: [],
         // 商品圆角
         shop_padding: {
             padding: 10,

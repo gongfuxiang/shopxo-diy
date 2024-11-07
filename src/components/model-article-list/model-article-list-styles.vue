@@ -3,6 +3,17 @@
         <el-form :model="form" label-width="70">
             <card-container>
                 <div class="mb-12">列表样式</div>
+                <el-form-item v-if="theme != '3'" label="文章背景">
+                    <div class="flex-col gap-10 w">
+                        <div class="size-12">背景色</div>
+                        <mult-color-picker :value="form.article_color_list" :type="form.article_direction" @update:value="mult_color_picker_event"></mult-color-picker>
+                        <div class="flex-row jc-sb align-c">
+                            <div class="size-12">背景图</div>
+                            <bg-btn-style v-model="form.article_background_img_style"></bg-btn-style>
+                        </div>
+                        <upload v-model="form.article_background_img" :limit="1" @update:model-value="background_img_change"></upload>
+                    </div>
+                </el-form-item>
                 <el-form-item label="文章名称">
                     <color-text-size-group v-model:color="form.name_color" v-model:typeface="form.name_weight" v-model:size="form.name_size"></color-text-size-group>
                 </el-form-item>
@@ -121,6 +132,16 @@ if (theme.value == '0') {
         form.value.img_radius.radius_top_right = props.defaultConfig.img_radius_1;
     }
 }
+// 文章背景渐变设置
+const mult_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.article_color_list = arry;
+    form.value.article_direction = type.toString();
+};
+// 文章背景图片设置
+const background_img_change = (arry: uploadList[]) => {
+    form.value.article_background_img = arry;
+};
+
 const emit = defineEmits(['update:value']);
 const common_style_update = (value: any) => {
     form.value.common_style = value;

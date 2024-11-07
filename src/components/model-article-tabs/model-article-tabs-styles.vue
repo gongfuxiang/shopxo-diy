@@ -16,13 +16,30 @@
                 <el-form-item label="未选文字">
                     <color-text-size-group v-model:color="form.tabs_color" v-model:typeface="form.tabs_weight" v-model:size="form.tabs_size" default-color="rgba(51,51,51,1)"></color-text-size-group>
                 </el-form-item>
-                <el-form-item label="选项卡间距">
+                <el-form-item label="上下间距">
+                    <slider v-model="form.tabs_sign_spacing" :max="50"></slider>
+                </el-form-item>
+                <el-form-item label="左右间距">
                     <slider v-model="form.tabs_spacing" :max="100"></slider>
+                </el-form-item>
+                <el-form-item label="内边距">
+                    <padding :value="form.tabs_padding"></padding>
                 </el-form-item>
             </card-container>
             <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">内容样式</div>
+                <el-form-item v-if="theme != '3'" label="文章背景">
+                    <div class="flex-col gap-10 w">
+                        <div class="size-12">背景色</div>
+                        <mult-color-picker :value="form.article_color_list" :type="form.article_direction" @update:value="mult_color_picker_event"></mult-color-picker>
+                        <div class="flex-row jc-sb align-c">
+                            <div class="size-12">背景图</div>
+                            <bg-btn-style v-model="form.article_background_img_style"></bg-btn-style>
+                        </div>
+                        <upload v-model="form.article_background_img" :limit="1" @update:model-value="background_img_change"></upload>
+                    </div>
+                </el-form-item>
                 <el-form-item label="文章名称">
                     <color-text-size-group v-model:color="form.name_color" v-model:typeface="form.name_weight" v-model:size="form.name_size"></color-text-size-group>
                 </el-form-item>
@@ -153,6 +170,16 @@ const tabs_checked_event = (arry: string[], type: number) => {
     form.value.tabs_checked = arry;
     form.value.tabs_direction = type.toString();
 };
+// 文章背景渐变设置
+const mult_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.article_color_list = arry;
+    form.value.article_direction = type.toString();
+};
+// 文章背景图片设置
+const background_img_change = (arry: uploadList[]) => {
+    form.value.article_background_img = arry;
+};
+
 // 通用样式回调
 const common_styles_update = (val: Object) => {
     form.value.common_style = val;
