@@ -31,11 +31,11 @@
             <padding :key="form.carouselKey" :value="form.chunk_padding" @update:value="chunk_padding_change"></padding>
         </el-form-item>
         <template v-if="tabs_content.data_type === 'goods'">
-            <el-form-item label="标题间距">
-                <slider v-model="form.title_gap" :min="1" :max="100"></slider>
+            <el-form-item label="标题内间距">
+                <slider v-model="form.title_gap" :min="0" :max="100"></slider>
             </el-form-item>
-            <el-form-item label="标题内容间距">
-                <slider v-model="form.title_data_gap" :min="1" :max="100"></slider>
+            <el-form-item label="标题外间距">
+                <slider v-model="form.title_data_gap" :min="0" :max="100"></slider>
             </el-form-item>
         </template>
         <el-form-item label="图片圆角">

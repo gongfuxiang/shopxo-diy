@@ -295,11 +295,11 @@ const magic_list = (index: number) => {
             title_data_gap: item.title_text_gap,
             goods_price_size: different_styles(index, map_index) ? 12 : 18,
             chunk_padding: {
-                padding: (module_7_handle(index, map_index) || different_styles(index, map_index)) ? 10 : 0,
-                padding_top: (module_7_handle(index, map_index) || different_styles(index, map_index)) ? 10 : 20,
-                padding_bottom: (module_7_handle(index, map_index) || different_styles(index, map_index)) ? 10 : 20,
-                padding_left: (module_7_handle(index, map_index) || different_styles(index, map_index)) ? 10 : 15,
-                padding_right: (module_7_handle(index, map_index) || different_styles(index, map_index)) ? 10 : 15,
+                padding: different_styles(index, map_index) ? 10 :  module_7_handle(index, map_index) ? 0 : 0,
+                padding_top: different_styles(index, map_index) ? 10 : module_7_handle(index, map_index) ? 0 : 20,
+                padding_bottom: different_styles(index, map_index) ? 10 : module_7_handle(index, map_index) ? 0 : 20,
+                padding_left: different_styles(index, map_index) ? 10 : module_7_handle(index, map_index) ? 0 : 15,
+                padding_right: different_styles(index, map_index) ? 10 : module_7_handle(index, map_index) ? 0 : 15,
             },
             goods_chunk_padding: {
                 padding: module_7_handle(index, map_index) ? 10 : 0,
