@@ -1,10 +1,24 @@
 {
   "id": "4227145",
-  "name": "shopxo-小程序",
+  "name": "shopxo-小程序-DIY",
   "font_family": "iconfont",
   "css_prefix_text": "icon-",
   "description": "",
   "glyphs": [
+    {
+      "icon_id": "42400752",
+      "name": "分类-空心",
+      "font_class": "menu-category",
+      "unicode": "e7a9",
+      "unicode_decimal": 59305
+    },
+    {
+      "icon_id": "11372655",
+      "name": "地图",
+      "font_class": "map-location",
+      "unicode": "e8ad",
+      "unicode_decimal": 59565
+    },
     {
       "icon_id": "42341458",
       "name": "统一",
@@ -896,7 +910,7 @@
     },
     {
       "icon_id": "37787211",
-      "name": "转账/转换",
+      "name": "转账/转换/切换/互换",
       "font_class": "transfer",
       "unicode": "e6e4",
       "unicode_decimal": 59108
@@ -1212,91 +1226,91 @@
     {
       "icon_id": "37176907",
       "name": "电话",
-      "font_class": "md-phone",
+      "font_class": "tel",
       "unicode": "e6b1",
       "unicode_decimal": 59057
     },
     {
       "icon_id": "37176908",
       "name": "发送",
-      "font_class": "md-dh",
+      "font_class": "send",
       "unicode": "e6b2",
       "unicode_decimal": 59058
     },
     {
       "icon_id": "37137572",
       "name": "电话+背景",
-      "font_class": "index-zxmd-phone",
+      "font_class": "tel-bg-square",
       "unicode": "e6ac",
       "unicode_decimal": 59052
     },
     {
       "icon_id": "37137571",
       "name": "发送+背景",
-      "font_class": "index-zxmd-dh",
+      "font_class": "send-bg-square",
       "unicode": "e6ad",
       "unicode_decimal": 59053
     },
     {
       "icon_id": "37137569",
       "name": "时间",
-      "font_class": "index-zxmd-time",
+      "font_class": "time",
       "unicode": "e6ae",
       "unicode_decimal": 59054
     },
     {
       "icon_id": "37137568",
       "name": "地址定位",
-      "font_class": "index-zxmd-dress",
+      "font_class": "map-address",
       "unicode": "e6af",
       "unicode_decimal": 59055
     },
     {
       "icon_id": "37131264",
       "name": "通知",
-      "font_class": "index-notice",
+      "font_class": "notice",
       "unicode": "e6a8",
       "unicode_decimal": 59048
     },
     {
       "icon_id": "37131263",
-      "name": "搜索",
-      "font_class": "index-search",
+      "name": "搜索-大号",
+      "font_class": "search-max",
       "unicode": "e6a9",
       "unicode_decimal": 59049
     },
     {
       "icon_id": "37113110",
-      "name": "我的设置-默认",
-      "font_class": "applet-me-settings-acquiesce",
+      "name": "设置",
+      "font_class": "setup",
       "unicode": "e6a6",
       "unicode_decimal": 59046
     },
     {
       "icon_id": "37113109",
-      "name": "我的消息-默认",
-      "font_class": "applet-me-message-acquiesce",
+      "name": "铃铛",
+      "font_class": "bell",
       "unicode": "e6a7",
       "unicode_decimal": 59047
     },
     {
       "icon_id": "37112559",
-      "name": "我的-默认",
-      "font_class": "applet-me-acquiesce",
+      "name": "我的-空心",
+      "font_class": "menu-user",
       "unicode": "e6a2",
       "unicode_decimal": 59042
     },
     {
       "icon_id": "37112561",
-      "name": "首页",
-      "font_class": "applet-index-acquiesce",
+      "name": "首页-空心",
+      "font_class": "menu-home",
       "unicode": "e6a4",
       "unicode_decimal": 59044
     },
     {
       "icon_id": "37112560",
-      "name": "购物车",
-      "font_class": "applet-shop-acquiesce",
+      "name": "购物车-空心",
+      "font_class": "menu-cart",
       "unicode": "e6a3",
       "unicode_decimal": 59043
     }
