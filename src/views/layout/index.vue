@@ -305,6 +305,8 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                         data_id: item3.data.id,
                     };
                 });
+                item1.data_content.data_source_content_value = item1.data_content.data_source_content.id;
+                item1.data_content.data_source_content = {};
             });
         } else if (new_array_5.includes(item.key)) {
             item.com_data.content.data_source_content_value = item.com_data.content.data_source_content.id;

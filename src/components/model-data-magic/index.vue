@@ -352,7 +352,7 @@ watch(() => new_style.value.common_style, (val) => {
     typewidth.value = 390 - margin_left - margin_right - padding_left - padding_right;
     // 获得对应宽度的比例
     magic_scale.value = typewidth.value / 390;
-}, { deep: true });
+}, { immediate:true, deep: true });
 </script>
 <style lang="scss" scoped>
 // 图片魔方是一个正方形，根据宽度计算高度
