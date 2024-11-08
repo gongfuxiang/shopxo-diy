@@ -2,7 +2,7 @@
     <div class="w h" :style="style_container">
         <div class="re w h oh">
             <template v-if="video && !video_img">
-                <video :src="video" class="w h"></video>
+                <video :src="video" class="w h" ></video>
             </template>
             <template v-else>
                 <image-empty v-model="video_img" error-img-style="width:60px;height:60px;"></image-empty>
@@ -49,4 +49,7 @@ const video = computed(() => {
 const style_container = computed(() => padding_computer(props.dataStyle.chunk_padding));
 </script>
 <style lang="scss" scoped>
+video {
+    object-fit: cover;
+}
 </style>

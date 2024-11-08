@@ -27,7 +27,7 @@
             <div v-for="(item, index) in split_list" :key="index" :style="block_size">
                 <div class="w h oh" :style="style_container(props.goodStyle)">
                     <div class="w h flex-col gap-10" :style="style_img_container(props.goodStyle)">
-                        <div class="w h re flex-1">
+                        <div class="w h re flex-1 oh">
                             <template v-if="!isEmpty(item.new_cover)">
                                 <image-empty v-model="item.new_cover[0]" :style="contentImgRadius"></image-empty>
                             </template>

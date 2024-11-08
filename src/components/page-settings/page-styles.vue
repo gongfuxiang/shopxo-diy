@@ -25,7 +25,7 @@
                         <el-radio value="1">白色</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item v-if="['1', '2'].includes(page_content.theme)" label="标题名称">
+                <el-form-item v-if="['1', '2', '3'].includes(page_content.theme)" label="标题名称">
                     <color-text-size-group v-model:color="form.header_background_title_color" v-model:typeface="form.header_background_title_typeface" v-model:size="form.header_background_title_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
                 <el-form-item v-if="['4', '5'].includes(page_content.theme)" label="定位颜色">

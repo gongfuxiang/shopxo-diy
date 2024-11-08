@@ -297,7 +297,7 @@ watch(props.value.content, (val) => {
         data_style.get_img_radius = radius_computer(radius);
         
         // 商品名称和价格样式
-        data_style.goods_title_style = goods_trends_config(item.data_style, 'title');
+        data_style.goods_title_style = goods_trends_config(item.data_style, 'title') + `line-height: ${ item.data_style.goods_title_size + 3 }px;height: ${ (item.data_style.goods_title_size + 3) * 2 }px;`;
         data_style.goods_price_style = goods_trends_config(item.data_style, 'price') + `line-height: ${ item.data_style.goods_price_size }px;`;
 
         const { is_roll, rotation_direction, interval_time } = data_style;
