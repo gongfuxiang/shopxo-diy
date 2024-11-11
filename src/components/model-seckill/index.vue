@@ -119,7 +119,7 @@
                                         </div>
                                     </div>
                                 </template>
-                                <div v-if="is_show('title') || is_show('simple_desc') || is_show('price') || is_show('original_price') || form.is_shop_show == '1'" class="flex-col gap-10 w flex-1 jc-sb oh" :style="content_style">
+                                <div v-if="is_show('title') || is_show('simple_desc') || is_show('price') || is_show('original_price') || form.is_shop_show == '1'" class="flex-col gap-10 w flex-1 jc-sb" :style="content_style">
                                     <div class="flex-col gap-10 w">
                                         <!-- 标题 -->
                                         <div v-if="is_show('title') || is_show('simple_desc')" class="flex-col" :style="`gap: ${ new_style.title_simple_desc_spacing }px;`">
@@ -583,7 +583,7 @@ const corner_marker = computed(() => {
     height: v-bind(goods_img_height);
 }
 .flex-img3 {
-    background: #f4fcff;
+    height: 100%;
     width: 100%;
 }
 .slide-bottom {
