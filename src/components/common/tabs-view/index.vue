@@ -176,7 +176,7 @@ const icon_tabs_check = () => {
                 z-index: 0;
                 height: 0.6rem;
                 border-radius: 0;
-                left: 12%;
+                // left: 12%;
             }
         }
         &.tabs-style-2 {
