@@ -176,7 +176,6 @@ const icon_tabs_check = () => {
                 z-index: 0;
                 height: 0.6rem;
                 border-radius: 0;
-                width: 76%;
                 left: 12%;
             }
         }
