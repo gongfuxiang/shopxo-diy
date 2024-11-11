@@ -232,7 +232,7 @@ const style_height = computed(() => cubeHeight.value + 'px');
 
 onBeforeMount(() => {
     if (isEmpty(form.value.data_magic_list)) {
-        form.value.data_magic_list = magic_list(0);
+        form.value.data_magic_list = magic_list(form.value?.style_actived || 0);
     } else {
         // 历史数据处理一下，避免有新增字段导致报错
         form.value.data_magic_list.forEach((item: any) => {
