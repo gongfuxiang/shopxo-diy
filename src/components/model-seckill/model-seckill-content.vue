@@ -118,11 +118,21 @@ const props = defineProps({
 
 const form = ref(props.value);
 const data = ref(props.styles);
-
-watchEffect(() => {
-    form.value = props.value;
+onBeforeMount(() => {
+    init();
 });
-
+const init = () => {
+    // 如果历史数据没有操作，则修改默认值
+    const { content_img_width = '', content_img_height = '' } = data.value;
+    // 宽度和高度为空的时候，并且不是无图模式和左右滑动模式的时候，修改默认值
+    if ((typeof content_img_width != 'number' || typeof content_img_height != 'number') && !['3'].includes(form.value.shop_style_type)) {
+        const list = base_list.shop_style_type_list.filter(item => item.value == form.value.shop_style_type);
+        if (list.length > 0) {
+            emit('shop_style_change', list[0].width, list[0].height);
+        }
+    }
+};
+const emit = defineEmits(['update:change-theme', 'shop_style_change']);
 const base_list = {
     themeList: [
         { id: '1', name: '风格1', url: common_store.common.config.attachment_host + `/static/diy/images/components/model-seckill/theme-1.png` },
@@ -131,9 +141,9 @@ const base_list = {
         { id: '4', name: '风格4', url: common_store.common.config.attachment_host + `/static/diy/images/components/model-seckill/theme-4.png` },
     ],
     shop_style_type_list: [
-        { name: '单列', value: '1' },
-        { name: '双列', value: '2' },
-        { name: '横向滑动', value: '3' },
+        { name: '单列', value: '1', width: 110, height: 120 },
+        { name: '双列', value: '2', width: 180, height: 180 },
+        { name: '横向滑动', value: '3', width: 0, height: 0 },
     ],
     list_show_list: [
         { name: '商品名称', value: 'title' },
@@ -179,11 +189,19 @@ const change_style = (val: any): void => {
             data.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_1;
         }
     }
+    // 切换风格时，将对应图片的默认值宽度和高度赋值
+    const list = base_list.shop_style_type_list.filter(item => item.value == form.value.shop_style_type);
+    if (list.length > 0) {
+        emit('shop_style_change', list[0].width, list[0].height);
+    }
 };
-
-const emit = defineEmits(['update:change-theme']);
 const themeChange = (val: string) => {
     emit('update:change-theme', val);
 };
+
+watchEffect(() => {
+    form.value = props.value;
+    init();
+});
 </script>
 <style lang="scss" scoped></style>

@@ -38,6 +38,17 @@
             </template>
             <card-container>
                 <div class="mb-12">商品样式</div>
+                <el-form-item label="商品背景">
+                    <div class="flex-col gap-10 w">
+                        <div class="size-12">背景色</div>
+                        <mult-color-picker :value="form.shop_color_list" :type="form.shop_direction" @update:value="shop_mult_color_picker_event"></mult-color-picker>
+                        <div class="flex-row jc-sb align-c">
+                            <div class="size-12">背景图</div>
+                            <bg-btn-style v-model="form.shop_background_img_style"></bg-btn-style>
+                        </div>
+                        <upload v-model="form.shop_background_img" :limit="1" @update:model-value="shop_background_img_change"></upload>
+                    </div>
+                </el-form-item>
                 <el-form-item label="商品名称">
                     <color-text-size-group v-model:color="form.shop_title_color" v-model:typeface="form.shop_title_typeface" v-model:size="form.shop_title_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
@@ -70,9 +81,11 @@
                 <el-form-item label="内容圆角">
                     <radius :value="form.shop_radius"></radius>
                 </el-form-item>
-                <el-form-item label="图片圆角">
-                    <radius :value="form.shop_img_radius"></radius>
-                </el-form-item>
+                <template v-if="data.shop_style_type == '3'">
+                    <el-form-item label="内容高度">
+                        <slider v-model="form.content_outer_height" :max="1000"></slider>
+                    </el-form-item>
+                </template>
                 <el-form-item label="内间距">
                     <padding :value="form.shop_padding"></padding>
                 </el-form-item>
@@ -82,9 +95,15 @@
                 <el-form-item label="商品间距">
                     <slider v-model="form.content_outer_spacing" :max="100"></slider>
                 </el-form-item>
-                <template v-if="data.shop_style_type == '3'">
-                    <el-form-item label="内容高度">
-                        <slider v-model="form.content_outer_height" :max="1000"></slider>
+                <el-form-item label="图片圆角">
+                    <radius :value="form.shop_img_radius"></radius>
+                </el-form-item>
+                <template v-if="data.shop_style_type !== '3'">
+                    <el-form-item v-if="data.shop_style_type == '1'" label="图片宽度">
+                        <slider v-model="form.content_img_width" :max="1000"></slider>
+                    </el-form-item>
+                    <el-form-item label="图片高度">
+                        <slider v-model="form.content_img_height" :max="1000"></slider>
                     </el-form-item>
                 </template>
             </card-container>
@@ -173,7 +192,7 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, data } = toRefs(state);
-
+console.log(form);
 let clone_form = cloneDeep(props.value);
 
 const base_list = {
@@ -201,6 +220,15 @@ const mult_color_picker_event = (arry: color_list[], type: number) => {
 const countdown_color_picker_event = (arry: color_list[], type: number) => {
     form.value.countdown_bg_color_list = arry;
     form.value.countdown_direction = type.toString();
+};
+// 商品背景渐变设置
+const shop_mult_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.shop_color_list = arry;
+    form.value.shop_direction = type.toString();
+};
+// 商品背景图片设置
+const shop_background_img_change = (arry: uploadList[]) => {
+    form.value.shop_background_img = arry;
 };
 // 进度条选中的设置
 const progress_color_picker_event = (arry: color_list[], type: number) => {

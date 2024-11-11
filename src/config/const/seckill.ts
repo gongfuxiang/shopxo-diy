@@ -36,12 +36,18 @@ interface DefaultSeckill {
         header_background_img_style: string;
         header_background_img: uploadList[];
         seckill_head_padding: paddingStyle;
+        shop_direction: string,
+        shop_color_list: color_list[],
+        shop_background_img_style: string,
+        shop_background_img: uploadList[],
         shop_radius: radiusStyle;
         shop_img_radius: radiusStyle;
         shop_padding: paddingStyle;
         content_outer_spacing: number;
         content_spacing: number;
         content_outer_height: number;
+        content_img_width: number | undefined;
+        content_img_height: number | undefined;
         shop_title_color: string;
         shop_title_typeface: string;
         shop_title_size: number;
@@ -127,6 +133,10 @@ const defaultSeckill: DefaultSeckill = {
             padding_left: 13,
             padding_right: 13,
         },
+        shop_direction: '90deg',
+        shop_color_list: [{ color: '#fff', color_percentage: undefined }],
+        shop_background_img_style: '0',
+        shop_background_img: [],
         // 商品内容圆角
         shop_radius: {
             radius: 8,
@@ -156,6 +166,8 @@ const defaultSeckill: DefaultSeckill = {
         content_spacing: 10,
         // 商品高度
         content_outer_height: 232,
+        content_img_width: undefined,
+        content_img_height: undefined,
         shop_title_typeface: '500',
         shop_title_size: 14,
         shop_title_color: '#333333',

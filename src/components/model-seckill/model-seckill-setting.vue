@@ -1,7 +1,7 @@
 <template>
     <div class="auxiliary-line-setting">
         <template v-if="type == '1'">
-            <model-seckill-content :value="form.content" :styles="form.style" :default-config="data_config" @update:change-theme="change_theme"></model-seckill-content>
+            <model-seckill-content :value="form.content" :styles="form.style" :default-config="data_config" @update:change-theme="change_theme" @shop_style_change="shop_style_change"></model-seckill-content>
         </template>
         <template v-if="type == '2'">
             <model-seckill-styles :value="form.style" :content="form.content" :default-config="data_config"></model-seckill-styles>
@@ -56,6 +56,10 @@ onBeforeMount(async () => {
             header_background_direction: '180deg',
             header_background_img_style: '2',
             header_background_img: [{ id: 1, url: new_url.value + 'header-bg.png', original: '背景', title: '背景1', ext: '.png', type: 'img' }],
+            shop_direction: '90deg',
+            shop_color_list: [{ color: '#fff', color_percentage: undefined }],
+            shop_background_img_style: '0',
+            shop_background_img: [],
             shop_radius: {
                 radius: 8,
                 radius_top_left: 8,
@@ -81,7 +85,7 @@ onBeforeMount(async () => {
             content_spacing: 10,
             content_outer_height: 232,
             shop_title_typeface: '500',
-            shop_title_size: 14,    
+            shop_title_size: 14,  
             shop_title_color: "#333333",
             shop_price_typeface: '500',
             shop_price_size: 18,
@@ -178,9 +182,16 @@ const form = ref(props.value);
 // 切换风格的时候会将对应风格的默认数据合并到form中
 const change_theme = (val: string) => {
     if (val) {
+        // 将默认数据样式合并到form中
         form.value.style = Object.assign({}, form.value.style, cloneDeep(default_data.style), cloneDeep((<arrayIndex>default_config.style)[`theme_${Number(val)}`].style));
+        // 将默认数据样式合并到form中
         form.value.content = Object.assign({}, form.value.content, cloneDeep(default_data.content), cloneDeep((<arrayIndex>default_config.style)[`theme_${Number(val)}`].content));
     }
+};
+
+const shop_style_change = (width: number, height: number) => {
+    form.value.style.content_img_width = width;
+    form.value.style.content_img_height = height;
 };
 </script>
 <style lang="scss" scoped>
