@@ -1,7 +1,7 @@
 <template>
     <div :style="style_container">
         <div class="re" :style="style_img_container">
-            <div ref="swiperSize" class="swiper-container w h">
+            <div ref="swiperSize" class="swiper-container w h oh">
                 <swiper
                     :key="carouselKey"
                     :class="[`swiper-right-${swiper_style.slidesPerView}`, {'swiper-card': interval_types}]"

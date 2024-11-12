@@ -30,17 +30,17 @@
                 </el-tooltip>
             </el-radio-group>
         </el-form-item>
-        <el-form-item label="大小">
-            <slider v-model="form.indicator_size" :max="100"></slider>
-        </el-form-item>
-        <el-form-item v-if="isIndicatorBottom" label="下边距">
-            <slider v-model="form.indicator_bottom" :min="0" :max="100"></slider>
-        </el-form-item>
         <el-form-item label="色值">
             <div class="flex-col gap-20">
                 <div class="flex-row gap-20"><span class="size-12 cr-9">选中样式</span><color-picker v-model="form.actived_color" default-color="#2A94FF" @update:value="color_picker_change($event, 'actived_color')"></color-picker></div>
                 <div class="flex-row gap-20"><span class="size-12 cr-9">常规样式</span><color-picker v-model="form.color" default-color="#DDDDDD" @update:value="color_picker_change($event, 'color')"></color-picker></div>
             </div>
+        </el-form-item>
+        <el-form-item label="大小">
+            <slider v-model="form.indicator_size" :max="100"></slider>
+        </el-form-item>
+        <el-form-item v-if="isIndicatorBottom" label="下边距">
+            <slider v-model="form.indicator_bottom" :min="0" :max="100"></slider>
         </el-form-item>
         <el-form-item v-if="form.indicator_style != 'num'" label="圆角">
             <radius :value="form.indicator_radius" @update:value="indicator_radius_change"></radius>
