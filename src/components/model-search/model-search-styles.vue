@@ -13,7 +13,7 @@
             <template v-if="search_content.is_search_show == '1'">
                 <card-container>
                     <div class="mb-12">搜索按钮</div>
-                    <el-form-item label="搜索按钮">
+                    <el-form-item label="按钮文字">
                         <color-picker v-model="form.button_inner_color" default-color="#fff"></color-picker>
                     </el-form-item>
                     <el-form-item v-if="content.search_type != 'img'" label="背景设置">

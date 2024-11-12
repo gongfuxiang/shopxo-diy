@@ -32,6 +32,10 @@ const props = defineProps({
         default: () => {
             return {};
         },
+    },
+    outerContainerPadding: {
+        type: Number,
+        default: 0,
     }
 });
 // 用于页面判断显示
@@ -45,27 +49,19 @@ const { form, new_style } = toRefs(state);
 const custom_height = computed(() => form.value.height * scale.value + 'px');
 const div_width = ref(0);
 const scale = ref(1);
-// 获取当前宽度 和 缩放比例
-onMounted(() => {
-    const { margin_left, margin_right, padding_left, padding_right } = new_style.value.common_style;
-    // 根据容器宽度来计算内部大小
-    div_width.value = 390 - margin_left - margin_right - padding_left - padding_right;
-    // 获得对应宽度的比例
-    scale.value = div_width.value / 390;
-});
 const percentage_count = (val: number, container_size: number) => {
     return val * scale.value + 'px';
 };
 // 公共样式
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));
 const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
-watch(() => new_style.value.common_style, (val) => {
-    const { margin_left, margin_right, padding_left, padding_right } = val;
+watchEffect(() => {
+    const { margin_left, margin_right, padding_left, padding_right } = new_style.value.common_style;
     // 根据容器宽度来计算内部大小
-    div_width.value = 390 - margin_left - margin_right - padding_left - padding_right;
+    div_width.value = 390 - margin_left - margin_right - padding_left - padding_right - props.outerContainerPadding;
     // 获得对应宽度的比例
     scale.value = div_width.value / 390;
-}, { deep: true });
+});
 </script>
 <style lang="scss" scoped>
 .custom-other {

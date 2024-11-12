@@ -74,7 +74,7 @@
             </template>
             <!-- 数据魔方 -->
             <template v-else-if="item.key == 'data-magic'">
-                <model-data-magic :key="item.com_data" :value="item.com_data" :show-tabs="item.show_tabs == '1'"></model-data-magic>
+                <model-data-magic :key="item.com_data" :value="item.com_data" :outer-container-padding="outerContainerPadding" :show-tabs="item.show_tabs == '1'"></model-data-magic>
             </template>
             <!-- 热区 -->
             <template v-else-if="item.key == 'hot-zone'">
@@ -82,7 +82,7 @@
             </template>
             <!-- 自定义 -->
             <template v-else-if="item.key == 'custom'">
-                <model-custom :key="item.com_data" :value="item.com_data" :show-tabs="item.show_tabs == '1'"></model-custom>
+                <model-custom :key="item.com_data" :value="item.com_data" :outer-container-padding="outerContainerPadding" :show-tabs="item.show_tabs == '1'"></model-custom>
             </template>
             <!-- 营销组件 -->
             <!-- 优惠券 -->
@@ -122,6 +122,7 @@ interface Props {
     showModelBorder: boolean;
     isTabs?: boolean;
     mainContentStyle: string;
+    outerContainerPadding: number;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -129,6 +130,7 @@ const props = withDefaults(defineProps<Props>(), {
     showModelBorder: false,
     isTabs: false,
     mainContentStyle: '',
+    outerContainerPadding: 0,
 });
 const diy_data = ref(props.diyData);
 

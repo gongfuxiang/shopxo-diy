@@ -111,6 +111,10 @@ const props = defineProps({
             return {};
         },
     },
+    outerContainerPadding: {
+        type: Number,
+        default: 0,
+    }
 });
 // 用于页面判断显示
 const state = reactive({
@@ -346,13 +350,13 @@ const style_img_container = computed(() => common_img_computer(new_style.value.c
 // 图片魔方的缩放比例
 const magic_scale = ref(1);
 const typewidth = ref(0);
-watch(() => new_style.value.common_style, (val) => {
-    const { margin_left, margin_right, padding_left, padding_right } = val;
+watchEffect(() => {
+    const { margin_left, margin_right, padding_left, padding_right } = new_style.value.common_style;
     // 根据容器宽度来计算内部大小
-    typewidth.value = 390 - margin_left - margin_right - padding_left - padding_right;
+    typewidth.value = 390 - margin_left - margin_right - padding_left - padding_right - props.outerContainerPadding;
     // 获得对应宽度的比例
     magic_scale.value = typewidth.value / 390;
-}, { immediate:true, deep: true });
+});
 </script>
 <style lang="scss" scoped>
 // 图片魔方是一个正方形，根据宽度计算高度
