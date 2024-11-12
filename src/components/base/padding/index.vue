@@ -9,12 +9,14 @@
             </el-tooltip>
         </div>
         <div class="type-icon-animation flex-row flex-wrap gap-x-20 oh" :style="`${ icon_data.name == 'alone' ? 'margin-top:20px;height: 100%;transform: scale(1);' : 'height:0px;transform: scale(0);margin-top:0px;'}`">
-            <div class="flex-width-half pr-10">
-                <input-number v-model="form.padding_top" :max="200" icon-name="enter-t" @update:model-value="pt_event"></input-number>
-            </div>
-            <div class="flex-width-half pl-10">
-                <input-number v-model="form.padding_bottom" :max="200" icon-name="enter-b" @update:model-value="pb_event"></input-number>
-            </div>
+            <template v-if="isUpDown">
+                <div class="flex-width-half pr-10">
+                    <input-number v-model="form.padding_top" :max="200" icon-name="enter-t" @update:model-value="pt_event"></input-number>
+                </div>
+                <div class="flex-width-half pl-10">
+                    <input-number v-model="form.padding_bottom" :max="200" icon-name="enter-b" @update:model-value="pb_event"></input-number>
+                </div>
+            </template>
             <div class="flex-width-half pr-10">
                 <input-number v-model="form.padding_left" :max="200" icon-name="enter-l" @update:model-value="pl_event"></input-number>
             </div>
@@ -30,6 +32,10 @@ const props = defineProps({
     value: {
         type: Object,
         default: () => {},
+    },
+    isUpDown: {
+        type: Boolean,
+        default: true,
     },
 });
 // 用于页面判断显示

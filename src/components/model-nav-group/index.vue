@@ -100,6 +100,11 @@ const interval_list = ref({
 
 //监听屏幕缩放事件
 onMounted(() => {
+    nextTick(() => {
+        if (!isEmpty(bannerImg.value)) {
+            newHeight.value = (bannerImg.value[0]?.clientHeight || 100) + 'px';
+        }
+    });
     window.onresize = () => {
         newHeight.value = bannerImg.value[0]?.clientHeight || 100 + 'px';
     };

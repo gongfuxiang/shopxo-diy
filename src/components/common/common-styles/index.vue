@@ -25,7 +25,7 @@
                     <slider v-model="form.module_z_index" :min="0" :max="10"></slider>
                 </el-form-item>
                 <el-form-item label="内边距">
-                    <padding :value="form" @update:value="padding_change"></padding>
+                    <padding :value="form" :is-up-down="isUpDown" @update:value="padding_change"></padding>
                 </el-form-item>
                 <el-form-item v-if="isMargin" label="外边距">
                     <margin :value="form" @update:value="margin_change"></margin>
@@ -110,6 +110,10 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
+    isUpDown: {
+        type: Boolean,
+        default: true,
+    }
 });
 // value 和初始化数据合并数据
 let form = ref(props.value);

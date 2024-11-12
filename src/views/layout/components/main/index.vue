@@ -68,7 +68,7 @@
                     </div>
                     <!-- 页面设置 -->
                     <page-settings :show-page="page_data.show_tabs == '1'" :page-data="page_data" :scoll-top="scoll_top" @page_settings="page_settings"></page-settings>
-                    <div class="model-wall" :style="`margin-top: ${top_margin}px;${main_content_up_and_down_style}` ">
+                    <div class="model-wall" :style="`margin-top: ${top_margin}px;`">
                         <div class="model-wall-content" :style="`padding-top:${top_padding}px;padding-bottom:${bottom_navigation_show ? footer_nav_counter_store.padding_footer : 0}px;`">
                             <div-content :diy-data="tabs_data" :show-model-border="show_model_border" :is-tabs="true" :main-content-style="main_content_style" :outer-container-padding="outer_container_padding" @on_choose="set_tabs_event(true)" @del="del"></div-content>
                             <div v-if="tabs_data.length > 0" class="seat"></div>
@@ -152,7 +152,6 @@ const top_margin = ref(0);
 const content_style = ref('');
 const content_img_style = ref('');
 const main_content_style = ref('');
-const main_content_up_and_down_style = ref('');
 const outer_container_padding = ref(0);
 const bottom_navigation_show = ref(true);
 // 更新数据第一个的安全距离
@@ -186,8 +185,6 @@ watchEffect(() => {
         content_style.value = gradient_computer(new_style.common_style);
         content_img_style.value = background_computer(new_style.common_style);
         const { padding_top = 0, padding_left = 0, padding_right = 0, padding_bottom = 0 } = new_style.common_style;
-        // 外容器的上下间距
-        main_content_up_and_down_style.value = `padding: ${padding_top}px 0px ${padding_bottom}px 0px;`;
         // 外容器的左右间距
         main_content_style.value = `padding: 0px ${ padding_right }px 0px ${ padding_left }px;`;
         // 外容器的左右间距总数
