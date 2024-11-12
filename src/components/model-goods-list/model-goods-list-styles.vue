@@ -38,15 +38,7 @@
                 <el-form-item label="评分颜色">
                     <color-picker v-model="form.shop_score_color" default-color="#000000"></color-picker>
                 </el-form-item> -->
-                <el-form-item label="内容圆角">
-                    <radius :value="form.shop_radius"></radius>
-                </el-form-item>
                 <template v-if="theme != '6'">
-                    <template v-if="theme == '5'">
-                        <el-form-item label="内容高度">
-                            <slider v-model="form.content_outer_height" :max="1000"></slider>
-                        </el-form-item>
-                    </template>
                     <el-form-item label="内间距">
                         <padding :value="form.shop_padding"></padding>
                     </el-form-item>
@@ -56,6 +48,16 @@
                     <el-form-item label="商品间距">
                         <slider v-model="form.content_outer_spacing" :max="100"></slider>
                     </el-form-item>
+                </template>
+                <el-form-item label="内容圆角">
+                    <radius :value="form.shop_radius"></radius>
+                </el-form-item>
+                <template v-if="theme != '6'">
+                    <template v-if="theme == '5'">
+                        <el-form-item label="内容高度">
+                            <slider v-model="form.content_outer_height" :max="1000"></slider>
+                        </el-form-item>
+                    </template>
                     <el-form-item label="图片圆角">
                         <radius :value="form.shop_img_radius"></radius>
                     </el-form-item>

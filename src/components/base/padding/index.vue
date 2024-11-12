@@ -8,7 +8,7 @@
                 </div>
             </el-tooltip>
         </div>
-        <div class="type-icon-animation flex-row flex-wrap gap-x-20 oh" :style="`${ icon_data.name == 'margin' ? 'margin-top:20px;height: 100%;transform: scale(1);' : 'height:0px;transform: scale(0);margin-top:0px;'}`">
+        <div class="type-icon-animation flex-row flex-wrap gap-x-20 oh" :style="`${ icon_data.name == 'alone' ? 'margin-top:20px;height: 100%;transform: scale(1);' : 'height:0px;transform: scale(0);margin-top:0px;'}`">
             <div class="flex-width-half pr-10">
                 <input-number v-model="form.padding_top" :max="200" icon-name="enter-t" @update:model-value="pt_event"></input-number>
             </div>
@@ -74,19 +74,19 @@ onBeforeMount(() => {
     // 判断是否相等，如果不相等，就展开
     const flag = areAllEqual(form.value.padding_top, form.value.padding_bottom, form.value.padding_left, form.value.padding_right);
     if (!flag) {
-        icon_event('unified');
+        icon_event('margin');
     }
 });
 const icon_data = reactive({
-    name: 'unified',
+    name: 'margin',
     title: '统一'
 });
 const icon_event = (name: string) => {
-    if (name == 'unified') {
-        icon_data.name = 'margin';
+    if (name == 'margin') {
+        icon_data.name = 'alone';
         icon_data.title = '独个';
     } else {
-        icon_data.name = 'unified';
+        icon_data.name = 'margin';
         icon_data.title = '统一';
     }
 }

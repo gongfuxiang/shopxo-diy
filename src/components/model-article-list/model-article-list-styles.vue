@@ -30,14 +30,6 @@
                 <el-form-item label="浏览量">
                     <color-text-size-group v-model:color="form.page_view_color" v-model:typeface="form.page_view_weight" v-model:size="form.page_view_size"></color-text-size-group>
                 </el-form-item>
-                <el-form-item label="内容圆角">
-                    <radius :value="form.content_radius"></radius>
-                </el-form-item>
-                <template v-if="theme != '3'">
-                    <el-form-item label="图片圆角">
-                        <radius :value="form.img_radius"></radius>
-                    </el-form-item>
-                </template>
                 <el-form-item label="内间距">
                     <padding :value="form.padding"></padding>
                 </el-form-item>
@@ -51,17 +43,25 @@
                         <slider v-model="form.article_spacing"></slider>
                     </el-form-item>
                 </template>
+                <el-form-item label="内容圆角">
+                    <radius :value="form.content_radius"></radius>
+                </el-form-item>
+                <template v-if="theme == '4'">
+                    <el-form-item label="内容高度">
+                        <slider v-model="form.article_height" :max="1000"></slider>
+                    </el-form-item>
+                </template>
+                <template v-if="theme != '3'">
+                    <el-form-item label="图片圆角">
+                        <radius :value="form.img_radius"></radius>
+                    </el-form-item>
+                </template>
                 <template v-if="!['3', '4'].includes(theme)">
                     <el-form-item v-if="['0'].includes(theme)" label="图片宽度">
                         <slider v-model="form.content_img_width" :max="1000"></slider>
                     </el-form-item>
                     <el-form-item label="图片高度">
                         <slider v-model="form.content_img_height" :max="1000"></slider>
-                    </el-form-item>
-                </template>
-                <template v-if="theme == '4'">
-                    <el-form-item label="内容高度">
-                        <slider v-model="form.article_height" :max="1000"></slider>
                     </el-form-item>
                 </template>
             </card-container>

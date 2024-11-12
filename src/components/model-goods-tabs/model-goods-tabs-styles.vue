@@ -51,15 +51,7 @@
                         <color-text-size-group v-model:color="form.shop_sold_number_color" v-model:typeface="form.shop_sold_number_typeface" v-model:size="form.shop_sold_number_size" slider-name="大小" default-color="#000000"></color-text-size-group>
                     </el-form-item>
                 </template>
-                <el-form-item label="内容圆角">
-                    <radius :value="form.shop_radius"></radius>
-                </el-form-item>
                 <template v-if="theme != '6'">
-                    <template v-if="theme == '5'">
-                        <el-form-item label="内容高度">
-                            <slider v-model="form.content_outer_height" :max="1000"></slider>
-                        </el-form-item>
-                    </template>
                     <el-form-item label="内间距">
                         <padding :value="form.shop_padding"></padding>
                     </el-form-item>
@@ -69,6 +61,16 @@
                     <el-form-item label="商品间距">
                         <slider v-model="form.content_outer_spacing" :max="100"></slider>
                     </el-form-item>
+                </template>
+                <el-form-item label="内容圆角">
+                    <radius :value="form.shop_radius"></radius>
+                </el-form-item>
+                <template v-if="theme != '6'">
+                    <template v-if="theme == '5'">
+                        <el-form-item label="内容高度">
+                            <slider v-model="form.content_outer_height" :max="1000"></slider>
+                        </el-form-item>
+                    </template>
                     <el-form-item label="图片圆角">
                         <radius :value="form.shop_img_radius"></radius>
                     </el-form-item>

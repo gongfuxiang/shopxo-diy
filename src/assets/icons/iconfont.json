@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "42424398",
+      "name": "小圆背景右箭头",
+      "font_class": "arrow-right-bg-radius",
+      "unicode": "e7ab",
+      "unicode_decimal": 59307
+    },
+    {
       "icon_id": "42423537",
       "name": "边距",
       "font_class": "margin",
@@ -42,8 +49,8 @@
     },
     {
       "icon_id": "42184242",
-      "name": "消息样式一",
-      "font_class": "xiaoxiyangshiyi",
+      "name": "客服",
+      "font_class": "chat",
       "unicode": "e7a6",
       "unicode_decimal": 59302
     },
