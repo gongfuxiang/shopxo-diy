@@ -79,15 +79,15 @@ onBeforeMount(() => {
 });
 const icon_data = reactive({
     name: 'margin',
-    title: '统一'
+    title: '独个'
 });
 const icon_event = (name: string) => {
     if (name == 'margin') {
         icon_data.name = 'alone';
-        icon_data.title = '独个';
+        icon_data.title = '统一';
     } else {
         icon_data.name = 'margin';
-        icon_data.title = '统一';
+        icon_data.title = '独个';
     }
 }
 //#endregion

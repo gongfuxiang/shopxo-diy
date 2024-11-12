@@ -97,15 +97,15 @@ onBeforeMount(() => {
 });
 const icon_data = reactive({
     name: 'unified',
-    title: '统一'
+    title: '独个'
 });
 const icon_event = (name: string) => {
     if (name == 'unified') {
         icon_data.name = 'alone';
-        icon_data.title = '独个';
+        icon_data.title = '统一';
     } else {
         icon_data.name = 'unified';
-        icon_data.title = '统一';
+        icon_data.title = '独个';
     }
 }
 //#endregion

@@ -1,6 +1,11 @@
 <template>
     <div class="slider w">
-        <el-slider v-model="modelValue" :min="min" :max="max" :step="step" />
+        <template v-if="max <= 10">
+            <el-slider v-model="modelValue" :min="min" :max="max" :step="step" show-stops />
+        </template>
+        <template v-else>
+            <el-slider v-model="modelValue" :min="min" :max="max" :step="step" />
+        </template>
         <input-number v-model="modelValue" :class="type == 'notRetract'? 'slider-input' : 'slider-retract-input'" :min="min" :max="max"></input-number>
     </div>
 </template>
@@ -33,6 +38,9 @@ const modelValue = defineModel({ type: Number, default: 0 });
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
+    :deep(.el-slider__stop) {
+        background: #f2f2f2;
+    }
     .slider-input {
         :deep(.el-input-number) {
             width: 10.7rem;
