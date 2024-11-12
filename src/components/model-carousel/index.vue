@@ -1,6 +1,6 @@
 <template>
     <div :style="style_container">
-        <div :style="style_img_container">
+        <div class="re" :style="style_img_container">
             <div ref="swiperSize" class="swiper-container w h">
                 <swiper
                     :key="carouselKey"
@@ -57,17 +57,17 @@
                             </div>
                         </div>
                     </swiper-slide>
-                    <div v-if="new_style.is_show == '1'" :class="{'x-middle': new_style.indicator_location == 'center', 'right-0': new_style.indicator_location == 'flex-end' }" class="dot flex abs" :style="`bottom: ${new_style.indicator_bottom}px;`">
-                        <template v-if="new_style.indicator_style == 'num'">
-                            <div :style="indicator_style" class="dot-item">
-                                <span class="num-active">{{ actived_index + 1 }}</span><span>/{{ form.carousel_list.length }}</span>
-                            </div>
-                        </template>
-                        <template v-else>
-                            <div v-for="(item, index2) in form.carousel_list" :key="index2" :style="indicator_style" :class="{'dot-item': true, 'active': actived_index == index2 }" />
-                        </template>
-                    </div>
                 </swiper>
+                <div v-if="new_style.is_show == '1'" :class="{'x-middle': new_style.indicator_location == 'center', 'right-0': new_style.indicator_location == 'flex-end' }" class="dot flex abs" :style="`bottom: ${new_style.indicator_bottom}px;`">
+                    <template v-if="new_style.indicator_style == 'num'">
+                        <div :style="indicator_style" class="dot-item">
+                            <span class="num-active">{{ actived_index + 1 }}</span><span>/{{ form.carousel_list.length }}</span>
+                        </div>
+                    </template>
+                    <template v-else>
+                        <div v-for="(item, index2) in form.carousel_list" :key="index2" :style="indicator_style" :class="{'dot-item': true, 'active': actived_index == index2 }" />
+                    </template>
+                </div>
             </div>
         </div>
     </div>

@@ -1,12 +1,16 @@
 <template>
     <div class="slider w">
         <el-slider v-model="modelValue" :min="min" :max="max" :step="step" />
-        <input-number v-model="modelValue" class="slider-input" :min="min" :max="max"></input-number>
+        <input-number v-model="modelValue" :class="type == 'notRetract'? 'slider-input' : 'slider-retract-input'" :min="min" :max="max"></input-number>
     </div>
 </template>
 
 <script lang="ts" setup>
 const props = defineProps({
+    type: {
+        type: String,
+        default: 'notRetract',
+    },
     min: {
         type: Number,
         default: 0,
@@ -31,7 +35,12 @@ const modelValue = defineModel({ type: Number, default: 0 });
     gap: 1rem;
     .slider-input {
         :deep(.el-input-number) {
-            width: 9rem;
+            width: 10.7rem;
+        }
+    }
+    .slider-retract-input {
+        :deep(.el-input-number) {
+            width: 7.3rem;
         }
     }
 }

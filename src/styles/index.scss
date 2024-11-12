@@ -259,3 +259,8 @@ p {
         margin-bottom: 0;
     }
 }
+
+.el-input-number.is-controls-right .el-input__wrapper {
+    padding-left: 10px;
+    padding-right: 35px;
+}

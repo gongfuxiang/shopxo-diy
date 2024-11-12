@@ -1,14 +1,14 @@
 <template>
     <div class="flex-col w">
         <div class="flex-row gap-10 align-c">
-            <slider v-model="form.padding" :max="200" @update:model-value="padding_event"></slider>
+            <slider v-model="form.padding" :max="200" type="retract" @update:model-value="padding_event"></slider>
             <el-tooltip effect="light" :show-after="200" :hide-after="200" :content="icon_data.title" raw-content placement="top">
                 <div class="flex-1 type-icon flex" @click="icon_event(icon_data.name)">
                     <icon :name="icon_data.name" size="24"></icon>
                 </div>
             </el-tooltip>
         </div>
-        <div class="type-icon-animation flex-row flex-wrap gap-x-20 oh" :style="`${ icon_data.name == 'alone' ? 'margin-top:20px;height: 100%;transform: scale(1);' : 'height:0px;transform: scale(0);margin-top:0px;'}`">
+        <div class="type-icon-animation flex-row flex-wrap gap-x-20 oh" :style="`${ icon_data.name == 'margin' ? 'margin-top:20px;height: 100%;transform: scale(1);' : 'height:0px;transform: scale(0);margin-top:0px;'}`">
             <div class="flex-width-half pr-10">
                 <input-number v-model="form.padding_top" :max="200" icon-name="enter-t" @update:model-value="pt_event"></input-number>
             </div>
@@ -83,7 +83,7 @@ const icon_data = reactive({
 });
 const icon_event = (name: string) => {
     if (name == 'unified') {
-        icon_data.name = 'alone';
+        icon_data.name = 'margin';
         icon_data.title = '独个';
     } else {
         icon_data.name = 'unified';

@@ -28,7 +28,7 @@
                                     </template>
                                     <div v-if="['1', '2', '3'].includes(form.theme) && !isEmpty(form.title)">{{ form.title }}</div>
                                     <template v-if="['3', '5'].includes(form.theme) && !is_search_alone_row">
-                                        <div class="flex-1">
+                                        <div class="flex-1 fw-n">
                                             <model-search :value="pageData.com_data" :is-page-settings="true"></model-search>
                                         </div>
                                     </template>

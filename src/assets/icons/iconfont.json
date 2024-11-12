@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "42423537",
+      "name": "边距",
+      "font_class": "margin",
+      "unicode": "e7aa",
+      "unicode_decimal": 59306
+    },
+    {
       "icon_id": "42400752",
       "name": "分类-空心",
       "font_class": "menu-category",
