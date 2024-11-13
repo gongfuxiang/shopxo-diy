@@ -70,11 +70,11 @@
             </template>
             <!-- 图片魔方 -->
             <template v-else-if="item.key == 'img-magic'">
-                <model-img-magic :key="item.com_data" :value="item.com_data" :show-tabs="item.show_tabs == '1'"></model-img-magic>
+                <model-img-magic :key="item.com_data" :value="item.com_data"></model-img-magic>
             </template>
             <!-- 数据魔方 -->
             <template v-else-if="item.key == 'data-magic'">
-                <model-data-magic :key="item.com_data" :value="item.com_data" :outer-container-padding="outerContainerPadding" :show-tabs="item.show_tabs == '1'"></model-data-magic>
+                <model-data-magic :key="item.com_data" :value="item.com_data" :outer-container-padding="outerContainerPadding"></model-data-magic>
             </template>
             <!-- 热区 -->
             <template v-else-if="item.key == 'hot-zone'">
@@ -82,7 +82,7 @@
             </template>
             <!-- 自定义 -->
             <template v-else-if="item.key == 'custom'">
-                <model-custom :key="item.com_data" :value="item.com_data" :outer-container-padding="outerContainerPadding" :show-tabs="item.show_tabs == '1'"></model-custom>
+                <model-custom :key="item.com_data" :value="item.com_data" :outer-container-padding="outerContainerPadding"></model-custom>
             </template>
             <!-- 营销组件 -->
             <!-- 优惠券 -->

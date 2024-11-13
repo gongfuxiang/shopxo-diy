@@ -20,42 +20,8 @@
             <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">商品设置</div>
-                <el-form-item label="添加商品">
-                    <el-radio-group v-model="form.data_type">
-                        <el-radio v-for="item in base_list.product_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                    </el-radio-group>
-                </el-form-item>
-                <template v-if="form.data_type === '0'">
-                    <div class="nav-list">
-                        <drag-group :list="form.data_list" img-params="images" @onsort="goods_list_sort" @remove="goods_list_remove" @replace="data_list_replace"></drag-group>
-                        <el-button class="mt-20 w" @click="add">+添加</el-button>
-                    </div>
-                </template>
-                <template v-else>
-                    <el-form-item label="商品分类">
-                        <el-select v-model="form.category_ids" multiple collapse-tags placeholder="请选择商品分类">
-                            <el-option v-for="item in base_list.product_category_list" :key="item.id" :label="item.name" :value="item.id" />
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="指定品牌">
-                        <el-select v-model="form.brand_ids" multiple collapse-tags placeholder="请选择品牌">
-                            <el-option v-for="item in base_list.product_brand_list" :key="item.id" :label="item.name" :value="item.id" />
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="显示数量">
-                        <el-input-number v-model="form.number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
-                    </el-form-item>
-                    <el-form-item label="排序类型">
-                        <el-radio-group v-model="form.order_by_type">
-                            <el-radio v-for="item in base_list.sort_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                    <el-form-item label="排序规则">
-                        <el-radio-group v-model="form.order_by_rule">
-                            <el-radio v-for="item in base_list.order_by_rule_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                </template>
+                <!-- 数据筛选组件, 根据数据源类型显示不同的筛选组件 -->
+                <data-filter type="goods" :value="form" :list="form.data_list" :base-list="base_list" @add="add" @data_list_replace="data_list_replace" @data_list_remove="goods_list_remove" @data_list_sort="goods_list_sort"></data-filter>
             </card-container>
             <div class="divider-line"></div>
             <!-- 商品显示的配置信息 -->

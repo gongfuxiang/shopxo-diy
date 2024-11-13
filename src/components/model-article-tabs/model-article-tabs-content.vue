@@ -41,40 +41,8 @@
                                     <el-form-item v-if="form.tabs_theme == '1'" label="简介配置">
                                         <el-input v-model="row.desc" placeholder="请输入简介" clearable />
                                     </el-form-item>
-                                    <el-form-item label="读取方式">
-                                        <el-radio-group v-model="row.data_type">
-                                            <el-radio v-for="item in base_list.data_type_list" :key="item.value + get_math()" :value="item.value">{{ item.name }}</el-radio>
-                                        </el-radio-group>
-                                    </el-form-item>
-                                    <template v-if="row.data_type === '0'">
-                                        <div class="nav-list">
-                                            <drag-group :list="row.data_list" img-params="cover" @onsort="data_list_sort($event, index)" @remove="data_list_remove($event, index)" @replace="data_list_replace"></drag-group>
-                                            <el-button class="mtb-20 w" @click="article_add(index)">+添加</el-button>
-                                        </div>
-                                    </template>
-                                    <template v-else>
-                                        <el-form-item label="文章分类">
-                                            <el-select v-model="row.category_ids" multiple collapse-tags placeholder="请选择文章分类">
-                                                <el-option v-for="item in base_list.article_category_list" :key="item.id" :label="item.name" :value="item.id" />
-                                            </el-select>
-                                        </el-form-item>
-                                        <el-form-item label="显示数量">
-                                            <el-input-number v-model="row.number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
-                                        </el-form-item>
-                                        <el-form-item label="排序类型">
-                                            <el-radio-group v-model="row.order_by_type">
-                                                <el-radio v-for="item in base_list.sort_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                                            </el-radio-group>
-                                        </el-form-item>
-                                        <el-form-item label="排序规则">
-                                            <el-radio-group v-model="row.order_by_rule">
-                                                <el-radio v-for="item in base_list.order_by_rule_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                                            </el-radio-group>
-                                        </el-form-item>
-                                        <el-form-item label="封面图片">
-                                            <el-switch v-model="row.is_cover" active-value="1" inactive-value="0" />
-                                        </el-form-item>
-                                    </template>
+                                    <!-- 数据筛选组件, 根据数据源类型显示不同的筛选组件 -->
+                                    <data-filter type="article" :value="row" :list="row.data_list" :base-list="base_list" @add="article_add(index)" @data_list_replace="data_list_replace($event, index)" @data_list_remove="data_list_remove($event, index)" @data_list_sort="data_list_sort($event, index)"></data-filter>
                                 </template>
                             </div>
                         </template>
@@ -269,7 +237,8 @@ const url_value_multiple_bool = ref(true);
 const data_list_replace_index = ref(0);
 
 // 替换
-const data_list_replace = (index: number) => {
+const data_list_replace = (index: number, row_index: number) => {
+    article_index.value = row_index;
     data_list_replace_index.value = index;
     url_value_multiple_bool.value = false;
     url_value_dialog_visible.value = true;

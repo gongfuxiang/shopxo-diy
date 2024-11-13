@@ -34,16 +34,36 @@ const props = defineProps({
     scale: {
         type: Number,
         default: 1
+    },
+    sourceType: {
+        type: String,
+        default: ''
     }
 });
+const keyMap: { [key: string]: string } = {
+    goods: 'title',
+    article: 'title',
+    brand: 'name'
+};
+
 // 用于页面判断显示
 const form = reactive(props.value);
 const text_title = computed(() => {
     let text = '';
+    let text_title = props.sourceList[form.data_source_id];
+    // 如果是商品的标题或者是品牌的名称，需要判断是否有新的标题，没有的话就取原来的标题
+    if (['goods', 'article', 'brand'].includes(props.sourceType)) {
+        // 其他的切换为从data中取数据
+        if (form.data_source_id == keyMap[props.sourceType]) {
+            text_title = !isEmpty(props.sourceList.new_title) ? props.sourceList.new_title : props.sourceList.data[keyMap[props.sourceType]];
+        } else {
+            text_title = props.sourceList.data[form.data_source_id];
+        }
+    }
     if (!isEmpty(form.text_title)) {
         text = form.text_title;
-    } else if(props.sourceList[form.data_source_id] != undefined) {
-        text = props.sourceList[form.data_source_id];
+    } else if(text_title != undefined) {
+        text = text_title;
     } else if(!props.isPercentage){
         text = '请在此输入文字';
     }

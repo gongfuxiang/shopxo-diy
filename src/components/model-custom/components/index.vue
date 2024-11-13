@@ -70,19 +70,19 @@
                                 <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="{'plug-in-show-component-line': is_show_component_line, 'plug-in-show-tabs': item.show_tabs == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1' }" :style="{ 'z-index': (diy_data.length - 1) - index }" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index)" @resize-end="resizingHandle($event, item.key, index)">
                                     <div :class="['main-content', { 'plug-in-border': item.show_tabs == '1' }]">
                                         <template v-if="item.key == 'text'">
-                                            <model-text :key="item.id" :value="item.com_data" :source-list="props.sourceList"></model-text>
+                                            <model-text :key="item.id" :value="item.com_data" :source-list="props.sourceList" :source-type="sourceType"></model-text>
                                         </template>
                                         <template v-else-if="item.key == 'img'">
-                                            <model-image :key="item.id" :value="item.com_data" :source-list="props.sourceList"></model-image>
+                                            <model-image :key="item.id" :value="item.com_data" :source-list="props.sourceList" :source-type="sourceType"></model-image>
                                         </template>
                                         <template v-else-if="item.key == 'auxiliary-line'">
-                                            <model-lines :key="item.id" :value="item.com_data" :source-list="props.sourceList"></model-lines>
+                                            <model-lines :key="item.id" :value="item.com_data" :source-list="props.sourceList" :source-type="sourceType"></model-lines>
                                         </template>
                                         <template v-else-if="item.key == 'icon'">
-                                            <model-icon :key="item.id" :value="item.com_data" :source-list="props.sourceList"></model-icon>
+                                            <model-icon :key="item.id" :value="item.com_data" :source-list="props.sourceList" :source-type="sourceType"></model-icon>
                                         </template>
                                         <template v-else-if="item.key == 'panel'">
-                                            <model-panel :key="item.id" :value="item.com_data" :source-list="props.sourceList"></model-panel>
+                                            <model-panel :key="item.id" :value="item.com_data" :source-list="props.sourceList" :source-type="sourceType"></model-panel>
                                         </template>
                                     </div>
                                 </Vue3DraggableResizable>
@@ -120,6 +120,7 @@ const emits = defineEmits(['rightUpdate']);
 interface Props {
     list: diy_content[];
     sourceList: object;
+    sourceType: string;
 }
 const props = defineProps<Props>();
 //#endregion
