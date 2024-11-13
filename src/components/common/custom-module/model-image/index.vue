@@ -46,7 +46,6 @@ const img = computed(() => {
     if (!isEmpty(form.img[0])) {
         return form.img[0];
     } else {
-        console.log(props.sourceList);
         if (!isEmpty(props.sourceList)) {
             // 不输入商品， 文章和品牌时，从外层处理数据
             let image_url = props.sourceList[form.data_source_id];

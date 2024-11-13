@@ -26,7 +26,7 @@
                 </el-form-item>
                 <el-form-item label="数据链接">
                     <el-select v-model="form.data_source_link" value-key="id" clearable filterable placeholder="请选择数据链接字段" size="default" class="flex-1" @change="text_link_change('2')">
-                        <el-option v-for="item in options.filter((item) => item.type == 'icon')" :key="item.field" :label="item.name" :value="item.field" />
+                        <el-option v-for="item in options.filter((item) => item.type == 'text')" :key="item.field" :label="item.name" :value="item.field" />
                     </el-select>
                 </el-form-item>
                 <el-form-item label="富文本">
