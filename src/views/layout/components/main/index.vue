@@ -4,7 +4,7 @@
         <el-collapse v-model="activeNames">
             <template v-for="(com, i) in components">
                 <el-collapse-item v-if="com.data.length > 0" :key="i" :title="com.name" :name="com.key">
-                    <VueDraggable v-model="com.data" :animation="500" ghost-class="ghost" handle=".is-drag" :group="{ name: 'people', pull: 'clone', put: false }" class="component flex-row flex-wrap" :clone="clone_item_com_data" :sort="false" :force-fallback="true">
+                    <VueDraggable v-model="com.data" :animation="400" ghost-class="ghost" handle=".is-drag" :group="{ name: 'people', pull: 'clone', put: false }" class="component flex-row flex-wrap" :clone="clone_item_com_data" :sort="false" :force-fallback="true">
                         <template v-for="item in com.data" :key="item.key">
                             <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>该组件只可以点击添加, 并且只能添加一次。<br/>如果页面设置开启沉浸模式, 则不可添加</span>" raw-content placement="top" :disabled="!['tabs', 'tabs-carousel'].includes(item.key)">
                                 <div :class="['item', { 'is-drag': !['tabs', 'tabs-carousel'].includes(item.key) }]" @click.stop="draggable_click(item)">
@@ -30,7 +30,7 @@
                     <span class="size-12 cr-6">{{ item.name }}</span>
                     <el-icon class="iconfont icon-close-round-o size-16 abs" :style="[item.show_tabs == '1' ? '' : 'display:none']" @click.stop="del(index, true)" />
                 </div>
-                <VueDraggable v-model="diy_data" :animation="500" target=".sort-target" :scroll="true" :on-sort="on_sort">
+                <VueDraggable v-model="diy_data" :animation="400" target=".sort-target" :scroll="true" :on-sort="on_sort">
                     <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col">
                         <li v-for="(item, index) in diy_data" :key="index" :class="['flex ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-drag-bg': item.show_tabs == '1' }]" @click="on_choose(index, item.show_tabs)">
                             <el-icon class="iconfont icon-drag size-16 cr-d" />
