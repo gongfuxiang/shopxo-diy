@@ -205,9 +205,4 @@ const change_shop_type = () => {
     width: 4rem;
     height: 4rem;
 }
-.number-show {
-    :deep(.el-input__wrapper .el-input__inner) {
-        text-align: left;
-    }
-}
 </style>

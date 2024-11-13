@@ -61,9 +61,11 @@ import Dialog from './components/dialog.vue';
 import DragIndex from './components/index.vue';
 import { isEmpty, cloneDeep } from 'lodash';
 import CustomAPI from '@/api/custom';
-import { DataSourceStore } from '@/store';
 import ShopAPI from '@/api/shop';
 import ArticleAPI from '@/api/article';
+import { commonStore, DataSourceStore } from '@/store';
+import { get_math } from '@/utils';
+const common_store = commonStore();
 const data_source_store = DataSourceStore();
 
 const props = defineProps({
@@ -111,6 +113,9 @@ onBeforeMount(() => {
     // 不包含新创建的数组时，将历史数据放到手动添加数组中
     if (!Object.keys(form.data_source_content).includes('data_auto_list') && !Object.keys(form.data_source_content).includes('data_list')) {
         form.data_source_content.data_list = [ form.data_source_content ];
+    }
+    if (!isEmpty(form.data_source) && form.data_source in source_list) {
+        form.data_source_content_value = source_list[form.data_source as keyof typeof source_list];
     }
     if (!data_source_store.is_data_source_api) {
         data_source_store.set_is_data_source_api(true);
@@ -243,10 +248,7 @@ const changeDataSource = (key: string) => {
     }
 };
 //#endregion
-//#region 数据源内容多选
-import { commonStore } from '@/store';
-import { get_math } from '@/utils';
-const common_store = commonStore();
+//#region 数据源内容多选处理
 const base_list = reactive({
     // 商品分类
     product_list: [
