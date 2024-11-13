@@ -309,8 +309,18 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                 item1.data_content.data_source_content = {};
             });
         } else if (new_array_5.includes(item.key)) {
-            // item.com_data.content.data_source_content_value = item.com_data.content.data_source_content.id;
-            // item.com_data.content.data_source_content = {};
+            // 数据改造,存放手动的id
+            item.com_data.content.data_source_content.data_ids = item.com_data.content.data_source_content.data_list.map((item: any) => item.data.id).join(',') || '';
+            // 自动数据清空
+            item.com_data.content.data_source_content.data_auto_list = [];
+            // 数据改造,存放手动的清除里边的data
+            item.com_data.content.data_source_content.data_list = item.com_data.content.data_source_content.data_list.map((item1: any) => {
+                return {
+                    ...item1,
+                    data: [],
+                    data_id: item1.data.id,
+                };
+            });
         }
         return {
             ...item,

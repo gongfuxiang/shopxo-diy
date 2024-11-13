@@ -27,7 +27,7 @@
         <Dialog ref="dialog" @accomplish="accomplish">
             <div class="flex-row h w">
                 <!-- 左侧和中间区域 -->
-                <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="center_width" :source-list="form?.data_source_content?.data_list[0] || {}" :source-type="form?.data_source || ''" :list="custom_list" @right-update="right_update"></DragIndex>
+                <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="center_width" :source-list="!isEmpty(data_source_content_list) ? data_source_content_list[0] : {}" :source-type="form?.data_source || ''" :list="custom_list" @right-update="right_update"></DragIndex>
                 <!-- 右侧配置区域 -->
                 <div class="settings">
                     <template v-if="diy_data.key === 'img'">
@@ -62,6 +62,8 @@ import DragIndex from './components/index.vue';
 import { isEmpty, cloneDeep } from 'lodash';
 import CustomAPI from '@/api/custom';
 import { DataSourceStore } from '@/store';
+import ShopAPI from '@/api/shop';
+import ArticleAPI from '@/api/article';
 const data_source_store = DataSourceStore();
 
 const props = defineProps({
@@ -340,6 +342,83 @@ const url_value_dialog_call_back = (item: any[]) => {
         };
     }
 };
+// 数据来源的内容
+let data_source_content_list = computed(() => {
+    if (['goods', 'article', 'brand'].includes(form.data_source)) {
+        if (form.data_source_content_value.data_type == '0') {
+            return form.data_source_content.data_list;
+        } else {
+            return form.data_source_content.data_auto_list;
+        }
+    } else {
+        return form.data_source_content.data_list;
+    }
+})
+// 获取商品自动数据
+const get_products = () => {
+    const { category_ids, brand_ids, number, order_by_type, order_by_rule } = form.data_source_content_value;
+    const params = {
+        goods_keywords: '',
+        goods_category_ids: category_ids,
+        goods_brand_ids: brand_ids,
+        goods_order_by_type: order_by_type,
+        goods_order_by_rule: order_by_rule,
+        goods_number: number,
+    };
+    // 获取商品列表
+    ShopAPI.getShopLists(params).then((res: any) => {
+        // 清空历史数据
+        form.data_source_content.data_auto_list = [];
+        if (!isEmpty(res.data)) {
+            res.data.forEach((child: any) => {
+                form.data_source_content.data_auto_list.push({
+                    id: get_math(),
+                    new_title: '',
+                    new_cover: [],
+                    data: child,
+                });
+            });
+        }
+    });
+};
+// 获取文章自动数据
+const get_article = async () => {
+    const { category_ids, number, order_by_type, order_by_rule, is_cover } = form.data_source_content_value;
+    const new_data = {
+        article_keywords: '',
+        article_category_ids: category_ids.join(','),
+        article_order_by_type: order_by_type,
+        article_order_by_rule: order_by_rule,
+        article_number: number,
+        article_is_cover: is_cover,
+    };
+    const res = await ArticleAPI.getAutoList(new_data);
+    // 清空历史数据
+    form.data_source_content.data_auto_list = [];
+    if (!isEmpty(res.data)) {
+        res.data.forEach((child: any) => {
+            form.data_source_content.data_auto_list.push({
+                id: get_math(),
+                new_title: '',
+                new_cover: [],
+                data: child,
+            });
+        });
+    }
+};
+const get_brand =  () => {
+    console.log('品牌分类数据');
+    form.data_source_content.data_auto_list = [];
+}
+watch(() => form.data_source_content_value, (new_val, old_val) => {
+    if (form.data_source == 'goods') {
+        get_products();
+    } else if (form.data_source == 'article') {
+        get_article();
+    } else if (form.data_source == 'brand') {
+        get_brand();
+    }
+},{ immediate: true, deep: true });
 //#endregion
 </script>
 <style lang="scss" scoped>

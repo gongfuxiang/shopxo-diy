@@ -1,5 +1,6 @@
 import defaultCommon from "./index";
 interface content {
+    data_ids: Array<string>;
     data_list: Array<object>;
     data_auto_list: Array<object>;
 }
@@ -26,6 +27,8 @@ const defaultSearch: defaultSearch = {
         data_source_content_value: '',
         // 数据源内容
         data_source_content: {
+            // 存放手动输入的id
+            data_ids: [],
             // 手动输入
             data_list: [],
             // 自动
