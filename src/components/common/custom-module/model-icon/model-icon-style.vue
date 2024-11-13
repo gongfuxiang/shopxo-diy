@@ -22,7 +22,12 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="链接">
-                    <url-value v-model="form.icon_link"></url-value>
+                    <url-value v-model="form.icon_link" @update:model-value="link_change('1')"></url-value>
+                </el-form-item>
+                <el-form-item label="数据链接">
+                    <el-select v-model="form.data_source_link" value-key="id" clearable filterable placeholder="请选择数据链接字段" size="default" class="flex-1" @change="link_change('2')">
+                        <el-option v-for="item in options.filter((item) => item.type == 'icon')" :key="item.field" :label="item.name" :value="item.field" />
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="图标颜色">
                     <color-picker v-model="form.icon_color" default-color="#FF3F3F"></color-picker>
@@ -130,7 +135,13 @@ const icon_change = (key: string) => {
         form.value.data_source_id = '';
     }
 };
-
+const link_change = (key: string) => {
+    if (key == '2') {
+        form.value.icon_link = '';
+    } else {
+        form.value.data_source_link = '';
+    }
+};
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.color_list = arry;
     form.value.direction = type.toString();

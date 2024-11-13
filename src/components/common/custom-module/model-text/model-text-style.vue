@@ -22,7 +22,12 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="链接">
-                    <url-value v-model="form.text_link"></url-value>
+                    <url-value v-model="form.text_link" @update:model-value="text_link_change('1')"></url-value>
+                </el-form-item>
+                <el-form-item label="数据链接">
+                    <el-select v-model="form.data_source_link" value-key="id" clearable filterable placeholder="请选择数据链接字段" size="default" class="flex-1" @change="text_link_change('2')">
+                        <el-option v-for="item in options.filter((item) => item.type == 'icon')" :key="item.field" :label="item.name" :value="item.field" />
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="富文本">
                     <el-switch v-model="form.is_rich_text" active-value="1" inactive-value="0" />
@@ -151,12 +156,20 @@ onBeforeMount(() => {
         form.value.line_text_size = form.value.text_size;
     }
 });
-
+// 数据字段切换时，更新另外一个数据
 const text_change = (key: string) => {
     if (key == '2') {
         form.value.text_title = '';
     } else {
         form.value.data_source_id = '';
+    }
+};
+// 数据字段切换时，更新另外一个数据
+const text_link_change = (key: string) => {
+    if (key == '2') {
+        form.value.text_link = '';
+    } else {
+        form.value.data_source_link = '';
     }
 };
 // 文字大小变化时，同步更新行间距

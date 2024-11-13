@@ -22,7 +22,12 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="链接">
-                    <url-value v-model="form.link"></url-value>
+                    <url-value v-model="form.link" @update:model-value="img_link_change('1')"></url-value>
+                </el-form-item>
+                <el-form-item label="数据链接">
+                    <el-select v-model="form.data_source_link" value-key="id" clearable filterable placeholder="请选择数据链接字段" size="default" class="flex-1" @change="img_link_change('2')">
+                        <el-option v-for="item in options.filter((item) => item.type == 'icon')" :key="item.field" :label="item.name" :value="item.field" />
+                    </el-select>
                 </el-form-item>
                 <el-form-item label="图片圆角">
                     <radius :value="form.img_radius" @update:value="img_radius_change"></radius>
@@ -96,12 +101,20 @@ const img_radius_change = (radius: any) => {
 const border_radius_change = (radius: any) => {
     form.value.border_radius = Object.assign(form.value.border_radius, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
 };
-
+// 数据字段切换时，更新另外一个数据
 const img_src_change = (key: string) => {
     if (key == '2') {
         form.value.img = [];
     } else {
         form.value.data_source_id = '';
+    }
+}
+// 数据链接字段切换时，更新另外一个数据
+const img_link_change = (key: string) => {
+    if (key == '2') {
+        form.value.link = '';
+    } else {
+        form.value.data_source_link = '';
     }
 }
 
