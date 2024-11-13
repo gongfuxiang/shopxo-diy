@@ -112,7 +112,7 @@ const img_src_change = (key: string) => {
 // 数据链接字段切换时，更新另外一个数据
 const img_link_change = (key: string) => {
     if (key == '2') {
-        form.value.link = '';
+        form.value.link = {};
     } else {
         form.value.data_source_link = '';
     }

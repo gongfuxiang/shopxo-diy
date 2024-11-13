@@ -137,7 +137,7 @@ const icon_change = (key: string) => {
 };
 const link_change = (key: string) => {
     if (key == '2') {
-        form.value.icon_link = '';
+        form.value.icon_link = {};
     } else {
         form.value.data_source_link = '';
     }
