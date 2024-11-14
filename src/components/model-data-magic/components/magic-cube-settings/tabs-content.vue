@@ -89,7 +89,7 @@
     </template>
     <template v-else-if="form.data_type == 'custom'">
         <div class="bg-f5 divider-line" />
-        <model-custom-content :value="form" :magic-width="form.width"></model-custom-content>
+        <model-custom-content :key="key" :value="form" :magic-width="form.width"></model-custom-content>
     </template>
     <template v-else>
         <div class="bg-f5 divider-line" />
@@ -146,9 +146,10 @@ const goods_list_replace = (index: number) => {
     url_value_multiple_bool.value = false;
     url_value_dialog_visible.value = true;
 };
-
+const key = ref('0');
 watchEffect(() => {
     form.value = props.value;
+    key.value = get_math();
 });
 
 const goods_list_add = () => {

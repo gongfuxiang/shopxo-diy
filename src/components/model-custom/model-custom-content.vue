@@ -85,10 +85,6 @@ const dialog = ref<expose | null>(null);
 const draglist = ref<diy_data | null>(null);
 const form = ref(props.value);
 const center_width = ref(props.magicWidth);
-watchEffect(() => {
-    form.value = props.value;
-    center_width.value = props.magicWidth;
-})
 // 弹出框里的内容
 let custom_list = reactive([]);
 const center_height = ref(0);

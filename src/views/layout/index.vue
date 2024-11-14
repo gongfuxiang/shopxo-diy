@@ -22,7 +22,7 @@ import { is_obj, set_cookie, get_cookie } from '@/utils';
 import { Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
 import defaultConfigSetting from '@/config/setting';
-import { cloneDeep, omit } from 'lodash';
+import { cloneDeep, isEmpty, omit } from 'lodash';
 import DiyAPI, { diyData, headerAndFooter, diyConfig } from '@/api/diy';
 import CommonAPI from '@/api/common';
 import { commonStore } from '@/store';
@@ -305,37 +305,47 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                         data_id: item3.data.id,
                     };
                 });
-                const data_list = cloneDeep(item1.data_content.data_source_content.data_list);
-                // 数据改造,存放手动的id
-                item1.data_content.data_source_content.data_ids = data_list.map((item4: any) => item4.data.id).join(',') || '';
+                if (['goods', 'article', 'brand'].includes(item1.data_content.data_source)) {
+                    const data_list = cloneDeep(item1.data_content.data_source_content.data_list);
+                    // 数据改造,存放手动的id
+                    item1.data_content.data_source_content.data_ids = data_list.map((item4: any) => item4.data.id).join(',') || '';
+                    // 数据改造,存放手动的清除里边的data
+                    item1.data_content.data_source_content.data_list = data_list.map((item5: any) => {
+                        return {
+                            ...item5,
+                            data: [],
+                            data_id: item5.data.id,
+                        };
+                    });
+                } else {
+                    item1.data_content.data_source_content.data_ids = [];
+                    item1.data_content.data_source_content.data_list = [];
+                }
                 // 自动数据清空
                 item1.data_content.data_source_content.data_auto_list = [];
-                // 数据改造,存放手动的清除里边的data
-                item1.data_content.data_source_content.data_list = data_list.map((item5: any) => {
-                    return {
-                        ...item5,
-                        data: [],
-                        data_id: item5.data.id,
-                    };
-                });
             });
         } else if (new_array_5.includes(item.key)) {
             // 从数据中剔除data_source_content_value字段
             item.com_data.content = omit(cloneDeep(item.com_data.content), ['data_source_content_value']);
-            // 手动的数据内容
-            const data_list = cloneDeep(item.com_data.content.data_source_content.data_list);
-            // 数据改造,存放手动的id
-            item.com_data.content.data_source_content.data_ids = data_list.map((item: any) => item.data.id).join(',') || '';
+            if (['goods', 'article', 'brand'].includes(item.com_data.content.data_source)) {
+                // 手动的数据内容
+                const data_list = cloneDeep(item.com_data.content.data_source_content.data_list);
+                // 数据改造,存放手动的id
+                item.com_data.content.data_source_content.data_ids = data_list.map((item: any) => item.data.id || '').join(',') || '';
+                // 数据改造,存放手动的清除里边的data
+                item.com_data.content.data_source_content.data_list = data_list.map((item1: any) => {
+                    return {
+                        ...item1,
+                        data: [],
+                        data_id: item1.data.id,
+                    };
+                });
+            } else {
+                item.com_data.content.data_source_content.data_ids = [];
+                item.com_data.content.data_source_content.data_list = [];
+            }
             // 自动数据清空
             item.com_data.content.data_source_content.data_auto_list = [];
-            // 数据改造,存放手动的清除里边的data
-            item.com_data.content.data_source_content.data_list = data_list.map((item1: any) => {
-                return {
-                    ...item1,
-                    data: [],
-                    data_id: item1.data.id,
-                };
-            });
         }
         return {
             ...item,
