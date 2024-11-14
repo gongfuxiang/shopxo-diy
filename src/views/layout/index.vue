@@ -320,6 +320,9 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                 });
             });
         } else if (new_array_5.includes(item.key)) {
+            // 从数据中剔除data_source_content_value字段
+            item.com_data.content = omit(cloneDeep(item.com_data.content), ['data_source_content_value']);
+            // 手动的数据内容
             const data_list = cloneDeep(item.com_data.content.data_source_content.data_list);
             // 数据改造,存放手动的id
             item.com_data.content.data_source_content.data_ids = data_list.map((item: any) => item.data.id).join(',') || '';
