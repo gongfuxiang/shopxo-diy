@@ -27,7 +27,7 @@
                 </el-form-item>
             </template>
         </template>
-        <el-form-item label="内间距">
+        <el-form-item v-if="tabs_content.data_type != 'custom'" label="内间距">
             <padding :key="form.carouselKey" :value="form.chunk_padding" @update:value="chunk_padding_change"></padding>
         </el-form-item>
         <template v-if="tabs_content.data_type === 'goods'">
@@ -38,7 +38,7 @@
                 <slider v-model="form.title_data_gap" :min="0" :max="100"></slider>
             </el-form-item>
         </template>
-        <el-form-item label="图片圆角">
+        <el-form-item v-if="tabs_content.data_type != 'custom'" :label="tabs_content.data_type != 'video' ? '图片圆角' : '视频圆角'">
             <radius :key="form.carouselKey" :value="form.img_radius" @update:value="img_radius_change"></radius>
         </el-form-item>
     </card-container>
@@ -64,7 +64,7 @@
             </el-form-item>
         </card-container>
     </template>
-    <template v-if="tabs_content.data_type === 'goods'">
+    <template v-if="['goods', 'custom'].includes(tabs_content.data_type)">
         <div class="bg-f5 divider-line" />
         <card-container>
             <div class="mb-12">数据样式</div>
@@ -79,13 +79,16 @@
                     <upload v-model="form.data_background_img" :limit="1"></upload>
                 </div>
             </el-form-item>
+            <el-form-item v-if="tabs_content.data_type == 'custom'" label="外间距">
+                <margin :key="form.carouselKey" :value="form.data_chunk_margin" @update:value="data_chunk_margin_change"></margin>
+            </el-form-item>
             <el-form-item label="内间距">
                 <padding :key="form.carouselKey" :value="form.data_chunk_padding" @update:value="data_chunk_padding_change"></padding>
             </el-form-item>
             <el-form-item label="圆角">
                 <radius :key="form.carouselKey" :value="form.data_radius" @update:value="data_radius_change"></radius>
             </el-form-item>
-            <el-form-item label="数据间距">
+            <el-form-item v-if="tabs_content.data_type == 'goods'" label="数据间距">
                 <slider v-model="form.data_goods_gap" :min="0" :max="50"></slider>
             </el-form-item>
         </card-container>
@@ -168,6 +171,10 @@ const data_mult_color_picker_event = (arry: string[], type: number) => {
 }
 const data_chunk_padding_change = (padding: paddingStyle) => {
     form.value.data_chunk_padding = Object.assign(form.value.data_chunk_padding, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
+};
+
+const data_chunk_margin_change = (margin: marginStyle) => {
+    form.value.data_chunk_margin = Object.assign(form.value.data_chunk_margin, pick(margin, ['margin', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right']));
 };
 // 内容圆角
 const data_radius_change = (radius: radiusStyle) => {

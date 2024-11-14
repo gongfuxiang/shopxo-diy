@@ -13,7 +13,7 @@
 </template>
 <script setup lang="ts">
 import { commonStore } from '@/store';
-import { padding_computer } from '@/utils';
+import { padding_computer, radius_computer } from '@/utils';
 const common_store = commonStore();
 /**
  * @description: 视频 （渲染）
@@ -46,7 +46,7 @@ const video = computed(() => {
     }
 });
 // 公共样式
-const style_container = computed(() => padding_computer(props.dataStyle.chunk_padding));
+const style_container = computed(() => padding_computer(props.dataStyle.chunk_padding) + radius_computer(props.value.img_radius));
 </script>
 <style lang="scss" scoped>
 video {

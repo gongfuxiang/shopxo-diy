@@ -192,6 +192,8 @@ const accomplish = () => {
 const url_value_dialog_visible = ref(false);
 const source_list = {
     goods: {
+        // 存放手动输入的id
+        data_ids: [],
         // 商品类型
         data_type: '0',
         // 商品分类
@@ -206,6 +208,8 @@ const source_list = {
         order_by_rule: '0',
     },
     article: {
+        // 存放手动输入的id
+        data_ids: [],
         data_type: '0',
         number: 4,
         order_by_type: '0',
@@ -216,6 +220,8 @@ const source_list = {
         category_ids: [],
     },
     brand: {
+        // 存放手动输入的id
+        data_ids: [],
         // 商品类型
         data_type: '0',
         // 商品分类
@@ -412,15 +418,18 @@ const get_brand =  () => {
     console.log('品牌分类数据');
     form.data_source_content.data_auto_list = [];
 }
-watch(() => form.data_source_content_value, (new_val, old_val) => {
-    if (form.data_source == 'goods') {
-        get_products();
-    } else if (form.data_source == 'article') {
-        get_article();
-    } else if (form.data_source == 'brand') {
-        get_brand();
+watch(() => form.data_source_content_value, (new_val) => {
+    // 数据发生变化时，如果是自动获取数据，则调用接口获取数据
+    if (new_val.data_type != '0') {
+        if (form.data_source == 'goods') {
+            get_products();
+        } else if (form.data_source == 'article') {
+            get_article();
+        } else if (form.data_source == 'brand') {
+            get_brand();
+        }
     }
-},{ immediate: true, deep: true });
+},{ deep: true });
 //#endregion
 </script>
 <style lang="scss" scoped>

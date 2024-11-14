@@ -305,12 +305,22 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                         data_id: item3.data.id,
                     };
                 });
-                item1.data_content.data_source_content_value = item1.data_content.data_source_content.id;
-                item1.data_content.data_source_content = {};
+                // 数据改造,存放手动的id
+                item1.data_content.data_source_content_value.data_ids = item1.data_content.data_source_content.data_list.map((item4: any) => item4.data.id).join(',') || '';
+                // 自动数据清空
+                item1.data_content.data_source_content.data_auto_list = [];
+                // 数据改造,存放手动的清除里边的data
+                item1.data_content.data_source_content.data_list = item1.data_content.data_source_content.data_list.map((item5: any) => {
+                    return {
+                        ...item5,
+                        data: [],
+                        data_id: item5.data.id,
+                    };
+                });
             });
         } else if (new_array_5.includes(item.key)) {
             // 数据改造,存放手动的id
-            item.com_data.content.data_source_content.data_ids = item.com_data.content.data_source_content.data_list.map((item: any) => item.data.id).join(',') || '';
+            item.com_data.content.data_source_content_value.data_ids = item.com_data.content.data_source_content.data_list.map((item: any) => item.data.id).join(',') || '';
             // 自动数据清空
             item.com_data.content.data_source_content.data_auto_list = [];
             // 数据改造,存放手动的清除里边的data

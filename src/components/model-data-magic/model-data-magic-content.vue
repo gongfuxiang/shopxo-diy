@@ -134,6 +134,13 @@ const data_style = {
     data_direction: '180deg',
     data_background_img_style: '2',
     data_background_img: [],
+    data_chunk_margin: {
+        margin: 0,
+        margin_top: 0,
+        margin_bottom: 0,
+        margin_left: 0,
+        margin_right: 0,
+    },
     data_chunk_padding: {
         padding: 0,
         padding_top: 0, 
@@ -194,10 +201,18 @@ const data_content = {
     // 图片key  
     img_key: '',
     // 存放数据内容的id
-    data_source_content_value: '',
+    data_source_content_value: {
+        // 存放手动输入的id
+        data_ids: [],
+    },
     // 数据源内容
-    data_source_content: {},
-    // 数据源
+    data_source_content: {
+        // 手动输入
+        data_list: [],
+        // 自动
+        data_auto_list: [],
+    },
+    // 数据源类型 商品(goods) 文章(article) 品牌(brand) 用户信息(user-info)
     data_source:'',
     // 自定义内容列表
     custom_list: [],
