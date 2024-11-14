@@ -198,8 +198,6 @@ const data_content = {
     height: 150,
     // 容器基础的宽度
     width: 0,
-    // 图片key  
-    img_key: '',
     // 数据源内容
     data_source_content: {
         // 存放手动输入的id
