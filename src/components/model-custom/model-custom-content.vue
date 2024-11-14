@@ -114,7 +114,7 @@ onBeforeMount(() => {
     if (!Object.keys(form.data_source_content).includes('data_auto_list') && !Object.keys(form.data_source_content).includes('data_list')) {
         form.data_source_content.data_list = [ form.data_source_content ];
     }
-    if (!isEmpty(form.data_source) && form.data_source in source_list) {
+    if (!isEmpty(form.data_source) && typeof form.data_source_content_value == 'string' && form.data_source in source_list) {
         form.data_source_content_value = source_list[form.data_source as keyof typeof source_list];
     }
     if (!data_source_store.is_data_source_api) {

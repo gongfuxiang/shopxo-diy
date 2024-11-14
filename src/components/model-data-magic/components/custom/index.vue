@@ -133,7 +133,7 @@ watchEffect(() => {
     form.value = props.value.data_content;
     new_style.value = props.value.data_style;
 
-    const { padding_left, padding_right } = new_style.value.chunk_padding;
+    const { padding_left, padding_right } = new_style.value.data_chunk_padding;
     const { margin_left, margin_right } = new_style.value.data_chunk_margin;
     // 当前容器的宽度 减去 左右两边的padding值 再减去 数据间距的一半 再除以 容器的宽度 得到比例 再乘以数据魔方的比例
     const width = form.value.width - padding_left - padding_right - margin_left - margin_right - (props.dataSpacing / 2);
