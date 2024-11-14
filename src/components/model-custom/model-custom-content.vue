@@ -15,7 +15,7 @@
                 <card-container>
                     <div class="mb-12">{{ form.data_source == 'goods' ? '商品' : form.data_source == 'article' ? '文章' : '品牌' }}设置</div>
                     <!-- 数据筛选组件, 根据数据源类型显示不同的筛选组件 -->
-                    <data-filter :type="form.data_source" :value="form.data_source_content_value" :list="form.data_source_content.data_list" :base-list="base_list" @add="add" @data_list_replace="data_list_replace" @data_list_remove="data_list_remove" @data_list_sort="data_list_sort"></data-filter>
+                    <data-filter :type="form.data_source" :value="form.data_source_content" :list="form.data_source_content.data_list" :base-list="base_list" @add="add" @data_list_replace="data_list_replace" @data_list_remove="data_list_remove" @data_list_sort="data_list_sort"></data-filter>
                 </card-container>
             </template>
             <div class="divider-line"></div>
@@ -112,10 +112,8 @@ const getCustominit = () => {
 onBeforeMount(() => {
     // 不包含新创建的数组时，将历史数据放到手动添加数组中
     if (!Object.keys(form.data_source_content).includes('data_auto_list') && !Object.keys(form.data_source_content).includes('data_list')) {
+        form.data_source_content = cloneDeep(source_list[form.data_source as keyof typeof source_list]);
         form.data_source_content.data_list = [ form.data_source_content ];
-    }
-    if (!isEmpty(form.data_source) && typeof form.data_source_content_value == 'string' && form.data_source in source_list) {
-        form.data_source_content_value = source_list[form.data_source as keyof typeof source_list];
     }
     if (!data_source_store.is_data_source_api) {
         data_source_store.set_is_data_source_api(true);
@@ -194,6 +192,10 @@ const source_list = {
     goods: {
         // 存放手动输入的id
         data_ids: [],
+        // 手动输入
+        data_list: [],
+        // 自动
+        data_auto_list: [],
         // 商品类型
         data_type: '0',
         // 商品分类
@@ -210,6 +212,10 @@ const source_list = {
     article: {
         // 存放手动输入的id
         data_ids: [],
+        // 手动输入
+        data_list: [],
+        // 自动
+        data_auto_list: [],
         data_type: '0',
         number: 4,
         order_by_type: '0',
@@ -222,6 +228,10 @@ const source_list = {
     brand: {
         // 存放手动输入的id
         data_ids: [],
+        // 手动输入
+        data_list: [],
+        // 自动
+        data_auto_list: [],
         // 商品类型
         data_type: '0',
         // 商品分类
@@ -240,16 +250,24 @@ const changeDataSource = (key: string) => {
     const type_data = options.value.filter((item) => item.type == key);
     processing_data(key);
     if (type_data.length > 0 && !isEmpty(type_data[0].appoint_data)) {
-        form.data_source_content.data_list = [type_data[0].appoint_data];
+        form.data_source_content = {
+            // 存放手动输入的id
+            data_ids: [],
+            data_list: [ type_data[0].appoint_data ],
+            // 自动
+            data_auto_list: [],
+        }
     } else {
         form.data_source_content = {
+            // 存放手动输入的id
+            data_ids: [],
             // 手动输入
             data_list: [],
             // 自动
             data_auto_list: [],
         };
         if (!isEmpty(key) && key in source_list) {
-            form.data_source_content_value = source_list[key as keyof typeof source_list];
+            form.data_source_content = cloneDeep(source_list[key as keyof typeof source_list]);
         }
     }
 };
@@ -353,7 +371,7 @@ const url_value_dialog_call_back = (item: any[]) => {
 // 数据来源的内容
 let data_source_content_list = computed(() => {
     if (['goods', 'article', 'brand'].includes(form.data_source)) {
-        if (form.data_source_content_value.data_type == '0') {
+        if (form.data_source_content.data_type == '0') {
             return form.data_source_content.data_list;
         } else {
             return form.data_source_content.data_auto_list;
@@ -364,7 +382,7 @@ let data_source_content_list = computed(() => {
 })
 // 获取商品自动数据
 const get_products = () => {
-    const { category_ids, brand_ids, number, order_by_type, order_by_rule } = form.data_source_content_value;
+    const { category_ids, brand_ids, number, order_by_type, order_by_rule } = form.data_source_content;
     const params = {
         goods_keywords: '',
         goods_category_ids: category_ids,
@@ -391,7 +409,7 @@ const get_products = () => {
 };
 // 获取文章自动数据
 const get_article = async () => {
-    const { category_ids, number, order_by_type, order_by_rule, is_cover } = form.data_source_content_value;
+    const { category_ids, number, order_by_type, order_by_rule, is_cover } = form.data_source_content;
     const new_data = {
         article_keywords: '',
         article_category_ids: category_ids.join(','),
@@ -418,7 +436,12 @@ const get_brand =  () => {
     console.log('品牌分类数据');
     form.data_source_content.data_auto_list = [];
 }
-watch(() => form.data_source_content_value, (new_val) => {
+const data_source_content_value = computed(() => {
+    const { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, is_cover } = form.data_source_content;
+    return { category_ids: category_ids, brand_ids: brand_ids, number: number, order_by_type: order_by_type, order_by_rule: order_by_rule, data_type: data_type, is_cover: is_cover };
+})
+
+watch(() => data_source_content_value.value, (new_val) => {
     // 数据发生变化时，如果是自动获取数据，则调用接口获取数据
     if (new_val.data_type != '0') {
         if (form.data_source == 'goods') {

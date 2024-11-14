@@ -1,18 +1,13 @@
 import defaultCommon from "./index";
 interface content {
+    data_ids: Array<string>;
     data_list: Array<object>;
     data_auto_list: Array<object>;
-}
-
-interface content_value {
-    data_ids: Array<string>;
-}
-interface defaultSearch {
+}interface defaultSearch {
     content: {
         height: number;
         img_key: string;
         data_source: string;
-        data_source_content_value: content_value;
         data_source_content: content;
         custom_list: string[];
     };
@@ -26,13 +21,10 @@ const defaultSearch: defaultSearch = {
         height: 390,
         // 图片key  
         img_key: '',
-        // 存放数据内容的id
-        data_source_content_value: {
-            // 存放手动输入的id
-            data_ids: [],
-        },
         // 数据源内容
         data_source_content: {
+            // 存放手动输入的id
+            data_ids: [],
             // 手动输入
             data_list: [],
             // 自动

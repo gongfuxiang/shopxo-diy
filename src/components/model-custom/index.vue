@@ -87,7 +87,7 @@ const style_img_container = computed(() => common_img_computer(new_style.value.c
 // 数据来源的内容
 let data_source_content_list = computed(() => {
     if (['goods', 'article', 'brand'].includes(form.value.data_source)) {
-        if (form.value.data_source_content_value.data_type == '0') {
+        if (form.value.data_source_content.data_type == '0') {
             return form.value.data_source_content.data_list;
         } else {
             return form.value.data_source_content.data_auto_list;

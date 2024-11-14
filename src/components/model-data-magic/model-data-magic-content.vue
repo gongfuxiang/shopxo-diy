@@ -200,13 +200,10 @@ const data_content = {
     width: 0,
     // 图片key  
     img_key: '',
-    // 存放数据内容的id
-    data_source_content_value: {
-        // 存放手动输入的id
-        data_ids: [],
-    },
     // 数据源内容
     data_source_content: {
+        // 存放手动输入的id
+        data_ids: [],
         // 手动输入
         data_list: [],
         // 自动
