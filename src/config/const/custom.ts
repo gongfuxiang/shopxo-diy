@@ -3,7 +3,8 @@ interface content {
     data_ids: Array<string>;
     data_list: Array<object>;
     data_auto_list: Array<object>;
-}interface defaultSearch {
+}
+interface defaultSearch {
     content: {
         height: number;
         data_source: string;
@@ -14,6 +15,76 @@ interface content {
         common_style: object;
     };
 }
+export const source_list = {
+    goods: {
+        // 存放手动输入的id
+        data_ids: [],
+        // 手动输入
+        data_list: [],
+        // 自动
+        data_auto_list: [],
+        // 商品类型
+        data_type: '0',
+        // 关键字
+        keyword: '',
+        // 商品分类
+        category_ids: [],
+        // 品牌
+        brand_ids: [],
+        // 显示数量
+        number: 4,
+        // 排序类型
+        order_by_type: '0',
+        // 排序规则
+        order_by_rule: '0',
+    },
+    article: {
+        // 存放手动输入的id
+        data_ids: [],
+        // 手动输入
+        data_list: [],
+        // 自动
+        data_auto_list: [],
+        data_type: '0',
+        // 关键字
+        keyword: '',
+        number: 4,
+        order_by_type: '0',
+        order_by_rule: '0',
+        // 文章封面
+        is_cover: '0',
+        // 分类id
+        category_ids: [],
+    },
+    brand: {
+        // 存放手动输入的id
+        data_ids: [],
+        // 手动输入
+        data_list: [],
+        // 自动
+        data_auto_list: [],
+        // 商品类型
+        data_type: '0',
+        // 关键字
+        keyword: '',
+        // 商品分类
+        category_ids: [],
+        // 显示数量
+        number: 4,
+        // 排序类型
+        order_by_type: '0',
+        // 排序规则
+        order_by_rule: '0',
+    },
+    common: {
+        // 存放手动输入的id
+        data_ids: [],
+        // 手动输入
+        data_list: [],
+        // 自动
+        data_auto_list: [],
+    }
+};
 const defaultSearch: defaultSearch = {
     content: {
         // 自定义内容高度

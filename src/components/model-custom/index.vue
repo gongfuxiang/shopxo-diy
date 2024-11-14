@@ -51,8 +51,9 @@
     </template>
 </template>
 <script setup lang="ts">
-import { isEmpty } from 'lodash';
+import { isEmpty, cloneDeep } from 'lodash';
 import { common_img_computer, common_styles_computer } from '@/utils';
+import { source_list } from '@/config/const/custom';
 
 const props = defineProps({
     value: {
@@ -73,6 +74,21 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, new_style } = toRefs(state);
+
+onBeforeMount(() => {
+    if (!Object.keys(form.value.data_source_content).includes('data_auto_list') && !Object.keys(form.value.data_source_content).includes('data_list')) {
+        const data = cloneDeep(form.value.data_source_content);
+        const new_list = cloneDeep(source_list[form.value.data_source as keyof typeof source_list]);
+        if (!isEmpty(new_list)) {
+            form.value.data_source_content = new_list;
+        } else {
+            form.value.data_source_content = cloneDeep(source_list['common']);
+        }
+        if (!isEmpty(data)) {
+            form.value.data_source_content.data_list = [ data ];
+        }
+    }
+});
 
 const custom_height = computed(() => form.value.height * scale.value + 'px');
 const div_width = ref(0);

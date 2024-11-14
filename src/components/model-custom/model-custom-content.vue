@@ -66,6 +66,7 @@ import ArticleAPI from '@/api/article';
 import BrandAPI from '@/api/brand';
 import { commonStore, DataSourceStore } from '@/store';
 import { get_math } from '@/utils';
+import { source_list } from '@/config/const/custom';
 const common_store = commonStore();
 const data_source_store = DataSourceStore();
 
@@ -111,19 +112,6 @@ const getCustominit = () => {
 };
 
 onBeforeMount(() => {
-    // 不包含新创建的数组时，将历史数据放到手动添加数组中
-    if (!Object.keys(form.data_source_content).includes('data_auto_list') && !Object.keys(form.data_source_content).includes('data_list')) {
-        const data = cloneDeep(form.data_source_content);
-        const new_list = cloneDeep(source_list[form.data_source as keyof typeof source_list]);
-        if (!isEmpty(new_list)) {
-            form.data_source_content = new_list;
-        } else {
-            form.data_source_content = cloneDeep(source_list['common']);
-        }
-        if (!isEmpty(data)) {
-            form.data_source_content.data_list = [ data ];
-        }
-    }
     if (!data_source_store.is_data_source_api) {
         data_source_store.set_is_data_source_api(true);
         getCustominit();
@@ -185,76 +173,6 @@ const accomplish = () => {
 //#region 数据源更新逻辑处理
 // 打开弹出框
 const url_value_dialog_visible = ref(false);
-const source_list = {
-    goods: {
-        // 存放手动输入的id
-        data_ids: [],
-        // 手动输入
-        data_list: [],
-        // 自动
-        data_auto_list: [],
-        // 商品类型
-        data_type: '0',
-        // 关键字
-        keyword: '',
-        // 商品分类
-        category_ids: [],
-        // 品牌
-        brand_ids: [],
-        // 显示数量
-        number: 4,
-        // 排序类型
-        order_by_type: '0',
-        // 排序规则
-        order_by_rule: '0',
-    },
-    article: {
-        // 存放手动输入的id
-        data_ids: [],
-        // 手动输入
-        data_list: [],
-        // 自动
-        data_auto_list: [],
-        data_type: '0',
-        // 关键字
-        keyword: '',
-        number: 4,
-        order_by_type: '0',
-        order_by_rule: '0',
-        // 文章封面
-        is_cover: '0',
-        // 分类id
-        category_ids: [],
-    },
-    brand: {
-        // 存放手动输入的id
-        data_ids: [],
-        // 手动输入
-        data_list: [],
-        // 自动
-        data_auto_list: [],
-        // 商品类型
-        data_type: '0',
-        // 关键字
-        keyword: '',
-        // 商品分类
-        category_ids: [],
-        // 显示数量
-        number: 4,
-        // 排序类型
-        order_by_type: '0',
-        // 排序规则
-        order_by_rule: '0',
-    },
-    common: {
-        // 存放手动输入的id
-        data_ids: [],
-        // 手动输入
-        data_list: [],
-        // 自动
-        data_auto_list: [],
-    }
-};
 const changeDataSource = (key: string) => {
     const type_data = options.value.filter((item) => item.type == key);
     processing_data(key);
