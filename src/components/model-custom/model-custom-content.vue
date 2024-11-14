@@ -112,8 +112,16 @@ const getCustominit = () => {
 onBeforeMount(() => {
     // 不包含新创建的数组时，将历史数据放到手动添加数组中
     if (!Object.keys(form.data_source_content).includes('data_auto_list') && !Object.keys(form.data_source_content).includes('data_list')) {
-        form.data_source_content = cloneDeep(source_list[form.data_source as keyof typeof source_list]);
-        form.data_source_content.data_list = [ form.data_source_content ];
+        const data = cloneDeep(form.data_source_content);
+        const new_list = cloneDeep(source_list[form.data_source as keyof typeof source_list]);
+        if (!isEmpty(new_list)) {
+            form.data_source_content = new_list;
+        } else {
+            form.data_source_content = cloneDeep(source_list['common']);
+        }
+        if (!isEmpty(data)) {
+            form.data_source_content.data_list = [ data ];
+        }
     }
     if (!data_source_store.is_data_source_api) {
         data_source_store.set_is_data_source_api(true);
@@ -244,6 +252,14 @@ const source_list = {
         order_by_type: '0',
         // 排序规则
         order_by_rule: '0',
+    },
+    common: {
+        // 存放手动输入的id
+        data_ids: [],
+        // 手动输入
+        data_list: [],
+        // 自动
+        data_auto_list: [],
     }
 };
 const changeDataSource = (key: string) => {
@@ -396,14 +412,7 @@ const get_products = () => {
         // 清空历史数据
         form.data_source_content.data_auto_list = [];
         if (!isEmpty(res.data)) {
-            res.data.forEach((child: any) => {
-                form.data_source_content.data_auto_list.push({
-                    id: get_math(),
-                    new_title: '',
-                    new_cover: [],
-                    data: child,
-                });
-            });
+            form.data_source_content.data_auto_list = res.data;
         }
     });
 };
@@ -422,14 +431,7 @@ const get_article = async () => {
     // 清空历史数据
     form.data_source_content.data_auto_list = [];
     if (!isEmpty(res.data)) {
-        res.data.forEach((child: any) => {
-            form.data_source_content.data_auto_list.push({
-                id: get_math(),
-                new_title: '',
-                new_cover: [],
-                data: child,
-            });
-        });
+        form.data_source_content.data_auto_list = res.data;
     }
 };
 const get_brand =  () => {

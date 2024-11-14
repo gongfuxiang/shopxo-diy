@@ -90,7 +90,12 @@ let data_source_content_list = computed(() => {
         if (form.value.data_source_content.data_type == '0') {
             return form.value.data_source_content.data_list;
         } else {
-            return form.value.data_source_content.data_auto_list;
+            return form.value.data_source_content.data_auto_list.map((item: any) => ({
+                id: Math.random(),
+                new_cover: [],
+                new_title: '',
+                data: item,
+            }));
         }
     } else {
         return form.value.data_source_content.data_list;
