@@ -76,6 +76,7 @@ const state = reactive({
 const { form, new_style } = toRefs(state);
 
 onBeforeMount(() => {
+    // 历史数据处理
     if (!Object.keys(form.value.data_source_content).includes('data_auto_list') && !Object.keys(form.value.data_source_content).includes('data_list')) {
         const data = cloneDeep(form.value.data_source_content);
         const new_list = cloneDeep(source_list[form.value.data_source as keyof typeof source_list]);
