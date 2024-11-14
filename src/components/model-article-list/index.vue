@@ -146,9 +146,9 @@ const new_content = computed(() => props.value?.content || {});
 const new_style = computed(() => props.value?.style || {});
 // 获取自动数据
 const get_auto_data_list = async () => {
-    const { category_ids, number, order_by_type, order_by_rule, is_cover } = new_content.value;
+    const { category_ids, number, order_by_type, order_by_rule, is_cover, keyword } = new_content.value;
     const new_data = {
-        article_keywords: '',
+        article_keywords: keyword,
         article_category_ids: category_ids.join(','),
         article_order_by_type: order_by_type,
         article_order_by_rule: order_by_rule,
@@ -196,8 +196,8 @@ onMounted(() => {
 });
 // 监听new_content指定的数据变化
 const data_list_computer = computed(() => {
-    const { data_type, category_ids, number, order_by_type, order_by_rule, is_cover, data_list } = new_content.value;
-    return { data_type, category_ids, number, order_by_type, order_by_rule, is_cover, data_list };
+    const { data_type, category_ids, number, order_by_type, order_by_rule, is_cover, data_list, keyword } = new_content.value;
+    return { data_type, category_ids, number, order_by_type, order_by_rule, is_cover, data_list, keyword };
 });
 // 监听new_content指定的数据的变化，来获取最新数据
 watch(

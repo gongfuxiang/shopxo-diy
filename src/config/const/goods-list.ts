@@ -6,6 +6,7 @@ interface DefaultProductList {
     content: {
         theme: string;
         data_type: string;
+        keyword: string;
         carousel_col: number;
         category_ids: string[];
         brand_ids: string[];
@@ -71,6 +72,8 @@ const defaultProductList: DefaultProductList = {
         theme: '0',
         // 商品类型
         data_type: '0',
+        // 商品关键字
+        keyword: '',
         // 轮播列数
         carousel_col: 3,
         // 商品列表

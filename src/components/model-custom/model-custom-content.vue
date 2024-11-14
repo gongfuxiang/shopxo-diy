@@ -40,7 +40,7 @@
                         <model-lines-style :key="key" v-model:height="center_height" :value="diy_data"></model-lines-style>
                     </template>
                     <template v-else-if="diy_data.key == 'icon'">
-                        <model-icon-style :key="key" v-model:height="center_height" :value="diy_data"></model-icon-style>
+                        <model-icon-style :key="key" v-model:height="center_height" :options="model_data_source" :value="diy_data"></model-icon-style>
                     </template>
                     <template v-else-if="diy_data.key == 'panel'">
                         <model-panel-style :key="key" v-model:height="center_height" :value="diy_data"></model-panel-style>
@@ -63,6 +63,7 @@ import { isEmpty, cloneDeep } from 'lodash';
 import CustomAPI from '@/api/custom';
 import ShopAPI from '@/api/shop';
 import ArticleAPI from '@/api/article';
+import BrandAPI from '@/api/brand';
 import { commonStore, DataSourceStore } from '@/store';
 import { get_math } from '@/utils';
 const common_store = commonStore();
@@ -206,6 +207,8 @@ const source_list = {
         data_auto_list: [],
         // 商品类型
         data_type: '0',
+        // 关键字
+        keyword: '',
         // 商品分类
         category_ids: [],
         // 品牌
@@ -225,6 +228,8 @@ const source_list = {
         // 自动
         data_auto_list: [],
         data_type: '0',
+        // 关键字
+        keyword: '',
         number: 4,
         order_by_type: '0',
         order_by_rule: '0',
@@ -242,10 +247,10 @@ const source_list = {
         data_auto_list: [],
         // 商品类型
         data_type: '0',
+        // 关键字
+        keyword: '',
         // 商品分类
         category_ids: [],
-        // 品牌
-        brand_ids: [],
         // 显示数量
         number: 4,
         // 排序类型
@@ -312,7 +317,7 @@ const base_list = reactive({
     // 文章分类
     article_category_list: [] as select_1[],
     data_type_list: [
-        { name: '选择文章', value: '0' },
+        { name: '指定文章', value: '0' },
         { name: '筛选文章', value: '1' },
     ],
     new_sort_list: [
@@ -325,16 +330,27 @@ const base_list = reactive({
         { name: '浏览量', value: '1' },
         { name: '描述', value: '2' },
     ],
+    // 品牌数据
+    brand_category_list: [] as select_1[],
+    brand_data_type_list: [
+        { name: '指定品牌', value: '0' },
+        { name: '筛选品牌', value: '1' },
+    ],
+    brand_sort_list: [
+        { name: '最新', value: '0' },
+        { name: '热度', value: '1' },
+    ],
 });
 onBeforeMount(() => {
     nextTick(() => {
         // 定时获取common_store.common.article_category的数据，直到拿到值或者关闭页面为止
         const interval = setInterval(() => {
-            const { goods_category = [], brand_list = [], article_category = [] } = common_store.common;
+            const { goods_category = [], brand_list = [], article_category = [], brand_category = [] } = common_store.common;
             if (goods_category.length > 0 || brand_list.length > 0 || article_category.length > 0) {
                 base_list.product_category_list = goods_category;
                 base_list.product_brand_list = brand_list;
                 base_list.article_category_list = article_category;
+                base_list.brand_category_list = brand_category;
                 clearInterval(interval);
             }
         }, 1000);
@@ -398,9 +414,9 @@ let data_source_content_list = computed(() => {
 })
 // 获取商品自动数据
 const get_products = () => {
-    const { category_ids, brand_ids, number, order_by_type, order_by_rule } = form.data_source_content;
+    const { category_ids, brand_ids, number, order_by_type, order_by_rule, keyword } = form.data_source_content;
     const params = {
-        goods_keywords: '',
+        goods_keywords: keyword,
         goods_category_ids: category_ids,
         goods_brand_ids: brand_ids,
         goods_order_by_type: order_by_type,
@@ -418,9 +434,9 @@ const get_products = () => {
 };
 // 获取文章自动数据
 const get_article = async () => {
-    const { category_ids, number, order_by_type, order_by_rule, is_cover } = form.data_source_content;
+    const { category_ids, number, order_by_type, order_by_rule, is_cover, keyword } = form.data_source_content;
     const new_data = {
-        article_keywords: '',
+        article_keywords: keyword,
         article_category_ids: category_ids.join(','),
         article_order_by_type: order_by_type,
         article_order_by_rule: order_by_rule,
@@ -434,13 +450,31 @@ const get_article = async () => {
         form.data_source_content.data_auto_list = res.data;
     }
 };
+// 获取品牌自动数据
 const get_brand =  () => {
+    const { category_ids, number, order_by_type, order_by_rule, keyword } = form.data_source_content;
+    console.log(form.data_source_content);
+    const params = {
+        brand_keywords: keyword,
+        brand_category_ids: category_ids,
+        brand_order_by_type: order_by_type,
+        brand_order_by_rule: order_by_rule,
+        brand_number: number,
+    };
+    // 获取商品列表
+    BrandAPI.getBrandLists(params).then((res: any) => {
+        // 清空历史数据
+        form.data_source_content.data_auto_list = [];
+        if (!isEmpty(res.data)) {
+            form.data_source_content.data_auto_list = res.data;
+        }
+    });
     console.log('品牌分类数据');
     form.data_source_content.data_auto_list = [];
 }
 const data_source_content_value = computed(() => {
-    const { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, is_cover } = form.data_source_content;
-    return { category_ids: category_ids, brand_ids: brand_ids, number: number, order_by_type: order_by_type, order_by_rule: order_by_rule, data_type: data_type, is_cover: is_cover };
+    const { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, is_cover, keyword } = form.data_source_content;
+    return { category_ids: category_ids, brand_ids: brand_ids, number: number, order_by_type: order_by_type, order_by_rule: order_by_rule, data_type: data_type, is_cover: is_cover, keyword: keyword };
 })
 
 watch(() => data_source_content_value.value, (new_val) => {

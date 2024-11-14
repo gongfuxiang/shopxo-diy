@@ -13,6 +13,7 @@ interface DefaultArticleList {
         theme: string;
         carousel_col: string;
         data_type: string;
+        keyword: string;
         category_ids: string[];
         data_list: ArticleList[];
         data_ids: string;
@@ -58,6 +59,7 @@ const defaultArticleList: DefaultArticleList = {
         theme: '0',
         carousel_col: '2',
         data_type: '0',
+        keyword: '',
         category_ids: defaultSetting.category_ids,
         data_list: [],
         data_ids: '',

@@ -257,9 +257,9 @@ onMounted(() => {
 });
 
 const get_products = () => {
-    const { category_ids, brand_ids, number, order_by_type, order_by_rule } = form.value;
+    const { category_ids, brand_ids, number, order_by_type, order_by_rule, keyword } = form.value;
     const params = {
-        goods_keywords: '',
+        goods_keywords: keyword,
         goods_category_ids: category_ids,
         goods_brand_ids: brand_ids,
         goods_order_by_type: order_by_type,
@@ -277,8 +277,8 @@ const get_products = () => {
 };
 // 取出监听的数据
 const watch_data = computed(() => {
-    const { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, data_list } = form.value;
-    return { category_ids: category_ids, brand_ids: brand_ids, number: number, order_by_type: order_by_type, order_by_rule: order_by_rule, data_type: data_type, data_list: data_list };
+    const { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, data_list, keyword } = form.value;
+    return { category_ids: category_ids, brand_ids: brand_ids, number: number, order_by_type: order_by_type, order_by_rule: order_by_rule, data_type: data_type, data_list: data_list, keyword: keyword };
 })
 // 初始化的时候不执行, 监听数据变化
 watch(() => watch_data.value, (val, oldVal) => {
