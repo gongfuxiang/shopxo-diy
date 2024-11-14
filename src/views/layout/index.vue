@@ -22,7 +22,7 @@ import { is_obj, set_cookie, get_cookie } from '@/utils';
 import { Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
 import defaultConfigSetting from '@/config/setting';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, omit } from 'lodash';
 import DiyAPI, { diyData, headerAndFooter, diyConfig } from '@/api/diy';
 import CommonAPI from '@/api/common';
 import { commonStore } from '@/store';
@@ -320,7 +320,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                 });
             });
         } else if (new_array_5.includes(item.key)) {
-            const data_list = cloneDeep(item.data_content.data_source_content.data_list);
+            const data_list = cloneDeep(item.com_data.content.data_source_content.data_list);
             // 数据改造,存放手动的id
             item.com_data.content.data_source_content.data_ids = data_list.map((item: any) => item.data.id).join(',') || '';
             // 自动数据清空
