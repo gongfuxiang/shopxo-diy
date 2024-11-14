@@ -6,7 +6,6 @@ interface content {
 }interface defaultSearch {
     content: {
         height: number;
-        img_key: string;
         data_source: string;
         data_source_content: content;
         custom_list: string[];
@@ -19,8 +18,6 @@ const defaultSearch: defaultSearch = {
     content: {
         // 自定义内容高度
         height: 390,
-        // 图片key  
-        img_key: '',
         // 数据源内容
         data_source_content: {
             // 存放手动输入的id

@@ -135,22 +135,10 @@ onBeforeMount(() => {
 });
 // 处理显示的图片和传递到下去的数据结构
 const model_data_source = ref<data_list[]>([]);
-const is_show_more = ref(false);
 const processing_data = (key: string) => {
     const list = options.value.filter((item) => item.type == key);
     if (list.length > 0) {
         model_data_source.value = list[0].data;
-        if (!isEmpty(list[0].appoint_data)) {
-            is_show_more.value = false;
-        } else {
-            is_show_more.value = true;
-            // 从中取出包含图片的内容
-            const field_list = list[0].data.filter((item) => item.type == 'images');
-            // 取出图片的key
-            if (field_list.length > 0) {
-                form.img_key = field_list[0].field;
-            }
-        }
     } else {
         model_data_source.value = [];
     }
