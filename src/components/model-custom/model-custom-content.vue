@@ -83,8 +83,12 @@ const props = defineProps({
 
 const dialog = ref<expose | null>(null);
 const draglist = ref<diy_data | null>(null);
-const form = reactive(props.value);
+const form = ref(props.value);
 const center_width = ref(props.magicWidth);
+watchEffect(() => {
+    form.value = props.value;
+    center_width.value = props.magicWidth;
+})
 // 弹出框里的内容
 let custom_list = reactive([]);
 const center_height = ref(0);
@@ -107,7 +111,7 @@ const getCustominit = () => {
         options.value = data_source;
         data_source_store.set_data_source(data_source);
         // 数据处理
-        processing_data(form.data_source);
+        processing_data(form.value.data_source);
     });
 };
 
@@ -118,7 +122,7 @@ onBeforeMount(() => {
     } else {
         options.value = data_source_store.data_source_list;
         // 如果历史的值出现，根据历史选中的值处理一下传递的数据结构
-        processing_data(form.data_source);
+        processing_data(form.value.data_source);
     }
 });
 // 处理显示的图片和传递到下去的数据结构
@@ -157,17 +161,17 @@ const custom_edit = () => {
     if (!dialog.value) return;
     dialog.value.dialogVisible = true;
     dragkey.value = Math.random().toString(36).substring(2);
-    custom_list = cloneDeep(form.custom_list);
-    center_height.value = cloneDeep(form.height);
+    custom_list = cloneDeep(form.value.custom_list);
+    center_height.value = cloneDeep(form.value.height);
 };
 // 点击完成的处理逻辑
 const accomplish = () => {
     if (!draglist.value) {
         return;
     } else {
-        form.custom_list = draglist.value.diy_data;
+        form.value.custom_list = draglist.value.diy_data;
     }
-    form.height = center_height.value;
+    form.value.height = center_height.value;
 };
 //#endregion
 //#region 数据源更新逻辑处理
@@ -177,7 +181,7 @@ const changeDataSource = (key: string) => {
     const type_data = options.value.filter((item) => item.type == key);
     processing_data(key);
     if (type_data.length > 0 && !isEmpty(type_data[0].appoint_data)) {
-        form.data_source_content = {
+        form.value.data_source_content = {
             // 存放手动输入的id
             data_ids: [],
             data_list: [ type_data[0].appoint_data ],
@@ -185,7 +189,7 @@ const changeDataSource = (key: string) => {
             data_auto_list: [],
         }
     } else {
-        form.data_source_content = {
+        form.value.data_source_content = {
             // 存放手动输入的id
             data_ids: [],
             // 手动输入
@@ -194,7 +198,7 @@ const changeDataSource = (key: string) => {
             data_auto_list: [],
         };
         if (!isEmpty(key) && key in source_list) {
-            form.data_source_content = cloneDeep(source_list[key as keyof typeof source_list]);
+            form.value.data_source_content = cloneDeep(source_list[key as keyof typeof source_list]);
         }
     }
 };
@@ -276,21 +280,21 @@ const add = () => {
 };
 // 拖拽更新之后，更新数据
 const data_list_sort = (new_list: any) => {
-    form.data_source_content.data_list = new_list;
+    form.value.data_source_content.data_list = new_list;
 };
 const data_list_remove = (index: number) => {
-    form.data_source_content.data_list.splice(index, 1);
+    form.value.data_source_content.data_list.splice(index, 1);
 };
 // 弹出框选择的内容
 const url_value_dialog_call_back = (item: any[]) => {
-    if (form.data_source == 'brand') {
+    if (form.value.data_source == 'brand') {
         item.forEach((item: any) => {
             item.title = item.name;
         });
     }
     if (url_value_multiple_bool.value) {
         item.forEach((item: any) => {
-            form.data_source_content.data_list.push({
+            form.value.data_source_content.data_list.push({
                 id: get_math(),
                 new_cover: [],
                 new_title: '',
@@ -298,7 +302,7 @@ const url_value_dialog_call_back = (item: any[]) => {
             });
         });
     } else {
-        form.data_source_content.data_list[data_list_replace_index.value] = {
+        form.value.data_source_content.data_list[data_list_replace_index.value] = {
             id: get_math(),
             new_cover: [],
             new_title: '',
@@ -308,19 +312,19 @@ const url_value_dialog_call_back = (item: any[]) => {
 };
 // 数据来源的内容
 let data_source_content_list = computed(() => {
-    if (['goods', 'article', 'brand'].includes(form.data_source)) {
-        if (form.data_source_content.data_type == '0') {
-            return form.data_source_content.data_list;
+    if (['goods', 'article', 'brand'].includes(form.value.data_source)) {
+        if (form.value.data_source_content.data_type == '0') {
+            return form.value.data_source_content.data_list;
         } else {
-            return form.data_source_content.data_auto_list;
+            return form.value.data_source_content.data_auto_list;
         }
     } else {
-        return form.data_source_content.data_list;
+        return form.value.data_source_content.data_list;
     }
 })
 // 获取商品自动数据
 const get_products = () => {
-    const { category_ids, brand_ids, number, order_by_type, order_by_rule, keyword } = form.data_source_content;
+    const { category_ids, brand_ids, number, order_by_type, order_by_rule, keyword } = form.value.data_source_content;
     const params = {
         goods_keywords: keyword,
         goods_category_ids: category_ids,
@@ -332,15 +336,15 @@ const get_products = () => {
     // 获取商品列表
     ShopAPI.getShopLists(params).then((res: any) => {
         // 清空历史数据
-        form.data_source_content.data_auto_list = [];
+        form.value.data_source_content.data_auto_list = [];
         if (!isEmpty(res.data)) {
-            form.data_source_content.data_auto_list = res.data;
+            form.value.data_source_content.data_auto_list = res.data;
         }
     });
 };
 // 获取文章自动数据
 const get_article = async () => {
-    const { category_ids, number, order_by_type, order_by_rule, is_cover, keyword } = form.data_source_content;
+    const { category_ids, number, order_by_type, order_by_rule, is_cover, keyword } = form.value.data_source_content;
     const new_data = {
         article_keywords: keyword,
         article_category_ids: category_ids.join(','),
@@ -351,15 +355,14 @@ const get_article = async () => {
     };
     const res = await ArticleAPI.getAutoList(new_data);
     // 清空历史数据
-    form.data_source_content.data_auto_list = [];
+    form.value.data_source_content.data_auto_list = [];
     if (!isEmpty(res.data)) {
-        form.data_source_content.data_auto_list = res.data;
+        form.value.data_source_content.data_auto_list = res.data;
     }
 };
 // 获取品牌自动数据
 const get_brand =  () => {
-    const { category_ids, number, order_by_type, order_by_rule, keyword } = form.data_source_content;
-    console.log(form.data_source_content);
+    const { category_ids, number, order_by_type, order_by_rule, keyword } = form.value.data_source_content;
     const params = {
         brand_keywords: keyword,
         brand_category_ids: category_ids,
@@ -370,27 +373,26 @@ const get_brand =  () => {
     // 获取商品列表
     BrandAPI.getBrandLists(params).then((res: any) => {
         // 清空历史数据
-        form.data_source_content.data_auto_list = [];
+        form.value.data_source_content.data_auto_list = [];
         if (!isEmpty(res.data)) {
-            form.data_source_content.data_auto_list = res.data;
+            form.value.data_source_content.data_auto_list = res.data;
         }
     });
-    console.log('品牌分类数据');
-    form.data_source_content.data_auto_list = [];
+    form.value.data_source_content.data_auto_list = [];
 }
 const data_source_content_value = computed(() => {
-    const { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, is_cover, keyword } = form.data_source_content;
+    const { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, is_cover, keyword } = form.value.data_source_content;
     return { category_ids: category_ids, brand_ids: brand_ids, number: number, order_by_type: order_by_type, order_by_rule: order_by_rule, data_type: data_type, is_cover: is_cover, keyword: keyword };
 })
 
 watch(() => data_source_content_value.value, (new_val) => {
     // 数据发生变化时，如果是自动获取数据，则调用接口获取数据
     if (new_val.data_type != '0') {
-        if (form.data_source == 'goods') {
+        if (form.value.data_source == 'goods') {
             get_products();
-        } else if (form.data_source == 'article') {
+        } else if (form.value.data_source == 'article') {
             get_article();
-        } else if (form.data_source == 'brand') {
+        } else if (form.value.data_source == 'brand') {
             get_brand();
         }
     }
