@@ -1,5 +1,5 @@
 <template>
-    <template v-if="data_source_content_list.length > 0 && form.data_source_direction == '1'">
+    <template v-if="data_source_content_list.length > 0 && form.data_source_direction == '0'">
         <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="style_container">
             <div class="w h" :style="style_img_container">
                 <div class="w h re custom-other">
@@ -24,8 +24,8 @@
             </div>
         </div>
     </template>
-    <div v-else-if="data_source_content_list.length > 0 && form.data_source_direction == '0'" class="re oh">
-        <swiper :key="carouselKey" class="w flex" direction="horizontal" :loop="true" :autoplay="autoplay" :slides-per-view="form.data_source_carousel_col" :slides-per-group="slides_per_group" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
+    <div v-else-if="data_source_content_list.length > 0 && ['1', '2'].includes(form.data_source_direction)" class="re oh" :style="form.data_source_direction == '1' ? `height:100%;` : `height: ${ swiper_height }px;`">
+        <swiper :key="carouselKey" class="w flex" :direction="form.data_source_direction == '1' ? 'horizontal': 'vertical'" :height="swiper_height" :loop="true" :autoplay="autoplay" :slides-per-view="form.data_source_carousel_col" :slides-per-group="slides_per_group" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
             <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
                 <div :style="style_container">
                     <div class="w h" :style="style_img_container">
@@ -176,6 +176,7 @@ const carouselKey = ref('0');
 const autoplay = ref<boolean | object>(false);
 const slides_per_group = ref(1);
 const dot_list = ref<unknown[]>([]);
+const swiper_height = ref(390);
 // 内容参数的集合
 watchEffect(() => {
     // 是否滚动
@@ -190,6 +191,13 @@ watchEffect(() => {
     // 判断是平移还是整屏滚动
     slides_per_group.value = new_style.value.rolling_fashion == 'translation' ? 1 : form.value.data_source_carousel_col;
     const num = new_style.value.rolling_fashion == 'translation' ? data_source_content_list.value.length : Math.ceil(data_source_content_list.value.length / form.value.data_source_carousel_col);
+    const { padding_top, padding_bottom, margin_bottom, margin_top } = new_style.value.common_style;
+    // 轮播图高度控制
+    if (form.value.data_source_direction == '1') {
+        swiper_height.value = form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top;
+    } else {
+        swiper_height.value = (form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top) * form.value.data_source_carousel_col;
+    }
     dot_list.value = Array(num);
     // 更新轮播图的key，确保更换时能重新更新轮播图
     carouselKey.value = get_math();

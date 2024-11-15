@@ -113,8 +113,8 @@ const defaultSearch: defaultSearch = {
         },
         // 数据源类型 商品(goods) 文章(article) 品牌(brand) 用户信息(user-info)
         data_source:'',
-        // 铺满方式 0 横向 1 纵向
-        data_source_direction: '1',
+        // 铺满方式 0 纵向展示 1 横向滑动 2 纵向滑动
+        data_source_direction: '0',
         // 横向滑动时的显示 轮播数量
         data_source_carousel_col: 1,
         // 自定义内容列表

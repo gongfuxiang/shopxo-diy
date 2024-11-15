@@ -16,11 +16,12 @@
                     <div class="mb-12">显示设置</div>
                     <el-form-item label="铺满方式">
                         <el-radio-group v-model="form.data_source_direction">
-                            <el-radio value="0">横向滑动</el-radio>
-                            <el-radio value="1">纵向</el-radio>
+                            <el-radio value="0">纵向展示</el-radio>
+                            <el-radio value="2">纵向滑动</el-radio>
+                            <el-radio value="1">横向滑动</el-radio>
                         </el-radio-group>
                     </el-form-item>
-                    <el-form-item v-if="form.data_source_direction == '0'" label="每屏显示">
+                    <el-form-item v-if="['1', '2'].includes(form.data_source_direction)" label="每屏显示">
                         <el-radio-group v-model="form.data_source_carousel_col">
                             <el-radio :value="1">单列展示</el-radio>
                             <el-radio :value="2">两列展示</el-radio>
@@ -203,6 +204,7 @@ const changeDataSource = (key: string) => {
     const type_data = options.value.filter((item) => item.type == key);
     processing_data(key);
     if (type_data.length > 0 && !isEmpty(type_data[0].appoint_data)) {
+        form.value.data_source_direction = '0';
         form.value.data_source_content = {
             // 存放手动输入的id
             data_ids: [],

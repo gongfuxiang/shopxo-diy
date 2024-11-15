@@ -1,6 +1,6 @@
 <template>
     <div class="w">
-        <template v-if="data.data_source_direction == '0'">
+        <template v-if="['1', '2'].includes(data.data_source_direction)">
             <el-form :model="form" label-width="70">
                 <card-container>
                     <div class="mb-12">轮播设置</div>
