@@ -4,7 +4,7 @@
             <model-custom-content :value="value.content"></model-custom-content>
         </template>
         <template v-if="type == '2'">
-            <model-custom-styles :value="value.style"></model-custom-styles>
+            <model-custom-styles :value="value.style" :content="value.content" ></model-custom-styles>
         </template>
     </div>
 </template>

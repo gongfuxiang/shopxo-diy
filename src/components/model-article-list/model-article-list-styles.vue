@@ -72,9 +72,17 @@
                     <el-form-item label="自动轮播">
                         <el-switch v-model="form.is_roll" :active-value="1" :inactive-value="0" />
                     </el-form-item>
-                    <el-form-item label="间隔时间">
-                        <slider v-model="form.interval_time" :min="1" :max="100"></slider>
-                    </el-form-item>
+                    <template v-if="form.is_roll === 1">
+                        <el-form-item label="间隔时间">
+                            <slider v-model="form.interval_time" :min="1" :max="100"></slider>
+                        </el-form-item>
+                        <el-form-item label="滚动方式">
+                            <el-radio-group v-model="form.rolling_fashion">
+                                <el-radio value="translation">平移</el-radio>
+                                <el-radio value="cut-screen">切屏</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </template>
                 </card-container>
             </template>
         </el-form>

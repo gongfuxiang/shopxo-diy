@@ -210,7 +210,7 @@ const defaultSeckill: DefaultSeckill = {
         // 轮播设置
         is_roll: '1',
         interval_time: 3,
-        rolling_fashion: 'translation',
+        rolling_fashion: 'translation', // 滚动方式  translation 平移 cut-screen 切屏
         common_style: { ...defaultCommon, padding: 0, padding_top: 2, padding_bottom: 10, padding_left: 10, padding_right: 10 },
     },
 };

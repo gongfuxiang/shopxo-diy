@@ -10,11 +10,11 @@
                         <el-radio value="text">文字</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="单行显示">
+                <el-form-item label="显示设置">
                     <el-radio-group v-model="form.single_line">
-                        <el-radio :value="3">3个</el-radio>
-                        <el-radio :value="4">4个</el-radio>
-                        <el-radio :value="5">5个</el-radio>
+                        <el-radio :value="3">三列展示</el-radio>
+                        <el-radio :value="4">四列展示</el-radio>
+                        <el-radio :value="5">五列展示</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="展示样式">

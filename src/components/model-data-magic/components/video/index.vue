@@ -46,7 +46,7 @@ const video = computed(() => {
     }
 });
 // 公共样式
-const style_container = computed(() => padding_computer(props.dataStyle.chunk_padding) + radius_computer(props.value.img_radius));
+const style_container = computed(() => padding_computer(props.dataStyle.chunk_padding) + radius_computer(props.dataStyle.img_radius));
 </script>
 <style lang="scss" scoped>
 video {

@@ -1,49 +1,30 @@
 <template>
-    <card-container class="mb-8">
-        <el-form-item label="底部背景">
-            <div class="flex-col gap-10 w">
-                <div class="size-12">背景色</div>
-                <mult-color-picker :key="form.carouselKey" :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
-                <div class="flex-row jc-sb align-c">
-                    <div class="size-12">背景图</div>
-                    <bg-btn-style v-model="form.background_img_style"></bg-btn-style>
-                </div>
-                <upload v-model="form.background_img" :limit="1"></upload>
-            </div>
-        </el-form-item>
-        <template v-if="['goods', 'images'].includes(tabs_content.data_type)">
-            <el-form-item label="自动轮播">
-                <el-switch v-model="form.is_roll" active-value="1" inactive-value="0" />
-            </el-form-item>
-            <template v-if="form.is_roll == '1'">
-                <el-form-item label="轮播方向">
-                    <el-radio-group v-model="form.rotation_direction">
-                        <el-radio value="horizontal">横向</el-radio>
-                        <el-radio value="vertical">纵向</el-radio>
-                    </el-radio-group>
+    <template v-if="tabs_content.data_type != 'custom'">
+        <card-container>
+            <div class="mb-12">基础样式</div>
+            <template v-if="['goods', 'images'].includes(tabs_content.data_type)">
+                <el-form-item label="自动轮播">
+                    <el-switch v-model="form.is_roll" active-value="1" inactive-value="0" />
                 </el-form-item>
-                <el-form-item label="间隔时间">
-                    <slider v-model="form.interval_time" :min="1" :max="100"></slider>
-                </el-form-item>
+                <template v-if="form.is_roll == '1'">
+                    <el-form-item label="轮播方向">
+                        <el-radio-group v-model="form.rotation_direction">
+                            <el-radio value="horizontal">横向</el-radio>
+                            <el-radio value="vertical">纵向</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item label="间隔时间">
+                        <slider v-model="form.interval_time" :min="1" :max="100"></slider>
+                    </el-form-item>
+                </template>
             </template>
-        </template>
-        <el-form-item v-if="tabs_content.data_type != 'custom'" label="内间距">
-            <padding :key="form.carouselKey" :value="form.chunk_padding" @update:value="chunk_padding_change"></padding>
-        </el-form-item>
-        <template v-if="tabs_content.data_type === 'goods'">
-            <el-form-item label="标题内间距">
-                <slider v-model="form.title_gap" :min="0" :max="100"></slider>
+            <el-form-item v-if="tabs_content.data_type != 'custom'" :label="tabs_content.data_type != 'video' ? '图片圆角' : '视频圆角'">
+                <radius :key="form.carouselKey" :value="form.img_radius" @update:value="img_radius_change"></radius>
             </el-form-item>
-            <el-form-item label="标题外间距">
-                <slider v-model="form.title_data_gap" :min="0" :max="100"></slider>
-            </el-form-item>
-        </template>
-        <el-form-item v-if="tabs_content.data_type != 'custom'" :label="tabs_content.data_type != 'video' ? '图片圆角' : '视频圆角'">
-            <radius :key="form.carouselKey" :value="form.img_radius" @update:value="img_radius_change"></radius>
-        </el-form-item>
-    </card-container>
-    <template v-if="tabs_content.data_type === 'goods'">
+        </card-container>
         <div class="bg-f5 divider-line" />
+    </template>
+    <template v-if="tabs_content.data_type === 'goods'">
         <card-container>
             <div class="mb-12">标题样式</div>
             <el-form-item label="主标题">
@@ -59,13 +40,19 @@
             <el-form-item label="副标题">
                 <color-text-size-group v-model:color="form.subtitle_color" v-model:typeface="form.subtitle_typeface" v-model:size="form.subtitle_size" default-color="#000000"></color-text-size-group>
             </el-form-item>
+            <el-form-item label="标题内间距">
+                <slider v-model="form.title_gap" :min="0" :max="100"></slider>
+            </el-form-item>
+            <el-form-item label="标题外间距">
+                <slider v-model="form.title_data_gap" :min="0" :max="100"></slider>
+            </el-form-item>
             <el-form-item label="标题同行">
                 <el-switch v-model="form.title_line" active-value="1" inactive-value="0" />
             </el-form-item>
         </card-container>
+        <div class="bg-f5 divider-line" />
     </template>
     <template v-if="['goods', 'custom'].includes(tabs_content.data_type)">
-        <div class="bg-f5 divider-line" />
         <card-container>
             <div class="mb-12">数据样式</div>
             <el-form-item label="背景">
@@ -92,9 +79,9 @@
                 <slider v-model="form.data_goods_gap" :min="0" :max="50"></slider>
             </el-form-item>
         </card-container>
+        <div class="bg-f5 divider-line" />
     </template>
     <template v-if="tabs_content.data_type === 'goods'">
-        <div class="bg-f5 divider-line" />
         <card-container>
             <div class="mb-12">商品样式</div>
             <el-form-item label="名称">
@@ -121,14 +108,31 @@
                 <radius :key="form.carouselKey" :value="form.goods_radius" @update:value="goods_radius_change"></radius>
             </el-form-item>
         </card-container>
+        <div class="bg-f5 divider-line" />
     </template>
     <template v-if="['goods', 'images'].includes(tabs_content.data_type)">
-        <div class="bg-f5 divider-line" />
         <card-container>
             <carousel-indicator :key="form.carouselKey" :value="form"></carousel-indicator>
         </card-container>
+        <div class="bg-f5 divider-line" />
     </template>
-    
+    <card-container class="mb-8">
+        <div class="mb-12">通用样式</div>
+        <el-form-item label="底部背景">
+            <div class="flex-col gap-10 w">
+                <div class="size-12">背景色</div>
+                <mult-color-picker :key="form.carouselKey" :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
+                <div class="flex-row jc-sb align-c">
+                    <div class="size-12">背景图</div>
+                    <bg-btn-style v-model="form.background_img_style"></bg-btn-style>
+                </div>
+                <upload v-model="form.background_img" :limit="1"></upload>
+            </div>
+        </el-form-item>
+        <el-form-item v-if="tabs_content.data_type != 'custom'" label="内间距">
+            <padding :key="form.carouselKey" :value="form.chunk_padding" @update:value="chunk_padding_change"></padding>
+        </el-form-item>
+    </card-container>
 </template>
 <script setup lang="ts">
 import { pick, isEmpty, cloneDeep } from 'lodash';

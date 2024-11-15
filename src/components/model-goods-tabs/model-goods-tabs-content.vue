@@ -23,10 +23,10 @@
                 </el-form-item>
                 <el-form-item v-if="form.theme == '5'" label="轮播列数">
                     <el-radio-group v-model="form.carousel_col">
-                        <el-radio :value="1">1个</el-radio>
-                        <el-radio :value="2">2个</el-radio>
-                        <el-radio :value="3">3个</el-radio>
-                        <el-radio :value="4">4个</el-radio>
+                        <el-radio :value="1">单列展示</el-radio>
+                        <el-radio :value="2">两列展示</el-radio>
+                        <el-radio :value="3">三列展示</el-radio>
+                        <el-radio :value="4">四列展示</el-radio>
                     </el-radio-group>
                 </el-form-item>
             </card-container>

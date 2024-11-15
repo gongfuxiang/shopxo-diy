@@ -9,8 +9,26 @@
                     </el-select>
                 </el-form-item>
             </card-container>
-            <!-- 商品的筛选数据 -->
+            <!-- 筛选数据 -->
             <template v-if="['goods', 'article', 'brand'].includes(form.data_source)">
+                <div class="divider-line"></div>
+                <card-container>
+                    <div class="mb-12">显示设置</div>
+                    <el-form-item label="铺满方式">
+                        <el-radio-group v-model="form.data_source_direction">
+                            <el-radio value="0">横向滑动</el-radio>
+                            <el-radio value="1">纵向</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item v-if="form.data_source_direction == '0'" label="每屏显示">
+                        <el-radio-group v-model="form.data_source_carousel_col">
+                            <el-radio :value="1">单列展示</el-radio>
+                            <el-radio :value="2">两列展示</el-radio>
+                            <el-radio :value="3">三列展示</el-radio>
+                            <el-radio :value="4">四列展示</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                </card-container>
                 <div class="divider-line"></div>
                 <card-container>
                     <div class="mb-12">{{ form.data_source == 'goods' ? '商品' : form.data_source == 'article' ? '文章' : '品牌' }}设置</div>
@@ -27,7 +45,7 @@
         <Dialog ref="dialog" @accomplish="accomplish">
             <div class="flex-row h w">
                 <!-- 左侧和中间区域 -->
-                <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="center_width" :source-list="!isEmpty(data_source_content_list) ? data_source_content_list[0] : {}" :source-type="form?.data_source || ''" :list="custom_list" @right-update="right_update"></DragIndex>
+                <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="custom_width" :source-list="!isEmpty(data_source_content_list) ? data_source_content_list[0] : {}" :source-type="form?.data_source || ''" :list="custom_list" @right-update="right_update"></DragIndex>
                 <!-- 右侧配置区域 -->
                 <div class="settings">
                     <template v-if="diy_data.key === 'img'">
@@ -85,6 +103,14 @@ const dialog = ref<expose | null>(null);
 const draglist = ref<diy_data | null>(null);
 const form = ref(props.value);
 const center_width = ref(props.magicWidth);
+
+const custom_width = computed(() => {
+    if (['goods', 'article', 'brand'].includes(form.value.data_source) && form.value.data_source_direction == '0') {
+        return center_width.value / form.value.data_source_carousel_col;
+    } else {
+        return center_width.value;
+    }
+})
 // 弹出框里的内容
 let custom_list = reactive([]);
 const center_height = ref(0);

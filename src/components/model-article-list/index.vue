@@ -30,33 +30,38 @@
                     </div>
                 </div>
                 <div v-else class="oh" :class="article_theme_class">
-                    <el-carousel :key="carousel_key" indicator-position="none" :interval="interval_time" arrow="never" :autoplay="is_roll ? true : false">
-                        <el-carousel-item v-for="(item1, index1) in article_carousel_list" :key="index1" class="flex" :style="article_spacing">
-                            <div v-for="(item, index) in item1.carousel_list" :key="index" class="item oh" :style="article_style">
-                                <div class="h oh flex-col" :style="article_img_style">
-                                    <template v-if="item.new_cover.length > 0">
-                                        <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
-                                    </template>
-                                    <template v-else> <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty> </template>
-                                    <div class="jc-sb flex-1 flex-col" :style="article_theme != '0' ? content_padding : ''">
-                                        <div class="flex-col" :style="'gap:' + new_style.name_desc_space + 'px;'">
-                                            <div class="title text-line-2" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
-                                            <div v-if="field_show.includes('2')" class="desc text-line-1" :style="article_desc">{{ item.data.describe || '' }}</div>
-                                        </div>
-                                        <div class="flex-row jc-sb gap-8 align-e mt-10">
-                                            <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
-                                            <div v-show="field_show.includes('1')" class="flex-row align-c gap-3" :style="article_page_view">
-                                                <icon name="eye"></icon>
-                                                <div>
-                                                    {{ item.data.access_count ? item.data.access_count : '16' }}
-                                                </div>
+                    <swiper :key="carousel_key" class="w flex" direction="horizontal" :loop="true" :autoplay="autoplay" :slides-per-view="Number(carousel_col) + 1" :slides-per-group="slides_per_group" :allow-touch-move="false" :space-between="new_style.article_spacing" :pause-on-mouse-enter="true" :modules="modules">
+                        <swiper-slide v-for="(item, index) in data_list" :key="index" class="item oh" :style="article_style">
+                            <div class="h oh flex-col" :style="article_img_style">
+                                <template v-if="item.new_cover.length > 0">
+                                    <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
+                                </template>
+                                <template v-else> <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty> </template>
+                                <div class="jc-sb flex-1 flex-col" :style="article_theme != '0' ? content_padding : ''">
+                                    <div class="flex-col" :style="'gap:' + new_style.name_desc_space + 'px;'">
+                                        <div class="title text-line-2" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                                        <div v-if="field_show.includes('2')" class="desc text-line-1" :style="article_desc">{{ item.data.describe || '' }}</div>
+                                    </div>
+                                    <div class="flex-row jc-sb gap-8 align-e mt-10">
+                                        <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
+                                        <div v-show="field_show.includes('1')" class="flex-row align-c gap-3" :style="article_page_view">
+                                            <icon name="eye"></icon>
+                                            <div>
+                                                {{ item.data.access_count ? item.data.access_count : '16' }}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </swiper-slide>
+                    </swiper>
+                    <!-- <el-carousel :key="carousel_key" indicator-position="none" :interval="interval_time" arrow="never" :autoplay="is_roll ? true : false">
+                        <el-carousel-item v-for="(item1, index1) in article_carousel_list" :key="index1" class="flex" :style="article_spacing">
+                            <div v-for="(item, index) in item1.carousel_list" :key="index" class="item oh" :style="article_style">
+                                
+                            </div>
                         </el-carousel-item>
-                    </el-carousel>
+                    </el-carousel> -->
                 </div>
             </div>
         </div>
@@ -66,6 +71,10 @@
 import { common_styles_computer, padding_computer, radius_computer, get_math, is_obj_empty, common_img_computer, background_computer, gradient_handle } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 import ArticleAPI from '@/api/article';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Autoplay } from 'swiper/modules';
+import 'swiper/css';
+const modules = [Autoplay];
 /**
  * @description: 文章列表（渲染）
  * @param value{Object} 样式数据
@@ -132,14 +141,6 @@ const default_data_list: ArticleList = {
     new_title: '测试文章标题',
     new_cover: [],
 };
-// 轮播图列数
-const carousel_col = ref('2');
-// 轮播图key值
-const carousel_key = ref('0');
-// 轮播图定时轮播
-const interval_time = ref(2000);
-// 轮播图是否滚动
-const is_roll = ref(1);
 // 内容
 const new_content = computed(() => props.value?.content || {});
 // 样式
@@ -271,6 +272,12 @@ const article_img_height = computed(() => {
         }
     }
 });
+// 轮播图列数
+const carousel_col = ref('2');
+// 轮播图key值
+const carousel_key = ref('0');
+const autoplay = ref<boolean | object>(false);
+const slides_per_group = ref(1);
 // 监听value数据变化
 watch(
     () => props.value,
@@ -317,11 +324,22 @@ watch(
         } else if (article_theme.value == '4') {
             // 更新轮播图的key，确保更换时能重新更新轮播图
             carousel_col.value = new_content.carousel_col || '1';
-            carousel_key.value = new_style.interval_time + new_style.is_roll;
-            // 滚动时间
-            interval_time.value = (new_style.interval_time || 2) * 1000;
-            // 是否滚动修改
-            is_roll.value = new_style.is_roll;
+            carousel_key.value = new_style.interval_time + new_style.is_roll + new_style.rolling_fashion;
+            // // 滚动时间
+            // interval_time.value = (new_style.interval_time || 2) * 1000;
+            // // 是否滚动修改
+            // is_roll.value = new_style.is_roll;
+            // 是否滚动
+            if (new_style.is_roll == '1' && data_list.value.length > 0) {
+                autoplay.value = {
+                    delay: (new_style.interval_time || 2) * 1000,
+                    pauseOnMouseEnter: true,
+                };
+            } else {
+                autoplay.value = false;
+            }
+            // 判断是平移还是整屏滚动
+            slides_per_group.value = new_style.rolling_fashion == 'translation' ? 1 : Number(new_content.carousel_col) + 1;
             article_item_height.value = `${new_style.article_height}px`;
             article_style.value += content_radius.value + gradient;
             article_img_style.value = background_computer(article_data);
@@ -346,31 +364,6 @@ const article_theme_class = computed(() => {
             return 'style4 flex-col';
         default:
             return 'style5';
-    }
-});
-
-interface ArticleCarouselList {
-    carousel_list: ArticleList[];
-}
-// 文章轮播
-const article_carousel_list = computed(() => {
-    // 深拷贝一下，确保不会出现问题
-    const cloneList = cloneDeep(data_list.value);
-    // 如果是分页滑动情况下，根据选择的行数和每行显示的个数来区分具体是显示多少个
-    if (cloneList.length > 0) {
-        // 每页显示的数量
-        const num = Number(carousel_col.value) + 1;
-        // 存储数据显示
-        let nav_list: ArticleCarouselList[] = [];
-        // 拆分的数量
-        const split_num = Math.ceil(cloneList.length / num);
-        for (let i = 0; i < split_num; i++) {
-            nav_list.push({ carousel_list: cloneList.slice(i * num, (i + 1) * num) });
-        }
-        return nav_list;
-    } else {
-        // 否则的话，就返回全部的信息
-        return [{ carousel_list: cloneList }];
     }
 });
 </script>
@@ -413,6 +406,7 @@ const article_carousel_list = computed(() => {
     .item {
         width: v-bind(multicolumn_columns_width);
         min-width: v-bind(multicolumn_columns_width);
+        height: v-bind(carousel_height_computer);
         .img {
             width: 100%;
             max-height: v-bind(article_item_height);
@@ -421,14 +415,6 @@ const article_carousel_list = computed(() => {
             height: v-bind(article_name_height_computer);
             line-height: v-bind(article_name_line_height_computer);
         }
-    }
-}
-
-:deep(.el-carousel) {
-    width: 100%;
-    .el-carousel__container {
-        // height: v-bind(article_item_height);
-        height: v-bind(carousel_height_computer);
     }
 }
 </style>

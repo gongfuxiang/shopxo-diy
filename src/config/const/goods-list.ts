@@ -40,6 +40,7 @@ interface DefaultProductList {
         content_img_height: number | undefined;
         is_roll: string,
         interval_time: number,
+        rolling_fashion: string;
         content_spacing: number;
         shop_title_typeface: string;
         shop_title_size: number;
@@ -143,6 +144,7 @@ const defaultProductList: DefaultProductList = {
         // 是否滚动
         is_roll: '1',
         interval_time: 3,
+        rolling_fashion: 'translation', // 滚动方式  translation 平移 cut-screen 切屏
         // 商品内容大小和颜色设置
         shop_title_typeface: '500',
         shop_title_size: 14,    
