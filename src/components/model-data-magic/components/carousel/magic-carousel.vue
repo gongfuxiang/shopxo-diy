@@ -1,7 +1,7 @@
 <template>
     <div ref="card_container" class="w h oh" :style="props.type === 'img' ? '' : style_container">
         <div class="w re oh" :style="props.type === 'img' ? `height: ${ outer_height }px;` : `height: ${ outer_height }px;${ style_img_container }`">
-            <swiper :key="form.data_style.carouselKey" class="w flex" :direction="form.data_style.rotation_direction" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="slides_per_group" :space-between="props.type === 'img' ? 0 : form.data_style.data_goods_gap" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
+            <swiper :key="form.data_style.carouselKey" class="w flex" :direction="form.data_style.rotation_direction" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="1" :space-between="props.type === 'img' ? 0 : form.data_style.data_goods_gap" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
                 <swiper-slide v-for="(item1, index1) in form.data_content.list" :key="index1">
                     <template v-if="props.type === 'img'">
                         <image-empty v-model="item1.carousel_img[0]" :style="form.data_style.get_img_radius" :fit="form.data_content.img_fit"></image-empty>
@@ -67,10 +67,13 @@ const slideChange = (swiper: { realIndex: number }) => {
 };
 
 const autoplay = ref<boolean | object>(false);
-const slides_per_group = ref(1);
+// 能够同时显示的slides数量
 const slides_per_view = ref(1);
+// 容器，用于获取容器高度
 const card_container = ref<HTMLElement | null>(null);
+// 容器高度，swiper纵向的时候需要使用
 const outer_height = ref(0);
+// 不拆分数据的时候为1，让商品内容在内部铺满/拆分数据的时候，为一屏显示数量，用于商品内部处理显示
 const show_num = ref(0);
 // 内容参数的集合
 watchEffect(() => {
@@ -85,7 +88,6 @@ watchEffect(() => {
     }
     // 图片时的处理
     if (props.type === 'img') {
-        slides_per_group.value = 1;
         slides_per_view.value = 1; // 能够同时显示的slides数量
     } else {
         // 商品时的处理逻辑
@@ -93,7 +95,6 @@ watchEffect(() => {
         const { rotation_direction, rolling_fashion } = form.value.data_style;
         // 判断是平移还是整屏滚动, 平移的时候是一个为1组
         if (rolling_fashion == 'translation') {
-            slides_per_group.value = 1;
             // 如果是商品是横排的，轮播也是横排的，就不对商品进行拆分/如果商品是竖排的，轮播也是竖排的，不对商品进行拆分
             if ((goods_outerflex == 'row' && rotation_direction == 'horizontal') || (goods_outerflex == 'col' && rotation_direction == 'vertical')) {
                 slides_per_view.value = goods_num; // 能够同时显示的slides数量
@@ -105,7 +106,6 @@ watchEffect(() => {
         } else {
             // 切屏的时候为多个为一组 
             show_num.value = goods_num; // 一屏显示的数量 用于商品内部处理显示
-            slides_per_group.value = 1;
             slides_per_view.value = 1; // 能够同时显示的slides数量
         }
     }
