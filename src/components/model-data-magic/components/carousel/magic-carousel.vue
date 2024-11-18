@@ -109,7 +109,6 @@ watchEffect(() => {
             slides_per_view.value = 1; // 能够同时显示的slides数量
         }
     }
-    
     nextTick(() => {
         // 外层高度
         if (card_container.value) {
