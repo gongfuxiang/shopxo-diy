@@ -30,6 +30,9 @@
                             <upload v-model="form.header_background_img" :limit="1"></upload>
                         </div>
                     </el-form-item>
+                    <el-form-item label="圆角">
+                        <radius :value="form.seckill_head_radius"></radius>
+                    </el-form-item>
                     <el-form-item label="内间距">
                         <padding :value="form.seckill_head_padding"></padding>
                     </el-form-item>

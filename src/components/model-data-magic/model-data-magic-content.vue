@@ -78,6 +78,7 @@ const data_style = {
     background_img: [],
     carouselKey: get_math(),
     is_roll: '0',
+    rolling_fashion: 'cut-screen',
     rotation_direction: 'horizontal',
     interval_time: 3,
     title_gap: 5,
@@ -156,6 +157,7 @@ const data_style = {
         radius_bottom_right: 4,
     },
     indicator_style: 'dot',
+    indicator_new_location: 'bottom',
     indicator_location: 'center',
     indicator_size: 5,
     indicator_bottom: 6,
@@ -198,6 +200,10 @@ const data_content = {
     height: 150,
     // 容器基础的宽度
     width: 0,
+    // 铺满方式 0 纵向展示 1 纵向滑动 2 横向滑动
+    data_source_direction: '0',
+    // 滑动时的显示 轮播数量
+    data_source_carousel_col: 1,
     // 数据源内容
     data_source_content: {
         // 存放手动输入的id

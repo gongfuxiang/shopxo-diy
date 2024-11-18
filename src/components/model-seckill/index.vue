@@ -212,10 +212,10 @@ const slide_active_color = computed(() => {
 
 const seckill_head_style = computed(() => {
     let style = ``;
-    const { header_background_color_list, header_background_direction } = new_style.value;
+    const { header_background_color_list, header_background_direction, seckill_head_radius } = new_style.value;
     // 渐变
     const gradient = { color_list: header_background_color_list, direction: header_background_direction };
-    style += gradient_computer(gradient);
+    style += gradient_computer(gradient) + radius_computer(seckill_head_radius);
     return style;
 });
 

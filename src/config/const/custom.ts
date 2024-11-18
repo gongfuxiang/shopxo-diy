@@ -92,9 +92,12 @@ interface defaultSearch {
         color: string;
         indicator_style: string;
         indicator_bottom: number;
+        indicator_new_location: string;
         indicator_location: string;
         indicator_size: number;
         indicator_radius: radiusStyle;
+        data_style: object;
+        // 通用样式
         common_style: object;
     };
 }
@@ -113,15 +116,15 @@ const defaultSearch: defaultSearch = {
         },
         // 数据源类型 商品(goods) 文章(article) 品牌(brand) 用户信息(user-info)
         data_source:'',
-        // 铺满方式 0 纵向展示 1 横向滑动 2 纵向滑动
+        // 铺满方式 0 纵向展示 1 纵向滑动 2 横向滑动
         data_source_direction: '0',
-        // 横向滑动时的显示 轮播数量
+        // 滑动时的显示 轮播数量
         data_source_carousel_col: 1,
         // 自定义内容列表
         custom_list: []
     },
     style: {
-        is_roll: '0',
+        is_roll: '1',
         interval_time: 3,
         rolling_fashion: 'translation',
         is_show: false,
@@ -130,6 +133,7 @@ const defaultSearch: defaultSearch = {
         // 常规颜色
         color: '#DDDDDD',
         indicator_style: 'dot',
+        indicator_new_location: 'bottom',
         indicator_location: 'center',
         indicator_size: 5,
         indicator_bottom: 6,
@@ -139,6 +143,27 @@ const defaultSearch: defaultSearch = {
             radius_top_right: 4,
             radius_bottom_left: 4,
             radius_bottom_right: 4,
+        },
+        data_style: {
+            color_list: [{ color: 'rgb(244, 252, 255)', color_percentage: undefined }],
+            direction: '180deg',
+            background_img_style: '2',
+            background_img: [],
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+            padding: 0,
+            padding_top: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+            padding_right: 0,
+            margin: 0,
+            margin_top: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
         },
         common_style: {
             ...defaultCommon,

@@ -291,3 +291,25 @@
     overflow-wrap: break-word;
     word-wrap: break-word;
 }
+
+.indicator_up_down_location {
+    position: absolute;
+    z-index: 1;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    .dot-item {
+        margin: 0.3rem 0;
+    }
+}
+.indicator_about_location {
+    position: absolute;
+    z-index: 1;
+    padding-right: 10px;
+    padding-left: 10px;
+    display: flex;
+    .dot-item {
+        margin: 0 0.3rem;
+    }
+}

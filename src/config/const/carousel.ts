@@ -25,6 +25,7 @@ interface defaultSearch {
         is_show: string;
         image_spacing: number,
         indicator_style: string;
+        indicator_new_location: string;
         indicator_location: string;
         indicator_size: number;
         indicator_bottom: number;
@@ -93,6 +94,7 @@ const defaultSearch: defaultSearch = {
         actived_color: '#2A94FF',
         // 常规颜色
         color: '#DDDDDD',
+        indicator_new_location: 'bottom',
         // 指示器位置
         indicator_location: 'center',
         // 指示器大小

@@ -11,7 +11,7 @@
                             <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
                         </template>
                         <div v-if="!isEmpty(isShow)" class="flex-col w h tl jc-sb">
-                            <div v-if="isShow.includes('title')" class="text-line-2 size-14" :style="props.goodStyle.goods_title_style">{{ item.title }}</div>
+                            <div v-if="isShow.includes('title')" class="text-line-2 size-14" :style="props.goodStyle.goods_title_style + `height: ${ (props.goodStyle.goods_title_size + 3) * 2 }px;`">{{ item.title }}</div>
                             <div v-if="isShow.includes('price')" class="identifying" :style="props.goodStyle.goods_price_style">
                                 <span class="num">{{ item.show_price_symbol }}</span>{{ item.min_price }}
                                 <template v-if="isShow.includes('price_unit')">
@@ -34,7 +34,7 @@
                             <template v-else>
                                 <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
                             </template>
-                            <div v-if="isShow.includes('price')" class="price-suspension text-line-1" :style="props.goodStyle.goods_price_style">
+                            <div v-if="isShow.includes('price')" class="price-suspension text-line-1" :style="props.goodStyle.goods_price_style + `height: ${ props.goodStyle.goods_title_size + 3 }px;`">
                                 {{ item.show_price_symbol }}{{ item.min_price }}
                                 <template v-if="isShow.includes('price_unit')">
                                     {{ item.show_price_unit }}
@@ -57,7 +57,7 @@
                             <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
                         </template>
                         <div v-if="!isEmpty(isShow)" class="flex-col w tl jc-sb" :style="`${ padding_computer(props.goodStyle.goods_chunk_padding) }`">
-                            <div v-if="isShow.includes('title')" class="text-line-2 size-14" :style="props.goodStyle.goods_title_style">{{ item.title }}</div>
+                            <div v-if="isShow.includes('title')" class="text-line-2 size-14" :style="props.goodStyle.goods_title_style + `height: ${ (props.goodStyle.goods_title_size + 3) * 2 }px;`">{{ item.title }}</div>
                             <div v-if="isShow.includes('price')" class="identifying" :style="props.goodStyle.goods_price_style">
                                 <span class="num">{{ item.show_price_symbol }}</span>{{ item.min_price }}
                                 <template v-if="isShow.includes('price_unit')">
@@ -137,7 +137,6 @@ const style_img_container = computed(() => {
     }
 });
 const split_list = computed(() => props.value || {});
-const gap_height = computed(() => 20 / 3 + 'px');
 </script>
 
 <style lang="scss" scoped>
@@ -167,9 +166,6 @@ const gap_height = computed(() => 20 / 3 + 'px');
     position: absolute;
     bottom: 0.4rem;
     border-radius: 0.8rem;
-}
-.shop-max-height{
-    max-height: calc((100% / 3) - v-bind(gap_height));
 }
 .half-width {
     width: 50%;

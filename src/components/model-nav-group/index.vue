@@ -1,6 +1,6 @@
 <template>
     <div :style="style_container">
-        <div :style="style_img_container">
+        <div class="re" :style="style_img_container">
             <el-carousel :key="carouselKey" indicator-position="none" :interval="interval_time" arrow="never" :autoplay="is_roll" @change="carousel_change">
                 <el-carousel-item v-for="(item, index) in nav_content_list" :key="index">
                     <div ref="bannerImg" class="flex flex-wrap" :style="nav_space">
@@ -13,7 +13,7 @@
                     </div>
                 </el-carousel-item>
             </el-carousel>
-            <div v-if="form.display_style == 'slide' && new_style.is_show == '1'" :style="{ 'justify-content': new_style?.indicator_location || 'center' }" class="dot flex mt-10 mb-4">
+            <div v-if="form.display_style == 'slide' && new_style.is_show == '1'" :class="['left', 'right'].includes(new_style.indicator_new_location) ? 'indicator_up_down_location' : 'indicator_about_location'" :style="indicator_location_style">
                 <template v-if="new_style.indicator_style == 'num'">
                     <div :style="indicator_style" class="dot-item">
                         <span class="num-active">{{ actived_index + 1 }}</span
@@ -55,6 +55,11 @@ const style_img_container = computed(() => common_img_computer(new_style.value.c
 const img_style = computed(() => radius_computer(new_style.value));
 // 标题的样式
 const text_style = computed(() => `font-size: ${new_style.value.title_size || 12}px; color: ${new_style.value.title_color || '#000'};`);
+//#region 指示器处理
+// 轮播图滚动位置
+const actived_index = ref(0);
+// 轮播图显示样式
+const actived_color = computed(() => new_style.value?.actived_color || '#2A94FF');
 // 指示器的样式
 const indicator_style = computed(() => {
     let indicator_styles = '';
@@ -67,13 +72,43 @@ const indicator_style = computed(() => {
         indicator_styles += `font-size: ${size}px;`;
     } else if (new_style.value.indicator_style == 'elliptic') {
         indicator_styles += `background: ${new_style.value?.color || '#DDDDDD'};`;
-        indicator_styles += `width: ${size * 3}px; height: ${size}px;`;
+        if (['left', 'right'].includes(new_style.value.indicator_new_location)) {
+            indicator_styles += `width: ${ size }px; height: ${size * 3}px;`;
+        } else {
+            indicator_styles += `width: ${size * 3}px; height: ${size}px;`;
+        }
     } else {
         indicator_styles += `background: ${new_style.value?.color || '#DDDDDD'};`;
         indicator_styles += `width: ${size}px; height: ${size}px;`;
     }
     return indicator_styles;
 });
+// 根据指示器的位置来处理 对齐方式的处理
+const indicator_location_style = computed(() => {
+    const { indicator_new_location,  indicator_location, indicator_bottom } = new_style.value;
+    let styles = '';
+    if (['left', 'right'].includes(indicator_new_location)) {
+        if (indicator_location == 'flex-start') {
+            styles += `top: 0px;`;
+        } else if (indicator_location == 'center') {
+            styles += `top: 50%; transform: translateY(-50%);`;
+        } else {
+            styles += `bottom: 0px;`;
+        }
+    } else {
+        if (indicator_location == 'flex-start') {
+            styles += `left: 0px;`;
+        } else if (indicator_location == 'center') {
+            styles += `left: 50%; transform: translateX(-50%);`;
+        } else {
+            styles += `right: 0px;`;
+        }
+    }
+    // 如果有位置的处理，就使用指示器的位置处理，否则的话就用下边距处理
+    styles += `${ !isEmpty(indicator_new_location) ? `${indicator_new_location}: ${ indicator_bottom }px;` : `bottom: ${ indicator_bottom }px;` }`;
+    return styles;
+});
+//#endregion
 // 导航间距
 const nav_space = computed(() => 'row-gap:' + (new_style.value?.space || '0') + 'px');
 // 导航标题间距
@@ -88,10 +123,6 @@ const interval_time = ref(2000);
 const is_roll = ref(false);
 // 轮播图key值
 const carouselKey = ref('0');
-// 轮播图滚动位置
-const actived_index = ref(0);
-// 轮播图显示样式
-const actived_color = computed(() => new_style.value?.actived_color || '#2A94FF');
 // 记录当前显示的轮播图的数据
 const interval_list = ref({
     time: 2000,
@@ -191,17 +222,12 @@ const carousel_change = (index: number) => {
 .flex-wrap .item {
     width: v-bind(group_width);
 }
-.dot {
-    padding-right: 10px;
-    padding-left: 10px;
-    .dot-item {
-        margin: 0 0.3rem;
-        &.active {
-            background: v-bind(actived_color) !important;
-        }
-        .num-active {
-            color: v-bind(actived_color) !important;
-        }
+.dot-item {
+    &.active {
+        background: v-bind(actived_color) !important;
+    }
+    .num-active {
+        color: v-bind(actived_color) !important;
     }
 }
 

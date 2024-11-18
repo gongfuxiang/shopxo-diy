@@ -6,7 +6,7 @@
                 <template v-if="form.style_actived == 7">
                     <div class="flex-row align-c jc-c style-size flex-wrap">
                         <div v-for="(item, index) in data_magic_list" :key="index" :style="`${ item.data_style.background_style } ${ content_radius }`" :class="['img-spacing-border', { 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index) }]">
-                            <div class="w h" :style="`${ item.data_style.background_img_style }`">
+                            <div class="w h re" :style="`${ item.data_style.background_img_style }`">
                                 <template v-if="item.data_content.data_type == 'goods'">
                                     <div class="w h flex-col" :style="`${ padding_computer(item.data_style.chunk_padding) };gap: ${ item.data_style.title_data_gap }px;`">
                                         <div v-if="(!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle))" :class="'tl' + (item.data_style.title_line == '1' ? ' flex-row align-c' : ' flex-col')" :style="'gap:' + item.data_style.title_gap + 'px;'">
@@ -36,7 +36,7 @@
                                 <template v-else>
                                     <videoIndex :value="item.data_content" :data-style="item.data_style"></videoIndex>
                                 </template>
-                                <div v-if="item.data_style.is_show == '1' && item.data_content.list.length > 1" :class="{'dot-center': item.data_style?.indicator_location == 'center', 'dot-right': item.data_style?.indicator_location == 'flex-end' }" class="dot flex abs" :style="`bottom: ${item.data_style?.indicator_bottom}px;`">
+                                <div v-if="item.data_style.is_show == '1' && item.data_content.list.length > 1" :class="['left', 'right'].includes(item.data_style.indicator_new_location) ? 'indicator_up_down_location' : 'indicator_about_location'" :style="item.data_style.indicator_location_style">
                                     <template v-if="item.data_style.indicator_style == 'num'">
                                         <div :style="item.data_style.indicator_styles" class="dot-item">
                                             <span class="num-active" :style="`color: ${ item.data_style.actived_color }`">{{ item.actived_index + 1 }}</span><span>/{{ item.data_content.list.length }}</span>
@@ -52,7 +52,7 @@
                 </template>
                 <template v-else>
                     <div v-for="(item, index) in data_magic_list" :key="index" class="cube-selected img-spacing-border" :style="`${ selected_style(item) } ${ item.data_style.background_style } ${ content_radius }`">
-                        <div class="w h" :style="`${ item.data_style.background_img_style }`">
+                        <div class="w h re" :style="`${ item.data_style.background_img_style }`">
                             <template v-if="item.data_content.data_type == 'goods'">
                                 <div class="w h flex-col" :style="`${ padding_computer(item.data_style.chunk_padding) };gap: ${ item.data_style.title_data_gap }px;`">
                                     <div v-if="!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)" :class="'tl' + (item.data_style.title_line == '1' ? ' flex-row align-c' : ' flex-col')" :style="'gap:' + item.data_style.title_gap + 'px;'">
@@ -66,7 +66,7 @@
                                         </template>
                                         <p class="ma-0 w text-word-break text-line-1 flex-basis-shrink" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
                                     </div>
-                                    <div class="w h">
+                                    <div class="w h flex-1">
                                         <magic-carousel :value="item" :good-style="item.data_style" type="product" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
                                     </div>
                                 </div>
@@ -82,7 +82,7 @@
                             <template v-else>
                                 <videoIndex :value="item.data_content" :data-style="item.data_style"></videoIndex>
                             </template>
-                            <div v-if="item.data_style.is_show == '1' && item.data_content.list.length > 1" :class="{'dot-center': item.data_style?.indicator_location == 'center', 'dot-right': item.data_style?.indicator_location == 'flex-end' }" class="dot flex abs" :style="`bottom: ${item.data_style?.indicator_bottom}px;`">
+                            <div v-if="item.data_style.is_show == '1' && item.data_content.list.length > 1" :class="['left', 'right'].includes(item.data_style.indicator_new_location) ? 'indicator_up_down_location' : 'indicator_about_location'" :style="item.data_style.indicator_location_styles">
                                 <template v-if="item.data_style.indicator_style == 'num'">
                                     <div :style="item.data_style.indicator_styles" class="dot-item">
                                         <span class="num-active" :style="`color: ${ item.data_style.actived_color }`">{{ item.actived_index + 1 }}</span><span>/{{ item.data_content.list.length }}</span>
@@ -200,13 +200,44 @@ const indicator_style = (item: any) => {
         styles += `font-size: ${size}px;`;
     } else if (item.indicator_style == 'elliptic') {
         styles += `background: ${item?.color || '#DDDDDD'};`;
-        styles += `width: ${size * 3}px; height: ${size}px;`;
+        if (['left', 'right'].includes(item.indicator_new_location)) {
+            styles += `width: ${ size }px; height: ${size * 3}px;`;
+        } else {
+            styles += `width: ${size * 3}px; height: ${size}px;`;
+        }
     } else {
         styles += `background: ${item?.color || '#DDDDDD'};`;
         styles += `width: ${size}px; height: ${size}px;`;
     }
     return styles;
 };
+//#region 指示器位置
+// 根据指示器的位置来处理 对齐方式的处理
+const indicator_location_style = (item: any) => {
+    const { indicator_new_location,  indicator_location, indicator_bottom } = item;
+    let styles = '';
+    if (['left', 'right'].includes(indicator_new_location)) {
+        if (indicator_location == 'flex-start') {
+            styles += `top: 0px;`;
+        } else if (indicator_location == 'center') {
+            styles += `top: 50%; transform: translateY(-50%);`;
+        } else {
+            styles += `bottom: 0px;`;
+        }
+    } else {
+        if (indicator_location == 'flex-start') {
+            styles += `left: 0px;`;
+        } else if (indicator_location == 'center') {
+            styles += `left: 50%; transform: translateX(-50%);`;
+        } else {
+            styles += `right: 0px;`;
+        }
+    }
+    // 如果有位置的处理，就使用指示器的位置处理，否则的话就用下边距处理
+    styles += `${ !isEmpty(indicator_new_location) ? `${indicator_new_location}: ${ indicator_bottom }px;` : `bottom: ${ indicator_bottom }px;` }`;
+    return styles;
+};
+//#endregion
 const style_actived_color = (item: any, index: number) => {
    return item.actived_index == index ? `background: ${ item.data_style.actived_color };` : ''
 }
@@ -262,25 +293,58 @@ const default_list = {
 ** @param {Number} num 显示数量
 ** @return {Array}
 */
-const commodity_list = (list: any[], num: number) => {
-    if (list.length > 0) {
-        // 深拷贝一下，确保不会出现问题
-        const goods_list = cloneDeep(list).map((item: any) => ({
-            ...item.data,
-            title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
-            new_cover: item.new_cover,
-        }));
-        // 存储数据显示
-        let nav_list = [];
+const commodity_list = (list: any[], num: number, data_content: any, data_style: any) => {
+        if (list.length > 0) {
+            // 深拷贝一下，确保不会出现问题
+            const goods_list = cloneDeep(list).map((item: any) => ({
+                ...item.data,
+                title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
+                new_cover: item.new_cover,
+            }));
+            // 存储数据显示
+            let nav_list: { split_list: any[] }[] = [];
+            // 如果是滑动，需要根据每行显示的个数来区分来拆分数据  translation 表示的是平移
+            if (data_style.rolling_fashion != 'translation') {
+                // 拆分的数量
+                const split_num = Math.ceil(goods_list.length / num);
+                for (let i = 0; i < split_num; i++) {
+                    nav_list.push({ split_list: goods_list.slice(i * num, (i + 1) * num) });
+                }
+                return nav_list;
+            } else {
+                return rotation_calculation(goods_list, num, data_content, data_style)
+            }
+        } else {
+            const list = Array(num).fill(default_list);
+            if (data_style.rolling_fashion != 'translation') {
+                return [{ split_list: list }];
+            } else {
+                return rotation_calculation(list, num, data_content, data_style)
+            }
+        }
+}
+
+const rotation_calculation = (list: Array<any>, num: number, data_content: any, data_style: any) => {
+    // 存储数据显示
+    let nav_list: { split_list: any[] }[] = [];
+    const goods_outerflex = data_content.goods_outerflex;
+    const rotation_direction = data_style.rotation_direction;
+    // 如果是商品是横排的，轮播也是横排的，就不对商品进行拆分/如果商品是竖排的，轮播也是竖排的，不对商品进行拆分
+    if ((goods_outerflex == 'row' && rotation_direction == 'horizontal') || (goods_outerflex == 'col' && rotation_direction == 'vertical')) {
+        list.forEach((item) => {
+            nav_list.push({
+                split_list: [item],
+            });
+        });
+    } else {
         // 拆分的数量
-        const split_num = Math.ceil(goods_list.length / num);
+        const split_num = Math.ceil(list.length / num);
         for (let i = 0; i < split_num; i++) {
-            nav_list.push({ split_list: goods_list.slice(i * num, (i + 1) * num) });
+            nav_list.push({ split_list: list.slice(i * num, (i + 1) * num) });
         }
         return nav_list;
-    } else {
-        return [{ split_list: Array(num).fill(default_list)}];
     }
+    return nav_list;
 }
 
 const old_list = ref<any>({});
@@ -295,19 +359,20 @@ watch(props.value.content, (val) => {
         item.actived_index = 0;
         // 指示器样式
         data_style.indicator_styles = indicator_style(data_style);
+        data_style.indicator_location_styles = indicator_location_style(data_style);
         data_style.background_style = gradient_computer(data_style);
         data_style.background_img_style = background_computer(data_style);
         const radius = !isEmpty(data_style.img_radius) ? data_style.img_radius : { radius: 4, radius_top_left: 4, radius_top_right: 4, radius_bottom_left: 4, radius_bottom_right: 4 };
         data_style.get_img_radius = radius_computer(radius);
         
         // 商品名称和价格样式
-        data_style.goods_title_style = goods_trends_config(item.data_style, 'title') + `line-height: ${ item.data_style.goods_title_size + 3 }px;height: ${ (item.data_style.goods_title_size + 3) * 2 }px;`;
+        data_style.goods_title_style = goods_trends_config(item.data_style, 'title') + `line-height: ${ item.data_style.goods_title_size + 3 }px;`;
         data_style.goods_price_style = goods_trends_config(item.data_style, 'price') + `line-height: ${ item.data_style.goods_price_size }px;`;
 
-        const { is_roll, rotation_direction, interval_time } = data_style;
+        const { is_roll, rotation_direction, interval_time, rolling_fashion } = data_style;
         const { goods_list, images_list } = data_content;
         if (data_content.data_type == 'goods') {
-            data_content.list = commodity_list(data_content.goods_list, data_content.goods_num);
+            data_content.list = commodity_list(data_content.goods_list, data_content.goods_num, data_content, data_style);
         } else {
             data_content.list = data_content.images_list;
         }
@@ -316,6 +381,7 @@ watch(props.value.content, (val) => {
             interval_time: interval_time,
             is_roll: is_roll,
             rotation_direction: rotation_direction,
+            rolling_fashion: rolling_fashion,
             goods_list: [...goods_list], // 确保深拷贝
             images_list: [...images_list] // 确保深拷贝
         };
@@ -393,21 +459,6 @@ watchEffect(() => {
         height: calc(50% - v-bind(outer_spacing));
         position: relative;
         overflow: hidden;
-    }
-}
-.dot-center {
-    left: 50%;
-    transform: translateX(-50%);
-}
-.dot-right {
-    right: 0;
-}
-.dot {
-    padding-right: 10px;
-    padding-left: 10px;
-    z-index: 3;
-    .dot-item {
-        margin: 0 0.3rem;
     }
 }
 // 轮播高度自适应

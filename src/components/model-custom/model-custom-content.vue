@@ -17,16 +17,24 @@
                     <el-form-item label="铺满方式">
                         <el-radio-group v-model="form.data_source_direction">
                             <el-radio value="0">纵向展示</el-radio>
-                            <el-radio value="2">纵向滑动</el-radio>
-                            <el-radio value="1">横向滑动</el-radio>
+                            <el-radio value="1">纵向滑动</el-radio>
+                            <el-radio value="2">横向滑动</el-radio>
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item v-if="['1', '2'].includes(form.data_source_direction)" label="每屏显示">
                         <el-radio-group v-model="form.data_source_carousel_col">
-                            <el-radio :value="1">单列展示</el-radio>
-                            <el-radio :value="2">两列展示</el-radio>
-                            <el-radio :value="3">三列展示</el-radio>
-                            <el-radio :value="4">四列展示</el-radio>
+                            <template v-if="form.data_source_direction == '2'">
+                                <el-radio :value="1">单列展示</el-radio>
+                                <el-radio :value="2">两列展示</el-radio>
+                                <el-radio :value="3">三列展示</el-radio>
+                                <el-radio :value="4">四列展示</el-radio>
+                            </template>
+                            <template v-else>
+                                <el-radio :value="1">单行展示</el-radio>
+                                <el-radio :value="2">两行展示</el-radio>
+                                <el-radio :value="3">三行展示</el-radio>
+                                <el-radio :value="4">四行展示</el-radio>
+                            </template>
                         </el-radio-group>
                     </el-form-item>
                 </card-container>

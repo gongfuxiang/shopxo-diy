@@ -54,6 +54,7 @@ interface defaultTabs {
         is_show: string;
         image_spacing: number;
         indicator_style: string;
+        indicator_new_location: string;
         indicator_location: string;
         indicator_size: number;
         indicator_bottom: number;
@@ -160,6 +161,7 @@ const defaultTabs: defaultTabs = {
         // 指示器设置
         is_show: '1',
         indicator_style: 'dot',
+        indicator_new_location: 'bottom',
         indicator_location: 'center',
         indicator_size: 5,
         indicator_bottom: 6,

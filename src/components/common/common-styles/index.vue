@@ -19,7 +19,7 @@
                     </div>
                 </el-form-item>
                 <el-form-item v-if="isFloatingUp" label="组件上浮">
-                    <slider v-model="form.floating_up" :min="0" :max="200"></slider>
+                    <slider v-model="form.floating_up" :min="0" :max="500"></slider>
                 </el-form-item>
                 <el-form-item v-if="isFloatingUp" label="组件层级">
                     <slider v-model="form.module_z_index" :min="0" :max="10"></slider>

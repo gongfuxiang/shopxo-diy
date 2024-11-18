@@ -26,6 +26,8 @@ interface defaultSearch {
         is_roll: string;
         interval_time: number;
         indicator_style: string;
+        indicator_bottom: number;
+        indicator_new_location: string;
         indicator_location: string;
         indicator_size: number;
         indicator_radius: radiusStyle;
@@ -93,8 +95,10 @@ const defaultSearch: defaultSearch = {
         // 指示器处理逻辑
         is_show: '1',
         indicator_style: 'dot',
+        indicator_new_location: 'bottom',
         indicator_location: 'center',
         indicator_size: 5,
+        indicator_bottom: 6,
         indicator_radius: {
             radius: 4,
             radius_top_left: 4,
@@ -111,7 +115,7 @@ const defaultSearch: defaultSearch = {
         common_style: {
             ...defaultCommon,
             padding_top: 9,
-            padding_bottom: 5,
+            padding_bottom: 15,
             padding_left: 15,
             padding_right: 15,
         },
