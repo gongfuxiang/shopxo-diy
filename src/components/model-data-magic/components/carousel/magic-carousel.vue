@@ -93,7 +93,7 @@ watchEffect(() => {
         // 商品时的处理逻辑
         const { goods_outerflex, goods_num } = form.value.data_content;
         const { rotation_direction, rolling_fashion } = form.value.data_style;
-        // 判断是平移还是整屏滚动, 平移的时候是一个为1组
+        // 判断是平移还是整屏滚动, 平移的时候是一个为1组，如果是整屏滚动，就为一屏为一组
         if (rolling_fashion == 'translation') {
             // 如果是商品是横排的，轮播也是横排的，就不对商品进行拆分/如果商品是竖排的，轮播也是竖排的，不对商品进行拆分
             if ((goods_outerflex == 'row' && rotation_direction == 'horizontal') || (goods_outerflex == 'col' && rotation_direction == 'vertical')) {

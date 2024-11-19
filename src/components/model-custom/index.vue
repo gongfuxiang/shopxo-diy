@@ -18,7 +18,7 @@
                         </div>
                     </swiper-slide>
                 </swiper>
-                <div v-if="new_style.is_show == '1' && dot_list.length > 0" :class="['left', 'right'].includes(new_style.indicator_new_location) ? 'indicator_up_down_location' : 'indicator_about_location'" :style="indicator_location_style">
+                <div v-if="new_style.is_show == '1' && dot_list.length > 1" :class="['left', 'right'].includes(new_style.indicator_new_location) ? 'indicator_up_down_location' : 'indicator_about_location'" :style="indicator_location_style">
                     <template v-if="new_style.indicator_style == 'num'">
                         <div :style="indicator_style" class="dot-item">
                             <span class="num-active">{{ actived_index + 1 }}</span><span>/{{ dot_list.length }}</span>

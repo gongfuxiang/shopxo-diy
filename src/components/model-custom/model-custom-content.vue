@@ -114,7 +114,8 @@ const form = ref(props.value);
 const center_width = ref(props.magicWidth);
 
 const custom_width = computed(() => {
-    if (['goods', 'article', 'brand'].includes(form.value.data_source) && form.value.data_source_direction == '0') {
+    // 如果是横向展示，那么就需要根据每屏显示的数量来计算宽度 data_source_direction == 2 为横向滑动
+    if (['goods', 'article', 'brand'].includes(form.value.data_source) && form.value.data_source_direction == '2') {
         return center_width.value / form.value.data_source_carousel_col;
     } else {
         return center_width.value;

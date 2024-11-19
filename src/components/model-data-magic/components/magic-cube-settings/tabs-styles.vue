@@ -1,13 +1,13 @@
 <template>
-    <template v-if="tabs_content.data_type != 'custom'">
+    <template v-if="tabs_content.data_type != 'video'">
         <card-container>
             <div class="mb-12">基础样式</div>
-            <template v-if="['goods', 'images'].includes(tabs_content.data_type)">
+            <template v-if="['goods', 'images', 'custom'].includes(tabs_content.data_type)">
                 <el-form-item label="自动轮播">
                     <el-switch v-model="form.is_roll" active-value="1" inactive-value="0" />
                 </el-form-item>
                 <template v-if="form.is_roll == '1'">
-                    <el-form-item label="轮播方向">
+                    <el-form-item v-if="tabs_content.data_type != 'custom'" label="轮播方向">
                         <el-radio-group v-model="form.rotation_direction">
                             <el-radio value="horizontal">横向</el-radio>
                             <el-radio value="vertical">纵向</el-radio>
@@ -116,7 +116,7 @@
         </card-container>
         <div class="bg-f5 divider-line" />
     </template>
-    <template v-if="['goods', 'images'].includes(tabs_content.data_type)">
+    <template v-if="['goods', 'images', 'custom'].includes(tabs_content.data_type)">
         <card-container>
             <carousel-indicator :key="form.carouselKey" :value="form"></carousel-indicator>
         </card-container>

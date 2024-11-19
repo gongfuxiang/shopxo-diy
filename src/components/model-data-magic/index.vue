@@ -21,17 +21,17 @@
                                             <p class="ma-0 w text-word-break text-line-1 flex-basis-shrink" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
                                         </div>
                                         <div class="w h">
-                                            <magic-carousel :value="item" :good-style="item.data_style" :actived="form.style_actived" type="product" @carousel_change="carousel_change($event, index)"></magic-carousel>
+                                            <magic-carousel :value="item" :good-style="item.data_style" :actived="form.style_actived" type="product" @carousel_change="carousel_change(index, $event)"></magic-carousel>
                                         </div>
                                     </div>
                                 </template>
                                 <template v-else-if="item.data_content.data_type == 'images'">
                                     <div class="w h" :style="`${ padding_computer(item.data_style.chunk_padding) }`">
-                                        <magic-carousel :value="item" type="img" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
+                                        <magic-carousel :value="item" type="img" :actived="form.style_actived" @carousel_change="carousel_change(index, $event)"></magic-carousel>
                                     </div>
                                 </template>
                                 <template v-else-if="item.data_content.data_type == 'custom'">
-                                    <customIndex :value="item" :magic-scale="magic_scale" :data-spacing="new_style.image_spacing"></customIndex>
+                                    <customIndex :value="item" :magic-scale="magic_scale" :data-spacing="new_style.image_spacing" @carousel_change="carousel_change(index, $event)"></customIndex>
                                 </template>
                                 <template v-else>
                                     <videoIndex :value="item.data_content" :data-style="item.data_style"></videoIndex>
@@ -67,17 +67,17 @@
                                         <p class="ma-0 w text-word-break text-line-1 flex-basis-shrink" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
                                     </div>
                                     <div class="w h flex-1">
-                                        <magic-carousel :value="item" :good-style="item.data_style" type="product" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
+                                        <magic-carousel :value="item" :good-style="item.data_style" type="product" :actived="form.style_actived" @carousel_change="carousel_change(index, $event)"></magic-carousel>
                                     </div>
                                 </div>
                             </template>
                             <template v-else-if="item.data_content.data_type == 'images'">
                                 <div class="w h" :style="`${ padding_computer(item.data_style.chunk_padding) }`">
-                                    <magic-carousel :value="item" type="img" :actived="form.style_actived" @carousel_change="carousel_change($event, index)"></magic-carousel>
+                                    <magic-carousel :value="item" type="img" :actived="form.style_actived" @carousel_change="carousel_change(index, $event)"></magic-carousel>
                                 </div>
                             </template>
                             <template v-else-if="item.data_content.data_type == 'custom'">
-                                <customIndex :value="item" :magic-scale="magic_scale" :data-spacing="new_style.image_spacing"></customIndex>
+                                <customIndex :value="item" :magic-scale="magic_scale" :data-spacing="new_style.image_spacing" @carousel_change="carousel_change(index, $event)"></customIndex>
                             </template>
                             <template v-else>
                                 <videoIndex :value="item.data_content" :data-style="item.data_style"></videoIndex>
@@ -346,7 +346,23 @@ const rotation_calculation = (list: Array<any>, num: number, data_content: any, 
     }
     return nav_list;
 }
-
+// 数据来源的内容
+let data_source_content_list = (data_content: any) => {
+    if (['goods', 'article', 'brand'].includes(data_content.data_source)) {
+        if (data_content.data_source_content.data_type == '0') {
+            return data_content.data_source_content.data_list;
+        } else {
+            return data_content.data_source_content.data_auto_list.map((item: any) => ({
+                id: Math.random(),
+                new_cover: [],
+                new_title: '',
+                data: item,
+            }));
+        }
+    } else {
+        return data_content.data_source_content.data_list;
+    }
+};
 const old_list = ref<any>({});
 const data_magic_list = ref<data_magic[]>([]);
 watch(props.value.content, (val) => {
@@ -371,9 +387,17 @@ watch(props.value.content, (val) => {
 
         const { is_roll, rotation_direction, interval_time, rolling_fashion } = data_style;
         const { goods_list, images_list } = data_content;
+        // 商品时的处理逻辑
         if (data_content.data_type == 'goods') {
             data_content.list = commodity_list(data_content.goods_list, data_content.goods_num, data_content, data_style);
+        } else if (data_content.data_type == 'custom' && ['1', '2'].includes(data_content.data_source_direction)) {
+            // 是自定义并且是轮播状态的时候，添加数据
+            const list = data_source_content_list(data_content);
+            const carousel_col = data_style?.data_source_carousel_col || 1;
+            const num = new_style.value.rolling_fashion == 'translation' ? list.length : Math.ceil(list.length / carousel_col);
+            data_content.list = Array(num);
         } else {
+            // 是图片的时候，直接赋值
             data_content.list = data_content.images_list;
         }
         const new_data = {
@@ -405,7 +429,7 @@ watch(props.value.content, (val) => {
     data_magic_list.value = data;
 }, {immediate: true, deep: true})
 //#endregion
-const carousel_change = (index: number, key: number) => {
+const carousel_change = (key: number, index: number, type?: string, list?: any[]) => {
     if (data_magic_list.value[key]) {
         data_magic_list.value[key].actived_index = index;
     }
