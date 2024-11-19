@@ -24,6 +24,7 @@ interface defaultSearch {
         radius_bottom_right: number;
         is_show: string;
         is_roll: string;
+        rolling_fashion: string;
         interval_time: number;
         indicator_style: string;
         indicator_bottom: number;
@@ -94,6 +95,7 @@ const defaultSearch: defaultSearch = {
         interval_time: 3,
         // 指示器处理逻辑
         is_show: '1',
+        rolling_fashion: 'translation',
         indicator_style: 'dot',
         indicator_new_location: 'bottom',
         indicator_location: 'center',

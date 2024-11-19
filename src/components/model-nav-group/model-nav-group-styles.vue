@@ -27,9 +27,17 @@
                     <el-form-item label="自动轮播">
                         <el-switch v-model="form.is_roll" active-value="1" inactive-value="0" />
                     </el-form-item>
-                    <el-form-item v-if="form.is_roll == '1'" label="间隔时间">
-                        <slider v-model="form.interval_time" :min="1" :max="100"></slider>
-                    </el-form-item>
+                    <template v-if="form.is_roll == '1'">
+                        <el-form-item label="间隔时间">
+                            <slider v-model="form.interval_time" :min="1" :max="100"></slider>
+                        </el-form-item>
+                        <el-form-item v-if="data_content.row === 1" label="滚动方式">
+                            <el-radio-group v-model="form.rolling_fashion">
+                                <el-radio value="translation">平移</el-radio>
+                                <el-radio value="cut-screen">切屏</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </template>
                 </card-container>
                 <div class="divider-line"></div>
                 <card-container>
@@ -68,6 +76,7 @@ const props = withDefaults(defineProps<Props>(), {
         radius_bottom_right: 0,
         is_show: '1',
         is_roll: '1',
+        rolling_fashion: 'translation',
         interval_time: 3,
         indicator_style: 'dot',
         indicator_location: 'center',
@@ -90,10 +99,10 @@ const props = withDefaults(defineProps<Props>(), {
 
 const state = reactive({
     form: props.value,
-    content: props.content,
+    data_content: props.content,
 });
 // 如果需要解构，确保使用toRefs
-const { form } = toRefs(state);
+const { form, data_content } = toRefs(state);
 
 // 图片圆角
 const radius_change = (radius: nav_group_styles) => {
@@ -106,9 +115,8 @@ const common_styles_update = (val: Object) => {
 
 // 是否显示指示器设置
 const display_style_show = computed(() => {
-    const { content } = toRefs(state);
-    if (!isEmpty(content.value)) {
-        return content.value.display_style == 'slide';
+    if (!isEmpty(data_content.value)) {
+        return data_content.value.display_style == 'slide';
     } else {
         return false;
     }

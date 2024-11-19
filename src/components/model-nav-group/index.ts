@@ -23,6 +23,7 @@ interface nav_group_styles {
     radius_bottom_right: number;
     is_show: string;
     is_roll: string;
+    rolling_fashion: string;
     interval_time: number;
     indicator_style: string;
     indicator_location: string;

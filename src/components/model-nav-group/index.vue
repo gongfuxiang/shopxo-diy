@@ -1,8 +1,8 @@
 <template>
     <div :style="style_container">
         <div class="re" :style="style_img_container">
-            <el-carousel :key="carouselKey" indicator-position="none" :interval="interval_time" arrow="never" :autoplay="is_roll" @change="carousel_change">
-                <el-carousel-item v-for="(item, index) in nav_content_list" :key="index">
+            <swiper :key="carouselKey" class="w flex" direction="horizontal" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="1" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
+                <swiper-slide v-for="(item, index) in nav_content_list" :key="index">
                     <div ref="bannerImg" class="flex flex-wrap" :style="nav_space">
                         <div v-for="(item1, index1) in item.split_list" :key="index1" class="item flex-col align-c" :style="nav_title_space">
                             <div v-if="['image_with_text', 'image'].includes(nav_style)" class="top-img flex align-c jc-c">
@@ -11,13 +11,12 @@
                             <p v-if="['image_with_text', 'text'].includes(nav_style)" class="w size-12 ma-0 nowrap oh tc" :style="text_style">{{ item1.title }}</p>
                         </div>
                     </div>
-                </el-carousel-item>
-            </el-carousel>
+                </swiper-slide>
+            </swiper>
             <div v-if="form.display_style == 'slide' && new_style.is_show == '1'" :class="['left', 'right'].includes(new_style.indicator_new_location) ? 'indicator_up_down_location' : 'indicator_about_location'" :style="indicator_location_style">
                 <template v-if="new_style.indicator_style == 'num'">
                     <div :style="indicator_style" class="dot-item">
-                        <span class="num-active">{{ actived_index + 1 }}</span
-                        ><span>/{{ nav_content_list.length }}</span>
+                        <span class="num-active">{{ actived_index + 1 }}</span><span>/{{ nav_content_list.length }}</span>
                     </div>
                 </template>
                 <template v-else>
@@ -30,6 +29,10 @@
 <script setup lang="ts">
 import { common_styles_computer, radius_computer, get_math, common_img_computer } from '@/utils';
 import { isEmpty, cloneDeep, throttle } from 'lodash';
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Autoplay } from 'swiper/modules';
+import 'swiper/css';
+const modules = [Autoplay];
 
 const props = defineProps({
     value: {
@@ -117,17 +120,8 @@ const nav_title_space = computed(() => 'row-gap:' + (new_style.value?.title_spac
 const bannerImg = ref();
 // 轮播图自适应高度
 const newHeight = ref('100px');
-// 轮播图定时显示
-const interval_time = ref(2000);
-// 轮播图是否滚动
-const is_roll = ref(false);
 // 轮播图key值
 const carouselKey = ref('0');
-// 记录当前显示的轮播图的数据
-const interval_list = ref({
-    time: 2000,
-    is_roll: '0',
-});
 
 //监听屏幕缩放事件
 onMounted(() => {
@@ -142,8 +136,6 @@ onMounted(() => {
 });
 // 导航图片大小
 const img_size = computed(() => (new_style.value?.img_size || '0') + 'px');
-// 每个导航所占位置
-const group_width = computed(() => `${100 / (form.value.single_line || 4)}%`);
 // 是否显示标题和图片
 const nav_style = computed(() => form.value?.nav_style || 'image_with_text');
 
@@ -153,56 +145,70 @@ const nav_content_list = computed(() => {
     // 如果是分页滑动情况下，根据选择的行数和每行显示的个数来区分具体是显示多少个
     if (list.length > 0 && form.value?.display_style == 'slide') {
         // 存储数据显示
-        let nav_list = [];
-        // 每页显示的数量
-        const num = (form.value?.single_line || 4) * (form.value?.row || 1);
-        // 拆分的数量
-        const split_num = Math.ceil(list.length / num);
-        for (let i = 0; i < split_num; i++) {
-            nav_list.push({ split_list: list.slice(i * num, (i + 1) * num) });
+        let nav_list: any[] = [];
+        // 平移的时候，就根据选择的行数和每行显示的个数来区分具体是显示多少个
+        if (form.value.row == 1 && new_style.value.rolling_fashion == 'translation') {
+            // 拆分的数量
+            list.forEach((item: any) => {
+                nav_list.push({
+                    split_list: [item],
+                });
+            });
+            return nav_list;
+        } else {
+            // 每页显示的数量
+            const num = (form.value?.single_line || 4) * (form.value?.row || 1);
+            // 拆分的数量
+            const split_num = Math.ceil(list.length / num);
+            for (let i = 0; i < split_num; i++) {
+                nav_list.push({ split_list: list.slice(i * num, (i + 1) * num) });
+            }
+            return nav_list;
         }
-        return nav_list;
     } else {
         // 否则的话，就返回全部的信息
         return [{ split_list: list }];
     }
 });
 
+const autoplay = ref<boolean | object>(false);
+const slides_per_view = ref(1);
+// 每个导航所占位置
+const group_width = ref('100%');
 // 内容参数的集合
-watch(
-    props.value,
-    (val) => {
-        const new_style = val.style;
-        const form = val.content;
-        //#region 轮播图设置
-        const time = (new_style.interval_time || 2) * 1000;
-        const display_is_roll = form.display_style == 'slide' ? new_style.is_roll || true : new_style.is_roll || false;
-        // 判断跟历史的是否相等，不相等更新组件时间
-        if (interval_list.value.time != time || interval_list.value.is_roll != display_is_roll) {
-            // 滚动时间
-            interval_time.value = time;
-            // 是否滚动
-            is_roll.value = display_is_roll == '1' ? true : false;
-            // 记录历史保存的时间
-            interval_list.value = {
-                time: time,
-                is_roll: display_is_roll,
-            };
-            // 更新轮播图的key，确保更换时能重新更新轮播图
-            carouselKey.value = get_math();
+watch(() => props.value, (val) => {
+    const display_is_roll = form.value.display_style == 'slide' ? new_style.value.is_roll : '0';
+    // 是否滚动
+    if (display_is_roll == '1') {
+        autoplay.value = {
+            delay: (new_style.value.interval_time || 2) * 1000,
+            pauseOnMouseEnter: true,
+        };
+    } else {
+        autoplay.value = false;
+    }
+    // 判断是否是轮播图
+    if (form.value?.display_style == 'slide') {
+        if (form.value.row == 1 && new_style.value.rolling_fashion == 'translation') {
+            slides_per_view.value = form.value.single_line || 4;
+            group_width.value = '100%';
+        } else {
+            slides_per_view.value = 1;
+            group_width.value = `${100 / (form.value.single_line || 4)}%`;
         }
-        nextTick(() => {
-            if (!isEmpty(bannerImg.value)) {
-                newHeight.value = (bannerImg.value[0]?.clientHeight || 100) + 'px';
-            }
-        });
-        //#endregion
-    },
-    { immediate: true, deep: true }
-);
-
-const carousel_change = (index: number) => {
-    actived_index.value = index;
+    } else {
+        group_width.value = `${100 / (form.value.single_line || 4)}%`;
+    }
+    // 更新轮播图的key，确保更换时能重新更新轮播图
+    carouselKey.value = get_math();
+    nextTick(() => {
+        if (!isEmpty(bannerImg.value)) {
+            newHeight.value = (bannerImg.value[0]?.clientHeight || 100) + 'px';
+        }
+    });
+}, {immediate: true, deep: true});
+const slideChange = (swiper: { realIndex: number }) => {
+    actived_index.value = swiper.realIndex;
 };
 </script>
 <style lang="scss" scoped>
@@ -231,9 +237,7 @@ const carousel_change = (index: number) => {
     }
 }
 
-:deep(.el-carousel) {
-    .el-carousel__container {
-        height: v-bind(newHeight);
-    }
+:deep(.swiper) {
+    height: v-bind(newHeight);
 }
 </style>
