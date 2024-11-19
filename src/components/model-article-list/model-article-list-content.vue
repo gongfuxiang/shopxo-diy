@@ -29,6 +29,12 @@
                     </el-checkbox-group>
                 </el-form-item>
             </card-container>
+            <div class="divider-line"></div>
+            <card-container>
+                <div class="mb-12">角标设置</div>
+                <!-- 角标设置 -->
+                <subscript-content :value="form"></subscript-content>
+            </card-container>
         </el-form>
         <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['article']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
     </div>

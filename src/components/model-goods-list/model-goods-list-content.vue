@@ -26,6 +26,12 @@
             <div class="divider-line"></div>
             <!-- 商品显示的配置信息 -->
             <product-show-config :value="form" @change_shop_type="change_shop_type"></product-show-config>
+            <div class="divider-line"></div>
+            <card-container>
+                <div class="mb-12">角标设置</div>
+                <!-- 角标设置 -->
+                <subscript-content :value="form"></subscript-content>
+            </card-container>
             <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['goods']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
         </el-form>
     </div>

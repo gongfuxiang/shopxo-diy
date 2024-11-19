@@ -1,5 +1,6 @@
 import defaultCommon from './index';
 import defaultSetting from '../setting/index';
+import subscriptStyle from './subscript-style';
 import { online_url } from '@/utils';
 const new_url = await online_url('/static/app/common/').then((res) => res);
 interface articleTabsList {
@@ -34,6 +35,11 @@ interface DefaultProductList {
         shop_button_text: string;
         shop_button_icon_class: string;
         shop_button_effect: string;
+        seckill_subscript_show: string;
+        subscript_type: string;
+        subscript_img_src: uploadList[];
+        subscript_icon_class: string;
+        subscript_text: string;
     };
     style: {
         tabs_one_theme: string;
@@ -85,6 +91,7 @@ interface DefaultProductList {
         shop_button_text_color: string;
         shop_icon_size: number;
         shop_icon_color: string;
+        subscript_style: object,
         common_style: object;
     };
 }
@@ -120,6 +127,12 @@ const defaultProductList: DefaultProductList = {
         shop_button_icon_class: 'cart',
         // 点击购买按钮的操作处理
         shop_button_effect: '0',
+        // 角标配置
+        seckill_subscript_show: '0',
+        subscript_type: 'text',
+        subscript_img_src: [],
+        subscript_icon_class: '',
+        subscript_text: '秒杀',
     },
     style: {
         // 选中样式风格
@@ -221,6 +234,7 @@ const defaultProductList: DefaultProductList = {
         // 购买图标的大小和颜色
         shop_icon_size: 10,
         shop_icon_color: '#fff',
+        subscript_style: subscriptStyle,
         common_style: { ...defaultCommon, padding: 10, padding_top: 10, padding_bottom: 10, padding_left: 10, padding_right: 10 },
     },
 };

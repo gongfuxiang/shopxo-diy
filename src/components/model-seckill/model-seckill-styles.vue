@@ -68,19 +68,6 @@
                 <el-form-item label="原价价格">
                     <color-picker v-model="form.original_price_color"></color-picker>
                 </el-form-item>
-                <el-form-item label="秒杀角标">
-                    <div class="flex-col gap-10">
-                        <el-radio-group v-model="form.seckill_subscript_location">
-                            <el-radio v-for="item in base_list.location_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                        </el-radio-group>
-                        <el-form-item label="文字" label-width="40" class="form-item-child-label">
-                            <color-picker v-model="form.seckill_subscript_text_color"></color-picker>
-                        </el-form-item>
-                        <el-form-item label="背景" label-width="40" class="form-item-child-label">
-                            <color-picker v-model="form.seckill_subscript_bg_color"></color-picker>
-                        </el-form-item>
-                    </div>
-                </el-form-item>
                 <el-form-item label="内容圆角">
                     <radius :value="form.shop_radius"></radius>
                 </el-form-item>
@@ -110,6 +97,11 @@
                     </el-form-item>
                 </template>
             </card-container>
+            <!-- 秒杀角标 -->
+            <template v-if="data.seckill_subscript_show == '1'">
+                <div class="divider-line"></div>
+                <subscript-styles :value="form.subscript_style" :data="data"></subscript-styles>
+            </template>
             <!-- 秒杀按钮 -->
             <template v-if="data.is_shop_show == '1'">
                 <div class="divider-line"></div>
@@ -176,7 +168,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isEmpty } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
@@ -195,7 +187,6 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, data } = toRefs(state);
-console.log(form);
 let clone_form = cloneDeep(props.value);
 
 const base_list = {
@@ -234,10 +225,10 @@ const shop_background_img_change = (arry: uploadList[]) => {
     form.value.shop_background_img = arry;
 };
 // 进度条选中的设置
-const progress_color_picker_event = (arry: color_list[], type: number) => {
-    form.value.progress_actived_color_list = arry;
-    form.value.progress_actived_direction = type.toString();
-};
+// const progress_color_picker_event = (arry: color_list[], type: number) => {
+//     form.value.progress_actived_color_list = arry;
+//     form.value.progress_actived_direction = type.toString();
+// };
 </script>
 <style lang="scss" scoped>
 .topic {

@@ -1,5 +1,6 @@
 import { get_math } from '@/utils';
 import defaultCommon from './index';
+import subscriptStyle from './subscript-style';
 interface nav_group {
     id: string;
     img: uploadList[];
@@ -13,6 +14,11 @@ interface defaultSearch {
         display_style: string;
         row: number;
         nav_content_list: nav_group[];
+        seckill_subscript_show: string;
+        subscript_type: string;
+        subscript_img_src: uploadList[];
+        subscript_icon_class: string;
+        subscript_text: string;
     };
     style: {
         space: number;
@@ -37,6 +43,7 @@ interface defaultSearch {
         title_color: string;
         title_size: number;
         title_space: number;
+        subscript_style: object;
         common_style: object;
     };
 }
@@ -78,6 +85,12 @@ const defaultSearch: defaultSearch = {
                 link: {},
             },
         ],
+        // 角标配置
+        seckill_subscript_show: '0',
+        subscript_type: 'text',
+        subscript_img_src: [],
+        subscript_icon_class: '',
+        subscript_text: '',
     },
     style: {
         // 数据间距
@@ -114,6 +127,13 @@ const defaultSearch: defaultSearch = {
         title_color: '#000',
         title_size: 12,
         title_space: 10,
+        subscript_style: {
+           ...subscriptStyle,
+            padding_top: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+            padding_right: 0,
+        },
         common_style: {
             ...defaultCommon,
             padding_top: 9,

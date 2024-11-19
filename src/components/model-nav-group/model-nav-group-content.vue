@@ -53,6 +53,12 @@
                 </drag>
                 <el-button class="mt-20 mb-20 w" @click="add">+添加</el-button>
             </card-container>
+            <div class="divider-line"></div>
+            <card-container>
+                <div class="mb-12">角标设置</div>
+                <!-- 角标设置 -->
+                <subscript-content :value="form"></subscript-content>
+            </card-container>
         </el-form>
         <category-dialog v-model:dialog-visible="dialogVisible" @confirm_event="confirm_event"></category-dialog>
     </div>
@@ -95,7 +101,13 @@ const props = withDefaults(defineProps<Props>(),{
                 title: '',
                 link: {},
             }
-        ]
+        ],
+        // 角标配置
+        seckill_subscript_show: '0',
+        subscript_type: 'text',
+        subscript_img_src: [],
+        subscript_icon_class: '',
+        subscript_text: '',
     })
 });
 

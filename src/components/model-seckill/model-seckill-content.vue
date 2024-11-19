@@ -82,14 +82,8 @@
                         </el-col>
                     </el-row>
                 </el-form-item>
-                <el-form-item label="秒杀角标">
-                    <el-row class="w">
-                        <el-col :span="24"><el-switch v-model="form.seckill_subscript_show" active-value="1" inactive-value="0"></el-switch></el-col>
-                    </el-row>
-                    <el-row v-if="form.seckill_subscript_show == '1'" class="mt-10 w">
-                        <el-col :span="24"><el-input v-model="form.subscript_text" placeholder="请输入秒杀文字" clearable></el-input></el-col>
-                    </el-row>
-                </el-form-item>
+                <!-- 角标设置 -->
+                <subscript-content :value="form"></subscript-content>
             </card-container>
         </el-form>
     </div>

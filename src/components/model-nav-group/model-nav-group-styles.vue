@@ -54,6 +54,11 @@
                     <slider v-model="form.title_size" :max="100"></slider>
                 </el-form-item>
             </card-container>
+            <!-- 角标 -->
+            <template v-if="data_content.seckill_subscript_show == '1'">
+                <div class="divider-line"></div>
+                <subscript-styles :value="form.subscript_style" :data="data_content"></subscript-styles>
+            </template>
         </el-form>
         <div class="divider-line"></div>
         <common-styles :value="form.common_style" @update:value="common_styles_update" />
@@ -93,6 +98,7 @@ const props = withDefaults(defineProps<Props>(), {
         title_color: '#000',
         title_size: 12,
         title_space: 10,
+        subscript_style: {},
         common_style: {},
     }),
 });

@@ -6,10 +6,16 @@
                     <div v-for="(item, index) in data_list" :key="index" class="item oh" :style="article_style">
                         <div :class="article_theme == '0' ? 'flex-row oh' : 'flex-col oh'" :style="article_img_style">
                             <template v-if="article_theme != '3'">
-                                <template v-if="item.new_cover.length > 0">
-                                    <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
-                                </template>
-                                <template v-else> <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty> </template>
+                                <div class="oh re">
+                                    <template v-if="item.new_cover.length > 0">
+                                        <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
+                                    </template>
+                                    <template v-else>
+                                        <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
+                                    </template>
+                                    <!-- 角标设置 -->
+                                    <subscript-index :value="props.value"></subscript-index>
+                                </div>
                             </template>
                             <div class="jc-sb flex-1" :class="article_theme == '3' ? 'flex-row align-c' : 'flex-col'" :style="article_theme != '0' ? content_padding : 'width: 0;'">
                                 <div class="flex-col" :class="article_theme == '3' ? 'flex-1 flex-width' : ''" :style="'gap:' + new_style.name_desc_space + 'px;'">
@@ -33,10 +39,16 @@
                     <swiper :key="carousel_key" class="w flex" direction="horizontal" :loop="true" :autoplay="autoplay" :slides-per-view="Number(carousel_col) + 1" :slides-per-group="slides_per_group" :allow-touch-move="false" :space-between="new_style.article_spacing" :pause-on-mouse-enter="true" :modules="modules">
                         <swiper-slide v-for="(item, index) in data_list" :key="index" class="item oh" :style="article_style">
                             <div class="h oh flex-col" :style="article_img_style">
-                                <template v-if="item.new_cover.length > 0">
-                                    <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
-                                </template>
-                                <template v-else> <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty> </template>
+                                <div class="oh re">
+                                    <template v-if="item.new_cover.length > 0">
+                                        <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
+                                    </template>
+                                    <template v-else>
+                                        <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
+                                    </template>
+                                    <!-- 角标设置 -->
+                                    <subscript-index :value="props.value"></subscript-index>
+                                </div>
                                 <div class="jc-sb flex-1 flex-col" :style="article_theme != '0' ? content_padding : ''">
                                     <div class="flex-col" :style="'gap:' + new_style.name_desc_space + 'px;'">
                                         <div class="title text-line-2" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
@@ -55,13 +67,6 @@
                             </div>
                         </swiper-slide>
                     </swiper>
-                    <!-- <el-carousel :key="carousel_key" indicator-position="none" :interval="interval_time" arrow="never" :autoplay="is_roll ? true : false">
-                        <el-carousel-item v-for="(item1, index1) in article_carousel_list" :key="index1" class="flex" :style="article_spacing">
-                            <div v-for="(item, index) in item1.carousel_list" :key="index" class="item oh" :style="article_style">
-                                
-                            </div>
-                        </el-carousel-item>
-                    </el-carousel> -->
                 </div>
             </div>
         </div>

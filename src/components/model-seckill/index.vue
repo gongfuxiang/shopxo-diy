@@ -48,9 +48,8 @@
                                         <template v-else>
                                             <image-empty v-model="item.images" :class="`flex-img${shop_style_type}`" :style="content_img_radius"></image-empty>
                                         </template>
-                                        <div v-if="form.seckill_subscript_show == '1'" class="size-12 nowrap corner-marker" :style="corner_marker">
-                                            <span class="text-line-1">{{ form.subscript_text }}</span>
-                                        </div>
+                                        <!-- 角标 -->
+                                        <subscript-index :value="props.value"></subscript-index>
                                     </div>
                                 </template>
                                 <div v-if="is_show('title') || is_show('simple_desc') || is_show('price') || is_show('original_price') || form.is_shop_show == '1'" class="flex-col gap-10 w flex-1 jc-sb oh" :style="content_style">
@@ -114,9 +113,8 @@
                                         <template v-else>
                                             <image-empty v-model="item.images" :class="`flex-img${shop_style_type}`" :style="content_img_radius"></image-empty>
                                         </template>
-                                        <div v-if="form.seckill_subscript_show == '1'" class="size-12 nowrap corner-marker" :style="corner_marker">
-                                            <span class="text-line-1">{{ form.subscript_text }}</span>
-                                        </div>
+                                        <!-- 角标 -->
+                                        <subscript-index :value="props.value"></subscript-index>
                                     </div>
                                 </template>
                                 <div v-if="is_show('title') || is_show('simple_desc') || is_show('price') || is_show('original_price') || form.is_shop_show == '1'" class="flex-col gap-10 w flex-1 jc-sb" :style="content_style">
@@ -192,6 +190,7 @@ const props = defineProps({
 
 const form = computed(() => props.value?.content || {});
 const new_style = computed(() => props.value?.style || {});
+//#region 秒杀头部控制
 const time_bg = computed(() => {
     const { countdown_bg_color_list, countdown_direction } = new_style.value;
     // 渐变
@@ -229,9 +228,10 @@ const seckill_head_img_style = computed(() => {
     style += background_computer(back) + padding_computer(padding);
     return style;
 });
-
+//#endregion
 const style = computed(() => common_styles_computer(props.value.style.common_style));
 const style_img_container = computed(() => common_img_computer(props.value.style.common_style));
+//#region 秒杀默认数据
 interface plugins_icon_data {
     name: string;
     bg_color: string;
@@ -288,7 +288,8 @@ const default_list = {
         },
     ],
 };
-const list = ref<data_list[]>([]);
+//#endregion
+//#region 倒计时和商品数据获取
 // 显示时间
 const time_config = reactive([
     { key: 'hour', value: '00' },
@@ -341,6 +342,7 @@ const updateCountdown = () => {
         }
     });
 };
+const list = ref<data_list[]>([]);
 // 更新倒计时函数
 onBeforeMount(() => {
     SeckillAPI.getSeckillList({}).then((res: any) => {
@@ -372,6 +374,8 @@ onBeforeMount(() => {
 onUnmounted(() => {
     clearInterval(intervalId.value);
 })
+//#endregion
+//#region 商品样式
 // 商品间距
 const content_outer_spacing = computed(() => new_style.value.content_outer_spacing);
 // 圆角设置
@@ -424,6 +428,8 @@ const layout_img_style = computed(() => {
     }
     return padding + background_computer(data);
 });
+//#endregion
+//#region 图片大小控制
 const shop_style_type_list= [
     { name: '单列', value: '1', width: 110, height: 120 },
     { name: '双列', value: '2', width: 180, height: 180 },
@@ -455,6 +461,8 @@ const goods_img_height = computed(() => {
         }
     }
 });
+//#endregion
+//#region 通用处理方式，处理文字大小和颜色等
 // 根据传递的参数，从对象中取值
 const trends_config = (key: string, type?: string) => {
     return style_config(new_style.value[`shop_${key}_typeface`], new_style.value[`shop_${key}_size`], new_style.value[`shop_${key}_color`], type);
@@ -477,6 +485,7 @@ const style_config = (typeface: string, size: number, color: string | object, ty
 const button_gradient = () => {
     return gradient_handle(new_style.value.shop_button_color, '180deg');
 };
+//#endregion
 // 不换行显示
 const multicolumn_columns_width = computed(() => {
     const { carousel_col } = toRefs(form.value);
@@ -494,6 +503,7 @@ const multicolumn_columns_width = computed(() => {
 const is_show = (index: string) => {
     return form.value.is_show.includes(index);
 };
+//#region 轮播图
 // 轮播图key值
 const carouselKey = ref('0');
 const autoplay = ref<boolean | object>(false);
@@ -519,23 +529,7 @@ watchEffect(() => {
 const multicolumn_columns_height = computed(() => new_style.value.content_outer_height + 'px');
 // 图片圆角设置
 const content_img_radius = computed(() => radius_computer(new_style.value.shop_img_radius));
-
-// 左上角，右上角，右下角，左下角
-const corner_marker = computed(() => {
-    const { seckill_subscript_location, shop_img_radius, seckill_subscript_bg_color, seckill_subscript_text_color } = new_style.value;
-    let location = `background: ${seckill_subscript_bg_color};color: ${seckill_subscript_text_color};`;
-    // 圆角根据图片的圆角来计算 对角线是同样的圆角
-    if (seckill_subscript_location == 'top-left') {
-        location += `top: 0;left: 0;border-radius: ${shop_img_radius.radius_top_left}px 0 ${shop_img_radius.radius_top_left}px 0;`;
-    } else if (seckill_subscript_location == 'top-right') {
-        location += `top: 0;right: 0;border-radius: 0 ${shop_img_radius.radius_top_right}px 0 ${shop_img_radius.radius_top_right}px;`;
-    } else if (seckill_subscript_location == 'bottom-left') {
-        location += `bottom: 0;left: 0;border-radius: 0 ${shop_img_radius.radius_bottom_left}px 0 ${shop_img_radius.radius_bottom_left}px;`;
-    } else if (seckill_subscript_location == 'bottom-right') {
-        location += `bottom: 0;right: 0;border-radius: ${shop_img_radius.radius_bottom_right}px 0 ${shop_img_radius.radius_bottom_right}px 0;`;
-    }
-    return location;
-});
+//#endregion
 </script>
 <style lang="scss" scoped>
 :deep(.el-image) {
@@ -613,10 +607,5 @@ const corner_marker = computed(() => {
 }
 .roll-columns {
     height: v-bind(multicolumn_columns_height);
-}
-.corner-marker {
-    position: absolute;
-    padding: 0.1rem 1rem;
-    max-width: 100%;
 }
 </style>

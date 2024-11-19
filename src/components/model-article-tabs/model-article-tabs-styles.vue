@@ -111,6 +111,11 @@
                     </template>
                 </card-container>
             </template>
+            <!-- 秒杀角标 -->
+            <template v-if="data.seckill_subscript_show == '1'">
+                <div class="divider-line"></div>
+                <subscript-styles :value="form.subscript_style" :data="data"></subscript-styles>
+            </template>
         </el-form>
         <div class="divider-line"></div>
         <common-styles :value="form.common_style" @update:value="common_styles_update" />

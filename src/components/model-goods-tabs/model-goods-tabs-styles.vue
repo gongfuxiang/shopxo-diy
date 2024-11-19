@@ -111,6 +111,11 @@
                 </card-container>
                 <div class="divider-line"></div>
             </template>
+            <!-- 秒杀角标 -->
+            <template v-if="data.seckill_subscript_show == '1'">
+                <subscript-styles :value="form.subscript_style" :data="data"></subscript-styles>
+                <div class="divider-line"></div>
+            </template>
             <card-container>
                 <div class="mb-12">购物车按钮</div>
                 <el-form-item label="按钮颜色" class="topic">

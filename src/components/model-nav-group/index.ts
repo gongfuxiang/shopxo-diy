@@ -11,6 +11,11 @@ interface nav_group_content {
     display_style: string;
     row: number;
     nav_content_list: nav_group[];
+    seckill_subscript_show: string;
+    subscript_type: string;
+    subscript_img_src: uploadList[];
+    subscript_icon_class: string;
+    subscript_text: string;
 }
 
 interface nav_group_styles {
@@ -34,5 +39,6 @@ interface nav_group_styles {
     title_color: string;
     title_size: number;
     title_space: number;
+    subscript_style: object;
     common_style: object;
 }

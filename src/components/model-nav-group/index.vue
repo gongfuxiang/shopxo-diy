@@ -5,8 +5,10 @@
                 <swiper-slide v-for="(item, index) in nav_content_list" :key="index">
                     <div ref="bannerImg" class="flex flex-wrap" :style="nav_space">
                         <div v-for="(item1, index1) in item.split_list" :key="index1" class="item flex-col align-c" :style="nav_title_space">
-                            <div v-if="['image_with_text', 'image'].includes(nav_style)" class="top-img flex align-c jc-c">
+                            <div v-if="['image_with_text', 'image'].includes(nav_style)" class="top-img flex align-c jc-c re">
                                 <image-empty v-model="item1.img[0]" :style="img_style"></image-empty>
+                                <!-- 角标 -->
+                                <subscript-index :value="props.value"></subscript-index>
                             </div>
                             <p v-if="['image_with_text', 'text'].includes(nav_style)" class="w size-12 ma-0 nowrap oh tc" :style="text_style">{{ item1.title }}</p>
                         </div>

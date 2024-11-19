@@ -1,4 +1,5 @@
 import defaultCommon from './index';
+import subscriptStyle from './subscript-style';
 import { online_url } from '@/utils';
 const new_url = await online_url('/static/plugins/seckill/images/diy/').then((res) => res);
 interface DefaultSeckill {
@@ -20,6 +21,9 @@ interface DefaultSeckill {
         shop_button_icon_class: string;
         is_shop_show: string;
         seckill_subscript_show: string;
+        subscript_type: string;
+        subscript_img_src: uploadList[];
+        subscript_icon_class: string;
         subscript_text: string;
     };
     style: {
@@ -66,9 +70,7 @@ interface DefaultSeckill {
         shop_icon_size: number;
         shop_icon_color: string;
         original_price_color: string;
-        seckill_subscript_location: string;
-        seckill_subscript_text_color: string;
-        seckill_subscript_bg_color: string;
+        subscript_style: object,
         progress_bg_color: string;
         progress_actived_color_list: color_list[];
         progress_actived_direction: string;
@@ -108,6 +110,9 @@ const defaultSeckill: DefaultSeckill = {
         shop_button_icon_class: 'cart',
         // 秒杀角标配置
         seckill_subscript_show: '1',
+        subscript_type: 'text',
+        subscript_img_src: [],
+        subscript_icon_class: '',
         subscript_text: '秒杀',
     },
     style: {
@@ -202,9 +207,7 @@ const defaultSeckill: DefaultSeckill = {
         shop_icon_size: 10,
         shop_icon_color: '#fff',
         original_price_color: '#999',
-        seckill_subscript_location: 'top-left',
-        seckill_subscript_text_color: '#fff',
-        seckill_subscript_bg_color: '#FF7607',
+        subscript_style: subscriptStyle,
         // 进度条设置，暂时隐藏
         progress_bg_color: '#FFEDED',
         progress_actived_color_list: [

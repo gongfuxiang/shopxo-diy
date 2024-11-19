@@ -17,12 +17,16 @@
                             </template>
                             <template v-else>
                                 <template v-if="!isEmpty(item)">
-                                    <template v-if="!isEmpty(item.new_cover)">
-                                        <image-empty v-model="item.new_cover[0]" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
-                                    </template>
-                                    <template v-else>
-                                        <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
-                                    </template>
+                                    <div class="oh re" :class="`flex-img${theme}`">
+                                        <template v-if="!isEmpty(item.new_cover)">
+                                            <image-empty v-model="item.new_cover[0]" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
+                                        </template>
+                                        <template v-else>
+                                            <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
+                                        </template>
+                                        <!-- 角标 -->
+                                        <subscript-index :value="props.value"></subscript-index>
+                                    </div>
                                 </template>
                                 <div v-if="is_show('title') || is_show('simple_desc') || is_show('price') || is_show('original_price') || is_show('sales_count') || is_show('plugins_view_icon') || form.is_shop_show == '1'" class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
                                     <div class="flex-col gap-10 top-title">
@@ -105,12 +109,16 @@
                         <swiper-slide v-for="(item, index) in list" :key="index" :class="layout_type" :style="layout_style">
                             <div :class="['oh w h', ['0', '4'].includes(theme) ? 'flex-row' : 'flex-col' ]" :style="layout_img_style">
                                 <template v-if="!isEmpty(item)">
-                                    <template v-if="!isEmpty(item.new_cover)">
-                                        <image-empty v-model="item.new_cover[0]" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
-                                    </template>
-                                    <template v-else>
-                                        <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
-                                    </template>
+                                    <div class="oh re" :class="`flex-img${theme}`">
+                                        <template v-if="!isEmpty(item.new_cover)">
+                                            <image-empty v-model="item.new_cover[0]" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
+                                        </template>
+                                        <template v-else>
+                                            <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
+                                        </template>
+                                        <!-- 角标 -->
+                                        <subscript-index :value="props.value"></subscript-index>
+                                    </div>
                                 </template>
                                 <div v-if="is_show('title') || is_show('simple_desc') || is_show('price') || is_show('plugins_view_icon') || is_show('original_price') || form.is_shop_show == '1'" class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
                                     <div class="flex-col gap-10 top-title">
