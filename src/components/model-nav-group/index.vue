@@ -1,6 +1,6 @@
 <template>
     <div :style="style_container">
-        <div class="re" :style="style_img_container">
+        <div class="re group-container" :style="style_img_container">
             <swiper :key="carouselKey" class="w flex" direction="horizontal" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="1" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
                 <swiper-slide v-for="(item, index) in nav_content_list" :key="index">
                     <div ref="bannerImg" class="flex flex-wrap" :style="nav_space">
@@ -222,8 +222,8 @@ const slideChange = (swiper: { realIndex: number }) => {
         height: v-bind(img_size);
         width: v-bind(img_size);
         img {
-            width: 3.5rem;
-            height: 3.5rem;
+            width: 2rem;
+            height: 2rem;
         }
     }
 }
@@ -238,8 +238,8 @@ const slideChange = (swiper: { realIndex: number }) => {
         color: v-bind(actived_color) !important;
     }
 }
-
 :deep(.swiper) {
     height: v-bind(newHeight);
+    overflow: unset !important;
 }
 </style>

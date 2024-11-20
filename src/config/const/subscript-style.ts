@@ -5,6 +5,8 @@ const subscriptStyle: object = {
     img_width: 20,
     img_height: 20,
     direction: '90deg',
+    top_or_bottom_spacing: 0,
+    left_or_right_spacing: 0,
     color_list: [{ color: '#FF7607', color_percentage: undefined }],
     background_img_style: '2',
     background_img: [] as uploadList[],

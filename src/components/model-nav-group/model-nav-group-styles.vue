@@ -57,7 +57,7 @@
             <!-- 角标 -->
             <template v-if="data_content.seckill_subscript_show == '1'">
                 <div class="divider-line"></div>
-                <subscript-styles :value="form.subscript_style" :data="data_content"></subscript-styles>
+                <subscript-styles :value="form.subscript_style" :data="data_content" type="nav-group"></subscript-styles>
             </template>
         </el-form>
         <div class="divider-line"></div>

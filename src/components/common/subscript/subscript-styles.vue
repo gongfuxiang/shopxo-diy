@@ -1,13 +1,21 @@
 <template>
     <card-container>
-        <div class="mb-12">秒杀角标</div>
+        <div class="mb-12">角标设置</div>
         <el-form-item label="角标位置">
             <div class="flex-col gap-10">
                 <el-radio-group v-model="form.seckill_subscript_location">
-                    <el-radio v-for="item in base_list.location_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                    <el-radio v-for="item in base_list.location_list.filter(item => item.type.includes(props.type))" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                 </el-radio-group>
             </div>
         </el-form-item>
+        <template v-if="props.type == 'nav-group'">
+            <el-form-item :label="['top-left', 'top-right'].includes(form.seckill_subscript_location) ? '上间距' : '下间距'">
+                <slider v-model="form.top_or_bottom_spacing" :min="-100" :max="100"></slider>
+            </el-form-item>
+            <el-form-item :label="['top-left', 'bottom-left'].includes(form.seckill_subscript_location) ? '左间距' : '右间距'">
+                <slider v-model="form.left_or_right_spacing" :min="-100" :max="100"></slider>
+            </el-form-item>
+        </template>
         <template v-if="data.subscript_type == 'img-icon' && !isEmpty(data.subscript_img_src)">
             <el-form-item label="图片宽度">
                 <slider v-model="form.img_width" :max="200"></slider>
@@ -103,6 +111,10 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    type: {
+        type: String,
+        default: 'other',
+    },
 });
 
 const form = ref(props.value);
@@ -110,12 +122,12 @@ let clone_form = cloneDeep(props.value);
 
 const base_list = {
     location_list: [
-        { name: '上左', value: 'top-left' },
-        { name: '上中', value: 'top-center' },
-        { name: '上右', value: 'top-right' },
-        { name: '下左', value: 'bottom-left' },
-        { name: '下中', value: 'bottom-center' },
-        { name: '下右', value: 'bottom-right' },
+        { name: '上左', value: 'top-left', type: ['nav-group', 'other']  },
+        { name: '上中', value: 'top-center', type: ['other'] },
+        { name: '上右', value: 'top-right', type: ['nav-group', 'other'] },
+        { name: '下左', value: 'bottom-left', type: ['nav-group', 'other'] },
+        { name: '下中', value: 'bottom-center', type: ['other'] },
+        { name: '下右', value: 'bottom-right', type: ['nav-group', 'other'] },
     ],
 };
 // 背景设置
