@@ -4,13 +4,15 @@
             <div v-for="(item, index) in split_list" :key="index" :style="block_size">
                 <div class="w h oh" :style="style_container(props.goodStyle)">
                     <div class="w h flex-row gap-10" :style="style_img_container(props.goodStyle)">
-                        <template v-if="!isEmpty(item.new_cover)">
-                            <image-empty v-model="item.new_cover[0]" :style="contentImgRadius"></image-empty>
-                        </template>
-                        <template v-else>
-                            <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
-                        </template>
-                        <div v-if="!isEmpty(isShow)" class="flex-col w h tl jc-sb">
+                        <div :style="`width: ${ image_scale }%;`">
+                            <template v-if="!isEmpty(item.new_cover)">
+                                <image-empty v-model="item.new_cover[0]" :style="contentImgRadius"></image-empty>
+                            </template>
+                            <template v-else>
+                                <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
+                            </template>
+                        </div>
+                        <div v-if="!isEmpty(isShow)" class="flex-col w tl jc-sb" :style="`width: ${ 100 - image_scale }%;`">
                             <div v-if="isShow.includes('title')" class="text-line-2 size-14" :style="props.goodStyle.goods_title_style + `height: ${ (props.goodStyle.goods_title_size + 3) * 2 }px;`">{{ item.title }}</div>
                             <div v-if="isShow.includes('price')" class="identifying" :style="props.goodStyle.goods_price_style">
                                 <span class="num">{{ item.show_price_symbol }}</span>{{ item.min_price }}
@@ -86,6 +88,7 @@ interface Props {
     isShow: Array<string>;
     chunkPadding: paddingStyle;
     goodStyle: any;
+    dataContent: any;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -107,6 +110,16 @@ const block_size = computed(() => {
     return props.outerflex == 'row' ? 'height:100%;width:calc((100% - ' + total_gap + 'px) / ' + props.num  + ');' : 'width: 100%;height:calc((100% - ' + total_gap + 'px) / ' + props.num  + ');';
 });
 
+// 图片显示比例
+const image_scale = computed(() => {
+    const data = ['title', 'price', 'price_unit'];
+    const list = props.isShow.filter((item: string) => data.includes(item));
+    if (list.length > 0) {
+        return props.dataContent.image_scale;
+    } else {
+        return 100;
+    }
+});
 // 用于样式显示
 const style_container = computed(() => {
     return (val: new_style) => {

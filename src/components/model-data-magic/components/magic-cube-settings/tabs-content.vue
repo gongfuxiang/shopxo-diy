@@ -42,6 +42,16 @@
             <el-form-item label="每屏数量">
                 <slider v-model="form.goods_num" :min="1" :max="6"></slider>
             </el-form-item>
+            <template v-if="is_show_image_scale && form.goods_flex == 'row'">
+                <el-form-item label="图片比例">
+                    <slider v-model="form.image_scale" :min="0" :max="100"></slider>
+                </el-form-item>
+            </template>
+            <el-form-item label="展示信息" label-width="60">
+                <el-checkbox-group v-model="form.is_show">
+                    <el-checkbox v-for="item in list_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
+                </el-checkbox-group>
+            </el-form-item>
         </template>
         <template v-else-if="form.data_type === 'images'">
             <el-form-item label="图片设置">
@@ -79,11 +89,6 @@
             <div class="mb-12">商品设置</div>
             <drag-group :list="form.goods_list" img-params="images" @onsort="goods_list_sort" @remove="goods_list_remove" @replace="goods_list_replace"></drag-group>
             <el-button class="mtb-20 w" @click="goods_list_add">+添加</el-button>
-            <el-form-item label="展示信息" label-width="60">
-                <el-checkbox-group v-model="form.is_show">
-                    <el-checkbox v-for="item in list_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
-                </el-checkbox-group>
-            </el-form-item>
             <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['goods']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
         </card-container>
     </template>
@@ -120,7 +125,15 @@ const list_show_list = [
     { name: '商品售价', value: 'price' },
     { name: '售价单位', value: 'price_unit' },
 ];
-
+const is_show_image_scale = computed(() => {
+    const data = ['title', 'price', 'price_unit'];
+    const list = form.value.is_show.filter((item: string) => data.includes(item));
+    if (list.length > 0) {
+        return true;
+    } else {
+        return false;
+    }
+});
 const form = ref(props.value);
 
 const img_add = () => {

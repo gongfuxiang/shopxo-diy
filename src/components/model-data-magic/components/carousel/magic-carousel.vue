@@ -1,13 +1,13 @@
 <template>
     <div ref="card_container" class="w h oh" :style="props.type === 'img' ? '' : style_container">
-        <div class="w re oh" :style="props.type === 'img' ? `height: ${ outer_height }px;` : `height: ${ outer_height }px;${ style_img_container }`">
+        <div class="w re oh" :style="style_2_container">
             <swiper :key="form.data_style.carouselKey" class="w flex" :direction="form.data_style.rotation_direction" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="1" :space-between="props.type === 'img' ? 0 : form.data_style.data_goods_gap" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
                 <swiper-slide v-for="(item1, index1) in form.data_content.list" :key="index1">
-                    <template v-if="props.type === 'img'">
+                    <template v-if="props.type === 'img' && !isEmpty(item1.carousel_img)">
                         <image-empty v-model="item1.carousel_img[0]" :style="form.data_style.get_img_radius" :fit="form.data_content.img_fit"></image-empty>
                     </template>
                     <template v-else>
-                        <product-list-show :outerflex="form.data_content.goods_outerflex" :flex="form.data_content.goods_flex" :num="show_num" :actived="props.actived" :is-show="form.data_content.is_show" :chunk-padding="form.data_style.chunk_padding" :value="item1.split_list" :good-style="props.goodStyle" :content-img-radius="form.data_style.get_img_radius"></product-list-show>
+                        <product-list-show :outerflex="form.data_content.goods_outerflex" :flex="form.data_content.goods_flex" :num="show_num" :actived="props.actived" :is-show="form.data_content.is_show" :chunk-padding="form.data_style.chunk_padding" :value="item1.split_list" :good-style="props.goodStyle" :content-img-radius="form.data_style.get_img_radius" :data-content="form.data_content"></product-list-show>
                     </template>
                 </swiper-slide>
             </swiper>
@@ -28,6 +28,7 @@ interface Props {
     type: string;
     actived: number;
     goodStyle?: any;
+    isUnlimitedSize?: boolean;
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -75,6 +76,11 @@ const card_container = ref<HTMLElement | null>(null);
 const outer_height = ref(0);
 // 不拆分数据的时候为1，让商品内容在内部铺满/拆分数据的时候，为一屏显示数量，用于商品内部处理显示
 const show_num = ref(0);
+const style_2_container = computed(() => {
+    const style_actived_style = props.type === 'img' ? `height: ${ outer_height.value }px;` : `height: ${ outer_height.value }px;${ style_img_container.value }`;
+    const style = props.isUnlimitedSize ? 'height: 100%;' : style_actived_style;
+    return style;
+});
 // 内容参数的集合
 watchEffect(() => {
     // 是否滚动
@@ -109,12 +115,15 @@ watchEffect(() => {
             slides_per_view.value = 1; // 能够同时显示的slides数量
         }
     }
-    nextTick(() => {
-        // 外层高度
-        if (card_container.value) {
-            outer_height.value = card_container.value?.clientHeight;
-        }
-    });
+    // 不是不限尺寸的时候的处理
+    if (!props.isUnlimitedSize) {
+        nextTick(() => {
+            // 外层高度
+            if (card_container.value) {
+                outer_height.value = card_container.value?.clientHeight;
+            }
+        });
+    }
 });
 </script>
 
