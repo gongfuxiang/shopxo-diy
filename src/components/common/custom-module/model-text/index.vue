@@ -47,21 +47,21 @@ const keyMap: { [key: string]: string } = {
 };
 
 // 用于页面判断显示
-const form = reactive(props.value);
+const form = computed(() => props.value);
 const text_title = computed(() => {
     let text = '';
-    let text_title = props.sourceList[form.data_source_id];
+    let text_title = props.sourceList[form.value.data_source_id];
     // 如果是商品的标题或者是品牌的名称，需要判断是否有新的标题，没有的话就取原来的标题
     if (['goods', 'article', 'brand'].includes(props.sourceType) && !isEmpty(props.sourceList.data)) {
         // 其他的切换为从data中取数据
-        if (form.data_source_id == keyMap[props.sourceType]) {
+        if (form.value.data_source_id == keyMap[props.sourceType]) {
             text_title = !isEmpty(props.sourceList.new_title) ? props.sourceList.new_title : props.sourceList.data[keyMap[props.sourceType]];
         } else {
-            text_title = props.sourceList.data[form.data_source_id];
+            text_title = props.sourceList.data[form.value.data_source_id];
         }
     }
-    if (!isEmpty(form.text_title)) {
-        text = form.text_title;
+    if (!isEmpty(form.value.text_title)) {
+        text = form.value.text_title;
     } else if(text_title != undefined) {
         text = text_title;
     } else if(!props.isPercentage){
@@ -71,22 +71,22 @@ const text_title = computed(() => {
 });
 
 const text_style = computed(() => {
-    let style = `font-size: ${ form.text_size * props.scale }px;line-height: ${ (typeof form.line_text_size === "number" ? form.line_text_size : form.text_size) * props.scale}px;color: ${ form.text_color }; text-align: ${ form.text_location }; transform: rotate(${form.text_rotate}deg);text-decoration: ${ form.text_option };${ padding_computer(form.text_padding, props.scale) };`;
-    if (form.text_weight == 'italic') {
+    let style = `font-size: ${ form.value.text_size * props.scale }px;line-height: ${ (typeof form.value.line_text_size === "number" ? form.value.line_text_size : form.value.text_size) * props.scale}px;color: ${ form.value.text_color }; text-align: ${ form.value.text_location }; transform: rotate(${form.value.text_rotate}deg);text-decoration: ${ form.value.text_option };${ padding_computer(form.value.text_padding, props.scale) };`;
+    if (form.value.text_weight == 'italic') {
         style += `font-style: italic`;
-    } else if (form.text_weight == '500') {
+    } else if (form.value.text_weight == '500') {
         style += `font-weight: 500`;
     }
     return style;
 });
 
 const com_style = computed(() => {
-    let style = `${ set_count() } ${ gradient_handle(form.color_list, form.direction) } ${ radius_computer(form.bg_radius, props.scale) }`;
-    if (form.border_show == '1') {
-        style += `border: ${form.border_size}px ${form.border_style} ${form.border_color};`;
+    let style = `${ set_count() } ${ gradient_handle(form.value.color_list, form.value.direction) } ${ radius_computer(form.value.bg_radius, props.scale) }`;
+    if (form.value.border_show == '1') {
+        style += `border: ${form.value.border_size}px ${form.value.border_style} ${form.value.border_color};`;
     }
     // 是富文本并且开启了上下滚动的开关
-    if (form.is_rich_text == '1' && form.is_up_down == '1') {
+    if (form.value.is_rich_text == '1' && form.value.is_up_down == '1') {
         style += `overflow-y: auto;`
     }
     return style;
@@ -95,7 +95,7 @@ const set_count = () => {
     if (props.isPercentage) {
         return '';
     } else {
-        return `width: ${ form.com_width }px; height: ${ form.com_height }px;`;
+        return `width: ${ form.value.com_width }px; height: ${ form.value.com_height }px;`;
     }
 };
 </script>

@@ -39,17 +39,18 @@ const props = defineProps({
     }
 });
 // 用于页面判断显示
-const form = reactive(props.value);
+const form = computed(() => props.value);
+
 const icon_class = computed(() => {
-    if (!isEmpty(form.icon_class)) {
-        return form.icon_class;
+    if (!isEmpty(form.value.icon_class)) {
+        return form.value.icon_class;
     } else {
         if (!isEmpty(props.sourceList)) {
             // 不输入商品， 文章和品牌时，从外层处理数据
-            let icon = props.sourceList[form.data_source_id];
+            let icon = props.sourceList[form.value.data_source_id];
             // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
             if (['goods', 'article', 'brand'].includes(props.sourceType) && !isEmpty(props.sourceList.data)) {
-                icon = props.sourceList.data[form.data_source_id];
+                icon = props.sourceList.data[form.value.data_source_id];
             }
             return icon;
         } else {
@@ -58,15 +59,15 @@ const icon_class = computed(() => {
     }
 });
 const com_style = computed(() => {
-    let style = `${ set_count() } ${ gradient_handle(form.color_list, form.direction) } ${ radius_computer(form.bg_radius, props.scale) };transform: rotate(${form.icon_rotate}deg);${ padding_computer(form.icon_padding, props.scale) };`;
-    if (form.border_show == '1') {
-        style += `border: ${form.border_size * props.scale}px ${form.border_style} ${form.border_color};box-sizing: border-box;`;
+    let style = `${ set_count() } ${ gradient_handle(form.value.color_list, form.value.direction) } ${ radius_computer(form.value.bg_radius, props.scale) };transform: rotate(${form.value.icon_rotate}deg);${ padding_computer(form.value.icon_padding, props.scale) };`;
+    if (form.value.border_show == '1') {
+        style += `border: ${form.value.border_size * props.scale}px ${form.value.border_style} ${form.value.border_color};box-sizing: border-box;`;
     }
-    if (form.icon_location == 'center') {
+    if (form.value.icon_location == 'center') {
         style += `justify-content: center;`;
-    } else if (form.icon_location == 'left') {
+    } else if (form.value.icon_location == 'left') {
         style += `justify-content: flex-start;`;
-    } else if (form.icon_location == 'right') {
+    } else if (form.value.icon_location == 'right') {
         style += `justify-content: flex-end;`;
     }
     return style;
@@ -75,7 +76,7 @@ const set_count = () => {
     if (props.isPercentage) {
         return '';
     } else {
-        return `width: ${ form.com_width }px; height: ${ form.com_height }px;`;
+        return `width: ${ form.value.com_width }px; height: ${ form.value.com_height }px;`;
     }
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
     <div class="w h re custom-other">
-        <div v-for="(item, index) in customList" :key="item.id" class="main-content" :style="{'left': percentage_count(item.location.x) , 'top': percentage_count(item.location.y), 'width': percentage_count(item.com_data.com_width), 'height': percentage_count(item.com_data.com_height), 'z-index': (customList.length - 1) - index}">
+        <div v-for="(item, index) in list" :key="item.id" class="main-content" :style="{'left': percentage_count(item.location.x) , 'top': percentage_count(item.location.y), 'width': percentage_count(item.com_data.com_width), 'height': percentage_count(item.com_data.com_height), 'z-index': (customList.length - 1) - index}">
             <template v-if="item.key == 'text'">
                 <model-text :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :source-type="sourceType" :is-percentage="true"></model-text>
             </template>
@@ -60,6 +60,9 @@ const props = defineProps({
         default: 1,
     }
 });
+
+const list = computed(() => props.customList);
+
 const percentage_count = (val: number) => {
     return val * props.scale + 'px';
 };

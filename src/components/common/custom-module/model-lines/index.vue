@@ -20,20 +20,20 @@ const props = defineProps({
     },
 });
 // 用于页面判断显示
-const form = reactive(props.value);
+const form = computed(() => props.value);
 
 const border_style = computed(() => {
-    if (form.line_settings === 'horizontal') {
-        return `${set_count()} margin: 5px 0;border-bottom: ${form.line_size * props.scale}px ${form.line_style} ${form.line_color};`;
+    if (form.value.line_settings === 'horizontal') {
+        return `${set_count()} margin: 5px 0;border-bottom: ${form.value.line_size * props.scale}px ${form.value.line_style} ${form.value.line_color};`;
     } else {
-        return `${set_count()} margin: 0 5px;border-right: ${form.line_size * props.scale}px ${form.line_style} ${form.line_color};`;
+        return `${set_count()} margin: 0 5px;border-right: ${form.value.line_size * props.scale}px ${form.value.line_style} ${form.value.line_color};`;
     }
 });
 const set_count = () => {
-    if (form.line_settings === 'horizontal') {
-        return `width: ${form.com_width}px;`;
+    if (form.value.line_settings === 'horizontal') {
+        return `width: ${form.value.com_width}px;`;
     } else {
-        return `height: ${form.com_height}px;`;
+        return `height: ${form.value.com_height}px;`;
     }
 };
 </script>

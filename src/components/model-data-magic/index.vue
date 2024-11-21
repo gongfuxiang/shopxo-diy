@@ -393,8 +393,8 @@ watch(props.value.content, (val) => {
         } else if (data_content.data_type == 'custom' && ['1', '2'].includes(data_content.data_source_direction)) {
             // 是自定义并且是轮播状态的时候，添加数据
             const list = data_source_content_list(data_content);
-            const carousel_col = data_style?.data_source_carousel_col || 1;
-            const num = new_style.value.rolling_fashion == 'translation' ? list.length : Math.ceil(list.length / carousel_col);
+            const carousel_col = data_content?.data_source_carousel_col || 1;
+            const num = rolling_fashion == 'translation' ? list.length : Math.ceil(list.length / carousel_col);
             data_content.list = Array(num);
         } else {
             // 是图片的时候，直接赋值
@@ -429,7 +429,7 @@ watch(props.value.content, (val) => {
     data_magic_list.value = data;
 }, {immediate: true, deep: true})
 //#endregion
-const carousel_change = (key: number, index: number, type?: string, list?: any[]) => {
+const carousel_change = (key: number, index: number) => {
     if (data_magic_list.value[key]) {
         data_magic_list.value[key].actived_index = index;
     }

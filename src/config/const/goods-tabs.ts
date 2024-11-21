@@ -132,7 +132,7 @@ const defaultProductList: DefaultProductList = {
         subscript_type: 'text',
         subscript_img_src: [],
         subscript_icon_class: '',
-        subscript_text: '秒杀',
+        subscript_text: '',
     },
     style: {
         // 选中样式风格

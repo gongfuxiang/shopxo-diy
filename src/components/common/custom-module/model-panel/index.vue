@@ -29,20 +29,20 @@ const props = defineProps({
     }
 });
 // 用于页面判断显示
-const form = reactive(props.value);
+const form = computed(() => props.value);
 
 const com_style = computed(() => {
-    let style = `${ set_count() } ${ gradient_handle(form.color_list, form.direction) } ${ radius_computer(form.bg_radius, props.scale) }; transform: rotate(${form.panel_rotate}deg);`;
-    if (form.border_show == '1') {
-        style += `border: ${form.border_size * props.scale }px ${form.border_style} ${form.border_color};`;
+    let style = `${ set_count() } ${ gradient_handle(form.value.color_list, form.value.direction) } ${ radius_computer(form.value.bg_radius, props.scale) }; transform: rotate(${form.value.panel_rotate}deg);`;
+    if (form.value.border_show == '1') {
+        style += `border: ${form.value.border_size * props.scale }px ${form.value.border_style} ${form.value.border_color};`;
     }
     return style;
 });
 
 const com_img_style = computed(() => {
     const data = {
-        background_img: form?.background_img || [],
-        background_img_style: form?.background_img_style || '2'
+        background_img: form.value?.background_img || [],
+        background_img_style: form.value?.background_img_style || '2'
     }
     return background_computer(data);
 });
@@ -50,7 +50,7 @@ const set_count = () => {
     if (props.isPercentage) {
         return '';
     } else {
-        return `width: ${ form.com_width }px; height: ${ form.com_height }px;`;
+        return `width: ${ form.value.com_width }px; height: ${ form.value.com_height }px;`;
     }
 };
 </script>

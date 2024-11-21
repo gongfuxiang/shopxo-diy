@@ -6,7 +6,7 @@
                     <div v-for="(item, index) in data_list" :key="index" class="item oh" :style="article_style">
                         <div :class="article_theme == '0' ? 'flex-row oh' : 'flex-col oh'" :style="article_img_style">
                             <template v-if="article_theme != '3'">
-                                <div class="oh re">
+                                <div class="oh re w h">
                                     <template v-if="item.new_cover.length > 0">
                                         <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
                                     </template>
@@ -39,7 +39,7 @@
                     <swiper :key="carousel_key" class="w flex" direction="horizontal" :loop="true" :autoplay="autoplay" :slides-per-view="Number(carousel_col) + 1" :slides-per-group="slides_per_group" :allow-touch-move="false" :space-between="new_style.article_spacing" :pause-on-mouse-enter="true" :modules="modules">
                         <swiper-slide v-for="(item, index) in data_list" :key="index" class="item oh" :style="article_style">
                             <div class="h oh flex-col" :style="article_img_style">
-                                <div class="oh re">
+                                <div class="oh re w h">
                                     <template v-if="item.new_cover.length > 0">
                                         <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
                                     </template>

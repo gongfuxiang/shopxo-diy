@@ -108,6 +108,7 @@ const style_img_container = computed(() => {
         return '';
     }
 });
+// 数据来源的内容 和缩放比例的处理
 watchEffect(() => {
     // 重新赋值
     form.value = props.value.data_content;
@@ -124,7 +125,6 @@ watchEffect(() => {
 const carouselKey = ref('0');
 const autoplay = ref<boolean | object>(false);
 const slides_per_group = ref(1);
-const dot_list = ref<unknown[]>([]);
 const swiper_height = ref(150);
 const emit = defineEmits(['carousel_change']);
 // 内容参数的集合
@@ -155,8 +155,10 @@ watchEffect(() => {
 
 const slideChange = (swiper: { realIndex: number }) => {
     const carousel_col = form.value?.data_source_carousel_col || 1;
+    // 计算当前的下标
+    const realIndex = Math.ceil(swiper.realIndex / carousel_col);
     // 轮播图滚动时，更新当前激活的下标， 如果不是平移的时候，需要除以列数，否则就是当前的下标
-    const index = new_style.value.rolling_fashion == 'translation' ? swiper.realIndex : (swiper.realIndex / carousel_col) > 0 ? (swiper.realIndex / carousel_col) : 0;
+    const index = new_style.value.rolling_fashion == 'translation' ? swiper.realIndex : realIndex > 0 ? realIndex : 0;
     emit('carousel_change', index);
 };
 //#endregion
