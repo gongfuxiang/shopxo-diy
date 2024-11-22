@@ -297,32 +297,52 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             }
         } else if (new_array_4.includes(item.key)) {
             item.com_data.content.data_magic_list.map((item1: any) => {
-                item1.data_content.goods_ids = item1.data_content.goods_list.map((item2: any) => item2.data.id).join(',') || '';
-                item1.data_content.goods_list = item1.data_content.goods_list.map((item3: any) => {
-                    return {
-                        ...item3,
-                        data: [],
-                        data_id: item3.data.id,
-                    };
-                });
-                if (['goods', 'article', 'brand'].includes(item1.data_content.data_source)) {
-                    const data_list = cloneDeep(item1.data_content.data_source_content.data_list);
-                    // 数据改造,存放手动的id
-                    item1.data_content.data_source_content.data_ids = data_list.map((item4: any) => item4.data.id).join(',') || '';
-                    // 数据改造,存放手动的清除里边的data
-                    item1.data_content.data_source_content.data_list = data_list.map((item5: any) => {
+                if (item1.data_content.data_type == 'goods') {
+                    item1.data_content.goods_ids = item1.data_content.goods_list.map((item2: any) => item2.data.id).join(',') || '';
+                    item1.data_content.goods_list = item1.data_content.goods_list.map((item3: any) => {
                         return {
-                            ...item5,
+                            ...item3,
                             data: [],
-                            data_id: item5.data.id,
+                            data_id: item3.data.id,
                         };
                     });
-                } else {
+                    // 清除自定义里的数据
                     item1.data_content.data_source_content.data_ids = [];
                     item1.data_content.data_source_content.data_list = [];
+                    item1.data_content.data_source_content.data_auto_list = [];
+                    item1.data_content.data_source_content.data_type = '0';
+                } else if (item1.data_content.data_type == 'custom') {
+                    if (['goods', 'article', 'brand'].includes(item1.data_content.data_source)) {
+                        const data_list = cloneDeep(item1.data_content.data_source_content.data_list);
+                        // 数据改造,存放手动的id
+                        item1.data_content.data_source_content.data_ids = data_list.map((item4: any) => item4.data.id).join(',') || '';
+                        // 数据改造,存放手动的清除里边的data
+                        item1.data_content.data_source_content.data_list = data_list.map((item5: any) => {
+                            return {
+                                ...item5,
+                                data: [],
+                                data_id: item5.data.id,
+                            };
+                        });
+                    } else {
+                        item1.data_content.data_source_content.data_ids = [];
+                        item1.data_content.data_source_content.data_list = [];
+                    }
+                    // 自动数据清空
+                    item1.data_content.data_source_content.data_auto_list = [];
+                    // 清除商品里的数据
+                    item1.data_content.goods_ids = '';
+                    item1.data_content.goods_list= [];
+                } else {
+                    // 清除商品里的数据
+                    item1.data_content.goods_ids = '';
+                    item1.data_content.goods_list= [];
+                    // 清除自定义里的数据
+                    item1.data_content.data_source_content.data_type = '0';
+                    item1.data_content.data_source_content.data_ids = '';
+                    item1.data_content.data_source_content.data_list = [];
+                    item1.data_content.data_source_content.data_auto_list = [];
                 }
-                // 自动数据清空
-                item1.data_content.data_source_content.data_auto_list = [];
             });
         } else if (new_array_5.includes(item.key)) {
             // 从数据中剔除data_source_content_value字段
