@@ -12,7 +12,7 @@
                                 <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
                             </template>
                         </div>
-                        <div v-if="!isEmpty(isShow)" class="flex-col w tl jc-sb" :style="`width: ${ 100 - image_scale }%;`">
+                        <div v-if="!isEmpty(isShow)" class="flex-col w h tl jc-sb" :style="`width: ${ 100 - image_scale }%;`">
                             <div v-if="isShow.includes('title')" class="text-line-2 size-14" :style="props.goodStyle.goods_title_style + `height: ${ (props.goodStyle.goods_title_size + 3) * 2 }px;`">{{ item.title }}</div>
                             <div v-if="isShow.includes('price')" class="identifying" :style="props.goodStyle.goods_price_style">
                                 <span class="num">{{ item.show_price_symbol }}</span>{{ item.min_price }}

@@ -96,7 +96,7 @@ const defaultArticleTabs: DefaultArticleTabs = {
             { id: '6', title: '测试五', desc: '简介', data_type: '0', keyword: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
         ],
         tabs_active_index: 0,
-        field_show: ['0', '1'],
+        field_show: ['0', '1', '3'],
         // 角标配置
         seckill_subscript_show: '0',
         subscript_type: 'text',

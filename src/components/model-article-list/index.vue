@@ -4,9 +4,9 @@
             <div class="re oh" :style="style">
                 <div v-if="!['4'].includes(article_theme)" class="flex-warp" :class="article_theme_class" :style="article_theme != '3' ? article_spacing : ''">
                     <div v-for="(item, index) in data_list" :key="index" class="item oh" :style="article_style">
-                        <div :class="article_theme == '0' ? 'flex-row oh' : 'flex-col oh'" :style="article_img_style">
+                        <div :class="article_theme == '0' ? 'flex-row oh' : 'flex-col oh h'" :style="article_img_style">
                             <template v-if="article_theme != '3'">
-                                <div class="oh re w h">
+                                <div class="oh re">
                                     <template v-if="item.new_cover.length > 0">
                                         <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
                                     </template>
@@ -17,9 +17,9 @@
                                     <subscript-index :value="props.value"></subscript-index>
                                 </div>
                             </template>
-                            <div class="jc-sb flex-1" :class="article_theme == '3' ? 'flex-row align-c' : 'flex-col'" :style="article_theme != '0' ? content_padding : 'width: 0;'">
+                            <div v-if="field_show.includes('0') || field_show.includes('1') || field_show.includes('2') || field_show.includes('3')" class="jc-sb flex-1" :class="article_theme == '3' ? 'flex-row align-c' : 'flex-col'" :style="article_theme != '0' ? content_padding : 'width: 0;'">
                                 <div class="flex-col" :class="article_theme == '3' ? 'flex-1 flex-width' : ''" :style="'gap:' + new_style.name_desc_space + 'px;'">
-                                    <div class="title" :class="article_theme == '3' ? 'text-line-1' : 'text-line-2'" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                                    <div v-if="field_show.includes('3')" class="title" :class="article_theme == '3' ? 'text-line-1' : 'text-line-2'" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
                                     <div v-if="field_show.includes('2')" class="desc text-line-1" :style="article_desc">{{ item.data.describe || '' }}</div>
                                 </div>
                                 <div class="flex-row jc-sb gap-8" :class="article_theme == '3' ? 'ml-10' : 'align-e mt-10'">
@@ -39,7 +39,7 @@
                     <swiper :key="carousel_key" class="w flex" direction="horizontal" :loop="true" :autoplay="autoplay" :slides-per-view="Number(carousel_col) + 1" :slides-per-group="slides_per_group" :allow-touch-move="false" :space-between="new_style.article_spacing" :pause-on-mouse-enter="true" :modules="modules">
                         <swiper-slide v-for="(item, index) in data_list" :key="index" class="item oh" :style="article_style">
                             <div class="h oh flex-col" :style="article_img_style">
-                                <div class="oh re w h">
+                                <div class="oh re h">
                                     <template v-if="item.new_cover.length > 0">
                                         <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
                                     </template>
@@ -49,9 +49,9 @@
                                     <!-- 角标设置 -->
                                     <subscript-index :value="props.value"></subscript-index>
                                 </div>
-                                <div class="jc-sb flex-1 flex-col" :style="article_theme != '0' ? content_padding : ''">
+                                <div v-if="field_show.includes('0') || field_show.includes('1') || field_show.includes('2') || field_show.includes('3')" class="jc-sb flex-1 flex-col" :style="article_theme != '0' ? content_padding : ''">
                                     <div class="flex-col" :style="'gap:' + new_style.name_desc_space + 'px;'">
-                                        <div class="title text-line-2" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                                        <div v-if="field_show.includes('3')" class="title text-line-2" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
                                         <div v-if="field_show.includes('2')" class="desc text-line-1" :style="article_desc">{{ item.data.describe || '' }}</div>
                                     </div>
                                     <div class="flex-row jc-sb gap-8 align-e mt-10">
@@ -241,7 +241,7 @@ const article_name_line_height_computer = computed(() => {
 });
 // 轮播高度
 const carousel_height_computer = computed(() => {
-    return new_style.value.name_size * 2 + new_style.value.article_height + 'px';
+    return new_style.value.article_height + 'px';
 });
 
 const theme_list = [
@@ -414,7 +414,7 @@ const article_theme_class = computed(() => {
         height: v-bind(carousel_height_computer);
         .img {
             width: 100%;
-            max-height: v-bind(article_item_height);
+            height: 100%;
         }
         .title {
             height: v-bind(article_name_height_computer);

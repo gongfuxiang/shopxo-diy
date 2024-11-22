@@ -54,6 +54,13 @@
                     <slider v-model="form.title_size" :max="100"></slider>
                 </el-form-item>
             </card-container>
+            <div class="divider-line"></div>
+            <card-container>
+                <div class="mb-12">数据样式</div>
+                <el-form-item label="内边距">
+                    <padding :value="form.data_padding"></padding>
+                </el-form-item>
+            </card-container>
             <!-- 角标 -->
             <template v-if="data_content.seckill_subscript_show == '1'">
                 <div class="divider-line"></div>
@@ -92,6 +99,13 @@ const props = withDefaults(defineProps<Props>(), {
             radius_top_right: 0,
             radius_bottom_left: 0,
             radius_bottom_right: 0,
+        },
+        data_padding: {
+            padding: 0,
+            padding_top: 0,
+            padding_right: 0,
+            padding_bottom: 0,
+            padding_left: 0,
         },
         actived_color: '#2A94FF',
         color: '#DDDDDD',

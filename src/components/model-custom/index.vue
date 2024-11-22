@@ -141,7 +141,11 @@ watchEffect(() => {
     }
     // 判断是平移还是整屏滚动
     slides_per_group.value = new_style.value.rolling_fashion == 'translation' ? 1 : form.value.data_source_carousel_col;
-    const num = new_style.value.rolling_fashion == 'translation' ? data_source_content_list.value.length : Math.ceil(data_source_content_list.value.length / form.value.data_source_carousel_col);
+    let num = 0;
+    // 轮播图数量
+    if (!isEmpty(data_source_content_list.value)) {
+        num = new_style.value.rolling_fashion == 'translation' ? data_source_content_list.value.length : Math.ceil(data_source_content_list.value.length / form.value.data_source_carousel_col);
+    }
     const { padding_top, padding_bottom, margin_bottom, margin_top } = new_style.value.data_style;
     // 轮播图高度控制
     if (form.value.data_source_direction == '2') {

@@ -38,6 +38,7 @@ interface defaultSearch {
         indicator_location: string;
         indicator_size: number;
         indicator_radius: radiusStyle;
+        data_padding: paddingStyle;
         actived_color: string;
         color: string;
         title_color: string;
@@ -120,6 +121,13 @@ const defaultSearch: defaultSearch = {
             radius_top_right: 4,
             radius_bottom_left: 4,
             radius_bottom_right: 4,
+        },
+        data_padding: {
+            padding: 0,
+            padding_top: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+            padding_right: 0,
         },
         actived_color: '#2A94FF',
         color: '#DDDDDD',

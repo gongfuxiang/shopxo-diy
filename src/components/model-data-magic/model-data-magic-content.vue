@@ -10,22 +10,15 @@
                         </div>
                     </div>
                 </el-form-item>
-                <template v-if="form.style_actived == 9">
-                    <el-form-item label="限制尺寸" label-width="60">
-                        <el-switch v-model="form.limit_size" active-value="1" inactive-value="0" @change="handleResize"/>
-                    </el-form-item>
-                </template>
-                <template v-if="form.style_actived !== 9 || form.limit_size == '1'">
-                    <el-form-item label="容器高度" label-width="60">
-                        <slider v-model="form.container_height" :min="30" :max="1000" @update:model-value="handleResize"></slider>
-                    </el-form-item>
-                </template>
+                <el-form-item label="容器高度" label-width="60">
+                    <slider v-model="form.container_height" :min="30" :max="1000" @update:model-value="handleResize"></slider>
+                </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>
                 <div class="mb-12 flex-row jc-sb align-c">
                     展示设置
-                    <template v-if="form.style_actived === 10">
+                    <template v-if="form.style_actived === 9">
                         <el-radio-group v-model="form.magic_cube_density" @change="density_change">
                             <el-radio-button label="4X4" :value="4" />
                             <el-radio-button label="6X6" :value="6" />
@@ -47,7 +40,7 @@
                         </div>
                     </template>
                     <template v-else>
-                        <magic-cube :key="form.style_actived" :list="form.data_magic_list" :flag="form.style_actived == 10" :magic-cube-density="form.magic_cube_density" :cube-width="cubeWidth" type="data" :cube-height="cubeHeight" :default-content="data_content" :default-style="data_style" @selected_click="selected_click"></magic-cube>
+                        <magic-cube :key="form.style_actived" :list="form.data_magic_list" :flag="form.style_actived == 9" :magic-cube-density="form.magic_cube_density" :cube-width="cubeWidth" type="data" :cube-height="cubeHeight" :default-content="data_content" :default-style="data_style" @selected_click="selected_click"></magic-cube>
                     </template>
                 </el-form-item>
             </card-container>
@@ -76,7 +69,7 @@ const props = defineProps({
     },
 });
 // 风格数组
-const style_list = ['heng2', 'shu2', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2', 'a-1ge', 'a-4x4'];
+const style_list = ['heng2', 'shu2', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2', 'a-4x4'];
 // 每个小模块独立的样式
 const data_style = {
     color_list: [{ color: '#FFD9C3', color_percentage: 0 }, { color: '#FFECE2', color_percentage: 12 }, { color: '#FFFFFF', color_percentage: 30 }],
@@ -241,8 +234,7 @@ const style_show_list = [
     [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 1, y: 3}, end: {x: 2, y: 4}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 3, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }],// 风格7
     [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 3, y: 3}, end: {x: 3, y: 4}, num: 1, flex: 'col', outerflex: 'col', title_text_gap: 20, width: 130 }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col', outerflex: 'col', title_text_gap: 20, width: 130 }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col', outerflex: 'col', title_text_gap: 20, width: 130 }],// 风格8
     [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 3, flex: 'row', outerflex: 'col', title_text_gap: 20, width: 195 }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 3, y: 3}, end: {x: 3, y: 4}, num: 1, flex: 'col_price_float', outerflex: 'col', title_text_gap: 10, width: 98 }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col_price_float', outerflex: 'col', title_text_gap: 10, width: 98 }],// 风格9
-    [{ start: {x: 1, y: 1}, end: {x: 4, y: 4}, num: 3, flex: 'row', outerflex: 'col', title_text_gap: 20, width: 390 }],// 风格10
-    [], //风格11
+    [], //风格10
 ]
 const tabs_name = ref('content');
 const state = reactive({
@@ -291,7 +283,7 @@ const selected_active = ref(0);
 // 切换风格
 const style_click = (index: number) => {
     form.value.style_actived = index;
-    if (index !== 10) {
+    if (index !== 9) {
         form.value.magic_cube_density = 4;
         form.value.data_magic_list = magic_list(index);
     } else {

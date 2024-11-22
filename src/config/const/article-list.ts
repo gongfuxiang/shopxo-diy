@@ -75,7 +75,7 @@ const defaultArticleList: DefaultArticleList = {
         number: defaultSetting.page_size,
         order_by_type: defaultSetting.order_by_type,
         order_by_rule: defaultSetting.order_by_rule,
-        field_show: ['0', '1'],
+        field_show: ['0', '1', '3'],
         is_cover: defaultSetting.is_cover,
         // 角标配置
         seckill_subscript_show: '0',

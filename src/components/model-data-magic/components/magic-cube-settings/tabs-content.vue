@@ -36,7 +36,7 @@
                 <el-radio-group v-model="form.goods_flex">
                     <el-radio value="row">左图右文</el-radio>
                     <el-radio value="col">上图下文</el-radio>
-                    <el-radio value="col_price_float">上图下文<span class="size-8">(价格浮动)</span></el-radio>
+                    <el-radio value="col_price_float">上图下文<span class="col-price-style size-8">(价格浮动)</span></el-radio>
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="每屏数量">
@@ -203,6 +203,9 @@ const url_value_dialog_call_back = (item: any[]) => {
 .upload_style {
     width: 100%;
     height: 12.4rem;
+}
+.col-price-style {
+    color: red;
 }
 :deep(.el-checkbox-group .el-checkbox) {
     margin-right: 2rem;

@@ -3,7 +3,7 @@
         <div class="re" :style="style_img_container">
             <swiper :key="carouselKey" class="w flex" direction="horizontal" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="1" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
                 <swiper-slide v-for="(item, index) in nav_content_list" :key="index">
-                    <div ref="bannerImg" class="flex flex-wrap" :style="nav_space">
+                    <div ref="bannerImg" class="flex flex-wrap" :style="nav_space + inner_padding">
                         <div v-for="(item1, index1) in item.split_list" :key="index1" class="item flex-col align-c" :style="nav_title_space">
                             <div v-if="['image_with_text', 'image'].includes(nav_style)" class="top-img flex align-c jc-c re">
                                 <image-empty v-model="item1.img[0]" :style="img_style"></image-empty>
@@ -29,7 +29,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, radius_computer, get_math, common_img_computer } from '@/utils';
+import { common_styles_computer, radius_computer, get_math, common_img_computer, padding_computer } from '@/utils';
 import { isEmpty, cloneDeep, throttle } from 'lodash';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
@@ -115,7 +115,9 @@ const indicator_location_style = computed(() => {
 });
 //#endregion
 // 导航间距
-const nav_space = computed(() => 'row-gap:' + (new_style.value?.space || '0') + 'px');
+const nav_space = computed(() => `row-gap:${ new_style.value?.space || '0' }px;`);
+// 轮播内边距
+const inner_padding = computed(() => padding_computer(new_style.value.data_padding));
 // 导航标题间距
 const nav_title_space = computed(() => 'row-gap:' + (new_style.value?.title_space || '0') + 'px');
 // 获取轮播图片的节点
@@ -240,6 +242,5 @@ const slideChange = (swiper: { realIndex: number }) => {
 }
 :deep(.swiper) {
     height: v-bind(newHeight);
-    overflow: unset !important;
 }
 </style>

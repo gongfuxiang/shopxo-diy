@@ -103,6 +103,7 @@ const base_list = reactive({
         { name: '升序（asc）', value: '1' },
     ],
     field_show_list: [
+        { name: '文章标题', value: '3' },
         { name: '日期时间', value: '0' },
         { name: '浏览量', value: '1' },
         { name: '描述', value: '2' },
@@ -130,9 +131,9 @@ onMounted(() => {
 // 主题改变
 const theme_change = (val: any) => {
     if (val == '3' || val == '4') {
-        form.value.field_show = ['1'];
+        form.value.field_show = ['1', '3'];
     } else {
-        form.value.field_show = ['0', '1'];
+        form.value.field_show = ['0', '1', '3'];
     }
     if (val == '0') {
         if (data.value.img_radius.radius == props.defaultConfig.img_radius_0 || (data.value.img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && data.value.img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && data.value.img_radius.radius_top_left == props.defaultConfig.img_radius_1 && data.value.img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {

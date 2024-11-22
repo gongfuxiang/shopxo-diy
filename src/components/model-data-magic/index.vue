@@ -20,14 +20,14 @@
                                             </template>
                                             <p class="ma-0 w text-word-break text-line-1 flex-basis-shrink" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
                                         </div>
-                                        <div class="w h">
-                                            <magic-carousel :value="item" :good-style="item.data_style" :actived="form.style_actived" type="product" @carousel_change="carousel_change(index, $event)"></magic-carousel>
+                                        <div class="w h flex-1">
+                                            <magic-carousel :key="form.style_actived" :value="item" :good-style="item.data_style" :actived="form.style_actived" type="product" @carousel_change="carousel_change(index, $event)"></magic-carousel>
                                         </div>
                                     </div>
                                 </template>
                                 <template v-else-if="item.data_content.data_type == 'images'">
                                     <div class="w h" :style="`${ padding_computer(item.data_style.chunk_padding) }`">
-                                        <magic-carousel :value="item" type="img" :actived="form.style_actived" @carousel_change="carousel_change(index, $event)"></magic-carousel>
+                                        <magic-carousel :key="form.style_actived" :value="item" type="img" :actived="form.style_actived" @carousel_change="carousel_change(index, $event)"></magic-carousel>
                                     </div>
                                 </template>
                                 <template v-else-if="item.data_content.data_type == 'custom'">
@@ -51,7 +51,7 @@
                     </div>
                 </template>
                 <template v-else>
-                    <div v-for="(item, index) in data_magic_list" :key="index" :class="['img-spacing-border', is_unlimited_size ? '' : ' cube-selected']" :style="`${ selected_style(item) } ${ item.data_style.background_style } ${ content_radius }`">
+                    <div v-for="(item, index) in data_magic_list" :key="index" class="img-spacing-border cube-selected" :style="`${ selected_style(item) } ${ item.data_style.background_style } ${ content_radius }`">
                         <div class="w h re" :style="`${ item.data_style.background_img_style }`">
                             <template v-if="item.data_content.data_type == 'goods'">
                                 <div class="w h flex-col" :style="`${ padding_computer(item.data_style.chunk_padding) };gap: ${ item.data_style.title_data_gap }px;`">
@@ -67,13 +67,13 @@
                                         <p class="ma-0 w text-word-break text-line-1 flex-basis-shrink" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
                                     </div>
                                     <div class="w h flex-1">
-                                        <magic-carousel :value="item" :good-style="item.data_style" type="product" :actived="form.style_actived" :is-unlimited-size="is_unlimited_size" @carousel_change="carousel_change(index, $event)"></magic-carousel>
+                                        <magic-carousel :key="form.style_actived" :value="item" :good-style="item.data_style" type="product" :actived="form.style_actived" @carousel_change="carousel_change(index, $event)"></magic-carousel>
                                     </div>
                                 </div>
                             </template>
                             <template v-else-if="item.data_content.data_type == 'images'">
                                 <div class="w h" :style="`${ padding_computer(item.data_style.chunk_padding) }`">
-                                    <magic-carousel :value="item" type="img" :actived="form.style_actived" :is-unlimited-size="is_unlimited_size" @carousel_change="carousel_change(index, $event)"></magic-carousel>
+                                    <magic-carousel :key="form.style_actived" :value="item" type="img" :actived="form.style_actived" @carousel_change="carousel_change(index, $event)"></magic-carousel>
                                 </div>
                             </template>
                             <template v-else-if="item.data_content.data_type == 'custom'">
@@ -134,9 +134,9 @@ const div_width = ref(390);
 // 如果容器高度为空，则取容器宽度
 const container_height = computed(() => is_number(form.value.container_height) ? form.value.container_height : div_width.value);
 // 是否不限尺寸
-const is_unlimited_size = computed(() => form.value.style_actived === 9 && form.value.limit_size == '0');
+// const is_unlimited_size = computed(() => form.value.style_actived === 9 && form.value.limit_size == '0');
 
-const container_size = computed(() => is_unlimited_size.value ? '100%' : container_height.value + 'px');
+const container_size = computed(() => container_height.value + 'px');
 //#endregion
 //#region 图片位置计算
 //计算选中层的宽度。

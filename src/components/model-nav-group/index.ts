@@ -34,6 +34,7 @@ interface nav_group_styles {
     indicator_location: string;
     indicator_size: number;
     indicator_radius: radiusStyle;
+    data_padding: paddingStyle;
     actived_color: string;
     color: string;
     title_color: string;

@@ -11,7 +11,7 @@ interface defaultSearch {
         magic_cube_density: number;
         style_actived: number;
         container_height: number;
-        limit_size: string;
+        // limit_size: string;
         data_magic_list: data_magic[];
     };
     style: {
@@ -30,7 +30,7 @@ const defaultSearch: defaultSearch = {
         // 容器高度
         container_height: 390,
         // 是否限制尺寸
-        limit_size: '1',
+        // limit_size: '1',
         // 数据列表
         data_magic_list: [],
     },
