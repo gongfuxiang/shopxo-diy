@@ -101,7 +101,11 @@ const title_style = (index: number) => {
 const padding_bottom = computed(() => {
     let bottom = 0;
     if (form.value.tabs_theme == '0') {
-        bottom = 3;
+        if (new_style.value.tabs_one_theme == '1') {
+            bottom = 6;
+        } else {
+            bottom = 3;
+        }
     } else if (form.value.tabs_theme == '3') {
         bottom = 10;
     }
