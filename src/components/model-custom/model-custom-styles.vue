@@ -1,7 +1,7 @@
 <template>
     <div class="w">
-        <template v-if="['1', '2'].includes(data.data_source_direction)">
-            <el-form :model="form" label-width="70">
+        <el-form :model="form" label-width="70">
+            <template v-if="['1', '2'].includes(data.data_source_direction)">
                 <card-container>
                     <div class="mb-12">轮播设置</div>
                         <el-form-item label="自动轮播">
@@ -24,31 +24,31 @@
                     <carousel-indicator :value="form"></carousel-indicator>
                 </card-container>
                 <div class="bg-f5 divider-line" />
-                <card-container>
-                    <div class="mb-12">数据样式</div>
-                    <el-form-item label="背景">
-                        <div class="flex-col gap-10 w">
-                            <div class="size-12">背景色</div>
-                            <mult-color-picker :value="form.data_style.color_list" :type="form.data_style.direction" @update:value="mult_color_picker_event"></mult-color-picker>
-                            <div class="flex-row jc-sb align-c">
-                                <div class="size-12">背景图</div>
-                                <bg-btn-style v-model="form.data_style.background_img_style"></bg-btn-style>
-                            </div>
-                            <upload v-model="form.data_style.background_img" :limit="1"></upload>
+            </template>
+            <card-container>
+                <div class="mb-12">数据样式</div>
+                <el-form-item label="背景">
+                    <div class="flex-col gap-10 w">
+                        <div class="size-12">背景色</div>
+                        <mult-color-picker :value="form.data_style.color_list" :type="form.data_style.direction" @update:value="mult_color_picker_event"></mult-color-picker>
+                        <div class="flex-row jc-sb align-c">
+                            <div class="size-12">背景图</div>
+                            <bg-btn-style v-model="form.data_style.background_img_style"></bg-btn-style>
                         </div>
-                    </el-form-item>
-                    <el-form-item label="外间距">
-                        <margin :value="form.data_style"></margin>
-                    </el-form-item>
-                    <el-form-item label="内间距">
-                        <padding :value="form.data_style"></padding>
-                    </el-form-item>
-                    <el-form-item label="圆角">
-                        <radius :value="form.data_style"></radius>
-                    </el-form-item>
-                </card-container>
-            </el-form>
-        </template>
+                        <upload v-model="form.data_style.background_img" :limit="1"></upload>
+                    </div>
+                </el-form-item>
+                <el-form-item label="外间距">
+                    <margin :value="form.data_style"></margin>
+                </el-form-item>
+                <el-form-item label="内间距">
+                    <padding :value="form.data_style"></padding>
+                </el-form-item>
+                <el-form-item label="圆角">
+                    <radius :value="form.data_style"></radius>
+                </el-form-item>
+            </card-container>
+        </el-form>
         <div class="bg-f5 divider-line" />
         <common-styles :value="form.common_style" />
     </div>
