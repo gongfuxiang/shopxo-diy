@@ -54,7 +54,7 @@ interface DefaultProductList {
         shop_simple_desc_typeface: string;
         shop_simple_desc_size: number;
         shop_simple_desc_color: string;
-        title_simple_desc_spacing: 4,
+        title_simple_desc_spacing: number,
         shop_price_typeface: string;
         shop_price_size: number;
         shop_price_color: string;
