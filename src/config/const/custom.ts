@@ -145,7 +145,7 @@ const defaultSearch: defaultSearch = {
             radius_bottom_right: 4,
         },
         data_style: {
-            color_list: [{ color: 'rgb(244, 252, 255)', color_percentage: undefined }],
+            color_list: [{ color: '', color_percentage: undefined }],
             direction: '180deg',
             background_img_style: '2',
             background_img: [],
