@@ -46,15 +46,18 @@
                                     <template v-else>
                                         <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
                                     </template>
+                                    <template v-if="field_show.includes('3') && new_content.name_float == '1'">
+                                        <div class="text-line-1" :style="article_name + float_name_style">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                                    </template>
                                     <!-- 角标设置 -->
                                     <subscript-index :value="props.value"></subscript-index>
                                 </div>
-                                <div v-if="field_show.includes('0') || field_show.includes('1') || field_show.includes('2') || field_show.includes('3')" class="jc-sb flex-1 flex-col" :style="article_theme != '0' ? content_padding : ''">
+                                <div v-if="field_show.includes('0') || field_show.includes('1') || field_show.includes('2') || (field_show.includes('3') && new_content.name_float == '0')" class="jc-sb flex-1 flex-col" :style="article_theme != '0' ? content_padding : ''">
                                     <div class="flex-col" :style="'gap:' + new_style.name_desc_space + 'px;'">
-                                        <div v-if="field_show.includes('3')" class="title text-line-2" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                                        <div v-if="field_show.includes('3') && new_content.name_float == '0'" class="title text-line-2" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
                                         <div v-if="field_show.includes('2')" class="desc text-line-1" :style="article_desc">{{ item.data.describe || '' }}</div>
                                     </div>
-                                    <div class="flex-row jc-sb gap-8 align-e mt-10">
+                                    <div :class="[ 'flex-row jc-sb gap-8 align-e', { 'mt-10': (field_show.includes('3') && new_content.name_float == '0') || field_show.includes('2') }] ">
                                         <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
                                         <div v-show="field_show.includes('1')" class="flex-row align-c gap-3" :style="article_page_view">
                                             <icon name="eye"></icon>
@@ -73,7 +76,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, padding_computer, radius_computer, get_math, is_obj_empty, common_img_computer, background_computer, gradient_handle } from '@/utils';
+import { common_styles_computer, padding_computer, radius_computer, get_math, is_obj_empty, common_img_computer, background_computer, gradient_handle, gradient_computer, margin_computer } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 import ArticleAPI from '@/api/article';
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -283,6 +286,20 @@ const carousel_col = ref('2');
 const carousel_key = ref('0');
 const autoplay = ref<boolean | object>(false);
 const slides_per_group = ref(1);
+// 数据的默认值，避免没有值的时候报错
+const old_radius = { radius: 0, radius_top_left: 0, radius_top_right: 0, radius_bottom_left: 0, radius_bottom_right: 0 };
+const old_padding = { padding: 0, padding_top: 0, padding_bottom: 0, padding_left: 0, padding_right: 0 };
+const old_margin = { margin: 0, margin_top: 0, margin_bottom: 0, margin_left: 0, margin_right: 0 };
+// 文章名称浮动样式
+const float_name_style = computed(() => {
+    const { name_bg_color_list = [], name_bg_direction = '180deg', name_bg_radius = old_radius, name_bg_padding = old_padding, name_bg_margin = old_margin } = new_style.value;
+    const data = {
+        color_list: name_bg_color_list,
+        direction: name_bg_direction,
+    }
+    let location = 'position:absolute;bottom:0;left:0;right:0;'
+    return gradient_computer(data) + radius_computer(name_bg_radius) + padding_computer(name_bg_padding) + margin_computer(name_bg_margin) + location;
+});
 // 监听value数据变化
 watch(
     () => props.value,

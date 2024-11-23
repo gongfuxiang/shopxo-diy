@@ -387,6 +387,9 @@ watch(props.value.content, (val) => {
         data_style.goods_title_style = goods_trends_config(item.data_style, 'title') + `line-height: ${ item.data_style.goods_title_size + 3 }px;`;
         data_style.goods_price_style = goods_trends_config(item.data_style, 'price') + `line-height: ${ item.data_style.goods_price_size }px;`;
 
+        data_style.goods_price_symbol_style = goods_trends_config(item.data_style, 'price_symbol');
+        data_style.goods_price_unit_style = goods_trends_config(item.data_style, 'price_unit');
+
         const { is_roll, rotation_direction, interval_time, rolling_fashion } = data_style;
         const { goods_list, images_list } = data_content;
         // 商品时的处理逻辑

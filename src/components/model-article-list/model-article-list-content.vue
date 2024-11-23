@@ -28,6 +28,11 @@
                         <el-checkbox v-for="item in base_list.field_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
+                <template v-if="form.theme == '4'">
+                    <el-form-item label="标题浮起">
+                        <el-switch v-model="form.name_float" active-value="1" inactive-value="0" @change="switch_chage"></el-switch>
+                    </el-form-item>
+                </template>
             </card-container>
             <div class="divider-line"></div>
             <card-container>
@@ -198,6 +203,16 @@ const url_value_dialog_call_back = (item: any[]) => {
             new_cover: [],
             data: item[0],
         };
+    }
+};
+// 标题浮起之后文章标题的颜色和字体更新
+const switch_chage = (val: string | number | boolean) => {
+    if (val == '1') {
+        data.value.name_color = '#fff';
+        data.value.name_weight = '400';
+    } else {
+        data.value.name_color = '#333';
+        data.value.name_weight = '500';
     }
 };
 </script>

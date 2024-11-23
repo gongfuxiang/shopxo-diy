@@ -58,6 +58,12 @@ interface DefaultProductList {
         shop_price_typeface: string;
         shop_price_size: number;
         shop_price_color: string;
+        shop_price_symbol_color: string;
+        shop_price_symbol_size: number;
+        shop_price_unit_color: string;
+        shop_price_unit_size: number;
+        shop_original_price_color: string;
+        shop_original_price_size: number;
         shop_sold_number_typeface: string;
         shop_sold_number_size: number;
         shop_sold_number_color: string;
@@ -169,6 +175,12 @@ const defaultProductList: DefaultProductList = {
         shop_price_typeface: '500',
         shop_price_size: 18,
         shop_price_color: "#EA3323;",
+        shop_price_symbol_color: '#EA3323',
+        shop_price_symbol_size: 9,
+        shop_price_unit_color: '#EA3323',
+        shop_price_unit_size: 9,
+        shop_original_price_color: '#999',
+        shop_original_price_size: 12,
         shop_sold_number_typeface: '400',
         shop_sold_number_size: 10,
         shop_sold_number_color: "#999999",

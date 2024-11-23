@@ -15,7 +15,20 @@
                     </div>
                 </el-form-item>
                 <el-form-item label="文章名称">
-                    <color-text-size-group v-model:color="form.name_color" v-model:typeface="form.name_weight" v-model:size="form.name_size"></color-text-size-group>
+                    <color-text-size-group v-model:color="form.name_color" v-model:typeface="form.name_weight" v-model:size="form.name_size" :label-width="data.theme == '4' && data.name_float == '1' ? 60 : 40">
+                        <el-form-item label="背景" label-width="60" class="mb-0 w form-item-child-label">
+                            <mult-color-picker :value="form.name_bg_color_list" :type="form.name_bg_direction" :is-show-alpha="true" @update:value="name_bg_mult_color_picker_event"></mult-color-picker>
+                        </el-form-item>
+                        <el-form-item label="外边距" label-width="60" class="mb-0 w form-item-child-label">
+                            <margin :value="form.name_bg_margin"></margin>
+                        </el-form-item>
+                        <el-form-item label="内间距" label-width="60" class="mb-0 w form-item-child-label">
+                            <padding :value="form.name_bg_padding"></padding>
+                        </el-form-item>
+                        <el-form-item label="圆角" label-width="60" class="mb-0 w form-item-child-label">
+                            <radius :value="form.name_bg_radius"></radius>
+                        </el-form-item>
+                    </color-text-size-group>
                 </el-form-item>
                 <el-form-item label="文章描述">
                     <color-text-size-group v-model:color="form.desc_color" v-model:size="form.desc_size" :type-list="['color', 'size']">
@@ -154,7 +167,11 @@ const mult_color_picker_event = (arry: color_list[], type: number) => {
 const background_img_change = (arry: uploadList[]) => {
     form.value.article_background_img = arry;
 };
-
+// 文章标题浮起显示设置
+const name_bg_mult_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.name_bg_color_list = arry;
+    form.value.name_bg_direction = type.toString();
+};
 const emit = defineEmits(['update:value']);
 const common_style_update = (value: any) => {
     form.value.common_style = value;

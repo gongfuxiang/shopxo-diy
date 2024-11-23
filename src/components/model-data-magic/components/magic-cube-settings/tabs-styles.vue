@@ -90,12 +90,52 @@
     <template v-if="tabs_content.data_type === 'goods'">
         <card-container>
             <div class="mb-12">商品样式</div>
-            <el-form-item label="名称">
-                <color-text-size-group v-model:color="form.goods_title_color" v-model:typeface="form.goods_title_typeface" v-model:size="form.goods_title_size" default-color="#000000"></color-text-size-group>
-            </el-form-item>
-            <el-form-item label="价格">
-                <color-text-size-group v-model:color="form.goods_price_color" v-model:typeface="form.goods_price_typeface" v-model:size="form.goods_price_size" default-color="#000000"></color-text-size-group>
-            </el-form-item>
+            <template v-if="tabs_content.is_show.includes('title')">
+                <el-form-item label="名称">
+                    <color-text-size-group v-model:color="form.goods_title_color" v-model:typeface="form.goods_title_typeface" v-model:size="form.goods_title_size" default-color="#000000"></color-text-size-group>
+                </el-form-item>
+            </template>
+            <template v-if="tabs_content.is_show.includes('price')">
+                <el-form-item label="价格">
+                    <color-text-size-group v-model:color="form.goods_price_color" v-model:typeface="form.goods_price_typeface"  v-model:size="form.goods_price_size" :label-width="tabs_content.goods_flex == 'col_price_float' ? 60 : 40" default-color="#000000">
+                        <template v-if="tabs_content.goods_flex == 'col_price_float'">
+                            <el-form-item label="对齐方式" label-width="60" class="mb-0 w form-item-child-label">
+                                <el-radio-group v-model="form.goods_price_location" is-button>
+                                    <el-tooltip content="左对齐" placement="top" effect="light">
+                                        <el-radio-button value="left"><icon name="iconfont icon-left"></icon></el-radio-button>
+                                    </el-tooltip>
+                                    <el-tooltip content="居中" placement="top" effect="light">
+                                        <el-radio-button value="center"><icon name="iconfont icon-center"></icon></el-radio-button>
+                                    </el-tooltip>
+                                    <el-tooltip content="右对齐" placement="top" effect="light">
+                                        <el-radio-button value="right"><icon name="iconfont icon-right"></icon></el-radio-button>
+                                    </el-tooltip>
+                                </el-radio-group>
+                            </el-form-item>
+                            <el-form-item label="背景" label-width="60" class="mb-0 w form-item-child-label">
+                                <mult-color-picker :key="form.carouselKey" :value="form.goods_price_color_list" :type="form.goods_price_direction" @update:value="goods_price_mult_color_picker_event"></mult-color-picker>
+                            </el-form-item>
+                            <el-form-item label="外边距" label-width="60" class="mb-0 w form-item-child-label">
+                                <margin :key="form.carouselKey" :value="form.goods_price_margin"></margin>
+                            </el-form-item>
+                            <el-form-item label="内间距" label-width="60" class="mb-0 w form-item-child-label">
+                                <padding :key="form.carouselKey" :value="form.goods_price_padding"></padding>
+                            </el-form-item>
+                            <el-form-item label="圆角" label-width="60" class="mb-0 w form-item-child-label">
+                                <radius :key="form.carouselKey" :value="form.goods_price_radius"></radius>
+                            </el-form-item>
+                        </template>
+                    </color-text-size-group>
+                </el-form-item>
+                <el-form-item label="价格符号">
+                    <color-text-size-group v-model:color="form.goods_price_symbol_color" v-model:size="form.goods_price_symbol_size" default-color="#EA3323" :type-list="['color', 'size']"></color-text-size-group>
+                </el-form-item>
+                <template v-if="tabs_content.is_show.includes('price_unit')">
+                    <el-form-item label="价格单位">
+                        <color-text-size-group v-model:color="form.goods_price_unit_color" v-model:size="form.goods_price_unit_size" default-color="#EA3323" :type-list="['color', 'size']"></color-text-size-group>
+                    </el-form-item>
+                </template>
+            </template>
             <el-form-item label="背景">
                 <div class="flex-col gap-10 w">
                     <div class="size-12">背景色</div>
@@ -198,7 +238,7 @@ const data_radius_change = (radius: radiusStyle) => {
     ]));
 }
 
-// 商品底板颜色
+// 商品底部颜色
 const goods_mult_color_picker_event = (arry: string[], type: number) => {
     form.value.goods_color_list = arry;
     form.value.goods_direction = type.toString();
@@ -216,6 +256,12 @@ const goods_radius_change = (radius: radiusStyle) => {
         'radius_bottom_left',
         'radius_bottom_right',
     ]));
+}
+
+// 商品价格底部颜色
+const goods_price_mult_color_picker_event = (arry: string[], type: number) => {
+    form.value.goods_price_color_list = arry;
+    form.value.goods_price_direction = type.toString();
 }
 
 watchEffect(() => {

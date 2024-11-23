@@ -36,6 +36,7 @@ interface DefaultArticleTabs {
         subscript_img_src: uploadList[];
         subscript_icon_class: string;
         subscript_text: string;
+        name_float: string;
     };
     style: {
         tabs_one_theme: string;
@@ -57,6 +58,11 @@ interface DefaultArticleTabs {
         name_weight: string;
         name_size: number;
         name_color: string;
+        name_bg_color_list: color_list[];
+        name_bg_direction: string,
+        name_bg_margin: marginStyle,
+        name_bg_padding: paddingStyle,
+        name_bg_radius: radiusStyle,
         desc_color: string;
         desc_size: number;
         name_desc_space: number;
@@ -103,6 +109,7 @@ const defaultArticleTabs: DefaultArticleTabs = {
         subscript_img_src: [],
         subscript_icon_class: '',
         subscript_text: '',
+        name_float: '0',
     },
     style: {
         tabs_one_theme: '0',
@@ -133,7 +140,30 @@ const defaultArticleTabs: DefaultArticleTabs = {
         article_background_img: [],
         name_weight: '500',
         name_size: 14,
-        name_color: 'rgba(51, 51, 51, 1)',
+        name_color: '#333',
+        name_bg_color_list: [{ color: 'rgba(0, 0, 0, 0.7)', color_percentage: undefined }],
+        name_bg_direction: '180deg',
+        name_bg_margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
+        },
+        name_bg_padding: {
+            padding: 0,
+            padding_top: 0,
+            padding_bottom: 0,
+            padding_left: 10,
+            padding_right: 10,
+        },
+        name_bg_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 4,
+            radius_bottom_right: 4,
+        },
         desc_color: '#999',
         desc_size: 12,
         name_desc_space: 4,

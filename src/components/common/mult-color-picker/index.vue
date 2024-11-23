@@ -10,7 +10,7 @@
             <div v-for="(item, index) in color_list" :key="index" class="flex-row align-s gap-12">
                 <div class="flex-col">
                     <div class="flex-row align-c gap-12">
-                        <el-color-picker v-model="item.color" :predefine="predefine_colors" @change="change_color(index, $event)" />
+                        <el-color-picker v-model="item.color" :predefine="predefine_colors" :show-alpha="isShowAlpha" @change="change_color(index, $event)" />
                         <div class="re mo-input-number">
                             <el-input-number v-model="item.color_percentage" :max="999" placeholder="百分比" controls-position="right" class="number-show" @change="change_color_percentage(index, $event)"></el-input-number>
                             <div class="define-append">%</div>
@@ -45,6 +45,10 @@ const props = defineProps({
         default: () => {
             [''];
         },
+    },
+    isShowAlpha: {
+        type: Boolean,
+        default: false,
     },
 });
 const direction_type = ref(props.type);
