@@ -134,11 +134,13 @@ const is_empty = ref(false);
 const init = () => {
     if (get_id()) {
         DiyAPI.getInit({ id: get_id() }).then((res: any) => {
-            if (res.data) {
-                let data = form_data_transfor_diy_data(res.data);
+            const new_data = res.data?.data || undefined;
+            if (new_data) {
+                let data = form_data_transfor_diy_data(new_data);
                 // 默认数据合并
                 data.header.com_data = default_merge(data.header.com_data, 'header_nav');
                 data.footer.com_data = default_merge(data.footer.com_data, 'footer_nav');
+                
                 data.diy_data = data_merge(data.diy_data);
                 data.tabs_data = data_merge(data.tabs_data);
                 // 判断默认数据是否开启沉浸式

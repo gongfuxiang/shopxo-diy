@@ -545,6 +545,7 @@ watchEffect(() => {
 .original-price {
     // background-color: #ede2c5;
     text-decoration: line-through;
+    padding: 0 1rem;
 }
 .two-columns {
     width: calc((100% - v-bind(two_columns)) / 2);

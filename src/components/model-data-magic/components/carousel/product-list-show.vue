@@ -36,7 +36,7 @@
                             <template v-else>
                                 <image-empty v-model="item.images" class="img" :style="contentImgRadius"></image-empty>
                             </template>
-                            <div v-if="isShow.includes('price')" class="abs bottom-0 text-line-1" :style="props.goodStyle.goods_price_style + float_pirce_style(props.goodStyle)">
+                            <div v-if="isShow.includes('price')" class="abs bottom-0" :style="props.goodStyle.goods_price_style + float_pirce_style(props.goodStyle)">
                                 <span :style="props.goodStyle.goods_price_symbol_style">{{ item.show_price_symbol }}</span>{{ item.min_price }}
                                 <template v-if="isShow.includes('price_unit')">
                                     <span :style="props.goodStyle.goods_price_unit_style">{{ item.show_price_unit }}</span>
@@ -188,10 +188,6 @@ const split_list = computed(() => props.value || {});
     .image-slot img {
         width: 4rem !important;
     }
-}
-.identifying .num {
-    font-size: 0.9rem;
-    line-height: 0.9rem;
 }
 .half-width {
     width: 50%;
