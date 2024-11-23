@@ -13,6 +13,7 @@ interface DefaultSeckill {
         button_status: string;
         button_text: string;
         shop_style_type: string;
+        seckill_pirce_title: string;
         carousel_col: number;
         shop_number: number;
         is_show: string[];
@@ -63,13 +64,18 @@ interface DefaultSeckill {
         shop_price_typeface: string;
         shop_price_size: number;
         shop_price_color: string;
+        shop_price_symbol_color: string;
+        shop_price_symbol_size: number;
+        shop_price_unit_color: string;
+        shop_price_unit_size: number;
+        shop_original_price_color: string;
+        shop_original_price_size: number;
         shop_button_typeface: string;
         shop_button_size: number;
         shop_button_color: color_list[];
         shop_button_text_color: string;
         shop_icon_size: number;
         shop_icon_color: string;
-        original_price_color: string;
         subscript_style: object,
         progress_bg_color: string;
         progress_actived_color_list: color_list[];
@@ -98,6 +104,7 @@ const defaultSeckill: DefaultSeckill = {
         button_text: '更多',
         // 风格类型
         shop_style_type: '1',
+        seckill_pirce_title: '秒杀价',
         // 轮播数量
         carousel_col: 3,
         shop_number: 10,
@@ -191,6 +198,12 @@ const defaultSeckill: DefaultSeckill = {
         shop_price_typeface: '500',
         shop_price_size: 18,
         shop_price_color: '#EA3323;',
+        shop_price_symbol_color: '#EA3323',
+        shop_price_symbol_size: 9,
+        shop_price_unit_color: '#EA3323',
+        shop_price_unit_size: 9,
+        shop_original_price_color: '#999',
+        shop_original_price_size: 12,
         shop_button_typeface: '400',
         shop_button_size: 12,
         shop_button_color: [
@@ -206,7 +219,6 @@ const defaultSeckill: DefaultSeckill = {
         shop_button_text_color: '#fff',
         shop_icon_size: 10,
         shop_icon_color: '#fff',
-        original_price_color: '#999',
         subscript_style: subscriptStyle,
         // 进度条设置，暂时隐藏
         progress_bg_color: '#FFEDED',

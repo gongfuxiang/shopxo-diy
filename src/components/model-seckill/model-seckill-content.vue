@@ -64,6 +64,11 @@
                         <el-checkbox v-for="item in base_list.list_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
+                <template v-if="form.shop_style_type == '1'">
+                    <el-form-item label="秒杀名称">
+                        <el-input v-model="form.seckill_pirce_title" placeholder="请输入秒杀名称"></el-input>
+                    </el-form-item>
+                </template>
                 <el-form-item label="秒杀按钮">
                     <el-row class="w">
                         <el-col :span="24"><el-switch v-model="form.is_shop_show" active-value="1" inactive-value="0"></el-switch></el-col>

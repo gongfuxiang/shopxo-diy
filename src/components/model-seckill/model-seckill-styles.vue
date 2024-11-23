@@ -52,22 +52,38 @@
                         <upload v-model="form.shop_background_img" :limit="1" @update:model-value="shop_background_img_change"></upload>
                     </div>
                 </el-form-item>
-                <el-form-item label="商品名称">
-                    <color-text-size-group v-model:color="form.shop_title_color" v-model:typeface="form.shop_title_typeface" v-model:size="form.shop_title_size" default-color="#000000"></color-text-size-group>
-                </el-form-item>
-                <el-form-item label="商品简述">
-                    <color-text-size-group v-model:color="form.shop_simple_desc_color" v-model:size="form.shop_simple_desc_size" default-color="#999" :type-list="['color', 'size']">
-                        <el-form-item label="间距" label-width="40" class="mb-0 w form-item-child-label">
-                            <slider v-model="form.title_simple_desc_spacing" :max="100"></slider>
+                <template v-if="data.is_show.includes('title')">
+                    <el-form-item label="商品名称">
+                        <color-text-size-group v-model:color="form.shop_title_color" v-model:typeface="form.shop_title_typeface" v-model:size="form.shop_title_size" default-color="#000000"></color-text-size-group>
+                    </el-form-item>
+                </template>
+                <template v-if="data.is_show.includes('simple_desc')">
+                    <el-form-item label="商品简述">
+                        <color-text-size-group v-model:color="form.shop_simple_desc_color" v-model:size="form.shop_simple_desc_size" default-color="#999" :type-list="['color', 'size']">
+                            <el-form-item label="间距" label-width="40" class="mb-0 w form-item-child-label">
+                                <slider v-model="form.title_simple_desc_spacing" :max="100"></slider>
+                            </el-form-item>
+                        </color-text-size-group>
+                    </el-form-item>
+                </template>
+                <template v-if="data.is_show.includes('price')">
+                    <el-form-item label="商品价格">
+                        <color-text-size-group v-model:color="form.shop_price_color" v-model:typeface="form.shop_price_typeface" v-model:size="form.shop_price_size" default-color="#000000"></color-text-size-group>
+                    </el-form-item>
+                    <el-form-item label="售价符号">
+                        <color-text-size-group v-model:color="form.shop_price_symbol_color" v-model:size="form.shop_price_symbol_size" default-color="#EA3323" :type-list="['color', 'size']"></color-text-size-group>
+                    </el-form-item>
+                    <template v-if="data.is_show.includes('price_unit')">
+                        <el-form-item label="售价单位">
+                            <color-text-size-group v-model:color="form.shop_price_unit_color" v-model:size="form.shop_price_unit_size" default-color="#EA3323" :type-list="['color', 'size']"></color-text-size-group>
                         </el-form-item>
-                    </color-text-size-group>
-                </el-form-item>
-                <el-form-item label="商品价格">
-                    <color-text-size-group v-model:color="form.shop_price_color" v-model:typeface="form.shop_price_typeface" v-model:size="form.shop_price_size" default-color="#000000"></color-text-size-group>
-                </el-form-item>
-                <el-form-item label="原价价格">
-                    <color-picker v-model="form.original_price_color"></color-picker>
-                </el-form-item>
+                    </template>
+                </template> 
+                <template v-if="data.is_show.includes('original_price')">
+                    <el-form-item label="原价价格">
+                        <color-text-size-group v-model:color="form.shop_original_price_color" v-model:size="form.shop_original_price_size" default-color="#999" :type-list="['color', 'size']"></color-text-size-group>
+                    </el-form-item>
+                </template>
                 <el-form-item label="内容圆角">
                     <radius :value="form.shop_radius"></radius>
                 </el-form-item>
