@@ -50,7 +50,7 @@
                                     </el-form-item>
                                 </div>
                             </div>
-                            <div class="not-label-width flex-col gap-10 w h">
+                            <div v-if="!isEmpty(scoped.row.subscript)" class="not-label-width flex-col gap-10 w h">
                                 <!-- // 角标开关 -->
                                 <el-form-item label="角标" label-width="40" class="mb-0">
                                     <el-switch v-model="scoped.row.subscript.content.seckill_subscript_show" active-value="1" inactive-value="0"></el-switch>
@@ -239,6 +239,7 @@ onBeforeMount(() => {
                 }
             } : item.subscript,
     }));
+    console.log(nav_content_list);
 });
 
 const add = () => {
