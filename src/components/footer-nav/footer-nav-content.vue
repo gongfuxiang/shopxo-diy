@@ -45,7 +45,14 @@
                                     <el-input v-model="row.name" placeholder="请输入名称" clearable />
                                 </el-form-item>
                                 <el-form-item label="链接" label-width="45">
-                                    <url-value v-model="row.link" :dialog-position-top="footerDialogPositionTop"></url-value>
+                                    <div class="flex-row align-c gap-10 w h">
+                                        <url-value v-model="row.link" :dialog-position-top="footerDialogPositionTop" :is-disabled="!config.sync_bool"></url-value>
+                                        <template v-if="config.sync_bool">
+                                            <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="首页地址不能更改" raw-content placement="top">
+                                                <icon name="miaosha-hdgz" size="12" color="#999"></icon>
+                                            </el-tooltip>
+                                        </template>
+                                    </div>
                                 </el-form-item>
                             </div>
                         </template>
