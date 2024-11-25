@@ -108,17 +108,18 @@ const style_chunk_img_container = computed(() => common_img_computer(new_style.v
 let data_source_content_list = computed(() => {
     if (['goods', 'article', 'brand'].includes(form.value.data_source)) {
         if (form.value.data_source_content.data_type == '0') {
-            return form.value.data_source_content.data_list;
+            return form.value.data_source_content?.data_list || [];
         } else {
-            return form.value.data_source_content.data_auto_list.map((item: any) => ({
-                id: Math.random(),
-                new_cover: [],
-                new_title: '',
-                data: item,
-            }));
+            return !isEmpty(form.value.data_source_content) ? 
+                form.value.data_source_content.data_auto_list.map((item: any) => ({
+                    id: Math.random(),
+                    new_cover: [],
+                    new_title: '',
+                    data: item,
+                })) : [];
         }
     } else {
-        return form.value.data_source_content.data_list;
+        return form.value.data_source_content?.data_list || [];
     }
 })
 //#region 轮播图
