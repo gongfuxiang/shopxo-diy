@@ -62,10 +62,10 @@
                 </el-form-item>
             </card-container>
             <!-- 角标 -->
-            <template v-if="data_content.seckill_subscript_show == '1'">
+            <!-- <template v-if="is_show_subscript">
                 <div class="divider-line"></div>
                 <subscript-styles :value="form.subscript_style" :data="data_content" type="nav-group"></subscript-styles>
-            </template>
+            </template> -->
         </el-form>
         <div class="divider-line"></div>
         <common-styles :value="form.common_style" @update:value="common_styles_update" />

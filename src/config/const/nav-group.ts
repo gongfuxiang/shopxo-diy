@@ -1,11 +1,23 @@
 import { get_math } from '@/utils';
 import defaultCommon from './index';
 import subscriptStyle from './subscript-style';
+interface subscript_type {
+    content: {
+        seckill_subscript_show: string,
+        subscript_type: string,
+        subscript_img_src: uploadList[],
+        subscript_icon_class: string,
+        subscript_text: string,
+    },
+    style: object;
+}
 interface nav_group {
     id: string;
     img: uploadList[];
     title: string;
     link: object;
+    tabs_name: string;
+    subscript: subscript_type;
 }
 interface defaultSearch {
     content: {
@@ -14,11 +26,6 @@ interface defaultSearch {
         display_style: string;
         row: number;
         nav_content_list: nav_group[];
-        seckill_subscript_show: string;
-        subscript_type: string;
-        subscript_img_src: uploadList[];
-        subscript_icon_class: string;
-        subscript_text: string;
     };
     style: {
         space: number;
@@ -66,32 +73,98 @@ const defaultSearch: defaultSearch = {
                 img: [],
                 title: '测试标题',
                 link: {},
+                tabs_name: 'content',
+                // 角标配置
+                subscript: {
+                    content: {
+                        seckill_subscript_show: '0',
+                        subscript_type: 'text',
+                        subscript_img_src: [],
+                        subscript_icon_class: '',
+                        subscript_text: '',
+                    },
+                    style: {
+                        ...subscriptStyle,
+                        padding_top: 0,
+                        padding_bottom: 0,
+                        padding_left: 0,
+                        padding_right: 0,
+                    }
+                }
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
                 img: [],
                 title: '测试标题',
                 link: {},
+                tabs_name: 'content',
+                // 角标配置
+                subscript: {
+                    content: {
+                        seckill_subscript_show: '0',
+                        subscript_type: 'text',
+                        subscript_img_src: [],
+                        subscript_icon_class: '',
+                        subscript_text: '',
+                    },
+                    style: {
+                        ...subscriptStyle,
+                        padding_top: 0,
+                        padding_bottom: 0,
+                        padding_left: 0,
+                        padding_right: 0,
+                    }
+                }
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
                 img: [],
                 title: '测试标题',
                 link: {},
+                tabs_name: 'content',
+                // 角标配置
+                subscript: {
+                    content: {
+                        seckill_subscript_show: '0',
+                        subscript_type: 'text',
+                        subscript_img_src: [],
+                        subscript_icon_class: '',
+                        subscript_text: '',
+                    },
+                    style: {
+                        ...subscriptStyle,
+                        padding_top: 0,
+                        padding_bottom: 0,
+                        padding_left: 0,
+                        padding_right: 0,
+                    }
+                }
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
                 img: [],
                 title: '测试标题',
                 link: {},
+                tabs_name: 'content',
+                // 角标配置
+                subscript: {
+                    content: {
+                        seckill_subscript_show: '0',
+                        subscript_type: 'text',
+                        subscript_img_src: [],
+                        subscript_icon_class: '',
+                        subscript_text: '',
+                    },
+                    style: {
+                        ...subscriptStyle,
+                        padding_top: 0,
+                        padding_bottom: 0,
+                        padding_left: 0,
+                        padding_right: 0,
+                    }
+                }
             },
         ],
-        // 角标配置
-        seckill_subscript_show: '0',
-        subscript_type: 'text',
-        subscript_img_src: [],
-        subscript_icon_class: '',
-        subscript_text: '',
     },
     style: {
         // 数据间距

@@ -1,6 +1,6 @@
 <template>
     <card-container>
-        <div class="mb-12">角标设置</div>
+        <div v-if="props.type != 'nav-group'" class="mb-12">角标设置</div>
         <el-form-item label="角标位置">
             <div class="flex-col gap-10">
                 <el-radio-group v-model="form.seckill_subscript_location">
@@ -26,14 +26,14 @@
         </template>
         <template v-else>
             <el-form-item label="内容设置">
-                <color-text-size-group v-model:color="form.text_or_icon_color" v-model:size="form.text_or_icon_size" :default-color="clone_form.text_or_icon_color" :type-list="['color', 'size']"></color-text-size-group>
+                <color-text-size-group v-model:color="form.text_or_icon_color" v-model:size="form.text_or_icon_size" :default-color="clone_form.text_or_icon_color" :slider-name="data.subscript_type == 'text' ? '字号' : '大小'" :type-list="['color', 'size']"></color-text-size-group>
             </el-form-item>
         </template>
         <el-form-item label="背景">
             <div class="flex-col gap-10 w">
                 <div class="size-12">背景色</div>
                 <mult-color-picker :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
-                <div class="flex-row jc-sb align-c">
+                <div class="flex-col gap-10 jc-sb">
                     <div class="size-12">背景图</div>
                     <bg-btn-style v-model="form.background_img_style"></bg-btn-style>
                 </div>

@@ -233,6 +233,7 @@ const tabs_add = () => {
         is_cover: '1',
         data_list: [],
     });
+    form.tabs_active_index = form.tabs_list.length - 1;
     // emit('update:value', form);
 };
 

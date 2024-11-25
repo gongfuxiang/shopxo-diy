@@ -1,8 +1,21 @@
+interface subscript_type {
+    content: {
+        seckill_subscript_show: string,
+        subscript_type: string,
+        subscript_img_src: uploadList[],
+        subscript_icon_class: string,
+        subscript_text: string,
+    },
+    style: object;
+}
+
 interface nav_group {
     id: string;
     img: uploadList[];
     title: string;
     link: object;
+    tabs_name: string;
+    subscript: subscript_type;
 }
 
 interface nav_group_content {
@@ -11,11 +24,6 @@ interface nav_group_content {
     display_style: string;
     row: number;
     nav_content_list: nav_group[];
-    seckill_subscript_show: string;
-    subscript_type: string;
-    subscript_img_src: uploadList[];
-    subscript_icon_class: string;
-    subscript_text: string;
 }
 
 interface nav_group_styles {

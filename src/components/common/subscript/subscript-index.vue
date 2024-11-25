@@ -27,9 +27,15 @@ const props = defineProps({
             return {};
         },
     },
+    type: {
+        type: String,
+        default: 'outer',
+    },
 });
+
 const form = computed(() => props.value?.content || {});
-const new_style = computed(() => props.value?.style || {});
+const new_style = computed(() => props.type == 'nav-group' ? { subscript_style: props.value?.style || {} } : props.value?.style || {});
+
 //#region 角标
 // 左上角，右上角，右下角，左下角
 const corner_marker = computed(() => {

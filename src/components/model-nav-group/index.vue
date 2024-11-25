@@ -8,7 +8,7 @@
                             <div v-if="['image_with_text', 'image'].includes(nav_style)" class="top-img flex align-c jc-c re">
                                 <image-empty v-model="item1.img[0]" :style="img_style"></image-empty>
                                 <!-- 角标 -->
-                                <subscript-index :value="props.value"></subscript-index>
+                                <subscript-index :value="item1.subscript" type="nav-group"></subscript-index>
                             </div>
                             <p v-if="['image_with_text', 'text'].includes(nav_style)" class="w size-12 ma-0 nowrap oh tc" :style="text_style">{{ item1.title }}</p>
                         </div>
@@ -174,16 +174,25 @@ const nav_content_list = computed(() => {
         return [{ split_list: list }];
     }
 });
-
+// 内容参数的集合
+watch(() => props.value, (val) => {
+    nextTick(() => {
+        if (!isEmpty(bannerImg.value)) {
+            newHeight.value = (bannerImg.value[0]?.clientHeight || 100) + 'px';
+        }
+    });
+}, {immediate: true, deep: true});
+// 轮播数据监听
 const autoplay = ref<boolean | object>(false);
 const slides_per_view = ref(1);
 // 每个导航所占位置
 const group_width = ref('100%');
-// 内容参数的集合
-watch(() => props.value, (val) => {
+// 监听轮播图的变化
+watchEffect(() => {
     const display_is_roll = form.value.display_style == 'slide' ? new_style.value.is_roll : '0';
+    const list = form.value?.nav_content_list || [];
     // 是否滚动
-    if (display_is_roll == '1') {
+    if (display_is_roll == '1' && list.length > 1) {
         autoplay.value = {
             delay: (new_style.value.interval_time || 2) * 1000,
             pauseOnMouseEnter: true,
@@ -205,12 +214,7 @@ watch(() => props.value, (val) => {
     }
     // 更新轮播图的key，确保更换时能重新更新轮播图
     carouselKey.value = get_math();
-    nextTick(() => {
-        if (!isEmpty(bannerImg.value)) {
-            newHeight.value = (bannerImg.value[0]?.clientHeight || 100) + 'px';
-        }
-    });
-}, {immediate: true, deep: true});
+});
 const slideChange = (swiper: { realIndex: number }) => {
     actived_index.value = swiper.realIndex;
 };

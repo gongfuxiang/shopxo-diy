@@ -9,7 +9,7 @@
                 </div>
             </template>
             <div v-else-if="data_source_content_list.length > 0 && ['1', '2'].includes(form.data_source_direction)" class="oh" :style="form.data_source_direction == '2' ? `height:100%;` : `height: ${ swiper_height }px;`">
-                <swiper :key="carouselKey" class="w flex" :direction="form.data_source_direction == '2' ? 'horizontal': 'vertical'" :height="swiper_height" :loop="true" :autoplay="autoplay" :slides-per-view="form.data_source_carousel_col" :slides-per-group="slides_per_group" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
+                <swiper :key="carouselKey" class="w flex" :direction="form.data_source_direction == '2' ? 'horizontal': 'vertical'" :height="swiper_height" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="slides_per_group" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
                     <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
                         <div :style="style_chunk_container">
                             <div class="w h" :style="style_chunk_img_container">
@@ -129,6 +129,7 @@ const autoplay = ref<boolean | object>(false);
 const slides_per_group = ref(1);
 const dot_list = ref<unknown[]>([]);
 const swiper_height = ref(390);
+const slides_per_view = ref(1);
 // 内容参数的集合
 watchEffect(() => {
     // 是否滚动
@@ -155,6 +156,7 @@ watchEffect(() => {
         swiper_height.value = (form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top) * form.value.data_source_carousel_col;
     }
     dot_list.value = Array(num);
+    slides_per_view.value = form.value.data_source_carousel_col;
     // 更新轮播图的key，确保更换时能重新更新轮播图
     carouselKey.value = get_math();
 });

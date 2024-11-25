@@ -1,10 +1,10 @@
 <template>
     <VueDraggable v-model="from" :animation="500" target=".sort-target" handle=".icon-drag" :scroll="true" :on-sort="on_sort">
         <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col gap-x-20">
-            <li v-for="(item, index) in from" :key="index" :class="className" class="flex gap-y-16 re" @click="on_click(item, index)">
+            <li v-for="(item, index) in from" :key="index" :class="[`flex gap-y-16 re ${ className }`,  props.modelType == 'nav-group' && modelIndex === index ? 'nav-index-select' : '']" @click="on_click(item, index)">
                 <icon name="drag" size="16" class="cursor-move" />
                 <slot :row="item" :index="index" />
-                <div class="abs c-pointer top-de-5 right-de-5" @click.stop="remove(index)">
+                <div class="abs c-pointer top-de-6 right-de-6 remove-icon" @click.stop="remove(index)">
                     <icon v-if="type == 'card'" name="close-fillup" size="18" color="c" />
                 </div>
                 <div class="c-pointer do-not-trigger" @click.stop="remove(index)">
@@ -34,12 +34,16 @@ interface Props {
     spaceCol?: number; // 上下间距
     iconPosition?: string; // top/bottom/center
     isShowEdit?: boolean;
+    modelType?: string;
+    modelIndex?: number;
 }
 const props = withDefaults(defineProps<Props>(), {
     type: () => 'line',
     isShowEdit: false,
     spaceCol: () => 5,
     iconPosition: 'center',
+    modelType: 'outer',
+    modelIndex: 0,
 });
 const className = ref('');
 if (props.type == 'card') {
@@ -84,15 +88,26 @@ const on_sort = () => {
     emits('onSort', from.value);
 };
 </script>
-<style scoped>
+<style lang="scss" scoped>
 .card-background {
     background: #fff;
     padding-left: 1.6rem;
     padding-right: 2rem;
+    border-radius: 4px;
 }
 
 .cursor-move {
     color: #ddd;
     cursor: move;
+}
+.remove-icon {
+    display: flex;
+    background: #fff;
+    border-radius: 100%;
+    line-height: 1.8rem;
+}
+.nav-index-select {
+    box-shadow: 0rem 0 0rem 0.1rem #409eff;
+    /* border: 1px solid #409eff; */
 }
 </style>

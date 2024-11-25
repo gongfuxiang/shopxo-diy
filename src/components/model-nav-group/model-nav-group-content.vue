@@ -36,28 +36,58 @@
             <card-container>
                 <div class="mb-12 flex-row align-c jc-sb">内容设置<span class="classify-style" @click="classify_add">从分类添加</span></div>
                 <div class="tips mt-10 mb-20 size-12">最多添加{{ form.nav_content_list.length }}张图片，建议尺寸90*90px</div>
-                <drag :data="form.nav_content_list" type="card" :space-col="27" @remove="remove" @on-sort="on_sort">
+                <drag :data="form.nav_content_list" type="card" :space-col="27" model-type="nav-group" :model-index="tabs_active_index" @remove="remove" @on-sort="on_sort" @click="tabs_list_click">
                     <template #default="scoped">
-                        <div class="flex-row align-c jc-c w h">
-                            <upload v-model="scoped.row.img" :limit="1" size="72"></upload>
-                            <div class="flex-col flex-1 jc-c gap-20">
-                                <el-form-item label="标题" class="mb-0" label-width="50">
-                                    <el-input v-model="scoped.row.title" placeholder="请输入标题" maxlength="10" show-word-limit clearable></el-input>
+                        <div class="flex-col gap-10">
+                            <div class="flex-row align-c jc-c w h">
+                                <upload v-model="scoped.row.img" :limit="1" size="72"></upload>
+                                <div class="flex-col flex-1 jc-c gap-20">
+                                    <el-form-item label="标题" class="mb-0" label-width="50">
+                                        <el-input v-model="scoped.row.title" placeholder="请输入标题" maxlength="10" show-word-limit clearable></el-input>
+                                    </el-form-item>
+                                    <el-form-item label="链接" class="w mb-0" label-width="50">
+                                        <url-value v-model="scoped.row.link"></url-value>
+                                    </el-form-item>
+                                </div>
+                            </div>
+                            <div class="not-label-width flex-col gap-10 w h">
+                                <!-- // 角标开关 -->
+                                <el-form-item label="角标" label-width="40" class="mb-0">
+                                    <el-switch v-model="scoped.row.subscript.content.seckill_subscript_show" active-value="1" inactive-value="0"></el-switch>
                                 </el-form-item>
-                                <el-form-item label="链接" class="w mb-0" label-width="50">
-                                    <url-value v-model="scoped.row.link"></url-value>
-                                </el-form-item>
+                                <!-- 内容设置 -->
+                                <template v-if="tabs_active_index == scoped.index">
+                                    <el-form v-if="scoped.row.subscript.content.seckill_subscript_show == '1'" :model="scoped.row.subscript.style" label-width="60">
+                                        <el-tabs  v-model="scoped.row.tabs_name" class="content-tabs">
+                                            <el-tab-pane label="内容设置" name="content">
+                                                <el-form-item label-width="0">
+                                                    <div class="flex-col gap-10 w h">
+                                                        <el-form-item label="类型" label-width="40">
+                                                            <el-radio-group v-model="scoped.row.subscript.content.subscript_type">
+                                                                <el-radio value="text">文本</el-radio>
+                                                                <el-radio value="img-icon">图片或图标</el-radio>
+                                                            </el-radio-group>
+                                                        </el-form-item>
+                                                        <el-form-item v-if="scoped.row.subscript.content.subscript_type != 'text'" label-width="40">
+                                                            <upload v-model="scoped.row.subscript.content.subscript_img_src" v-model:icon-value="scoped.row.subscript.content.subscript_icon_class" is-icon :limit="1" size="50"></upload>
+                                                        </el-form-item>
+                                                        <el-form-item v-if="scoped.row.subscript.content.subscript_type == 'text'" label-width="40">
+                                                            <el-input v-model="scoped.row.subscript.content.subscript_text" placeholder="请输入秒杀文字" clearable></el-input>
+                                                        </el-form-item>
+                                                    </div>
+                                                </el-form-item>
+                                            </el-tab-pane>
+                                            <el-tab-pane label="样式设置" name="styles">
+                                                <subscript-styles :value="scoped.row.subscript.style" :data="scoped.row.subscript.content" type="nav-group"></subscript-styles>
+                                            </el-tab-pane>
+                                        </el-tabs>
+                                    </el-form>
+                                </template>
                             </div>
                         </div>
                     </template>
                 </drag>
                 <el-button class="mt-20 mb-20 w" @click="add">+添加</el-button>
-            </card-container>
-            <div class="divider-line"></div>
-            <card-container>
-                <div class="mb-12">角标设置</div>
-                <!-- 角标设置 -->
-                <subscript-content :value="form"></subscript-content>
             </card-container>
         </el-form>
         <category-dialog v-model:dialog-visible="dialogVisible" @confirm_event="confirm_event"></category-dialog>
@@ -65,7 +95,8 @@
 </template>
 <script setup lang="ts">
 import { get_math } from "@/utils";
-import { isEmpty } from "lodash";
+import { clone, isEmpty } from "lodash";
+import subscriptStyle from '@/config/const/subscript-style';
 
 interface Props {
     value: nav_group_content;
@@ -82,32 +113,98 @@ const props = withDefaults(defineProps<Props>(),{
                 img: [],
                 title: '',
                 link: {},
+                tabs_name: 'content',
+                // 角标配置
+                subscript: {
+                    content: {
+                        seckill_subscript_show: '0',
+                        subscript_type: 'text',
+                        subscript_img_src: [],
+                        subscript_icon_class: '',
+                        subscript_text: '',
+                    },
+                    style: {
+                        ...subscriptStyle,
+                        padding_top: 0,
+                        padding_bottom: 0,
+                        padding_left: 0,
+                        padding_right: 0,
+                    }
+                }
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
                 img: [],
                 title: '',
                 link: {},
+                tabs_name: 'content',
+                // 角标配置
+                subscript: {
+                    content: {
+                        seckill_subscript_show: '0',
+                        subscript_type: 'text',
+                        subscript_img_src: [],
+                        subscript_icon_class: '',
+                        subscript_text: '',
+                    },
+                    style: {
+                        ...subscriptStyle,
+                        padding_top: 0,
+                        padding_bottom: 0,
+                        padding_left: 0,
+                        padding_right: 0,
+                    }
+                }
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
                 img: [],
                 title: '',
                 link: {},
+                tabs_name: 'content',
+                // 角标配置
+                subscript: {
+                    content: {
+                        seckill_subscript_show: '0',
+                        subscript_type: 'text',
+                        subscript_img_src: [],
+                        subscript_icon_class: '',
+                        subscript_text: '',
+                    },
+                    style: {
+                        ...subscriptStyle,
+                        padding_top: 0,
+                        padding_bottom: 0,
+                        padding_left: 0,
+                        padding_right: 0,
+                    }
+                }
             },
             {
                 id: get_math(), // 唯一标识使用，避免使用index作为唯一标识导致渲染节点出现问题
                 img: [],
                 title: '',
                 link: {},
+                tabs_name: 'content',
+                // 角标配置
+                subscript: {
+                    content: {
+                        seckill_subscript_show: '0',
+                        subscript_type: 'text',
+                        subscript_img_src: [],
+                        subscript_icon_class: '',
+                        subscript_text: '',
+                    },
+                    style: {
+                        ...subscriptStyle,
+                        padding_top: 0,
+                        padding_bottom: 0,
+                        padding_left: 0,
+                        padding_right: 0,
+                    }
+                }
             }
         ],
-        // 角标配置
-        seckill_subscript_show: '0',
-        subscript_type: 'text',
-        subscript_img_src: [],
-        subscript_icon_class: '',
-        subscript_text: '',
     })
 });
 
@@ -115,16 +212,74 @@ const state = reactive({
     form: props.value
 });
 const { form } = toRefs(state);
+const tabs_active_index = ref(0);
+onBeforeMount(() => {
+    tabs_active_index.value = 0;
+    let nav_content_list = form.value.nav_content_list;
+    // 兼容老数据
+    nav_content_list = nav_content_list.map(item => ({
+        ...item,
+        tabs_name: 'content',
+        // 角标配置
+        subscript: isEmpty(item.subscript) ?
+            { 
+                content: {
+                    seckill_subscript_show: '0',
+                    subscript_type: 'text',
+                    subscript_img_src: [],
+                    subscript_icon_class: '',
+                    subscript_text: '',
+                },
+                style: {
+                    ...subscriptStyle,
+                    padding_top: 0,
+                    padding_bottom: 0,
+                    padding_left: 0,
+                    padding_right: 0,
+                }
+            } : item.subscript,
+    }));
+});
+
 const add = () => {
     form.value.nav_content_list.push({
         id: get_math(),
         img: [],
         title: '',
         link: {},
+        tabs_name: 'content',
+        // 角标配置
+        subscript: {
+            content: {
+                seckill_subscript_show: '0',
+                subscript_type: 'text',
+                subscript_img_src: [],
+                subscript_icon_class: '',
+                subscript_text: '',
+            },
+            style: {
+                ...subscriptStyle,
+                padding_top: 0,
+                padding_bottom: 0,
+                padding_left: 0,
+                padding_right: 0,
+            }
+        }
     });
+    tabs_active_index.value = form.value.nav_content_list.length - 1;
 }
 const remove = (index: number) => {
-    form.value.nav_content_list.splice(index, 1);
+    if (form.value.nav_content_list.length > 1) {
+        form.value.nav_content_list.splice(index, 1);
+        if (form.value.nav_content_list.length > index) {
+            tabs_active_index.value = index;
+        } else {
+            tabs_active_index.value = index - 1;
+        }
+    } else {
+        tabs_active_index.value = 0;
+        ElMessage.warning('至少保留一个选项卡');
+    }
 }
 // 拖拽更新之后，更新数据
 const on_sort = (new_list: nav_group[]) => {
@@ -151,8 +306,31 @@ const confirm_event = (list: categoryList[]) => {
                 name: item.name,
                 page: `/pages/goods-search/goods-search?category_id=${ item.id }`
             },
+            tabs_name: 'content',
+            // 角标配置
+            subscript: {
+                content: {
+                    seckill_subscript_show: '0',
+                    subscript_type: 'text',
+                    subscript_img_src: [],
+                    subscript_icon_class: '',
+                    subscript_text: '',
+                },
+                style: {
+                    ...subscriptStyle,
+                    padding_top: 0,
+                    padding_bottom: 0,
+                    padding_left: 0,
+                    padding_right: 0,
+                }
+            }
         });
     });
+}
+//#endregion
+//#region 选项卡展开收起
+const tabs_list_click = (item: any, index: number) => {
+    tabs_active_index.value = index;
 }
 //#endregion
 </script>
@@ -166,5 +344,29 @@ const confirm_event = (list: categoryList[]) => {
 .classify-style {
     cursor: pointer;
     color: $cr-main;
+}
+.not-label-width {
+    :deep(.el-form-item__label) {
+       width: 60px;
+    }
+    .card {
+       padding: 0 !important;
+    }
+}
+:deep(.el-tabs.content-tabs) {
+    .el-tabs__header.is-top {
+        background: #fff;
+        margin: 0;
+        padding-bottom: 1rem;
+    }
+    .el-tabs__item.is-top {
+        padding: 0;
+        align-items: center;
+        width: 10rem;
+        font-size: 1.4rem;
+    }
+    .el-tabs__active-bar{
+        width: 100%;
+    }
 }
 </style>

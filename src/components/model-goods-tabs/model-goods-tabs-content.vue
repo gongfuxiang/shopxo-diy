@@ -194,6 +194,7 @@ const tabs_add = () => {
         order_by_rule: '0',
         data_list: [],
     });
+    form.value.tabs_active_index = form.value.tabs_list.length - 1;
 };
 
 // 指定商品
