@@ -1,6 +1,6 @@
 <!-- 链接组件 -->
 <template>
-    <div class="flex-row align-c gap-10 br-d radius-sm plr-11 url-value-input" @click="dialogVisible = props.isDisabled">
+    <div :class="['flex-row align-c gap-10 br-d radius-sm plr-11 url-value-input', props.isDisabled ? 'c-pointer' : '']" @click="dialogVisible = props.isDisabled">
         <div class="flex-1 flex-width size-12 text-line-1">
             <text v-if="!is_obj_empty(modelValue)">{{ modelValue.name || modelValue.title }}</text>
             <text v-else class="cr-9">{{ placeholder }}</text>
@@ -66,7 +66,6 @@ const model_value_call_back = (value: any[]) => {
     width: 100%;
     height: 3.2rem;
     line-height: 3.2rem;
-    cursor: pointer;
     position: relative;
     .value-input-icon {
         position: absolute;
