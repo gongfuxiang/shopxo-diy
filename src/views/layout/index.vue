@@ -243,6 +243,8 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
     const new_array_4 = ['data-magic'];
     // 自定义数据
     const new_array_5 = ['custom'];
+    // 导航组
+    const new_array_6 = ['nav-group'];
     clone_form.diy_data = clone_form.diy_data.map((item: any) => {
         if (new_array_1.includes(item.key)) {
             item.com_data.content.data_ids = item.com_data.content.data_list.map((item: any) => item.data.id).join(',') || '';
@@ -368,6 +370,8 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             }
             // 自动数据清空
             item.com_data.content.data_source_content.data_auto_list = [];
+        } else if (new_array_6.includes(item.key)) {
+            item.com_data.content.nav_content_list = item.com_data.content.nav_content_list.map((item0: any) => ({...omit(item0, 'tabs_name') }));
         }
         return {
             ...item,

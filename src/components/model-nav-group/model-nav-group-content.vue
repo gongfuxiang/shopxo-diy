@@ -215,9 +215,8 @@ const { form } = toRefs(state);
 const tabs_active_index = ref(0);
 onBeforeMount(() => {
     tabs_active_index.value = 0;
-    let nav_content_list = form.value.nav_content_list;
     // 兼容老数据
-    nav_content_list = nav_content_list.map(item => ({
+    form.value.nav_content_list = form.value.nav_content_list.map(item => ({
         ...item,
         tabs_name: 'content',
         // 角标配置
@@ -239,7 +238,6 @@ onBeforeMount(() => {
                 }
             } : item.subscript,
     }));
-    console.log(nav_content_list);
 });
 
 const add = () => {
