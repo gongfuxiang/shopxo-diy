@@ -28,82 +28,28 @@
                 </div>
                 <div class="size-12 cr-c mb-20">图片建议宽高80*80,鼠标拖拽左侧圆点可调整导航顺序</div>
                 <div class="nav-list">
-                    <template v-if="!config.sync_bool">
-                        <drag :data="form.nav_content" type="card" :space-col="20" @remove="nav_content_remove" @on-sort="on_sort">
-                            <template #default="{ row }">
-                                <div class="w">
-                                    <el-form-item label="图标" label-width="45">
-                                        <div class="flex-col jc-c align-c mr-12">
-                                            <upload v-model="row.img" :limit="1" :size="44" :styles="1" :dialog-position-top="footerDialogPositionTop"></upload>
-                                            <text class="cr-9 size-12">未选中</text>
-                                        </div>
-                                        <div class="flex-col jc-c align-c">
-                                            <upload v-model="row.img_checked" :limit="1" :size="44" :styles="1" :dialog-position-top="footerDialogPositionTop"></upload>
-                                            <text class="cr-9 size-12">选中</text>
-                                        </div>
-                                    </el-form-item>
-                                    <el-form-item label="名称" label-width="45">
-                                        <el-input v-model="row.name" placeholder="请输入名称" clearable />
-                                    </el-form-item>
-                                    <el-form-item label="链接" label-width="45">
-                                        <url-value v-model="row.link" :dialog-position-top="footerDialogPositionTop"></url-value>
-                                    </el-form-item>
-                                </div>
-                            </template>
-                        </drag>
-                    </template>
-                    <template v-else>
-                        <div class="flex-col gap-x-20">
-                            <div v-for="item in not_drag_list" :key="item.id" class="flex-row gap-y-16 card-background box-shadow-sm pb-20 pt-20">
-                                <icon name="drag" size="16" class="cursor-move" />
-                                <div class="w">
-                                    <el-form-item label="图标" label-width="45">
-                                        <div class="flex-col jc-c align-c mr-12">
-                                            <upload v-model="item.img" :limit="1" :size="44" :styles="1" :dialog-position-top="footerDialogPositionTop"></upload>
-                                            <text class="cr-9 size-12">未选中</text>
-                                        </div>
-                                        <div class="flex-col jc-c align-c">
-                                            <upload v-model="item.img_checked" :limit="1" :size="44" :styles="1" :dialog-position-top="footerDialogPositionTop"></upload>
-                                            <text class="cr-9 size-12">选中</text>
-                                        </div>
-                                    </el-form-item>
-                                    <el-form-item label="名称" label-width="45">
-                                        <el-input v-model="item.name" placeholder="请输入名称" clearable />
-                                    </el-form-item>
-                                    <el-form-item label="链接" label-width="45">
-                                        <div class="w h re link-disabled">
-                                            <url-value v-model="item.link" :dialog-position-top="footerDialogPositionTop" :is-disabled="true"></url-value>
-                                            <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="首页地址不能更改" raw-content placement="top">
-                                                <icon class="abs top-0 right-12 z-i" name="miaosha-hdgz" size="12" color="#999"></icon>
-                                            </el-tooltip>
-                                        </div>
-                                    </el-form-item>
-                                </div>
-                            </div>
-                            <drag :data="drag_list" type="card" :space-col="20" @remove="nav_content_remove($event, 'not-drag')" @on-sort="on_sort($event, 'not-drag')">
-                                <template #default="{ row }">
-                                    <div class="w">
-                                        <el-form-item label="图标" label-width="45">
-                                            <div class="flex-col jc-c align-c mr-12">
-                                                <upload v-model="row.img" :limit="1" :size="44" :styles="1" :dialog-position-top="footerDialogPositionTop"></upload>
-                                                <text class="cr-9 size-12">未选中</text>
-                                            </div>
-                                            <div class="flex-col jc-c align-c">
-                                                <upload v-model="row.img_checked" :limit="1" :size="44" :styles="1" :dialog-position-top="footerDialogPositionTop"></upload>
-                                                <text class="cr-9 size-12">选中</text>
-                                            </div>
-                                        </el-form-item>
-                                        <el-form-item label="名称" label-width="45">
-                                            <el-input v-model="row.name" placeholder="请输入名称" clearable />
-                                        </el-form-item>
-                                        <el-form-item label="链接" label-width="45">
-                                            <url-value v-model="row.link" :dialog-position-top="footerDialogPositionTop"></url-value>
-                                        </el-form-item>
+                    <drag :data="form.nav_content" type="card" :space-col="20" @remove="nav_content_remove" @on-sort="on_sort">
+                        <template #default="{ row }">
+                            <div class="w">
+                                <el-form-item label="图标" label-width="45">
+                                    <div class="flex-col jc-c align-c mr-12">
+                                        <upload v-model="row.img" :limit="1" :size="44" :styles="1" :dialog-position-top="footerDialogPositionTop"></upload>
+                                        <text class="cr-9 size-12">未选中</text>
                                     </div>
-                                </template>
-                            </drag>
-                        </div>
-                    </template>
+                                    <div class="flex-col jc-c align-c">
+                                        <upload v-model="row.img_checked" :limit="1" :size="44" :styles="1" :dialog-position-top="footerDialogPositionTop"></upload>
+                                        <text class="cr-9 size-12">选中</text>
+                                    </div>
+                                </el-form-item>
+                                <el-form-item label="名称" label-width="45">
+                                    <el-input v-model="row.name" placeholder="请输入名称" clearable />
+                                </el-form-item>
+                                <el-form-item label="链接" label-width="45">
+                                    <url-value v-model="row.link" :dialog-position-top="footerDialogPositionTop"></url-value>
+                                </el-form-item>
+                            </div>
+                        </template>
+                    </drag>
                     <el-button class="mtb-20 w" @click="add">+添加</el-button>
                 </div>
             </card-container>
@@ -142,16 +88,6 @@ const props = defineProps({
 });
 const form = ref(props.value);
 const emit = defineEmits(['update:value']);
-const not_drag_list = ref<any[]>([]);
-const drag_list = ref<any[]>([]);
-onBeforeMount(() => {
-    // 先将数组拆分成两个数组
-    const data = form.value.nav_content;
-    not_drag_list.value = [{...data[0] }];
-    drag_list.value = data.splice(1);
-    // 为确保数据渲染，将两个数组合并成原有数组，确保数据渲染正常
-    form.value.nav_content = not_drag_list.value.concat(drag_list.value);
-});
 // 导航样式change事件
 const nav_style_change = (style: any) => {
     form.value.nav_style = style;
@@ -163,23 +99,13 @@ const nav_type_change = (type: any) => {
     emit('update:value', form.value);
 };
 // data_list移除事件
-const nav_content_remove = (index: number, type?: string) => {
-    if (type === 'not-drag') {
-        form.value.nav_content.splice(index + 1, 1);
-    } else {
-        form.value.nav_content.splice(index, 1);
-    }
+const nav_content_remove = (index: number) => {
+    form.value.nav_content.splice(index, 1);
     emit('update:value', form.value);
 };
 // 拖拽排序事件
-const on_sort = (item: any[], type?: string) => {
-    if (type === 'not-drag') {
-        item.forEach((item1: any, index: number) => {
-            form.value.nav_content[index + 1] = item1;
-        });
-    } else {
-        form.value.nav_content = item;
-    }
+const on_sort = (item: any) => {
+    form.value.nav_content = item;
 };
 // 添加导航
 const add = () => {
@@ -220,20 +146,5 @@ const reset_event = () => {
 .container {
     width: 100%;
     height: 100%;
-}
-.link-disabled {
-    background: #f5f5f5;
-    color: #999;
-    border-radius: 0px;
-}
-.card-background {
-    background: #fff;
-    padding-left: 1.6rem;
-    padding-right: 2rem;
-    border-radius: 4px;
-}
-
-.cursor-move {
-    color: #ddd;
 }
 </style>
