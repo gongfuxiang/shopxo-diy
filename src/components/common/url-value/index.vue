@@ -1,6 +1,6 @@
 <!-- 链接组件 -->
 <template>
-    <div :class="['flex-row align-c gap-10 br-d radius-sm plr-11 url-value-input', props.isDisabled ? 'c-pointer' : '']" @click="dialogVisible = props.isDisabled">
+    <div :class="['flex-row align-c gap-10 br-d radius-sm plr-11 url-value-input', !props.isDisabled ? 'c-pointer' : '']" @click="dialogVisible = !props.isDisabled">
         <div class="flex-1 flex-width size-12 text-line-1">
             <text v-if="!is_obj_empty(modelValue)">{{ modelValue.name || modelValue.title }}</text>
             <text v-else class="cr-9">{{ placeholder }}</text>
@@ -10,7 +10,7 @@
                 <icon name="arrow-right" size="12" color="9"></icon>
             </template>
             <template v-else>
-                <div v-if="props.isDisabled" @click.stop="clear_model_value">
+                <div v-if="!props.isDisabled" @click.stop="clear_model_value">
                     <icon name="close-fillup" size="12" color="c"></icon>
                 </div>
             </template>
@@ -44,7 +44,7 @@ const props = defineProps({
     },
     isDisabled: {
         type: Boolean,
-        default: true,
+        default: false,
     },
 });
 const modelValue = defineModel({ type: Object, default: {} });
