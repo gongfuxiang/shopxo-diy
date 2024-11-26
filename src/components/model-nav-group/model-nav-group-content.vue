@@ -34,7 +34,7 @@
             </card-container>
             <div class="divider-line"></div>
             <card-container>
-                <div class="mb-12 flex-row align-c jc-sb">内容设置<span class="classify-style" @click="classify_add">从分类添加</span></div>
+                <div class="mb-12 flex-row align-c jc-sb">内容设置<div class="flex-row gap-10"><span class="classify-style" @click="classify_remove_all">清空</span><span class="classify-style" @click="classify_add">从分类添加</span></div></div>
                 <div class="tips mt-10 mb-20 size-12">最多添加{{ form.nav_content_list.length }}张图片，建议尺寸90*90px</div>
                 <drag :data="form.nav_content_list" type="card" :space-col="27" model-type="nav-group" :model-index="tabs_active_index" @remove="remove" @on-sort="on_sort" @click="tabs_list_click">
                     <template #default="scoped">
@@ -50,7 +50,7 @@
                                     </el-form-item>
                                 </div>
                             </div>
-                            <div v-if="!isEmpty(scoped.row.subscript)" class="not-label-width flex-col gap-10 w h">
+                            <div v-if="!isEmpty(scoped.row.subscript) && !isEmpty(scoped.row.tabs_name)" class="not-label-width flex-col gap-10 w h">
                                 <!-- // 角标开关 -->
                                 <el-form-item label="角标" label-width="40" class="mb-0">
                                     <el-switch v-model="scoped.row.subscript.content.seckill_subscript_show" active-value="1" inactive-value="0"></el-switch>
@@ -58,7 +58,7 @@
                                 <!-- 内容设置 -->
                                 <template v-if="tabs_active_index == scoped.index">
                                     <el-form v-if="scoped.row.subscript.content.seckill_subscript_show == '1'" :model="scoped.row.subscript.style" label-width="60">
-                                        <el-tabs  v-model="scoped.row.tabs_name" class="content-tabs">
+                                        <el-tabs v-model="scoped.row.tabs_name" class="content-tabs">
                                             <el-tab-pane label="内容设置" name="content">
                                                 <el-form-item label-width="0">
                                                     <div class="flex-col gap-10 w h">
@@ -95,7 +95,7 @@
 </template>
 <script setup lang="ts">
 import { get_math } from "@/utils";
-import { clone, isEmpty } from "lodash";
+import { cloneDeep, isEmpty } from "lodash";
 import subscriptStyle from '@/config/const/subscript-style';
 
 interface Props {
@@ -215,12 +215,11 @@ const { form } = toRefs(state);
 const tabs_active_index = ref(0);
 onBeforeMount(() => {
     tabs_active_index.value = 0;
-    // 兼容老数据
-    form.value.nav_content_list = form.value.nav_content_list.map(item => ({
-        ...item,
-        tabs_name: 'content',
+    // 历史数据处理一下，避免有新增字段导致报错
+    form.value.nav_content_list.forEach((item: any) => {
+        item.tabs_name = !isEmpty(item.tabs_name) ? item.tabs_name : 'content',
         // 角标配置
-        subscript: isEmpty(item.subscript) ?
+        item.subscript = !isEmpty(item.subscript) ? item.subscript : 
             { 
                 content: {
                     seckill_subscript_show: '0',
@@ -236,10 +235,9 @@ onBeforeMount(() => {
                     padding_left: 0,
                     padding_right: 0,
                 }
-            } : item.subscript,
-    }));
+            }
+    });
 });
-
 const add = () => {
     form.value.nav_content_list.push({
         id: get_math(),
@@ -268,7 +266,7 @@ const add = () => {
     tabs_active_index.value = form.value.nav_content_list.length - 1;
 }
 const remove = (index: number) => {
-    if (form.value.nav_content_list.length > 1) {
+    if (form.value.nav_content_list.length > 0) {
         form.value.nav_content_list.splice(index, 1);
         if (form.value.nav_content_list.length > index) {
             tabs_active_index.value = index;
@@ -277,7 +275,6 @@ const remove = (index: number) => {
         }
     } else {
         tabs_active_index.value = 0;
-        ElMessage.warning('至少保留一个选项卡');
     }
 }
 // 拖拽更新之后，更新数据
@@ -289,6 +286,12 @@ const dialogVisible = ref(false);
 const classify_add = () => {
     dialogVisible.value = true;
 }
+// 清空全部
+const classify_remove_all = () => {
+    form.value.nav_content_list = [];
+    tabs_active_index.value = 0;
+}
+
 interface categoryList extends pageLinkList {
     image: string;
 }

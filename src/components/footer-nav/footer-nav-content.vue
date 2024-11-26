@@ -28,7 +28,7 @@
                 </div>
                 <div class="size-12 cr-c mb-20">图片建议宽高80*80,鼠标拖拽左侧圆点可调整导航顺序</div>
                 <div class="nav-list">
-                    <drag :data="form.nav_content" type="card" :space-col="20" @remove="nav_content_remove" @on-sort="on_sort">
+                    <drag :data="form.nav_content" type="card" :space-col="20" :model-type="!config.sync_bool ? '': 'footer'" @remove="nav_content_remove" @on-sort="on_sort">
                         <template #default="{ row, index}">
                             <div class="w">
                                 <el-form-item label="图标" label-width="45">
@@ -45,11 +45,11 @@
                                     <el-input v-model="row.name" placeholder="请输入名称" clearable />
                                 </el-form-item>
                                 <el-form-item label="链接" label-width="45">
-                                    <div class="flex-row align-c gap-10 w h">
+                                    <div class="w h re">
                                         <url-value v-model="row.link" :dialog-position-top="footerDialogPositionTop" :is-disabled="index === 0 ? !config.sync_bool : true"></url-value>
                                         <template v-if="index === 0 && config.sync_bool">
                                             <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="首页地址不能更改" raw-content placement="top">
-                                                <icon name="miaosha-hdgz" size="12" color="#999"></icon>
+                                                <icon class="abs top-0 right-12 z-i" name="miaosha-hdgz" size="12" color="#999"></icon>
                                             </el-tooltip>
                                         </template>
                                     </div>

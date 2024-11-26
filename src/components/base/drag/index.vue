@@ -4,7 +4,8 @@
             <li v-for="(item, index) in from" :key="index" :class="[`flex gap-y-16 re ${ className }`,  props.modelType == 'nav-group' && modelIndex === index ? 'nav-index-select' : '']" @click="on_click(item, index)">
                 <icon name="drag" size="16" class="cursor-move" />
                 <slot :row="item" :index="index" />
-                <div class="abs c-pointer top-de-6 right-de-6 remove-icon" @click.stop="remove(index)">
+                <!-- 底部第一个不显示删除按钮 -->
+                <div v-if="!(props.modelType === 'footer' && index === 0)" class="abs c-pointer top-de-6 right-de-6 remove-icon" @click.stop="remove(index)">
                     <icon v-if="type == 'card'" name="close-fillup" size="18" color="c" />
                 </div>
                 <div class="c-pointer do-not-trigger" @click.stop="remove(index)">

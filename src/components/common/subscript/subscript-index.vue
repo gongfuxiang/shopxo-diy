@@ -1,5 +1,5 @@
 <template>
-    <div v-if="form.seckill_subscript_show == '1'" class="corner-marker" :style="corner_marker">
+    <div v-if="form.seckill_subscript_show == '1'" :class="['abs', props.type == 'nav-group' ? '' : 'max-width']" :style="corner_marker">
         <div class="flex-row nowrap" :style="corner_img_marker">
             <template v-if="form.subscript_type == 'img-icon'">
                 <template v-if="!isEmpty(form.subscript_img_src)">
@@ -66,8 +66,7 @@ const img_style = computed(() => `height: ${new_style.value.subscript_style.img_
 </script>
 
 <style lang="scss" scoped>
-.corner-marker {
-    position: absolute;
+.max-width {
     max-width: 100%;
 }
 </style>
