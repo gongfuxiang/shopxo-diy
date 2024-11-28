@@ -1,19 +1,22 @@
 <template>
     <drag :data="drag_list" :space-col="20" :is-show-edit="true" @remove="remove" @on-sort="on_sort" @edit="edit" @replace="replace">
         <template #default="{ row, index }">
-            <upload v-model="row.new_cover" :limit="1" size="40" styles="2"></upload>
-            <el-image :src="row.data[imgParams]" fit="contain" class="img radius-xs">
-                <template #error>
-                    <div class="bg-f5 flex-row jc-c align-c radius-xs h w">
-                        <icon name="error-img" size="16" color="9"></icon>
-                    </div>
-                </template>
-            </el-image>
+            <!-- 自定义模式，并且没有传递图片参数，就不显示图片，否则的话，显示图片 -->
+            <template v-if="(type == 'custom' && !isEmpty(imgParams)) || type == 'other'">
+                <upload v-model="row.new_cover" :limit="1" size="40" styles="2"></upload>
+                <el-image :src="row.data[imgParams]" fit="contain" class="img radius-xs">
+                    <template #error>
+                        <div class="bg-f5 flex-row jc-c align-c radius-xs h w">
+                            <icon name="error-img" size="16" color="9"></icon>
+                        </div>
+                    </template>
+                </el-image>
+            </template>
             <template v-if="index === edit_index">
                 <el-input v-model="row.new_title" placeholder="请输入链接" type="textarea" class="flex-1 do-not-trigger" clearable :rows="2"></el-input>
             </template>
             <template v-else>
-                <div class="flex-1 flex-width text-line-2 size-12 self-s do-not-trigger" @dblclick="double_click(index)">{{ !isEmpty(row.new_title) ? row.new_title : row.data.title }}</div>
+                <div class="flex-1 flex-width text-line-2 size-12 self-s do-not-trigger" @dblclick="double_click(index)">{{ !isEmpty(row.new_title) ? row.new_title : row.data[props.titleParams] }}</div>
             </template>
         </template>
     </drag>
@@ -25,10 +28,14 @@ import { isEmpty } from 'lodash';
 interface Props {
     list: any[];
     imgParams: string;
+    titleParams?: string;
+    type?: string;
 }
 
 const props = withDefaults(defineProps<Props>(), {
     imgParams: 'cover',
+    titleParams: 'title',
+    type: 'other'
 });
 
 const drag_list = ref(props.list);
@@ -81,13 +88,13 @@ const double_click = (index: number) => {
 const edit_processing = (index: number) => {
     const list = drag_list.value[index];
     if (!isEmpty(list) && isEmpty(list.new_title)) {
-        list.new_title = list.data.title;
+        list.new_title = list.data[props.titleParams];
     }
 };
 //编辑关闭前的处理
 const edit_close_processing = (index: number) => {
     const list = drag_list.value[index];
-    if (!isEmpty(list) && !isEmpty(list.new_title) && list.new_title === list.data.title) {
+    if (!isEmpty(list) && !isEmpty(list.new_title) && list.new_title === list.data[props.titleParams]) {
         list.new_title = '';
     }
 };

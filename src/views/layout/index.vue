@@ -351,11 +351,12 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
         } else if (new_array_5.includes(item.key)) {
             // 从数据中剔除data_source_content_value字段
             item.com_data.content = omit(cloneDeep(item.com_data.content), ['data_source_content_value']);
-            if (['goods', 'article', 'brand'].includes(item.com_data.content.data_source)) {
+            // 是否是自定义数据
+            if (item.com_data.content.is_custom_data == '1') {
                 // 手动的数据内容
                 const data_list = cloneDeep(item.com_data.content.data_source_content.data_list);
                 // 数据改造,存放手动的id
-                item.com_data.content.data_source_content.data_ids = data_list.map((item: any) => item.data.id || '').join(',') || '';
+                item.com_data.content.data_source_content.data_ids = data_list.map((item1: any) => item1.data[item.com_data.content?.data_list_key || 'id'] || '').join(',') || '';
                 // 数据改造,存放手动的清除里边的data
                 item.com_data.content.data_source_content.data_list = data_list.map((item1: any) => {
                     return {

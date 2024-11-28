@@ -77,6 +77,8 @@ interface content {
 interface defaultSearch {
     content: {
         height: number;
+        is_custom_data: string;
+        data_list_key: string;
         data_source: string;
         data_source_content: content;
         data_source_direction: string;
@@ -114,6 +116,10 @@ const defaultSearch: defaultSearch = {
             // 自动
             data_auto_list: [],
         },
+        // 手动模式下的唯一标识
+        data_list_key: '',
+        // 是否是自定义数据类型
+        is_custom_data: '0',
         // 数据源类型 商品(goods) 文章(article) 品牌(brand) 用户信息(user-info)
         data_source:'',
         // 铺满方式 0 纵向展示 1 纵向滑动 2 横向滑动

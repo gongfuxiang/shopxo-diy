@@ -1,7 +1,7 @@
 <template>
     <div class="w">
         <el-form :model="form" label-width="70">
-            <template v-if="['1', '2'].includes(data.data_source_direction)">
+            <template v-if="['vertical-scroll', 'horizontal'].includes(data.data_source_direction)">
                 <card-container>
                     <div class="mb-12">轮播设置</div>
                         <el-form-item label="自动轮播">

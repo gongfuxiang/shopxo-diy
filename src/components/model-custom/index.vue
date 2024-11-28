@@ -1,15 +1,15 @@
 <template>
     <div :style="style_container">
         <div class="w h re" :style="style_img_container">
-            <template v-if="data_source_content_list.length > 0 && form.data_source_direction == '0'">
+            <template v-if="data_source_content_list.length > 0 && form.data_source_direction == 'vertical'">
                 <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="style_chunk_container">
                     <div class="w h" :style="style_chunk_img_container">
                         <data-rendering :custom-list="form.custom_list" :source-list="item1" :source-type="form?.data_source || ''" :data-height="form.height" :scale="scale"></data-rendering>
                     </div>
                 </div>
             </template>
-            <div v-else-if="data_source_content_list.length > 0 && ['1', '2'].includes(form.data_source_direction)" class="oh" :style="form.data_source_direction == '2' ? `height:100%;` : `height: ${ swiper_height }px;`">
-                <swiper :key="carouselKey" class="w flex" :direction="form.data_source_direction == '2' ? 'horizontal': 'vertical'" :height="swiper_height" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="slides_per_group" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
+            <div v-else-if="data_source_content_list.length > 0 && ['vertical-scroll', 'horizontal'].includes(form.data_source_direction)" class="oh" :style="form.data_source_direction == 'horizontal' ? `height:100%;` : `height: ${ swiper_height }px;`">
+                <swiper :key="carouselKey" class="w flex" :direction="form.data_source_direction == 'horizontal' ? 'horizontal': 'vertical'" :height="swiper_height" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="slides_per_group" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
                     <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
                         <div :style="style_chunk_container">
                             <div class="w h" :style="style_chunk_img_container">
@@ -106,8 +106,9 @@ const style_chunk_img_container = computed(() => common_img_computer(new_style.v
 
 // 数据来源的内容
 let data_source_content_list = computed(() => {
-    if (['goods', 'article', 'brand'].includes(form.value.data_source)) {
-        if (form.value.data_source_content.data_type == '0') {
+    // 是自定义数据类型的时候，显示自定义数据，否则显示数据来源的数据
+    if (form.value.is_custom_data == '1') {
+        if (form.value.data_source_content.data_type == 'appoint') {
             return form.value.data_source_content?.data_list || [];
         } else {
             return !isEmpty(form.value.data_source_content) ? 
@@ -150,7 +151,7 @@ watchEffect(() => {
     }
     const { padding_top, padding_bottom, margin_bottom, margin_top } = new_style.value.data_style;
     // 轮播图高度控制
-    if (form.value.data_source_direction == '2') {
+    if (form.value.data_source_direction == 'horizontal') {
         swiper_height.value = form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top;
     } else {
         swiper_height.value = (form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top) * form.value.data_source_carousel_col;

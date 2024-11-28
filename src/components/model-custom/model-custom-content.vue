@@ -10,40 +10,43 @@
                 </el-form-item>
             </card-container>
             <!-- 筛选数据 -->
-            <template v-if="['goods', 'article', 'brand'].includes(form.data_source)">
+            <template v-if="!isEmpty(default_type_data)">
                 <div class="divider-line"></div>
                 <card-container>
                     <div class="mb-12">显示设置</div>
                     <el-form-item label="铺满方式">
                         <el-radio-group v-model="form.data_source_direction">
-                            <el-radio value="0">纵向展示</el-radio>
-                            <el-radio value="1">纵向滑动</el-radio>
-                            <el-radio value="2">横向滑动</el-radio>
+                            <el-radio v-for="(item, index) in default_type_data.show_type" :key="index" :value="item">{{ item == 'vertical' ? '纵向展示' : item == 'vertical-scroll' ? '纵向滑动' : '横向滑动' }}</el-radio>
                         </el-radio-group>
                     </el-form-item>
-                    <el-form-item v-if="['1', '2'].includes(form.data_source_direction)" label="每屏显示">
+                    <el-form-item v-if="['vertical-scroll', 'horizontal'].includes(form.data_source_direction)" label="每屏显示">
                         <el-radio-group v-model="form.data_source_carousel_col">
-                            <template v-if="form.data_source_direction == '2'">
-                                <el-radio :value="1">单列展示</el-radio>
-                                <el-radio :value="2">两列展示</el-radio>
-                                <el-radio :value="3">三列展示</el-radio>
-                                <el-radio :value="4">四列展示</el-radio>
+                            <el-radio v-for="(item, index) in default_type_data.show_number" :key="index" :value="item">{{ item }}{{ form.data_source_direction == 'vertical-scroll' ? '行' : '列' }}展示</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                </card-container>
+                <template v-if="!isEmpty(default_type_data.data_type)">
+                    <div class="divider-line"></div>
+                    <card-container>
+                        <div class="mb-12">数据设置</div>
+                        <div class="flex-col">
+                            <el-form-item label="读取方式">
+                                <el-radio-group v-model="form.data_source_content.data_type">
+                                    <el-radio v-for="(item, index) in default_type_data.data_type" :key="index" :value="item">{{ item == 'appoint' ? '指定数据' : '筛选数据' }}</el-radio>
+                                </el-radio-group>
+                            </el-form-item>
+                            <template v-if="form.data_source_content.data_type == 'appoint'">
+                                <div class="nav-list">
+                                    <drag-group :list="form.data_source_content.data_list" :img-params="default_type_data?.appoint_config?.show_data?.data_logo || ''" :title-params="default_type_data?.appoint_config?.show_data?.data_name || 'name'" type="custom" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
+                                    <el-button class="mt-20 w" @click="add">+添加</el-button>
+                                </div>
                             </template>
                             <template v-else>
-                                <el-radio :value="1">单行展示</el-radio>
-                                <el-radio :value="2">两行展示</el-radio>
-                                <el-radio :value="3">三行展示</el-radio>
-                                <el-radio :value="4">四行展示</el-radio>
+                                <filter-form :filter-data="default_type_data.filter_config.filter_form_config" direction="vertical" :title-width="70" :data-interface="form.data_source_content" @form-change="filter_form_change"></filter-form>
                             </template>
-                        </el-radio-group>
-                    </el-form-item>
-                </card-container>
-                <div class="divider-line"></div>
-                <card-container>
-                    <div class="mb-12">{{ form.data_source == 'goods' ? '商品' : form.data_source == 'article' ? '文章' : '品牌' }}设置</div>
-                    <!-- 数据筛选组件, 根据数据源类型显示不同的筛选组件 -->
-                    <data-filter :type="form.data_source" :value="form.data_source_content" :list="form.data_source_content.data_list" :base-list="base_list" @add="add" @data_list_replace="data_list_replace" @data_list_remove="data_list_remove" @data_list_sort="data_list_sort"></data-filter>
-                </card-container>
+                        </div>
+                    </card-container>
+                </template>
             </template>
             <div class="divider-line"></div>
             <card-container>
@@ -80,21 +83,17 @@
                 </div>
             </div>
         </Dialog>
-        <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="[form.data_source]" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
+        <custom-dialog v-model:dialog-visible="url_value_dialog_visible" :config="default_type_data.appoint_config" :multiple="url_value_multiple_bool" @confirm_event="url_value_dialog_call_back"></custom-dialog>
     </div>
 </template>
 <script setup lang="ts">
 import Dialog from './components/dialog.vue';
 import DragIndex from './components/index.vue';
-import { isEmpty, cloneDeep } from 'lodash';
+import { isEmpty, cloneDeep, omit } from 'lodash';
+import request from '@/utils/request';
 import CustomAPI from '@/api/custom';
-import ShopAPI from '@/api/shop';
-import ArticleAPI from '@/api/article';
-import BrandAPI from '@/api/brand';
-import { commonStore, DataSourceStore } from '@/store';
+import { DataSourceStore } from '@/store';
 import { get_math } from '@/utils';
-import { source_list } from '@/config/const/custom';
-const common_store = commonStore();
 const data_source_store = DataSourceStore();
 
 const props = defineProps({
@@ -114,8 +113,8 @@ const form = ref(props.value);
 const center_width = ref(props.magicWidth);
 
 const custom_width = computed(() => {
-    // 如果是横向展示，那么就需要根据每屏显示的数量来计算宽度 data_source_direction == 2 为横向滑动
-    if (['goods', 'article', 'brand'].includes(form.value.data_source) && form.value.data_source_direction == '2') {
+    // 如果是横向展示，那么就需要根据每屏显示的数量来计算宽度 data_source_direction == horizontal 为横向滑动
+    if (form.value.is_custom_data == '1' && form.value.data_source_direction == 'horizontal') {
         return center_width.value / form.value.data_source_carousel_col;
     } else {
         return center_width.value;
@@ -124,12 +123,20 @@ const custom_width = computed(() => {
 // 弹出框里的内容
 let custom_list = reactive([]);
 const center_height = ref(0);
+interface custom_config {
+    show_type: string[],
+    show_number: number[],
+    data_type: string[],
+    filter_config: object,
+    appoint_config: object,
+}
 interface data_list {
     name: string;
     field: string;
     type: string;
 }
 interface options_item {
+    custom_config?: custom_config;
     appoint_data?: object;
     name: string;
     data: data_list[];
@@ -144,6 +151,7 @@ const getCustominit = () => {
         data_source_store.set_data_source(data_source);
         // 数据处理
         processing_data(form.value.data_source);
+        data_processing();
     });
 };
 
@@ -155,8 +163,17 @@ onBeforeMount(() => {
         options.value = data_source_store.data_source_list;
         // 如果历史的值出现，根据历史选中的值处理一下传递的数据结构
         processing_data(form.value.data_source);
+        data_processing();
     }
 });
+// 回显数据处理
+const data_processing = () => {
+    // 如果有历史的值，那么就需要根据历史的值来处理一下数据
+    const type_data = options.value.filter((item) => item.type == form.value.data_source);
+    if (type_data.length > 0 && !isEmpty(type_data[0].custom_config)) {
+        default_type_data.value = type_data[0].custom_config;
+    }
+};
 // 处理显示的图片和传递到下去的数据结构
 const model_data_source = ref<data_list[]>([]);
 const processing_data = (key: string) => {
@@ -209,106 +226,82 @@ const accomplish = () => {
 //#region 数据源更新逻辑处理
 // 打开弹出框
 const url_value_dialog_visible = ref(false);
+const default_type_data = ref<any>({})
+const url_value_multiple_bool = ref(true);
 const changeDataSource = (key: string) => {
+    form.value.is_custom_data = '0';
     const type_data = options.value.filter((item) => item.type == key);
     processing_data(key);
+    // 默认数据类型
+    form.value.data_source_content = {
+        // 存放手动输入的id
+        data_ids: [],
+        data_list: [],
+        // 自动
+        data_auto_list: [],
+    }
+    // 默认数据， 避免不选报错
+    default_type_data.value = {};
+    form.value.data_source_direction = 'vertical';
+    // 如果存在默认数据类型的时候，就直接赋值给data_list
     if (type_data.length > 0 && !isEmpty(type_data[0].appoint_data)) {
-        form.value.data_source_direction = '0';
-        form.value.data_source_content = {
-            // 存放手动输入的id
-            data_ids: [],
-            data_list: [ type_data[0].appoint_data ],
-            // 自动
-            data_auto_list: [],
-        }
-    } else {
-        form.value.data_source_content = {
+        form.value.data_source_content.data_list = [ type_data[0].appoint_data ];
+    } else if (type_data.length > 0 && !isEmpty(type_data[0].custom_config)) {
+        // 是自定义数据类型
+        form.value.is_custom_data = '1';
+        // 自定义数据取值
+        const custom_config = type_data[0].custom_config;
+        // 默认赋值第一个
+        form.value.data_source_direction = custom_config.show_type[0];
+        // 处理数据
+        const staging_data : any = {
             // 存放手动输入的id
             data_ids: [],
             // 手动输入
             data_list: [],
             // 自动
             data_auto_list: [],
+            // 类型
+            data_type: custom_config.data_type[0],
         };
-        if (!isEmpty(key) && key in source_list) {
-            form.value.data_source_content = cloneDeep(source_list[key as keyof typeof source_list]);
-        }
+        // 将数据赋值给默认数据
+        default_type_data.value = custom_config;
+        // 如果不存在的时候，默认取id
+        form.value.data_list_key = default_type_data.value?.appoint_config?.show_data?.data_key || 'id';
+        // 根据不同的类型，初始化不同的数据, 并将对象处理成对应的值
+        default_type_data.value.filter_config.filter_form_config.forEach((item: any) => {
+            let value : number | string | Array<any> = '';
+            if (item.type == 'checkbox' || item.type == 'select' && item.config.is_multiple == '1') { // 多选
+                value = item.config.default ? item.config.default : [];
+            } else if (item.type == 'input' && item.config.type == 'number') { // 数字
+                value = item.config.default ? item.config.default : 0;
+            } else if (item.type == 'switch') {
+                value = item.config.default ? item.config.default : "0";
+            }
+            staging_data[item.form_name] = value;
+        })
+        // 循环完之后赋值，避免多次赋值，传递给子组件出现多次调用和回调问题
+        form.value.data_source_content = staging_data;
     }
 };
+const filter_form_change = (val: any) => {
+    form.value.data_source_content = val;
+}
 //#endregion
 //#region 数据源内容多选处理
-const base_list = reactive({
-    // 商品分类
-    product_list: [
-        { name: '指定商品', value: '0' },
-        { name: '筛选商品', value: '1' },
-    ],
-    product_category_list: [] as select_1[],
-    product_brand_list: [] as select_1[],
-    sort_list: [
-        { name: '综合', value: '0' },
-        { name: '销量', value: '1' },
-        { name: '热度', value: '2' },
-        { name: '价格', value: '3' },
-        { name: '最新', value: '4' },
-    ],
-    // 公共分类
-    order_by_rule_list: [
-        { name: '降序(desc)', value: '0' },
-        { name: '升序(asc)', value: '1' },
-    ],
-    // 文章分类
-    article_category_list: [] as select_1[],
-    data_type_list: [
-        { name: '指定文章', value: '0' },
-        { name: '筛选文章', value: '1' },
-    ],
-    new_sort_list: [
-        { name: '综合', value: '0' },
-        { name: '时间', value: '1' },
-        { name: '浏览量', value: '2' },
-    ],
-    field_show_list: [
-        { name: '日期时间', value: '0' },
-        { name: '浏览量', value: '1' },
-        { name: '描述', value: '2' },
-    ],
-    // 品牌数据
-    brand_category_list: [] as select_1[],
-    brand_data_type_list: [
-        { name: '指定品牌', value: '0' },
-        { name: '筛选品牌', value: '1' },
-    ],
-    brand_sort_list: [
-        { name: '最新', value: '0' },
-        { name: '热度', value: '1' },
-    ],
-});
-onBeforeMount(() => {
-    nextTick(() => {
-        // 定时获取common_store.common.article_category的数据，直到拿到值或者关闭页面为止
-        const interval = setInterval(() => {
-            const { goods_category = [], brand_list = [], article_category = [], brand_category = [] } = common_store.common;
-            if (goods_category.length > 0 || brand_list.length > 0 || article_category.length > 0) {
-                base_list.product_category_list = goods_category;
-                base_list.product_brand_list = brand_list;
-                base_list.article_category_list = article_category;
-                base_list.brand_category_list = brand_category;
-                clearInterval(interval);
-            }
-        }, 1000);
-    });
-});
-
-const url_value_multiple_bool = ref(true);
 const data_list_replace_index = ref(0);
 const data_list_replace = (index: number) => {
+    // 替换的时候，index为选择的索引
     data_list_replace_index.value = index;
+    // 替换的时候，是单选
     url_value_multiple_bool.value = false;
     url_value_dialog_visible.value = true;
 };
 const add = () => {
-    url_value_multiple_bool.value = true;
+    // 添加的时候，index为-1
+    data_list_replace_index.value = -1;
+    // 添加是单选还是多选由后台配置决定
+    url_value_multiple_bool.value = default_type_data.value.appoint_config.is_multiple.toString() == '1' ? true : false;
     url_value_dialog_visible.value = true;
 };
 // 拖拽更新之后，更新数据
@@ -325,7 +318,8 @@ const url_value_dialog_call_back = (item: any[]) => {
             item.title = item.name;
         });
     }
-    if (url_value_multiple_bool.value) {
+    // 如果是单选，当时data_list_replace_index 为-1，说明是添加，否则是替换
+    if (url_value_multiple_bool.value || data_list_replace_index.value == -1) {
         item.forEach((item: any) => {
             form.value.data_source_content.data_list.push({
                 id: get_math(),
@@ -345,8 +339,8 @@ const url_value_dialog_call_back = (item: any[]) => {
 };
 // 数据来源的内容
 let data_source_content_list = computed(() => {
-    if (['goods', 'article', 'brand'].includes(form.value.data_source)) {
-        if (form.value.data_source_content.data_type == '0') {
+    if (form.value.is_custom_data == '1') {
+        if (form.value.data_source_content.data_type == 'appoint') {
             return form.value.data_source_content.data_list;
         } else {
             return form.value.data_source_content.data_auto_list;
@@ -356,78 +350,38 @@ let data_source_content_list = computed(() => {
     }
 })
 // 获取商品自动数据
-const get_products = () => {
-    const { category_ids, brand_ids, number, order_by_type, order_by_rule, keyword } = form.value.data_source_content;
-    const params = {
-        goods_keywords: keyword,
-        goods_category_ids: category_ids,
-        goods_brand_ids: brand_ids,
-        goods_order_by_type: order_by_type,
-        goods_order_by_rule: order_by_rule,
-        goods_number: number,
-    };
-    // 获取商品列表
-    ShopAPI.getShopLists(params).then((res: any) => {
-        // 清空历史数据
-        form.value.data_source_content.data_auto_list = [];
-        if (!isEmpty(res.data)) {
-            form.value.data_source_content.data_auto_list = res.data;
-        }
-    });
-};
-// 获取文章自动数据
-const get_article = async () => {
-    const { category_ids, number, order_by_type, order_by_rule, is_cover, keyword } = form.value.data_source_content;
-    const new_data = {
-        article_keywords: keyword,
-        article_category_ids: category_ids.join(','),
-        article_order_by_type: order_by_type,
-        article_order_by_rule: order_by_rule,
-        article_number: number,
-        article_is_cover: is_cover,
-    };
-    const res = await ArticleAPI.getAutoList(new_data);
-    // 清空历史数据
+const get_auto_data = () => {
+    //  清空数据, 避免接口报错等显示的还是老数据
     form.value.data_source_content.data_auto_list = [];
-    if (!isEmpty(res.data)) {
-        form.value.data_source_content.data_auto_list = res.data;
+    if (!isEmpty(default_type_data.value) && !isEmpty(default_type_data.value.filter_config) && !isEmpty(default_type_data.value.filter_config.data_url)) {
+        const data = omit(cloneDeep(form.value.data_source_content), ['data_ids', 'data_list', 'data_auto_list', 'data_type']);
+        request({
+            url: default_type_data.value.filter_config.data_url, // 请求地址
+            method: 'post', // 请求方式
+            data    // 请求数据
+        }).then((res) => {
+            if (res.data) {
+                form.value.data_source_content.data_auto_list = res.data;
+            }
+        })
     }
 };
-// 获取品牌自动数据
-const get_brand =  () => {
-    const { category_ids, number, order_by_type, order_by_rule, keyword } = form.value.data_source_content;
-    const params = {
-        brand_keywords: keyword,
-        brand_category_ids: category_ids,
-        brand_order_by_type: order_by_type,
-        brand_order_by_rule: order_by_rule,
-        brand_number: number,
-    };
-    // 获取商品列表
-    BrandAPI.getBrandLists(params).then((res: any) => {
-        // 清空历史数据
-        form.value.data_source_content.data_auto_list = [];
-        if (!isEmpty(res.data)) {
-            form.value.data_source_content.data_auto_list = res.data;
-        }
-    });
-    form.value.data_source_content.data_auto_list = [];
-}
+// 将不需要监听的数据移除，只监听需要监听的数据
 const data_source_content_value = computed(() => {
-    const { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, is_cover, keyword } = form.value.data_source_content;
-    return { category_ids: category_ids, brand_ids: brand_ids, number: number, order_by_type: order_by_type, order_by_rule: order_by_rule, data_type: data_type, is_cover: is_cover, keyword: keyword };
-})
-
-watch(() => data_source_content_value.value, (new_val) => {
-    // 数据发生变化时，如果是自动获取数据，则调用接口获取数据
-    if (new_val.data_type != '0') {
-        if (form.value.data_source == 'goods') {
-            get_products();
-        } else if (form.value.data_source == 'article') {
-            get_article();
-        } else if (form.value.data_source == 'brand') {
-            get_brand();
+    // 从对象中移除不需要监听的 'data_ids', 'data_list', 'data_auto_list'三个值
+    const data: any = {};
+    for (const key in form.value.data_source_content) {
+        if (!['data_ids', 'data_list', 'data_auto_list'].includes(key)) {
+            data[key] = form.value.data_source_content[key];
         }
+    }
+    return data;
+})
+// 数据发生变化时，调用接口获取数据
+watch(() => data_source_content_value.value, (new_val, old_val) => {
+    // 数据发生变化时，如果是自动获取数据，则调用接口获取数据
+    if (JSON.stringify(new_val) != JSON.stringify(old_val) && new_val.data_type != 'appoint') {
+        get_auto_data();
     }
 },{ deep: true });
 //#endregion
