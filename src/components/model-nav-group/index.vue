@@ -33,7 +33,6 @@ import { common_styles_computer, radius_computer, get_math, common_img_computer,
 import { isEmpty, cloneDeep, throttle } from 'lodash';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
-import 'swiper/css';
 const modules = [Autoplay];
 
 const props = defineProps({

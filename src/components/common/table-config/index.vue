@@ -61,7 +61,7 @@ const row_click = (row: any) => {
         const new_table_data = JSON.parse(JSON.stringify(props.tableData));
         // 通过唯一标识判断当前是属于哪一个的数据
         template_selection.value = new_table_data.findIndex((item: any) => item[props.type] == row[props.type]).toString();
-        emit('select', row);
+        emit('select', [ row ]);
     }
 };
 // 多选时的触发逻辑

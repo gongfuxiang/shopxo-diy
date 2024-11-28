@@ -8,7 +8,7 @@ export const source_list = {
         // 自动
         data_auto_list: [],
         // 商品类型
-        data_type: '0',
+        data_type: 0,
         // 关键字
         keyword: '',
         // 商品分类
@@ -29,7 +29,7 @@ export const source_list = {
         data_list: [],
         // 自动
         data_auto_list: [],
-        data_type: '0',
+        data_type: 0,
         // 关键字
         keyword: '',
         number: 4,
@@ -48,7 +48,7 @@ export const source_list = {
         // 自动
         data_auto_list: [],
         // 商品类型
-        data_type: '0',
+        data_type: 0,
         // 关键字
         keyword: '',
         // 商品分类
@@ -121,9 +121,9 @@ const defaultSearch: defaultSearch = {
         // 是否是自定义数据类型
         is_custom_data: '0',
         // 数据源类型 商品(goods) 文章(article) 品牌(brand) 用户信息(user-info)
-        data_source:'',
-        // 铺满方式 0 纵向展示 1 纵向滑动 2 横向滑动
-        data_source_direction: '0',
+        data_source: '',
+        // 铺满方式 vertical 纵向展示 vertical-scoll 纵向滑动 horizontal 横向滑动
+        data_source_direction: 'vertical',
         // 滑动时的显示 轮播数量
         data_source_carousel_col: 1,
         // 自定义内容列表

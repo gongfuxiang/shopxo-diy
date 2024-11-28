@@ -77,7 +77,6 @@ import { common_styles_computer, radius_computer, get_math, gradient_computer, p
 import { isEmpty, cloneDeep, throttle } from 'lodash';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay, EffectCoverflow } from 'swiper/modules';
-import 'swiper/css';
 const modules = [Autoplay, EffectCoverflow];
 
 const props = defineProps({

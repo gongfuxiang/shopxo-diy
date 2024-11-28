@@ -231,8 +231,14 @@ const data_content = {
     height: 150,
     // 容器基础的宽度
     width: 0,
-    // 铺满方式 0 纵向展示 1 纵向滑动 2 横向滑动
-    data_source_direction: '0',
+    // 手动模式下的唯一标识
+    data_list_key: '',
+    // 是否是自定义数据类型
+    is_custom_data: '0',
+    // 数据源类型 商品(goods) 文章(article) 品牌(brand) 用户信息(user-info)
+    data_source:'',
+    // 铺满方式 vertical 纵向展示 vertical-scoll 纵向滑动 horizontal 横向滑动
+    data_source_direction: 'vertical',
     // 滑动时的显示 轮播数量
     data_source_carousel_col: 1,
     // 数据源内容
@@ -244,8 +250,6 @@ const data_content = {
         // 自动
         data_auto_list: [],
     },
-    // 数据源类型 商品(goods) 文章(article) 品牌(brand) 用户信息(user-info)
-    data_source:'',
     // 自定义内容列表
     custom_list: [],
     //视频信息

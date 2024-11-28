@@ -20,7 +20,6 @@ import { gradient_computer, radius_computer, padding_computer, background_comput
 import { isEmpty } from "lodash";
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
-import 'swiper/css';
 const modules = [Autoplay];
 
 interface Props {

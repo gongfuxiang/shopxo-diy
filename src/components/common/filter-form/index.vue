@@ -6,7 +6,7 @@
                 <template v-if="item.type == 'select'">
                     <template v-if="item.config.data_level > 1">
                         <div class="flex-row gap-10">
-                            <el-cascader v-model="new_data_Interface[item.form_name]" :placeholder="placeholder_config(item, 'select')" clearable class="w h" collapse-tags popper-class="filter-form-cascader" placement="left" :props="{ 'expandTrigger': 'hover', 'multiple': item.config.is_multiple == '1', 'checkStrictly': true, 'emitPath': false, 'value': item.data_key, 'label': item.data_name, 'children': item.config.children }" :options="selectData(item.data, item.const_key)" /> 
+                            <el-cascader v-model="new_dataInterface[item.form_name]" :placeholder="placeholder_config(item, 'select')" clearable class="w h" collapse-tags popper-class="filter-form-cascader" placement="left" :props="{ 'expandTrigger': 'hover', 'multiple': item.config.is_multiple == '1', 'checkStrictly': true, 'emitPath': false, 'value': item.data_key, 'label': item.data_name, 'children': item.config.children }" :options="selectData(item.data, item.const_key)" /> 
                             <template v-if="item.config.is_multiple == '1'">
                                 <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="父级选中包含所有子级" raw-content placement="top">
                                     <icon name="miaosha-hdgz" size="12" color="#999"></icon>
@@ -15,29 +15,29 @@
                         </div>
                     </template>
                     <template v-else>
-                        <el-select v-model="new_data_Interface[item.form_name]" :multiple="item.config.is_multiple == '1'" collapse-tags :placeholder="placeholder_config(item, 'select')" clearable>
+                        <el-select v-model="new_dataInterface[item.form_name]" :multiple="item.config.is_multiple == '1'" collapse-tags :placeholder="placeholder_config(item, 'select')" clearable>
                             <el-option v-for="item1 in selectData(item.data, item.const_key)" :key="item1[item.data_key]" :label="item1[item.data_name]" :value="item1[item.data_key]" />
                         </el-select>
                     </template>
                 </template>
                 <template v-else-if="item.type == 'input'">
                     <template v-if="item.config.type == 'number'">
-                        <el-input-number v-model="new_data_Interface[item.form_name]" :min="item.config?.min || 0" :max="item.config?.max || undefined" type="number" :placeholder="placeholder_config(item, 'input')" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
+                        <el-input-number v-model="new_dataInterface[item.form_name]" :min="item.config?.min || 0" :max="item.config?.max || undefined" type="number" :placeholder="placeholder_config(item, 'input')" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
                     </template>
                     <template v-else>
-                        <el-input v-model="new_data_Interface[item.form_name]" :placeholder="placeholder_config(item, 'input')" clearable />
+                        <el-input v-model="new_dataInterface[item.form_name]" :placeholder="placeholder_config(item, 'input')" clearable />
                     </template>
                 </template>
                 <template v-else-if="item.type == 'switch'">
-                    <el-switch v-model="new_data_Interface[item.form_name]" active-value="1" inactive-value="0" />
+                    <el-switch v-model="new_dataInterface[item.form_name]" active-value="1" inactive-value="0" />
                 </template>
                 <template v-else-if="item.type =='radio'">
-                    <el-radio-group v-model="new_data_Interface[item.form_name]">
+                    <el-radio-group v-model="new_dataInterface[item.form_name]">
                         <el-radio v-for="item1 in selectData(item.data, item.const_key)" :key="item1[item.data_key]" :value="item1[item.data_key]">{{ item1[item.data_name] }}</el-radio>
                     </el-radio-group>
                 </template>
                 <template v-else-if="item.type =='checkbox'">
-                    <el-checkbox-group v-model="new_data_Interface[item.form_name]">
+                    <el-checkbox-group v-model="new_dataInterface[item.form_name]">
                         <el-checkbox v-for="item1 in selectData(item.data, item.const_key)" :key="item1[item.data_key]" :value="item1[item.data_key]">{{ item1[item.data_name] }}</el-checkbox>
                     </el-checkbox-group>
                 </template>
@@ -79,17 +79,10 @@ const props = defineProps({
         default: 0,
     }
 });
-
-const new_data_Interface = ref<any>({})
-//  监听初始数据变化，并赋值给新数据
-watch(() => props.dataInterface, (new_val, old_val) => {
-    if (JSON.stringify(new_val)!= JSON.stringify(old_val)) {
-        new_data_Interface.value = { ...new_val }
-    }
-}, { deep: true, immediate: true });
+const new_dataInterface = computed(() => props.dataInterface );
 // 监听新数据的变化，将对应的数据传递给父组件，用于父组件调用接口
 const emit = defineEmits(['form-change']);
-watch(() => new_data_Interface.value, (val) => {
+watch(() => new_dataInterface.value, (val) => {
     emit('form-change', val);
 }, { deep: true });
 

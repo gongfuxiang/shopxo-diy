@@ -1,13 +1,13 @@
 <template>
-    <template v-if="data_source_content_list.length > 0 && form.data_source_direction == '0'">
+    <template v-if="data_source_content_list.length > 0 && form.data_source_direction == 'vertical'">
         <div v-for="(item1, index1) in data_source_content_list" :key="index1" class="oh" :style="style_container">
             <div class="w h oh" :style="style_img_container">
                 <data-rendering :custom-list="form.custom_list" :source-list="item1" :source-type="form?.data_source || ''" :data-height="form.height" :scale="scale"></data-rendering>
             </div>
         </div>
     </template>
-    <div v-else-if="data_source_content_list.length > 0 && ['1', '2'].includes(form.data_source_direction)" class="oh" :style="form.data_source_direction == '2' ? `height:100%;` : `height: ${ swiper_height }px;`">
-        <swiper :key="carouselKey" class="w flex" :direction="form.data_source_direction == '2' ? 'horizontal': 'vertical'" :height="swiper_height" :loop="true" :autoplay="autoplay" :slides-per-view="form.data_source_carousel_col" :slides-per-group="slides_per_group" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
+    <div v-else-if="data_source_content_list.length > 0 && ['vertical-scroll', 'horizontal'].includes(form.data_source_direction)" class="oh" :style="form.data_source_direction == 'horizontal' ? `height:100%;` : `height: ${ swiper_height }px;`">
+        <swiper :key="carouselKey" class="w flex" :direction="form.data_source_direction == 'horizontal' ? 'horizontal': 'vertical'" :height="swiper_height" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="slides_per_group" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
             <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
                 <div :style="style_container">
                     <div class="w h" :style="style_img_container">
@@ -30,7 +30,6 @@ import { background_computer, get_math, gradient_computer, margin_computer, padd
 import { isEmpty } from "lodash";
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
-import 'swiper/css';
 const modules = [Autoplay];
 
 const props = defineProps({
@@ -59,8 +58,8 @@ const { form, new_style } = toRefs(state);
 const scale = ref(1);
 // 数据来源的内容
 let data_source_content_list = computed(() => {
-    if (['goods', 'article', 'brand'].includes(form.value.data_source)) {
-        if (form.value.data_source_content.data_type == '0') {
+    if (form.value.is_custom_data == '1') {
+        if (Number(form.value.data_source_content.data_type) == 0) {
             return form.value.data_source_content.data_list;
         } else {
             return form.value.data_source_content.data_auto_list.map((item: any) => ({
@@ -125,6 +124,7 @@ watchEffect(() => {
 const carouselKey = ref('0');
 const autoplay = ref<boolean | object>(false);
 const slides_per_group = ref(1);
+const slides_per_view = ref(1);
 const swiper_height = ref(150);
 const emit = defineEmits(['carousel_change']);
 // 内容参数的集合
@@ -138,16 +138,20 @@ watchEffect(() => {
     } else {
         autoplay.value = false;
     }
-    const carousel_col = form.value?.data_source_carousel_col || 1;
+    const carousel_col = Number(form.value?.data_source_carousel_col) || 1;
     // 判断是平移还是整屏滚动
     slides_per_group.value = new_style.value.rolling_fashion == 'translation' ? 1 : carousel_col;
+    // 商品数量大于列数的时候，高度是列数，否则是当前的数量
+    const col = data_source_content_list.value.length > carousel_col ? carousel_col : data_source_content_list.value.length;
+    // 一屏显示的数量
+    slides_per_view.value = col;
     const { margin_bottom, margin_top } = new_style.value.data_chunk_margin;
     const { padding_top, padding_bottom } = new_style.value.data_chunk_padding;
     // 轮播图高度控制
     if (form.value.data_source_direction == '2') {
         swiper_height.value = form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top;
     } else {
-        swiper_height.value = (form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top) * carousel_col;
+        swiper_height.value = (form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top) * col;
     }
     // 更新轮播图的key，确保更换时能重新更新轮播图
     carouselKey.value = get_math();

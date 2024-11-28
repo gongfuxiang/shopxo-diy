@@ -176,7 +176,6 @@ import { isEmpty, throttle } from 'lodash';
 import SeckillAPI from '@/api/seckill';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
-import 'swiper/css';
 const modules = [Autoplay];
 
 const props = defineProps({

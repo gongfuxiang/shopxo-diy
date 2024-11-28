@@ -350,8 +350,8 @@ const rotation_calculation = (list: Array<any>, num: number, data_content: any, 
 }
 // 数据来源的内容
 let data_source_content_list = (data_content: any) => {
-    if (['goods', 'article', 'brand'].includes(data_content.data_source)) {
-        if (data_content.data_source_content.data_type == '0') {
+    if (data_content.is_custom_data == '1') {
+        if (Number(data_content.data_source_content.data_type) === 0) {
             return data_content.data_source_content.data_list;
         } else {
             return data_content.data_source_content.data_auto_list.map((item: any) => ({
@@ -365,6 +365,7 @@ let data_source_content_list = (data_content: any) => {
         return data_content.data_source_content.data_list;
     }
 };
+// 渲染的数量和样式的处理
 const old_list = ref<any>({});
 const data_magic_list = ref<data_magic[]>([]);
 watch(props.value.content, (val) => {
@@ -395,7 +396,7 @@ watch(props.value.content, (val) => {
         // 商品时的处理逻辑
         if (data_content.data_type == 'goods') {
             data_content.list = commodity_list(data_content.goods_list, data_content.goods_num, data_content, data_style);
-        } else if (data_content.data_type == 'custom' && ['1', '2'].includes(data_content.data_source_direction)) {
+        } else if (data_content.data_type == 'custom' && ['vertical-scroll', 'horizontal'].includes(data_content.data_source_direction)) {
             // 是自定义并且是轮播状态的时候，添加数据
             const list = data_source_content_list(data_content);
             const carousel_col = data_content?.data_source_carousel_col || 1;

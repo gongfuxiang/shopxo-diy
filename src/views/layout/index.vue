@@ -247,16 +247,15 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
     const new_array_6 = ['nav-group'];
     clone_form.diy_data = clone_form.diy_data.map((item: any) => {
         if (new_array_1.includes(item.key)) {
-            item.com_data.content.data_ids = item.com_data.content.data_list.map((item: any) => item.data.id).join(',') || '';
-            item.com_data.content.data_list = item.com_data.content.data_list.map((item1: any) => {
-                return {
-                    ...item1,
-                    data: [],
-                    data_id: item1.data.id,
-                };
-            });
-            item.com_data.content.data_auto_list = [];
             if (item.com_data.content.data_type == '0') {
+                item.com_data.content.data_ids = item.com_data.content.data_list.map((item: any) => item.data.id).join(',') || '';
+                item.com_data.content.data_list = item.com_data.content.data_list.map((item1: any) => {
+                    return {
+                        ...item1,
+                        data: [],
+                        data_id: item1.data.id,
+                    };
+                });
                 item.com_data.content.category_ids = defaultConfigSetting.category_ids;
                 item.com_data.content.number = defaultConfigSetting.page_size;
                 item.com_data.content.order_by_rule = defaultConfigSetting.order_by_rule;
@@ -266,20 +265,23 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                 } else {
                     item.com_data.content.is_cover = defaultConfigSetting.is_cover;
                 }
+            } else {
+                item.com_data.content.data_ids = '';
+                item.com_data.content.data_list = [];
             }
+            item.com_data.content.data_auto_list = [];
         } else if (new_array_2.includes(item.key)) {
             item.com_data.content.tabs_active_index = 0;
             item.com_data.content.tabs_list.map((item0: any) => {
-                item0.data_ids = item0.data_list.map((item1: any) => item1.data.id).join(',') || '';
-                item0.data_list = item0.data_list.map((item2: any) => {
-                    return {
-                        ...item2,
-                        data: [],
-                        data_id: item2.data.id,
-                    };
-                });
-                item0.data_auto_list = [];
                 if (item0.data_type == '0') {
+                    item0.data_ids = item0.data_list.map((item1: any) => item1.data.id).join(',') || '';
+                    item0.data_list = item0.data_list.map((item2: any) => {
+                        return {
+                            ...item2,
+                            data: [],
+                            data_id: item2.data.id,
+                        };
+                    });
                     item0.category_ids = defaultConfigSetting.category_ids;
                     item0.number = defaultConfigSetting.page_size;
                     item0.order_by_rule = defaultConfigSetting.order_by_rule;
@@ -289,7 +291,11 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                     } else {
                         item0.is_cover = defaultConfigSetting.is_cover;
                     }
+                } else {
+                    item0.data_ids = '';
+                    item0.data_list = [];
                 }
+                item0.data_auto_list = [];
             });
         } else if (new_array_3.includes(item.key)) {
             item.com_data.content.data_ids = item.com_data.content.data_list.map((item: any) => item.id).join(',') || '';
@@ -316,16 +322,16 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                     item1.data_content.data_source_content.data_auto_list = [];
                     item1.data_content.data_source_content.data_type = '0';
                 } else if (item1.data_content.data_type == 'custom') {
-                    if (['goods', 'article', 'brand'].includes(item1.data_content.data_source)) {
+                    if (item1.data_content.is_custom_data == '1' && item1.data_content.data_source_content.data_type === 0) {
                         const data_list = cloneDeep(item1.data_content.data_source_content.data_list);
                         // 数据改造,存放手动的id
-                        item1.data_content.data_source_content.data_ids = data_list.map((item4: any) => item4.data.id).join(',') || '';
+                        item1.data_content.data_source_content.data_ids = data_list.map((item4: any) => item4.data[item1.data_content?.data_list_key || 'id']).join(',') || '';
                         // 数据改造,存放手动的清除里边的data
                         item1.data_content.data_source_content.data_list = data_list.map((item5: any) => {
                             return {
                                 ...item5,
                                 data: [],
-                                data_id: item5.data.id,
+                                data_id: item5.data[item1.data_content?.data_list_key || 'id'],
                             };
                         });
                     } else {
@@ -352,17 +358,17 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             // 从数据中剔除data_source_content_value字段
             item.com_data.content = omit(cloneDeep(item.com_data.content), ['data_source_content_value']);
             // 是否是自定义数据
-            if (item.com_data.content.is_custom_data == '1') {
+            if (item.com_data.content.is_custom_data == '1' && item.com_data.content.data_source_content.data_type === 0) {
                 // 手动的数据内容
                 const data_list = cloneDeep(item.com_data.content.data_source_content.data_list);
                 // 数据改造,存放手动的id
-                item.com_data.content.data_source_content.data_ids = data_list.map((item1: any) => item1.data[item.com_data.content?.data_list_key || 'id'] || '').join(',') || '';
+                item.com_data.content.data_source_content.data_ids = data_list.map((list_item: any) => list_item.data[item.com_data.content?.data_list_key || 'id'] || '').join(',') || '';
                 // 数据改造,存放手动的清除里边的data
-                item.com_data.content.data_source_content.data_list = data_list.map((item1: any) => {
+                item.com_data.content.data_source_content.data_list = data_list.map((list_item: any) => {
                     return {
-                        ...item1,
+                        ...list_item,
                         data: [],
-                        data_id: item1.data.id,
+                        data_id: list_item.data[item.data_content?.data_list_key || 'id'],
                     };
                 });
             } else {

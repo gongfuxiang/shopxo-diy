@@ -166,9 +166,7 @@
 import { common_img_computer, common_styles_computer, get_math, gradient_handle, padding_computer, radius_computer, background_computer } from '@/utils';
 import { isEmpty, cloneDeep, throttle } from 'lodash';
 import ShopAPI from '@/api/shop';
-import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
-import 'swiper/css';
 const modules = [Autoplay];
 
 const props = defineProps({

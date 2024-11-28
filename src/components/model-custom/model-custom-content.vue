@@ -32,17 +32,17 @@
                         <div class="flex-col">
                             <el-form-item label="读取方式">
                                 <el-radio-group v-model="form.data_source_content.data_type">
-                                    <el-radio v-for="(item, index) in default_type_data.data_type" :key="index" :value="item">{{ item == 'appoint' ? '指定数据' : '筛选数据' }}</el-radio>
+                                    <el-radio v-for="(item, index) in default_type_data.data_type" :key="index" :value="item">{{ item === 0 ? '指定数据' : '筛选数据' }}</el-radio>
                                 </el-radio-group>
                             </el-form-item>
-                            <template v-if="form.data_source_content.data_type == 'appoint'">
+                            <template v-if="Number(form.data_source_content.data_type) === 0">
                                 <div class="nav-list">
                                     <drag-group :list="form.data_source_content.data_list" :img-params="default_type_data?.appoint_config?.show_data?.data_logo || ''" :title-params="default_type_data?.appoint_config?.show_data?.data_name || 'name'" type="custom" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
                                     <el-button class="mt-20 w" @click="add">+添加</el-button>
                                 </div>
                             </template>
                             <template v-else>
-                                <filter-form :filter-data="default_type_data.filter_config.filter_form_config" direction="vertical" :title-width="70" :data-interface="form.data_source_content" @form-change="filter_form_change"></filter-form>
+                                <filter-form :filter-data="default_type_data?.filter_config?.filter_form_config || {}" direction="vertical" :title-width="70" :data-interface="form.data_source_content" @form-change="filter_form_change"></filter-form>
                             </template>
                         </div>
                     </card-container>
@@ -172,8 +172,26 @@ const data_processing = () => {
     const type_data = options.value.filter((item) => item.type == form.value.data_source);
     if (type_data.length > 0 && !isEmpty(type_data[0].custom_config)) {
         default_type_data.value = type_data[0].custom_config;
+        default_data();
     }
 };
+// 默认数据处理
+const default_data = () => {
+    const { show_type = [], show_number = [], data_type = []} = default_type_data.value;
+    const { data_source_direction, data_source_carousel_col, data_source_content} = form.value;
+    // 如果存在默认数据类型的时候, 并且跟当前的不一致时，默认选中第一个
+    if (!isEmpty(show_type) && !show_type.includes(data_source_direction)) {
+        form.value.data_source_direction = show_type[0];
+    }
+    // 如果存在默认数据类型的时候, 并且跟当前的不一致时，默认选中第一个
+    if (!isEmpty(show_number) && !show_number.includes(data_source_carousel_col)) {
+        form.value.data_source_carousel_col = show_number[0];
+    }
+    // 如果存在默认数据类型的时候, 并且跟当前的不一致时，默认选中第一个
+    if (!isEmpty(data_type) && isEmpty(data_source_content.data_type) && !data_type.includes(data_source_content.data_type)) {
+        form.value.data_source_content.data_type = data_type[0];
+    }
+}
 // 处理显示的图片和传递到下去的数据结构
 const model_data_source = ref<data_list[]>([]);
 const processing_data = (key: string) => {
@@ -266,6 +284,7 @@ const changeDataSource = (key: string) => {
         };
         // 将数据赋值给默认数据
         default_type_data.value = custom_config;
+        default_data();
         // 如果不存在的时候，默认取id
         form.value.data_list_key = default_type_data.value?.appoint_config?.show_data?.data_key || 'id';
         // 根据不同的类型，初始化不同的数据, 并将对象处理成对应的值
@@ -313,11 +332,6 @@ const data_list_remove = (index: number) => {
 };
 // 弹出框选择的内容
 const url_value_dialog_call_back = (item: any[]) => {
-    if (form.value.data_source == 'brand') {
-        item.forEach((item: any) => {
-            item.title = item.name;
-        });
-    }
     // 如果是单选，当时data_list_replace_index 为-1，说明是添加，否则是替换
     if (url_value_multiple_bool.value || data_list_replace_index.value == -1) {
         item.forEach((item: any) => {
@@ -340,7 +354,7 @@ const url_value_dialog_call_back = (item: any[]) => {
 // 数据来源的内容
 let data_source_content_list = computed(() => {
     if (form.value.is_custom_data == '1') {
-        if (form.value.data_source_content.data_type == 'appoint') {
+        if (Number(form.value.data_source_content.data_type) === 0) {
             return form.value.data_source_content.data_list;
         } else {
             return form.value.data_source_content.data_auto_list;
@@ -351,8 +365,6 @@ let data_source_content_list = computed(() => {
 })
 // 获取商品自动数据
 const get_auto_data = () => {
-    //  清空数据, 避免接口报错等显示的还是老数据
-    form.value.data_source_content.data_auto_list = [];
     if (!isEmpty(default_type_data.value) && !isEmpty(default_type_data.value.filter_config) && !isEmpty(default_type_data.value.filter_config.data_url)) {
         const data = omit(cloneDeep(form.value.data_source_content), ['data_ids', 'data_list', 'data_auto_list', 'data_type']);
         request({
@@ -362,8 +374,17 @@ const get_auto_data = () => {
         }).then((res) => {
             if (res.data) {
                 form.value.data_source_content.data_auto_list = res.data;
+            } else {
+                //  清空数据, 避免接口报错等显示的还是老数据
+                form.value.data_source_content.data_auto_list = [];
             }
-        })
+        }).catch((err) => {
+            //  清空数据, 避免接口报错等显示的还是老数据
+            form.value.data_source_content.data_auto_list = [];
+        });
+    } else {
+        //  清空数据, 避免接口报错等显示的还是老数据
+        form.value.data_source_content.data_auto_list = [];
     }
 };
 // 将不需要监听的数据移除，只监听需要监听的数据
@@ -380,7 +401,7 @@ const data_source_content_value = computed(() => {
 // 数据发生变化时，调用接口获取数据
 watch(() => data_source_content_value.value, (new_val, old_val) => {
     // 数据发生变化时，如果是自动获取数据，则调用接口获取数据
-    if (JSON.stringify(new_val) != JSON.stringify(old_val) && new_val.data_type != 'appoint') {
+    if (JSON.stringify(new_val) != JSON.stringify(old_val) && Number(new_val.data_type) !== 0) {
         get_auto_data();
     }
 },{ deep: true });

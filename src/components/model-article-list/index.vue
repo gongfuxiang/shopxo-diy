@@ -81,7 +81,6 @@ import { isEmpty, cloneDeep } from 'lodash';
 import ArticleAPI from '@/api/article';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
-import 'swiper/css';
 const modules = [Autoplay];
 /**
  * @description: 文章列表（渲染）

@@ -46,7 +46,6 @@ import { common_img_computer, common_styles_computer, get_math, radius_computer 
 import { source_list } from '@/config/const/custom';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
-import 'swiper/css';
 const modules = [Autoplay];
 
 const props = defineProps({
@@ -108,7 +107,7 @@ const style_chunk_img_container = computed(() => common_img_computer(new_style.v
 let data_source_content_list = computed(() => {
     // 是自定义数据类型的时候，显示自定义数据，否则显示数据来源的数据
     if (form.value.is_custom_data == '1') {
-        if (form.value.data_source_content.data_type == 'appoint') {
+        if (Number(form.value.data_source_content.data_type) === 0) {
             return form.value.data_source_content?.data_list || [];
         } else {
             return !isEmpty(form.value.data_source_content) ? 
@@ -143,21 +142,23 @@ watchEffect(() => {
         autoplay.value = false;
     }
     // 判断是平移还是整屏滚动
-    slides_per_group.value = new_style.value.rolling_fashion == 'translation' ? 1 : form.value.data_source_carousel_col;
+    slides_per_group.value = new_style.value.rolling_fashion == 'translation' ? 1 : Number(form.value.data_source_carousel_col);
+    // 商品数量大于列数的时候，高度是列数，否则是当前的数量
+    const col = data_source_content_list.value.length > Number(form.value.data_source_carousel_col) ? Number(form.value.data_source_carousel_col) : data_source_content_list.value.length;
+    slides_per_view.value = col;
     let num = 0;
     // 轮播图数量
     if (!isEmpty(data_source_content_list.value)) {
-        num = new_style.value.rolling_fashion == 'translation' ? data_source_content_list.value.length : Math.ceil(data_source_content_list.value.length / form.value.data_source_carousel_col);
+        num = new_style.value.rolling_fashion == 'translation' ? data_source_content_list.value.length : Math.ceil(data_source_content_list.value.length / Number(form.value.data_source_carousel_col));
     }
     const { padding_top, padding_bottom, margin_bottom, margin_top } = new_style.value.data_style;
     // 轮播图高度控制
     if (form.value.data_source_direction == 'horizontal') {
         swiper_height.value = form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top;
     } else {
-        swiper_height.value = (form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top) * form.value.data_source_carousel_col;
+        swiper_height.value = (form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top) * col;
     }
     dot_list.value = Array(num);
-    slides_per_view.value = form.value.data_source_carousel_col;
     // 更新轮播图的key，确保更换时能重新更新轮播图
     carouselKey.value = get_math();
 });
@@ -188,7 +189,7 @@ const indicator_style = computed(() => {
 const actived_index = ref(0);
 const slideChange = (swiper: { realIndex: number }) => {
     // 轮播图滚动时，更新当前激活的下标， 如果不是平移的时候，需要除以列数，否则就是当前的下标
-    actived_index.value = new_style.value.rolling_fashion == 'translation' ? swiper.realIndex : (swiper.realIndex / form.value.data_source_carousel_col) > 0 ? (swiper.realIndex / form.value.data_source_carousel_col) : 0;
+    actived_index.value = new_style.value.rolling_fashion == 'translation' ? swiper.realIndex : (swiper.realIndex / Number(form.value.data_source_carousel_col)) > 0 ? (swiper.realIndex / Number(form.value.data_source_carousel_col)) : 0;
 };
 //#endregion
 //#region 指示器位置
