@@ -16,6 +16,11 @@
                 <el-form-item label="链接">
                     <url-value v-model="form.link"></url-value>
                 </el-form-item>
+                <el-form-item label="数据链接">
+                    <el-select v-model="form.data_source_link" value-key="id" clearable filterable placeholder="请选择数据链接字段" size="default" class="flex-1" @change="img_link_change('2')">
+                        <el-option v-for="item in options.filter((item) => item.type == 'link')" :key="item.field" :label="item.name" :value="item.field" />
+                    </el-select>
+                </el-form-item>
                 <el-form-item label="背景颜色">
                     <div class="flex-col gap-10 w">
                         <div class="size-12">背景色</div>
@@ -113,6 +118,15 @@ const location_x_change = (val: number) => {
 const location_y_change = (val: number) => {
     diy_data.value.location.record_y = val;
     diy_data.value.location.staging_y = val;
+}
+
+// 数据链接字段切换时，更新另外一个数据
+const img_link_change = (key: string) => {
+    if (key == '2') {
+        form.value.link = {};
+    } else {
+        form.value.data_source_link = '';
+    }
 }
 
 watch(

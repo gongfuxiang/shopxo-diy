@@ -5,7 +5,7 @@
                 <div class="tc size-16 fw">{{ config?.popup_title || '' }}</div>
             </div>
         </template>
-        <div class="flex-col gap-20 w h pa-20">
+        <div class="flex-col gap-20 w h pa-20 oh">
             <filter-form :filter-data="config.filter_form_config" direction="horizontal" :data-interface="default_data" @form-change="filter_form_change"></filter-form>
             <table-config v-loading="loading" :table-data="tableData" :multiple="multiple" :table-column-list="config.header" @select="table_select"></table-config>
             <div class="flex-row jc-e">

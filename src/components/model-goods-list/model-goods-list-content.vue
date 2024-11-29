@@ -148,7 +148,7 @@ const url_value_dialog_call_back = (item: any[]) => {
     } else {
         form.value.data_list[data_list_replace_index.value] = {
             id: get_math(),
-            new_cover: [],
+            new_cover: form.value.data_list[data_list_replace_index.value]?.new_cover || [],
             new_title: '',
             data: item[0],
         };

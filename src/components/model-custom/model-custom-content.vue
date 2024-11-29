@@ -290,9 +290,9 @@ const changeDataSource = (key: string) => {
         // 根据不同的类型，初始化不同的数据, 并将对象处理成对应的值
         default_type_data.value.filter_config.filter_form_config.forEach((item: any) => {
             let value : number | string | Array<any> = '';
-            if (item.type == 'checkbox' || item.type == 'select' && item.config.is_multiple == '1') { // 多选
+            if (item.type == 'checkbox' || (item.type == 'select' && item.config.is_multiple == '1')) { // 多选
                 value = item.config.default ? item.config.default : [];
-            } else if (item.type == 'input' && item.config.type == 'number') { // 数字
+            } else if (item.type == 'input' || item.config.type == 'number') { // 数字
                 value = item.config.default ? item.config.default : 0;
             } else if (item.type == 'switch') {
                 value = item.config.default ? item.config.default : "0";
@@ -316,12 +316,17 @@ const data_list_replace = (index: number) => {
     url_value_multiple_bool.value = false;
     url_value_dialog_visible.value = true;
 };
+// 新增数据
 const add = () => {
-    // 添加的时候，index为-1
-    data_list_replace_index.value = -1;
-    // 添加是单选还是多选由后台配置决定
-    url_value_multiple_bool.value = default_type_data.value.appoint_config.is_multiple.toString() == '1' ? true : false;
-    url_value_dialog_visible.value = true;
+    if (!isEmpty(default_type_data.value?.appoint_config?.data_url)) {
+        // 添加的时候，index为-1
+        data_list_replace_index.value = -1;
+        // 添加是单选还是多选由后台配置决定
+        url_value_multiple_bool.value = default_type_data.value.appoint_config.is_multiple.toString() == '1' ? true : false;
+        url_value_dialog_visible.value = true;
+    } else {
+        ElMessage.error('请先配置数据源地址');
+    }
 };
 // 拖拽更新之后，更新数据
 const data_list_sort = (new_list: any) => {
@@ -345,7 +350,7 @@ const url_value_dialog_call_back = (item: any[]) => {
     } else {
         form.value.data_source_content.data_list[data_list_replace_index.value] = {
             id: get_math(),
-            new_cover: [],
+            new_cover: form.value.data_source_content.data_list[data_list_replace_index.value]?.new_cover || [],
             new_title: '',
             data: item[0],
         };
@@ -382,6 +387,8 @@ const get_auto_data = () => {
             //  清空数据, 避免接口报错等显示的还是老数据
             form.value.data_source_content.data_auto_list = [];
         });
+    } else if (!isEmpty(default_type_data.value) && !isEmpty(default_type_data.value.filter_config) && isEmpty(default_type_data.value.filter_config.data_url)) {
+        ElMessage.error('请先配置数据源地址');
     } else {
         //  清空数据, 避免接口报错等显示的还是老数据
         form.value.data_source_content.data_auto_list = [];

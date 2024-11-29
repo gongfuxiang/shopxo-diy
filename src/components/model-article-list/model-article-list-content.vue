@@ -200,7 +200,7 @@ const url_value_dialog_call_back = (item: any[]) => {
         form.value.data_list[data_list_replace_index.value] = {
             id: get_math(),
             new_title: '',
-            new_cover: [],
+            new_cover: form.value.data_list[data_list_replace_index.value]?.new_cover || [],
             data: item[0],
         };
     }
