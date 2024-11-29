@@ -81,6 +81,8 @@ const box_style = computed(() => {
     let style = `background: ${ new_style.value.search_bg_color };border: 1px solid ${ new_style.value.search_border }; ${ radius_computer(new_style.value.search_border_radius) };`;
     if (form.value.is_center == '1') {
         style += `justify-content: center;`;
+    } else {
+        style += `padding-left: ${ new_style.value.search_padding_left }px;`;
     }
     return style;
 });
@@ -140,7 +142,7 @@ watchEffect(() => {
 .search {
     height: 3.2rem;
     .box {
-        padding: 0.6rem 1.5rem;
+        padding: 0.6rem 1.5rem 0.6rem 0;
     }
     .img-box {
         height: 100%;

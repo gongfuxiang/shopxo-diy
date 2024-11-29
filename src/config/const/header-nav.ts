@@ -24,6 +24,7 @@ interface DefaultFooterNav {
         indicator_location: string;
         bottom_navigation_show: string;
         positioning_name: string;
+        positioning_name_float: string;
         icon_setting: { id: string; img: uploadList[]; link: object; icon: string }[];
         is_location_left_icon_show: string;
         location_left_img: uploadList[];
@@ -72,7 +73,18 @@ interface DefaultFooterNav {
         search_botton_background_img_style: string;
         search_botton_background_img: uploadList[];
         search_button_radius: object;
-        position_color: string;
+        location_direction: string;
+        location_color_list: color_list[],
+        location_background_img_style: string,
+        location_background_img: string[],
+        location_color: string;
+        location_border_show: string;
+        location_border_color: string;
+        location_border_direction:  string;
+        location_border_size: number;
+        location_radius: radiusStyle;
+        location_padding: paddingStyle;
+        location_margin: marginStyle;
         img_size: string;
         img_space: string;
         img_color: string;
@@ -81,6 +93,7 @@ interface DefaultFooterNav {
         search_border: string;
         search_bg_color: string;
         search_border_radius: object;
+        search_padding_left: number,
         common_style: object;
     };
 }
@@ -105,6 +118,7 @@ const defaultFooterNav: DefaultFooterNav = {
         location_left_icon: 'location',
         // 定位内容
         positioning_name: '未选择位置',
+        positioning_name_float: '0',
         // 定位右侧图标内容
         is_location_right_icon_show: '1',
         location_right_img: [],
@@ -158,8 +172,37 @@ const defaultFooterNav: DefaultFooterNav = {
         // 左侧返回按钮颜色
         left_back_btn_color: '#333',
         icon_color: '#ccc',
-        // 定位颜色
-        position_color: '#333',
+        // 定位设置
+        location_direction: '90deg',
+        location_color_list: [{ color: '', color_percentage: undefined }],
+        location_background_img_style: '0',
+        location_background_img: [],
+        location_color: '#333',
+        location_border_show: '0',
+        location_border_color: 'FF3F3F',
+        location_border_direction:  'all',
+        location_border_size: 1,
+        location_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+        },
+        location_padding: {
+            padding: 0,
+            padding_top: 0,
+            padding_right: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+        },
+        location_margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_right: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+        },
         // 右侧图标大小和间距
         img_size: '23',
         img_space: '15',
@@ -195,6 +238,7 @@ const defaultFooterNav: DefaultFooterNav = {
             radius_bottom_left: 16,
             radius_bottom_right: 16,
         },
+        search_padding_left: 15,
         common_style: {
             ...defaultCommon,
             color_list: [{ color: '#f5f5f5', color_percentage: undefined }],

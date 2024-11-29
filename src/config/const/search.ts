@@ -30,6 +30,7 @@ interface defaultSearch {
         search_botton_background_img_style: string;
         search_botton_background_img: uploadList[];
         search_button_radius: object;
+        search_padding_left: number;
         tips_color: string;
         hot_words_color: string;
         search_border: string;
@@ -95,6 +96,7 @@ const defaultSearch: defaultSearch = {
             radius_bottom_left: 16,
             radius_bottom_right: 16,
         },
+        search_padding_left: 10,
         // 热词轮播
         is_roll: '1',
         interval_time: 3,

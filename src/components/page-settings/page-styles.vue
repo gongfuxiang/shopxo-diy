@@ -28,9 +28,6 @@
                 <el-form-item v-if="['1', '2', '3'].includes(page_content.theme)" label="标题名称">
                     <color-text-size-group v-model:color="form.header_background_title_color" v-model:typeface="form.header_background_title_typeface" v-model:size="form.header_background_title_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
-                <el-form-item v-if="['4', '5'].includes(page_content.theme)" label="定位颜色">
-                    <color-picker v-model="form.position_color" default-color="#333"></color-picker>
-                </el-form-item>
                 <el-form-item v-if="form.header_background_type == 'transparent'" label="沉浸样式">
                     <div class="flex-row align-c gap-10">
                         <el-switch v-model="form.immersive_style" active-value="1" inactive-value="0" :disabled="is_have_tabs" @change="change_immersive_style"></el-switch>
@@ -75,6 +72,54 @@
                     <slider v-model="form.data_alone_row_space" :max="100"></slider>
                 </el-form-item>
             </card-container>
+            <template v-if="['4', '5'].includes(page_content.theme)">
+                <card-container>
+                    <div class="mb-12">定位设置</div>
+                    <el-form-item label="定位背景">
+                        <div class="flex-col gap-10 w">
+                            <div class="size-12">背景色</div>
+                            <mult-color-picker :value="form.location_color_list" :type="form.location_direction" @update:value="location_mult_color_picker_event"></mult-color-picker>
+                            <div class="flex-row jc-sb align-c">
+                                <div class="size-12">背景图</div>
+                                <bg-btn-style v-model="form.location_background_img_style"></bg-btn-style>
+                            </div>
+                            <upload v-model="form.location_background_img" :limit="1" @update:model-value="location_background_img_change"></upload>
+                        </div>
+                    </el-form-item>
+                    <el-form-item v-if="['4', '5'].includes(page_content.theme)" label="定位颜色">
+                        <color-picker v-model="form.location_color" default-color="#333"></color-picker>
+                    </el-form-item>
+                    <el-form-item label="圆角">
+                        <radius :value="form.location_radius"></radius>
+                    </el-form-item>
+                    <el-form-item label="内间距">
+                        <padding :value="form.location_padding"></padding>
+                    </el-form-item>
+                    <el-form-item label="外边距">
+                        <margin :value="form.location_margin"></margin>
+                    </el-form-item>
+                    <el-form-item label="边框">
+                        <el-switch v-model="form.location_border_show" active-value="1" inactive-value="0" />
+                    </el-form-item>
+                    <template v-if="form.location_border_show == '1'">
+                        <el-form-item label="边框颜色">
+                            <color-picker v-model="form.location_border_color" default-color="#FF3F3F"></color-picker>
+                        </el-form-item>
+                        <el-form-item label="边框位置">
+                            <el-radio-group v-model="form.location_border_direction">
+                                <el-radio value="all">全部</el-radio>
+                                <el-radio value="left">左侧</el-radio>
+                                <el-radio value="right">右侧</el-radio>
+                                <el-radio value="top">上边框</el-radio>
+                                <el-radio value="bottom">下边框</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <el-form-item label="边框粗细">
+                            <slider v-model="form.location_border_size" :max="100"></slider>
+                        </el-form-item>
+                    </template>
+                </card-container>
+            </template>
             <div class="bg-f5 divider-line" />
             <card-container>
                 <div class="mb-12">右侧图标设置</div>
@@ -164,6 +209,16 @@ const up_slide_mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.up_slide_background_color_list = arry;
     form.value.up_slide_background_direction = type.toString();
 };
+// 定位背景处理
+const location_mult_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.location_color_list = arry;
+    form.value.location_direction = type.toString();
+};
+// 定位背景图片处理
+const location_background_img_change = (val: uploadList[]) => {
+    form.value.location_background_img = val;
+};
+
 const change_immersive_style = (val: string | number | boolean) => {
     if (val === '0') {
         // 沉浸模式关闭的时候，安全距离关闭

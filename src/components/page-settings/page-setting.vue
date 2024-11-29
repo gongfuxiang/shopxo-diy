@@ -30,6 +30,7 @@ const default_data = {
         icon_setting: [
             { id: get_math(), img: [], icon: 'bell', link: {} },
         ],
+        positioning_name_float: '0',
         is_location_left_icon_show: '1',
         location_left_img: [],
         location_left_icon: 'location',
@@ -71,7 +72,37 @@ const default_data = {
             radius_bottom_left: 16,
             radius_bottom_right: 16,
         },
-        position_color: '#333',
+        // 定位设置
+        location_direction: '90deg',
+        location_color_list: [{ color: '', color_percentage: undefined }],
+        location_background_img_style: '0',
+        location_background_img: [],
+        location_color: '#333',
+        location_border_show: '0',
+        location_border_color: 'FF3F3F',
+        location_border_direction:  'all',
+        location_border_size: 1,
+        location_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+        },
+        location_padding: {
+            padding: 0,
+            padding_top: 0,
+            padding_right: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+        },
+        location_margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_right: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+        },
         img_size: '23',
         img_space: '15',
         img_color: '#666',
@@ -86,6 +117,7 @@ const default_data = {
             radius_bottom_left: 16,
             radius_bottom_right: 16,
         },
+        search_padding_left: 15,
     }
 }
 const common_config = computed(() => {
