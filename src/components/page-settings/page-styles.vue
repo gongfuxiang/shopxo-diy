@@ -73,6 +73,7 @@
                 </el-form-item>
             </card-container>
             <template v-if="['4', '5'].includes(page_content.theme)">
+                <div class="bg-f5 divider-line" />
                 <card-container>
                     <div class="mb-12">定位设置</div>
                     <el-form-item label="定位背景">
