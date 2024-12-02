@@ -171,6 +171,9 @@ const data_processing = () => {
     // 如果有历史的值，那么就需要根据历史的值来处理一下数据
     const type_data = options.value.filter((item) => item.type == form.value.data_source);
     if (type_data.length > 0 && !isEmpty(type_data[0].custom_config)) {
+        // 是自定义数据类型
+        form.value.is_custom_data = '1';
+        // 默认数据配置
         default_type_data.value = type_data[0].custom_config;
         default_data();
     }

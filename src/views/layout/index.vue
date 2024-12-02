@@ -329,9 +329,9 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                         item1.data_content.data_source_content.data_ids = [];
                         item1.data_content.data_source_content.data_list = [];
                         item1.data_content.data_source_content.data_auto_list = [];
-                        item1.data_content.data_source_content.data_type = '0';
+                        item1.data_content.data_source_content.data_type = 0;
                     } else {
-                        item1.data_content.data_source_content = { data_type: '0', data_ids: '', data_list: [], data_auto_list: []}
+                        item1.data_content.data_source_content = { data_type: 0, data_ids: '', data_list: [], data_auto_list: []}
                     }
                 } else if (item1.data_content.data_type == 'custom') {
                     if (item1.data_content.is_custom_data == '1' && item1.data_content.data_source_content.data_type === 0) {
@@ -362,12 +362,12 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                     // 判断值是否存在
                     if (!isEmpty(item1.data_content.data_source_content)) {
                         // 清除自定义里的数据
-                        item1.data_content.data_source_content.data_type = '0';
+                        item1.data_content.data_source_content.data_type = 0;
                         item1.data_content.data_source_content.data_ids = '';
                         item1.data_content.data_source_content.data_list = [];
                         item1.data_content.data_source_content.data_auto_list = [];
                     } else {
-                        item1.data_content.data_source_content = { data_type: '0', data_ids: '', data_list: [], data_auto_list: []}
+                        item1.data_content.data_source_content = { data_type: 0, data_ids: '', data_list: [], data_auto_list: []}
                     }
                 }
             });
