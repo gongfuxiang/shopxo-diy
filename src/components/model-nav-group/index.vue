@@ -209,6 +209,7 @@ watchEffect(() => {
             group_width.value = `${100 / (form.value.single_line || 4)}%`;
         }
     } else {
+        slides_per_view.value = 1;
         group_width.value = `${100 / (form.value.single_line || 4)}%`;
     }
     // 更新轮播图的key，确保更换时能重新更新轮播图
