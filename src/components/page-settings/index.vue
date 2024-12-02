@@ -203,7 +203,7 @@ const style_location_img_container = computed(() => {
             border += `border-${location_border_direction}: ${location_border_size}px solid ${location_border_color};`;
         }
     }
-    return background_computer(style) + padding_computer(location_padding) + border;
+    return background_computer(style) + padding_computer(location_padding) + radius_computer(new_style.value.location_radius) + border;
 });
 // 文字样式
 const text_style = computed(() => `font-weight:${new_style.value.header_background_title_typeface}; font-size: ${new_style.value.header_background_title_size}px; color: ${new_style.value.header_background_title_color};`);
