@@ -171,6 +171,10 @@ const data_merge = (list: string[]) => {
 const default_merge = (data: any, key: string) => {
     if (data.style) {
         data.style = Object.assign({}, cloneDeep((defaultSettings as any)[key.replace(/-/g, '_')]).style, data.style);
+        // 历史的值，赋值给新的值
+        if (key == 'header_nav' && !isEmpty(data.style.position_color)) {
+            data.style.location_color = data.style.position_color;
+        }
     } else {
         data.style = cloneDeep((defaultSettings as any)[key.replace(/-/g, '_')]).style;
     }
@@ -232,6 +236,9 @@ const save_close_event = (bool: boolean) => {
 const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_export: boolean = false, is_preview: boolean = false) => {
     const clone_form = cloneDeep(data);
     clone_form.header.show_tabs = '1';
+    // 去除位置颜色
+    clone_form.header.com_data.style = omit(cloneDeep(clone_form.header.com_data.style), ['position_color']);
+
     clone_form.footer.show_tabs = '0';
     // 字段比coupon多
     const new_array_1 = ['goods-list', 'article-list'];
@@ -316,11 +323,16 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                             data_id: item3.data.id,
                         };
                     });
-                    // 清除自定义里的数据
-                    item1.data_content.data_source_content.data_ids = [];
-                    item1.data_content.data_source_content.data_list = [];
-                    item1.data_content.data_source_content.data_auto_list = [];
-                    item1.data_content.data_source_content.data_type = '0';
+                    // 判断值是否存在
+                    if (!isEmpty(item1.data_content.data_source_content)) {
+                        // 清除自定义里的数据
+                        item1.data_content.data_source_content.data_ids = [];
+                        item1.data_content.data_source_content.data_list = [];
+                        item1.data_content.data_source_content.data_auto_list = [];
+                        item1.data_content.data_source_content.data_type = '0';
+                    } else {
+                        item1.data_content.data_source_content = { data_type: '0', data_ids: '', data_list: [], data_auto_list: []}
+                    }
                 } else if (item1.data_content.data_type == 'custom') {
                     if (item1.data_content.is_custom_data == '1' && item1.data_content.data_source_content.data_type === 0) {
                         const data_list = cloneDeep(item1.data_content.data_source_content.data_list);
@@ -347,11 +359,16 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                     // 清除商品里的数据
                     item1.data_content.goods_ids = '';
                     item1.data_content.goods_list= [];
-                    // 清除自定义里的数据
-                    item1.data_content.data_source_content.data_type = '0';
-                    item1.data_content.data_source_content.data_ids = '';
-                    item1.data_content.data_source_content.data_list = [];
-                    item1.data_content.data_source_content.data_auto_list = [];
+                    // 判断值是否存在
+                    if (!isEmpty(item1.data_content.data_source_content)) {
+                        // 清除自定义里的数据
+                        item1.data_content.data_source_content.data_type = '0';
+                        item1.data_content.data_source_content.data_ids = '';
+                        item1.data_content.data_source_content.data_list = [];
+                        item1.data_content.data_source_content.data_auto_list = [];
+                    } else {
+                        item1.data_content.data_source_content = { data_type: '0', data_ids: '', data_list: [], data_auto_list: []}
+                    }
                 }
             });
         } else if (new_array_5.includes(item.key)) {
