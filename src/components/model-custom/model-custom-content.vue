@@ -188,8 +188,10 @@ const default_data = () => {
         form.value.data_source_carousel_col = show_number[0];
     }
     // 如果存在默认数据类型的时候, 并且跟当前的不一致时，默认选中第一个
-    if (!isEmpty(data_type) && isEmpty(data_source_content.data_type) && !data_type.includes(data_source_content.data_type)) {
+    if (!isEmpty(data_type) && isEmpty(data_source_content.data_type) && !data_type.includes(Number(data_source_content.data_type))) {
         form.value.data_source_content.data_type = data_type[0];
+    } else if (!isEmpty(data_source_content.data_type) && typeof data_source_content.data_type == 'string') { // 老数据使用的是字符串类型，需要转换一下
+        form.value.data_source_content.data_type = Number(form.value.data_source_content.data_type);
     }
 }
 // 处理显示的图片和传递到下去的数据结构

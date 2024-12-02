@@ -20,6 +20,9 @@ const message_error = (info: string) => {
 // 创建一个状态变量来跟踪是否已经弹出了退出登录的弹窗
 const isLogoutModalShown = ref(true);
 
+// 用于存储每个请求的CancelToken
+const pendingRequests = new Map();
+
 // 创建 axios 实例
 const index = window.location.href.lastIndexOf('?s=');
 const pro_url = window.location.href.substring(0, index);
@@ -43,6 +46,17 @@ service.interceptors.request.use(
                 config.url = config.url + '&token=' + (JSON.parse(cookie) !== 'null' ? JSON.parse(cookie)?.token : '');
             }
         }
+        // 检查是否有相同请求正在进行，如果有则取消, 防止重复请求导致返回数据有误
+        if (pendingRequests.has(config.url)) {
+            const cancelToken = pendingRequests.get(config.url);
+            cancelToken.cancel('canceled');
+            pendingRequests.delete(config.url);
+        }
+        // 创建一个新的 CancelToken
+        const source = axios.CancelToken.source();
+        config.cancelToken = source.token;
+        pendingRequests.set(config.url, source);
+
         return config;
     },
     (error: any) => {
@@ -52,6 +66,9 @@ service.interceptors.request.use(
 // 响应拦截器
 service.interceptors.response.use(
     (response: AxiosResponse) => {
+        // 请求完成后，从pendingRequests中移除
+        pendingRequests.delete(response.config.url);
+
         const { code, msg, message, data } = response.data;
         if (code == 0) {
             return response.data;
@@ -74,9 +91,12 @@ service.interceptors.response.use(
         }
     },
     (error: any) => {
+        console.log(error);
         if (error.response && error.response.data) {
             const { msg, message } = error.response.data;
             message_error(msg || message || '系统出错');
+        } else if (error.message == 'canceled') {
+            console.log('请求已取消');
         } else {
             message_error(error.message);
         }

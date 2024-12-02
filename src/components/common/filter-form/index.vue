@@ -2,7 +2,7 @@
     <div :class="props.direction == 'vertical' ? 'flex-col gap-x-18' : 'flex-row gap-y-20 jc-e'">
         <div v-for="(item, index) in props.filterData" :key="index" class="filter-style flex-row gap-12">
             <div v-if="!isEmpty(item.title)" :class="['title text-line-1', props.direction == 'vertical' ? '' : 'horizontal-title']" :style="`width: ${ Number(props.titleWidth) > 0 ? props.titleWidth + 'px;' : '100%' }`">{{ item.title }}</div>
-            <div class="w h flex-1">
+            <div class="w h flex-1 vertical-style">
                 <template v-if="item.type == 'select'">
                     <template v-if="item.config.is_level.toString() == '1'">
                         <div class="flex-row gap-10">
@@ -163,6 +163,22 @@ const contains_value = (list: any[], config: any, result: any[], children?: stri
 .filter-style {
     min-height: 3.2rem;
     min-width: 20rem;
+}
+.vertical-style {
+    min-width: 20rem;
+}
+// 输入框超出隐藏，不换行
+:deep(.el-cascader) {
+    height: 3.2rem;
+    .el-input {
+        height: 3.2rem;
+    }
+    .el-cascader__tags {
+        flex-wrap: nowrap !important;
+    }
+    .el-tag {
+        max-width: 10rem;
+    }
 }
 .horizontal-title {
     flex-basis: max-content;
