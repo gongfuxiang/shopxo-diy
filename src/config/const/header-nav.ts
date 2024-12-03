@@ -78,6 +78,8 @@ interface DefaultFooterNav {
         location_background_img_style: string,
         location_background_img: string[],
         location_color: string;
+        location_left_icon_size: number;
+        location_right_icon_size: number;
         location_border_show: string;
         location_border_color: string;
         location_border_direction:  string;
@@ -178,8 +180,10 @@ const defaultFooterNav: DefaultFooterNav = {
         location_background_img_style: '0',
         location_background_img: [],
         location_color: '#333',
+        location_left_icon_size: 12,
+        location_right_icon_size: 12,
         location_border_show: '0',
-        location_border_color: 'FF3F3F',
+        location_border_color: '#FF3F3F',
         location_border_direction:  'all',
         location_border_size: 1,
         location_radius: {
@@ -199,7 +203,7 @@ const defaultFooterNav: DefaultFooterNav = {
         location_margin: {
             margin: 0,
             margin_top: 0,
-            margin_right: 0,
+            margin_right: 10,
             margin_bottom: 0,
             margin_left: 0,
         },

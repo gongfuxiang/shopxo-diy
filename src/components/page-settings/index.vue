@@ -34,23 +34,23 @@
                                     </template>
                                 </div>
                             </div>
-                            <div v-else-if="['4', '5'].includes(form.theme)" class="flex-1 flex-row align-c h gap-10 re">
-                                <div :class="['model-head-location oh', form.positioning_name_float == '1' ? 'abs z-i' : '' ]" :style="style_location_container">
-                                    <div class="flex-row gap-2 align-c h oh" :style="style_location_img_container">
+                            <div v-else-if="['4', '5'].includes(form.theme)" class="flex-1 flex-row align-c h re">
+                                <div v-if="form.positioning_name_float !== '1'" class="model-head-location oh" :style="style_location_container">
+                                    <div class="flex-row gap-4 align-c oh" :style="style_location_img_container">
                                         <template v-if="form.is_location_left_icon_show == '1'">
                                             <image-empty v-if="form.location_left_img.length > 0" v-model="form.location_left_img[0]" fit="contain" :error-img-style="'width: 12px; height:12px'"></image-empty>
-                                            <icon v-else :name="form.location_left_icon" size="12"></icon>
+                                            <icon v-else :name="form.location_left_icon" :size="new_style?.location_left_icon_size + '' || '12'"></icon>
                                         </template>
                                         <span class="location-name size-14 text-line-1">{{ form.positioning_name }}</span>
                                         <template v-if="form.is_location_right_icon_show == '1'">
                                             <image-empty v-if="form.location_right_img.length > 0" v-model="form.location_right_img[0]" fit="contain" :error-img-style="'width: 12px; height:12px'"></image-empty>
-                                            <icon v-else :name="form.location_right_icon" size="12"></icon>
+                                            <icon v-else :name="form.location_right_icon" :size="new_style?.location_right_icon_size + '' || '12'"></icon>
                                         </template>
                                     </div>
                                 </div>
                                 <template v-if="['5'].includes(form.theme) && !is_search_alone_row">
                                     <div class="flex-1">
-                                        <model-search :value="pageData.com_data" :is-page-settings="true"></model-search>
+                                        <model-search :value="pageData.com_data" :is-page-settings="true" search-type="header" :header-location-style="style_location_container" :header-location-img-style="style_location_img_container"></model-search>
                                     </div>
                                 </template>
                             </div>
@@ -170,26 +170,19 @@ const up_slide_img_style = computed(() => {
     }
     return style;
 });
-const location_height = computed(() => { 
-    const { location_margin } = new_style.value;
-    return 32 - location_margin.margin_top - location_margin.margin_bottom + 'px'; 
-});
-const img_height = computed(() => { 
-    const { location_margin } = new_style.value;
-    const height = 32 - location_margin.margin_top - location_margin.margin_bottom;
-    return height > 28 ? '28px' : height + 'px';
-});
 // 定位设置
 const style_location_container = computed(() => {
+    const { location_margin, location_color_list, location_direction, location_radius} = new_style.value;
     const style = {
-        color_list: new_style.value.location_color_list,
-        direction: new_style.value.location_direction,
+        color_list: location_color_list,
+        direction: location_direction,
     }
-    return gradient_computer(style) + margin_computer(new_style.value.location_margin) + radius_computer(new_style.value.location_radius) + `color: ${new_style.value.location_color};`;
+    const height = 32 - location_margin.margin_top - location_margin.margin_bottom;
+    return gradient_computer(style) + margin_computer(location_margin) + radius_computer(location_radius) + `color: ${new_style.value.location_color};height: ${height}px;line-height: ${height}px;`;
 });
 // 背景图片
 const style_location_img_container = computed(() => {
-    const { location_background_img, location_background_img_style, location_padding, location_border_direction, location_border_size, location_border_color } = new_style.value;
+    const { location_background_img, location_background_img_style, location_padding, location_border_direction, location_border_size, location_border_color, location_margin } = new_style.value;
     const style = {
         background_img: location_background_img,
         background_img_style: location_background_img_style,
@@ -203,7 +196,8 @@ const style_location_img_container = computed(() => {
             border += `border-${location_border_direction}: ${location_border_size}px solid ${location_border_color};`;
         }
     }
-    return background_computer(style) + padding_computer(location_padding) + radius_computer(new_style.value.location_radius) + border;
+    const height = 32 - location_margin.margin_top - location_margin.margin_bottom;
+    return background_computer(style) + padding_computer(location_padding) + radius_computer(new_style.value.location_radius) + border + `height: ${height}px;line-height: ${height}px;`;
 });
 // 文字样式
 const text_style = computed(() => `font-weight:${new_style.value.header_background_title_typeface}; font-size: ${new_style.value.header_background_title_size}px; color: ${new_style.value.header_background_title_color};`);
@@ -243,10 +237,8 @@ const position_class = computed(() => (form.value?.indicator_location == 'center
             flex-shrink: 1;
         }
         .model-head-location {
-            height: v-bind(location_height);
             :deep(.el-image) {
                 width: 100%;
-                height: v-bind(img_height);
                 flex-basis: content;
                 flex-shrink: 1;
             }

@@ -1,26 +1,41 @@
 <template>
     <div :style="style_container">
         <div :style="style_img_container">
-            <div class="search w re" :style="style">
-                <div class="box h oh flex align-c gap-10" :style="box_style">
-                    <template v-if="form.is_icon_show == '1'">
-                        <template v-if="form.icon_img.length > 0">
-                            <div class="img-box">
-                                <image-empty v-model="form.icon_img[0]" class="img" fit="contain" error-img-style="width: 4rem;height: 2.5rem;" />
-                            </div>
+            <div class="search w re">
+                <div class="box h oh flex align-c" :style="box_style">
+                    <div v-if="form.positioning_name_float == '1' && searchType == 'header'" class="model-head-location oh" :style="headerLocationStyle">
+                        <div class="flex-row gap-4 align-c oh" :style="headerLocationImgStyle">
+                            <template v-if="form.is_location_left_icon_show == '1'">
+                                <image-empty v-if="form.location_left_img.length > 0" v-model="form.location_left_img[0]" fit="contain" :error-img-style="'width: 12px; height:12px'"></image-empty>
+                                <icon v-else :name="form.location_left_icon" :size="new_style?.location_left_icon_size + '' || '12'"></icon>
+                            </template>
+                            <span class="location-name size-12 text-line-1">{{ form.positioning_name }}</span>
+                            <template v-if="form.is_location_right_icon_show == '1'">
+                                <image-empty v-if="form.location_right_img.length > 0" v-model="form.location_right_img[0]" fit="contain" :error-img-style="'width: 12px; height:12px'"></image-empty>
+                                <icon v-else :name="form.location_right_icon" :size="new_style?.location_right_icon_size + '' || '12'"></icon>
+                            </template>
+                        </div>
+                    </div>
+                    <div class="flex-1 h flex-row align-c gap-10">
+                        <template v-if="form.is_icon_show == '1'">
+                            <template v-if="form.icon_img.length > 0">
+                                <div class="img-box">
+                                    <image-empty v-model="form.icon_img[0]" class="img" fit="contain" error-img-style="width: 4rem;height: 2.5rem;" />
+                                </div>
+                            </template>
+                            <template v-else>
+                                <el-icon :class="`iconfont ${ !isEmpty(form.icon_class) ? 'icon-' + form.icon_class : 'icon-search' } size-14`" :style="`color:${new_style.icon_color};`" />
+                            </template>
+                        </template>
+                        <template v-if="!isEmpty(form.hot_word_list) && form.is_hot_word_show == '1'">
+                            <el-carousel :key="carouselKey" class="flex-1" indicator-position="none" :interval="interval_list.time" arrow="never" height="32px" direction="vertical" :autoplay="interval_list.is_roll == '1'">
+                                <el-carousel-item v-for="(item, index) in form.hot_word_list" :key="index" class="flex align-c" :style="{ 'color': !isEmpty(item.color) ? item.color : !isEmpty(new_style.hot_words_color) ? new_style.hot_words_color : '#999' }">{{ item.value }}</el-carousel-item>
+                            </el-carousel>
                         </template>
                         <template v-else>
-                            <el-icon :class="`iconfont ${ !isEmpty(form.icon_class) ? 'icon-' + form.icon_class : 'icon-search' } size-14`" :style="`color:${new_style.icon_color};`" />
+                            <span v-if="form.is_tips_show == '1'" :class="[props.isPageSettings ? 'size-12 text-line-1' : 'size-14 text-line-1']" :style="`color: ${ new_style.tips_color }`">{{ form.tips }}</span>
                         </template>
-                    </template>
-                    <template v-if="!isEmpty(form.hot_word_list) && form.is_hot_word_show == '1'">
-                        <el-carousel :key="carouselKey" class="flex-1" indicator-position="none" :interval="interval_list.time" arrow="never" height="32px" direction="vertical" :autoplay="interval_list.is_roll == '1'">
-                            <el-carousel-item v-for="(item, index) in form.hot_word_list" :key="index" class="flex align-c" :style="{ 'color': !isEmpty(item.color) ? item.color : !isEmpty(new_style.hot_words_color) ? new_style.hot_words_color : '#999' }">{{ item.value }}</el-carousel-item>
-                        </el-carousel>
-                    </template>
-                    <template v-else>
-                        <span v-if="form.is_tips_show == '1'" :class="[props.isPageSettings ? 'size-12 text-line-1' : 'size-14 text-line-1']" :style="`color: ${ new_style.tips_color }`">{{ form.tips }}</span>
-                    </template>
+                    </div>
                 </div>
                 <div v-if="form.is_search_show == '1'" class="abs search-botton h flex align-c jc-c" :style="search_button">
                     <template v-if="form.search_type === 'text'">
@@ -54,6 +69,18 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    searchType: {
+        type: String,
+        default: 'search',
+    },
+    headerLocationStyle: {
+        type: String,
+        default: '',
+    },
+    headerLocationImgStyle: {
+        type: String,
+        default: '',
+    }
 });
 // 用于页面判断显示
 const state = reactive({
@@ -63,16 +90,16 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form, new_style } = toRefs(state);
 
-// 用于样式显示
-const style = computed(() => {
-    let common_styles = '';
-    if (new_style.value.text_style == 'italic') {
-        common_styles += `font-style: italic`;
-    } else if (new_style.value.text_style == '500') {
-        common_styles += `font-weight: 500`;
-    }
-    return common_styles;
-});
+// // 用于样式显示
+// const style = computed(() => {
+//     let common_styles = '';
+//     if (new_style.value.text_style == 'italic') {
+//         common_styles += `font-style: italic`;
+//     } else if (new_style.value.text_style == '500') {
+//         common_styles += `font-weight: 500`;
+//     }
+//     return common_styles;
+// });
 // 公共样式
 const style_container = computed(() => props.isPageSettings ? '' : common_styles_computer(new_style.value.common_style));
 const style_img_container = computed(() => props.isPageSettings ? '' : common_img_computer(new_style.value.common_style));
@@ -141,9 +168,9 @@ watchEffect(() => {
 <style lang="scss" scoped>
 .search {
     height: 3.2rem;
-    .box {
-        padding: 0.6rem 1.5rem 0.6rem 0;
-    }
+    // .box {
+    //     padding: 0.6rem 1.5rem 0.6rem 0;
+    // }
     .img-box {
         height: 100%;
         min-width: 2rem;
@@ -160,5 +187,12 @@ watchEffect(() => {
         }
     }
     
+}
+.model-head-location {
+    :deep(.el-image) {
+        width: 100%;
+        flex-basis: content;
+        flex-shrink: 1;
+    }
 }
 </style>

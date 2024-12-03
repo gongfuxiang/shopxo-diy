@@ -46,9 +46,11 @@
                     <el-form-item label="定位名称">
                         <el-input v-model="form.positioning_name" placeholder="请输入默认定位名称" clearable></el-input>
                     </el-form-item>
-                    <el-form-item label="定位浮起">
-                        <el-switch v-model="form.positioning_name_float" active-value="1" inactive-value="0"></el-switch>
-                    </el-form-item>
+                    <template v-if="['5'].includes(form.theme)">
+                        <el-form-item label="搜索融合">
+                            <el-switch v-model="form.positioning_name_float" active-value="1" inactive-value="0"></el-switch>
+                        </el-form-item>
+                    </template>
                 </template>
                 <el-form-item label="数据换行">
                     <el-checkbox-group v-model="form.data_alone_row_value">

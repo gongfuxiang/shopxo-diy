@@ -108,13 +108,15 @@ watchEffect(() => {
             slides_per_view.value = 1; // 能够同时显示的slides数量
         }
     }
+});
+watch(() => props.value, (val) => {
     nextTick(() => {
         // 外层高度
         if (card_container.value) {
             outer_height.value = card_container.value?.clientHeight;
         }
     });
-});
+}, { immediate: true, deep: true });
 </script>
 
 <style lang="scss" scoped>

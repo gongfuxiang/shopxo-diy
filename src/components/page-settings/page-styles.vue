@@ -87,9 +87,27 @@
                             <upload v-model="form.location_background_img" :limit="1" @update:model-value="location_background_img_change"></upload>
                         </div>
                     </el-form-item>
-                    <el-form-item v-if="['4', '5'].includes(page_content.theme)" label="定位颜色">
+                    <el-form-item label="定位颜色">
                         <color-picker v-model="form.location_color" default-color="#333"></color-picker>
                     </el-form-item>
+                    <template v-if="!isEmpty(page_content.location_left_icon)">
+                        <el-form-item label="左侧图标">
+                            <el-radio-group v-model="form.location_left_icon_size">
+                                <el-radio :value="14">大</el-radio>
+                                <el-radio :value="12">中</el-radio>
+                                <el-radio :value="8">小</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </template>
+                    <template v-if="!isEmpty(page_content.location_right_icon)">
+                        <el-form-item label="右侧图标">
+                            <el-radio-group v-model="form.location_right_icon_size">
+                                <el-radio :value="14">大</el-radio>
+                                <el-radio :value="12">中</el-radio>
+                                <el-radio :value="8">小</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </template>
                     <el-form-item label="圆角">
                         <radius :value="form.location_radius"></radius>
                     </el-form-item>

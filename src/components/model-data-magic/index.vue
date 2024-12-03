@@ -20,7 +20,7 @@
                                             </template>
                                             <p class="ma-0 w text-word-break text-line-1 flex-basis-shrink" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
                                         </div>
-                                        <div class="w h flex-1">
+                                        <div class="w h flex-1 oh">
                                             <magic-carousel :key="form.style_actived" :value="item" :good-style="item.data_style" :actived="form.style_actived" type="product" @carousel_change="carousel_change(index, $event)"></magic-carousel>
                                         </div>
                                     </div>
@@ -66,7 +66,7 @@
                                         </template>
                                         <p class="ma-0 w text-word-break text-line-1 flex-basis-shrink" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
                                     </div>
-                                    <div class="w h flex-1">
+                                    <div class="w h flex-1 oh">
                                         <magic-carousel :key="form.style_actived" :value="item" :good-style="item.data_style" type="product" :actived="form.style_actived" @carousel_change="carousel_change(index, $event)"></magic-carousel>
                                     </div>
                                 </div>
