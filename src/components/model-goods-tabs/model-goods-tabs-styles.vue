@@ -22,6 +22,17 @@
                 <el-form-item label="左右间距">
                     <slider v-model="form.tabs_spacing" :max="100"></slider>
                 </el-form-item>
+                <el-form-item label="选项卡背景">
+                    <div class="flex-col gap-10 w">
+                        <div class="size-12">背景色</div>
+                        <mult-color-picker :value="form.tabs_bg_color_list" :type="form.tabs_bg_direction" @update:value="tabs_bg_mult_color_picker_event"></mult-color-picker>
+                        <div class="flex-row jc-sb align-c">
+                            <div class="size-12">背景图</div>
+                            <bg-btn-style v-model="form.tabs_bg_background_img_style"></bg-btn-style>
+                        </div>
+                        <upload v-model="form.tabs_bg_background_img" :limit="1" @update:model-value="tabs_bg_background_img_change"></upload>
+                    </div>
+                </el-form-item>
                 <el-form-item label="内边距">
                     <padding :value="form.tabs_padding"></padding>
                 </el-form-item>
@@ -29,6 +40,27 @@
             <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">内容样式</div>
+                <el-form-item label="内容背景">
+                    <div class="flex-col gap-10 w">
+                        <div class="size-12">背景色</div>
+                        <mult-color-picker :value="form.shop_content_color_list" :type="form.shop_content_direction" @update:value="shop_content_mult_color_picker_event"></mult-color-picker>
+                        <div class="flex-row jc-sb align-c">
+                            <div class="size-12">背景图</div>
+                            <bg-btn-style v-model="form.shop_content_background_img_style"></bg-btn-style>
+                        </div>
+                        <upload v-model="form.shop_content_background_img" :limit="1" @update:model-value="shop_content_background_img_change"></upload>
+                    </div>
+                </el-form-item>
+                <el-form-item label="外间距">
+                    <margin :value="form.shop_content_margin"></margin>
+                </el-form-item>
+                <el-form-item label="内间距">
+                    <padding :value="form.shop_content_padding"></padding>
+                </el-form-item>
+            </card-container>
+            <div class="divider-line"></div>
+            <card-container>
+                <div class="mb-12">商品样式</div>
                 <el-form-item v-if="theme != '6'" label="商品背景">
                     <div class="flex-col gap-10 w">
                         <div class="size-12">背景色</div>
@@ -219,6 +251,25 @@ if (['0', '4'].includes(theme.value)) {
 const common_style_update = (value: any) => {
     form.value.common_style = value;
 };
+// 选项卡背景渐变设置
+const tabs_bg_mult_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.tabs_bg_color_list = arry;
+    form.value.tabs_bg_direction = type.toString();
+};
+// 选项卡背景图片设置
+const tabs_bg_background_img_change = (arry: uploadList[]) => {
+    form.value.tabs_bg_background_img = arry;
+};
+// 内容区域背景渐变设置
+const shop_content_mult_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.shop_content_color_list = arry;
+    form.value.shop_content_direction = type.toString();
+};
+// 内容区域背景图片设置
+const shop_content_background_img_change = (arry: uploadList[]) => {
+    form.value.shop_content_background_img = arry;
+};
+
 // 商品背景渐变设置
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.shop_color_list = arry;

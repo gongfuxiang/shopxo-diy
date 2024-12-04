@@ -1,6 +1,6 @@
 <template>
     <el-radio-group v-model="modelValue" is-button>
-        <el-tooltip v-for="item in radio_list" :key="item.value" :content="item.name" placement="top" effect="light">
+        <el-tooltip v-for="item in radio_list" :key="item.value" :content="item.name" placement="top" effect="dark">
             <el-radio-button :value="item.value"><icon :name="item.icon"></icon></el-radio-button>
         </el-tooltip>
     </el-radio-group>

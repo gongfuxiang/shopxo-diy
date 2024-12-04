@@ -3,7 +3,7 @@
     <div class="flex-col w">
         <div class="flex-row gap-10 align-c">
             <slider v-model="form.radius" type="retract" @update:model-value="radius_event"></slider>
-            <el-tooltip effect="light" :show-after="200" :hide-after="200" :content="icon_data.title" raw-content placement="top">
+            <el-tooltip effect="dark" :show-after="200" :hide-after="200" :content="icon_data.title" raw-content placement="top">
                 <div class="flex-1 type-icon flex" @click="icon_event(icon_data.name)">
                     <icon :name="icon_data.name" size="24"></icon>
                 </div>

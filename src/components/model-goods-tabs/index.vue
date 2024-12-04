@@ -1,17 +1,21 @@
 <template>
     <div :style="style_container">
         <div :style="style_img_container">
-            <div :style="tabs_padding_style">
-                <tabs-view ref="tabs" :value="props.value" :active-index="tabs_active_index"></tabs-view>
+            <div class="oh" :style="tabs_container">
+                <div class="oh" :style="tabs_img_container">
+                    <tabs-view ref="tabs" :value="props.value" :active-index="tabs_active_index"></tabs-view>
+                </div>
             </div>
-            <div class="pt-10">
-                <model-goods-list :value="tabs_list" :is-common-style="false"></model-goods-list>
+            <div class="oh" :style="shop_container">
+                <div class="oh" :style="shop_img_container">
+                    <model-goods-list :value="tabs_list" :is-common-style="false"></model-goods-list>
+                </div>
             </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import { common_img_computer, common_styles_computer, padding_computer } from '@/utils';
+import { background_computer, common_img_computer, common_styles_computer, gradient_computer, margin_computer, padding_computer } from '@/utils';
 import { cloneDeep } from 'lodash';
 
 const props = defineProps({
@@ -27,7 +31,12 @@ const style_container = ref('');
 const style_img_container = ref('');
 const tabs_list = ref({});
 const tabs_active_index = ref(0);
-const tabs_padding_style = ref('');
+// 选项卡内容样式设置
+const tabs_container = ref('');
+const tabs_img_container = ref('');
+// 商品区域样式设置
+const shop_container = ref('');
+const shop_img_container = ref('');
 watch(
     () => props.value,
     (val) => {
@@ -35,7 +44,24 @@ watch(
         const new_style = new_val?.style;
         let new_data = new_val;
         tabs_active_index.value = new_data.content.tabs_active_index;
-        tabs_padding_style.value = padding_computer(new_style?.tabs_padding);
+        // 选项卡背景设置
+        const tabs_data = {
+            color_list: new_style.tabs_bg_color_list,
+            direction: new_style.tabs_bg_direction,
+            background_img_style: new_style.tabs_bg_background_img_style,
+            background_img: new_style.tabs_bg_background_img,
+        }
+        tabs_container.value = gradient_computer(tabs_data);
+        tabs_img_container.value = background_computer(tabs_data) + padding_computer(new_style.tabs_padding);
+        // 商品区域背景设置
+        const shop_content_data = {
+            color_list: new_style.shop_content_color_list,
+            direction: new_style.shop_content_direction,
+            background_img_style: new_style.shop_content_background_img_style,
+            background_img: new_style.shop_content_background_img,
+        }
+        shop_container.value = gradient_computer(shop_content_data) + margin_computer(new_style.shop_content_margin);
+        shop_img_container.value = background_computer(shop_content_data) + padding_computer(new_style.shop_content_padding);
         // 产品的值
         new_data.content.data_type = new_data.content.tabs_list[tabs_active_index.value].data_type;
         new_data.content.keyword = new_data.content.tabs_list[tabs_active_index.value].keyword;

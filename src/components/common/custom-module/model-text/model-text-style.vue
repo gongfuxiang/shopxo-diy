@@ -60,13 +60,13 @@
                 </el-form-item>
                 <el-form-item label="文字位置">
                     <el-radio-group v-model="form.text_location" is-button>
-                        <el-tooltip content="左对齐" placement="top" effect="light">
+                        <el-tooltip content="左对齐" placement="top" effect="dark">
                             <el-radio-button value="left"><icon name="iconfont icon-left"></icon></el-radio-button>
                         </el-tooltip>
-                        <el-tooltip content="居中" placement="top" effect="light">
+                        <el-tooltip content="居中" placement="top" effect="dark">
                             <el-radio-button value="center"><icon name="iconfont icon-center"></icon></el-radio-button>
                         </el-tooltip>
-                        <el-tooltip content="右对齐" placement="top" effect="light">
+                        <el-tooltip content="右对齐" placement="top" effect="dark">
                             <el-radio-button value="right"><icon name="iconfont icon-right"></icon></el-radio-button>
                         </el-tooltip>
                     </el-radio-group>

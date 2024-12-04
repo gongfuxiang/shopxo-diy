@@ -41,7 +41,17 @@ interface defaultTabs {
         tabs_color: string;
         tabs_spacing: number;
         tabs_sign_spacing: number;
+        tabs_bg_direction: string,
+        tabs_bg_color_list: color_list[],
+        tabs_bg_background_img_style: string,
+        tabs_bg_background_img: string[],
         tabs_padding: paddingStyle;
+        carousel_content_direction: string;
+        carousel_content_color_list: color_list[];
+        carousel_content_background_img_style: string;
+        carousel_content_background_img: string[];
+        carousel_content_margin: marginStyle;
+        carousel_content_padding: paddingStyle;
         more_icon_class: string;
         more_icon_color: string;
         more_icon_size: number;
@@ -137,7 +147,31 @@ const defaultTabs: defaultTabs = {
         tabs_color: 'rgba(51,51,51,1)',
         tabs_spacing: 20,
         tabs_sign_spacing: 4,
+        // 选项卡背景设置
+        tabs_bg_direction: '90deg',
+        tabs_bg_color_list: [{ color: '', color_percentage: undefined }],
+        tabs_bg_background_img_style: '2',
+        tabs_bg_background_img: [],
         tabs_padding: {
+            padding: 0,
+            padding_top: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+            padding_right: 0,
+        },
+        // 轮播内间距设置
+        carousel_content_direction: '90deg',
+        carousel_content_color_list: [{ color: '', color_percentage: undefined }],
+        carousel_content_background_img_style: '2',
+        carousel_content_background_img: [],
+        carousel_content_margin: {
+            margin: 0,
+            margin_top: 10,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
+        },
+        carousel_content_padding: {
             padding: 0,
             padding_top: 0,
             padding_bottom: 0,

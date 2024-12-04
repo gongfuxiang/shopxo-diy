@@ -336,9 +336,11 @@ const add = () => {
 // 拖拽更新之后，更新数据
 const data_list_sort = (new_list: any) => {
     form.value.data_source_content.data_list = new_list;
+    data_list_index_update();
 };
 const data_list_remove = (index: number) => {
     form.value.data_source_content.data_list.splice(index, 1);
+    data_list_index_update();
 };
 // 弹出框选择的内容
 const url_value_dialog_call_back = (item: any[]) => {
@@ -359,6 +361,14 @@ const url_value_dialog_call_back = (item: any[]) => {
             new_title: '',
             data: item[0],
         };
+    }
+    data_list_index_update();
+};
+const data_list_index_update = () => {
+    if (form.value.data_source_content.data_list.length > 0) {
+        form.value.data_source_content.data_list.forEach((item: any, index: number) => {
+            item.data.data_index = index + 1;
+        });
     }
 };
 // 数据来源的内容

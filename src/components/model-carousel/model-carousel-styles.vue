@@ -1,6 +1,28 @@
 <template>
     <div class="common-style-height">
         <el-form :model="form" label-width="70">
+            <template v-if="!isCommon">
+                <card-container>
+                    <div class="mb-12">内容设置</div>
+                    <el-form-item label="内容背景">
+                        <div class="flex-col gap-10 w">
+                            <div class="size-12">背景色</div>
+                            <mult-color-picker :value="form.carousel_content_color_list" :type="form.carousel_content_direction" @update:value="carousel_content_mult_color_picker_event"></mult-color-picker>
+                            <div class="flex-row jc-sb align-c">
+                                <div class="size-12">背景图</div>
+                                <bg-btn-style v-model="form.carousel_content_background_img_style"></bg-btn-style>
+                            </div>
+                            <upload v-model="form.carousel_content_background_img" :limit="1" @update:model-value="carousel_content_background_img_change"></upload>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="外间距">
+                        <margin :value="form.carousel_content_margin"></margin>
+                    </el-form-item>
+                    <el-form-item label="内间距">
+                        <padding :value="form.carousel_content_padding"></padding>
+                    </el-form-item>
+                </card-container>
+            </template>
             <card-container>
                 <div class="mb-12">图片设置</div>
                 <el-form-item label="圆角">
@@ -45,13 +67,13 @@
                         </el-form-item>
                         <el-form-item label="位置">
                             <el-radio-group v-model="form.video_location" is-button>
-                                <el-tooltip content="左对齐" placement="top" effect="light">
+                                <el-tooltip content="左对齐" placement="top" effect="dark">
                                     <el-radio-button value="flex-start"><icon name="iconfont icon-left"></icon></el-radio-button>
                                 </el-tooltip>
-                                <el-tooltip content="居中" placement="top" effect="light">
+                                <el-tooltip content="居中" placement="top" effect="dark">
                                     <el-radio-button value="center"><icon name="iconfont icon-center"></icon></el-radio-button>
                                 </el-tooltip>
-                                <el-tooltip content="右对齐" placement="top" effect="light">
+                                <el-tooltip content="右对齐" placement="top" effect="dark">
                                     <el-radio-button value="flex-end"><icon name="iconfont icon-right"></icon></el-radio-button>
                                 </el-tooltip>
                             </el-radio-group>
@@ -113,10 +135,21 @@ const radius_change = (radius: any) => {
     form.value = Object.assign(form.value, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
 };
 
+// 内容区域背景渐变设置
+const carousel_content_mult_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.carousel_content_color_list = arry;
+    form.value.carousel_content_direction = type.toString();
+};
+// 内容区域背景图片设置
+const carousel_content_background_img_change = (arry: uploadList[]) => {
+    form.value.carousel_content_background_img = arry;
+};
+
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.video_color_list = arry;
     form.value.video_direction = type.toString();
 };
+
 // 通用样式处理
 const common_styles_update = (val: Object) => {
     form.value.common_style = val;

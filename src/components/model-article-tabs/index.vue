@@ -1,17 +1,21 @@
 <template>
     <div :style="style_container">
         <div :style="style_img_container">
-            <div :style="tabs_padding_style">
-                <tabs-view ref="tabs" :value="article_tabs" :active-index="tabs_active_index"></tabs-view>
+            <div class="oh" :style="tabs_container">
+                <div class="oh" :style="tabs_img_container">
+                    <tabs-view ref="tabs" :value="article_tabs" :active-index="tabs_active_index"></tabs-view>
+                </div>
             </div>
-            <div class="pt-10">
-                <model-article-list :value="article_tabs" :is-common-style="false"></model-article-list>
+            <div class="oh" :style="article_container">
+                <div class="oh" :style="article_img_container">
+                    <model-article-list :value="article_tabs" :is-common-style="false"></model-article-list>
+                </div>
             </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import { common_img_computer, common_styles_computer, padding_computer } from '@/utils';
+import { background_computer, common_img_computer, common_styles_computer, gradient_computer, margin_computer, padding_computer } from '@/utils';
 import { cloneDeep } from 'lodash';
 /**
  * @description: 文章选项卡列表 （渲染）
@@ -27,7 +31,12 @@ const style_container = ref('');
 const style_img_container = ref('');
 const article_tabs = ref({});
 const tabs_active_index = ref(0);
-const tabs_padding_style = ref('');
+// 选项卡独立样式
+const tabs_container = ref('');
+const tabs_img_container = ref('');
+// 区域内边距
+const article_container = ref('');
+const article_img_container = ref('');
 watch(
     () => props.value,
     (val) => {
@@ -35,8 +44,25 @@ watch(
         const new_style = newVal?.style;
         let new_data = newVal;
         tabs_active_index.value = new_data.content.tabs_active_index;
-        // 选项卡内边距
-        tabs_padding_style.value = padding_computer(new_style?.tabs_padding);
+        // 选项卡背景设置
+        const tabs_data = {
+            color_list: new_style.tabs_bg_color_list,
+            direction: new_style.tabs_bg_direction,
+            background_img_style: new_style.tabs_bg_background_img_style,
+            background_img: new_style.tabs_bg_background_img,
+        }
+        tabs_container.value = gradient_computer(tabs_data);
+        tabs_img_container.value = background_computer(tabs_data) + padding_computer(new_style.tabs_padding);
+        // 文章区域背景设置
+        const article_content_data = {
+            color_list: new_style.article_content_color_list,
+            direction: new_style.article_content_direction,
+            background_img_style: new_style.article_content_background_img_style,
+            background_img: new_style.article_content_background_img,
+        }
+        article_container.value = gradient_computer(article_content_data) + margin_computer(new_style.article_content_margin);
+        article_img_container.value = background_computer(article_content_data) + padding_computer(new_style.article_content_padding);
+        //文章内容设置
         new_data.content.theme = new_data.content.article_theme;
         new_data.content.data_type = new_data.content.tabs_list[tabs_active_index.value].data_type;
         new_data.content.keyword = new_data.content.tabs_list[tabs_active_index.value].keyword;

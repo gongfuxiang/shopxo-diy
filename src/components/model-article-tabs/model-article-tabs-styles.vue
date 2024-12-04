@@ -22,6 +22,17 @@
                 <el-form-item label="左右间距">
                     <slider v-model="form.tabs_spacing" :max="100"></slider>
                 </el-form-item>
+                <el-form-item label="选项卡背景">
+                    <div class="flex-col gap-10 w">
+                        <div class="size-12">背景色</div>
+                        <mult-color-picker :value="form.tabs_bg_color_list" :type="form.tabs_bg_direction" @update:value="tabs_bg_mult_color_picker_event"></mult-color-picker>
+                        <div class="flex-row jc-sb align-c">
+                            <div class="size-12">背景图</div>
+                            <bg-btn-style v-model="form.tabs_bg_background_img_style"></bg-btn-style>
+                        </div>
+                        <upload v-model="form.tabs_bg_background_img" :limit="1" @update:model-value="tabs_bg_background_img_change"></upload>
+                    </div>
+                </el-form-item>
                 <el-form-item label="内边距">
                     <padding :value="form.tabs_padding"></padding>
                 </el-form-item>
@@ -29,6 +40,27 @@
             <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">内容样式</div>
+                <el-form-item label="内容背景">
+                    <div class="flex-col gap-10 w">
+                        <div class="size-12">背景色</div>
+                        <mult-color-picker :value="form.article_content_color_list" :type="form.article_content_direction" @update:value="article_content_mult_color_picker_event"></mult-color-picker>
+                        <div class="flex-row jc-sb align-c">
+                            <div class="size-12">背景图</div>
+                            <bg-btn-style v-model="form.article_content_background_img_style"></bg-btn-style>
+                        </div>
+                        <upload v-model="form.article_content_background_img" :limit="1" @update:model-value="article_content_background_img_change"></upload>
+                    </div>
+                </el-form-item>
+                <el-form-item label="外间距">
+                    <margin :value="form.article_content_margin"></margin>
+                </el-form-item>
+                <el-form-item label="内间距">
+                    <padding :value="form.article_content_padding"></padding>
+                </el-form-item>
+            </card-container>
+            <div class="divider-line"></div>
+            <card-container>
+                <div class="mb-12">文章样式</div>
                 <el-form-item v-if="theme != '3'" label="文章背景">
                     <div class="flex-col gap-10 w">
                         <div class="size-12">背景色</div>
@@ -41,19 +73,21 @@
                     </div>
                 </el-form-item>
                 <el-form-item label="文章名称">
-                    <color-text-size-group v-model:color="form.name_color" v-model:typeface="form.name_weight" v-model:size="form.name_size" :label-width="data.theme == '4' && data.name_float == '1' ? 60 : 40">
-                        <el-form-item label="背景" label-width="60" class="mb-0 w form-item-child-label">
-                            <mult-color-picker :value="form.name_bg_color_list" :type="form.name_bg_direction" :is-show-alpha="true" @update:value="name_bg_mult_color_picker_event"></mult-color-picker>
-                        </el-form-item>
-                        <el-form-item label="外边距" label-width="60" class="mb-0 w form-item-child-label">
-                            <margin :value="form.name_bg_margin"></margin>
-                        </el-form-item>
-                        <el-form-item label="内间距" label-width="60" class="mb-0 w form-item-child-label">
-                            <padding :value="form.name_bg_padding"></padding>
-                        </el-form-item>
-                        <el-form-item label="圆角" label-width="60" class="mb-0 w form-item-child-label">
-                            <radius :value="form.name_bg_radius"></radius>
-                        </el-form-item>
+                    <color-text-size-group v-model:color="form.name_color" v-model:typeface="form.name_weight" v-model:size="form.name_size" :label-width="data.article_theme == '4' && data.name_float == '1' ? 60 : 40">
+                        <template v-if="data.article_theme == '4' && data.name_float == '1'">
+                            <el-form-item label="背景" label-width="60" class="mb-0 w form-item-child-label">
+                                <mult-color-picker :value="form.name_bg_color_list" :type="form.name_bg_direction" :is-show-alpha="true" @update:value="name_bg_mult_color_picker_event"></mult-color-picker>
+                            </el-form-item>
+                            <el-form-item label="外边距" label-width="60" class="mb-0 w form-item-child-label">
+                                <margin :value="form.name_bg_margin"></margin>
+                            </el-form-item>
+                            <el-form-item label="内间距" label-width="60" class="mb-0 w form-item-child-label">
+                                <padding :value="form.name_bg_padding"></padding>
+                            </el-form-item>
+                            <el-form-item label="圆角" label-width="60" class="mb-0 w form-item-child-label">
+                                <radius :value="form.name_bg_radius"></radius>
+                            </el-form-item>
+                        </template>
                     </color-text-size-group>
                 </el-form-item>
                 <el-form-item label="文章描述">
@@ -195,6 +229,25 @@ if (theme.value == '0') {
 const tabs_checked_event = (arry: string[], type: number) => {
     form.value.tabs_checked = arry;
     form.value.tabs_direction = type.toString();
+};
+// 选项卡背景渐变设置
+const tabs_bg_mult_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.tabs_bg_color_list = arry;
+    form.value.tabs_bg_direction = type.toString();
+};
+// 选项卡背景图片设置
+const tabs_bg_background_img_change = (arry: uploadList[]) => {
+    form.value.tabs_bg_background_img = arry;
+};
+
+// 内容区域背景渐变设置
+const article_content_mult_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.article_content_color_list = arry;
+    form.value.article_content_direction = type.toString();
+};
+// 内容区域背景图片设置
+const article_content_background_img_change = (arry: uploadList[]) => {
+    form.value.article_content_background_img = arry;
 };
 // 文章背景渐变设置
 const mult_color_picker_event = (arry: color_list[], type: number) => {

@@ -53,11 +53,21 @@ interface DefaultProductList {
         tabs_color: string;
         tabs_spacing: number;
         tabs_sign_spacing: number;
+        tabs_bg_direction: string,
+        tabs_bg_color_list: color_list[],
+        tabs_bg_background_img_style: string,
+        tabs_bg_background_img: string[],
         tabs_padding: paddingStyle;
-        shop_direction: string,
-        shop_color_list: color_list[],
-        shop_background_img_style: string,
-        shop_background_img: uploadList[],
+        shop_content_direction: string;
+        shop_content_color_list: color_list[];
+        shop_content_background_img_style: string;
+        shop_content_background_img: string[];
+        shop_content_margin: marginStyle;
+        shop_content_padding: paddingStyle;
+        shop_direction: string;
+        shop_color_list: color_list[];
+        shop_background_img_style: string;
+        shop_background_img: uploadList[];
         shop_padding: paddingStyle;
         shop_img_radius: radiusStyle;
         shop_radius: radiusStyle;
@@ -157,7 +167,31 @@ const defaultProductList: DefaultProductList = {
         // tabs间距
         tabs_spacing: 20,
         tabs_sign_spacing: 4,
+        // 选项卡背景设置
+        tabs_bg_direction: '90deg',
+        tabs_bg_color_list: [{ color: '', color_percentage: undefined }],
+        tabs_bg_background_img_style: '2',
+        tabs_bg_background_img: [],
         tabs_padding: {
+            padding: 0,
+            padding_top: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+            padding_right: 0,
+        },
+        // 商品内容设置
+        shop_content_direction: '90deg',
+        shop_content_color_list: [{ color: '', color_percentage: undefined }],
+        shop_content_background_img_style: '2',
+        shop_content_background_img: [],
+        shop_content_margin: {
+            margin: 0,
+            margin_top: 10,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
+        },
+        shop_content_padding: {
             padding: 0,
             padding_top: 0,
             padding_bottom: 0,

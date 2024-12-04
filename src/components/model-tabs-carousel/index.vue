@@ -1,17 +1,21 @@
 <template>
     <div :style="style_container">
         <div class="flex-col oh" :style="style_img_container">
-            <div :style="tabs_padding_style">
-                <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true" :active-index="tabs_active_index"></tabs-view>
+            <div class="oh" :style="tabs_container">
+                <div class="oh" :style="tabs_img_container">
+                    <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true" :active-index="tabs_active_index"></tabs-view>
+                </div>
             </div>
-            <div class="pt-10">
-                <model-carousel :value="value" :is-common="false"></model-carousel>
+            <div class="oh" :style="carousel_container">
+                <div class="oh" :style="carousel_img_container">
+                    <model-carousel :value="value" :is-common="false"></model-carousel>
+                </div>
             </div>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, common_img_computer, padding_computer } from '@/utils';
+import { common_styles_computer, common_img_computer, padding_computer, gradient_computer, background_computer, margin_computer } from '@/utils';
 import { cloneDeep } from 'lodash';
 const props = defineProps({
     value: {
@@ -24,15 +28,37 @@ const props = defineProps({
 
 const tabs_list = ref(props.value);
 const tabs_active_index = ref(0);
-const tabs_padding_style = ref('');
+// 选项卡内容样式
+const tabs_container = ref('');
+const tabs_img_container = ref('');
+// 轮播区域背景设置
+const carousel_container = ref('');
+const carousel_img_container = ref('');
 watch(
     props.value,
     (val) => {
         let new_data = cloneDeep(val);
         const { home_data } = new_data.content;
-        // 选项卡内边距
-        tabs_padding_style.value = padding_computer(val.style?.tabs_padding);
-
+        const new_style = new_data?.style;
+        // 选项卡背景设置
+        const tabs_data = {
+            color_list: new_style.tabs_bg_color_list,
+            direction: new_style.tabs_bg_direction,
+            background_img_style: new_style.tabs_bg_background_img_style,
+            background_img: new_style.tabs_bg_background_img,
+        }
+        tabs_container.value = gradient_computer(tabs_data);
+        tabs_img_container.value = background_computer(tabs_data) + padding_computer(new_style.tabs_padding);
+        // 轮播区域背景设置
+        const carousel_content_data = {
+            color_list: new_style.carousel_content_color_list,
+            direction: new_style.carousel_content_direction,
+            background_img_style: new_style.carousel_content_background_img_style,
+            background_img: new_style.carousel_content_background_img,
+        }
+        carousel_container.value = gradient_computer(carousel_content_data) + margin_computer(new_style.carousel_content_margin);
+        carousel_img_container.value = background_computer(carousel_content_data) + padding_computer(new_style.carousel_content_padding);
+        // 处理数据
         new_data.content.tabs_list = [home_data, ...new_data.content.tabs_list];
         tabs_list.value = new_data;
     },

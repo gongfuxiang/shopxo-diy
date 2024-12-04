@@ -21,13 +21,13 @@
         </el-form-item>
         <el-form-item label="样式">
             <el-radio-group v-model="form.indicator_style" is-button>
-                <el-tooltip content="点" placement="top" effect="light">
+                <el-tooltip content="点" placement="top" effect="dark">
                     <el-radio-button value="dot"><icon name="iconfont icon-ellipsis"></icon></el-radio-button>
                 </el-tooltip>
-                <el-tooltip content="线" placement="top" effect="light">
+                <el-tooltip content="线" placement="top" effect="dark">
                     <el-radio-button value="elliptic"><icon name="iconfont icon-elliptic"></icon></el-radio-button>
                 </el-tooltip>
-                <el-tooltip content="数字" placement="top" effect="light">
+                <el-tooltip content="数字" placement="top" effect="dark">
                     <el-radio-button value="num">1/5</el-radio-button>
                 </el-tooltip>
             </el-radio-group>
