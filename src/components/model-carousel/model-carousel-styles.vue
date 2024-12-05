@@ -15,6 +15,9 @@
                             <upload v-model="form.carousel_content_background_img" :limit="1" @update:model-value="carousel_content_background_img_change"></upload>
                         </div>
                     </el-form-item>
+                    <el-form-item label="圆角">
+                        <radius :value="form.carousel_content_radius"></radius>
+                    </el-form-item>
                     <el-form-item label="外间距">
                         <margin :value="form.carousel_content_margin"></margin>
                     </el-form-item>

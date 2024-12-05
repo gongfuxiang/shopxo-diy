@@ -11,28 +11,32 @@
             </card-container>
             <!-- 筛选数据 -->
             <template v-if="!isEmpty(default_type_data)">
-                <div class="divider-line"></div>
-                <card-container>
-                    <div class="mb-12">显示设置</div>
-                    <el-form-item label="铺满方式">
-                        <el-radio-group v-model="form.data_source_direction">
-                            <el-radio v-for="(item, index) in default_type_data.show_type" :key="index" :value="item">{{ item == 'vertical' ? '纵向展示' : item == 'vertical-scroll' ? '纵向滑动' : '横向滑动' }}</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                    <el-form-item v-if="['vertical-scroll', 'horizontal'].includes(form.data_source_direction)" label="每屏显示">
-                        <el-radio-group v-model="form.data_source_carousel_col">
-                            <el-radio v-for="(item, index) in default_type_data.show_number" :key="index" :value="item">{{ item }}{{ form.data_source_direction == 'vertical-scroll' ? '行' : '列' }}展示</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                </card-container>
-                <template v-if="!isEmpty(default_type_data.data_type)">
+                <template v-if="default_type_data?.show_type.length > 0">
+                    <div class="divider-line"></div>
+                    <card-container>
+                        <div class="mb-12">显示设置</div>
+                        <el-form-item label="铺满方式">
+                            <el-radio-group v-model="form.data_source_direction">
+                                <el-radio v-for="(item, index) in default_type_data?.show_type" :key="index" :value="item">{{ item == 'vertical' ? '纵向展示' : item == 'vertical-scroll' ? '纵向滑动' : '横向滑动' }}</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <template v-if="default_type_data?.show_number.length > 0 && ['vertical-scroll', 'horizontal'].includes(form.data_source_direction)">
+                            <el-form-item label="每屏显示">
+                                <el-radio-group v-model="form.data_source_carousel_col">
+                                    <el-radio v-for="(item, index) in default_type_data?.show_number" :key="index" :value="item">{{ item }}{{ form.data_source_direction == 'vertical-scroll' ? '行' : '列' }}展示</el-radio>
+                                </el-radio-group>
+                            </el-form-item>
+                        </template>
+                    </card-container>
+                </template>
+                <template v-if="default_type_data.data_type.length > 0">
                     <div class="divider-line"></div>
                     <card-container>
                         <div class="mb-12">数据设置</div>
                         <div class="flex-col">
                             <el-form-item label="读取方式">
                                 <el-radio-group v-model="form.data_source_content.data_type">
-                                    <el-radio v-for="(item, index) in default_type_data.data_type" :key="index" :value="item">{{ item === 0 ? '指定数据' : '筛选数据' }}</el-radio>
+                                    <el-radio v-for="(item, index) in default_type_data.data_type" :key="index" :value="item">{{ +item === 0 ? '指定数据' : '筛选数据' }}</el-radio>
                                 </el-radio-group>
                             </el-form-item>
                             <template v-if="Number(form.data_source_content.data_type) === 0">
@@ -83,7 +87,7 @@
                 </div>
             </div>
         </Dialog>
-        <custom-dialog v-model:dialog-visible="url_value_dialog_visible" :config="default_type_data.appoint_config" :multiple="url_value_multiple_bool" @confirm_event="url_value_dialog_call_back"></custom-dialog>
+        <custom-dialog v-model:dialog-visible="url_value_dialog_visible" :data-list-key="form.data_list_key" :config="default_type_data.appoint_config" :multiple="url_value_multiple_bool" @confirm_event="url_value_dialog_call_back"></custom-dialog>
     </div>
 </template>
 <script setup lang="ts">
@@ -173,8 +177,14 @@ const data_processing = () => {
     if (type_data.length > 0 && !isEmpty(type_data[0].custom_config)) {
         // 是自定义数据类型
         form.value.is_custom_data = '1';
-        // 默认数据配置
-        default_type_data.value = type_data[0].custom_config;
+        const custom_config = type_data[0].custom_config;
+        // 将数据赋值给默认数据
+        default_type_data.value = {
+            ...custom_config,
+            show_type: custom_config?.show_type || ['vertical', 'vertical-scroll', 'horizontal'],
+            show_number: custom_config?.show_number || [1, 2, 3, 4],
+            data_type: custom_config?.data_type || [0, 1],
+        };
         default_data();
     }
 };
@@ -183,19 +193,36 @@ const default_data = () => {
     const { show_type = [], show_number = [], data_type = []} = default_type_data.value;
     const { data_source_direction, data_source_carousel_col, data_source_content} = form.value;
     // 如果存在默认数据类型的时候, 并且跟当前的不一致时，默认选中第一个
-    if (!isEmpty(show_type) && !show_type.includes(data_source_direction)) {
-        form.value.data_source_direction = show_type[0];
+    if (!isEmpty(show_type)) {
+        if (!show_type.includes(data_source_direction)) {
+            form.value.data_source_direction = show_type[0];
+        }
+    } else {
+        // show_type 是空数组时，设置为默认值
+        form.value.data_source_direction = 'vertical';
     }
     // 如果存在默认数据类型的时候, 并且跟当前的不一致时，默认选中第一个
-    if (!isEmpty(show_number) && !show_number.includes(data_source_carousel_col)) {
-        form.value.data_source_carousel_col = show_number[0];
+    if (!isEmpty(show_number)) {
+        if (!show_number.includes(data_source_carousel_col)) {
+            form.value.data_source_carousel_col = show_number[0];
+        }
+    } else {
+        // 如果show_number 是空数组时，设置为默认值
+        form.value.data_source_carousel_col = 1;
     }
     // 如果存在默认数据类型的时候, 并且跟当前的不一致时，默认选中第一个
-    if (!isEmpty(data_type) && isEmpty(data_source_content.data_type) && !data_type.includes(Number(data_source_content.data_type))) {
-        form.value.data_source_content.data_type = data_type[0];
+    if (!isEmpty(data_type)) {
+        if (isEmpty(data_source_content.data_type) && !data_type.includes(Number(data_source_content.data_type))) {
+            form.value.data_source_content.data_type = data_type[0];
+        }
     } else if (!isEmpty(data_source_content.data_type) && typeof data_source_content.data_type == 'string') { // 老数据使用的是字符串类型，需要转换一下
         form.value.data_source_content.data_type = Number(form.value.data_source_content.data_type);
+    } else {
+        // data_type 是空数组时，设置为默认值
+        form.value.data_source_content.data_type = 0;
     }
+    // 如果不存在的时候，默认取id
+    form.value.data_list_key = default_type_data.value?.appoint_config?.show_data?.data_key || 'id';
 }
 // 处理显示的图片和传递到下去的数据结构
 const model_data_source = ref<data_list[]>([]);
@@ -273,9 +300,16 @@ const changeDataSource = (key: string) => {
         // 是自定义数据类型
         form.value.is_custom_data = '1';
         // 自定义数据取值
-        const custom_config = type_data[0].custom_config;
-        // 默认赋值第一个
-        form.value.data_source_direction = custom_config.show_type[0];
+        const custom_config = type_data[0].custom_config
+        // 将数据赋值给默认数据
+        default_type_data.value = {
+            ...custom_config,
+            show_type: custom_config?.show_type || ['vertical', 'vertical-scroll', 'horizontal'],
+            show_number: custom_config?.show_number || [1, 2, 3, 4],
+            data_type: custom_config?.data_type || [0, 1],
+        };
+        // 默认数据处理
+        default_data();
         // 处理数据
         const staging_data : any = {
             // 存放手动输入的id
@@ -285,22 +319,19 @@ const changeDataSource = (key: string) => {
             // 自动
             data_auto_list: [],
             // 类型
-            data_type: custom_config.data_type[0],
+            data_type: default_type_data.value.data_type.length > 0 ? default_type_data.value.data_type[0] : 0,
         };
-        // 将数据赋值给默认数据
-        default_type_data.value = custom_config;
-        default_data();
-        // 如果不存在的时候，默认取id
-        form.value.data_list_key = default_type_data.value?.appoint_config?.show_data?.data_key || 'id';
         // 根据不同的类型，初始化不同的数据, 并将对象处理成对应的值
-        default_type_data.value.filter_config.filter_form_config.forEach((item: any) => {
+        default_type_data.value?.filter_config?.filter_form_config.forEach((item: any) => {
             let value : number | string | Array<any> = '';
-            if (item.type == 'checkbox' || (item.type == 'select' && item.config.is_multiple == '1')) { // 多选
-                value = item.config.default ? item.config.default : [];
-            } else if (item.type == 'input' || item.config.type == 'number') { // 数字
-                value = item.config.default ? item.config.default : 0;
+            if (item.type == 'checkbox' || (item.type == 'select' && +item?.config?.is_multiple == 1)) { // 多选
+                value = item?.config?.default || [];
+            } else if (item.type == 'input' && item?.config?.type == 'number') { // 数字
+                value = item?.config?.default || 0;
             } else if (item.type == 'switch') {
-                value = item.config.default ? item.config.default : "0";
+                value = item?.config?.default || "0";
+            } else {
+                value = item?.config?.default || '';
             }
             staging_data[item.form_name] = value;
         })
@@ -323,14 +354,18 @@ const data_list_replace = (index: number) => {
 };
 // 新增数据
 const add = () => {
-    if (!isEmpty(default_type_data.value?.appoint_config?.data_url)) {
+    if (isEmpty(default_type_data.value) || isEmpty(default_type_data.value.appoint_config)) {
+        ElMessage.error('请先配置数据源内容(appoint_config)');
+    } else if (isEmpty(default_type_data.value.appoint_config.data_url)) {
+        ElMessage.error('请先配置请求地址(data_url)');
+    } else if (isEmpty(default_type_data.value.appoint_config.header)) {
+        ElMessage.error('请先配置表格头(header)');
+    } else {
         // 添加的时候，index为-1
         data_list_replace_index.value = -1;
         // 添加是单选还是多选由后台配置决定
-        url_value_multiple_bool.value = default_type_data.value.appoint_config.is_multiple.toString() == '1' ? true : false;
+        url_value_multiple_bool.value = +default_type_data.value.appoint_config?.is_multiple == 1 ? true : false;
         url_value_dialog_visible.value = true;
-    } else {
-        ElMessage.error('请先配置数据源地址');
     }
 };
 // 拖拽更新之后，更新数据
@@ -385,7 +420,11 @@ let data_source_content_list = computed(() => {
 })
 // 获取商品自动数据
 const get_auto_data = () => {
-    if (!isEmpty(default_type_data.value) && !isEmpty(default_type_data.value.filter_config) && !isEmpty(default_type_data.value.filter_config.data_url)) {
+    if (isEmpty(default_type_data.value) || isEmpty(default_type_data.value.filter_config)) {
+        ElMessage.error('请先配置数据源内容(filter_config)');
+    } else if (isEmpty(default_type_data.value.filter_config.data_url)) {
+        ElMessage.error('请先配置请求地址(data_url)');
+    } else {
         const data = omit(cloneDeep(form.value.data_source_content), ['data_ids', 'data_list', 'data_auto_list', 'data_type']);
         request({
             url: default_type_data.value.filter_config.data_url, // 请求地址
@@ -402,11 +441,6 @@ const get_auto_data = () => {
             //  清空数据, 避免接口报错等显示的还是老数据
             form.value.data_source_content.data_auto_list = [];
         });
-    } else if (!isEmpty(default_type_data.value) && !isEmpty(default_type_data.value.filter_config) && isEmpty(default_type_data.value.filter_config.data_url)) {
-        ElMessage.error('请先配置数据源地址');
-    } else {
-        //  清空数据, 避免接口报错等显示的还是老数据
-        form.value.data_source_content.data_auto_list = [];
     }
 };
 // 将不需要监听的数据移除，只监听需要监听的数据
@@ -423,7 +457,7 @@ const data_source_content_value = computed(() => {
 // 数据发生变化时，调用接口获取数据
 watch(() => data_source_content_value.value, (new_val, old_val) => {
     // 数据发生变化时，如果是自动获取数据，则调用接口获取数据
-    if (JSON.stringify(new_val) != JSON.stringify(old_val) && Number(new_val.data_type) !== 0) {
+    if (JSON.stringify(new_val) != JSON.stringify(old_val) && Number(new_val?.data_type || 0) !== 0) {
         get_auto_data();
     }
 },{ deep: true });

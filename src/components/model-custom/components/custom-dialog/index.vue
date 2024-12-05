@@ -2,15 +2,18 @@
     <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body :close-on-click-modal="false" :top="dialogPositionTop ? dialogPositionTop + 'px' : ''" @close="close_event">
         <template #header>
             <div class="title center re">
-                <div class="tc size-16 fw">{{ config?.popup_title || '' }}</div>
+                <div class="tc size-16 fw">{{ config?.popup_title || '数据选择' }}</div>
             </div>
         </template>
         <div class="flex-col gap-20 w h pa-20 oh">
-            <filter-form v-if="dialogVisible" :filter-data="config.filter_form_config" direction="horizontal" :data-interface="default_data" @form-change="filter_form_change"></filter-form>
-            <table-config v-loading="loading" :table-data="tableData" :multiple="multiple" :table-column-list="config.header" @select="table_select"></table-config>
-            <div class="flex-row jc-e">
-                <el-pagination :current-page="pagination_data.page" background :page-size="pagination_data.page_size" :pager-count="5" layout="prev, pager, next" :total="pagination_data.data_total" @current-change="get_list" />
-            </div>
+            <filter-form v-if="dialogVisible && !isEmpty(config?.filter_form_config)" :filter-data="config.filter_form_config" direction="horizontal" :data-interface="default_data" @form-change="filter_form_change"></filter-form>
+            <!-- 表格头部如果传输了数据，就渲染表格, 否则就不渲染 -->
+            <template v-if="!isEmpty(config?.header)">
+                <table-config v-loading="loading" :table-data="tableData" :multiple="multiple" :table-column-list="config.header" :table-row-class-list="tableRowClassList" @select="table_select"></table-config>
+                <div class="flex-row jc-e">
+                    <el-pagination :current-page="pagination_data.page" background :page-size="pagination_data.page_size" :pager-count="5" layout="prev, pager, next" :total="pagination_data.data_total" @current-change="get_list" />
+                </div>
+            </template>
         </div>
         <template #footer>
             <span class="dialog-footer">
@@ -30,6 +33,10 @@ const props = defineProps({
         type: Array as PropType<string[]>,
         default: () => [],
     },
+    dataListKey: {
+        type: String,
+        default: () => '',
+    },
     config: {
         type: Object as PropType<any>,
         default: () => {},
@@ -46,7 +53,20 @@ const props = defineProps({
 const dialogVisible = defineModel('dialogVisible', { type: Boolean, default: false });
 //#region 数据传递
 const select_data = ref([]);
+const tableRowClassList = ref<number[]>([]);
 const table_select = (val: any) => {
+    // 用户选中操作之后，更新报错的数据，历史报错的如果没有勾选就不报错
+    if (val.length > 0) {
+        const contain_list: number[] = [];
+        val.forEach((item: any) => {
+            if (tableRowClassList.value.includes(item.data_index)) {
+                contain_list.push(item.data_index);
+            }
+        });
+        tableRowClassList.value = contain_list;
+    } else {
+        tableRowClassList.value = [];
+    }
     select_data.value = val;
 };
 const emit = defineEmits(['confirm_event']);
@@ -54,8 +74,36 @@ const close_event = () => {
     dialogVisible.value = false;
 };
 const confirm_event = () => {
-    dialogVisible.value = false;
-    emit('confirm_event', select_data.value);
+    if (init_data()) {
+        // 传递数据
+        dialogVisible.value = false;
+        emit('confirm_event', select_data.value);
+    }
+    
+};
+const init_data = () => {
+    if (select_data.value.length > 0) {
+        // 获取所有的选中数据的长度
+        const all_length = select_data.value.length;
+        // 将没有data_key的值取出来
+        const list = select_data.value.filter((item: any) => item[props.dataListKey] == undefined );
+        if (list.length == 0) {
+           return true;
+        } else {
+            if (list.length == all_length) {
+                // 从中需要显示取出报错的内容
+                tableRowClassList.value = select_data.value.map((item: any) => item.data_index);
+                ElMessage.error(`没有${props.dataListKey}对应的数据`);
+            } else {
+                // 从中需要显示取出报错的内容
+                tableRowClassList.value = list.map((item: any) => item.data_index);
+                ElMessage.error(`${list.length}个数据没有${props.dataListKey}对应`);
+            }
+            return false;
+        }
+    } else {
+        return true;
+    }
 };
 //#endregion
 //#region 初始化数据
@@ -73,22 +121,27 @@ watchEffect(() => {
         const staging_data : any = {};
         pagination_data.value = {
             page: 1,
-            page_size: props.config?.page_size || 10,
+            page_size: props?.config?.page_size || '',
             data_total: 0,
         }
+        const filter_form_config = props?.config?.filter_form_config || [];
         // 将数据赋值给默认数据
-        // 根据不同的类型，初始化不同的数据, 并将对象处理成对应的值
-        props.config.filter_form_config.forEach((item: any) => {
-            let value : number | string | Array<any> = '';
-            if (item.type == 'checkbox' || item.type == 'select' && item.config.is_multiple == '1') { // 多选
-                value = item.config.default ? item.config.default : [];
-            } else if (item.type == 'input' && item.config.type == 'number') { // 数字
-                value = item.config.default ? item.config.default : 0;
-            } else if (item.type == 'switch') {
-                value = item.config.default ? item.config.default : "0";
-            }
-            staging_data[item.form_name] = value;
-        })
+        if (filter_form_config.length > 0) {
+             // 根据不同的类型，初始化不同的数据, 并将对象处理成对应的值
+             filter_form_config.forEach((item: any) => {
+                let value : number | string | Array<any> = '';
+                if (item.type == 'checkbox' || item.type == 'select' && +item?.config?.is_multiple == 1) { // 多选
+                    value = item?.config?.default || [];
+                } else if (item.type == 'input' && item?.config?.type == 'number') { // 数字
+                    value = item?.config?.default || 0;
+                } else if (item.type == 'switch') { // 开关
+                    value = item?.config?.default || "0";
+                } else { // 其他
+                    value = item?.config?.default || '';
+                }
+                staging_data[item.form_name] = value;
+            })
+        }
         // 循环完之后赋值，避免多次赋值，传递给子组件出现多次调用和回调问题
         default_data.value = staging_data;
     }
@@ -110,7 +163,7 @@ const loading = ref(false);
 const get_table_list = (val: any) => {
     tableData.value = [];
     // 判断是否有数据和配置和请求地址
-    if (!isEmpty(val) && !isEmpty(props.config) && !isEmpty(props.config.data_url)) {
+    if (!isEmpty(props.config) && !isEmpty(props.config.data_url)) {
         // 发送请求，获取数据
         const data = {
             ...val,
@@ -124,6 +177,8 @@ const get_table_list = (val: any) => {
             data    // 请求数据
         }).then((res) => {
             if (res.data) {
+                // 列表数据改变时，清空报错的内容
+                tableRowClassList.value = [];
                 tableData.value = res.data.data_list;
                 pagination_data.value.data_total = res.data.data_total;
             }

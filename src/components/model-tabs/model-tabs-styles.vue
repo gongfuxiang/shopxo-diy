@@ -34,6 +34,9 @@
                             <upload v-model="form.tabs_bg_background_img" :limit="1" @update:model-value="tabs_bg_background_img_change"></upload>
                         </div>
                     </el-form-item>
+                    <el-form-item label="圆角">
+                        <radius :value="form.tabs_radius"></radius>
+                    </el-form-item>
                     <el-form-item label="内边距">
                         <padding :value="form.tabs_padding"></padding>
                     </el-form-item>

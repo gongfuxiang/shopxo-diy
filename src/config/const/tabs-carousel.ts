@@ -45,11 +45,13 @@ interface defaultTabs {
         tabs_bg_color_list: color_list[],
         tabs_bg_background_img_style: string,
         tabs_bg_background_img: string[],
+        tabs_radius: radiusStyle;
         tabs_padding: paddingStyle;
         carousel_content_direction: string;
         carousel_content_color_list: color_list[];
         carousel_content_background_img_style: string;
         carousel_content_background_img: string[];
+        carousel_content_radius: radiusStyle;
         carousel_content_margin: marginStyle;
         carousel_content_padding: paddingStyle;
         more_icon_class: string;
@@ -152,21 +154,35 @@ const defaultTabs: defaultTabs = {
         tabs_bg_color_list: [{ color: '', color_percentage: undefined }],
         tabs_bg_background_img_style: '2',
         tabs_bg_background_img: [],
+        tabs_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+        },
         tabs_padding: {
-            padding: 0,
-            padding_top: 0,
-            padding_bottom: 0,
-            padding_left: 0,
-            padding_right: 0,
+            padding: 10,
+            padding_top: 10,
+            padding_bottom: 10,
+            padding_left: 10,
+            padding_right: 10,
         },
         // 轮播内间距设置
         carousel_content_direction: '90deg',
         carousel_content_color_list: [{ color: '', color_percentage: undefined }],
         carousel_content_background_img_style: '2',
         carousel_content_background_img: [],
+        carousel_content_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+        },
         carousel_content_margin: {
             margin: 0,
-            margin_top: 10,
+            margin_top: 0,
             margin_bottom: 0,
             margin_left: 0,
             margin_right: 0,
@@ -174,9 +190,9 @@ const defaultTabs: defaultTabs = {
         carousel_content_padding: {
             padding: 0,
             padding_top: 0,
-            padding_bottom: 0,
-            padding_left: 0,
-            padding_right: 0,
+            padding_bottom: 10,
+            padding_left: 10,
+            padding_right: 10,
         },
         // 更多设置
         more_icon_class: 'category-more',

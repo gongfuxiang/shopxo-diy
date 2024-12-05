@@ -57,13 +57,16 @@ interface DefaultProductList {
         tabs_bg_color_list: color_list[],
         tabs_bg_background_img_style: string,
         tabs_bg_background_img: string[],
+        tabs_radius: radiusStyle;
         tabs_padding: paddingStyle;
         shop_content_direction: string;
         shop_content_color_list: color_list[];
         shop_content_background_img_style: string;
         shop_content_background_img: string[];
+        shop_content_radius: radiusStyle;
         shop_content_margin: marginStyle;
         shop_content_padding: paddingStyle;
+        shop_content_spacing: number;
         shop_direction: string;
         shop_color_list: color_list[];
         shop_background_img_style: string;
@@ -172,21 +175,35 @@ const defaultProductList: DefaultProductList = {
         tabs_bg_color_list: [{ color: '', color_percentage: undefined }],
         tabs_bg_background_img_style: '2',
         tabs_bg_background_img: [],
+        tabs_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+        },
         tabs_padding: {
-            padding: 0,
-            padding_top: 0,
-            padding_bottom: 0,
-            padding_left: 0,
-            padding_right: 0,
+            padding: 10,
+            padding_top: 10,
+            padding_bottom: 10,
+            padding_left: 10,
+            padding_right: 10,
         },
         // 商品内容设置
         shop_content_direction: '90deg',
         shop_content_color_list: [{ color: '', color_percentage: undefined }],
         shop_content_background_img_style: '2',
         shop_content_background_img: [],
+        shop_content_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+        },
         shop_content_margin: {
             margin: 0,
-            margin_top: 10,
+            margin_top: 0,
             margin_bottom: 0,
             margin_left: 0,
             margin_right: 0,
@@ -194,10 +211,11 @@ const defaultProductList: DefaultProductList = {
         shop_content_padding: {
             padding: 0,
             padding_top: 0,
-            padding_bottom: 0,
-            padding_left: 0,
-            padding_right: 0,
+            padding_bottom: 10,
+            padding_left: 10,
+            padding_right: 10,
         },
+        shop_content_spacing: 0,
         // 商品背景设置
         shop_direction: '90deg',
         shop_color_list: [{ color: '#fff', color_percentage: undefined }],
@@ -281,7 +299,7 @@ const defaultProductList: DefaultProductList = {
         shop_icon_size: 10,
         shop_icon_color: '#fff',
         subscript_style: subscriptStyle,
-        common_style: { ...defaultCommon, padding: 10, padding_top: 10, padding_bottom: 10, padding_left: 10, padding_right: 10 },
+        common_style: defaultCommon,
     },
 };
 

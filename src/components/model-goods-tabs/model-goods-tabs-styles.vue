@@ -33,6 +33,9 @@
                         <upload v-model="form.tabs_bg_background_img" :limit="1" @update:model-value="tabs_bg_background_img_change"></upload>
                     </div>
                 </el-form-item>
+                <el-form-item label="圆角">
+                    <radius :value="form.tabs_radius"></radius>
+                </el-form-item>
                 <el-form-item label="内边距">
                     <padding :value="form.tabs_padding"></padding>
                 </el-form-item>
@@ -51,11 +54,17 @@
                         <upload v-model="form.shop_content_background_img" :limit="1" @update:model-value="shop_content_background_img_change"></upload>
                     </div>
                 </el-form-item>
+                <el-form-item label="圆角">
+                    <radius :value="form.shop_content_radius"></radius>
+                </el-form-item>
                 <el-form-item label="外间距">
                     <margin :value="form.shop_content_margin"></margin>
                 </el-form-item>
                 <el-form-item label="内间距">
                     <padding :value="form.shop_content_padding"></padding>
+                </el-form-item>
+                <el-form-item label="数据间距">
+                    <slider v-model="form.shop_content_spacing" :max="100"></slider>
                 </el-form-item>
             </card-container>
             <div class="divider-line"></div>

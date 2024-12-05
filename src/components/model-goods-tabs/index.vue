@@ -1,6 +1,6 @@
 <template>
     <div :style="style_container">
-        <div :style="style_img_container">
+        <div class="flex-col" :style="style_img_container">
             <div class="oh" :style="tabs_container">
                 <div class="oh" :style="tabs_img_container">
                     <tabs-view ref="tabs" :value="props.value" :active-index="tabs_active_index"></tabs-view>
@@ -15,7 +15,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, common_img_computer, common_styles_computer, gradient_computer, margin_computer, padding_computer } from '@/utils';
+import { background_computer, common_img_computer, common_styles_computer, gradient_computer, margin_computer, padding_computer, radius_computer } from '@/utils';
 import { cloneDeep } from 'lodash';
 
 const props = defineProps({
@@ -51,7 +51,7 @@ watch(
             background_img_style: new_style.tabs_bg_background_img_style,
             background_img: new_style.tabs_bg_background_img,
         }
-        tabs_container.value = gradient_computer(tabs_data);
+        tabs_container.value = gradient_computer(tabs_data) + radius_computer(new_style.tabs_radius);
         tabs_img_container.value = background_computer(tabs_data) + padding_computer(new_style.tabs_padding);
         // 商品区域背景设置
         const shop_content_data = {
@@ -60,7 +60,7 @@ watch(
             background_img_style: new_style.shop_content_background_img_style,
             background_img: new_style.shop_content_background_img,
         }
-        shop_container.value = gradient_computer(shop_content_data) + margin_computer(new_style.shop_content_margin);
+        shop_container.value = gradient_computer(shop_content_data) + margin_computer(new_style.shop_content_margin) + radius_computer(new_style.shop_content_radius);
         shop_img_container.value = background_computer(shop_content_data) + padding_computer(new_style.shop_content_padding);
         // 产品的值
         new_data.content.data_type = new_data.content.tabs_list[tabs_active_index.value].data_type;
@@ -76,7 +76,7 @@ watch(
         tabs_list.value = new_data;
         // 公共样式
         style_container.value += common_styles_computer(new_style.common_style);
-        style_img_container.value = common_img_computer(new_style.common_style);
+        style_img_container.value = common_img_computer(new_style.common_style) + `gap: ${new_style.shop_content_spacing}px;`;
     },
     { immediate: true, deep: true }
 );

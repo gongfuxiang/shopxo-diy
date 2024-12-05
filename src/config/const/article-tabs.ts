@@ -54,13 +54,16 @@ interface DefaultArticleTabs {
         tabs_bg_background_img_style: string,
         tabs_bg_background_img: string[],
         tabs_sign_spacing: number;
+        tabs_radius: radiusStyle;
         tabs_padding: paddingStyle;
         article_content_direction: string;
         article_content_color_list: color_list[];
         article_content_background_img_style: string;
         article_content_background_img: string[];
+        article_content_radius: radiusStyle;
         article_content_margin: marginStyle;
         article_content_padding: paddingStyle;
+        article_content_spacing: number;
         article_direction: string,
         article_color_list: color_list[],
         article_background_img_style: string,
@@ -141,21 +144,35 @@ const defaultArticleTabs: DefaultArticleTabs = {
         tabs_bg_color_list: [{ color: '', color_percentage: undefined }],
         tabs_bg_background_img_style: '2',
         tabs_bg_background_img: [],
+        tabs_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+        },
         tabs_padding: {
-            padding: 0,
-            padding_top: 0,
-            padding_bottom: 0,
-            padding_left: 0,
-            padding_right: 0,
+            padding: 10,
+            padding_top: 10,
+            padding_bottom: 10,
+            padding_left: 10,
+            padding_right: 10,
         },
         // 文章内容设置
         article_content_direction: '90deg',
         article_content_color_list: [{ color: '', color_percentage: undefined }],
         article_content_background_img_style: '2',
         article_content_background_img: [],
+        article_content_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+        },
         article_content_margin: {
             margin: 0,
-            margin_top: 10,
+            margin_top: 0,
             margin_bottom: 0,
             margin_left: 0,
             margin_right: 0,
@@ -163,10 +180,11 @@ const defaultArticleTabs: DefaultArticleTabs = {
         article_content_padding: {
             padding: 0,
             padding_top: 0,
-            padding_bottom: 0,
-            padding_left: 0,
-            padding_right: 0,
+            padding_bottom: 10,
+            padding_left: 10,
+            padding_right: 10,
         },
+        article_content_spacing: 0,
         // 文章背景设置
         article_direction: '90deg',
         article_color_list: [{ color: '#fff', color_percentage: undefined }],

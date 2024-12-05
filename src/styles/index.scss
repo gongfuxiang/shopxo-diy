@@ -290,3 +290,10 @@ p {
         left: 20px;
     }
 }
+
+.el-table .table-error-row {
+    background: #FFEAEA !important;
+    .el-table__cell {
+        background: #FFEAEA !important;
+    }
+}
