@@ -253,14 +253,7 @@ const defaultTabs: defaultTabs = {
         video_color_list: [{ color: '#F0F0F0', color_percentage: undefined }],
         video_direction: '180deg',
         // 公共样式
-        common_style: {
-            ...defaultCommon,
-            padding: 10,
-            padding_top: 10,
-            padding_bottom: 10,
-            padding_left: 10,
-            padding_right: 10,
-        },
+        common_style: defaultCommon,
     },
 };
 

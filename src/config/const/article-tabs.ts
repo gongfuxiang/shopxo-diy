@@ -258,7 +258,7 @@ const defaultArticleTabs: DefaultArticleTabs = {
         is_roll: 1, // 是否轮播
         rolling_fashion: 'translation', // 滚动方式  translation 平移 cut-screen 切屏
         subscript_style: subscriptStyle,
-        common_style: { ...defaultCommon, padding: 10, padding_top: 10, padding_left: 10, padding_right: 10, padding_bottom: 10 },
+        common_style: defaultCommon,
     },
 };
 
