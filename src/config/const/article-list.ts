@@ -20,8 +20,8 @@ interface DefaultArticleList {
         data_ids: string;
         data_auto_list: ArticleList[];
         number: number;
-        order_by_type: string;
-        order_by_rule: string;
+        order_by_type: number;
+        order_by_rule: number;
         field_show: string[];
         is_cover: string;
         seckill_subscript_show: string;

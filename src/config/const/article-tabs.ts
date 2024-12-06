@@ -15,8 +15,8 @@ interface articleTabsList {
     keyword: string;
     category_ids: string[];
     number: number;
-    order_by_type: string;
-    order_by_rule: string;
+    order_by_type: number;
+    order_by_rule: number;
     is_cover: string;
     data_ids: string;
     data_list: ArticleList[];

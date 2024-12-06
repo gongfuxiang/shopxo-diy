@@ -77,7 +77,7 @@
                         <model-icon-style :key="key" v-model:height="center_height" :options="model_data_source" :value="diy_data"></model-icon-style>
                     </template>
                     <template v-else-if="diy_data.key == 'panel'">
-                        <model-panel-style :key="key" v-model:height="center_height" :value="diy_data"></model-panel-style>
+                        <model-panel-style :key="key" v-model:height="center_height" :options="model_data_source" :value="diy_data"></model-panel-style>
                     </template>
                     <template v-else>
                         <div class="w h flex align-c bg-f">
@@ -326,10 +326,8 @@ const changeDataSource = (key: string) => {
             let value : number | string | Array<any> = '';
             if (item.type == 'checkbox' || (item.type == 'select' && +item?.config?.is_multiple == 1)) { // 多选
                 value = item?.config?.default || [];
-            } else if (item.type == 'input' && item?.config?.type == 'number') { // 数字
-                value = item?.config?.default || 0;
-            } else if (item.type == 'switch') {
-                value = item?.config?.default || "0";
+            } else if ((item.type == 'input' && item?.config?.type == 'number') || item.type == 'switch') { // 数字/开关
+                value = Number(item?.config?.default || 0);
             } else {
                 value = item?.config?.default || '';
             }

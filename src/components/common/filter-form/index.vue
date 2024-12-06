@@ -30,7 +30,7 @@
                         </template>
                     </template>
                     <template v-else-if="item.type == 'switch'">
-                        <el-switch v-model="new_dataInterface[item.form_name]" active-value="1" inactive-value="0" />
+                        <el-switch v-model="new_dataInterface[item.form_name]" :active-value="1" :inactive-value="0" />
                     </template>
                     <template v-else-if="item.type =='radio'">
                         <el-radio-group v-model="new_dataInterface[item.form_name]">

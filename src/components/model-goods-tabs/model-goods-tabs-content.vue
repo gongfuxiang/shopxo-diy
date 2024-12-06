@@ -120,36 +120,36 @@ const base_list = reactive({
         { name: '指定商品', value: '0' },
         { name: '筛选商品', value: '1' },
     ],
-    product_category_list: [] as select_1[],
-    product_brand_list: [] as select_1[],
-    sort_list: [
-        { name: '综合', value: '0' },
-        { name: '销量', value: '1' },
-        { name: '热度', value: '2' },
-        { name: '价格', value: '3' },
-        { name: '最新', value: '4' },
-    ],
-    order_by_rule_list: [
-        { name: '降序（desc）', value: '0' },
-        { name: '升序（asc）', value: '1' },
-    ],
-    list_show_list: [
-        { name: '日期时间', value: '0' },
-        { name: '浏览量', value: '1' },
-    ],
+    // product_category_list: [] as select_1[],
+    // product_brand_list: [] as select_1[],
+    // sort_list: [
+    //     { name: '综合', value: '0' },
+    //     { name: '销量', value: '1' },
+    //     { name: '热度', value: '2' },
+    //     { name: '价格', value: '3' },
+    //     { name: '最新', value: '4' },
+    // ],
+    // order_by_rule_list: [
+    //     { name: '降序（desc）', value: '0' },
+    //     { name: '升序（asc）', value: '1' },
+    // ],
+    // list_show_list: [
+    //     { name: '日期时间', value: '0' },
+    //     { name: '浏览量', value: '1' },
+    // ],
 });
 const emits = defineEmits(['theme_change']);
 onBeforeMount(() => {
-    nextTick(() => {
-        // 定时获取common_store.common.article_category的数据，直到拿到值或者关闭页面为止
-        const interval = setInterval(() => {
-            if (common_store.common.goods_category.length > 0 || common_store.common.brand_list.length > 0) {
-                base_list.product_category_list = common_store.common.goods_category;
-                base_list.product_brand_list = common_store.common.brand_list;
-                clearInterval(interval);
-            }
-        }, 1000);
-    });
+    // nextTick(() => {
+    //     // 定时获取common_store.common.article_category的数据，直到拿到值或者关闭页面为止
+    //     const interval = setInterval(() => {
+    //         if (common_store.common.goods_category.length > 0 || common_store.common.brand_list.length > 0) {
+    //             base_list.product_category_list = common_store.common.goods_category;
+    //             base_list.product_brand_list = common_store.common.brand_list;
+    //             clearInterval(interval);
+    //         }
+    //     }, 1000);
+    // });
     // 如果历史数据没有操作，则修改默认值
     const { content_img_width = '', content_img_height = '' } = styles.value;
     // 宽度和高度为空的时候，并且不是无图模式和左右滑动模式的时候，修改默认值

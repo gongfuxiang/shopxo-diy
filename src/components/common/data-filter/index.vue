@@ -17,12 +17,12 @@
             </el-form-item>
             <el-form-item label="商品分类">
                 <el-select v-model="form.category_ids" multiple collapse-tags placeholder="请选择商品分类">
-                    <el-option v-for="item in baseList.product_category_list" :key="item.id" :label="item.name" :value="item.id" />
+                    <el-option v-for="item in common_store.common.goods_category" :key="item.id" :label="item.name" :value="item.id" />
                 </el-select>
             </el-form-item>
             <el-form-item label="指定品牌">
                 <el-select v-model="form.brand_ids" multiple collapse-tags placeholder="请选择品牌">
-                    <el-option v-for="item in baseList.product_brand_list" :key="item.id" :label="item.name" :value="item.id" />
+                    <el-option v-for="item in common_store.common.brand_list" :key="item.id" :label="item.name" :value="item.id" />
                 </el-select>
             </el-form-item>
             <el-form-item label="显示数量">
@@ -30,12 +30,12 @@
             </el-form-item>
             <el-form-item label="排序类型">
                 <el-radio-group v-model="form.order_by_type">
-                    <el-radio v-for="item in baseList.sort_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                    <el-radio v-for="item in common_store.common.goods_order_by_type_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="排序规则">
                 <el-radio-group v-model="form.order_by_rule">
-                    <el-radio v-for="item in baseList.order_by_rule_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                    <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                 </el-radio-group>
             </el-form-item>
         </template>
@@ -58,7 +58,7 @@
             </el-form-item>
             <el-form-item label="文章分类">
                 <el-select v-model="form.category_ids" multiple collapse-tags placeholder="请选择文章分类">
-                    <el-option v-for="item in baseList.article_category_list" :key="item.id" :label="item.name" :value="item.id" />
+                    <el-option v-for="item in common_store.common.article_category" :key="item.id" :label="item.name" :value="item.id" />
                 </el-select>
             </el-form-item>
             <el-form-item label="显示数量">
@@ -66,17 +66,12 @@
             </el-form-item>
             <el-form-item label="排序类型">
                 <el-radio-group v-model="form.order_by_type">
-                    <template v-if="!isEmpty(baseList.new_sort_list)">
-                        <el-radio v-for="item in baseList.new_sort_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                    </template>
-                    <template v-else>
-                        <el-radio v-for="item in baseList.sort_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                    </template>
+                    <el-radio v-for="item in common_store.common.article_order_by_type_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="排序规则">
                 <el-radio-group v-model="form.order_by_rule">
-                    <el-radio v-for="item in baseList.order_by_rule_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                    <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="封面图片">
@@ -102,7 +97,7 @@
             </el-form-item>
             <el-form-item label="品牌分类">
                 <el-select v-model="form.category_ids" multiple collapse-tags placeholder="请选择品牌分类">
-                    <el-option v-for="item in baseList.brand_category_list" :key="item.id" :label="item.name" :value="item.id" />
+                    <el-option v-for="item in common_store.common.brand_list" :key="item.id" :label="item.name" :value="item.id" />
                 </el-select>
             </el-form-item>
             <el-form-item label="显示数量">
@@ -110,12 +105,12 @@
             </el-form-item>
             <el-form-item label="排序类型">
                 <el-radio-group v-model="form.order_by_type">
-                    <el-radio v-for="item in baseList.brand_sort_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                    <el-radio v-for="item in common_store.common.brand_order_by_type_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="排序规则">
                 <el-radio-group v-model="form.order_by_rule">
-                    <el-radio v-for="item in baseList.order_by_rule_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                    <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                 </el-radio-group>
             </el-form-item>
         </template>
@@ -123,10 +118,12 @@
 </template>
 
 <script lang="ts" setup>
-    import { isEmpty, cloneDeep } from 'lodash';
+    import { commonStore } from '@/store';
+    const common_store = commonStore();
+    // 定义组件的属性和事件
     const props = defineProps({
         value: {
-            type: Object,
+            type: Object as PropType<any>,
             default: () => {},
         },
         list: {
@@ -149,9 +146,11 @@
     watchEffect(() => {
         keyword.value = props.value.keyword;
         form.value = props.value;
+        // 历史数据转成数字类型
+        form.value.order_by_type = Number(props.value?.order_by_type || 0); 
+        form.value.order_by_rule = Number(props.value?.order_by_rule || 0);
         drag_list.value = props.list;
     });
-
     const keyword_blur = () => {
         form.value.keyword = keyword.value;
     }

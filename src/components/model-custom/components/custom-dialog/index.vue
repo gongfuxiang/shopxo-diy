@@ -132,10 +132,8 @@ watchEffect(() => {
                 let value : number | string | Array<any> = '';
                 if (item.type == 'checkbox' || item.type == 'select' && +item?.config?.is_multiple == 1) { // 多选
                     value = item?.config?.default || [];
-                } else if (item.type == 'input' && item?.config?.type == 'number') { // 数字
-                    value = item?.config?.default || 0;
-                } else if (item.type == 'switch') { // 开关
-                    value = item?.config?.default || "0";
+                } else if ((item.type == 'input' && item?.config?.type == 'number') || item.type == 'switch') { // 数字/开关
+                    value = Number(item?.config?.default || 0);
                 } else { // 其他
                     value = item?.config?.default || '';
                 }

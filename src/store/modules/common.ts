@@ -15,6 +15,10 @@ export const commonStore = defineStore('common', () => {
         module_list: [] as any[], //---- 模块列表
         page_link_list: [] as any[], //---- 页面链接
         plugins: {} as any, //---- 插件
+        article_order_by_type_list: [] as any[], //---- 文章排序
+        goods_order_by_type_list: [] as any[],  //---- 商品排序
+        data_order_by_rule_list: [] as any[],  //---- 数据排序
+        brand_order_by_type_list: [] as any[],  //---- 品牌排序
         config: {
             common_amap_map_ak: '',
             common_amap_map_safety_ak: '',

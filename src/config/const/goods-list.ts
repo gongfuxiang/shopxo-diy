@@ -17,8 +17,8 @@ interface DefaultProductList {
         data_auto_list: string[];
         is_price_solo: string;
         number: number;
-        order_by_type: string;
-        order_by_rule: string;
+        order_by_type: number;
+        order_by_rule: number;
         is_show: string[];
         static_img: uploadList[];
         is_shop_show: string;

@@ -14,8 +14,8 @@ interface articleTabsList {
     brand_ids: string[];
     data_ids: string[];
     number: number;
-    order_by_type: string;
-    order_by_rule: string;
+    order_by_type: number;
+    order_by_rule: number;
     data_list: [];
     data_auto_list: [];
 }
