@@ -100,7 +100,7 @@ onBeforeMount(() => {
             // 获取到默认值
             const old_defalut = new_dataInterface.value[item.form_name];
             // 默认值不为空的时候，进行处理查看当前数据是否存在默认值数据
-            if (old_defalut && ['select', 'radio', 'checkout'].includes(item.type)) {
+            if (old_defalut != '' && old_defalut != undefined && ['select', 'radio', 'checkout'].includes(item.type)) {
                 if (item.type == 'select' && +item?.config?.is_level == 1) { // 如果是级联的效果
                     const result = contains_value(options_list, item, [], item?.config?.children || '');
                     new_dataInterface.value[item.form_name] = result;
@@ -114,7 +114,7 @@ onBeforeMount(() => {
                     }
                 } else {
                     // 单选的处理逻辑
-                    const list = options_list.filter((item1: any) => item1[item?.data_key || 'id'] === old_defalut );
+                    const list = options_list.filter((item1: any) => item1[item?.data_key || 'id'] === old_defalut);
                     if (list.length > 0) {
                         new_dataInterface.value[item.form_name] = list[0][item?.data_key || 'id'];
                     } else {
