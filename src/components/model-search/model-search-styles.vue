@@ -40,7 +40,7 @@
                 </el-form-item>
                 <template v-if="search_content.is_center != '1'">
                     <el-form-item label="左内边距">
-                        <slider v-model="form.search_padding_left" :min="1" :max="200"></slider>
+                        <slider v-model="form.search_padding_left" :min="0" :max="200"></slider>
                     </el-form-item>
                 </template>
                 <el-form-item label="搜索框线">
