@@ -325,11 +325,11 @@ const changeDataSource = (key: string) => {
         default_type_data.value?.filter_config?.filter_form_config.forEach((item: any) => {
             let value : number | string | Array<any> = '';
             if (item.type == 'checkbox' || (item.type == 'select' && +item?.config?.is_multiple == 1)) { // 多选
-                value = item?.config?.default || [];
+                value = item?.config?.default ?? [];
             } else if ((item.type == 'input' && item?.config?.type == 'number') || item.type == 'switch') { // 数字/开关
-                value = Number(item?.config?.default || 0);
+                value = Number(item?.config?.default ?? 0);
             } else {
-                value = item?.config?.default || '';
+                value = item?.config?.default ?? '';
             }
             staging_data[item.form_name] = value;
         })

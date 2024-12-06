@@ -121,7 +121,7 @@ watchEffect(() => {
         const staging_data : any = {};
         pagination_data.value = {
             page: 1,
-            page_size: props?.config?.page_size || '',
+            page_size: props?.config?.page_size || undefined,
             data_total: 0,
         }
         const filter_form_config = props?.config?.filter_form_config || [];
@@ -131,11 +131,11 @@ watchEffect(() => {
              filter_form_config.forEach((item: any) => {
                 let value : number | string | Array<any> = '';
                 if (item.type == 'checkbox' || item.type == 'select' && +item?.config?.is_multiple == 1) { // 多选
-                    value = item?.config?.default || [];
+                    value = item?.config?.default ?? [];
                 } else if ((item.type == 'input' && item?.config?.type == 'number') || item.type == 'switch') { // 数字/开关
-                    value = Number(item?.config?.default || 0);
+                    value = Number(item?.config?.default ?? 0);
                 } else { // 其他
-                    value = item?.config?.default || '';
+                    value = item?.config?.default ?? '';
                 }
                 staging_data[item.form_name] = value;
             })
