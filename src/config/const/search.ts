@@ -96,7 +96,7 @@ const defaultSearch: defaultSearch = {
             radius_bottom_left: 16,
             radius_bottom_right: 16,
         },
-        search_padding_left: 10,
+        search_padding_left: 15,
         // 热词轮播
         is_roll: '1',
         interval_time: 3,

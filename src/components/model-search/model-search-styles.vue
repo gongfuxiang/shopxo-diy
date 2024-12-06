@@ -38,9 +38,11 @@
                 <el-form-item v-if="search_content.is_tips_show" label="提示文字">
                     <color-picker v-model="form.tips_color" default-color="#CCCCCC"></color-picker>
                 </el-form-item>
-                <el-form-item label="左内边距">
-                    <slider v-model="form.search_padding_left" :min="1" :max="200"></slider>
-                </el-form-item>
+                <template v-if="search_content.is_center != '1'">
+                    <el-form-item label="左内边距">
+                        <slider v-model="form.search_padding_left" :min="1" :max="200"></slider>
+                    </el-form-item>
+                </template>
                 <el-form-item label="搜索框线">
                     <color-picker v-model="form.search_border" default-color="#fff"></color-picker>
                 </el-form-item>

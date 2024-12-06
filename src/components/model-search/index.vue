@@ -16,7 +16,7 @@
                             </template>
                         </div>
                     </div>
-                    <div class="flex-1 h flex-row align-c gap-10">
+                    <div :class="'flex-1 h flex-row align-c gap-10' + (form.is_center == '1' ? ' tips-float' : '')">
                         <template v-if="form.is_icon_show == '1'">
                             <template v-if="form.icon_img.length > 0">
                                 <div class="img-box">
@@ -27,11 +27,11 @@
                                 <el-icon :class="`iconfont ${ !isEmpty(form.icon_class) ? 'icon-' + form.icon_class : 'icon-search' } size-14`" :style="`color:${new_style.icon_color};`" />
                             </template>
                         </template>
-                        <template v-if="!isEmpty(form.hot_word_list) && form.is_hot_word_show == '1'">
+                        <div v-if="!isEmpty(form.hot_word_list) && form.is_hot_word_show == '1'" :style="form.is_center == '1' ? `min-width:100px;` : 'width:100%;'">
                             <el-carousel :key="carouselKey" class="flex-1" indicator-position="none" :interval="interval_list.time" arrow="never" height="32px" direction="vertical" :autoplay="interval_list.is_roll == '1'">
                                 <el-carousel-item v-for="(item, index) in form.hot_word_list" :key="index" class="flex align-c" :style="{ 'color': !isEmpty(item.color) ? item.color : !isEmpty(new_style.hot_words_color) ? new_style.hot_words_color : '#999' }">{{ item.value }}</el-carousel-item>
                             </el-carousel>
-                        </template>
+                        </div>
                         <template v-else>
                             <span v-if="form.is_tips_show == '1'" :class="[props.isPageSettings ? 'size-12 text-line-1' : 'size-14 text-line-1']" :style="`color: ${ new_style.tips_color }`">{{ form.tips }}</span>
                         </template>
@@ -106,9 +106,9 @@ const style_img_container = computed(() => props.isPageSettings ? '' : common_im
 // 搜索框设置
 const box_style = computed(() => {
     let style = `background: ${ new_style.value.search_bg_color };border: 1px solid ${ new_style.value.search_border }; ${ radius_computer(new_style.value.search_border_radius) };`;
-    if (form.value.is_center == '1') {
-        style += `justify-content: center;`;
-    } else {
+    if (form.value.positioning_name_float == '1' && props.searchType == 'header') {
+        style += `padding-left: ${ new_style.value.search_padding_left }px;`;
+    } else if (form.value.is_center != '1') {
         style += `padding-left: ${ new_style.value.search_padding_left }px;`;
     }
     return style;
@@ -186,7 +186,11 @@ watchEffect(() => {
             max-width: 10rem;
         }
     }
-    
+    .tips-float {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+    }
 }
 .model-head-location {
     :deep(.el-image) {
