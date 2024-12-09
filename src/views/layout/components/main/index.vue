@@ -34,7 +34,10 @@
                     <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col">
                         <li v-for="(item, index) in diy_data" :key="index" :class="['flex ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-drag-bg': item.show_tabs == '1' }]" @click="on_choose(index, item.show_tabs)">
                             <el-icon class="iconfont icon-drag size-16 cr-d" />
-                            <span class="size-12 cr-6">{{ item.name }}</span>
+                            <span class="size-12 cr-6 re">
+                                {{ item.name }}
+                                <div v-if="!isEmpty(item.mark_name)" class="plug-drawer-mark-name mark-name-style">{{ item.mark_name }}</div>
+                            </span>
                             <el-icon class="iconfont icon-close-round-o size-16 abs" :style="[item.show_tabs == '1' ? '' : 'display:none']" @click.stop="del(index, false)" />
                         </li>
                     </TransitionGroup>
@@ -270,6 +273,7 @@ const draggable_click = (item: componentsData) => {
             // 添加tabs组件
             tabs_data.value.push({
                 name: item.name,
+                mark_name: '',
                 show_tabs: '1',
                 is_enable: '1',
                 src: '',
@@ -298,6 +302,7 @@ watchEffect(() => {
 const clone_item_com_data = (item: commonComponentData) => {
     return {
         name: item.name,
+        mark_name: '',
         show_tabs: '1',
         is_enable: '1',
         src: item.src,
@@ -575,5 +580,10 @@ const footer_nav_event = () => {
     flex-direction: column;
     align-items: stretch;
     flex: 1;
+}
+.plug-drawer-mark-name {
+    position: absolute;
+    top: -1.3rem;
+    left: -0.6rem;
 }
 </style>

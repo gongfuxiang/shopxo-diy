@@ -17,7 +17,12 @@
                 <icon name="arrow-bottom" size="14" color="f" />
             </div>
         </div>
-        <div class="plug-in-name">{{ item.name }}</div>
+        <div class="plug-in-name">
+            <div class="re w h">
+                {{ item.name }}
+                <div v-if="!isEmpty(item.mark_name)" class="plug-in-mark-name mark-name-style">{{ item.mark_name }}</div>
+            </div>
+        </div>
         <div class="main-content" :class="{ 'plug-in-close': item.is_enable != '1' }" :style="mainContentStyle">
             <!-- 基础组件 -->
             <!-- 视频 -->
@@ -117,6 +122,8 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { isEmpty } from 'lodash';
+
 interface Props {
     diyData: any[];
     showModelBorder: boolean;
@@ -338,6 +345,11 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
         right: -0.5rem;
         margin-top: -0.5rem;
     }
+}
+.plug-in-mark-name {
+    position: absolute;
+    top: -0.6rem;
+    left: -0.6rem;
 }
 .plug-in-close::before {
     position: absolute;

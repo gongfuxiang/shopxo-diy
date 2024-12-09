@@ -314,6 +314,7 @@ const processing_data = (key: string) => {
 const url_value_dialog_visible = ref(false);
 const default_type_data = ref<any>({})
 const url_value_multiple_bool = ref(true);
+const emits = defineEmits(['data_source_change']);
 const changeDataSource = (key: string) => {
     form.value.is_custom_data = '0';
     const type_data = options.value.filter((item) => item.type == key);
@@ -331,8 +332,10 @@ const changeDataSource = (key: string) => {
     form.value.data_source_direction = 'vertical';
     // 如果存在默认数据类型的时候，就直接赋值给data_list
     if (type_data.length > 0 && !isEmpty(type_data[0].appoint_data)) {
+        emits('data_source_change', type_data[0].name)
         form.value.data_source_content.data_list = [ type_data[0].appoint_data ];
     } else if (type_data.length > 0 && !isEmpty(type_data[0].custom_config)) {
+        emits('data_source_change', type_data[0].name)
         // 是自定义数据类型
         form.value.is_custom_data = '1';
         // 自定义数据取值
@@ -348,6 +351,8 @@ const changeDataSource = (key: string) => {
         default_data();
         // 筛选数据处理
         filter_data_handling('new');
+    } else {
+        emits('data_source_change', '')
     }
 };
 const filter_form_change = (val: any) => {

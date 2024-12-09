@@ -76,7 +76,7 @@
             </template>
             <!-- 自定义 -->
             <template v-else-if="value.key == 'custom'">
-                <model-custom-setting :type="radio" :value="value.com_data"></model-custom-setting>
+                <model-custom-setting :type="radio" :value="value.com_data" :all-value="value"></model-custom-setting>
             </template>
             <!-- 底部导航 -->
             <template v-else-if="value.key == 'footer-nav'">
