@@ -2,7 +2,7 @@
     <template v-if="data_source_content_list.length > 0 && form.data_source_direction == 'vertical'">
         <div v-for="(item1, index1) in data_source_content_list" :key="index1" class="oh" :style="style_container">
             <div class="w h oh" :style="style_img_container">
-                <data-rendering :custom-list="form.custom_list" :source-list="item1" :source-type="form?.data_source || ''" :data-height="form.height" :scale="scale"></data-rendering>
+                <data-rendering :custom-list="form.custom_list" :source-list="item1" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :data-height="form.height" :scale="scale"></data-rendering>
             </div>
         </div>
     </template>
@@ -11,7 +11,7 @@
             <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
                 <div :style="style_container">
                     <div class="w h" :style="style_img_container">
-                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :source-type="form?.data_source || ''" :data-height="form.height" :scale="scale"></data-rendering>
+                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :data-height="form.height" :scale="scale"></data-rendering>
                     </div>
                 </div>
             </swiper-slide>

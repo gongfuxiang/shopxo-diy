@@ -41,7 +41,7 @@
                             </el-form-item>
                             <template v-if="Number(form.data_source_content.data_type) === 0">
                                 <div class="nav-list">
-                                    <drag-group :list="form.data_source_content.data_list" :img-params="default_type_data?.appoint_config?.show_data?.data_logo || ''" :title-params="default_type_data?.appoint_config?.show_data?.data_name || 'name'" type="custom" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
+                                    <drag-group :list="form.data_source_content.data_list" :img-params="form.show_data?.data_logo || ''" :title-params="form.show_data?.data_name || 'name'" type="custom" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
                                     <el-button class="mt-20 w" @click="add">+添加</el-button>
                                 </div>
                             </template>
@@ -61,7 +61,7 @@
         <Dialog ref="dialog" @accomplish="accomplish">
             <div class="flex-row h w">
                 <!-- 左侧和中间区域 -->
-                <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="custom_width" :source-list="!isEmpty(data_source_content_list) ? data_source_content_list[0] : {}" :source-type="form?.data_source || ''" :list="custom_list" @right-update="right_update"></DragIndex>
+                <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="custom_width" :source-list="!isEmpty(data_source_content_list) ? data_source_content_list[0] : {}" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }"  :list="custom_list" @right-update="right_update"></DragIndex>
                 <!-- 右侧配置区域 -->
                 <div class="settings">
                     <template v-if="diy_data.key === 'img'">
@@ -87,7 +87,7 @@
                 </div>
             </div>
         </Dialog>
-        <custom-dialog v-model:dialog-visible="url_value_dialog_visible" :data-list-key="form.data_list_key" :config="default_type_data.appoint_config" :multiple="url_value_multiple_bool" @confirm_event="url_value_dialog_call_back"></custom-dialog>
+        <custom-dialog v-model:dialog-visible="url_value_dialog_visible" :data-list-key="form.show_data?.data_key || 'id'" :config="default_type_data.appoint_config" :multiple="url_value_multiple_bool" @confirm_event="url_value_dialog_call_back"></custom-dialog>
     </div>
 </template>
 <script setup lang="ts">
@@ -115,7 +115,7 @@ const dialog = ref<expose | null>(null);
 const draglist = ref<diy_data | null>(null);
 const form = ref(props.value);
 const center_width = ref(props.magicWidth);
-
+// 可拖拽区域的宽度
 const custom_width = computed(() => {
     // 如果是横向展示，那么就需要根据每屏显示的数量来计算宽度 data_source_direction == horizontal 为横向滑动
     if (form.value.is_custom_data == '1' && form.value.data_source_direction == 'horizontal') {
@@ -124,6 +124,44 @@ const custom_width = computed(() => {
         return center_width.value;
     }
 })
+//#region 自定义编辑的内部处理逻辑
+const diy_data = ref<diy>({
+    key: '',
+    location: {
+        x: 0,
+        y: 0,
+        record_x: 0,
+        record_y: 0,
+        staging_y: 0,
+    },
+    com_data: {},
+});
+const key = ref('');
+const dragkey = ref('');
+
+const right_update = (item: any) => {
+    diy_data.value = item;
+    // 生成随机id
+    key.value = Math.random().toString(36).substring(2);
+};
+// 自定义编辑的逻辑
+const custom_edit = () => {
+    if (!dialog.value) return;
+    dialog.value.dialogVisible = true;
+    dragkey.value = Math.random().toString(36).substring(2);
+    custom_list = cloneDeep(form.value.custom_list);
+    center_height.value = cloneDeep(form.value.height);
+};
+// 点击完成的处理逻辑
+const accomplish = () => {
+    if (!draglist.value) {
+        return;
+    } else {
+        form.value.custom_list = draglist.value.diy_data;
+    }
+    form.value.height = center_height.value;
+};
+//#endregion
 // 弹出框里的内容
 let custom_list = reactive([]);
 const center_height = ref(0);
@@ -178,13 +216,14 @@ const data_processing = () => {
         // 是自定义数据类型
         form.value.is_custom_data = '1';
         const custom_config = type_data[0].custom_config;
-        // 将数据赋值给默认数据
+        // 将数据赋值给默认数据，不存在时需要显示全部
         default_type_data.value = {
             ...custom_config,
             show_type: custom_config?.show_type || ['vertical', 'vertical-scroll', 'horizontal'],
             show_number: custom_config?.show_number || [1, 2, 3, 4],
             data_type: custom_config?.data_type || [0, 1],
         };
+        filter_data_handling('old');
         default_data();
     }
 };
@@ -222,8 +261,43 @@ const default_data = () => {
         form.value.data_source_content.data_type = 0;
     }
     // 如果不存在的时候，默认取id
-    form.value.data_list_key = default_type_data.value?.appoint_config?.show_data?.data_key || 'id';
+    form.value.show_data = default_type_data.value?.appoint_config?.show_data || { data_key: 'id', data_name: 'name' };
 }
+// data_source_content 中的数据处理，历史数据有可能不存在当前的某些字段，所以每次都会进行判断，需要处理一下数据 type old 代表历史数据， new 新数据
+const filter_data_handling = (type: string = 'old') => {
+    // 处理之后的读取方式
+    const data_type = default_type_data.value.data_type.length > 0 ? default_type_data.value.data_type[0] : 0;
+    // 处理数据
+    const staging_data : any = {
+        // 存放手动输入的id
+        data_ids: type == 'old' ? form.value.data_source_content?.data_ids ?? [] : [],
+        // 手动输入
+        data_list: type == 'old' ? form.value.data_source_content?.data_list ?? [] : [],
+        // 自动
+        data_auto_list: type == 'old' ? form.value.data_source_content?.data_auto_list ?? [] : [],
+        // 类型 历史的如果不存在，就使用第一个，否则的话，使用第一个
+        data_type: type == 'old'? (form.value.data_source_content?.data_type ?? data_type) : data_type,
+    };
+    // 根据不同的类型，初始化不同的数据, 并将对象处理成对应的值
+    default_type_data.value?.filter_config?.filter_form_config.forEach((item: any) => {
+        let value : number | string | Array<any> = '';
+        if (item.type == 'checkbox' || (item.type == 'select' && +item?.config?.is_multiple == 1)) { // 多选
+            value = item?.config?.default ?? [];
+        } else if ((item.type == 'input' && item?.config?.type == 'number') || item.type == 'switch') { // 数字/开关
+            value = Number(item?.config?.default ?? 0);
+        } else {
+            value = item?.config?.default ?? '';
+        }
+        // 历史数据的话，需要判断一下，如果历史数据没有，那么就使用默认数据
+        if (type == 'old') {
+            staging_data[item.form_name] = form.value.data_source_content[item.form_name] == undefined ? value : form.value.data_source_content[item.form_name];
+        } else {
+            staging_data[item.form_name] = value;
+        }
+    })
+    // 循环完之后赋值，避免多次赋值，传递给子组件出现多次调用和回调问题
+    form.value.data_source_content = staging_data;
+};
 // 处理显示的图片和传递到下去的数据结构
 const model_data_source = ref<data_list[]>([]);
 const processing_data = (key: string) => {
@@ -233,44 +307,6 @@ const processing_data = (key: string) => {
     } else {
         model_data_source.value = [];
     }
-};
-//#endregion
-//#region 自定义编辑的内部处理逻辑
-const diy_data = ref<diy>({
-    key: '',
-    location: {
-        x: 0,
-        y: 0,
-        record_x: 0,
-        record_y: 0,
-        staging_y: 0,
-    },
-    com_data: {},
-});
-const key = ref('');
-const dragkey = ref('');
-
-const right_update = (item: any) => {
-    diy_data.value = item;
-    // 生成随机id
-    key.value = Math.random().toString(36).substring(2);
-};
-// 自定义编辑的逻辑
-const custom_edit = () => {
-    if (!dialog.value) return;
-    dialog.value.dialogVisible = true;
-    dragkey.value = Math.random().toString(36).substring(2);
-    custom_list = cloneDeep(form.value.custom_list);
-    center_height.value = cloneDeep(form.value.height);
-};
-// 点击完成的处理逻辑
-const accomplish = () => {
-    if (!draglist.value) {
-        return;
-    } else {
-        form.value.custom_list = draglist.value.diy_data;
-    }
-    form.value.height = center_height.value;
 };
 //#endregion
 //#region 数据源更新逻辑处理
@@ -310,31 +346,8 @@ const changeDataSource = (key: string) => {
         };
         // 默认数据处理
         default_data();
-        // 处理数据
-        const staging_data : any = {
-            // 存放手动输入的id
-            data_ids: [],
-            // 手动输入
-            data_list: [],
-            // 自动
-            data_auto_list: [],
-            // 类型
-            data_type: default_type_data.value.data_type.length > 0 ? default_type_data.value.data_type[0] : 0,
-        };
-        // 根据不同的类型，初始化不同的数据, 并将对象处理成对应的值
-        default_type_data.value?.filter_config?.filter_form_config.forEach((item: any) => {
-            let value : number | string | Array<any> = '';
-            if (item.type == 'checkbox' || (item.type == 'select' && +item?.config?.is_multiple == 1)) { // 多选
-                value = item?.config?.default ?? [];
-            } else if ((item.type == 'input' && item?.config?.type == 'number') || item.type == 'switch') { // 数字/开关
-                value = Number(item?.config?.default ?? 0);
-            } else {
-                value = item?.config?.default ?? '';
-            }
-            staging_data[item.form_name] = value;
-        })
-        // 循环完之后赋值，避免多次赋值，传递给子组件出现多次调用和回调问题
-        form.value.data_source_content = staging_data;
+        // 筛选数据处理
+        filter_data_handling('new');
     }
 };
 const filter_form_change = (val: any) => {

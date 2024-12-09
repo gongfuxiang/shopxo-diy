@@ -232,7 +232,10 @@ const data_content = {
     // 容器基础的宽度
     width: 0,
     // 手动模式下的唯一标识
-    data_list_key: '',
+    show_data: {
+        data_key: 'id',
+        data_name: 'name'
+    },
     // 是否是自定义数据类型
     is_custom_data: '0',
     // 数据源类型 商品(goods) 文章(article) 品牌(brand) 用户信息(user-info)

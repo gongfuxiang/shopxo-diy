@@ -70,19 +70,19 @@
                                 <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="{'plug-in-show-component-line': is_show_component_line, 'plug-in-show-tabs': item.show_tabs == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1' }" :style="{ 'z-index': (diy_data.length - 1) - index }" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index)" @resize-end="resizingHandle($event, item.key, index)">
                                     <div :class="['main-content', { 'plug-in-border': item.show_tabs == '1' }]">
                                         <template v-if="item.key == 'text'">
-                                            <model-text :key="item.id" :value="item.com_data" :source-list="props.sourceList" :source-type="sourceType"></model-text>
+                                            <model-text :key="item.id" :value="item.com_data" :source-list="props.sourceList" :is-custom="isCustom" :title-params="showData?.data_name || 'name'"></model-text>
                                         </template>
                                         <template v-else-if="item.key == 'img'">
-                                            <model-image :key="item.id" :value="item.com_data" :source-list="props.sourceList" :source-type="sourceType"></model-image>
+                                            <model-image :key="item.id" :value="item.com_data" :source-list="props.sourceList" :is-custom="isCustom" :img-params="showData?.data_logo || ''"></model-image>
                                         </template>
                                         <template v-else-if="item.key == 'auxiliary-line'">
-                                            <model-lines :key="item.id" :value="item.com_data" :source-list="props.sourceList" :source-type="sourceType"></model-lines>
+                                            <model-lines :key="item.id" :value="item.com_data" :source-list="props.sourceList" :is-custom="isCustom"></model-lines>
                                         </template>
                                         <template v-else-if="item.key == 'icon'">
-                                            <model-icon :key="item.id" :value="item.com_data" :source-list="props.sourceList" :source-type="sourceType"></model-icon>
+                                            <model-icon :key="item.id" :value="item.com_data" :source-list="props.sourceList" :is-custom="isCustom"></model-icon>
                                         </template>
                                         <template v-else-if="item.key == 'panel'">
-                                            <model-panel :key="item.id" :value="item.com_data" :source-list="props.sourceList" :source-type="sourceType"></model-panel>
+                                            <model-panel :key="item.id" :value="item.com_data" :source-list="props.sourceList" :is-custom="isCustom"></model-panel>
                                         </template>
                                     </div>
                                 </Vue3DraggableResizable>
@@ -107,7 +107,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { cloneDeep, isEmpty } from 'lodash';
+import { cloneDeep, isEmpty, property } from 'lodash';
 import { get_math } from '@/utils';
 import { defaultComData, isRectangleIntersecting } from "./index-default";
 import { SortableEvent, VueDraggable } from 'vue-draggable-plus';
@@ -120,7 +120,8 @@ const emits = defineEmits(['rightUpdate']);
 interface Props {
     list: diy_content[];
     sourceList: object;
-    sourceType: string;
+    isCustom: boolean;
+    showData: any;
 }
 const props = defineProps<Props>();
 //#endregion

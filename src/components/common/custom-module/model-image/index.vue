@@ -28,18 +28,15 @@ const props = defineProps({
         type: Number,
         default: 1
     },
-    sourceType: {
+    isCustom: {
+        type: Boolean,
+        default: false
+    },
+    imgParams: {
         type: String,
-        default: '',
+        default: ''
     }
 });
-
-const keyMap: { [key: string]: string } = {
-    goods: 'images',
-    article: 'cover',
-    brand: 'logo'
-};
-
 // 用于页面判断显示
 const form = computed(() => props.value);
 
@@ -51,9 +48,9 @@ const img = computed(() => {
             // 不输入商品， 文章和品牌时，从外层处理数据
             let image_url = props.sourceList[form.value.data_source_id];
             // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
-            if (['goods', 'article', 'brand'].includes(props.sourceType) && !isEmpty(props.sourceList.data)) {
-                if (form.value.data_source_id == keyMap[props.sourceType]) {
-                    image_url = !isEmpty(props.sourceList.new_cover)? props.sourceList.new_cover[0]?.url || '' : props.sourceList.data[keyMap[props.sourceType]];
+            if (!isEmpty(props.sourceList.data) && props.isCustom) {
+                if (form.value.data_source_id == props.imgParams) {
+                    image_url = !isEmpty(props.sourceList.new_cover)? props.sourceList.new_cover[0]?.url || '' : props.sourceList.data[props.imgParams];
                 } else {
                     image_url = props.sourceList.data[form.value.data_source_id];
                 }

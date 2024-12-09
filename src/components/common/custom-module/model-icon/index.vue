@@ -33,9 +33,9 @@ const props = defineProps({
         type: Number,
         default: 1
     },
-    sourceType: {
-        type: String,
-        default: ''
+    isCustom: {
+        type: Boolean,
+        default: false
     }
 });
 // 用于页面判断显示
@@ -49,7 +49,7 @@ const icon_class = computed(() => {
             // 不输入商品， 文章和品牌时，从外层处理数据
             let icon = props.sourceList[form.value.data_source_id];
             // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
-            if (['goods', 'article', 'brand'].includes(props.sourceType) && !isEmpty(props.sourceList.data)) {
+            if (!isEmpty(props.sourceList.data) && props.isCustom) {
                 icon = props.sourceList.data[form.value.data_source_id];
             }
             return icon;

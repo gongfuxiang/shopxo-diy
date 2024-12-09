@@ -4,7 +4,7 @@
             <template v-if="data_source_content_list.length > 0 && form.data_source_direction == 'vertical'">
                 <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="style_chunk_container">
                     <div class="w h" :style="style_chunk_img_container">
-                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :source-type="form?.data_source || ''" :data-height="form.height" :scale="scale"></data-rendering>
+                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="form.height" :scale="scale" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }"></data-rendering>
                     </div>
                 </div>
             </template>
@@ -13,7 +13,7 @@
                     <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
                         <div :style="style_chunk_container">
                             <div class="w h" :style="style_chunk_img_container">
-                                <data-rendering :custom-list="form.custom_list" :source-list="item1" :source-type="form?.data_source || ''" :data-height="form.height" :scale="scale"></data-rendering>
+                                <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="form.height" :scale="scale" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }"></data-rendering>
                             </div>
                         </div>
                     </swiper-slide>
@@ -67,17 +67,11 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, new_style } = toRefs(state);
-
 onBeforeMount(() => {
     // 历史数据处理
     if (!Object.keys(form.value.data_source_content).includes('data_auto_list') && !Object.keys(form.value.data_source_content).includes('data_list')) {
         const data = cloneDeep(form.value.data_source_content);
-        const new_list = cloneDeep(source_list[form.value.data_source as keyof typeof source_list]);
-        if (!isEmpty(new_list)) {
-            form.value.data_source_content = new_list;
-        } else {
-            form.value.data_source_content = cloneDeep(source_list['common']);
-        }
+        form.value.data_source_content = cloneDeep(source_list['common']);
         if (!isEmpty(data)) {
             form.value.data_source_content.data_list = [ data ];
         }

@@ -337,13 +337,13 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                     if (item1.data_content.is_custom_data == '1' && item1.data_content.data_source_content.data_type === 0) {
                         const data_list = cloneDeep(item1.data_content.data_source_content.data_list);
                         // 数据改造,存放手动的id
-                        item1.data_content.data_source_content.data_ids = data_list.map((item4: any) => item4.data[item1.data_content?.data_list_key || 'id']).join(',') || '';
+                        item1.data_content.data_source_content.data_ids = data_list.map((item4: any) => item4.data[item1.data_content?.show_data.data_key || 'id']).join(',') || '';
                         // 数据改造,存放手动的清除里边的data
                         item1.data_content.data_source_content.data_list = data_list.map((item5: any) => {
                             return {
                                 ...item5,
                                 data: [],
-                                data_id: item5.data[item1.data_content?.data_list_key || 'id'],
+                                data_id: item5.data[item1.data_content?.show_data.data_key || 'id'],
                             };
                         });
                     } else {
@@ -379,13 +379,13 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                 // 手动的数据内容
                 const data_list = cloneDeep(item.com_data.content.data_source_content.data_list);
                 // 数据改造,存放手动的id
-                item.com_data.content.data_source_content.data_ids = data_list.map((list_item: any) => list_item.data[item.com_data.content?.data_list_key || 'id'] || '').join(',') || '';
+                item.com_data.content.data_source_content.data_ids = data_list.map((list_item: any) => list_item.data[item.com_data.content?.show_data.data_key || 'id'] || '').join(',') || '';
                 // 数据改造,存放手动的清除里边的data
                 item.com_data.content.data_source_content.data_list = data_list.map((list_item: any) => {
                     return {
                         ...list_item,
                         data: [],
-                        data_id: list_item.data[item.data_content?.data_list_key || 'id'],
+                        data_id: list_item.data[item.data_content?.show_data.data_key || 'id'],
                     };
                 });
             } else {

@@ -35,16 +35,15 @@ const props = defineProps({
         type: Number,
         default: 1
     },
-    sourceType: {
+    isCustom: {
+        type: Boolean,
+        default: false
+    },
+    titleParams: {
         type: String,
         default: ''
     }
 });
-const keyMap: { [key: string]: string } = {
-    goods: 'title',
-    article: 'title',
-    brand: 'name'
-};
 
 // 用于页面判断显示
 const form = computed(() => props.value);
@@ -52,10 +51,10 @@ const text_title = computed(() => {
     let text = '';
     let text_title = props.sourceList[form.value.data_source_id];
     // 如果是商品的标题或者是品牌的名称，需要判断是否有新的标题，没有的话就取原来的标题
-    if (['goods', 'article', 'brand'].includes(props.sourceType) && !isEmpty(props.sourceList.data)) {
+    if (!isEmpty(props.sourceList.data) && props.isCustom) {
         // 其他的切换为从data中取数据
-        if (form.value.data_source_id == keyMap[props.sourceType]) {
-            text_title = !isEmpty(props.sourceList.new_title) ? props.sourceList.new_title : props.sourceList.data[keyMap[props.sourceType]];
+        if (form.value.data_source_id == props.titleParams) {
+            text_title = !isEmpty(props.sourceList.new_title) ? props.sourceList.new_title : props.sourceList.data[props.titleParams];
         } else {
             text_title = props.sourceList.data[form.value.data_source_id];
         }
