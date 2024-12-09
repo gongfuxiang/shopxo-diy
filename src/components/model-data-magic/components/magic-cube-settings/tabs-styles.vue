@@ -1,8 +1,8 @@
 <template>
-    <template v-if="tabs_content.data_type != 'video'">
+    <template v-if="['goods', 'images', 'video'].includes(tabs_content.data_type) || (tabs_content.data_type == 'custom' && ['vertical-scroll', 'horizontal'].includes(tabs_content.data_source_direction))">
         <card-container>
             <div class="mb-12">基础样式</div>
-            <template v-if="['goods', 'images', 'custom'].includes(tabs_content.data_type)">
+            <template v-if="tabs_content.data_type != 'video'">
                 <el-form-item label="自动轮播">
                     <el-switch v-model="form.is_roll" active-value="1" inactive-value="0" />
                 </el-form-item>
@@ -27,6 +27,12 @@
             <el-form-item v-if="tabs_content.data_type != 'custom'" :label="tabs_content.data_type != 'video' ? '图片圆角' : '视频圆角'">
                 <radius :key="form.carouselKey" :value="form.img_radius" @update:value="img_radius_change"></radius>
             </el-form-item>
+        </card-container>
+        <div class="bg-f5 divider-line" />
+    </template>
+    <template v-if="['goods', 'images'].includes(tabs_content.data_type) || (tabs_content.data_type == 'custom' && ['vertical-scroll', 'horizontal'].includes(tabs_content.data_source_direction))">
+        <card-container>
+            <carousel-indicator :key="form.carouselKey" :value="form"></carousel-indicator>
         </card-container>
         <div class="bg-f5 divider-line" />
     </template>
@@ -153,12 +159,6 @@
             <el-form-item label="圆角">
                 <radius :key="form.carouselKey" :value="form.goods_radius" @update:value="goods_radius_change"></radius>
             </el-form-item>
-        </card-container>
-        <div class="bg-f5 divider-line" />
-    </template>
-    <template v-if="['goods', 'images', 'custom'].includes(tabs_content.data_type)">
-        <card-container>
-            <carousel-indicator :key="form.carouselKey" :value="form"></carousel-indicator>
         </card-container>
         <div class="bg-f5 divider-line" />
     </template>
