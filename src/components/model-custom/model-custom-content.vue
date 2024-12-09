@@ -61,7 +61,7 @@
         <Dialog ref="dialog" @accomplish="accomplish">
             <div class="flex-row h w">
                 <!-- 左侧和中间区域 -->
-                <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="custom_width" :source-list="!isEmpty(data_source_content_list) ? data_source_content_list[0] : {}" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }"  :list="custom_list" @right-update="right_update"></DragIndex>
+                <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="custom_width" :source-list="!isEmpty(data_source_content_list) ? data_source_content_list[0] : {}" :options="model_data_source" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }"  :list="custom_list" @right-update="right_update"></DragIndex>
                 <!-- 右侧配置区域 -->
                 <div class="settings">
                     <template v-if="diy_data.key === 'img'">

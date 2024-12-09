@@ -10,7 +10,7 @@ const props = defineProps({
         },
         required: true,
     },
-    isPercentage: {
+    isDisplayPanel: {
         type: Boolean,
         default: false,
     },

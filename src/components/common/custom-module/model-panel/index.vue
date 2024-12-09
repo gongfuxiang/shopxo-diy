@@ -19,7 +19,7 @@ const props = defineProps({
             return {};
         }
     },
-    isPercentage: {
+    isDisplayPanel: {
         type: Boolean,
         default: false
     },
@@ -47,7 +47,7 @@ const com_img_style = computed(() => {
     return background_computer(data);
 });
 const set_count = () => {
-    if (props.isPercentage) {
+    if (props.isDisplayPanel) {
         return '';
     } else {
         return `width: ${ form.value.com_width }px; height: ${ form.value.com_height }px;`;

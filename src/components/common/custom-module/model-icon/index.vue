@@ -9,7 +9,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { radius_computer, padding_computer, gradient_handle } from '@/utils';
+import { radius_computer, padding_computer, gradient_handle, get_nested_property } from '@/utils';
 import { isEmpty } from 'lodash';
 const props = defineProps({
     value: {
@@ -25,7 +25,7 @@ const props = defineProps({
             return {};
         }
     },
-    isPercentage: {
+    isDisplayPanel: {
         type: Boolean,
         default: false
     },
@@ -46,11 +46,23 @@ const icon_class = computed(() => {
         return form.value.icon_class;
     } else {
         if (!isEmpty(props.sourceList)) {
-            // 不输入商品， 文章和品牌时，从外层处理数据
-            let icon = props.sourceList[form.value.data_source_id];
-            // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
-            if (!isEmpty(props.sourceList.data) && props.isCustom) {
-                icon = props.sourceList.data[form.value.data_source_id];
+            let icon = '';
+            // 获取数据源ID
+            const data_source_id = form.value.data_source_id;
+            if (!data_source_id.includes('.')) {
+                // 不输入商品， 文章和品牌时，从外层处理数据
+                icon = props.sourceList[data_source_id];
+                // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
+                if (!isEmpty(props.sourceList.data) && props.isCustom) {
+                    icon = props.sourceList.data[data_source_id];
+                }
+            } else {
+                // 不输入商品， 文章和品牌时，从外层处理数据
+                icon = get_nested_property(props.sourceList, data_source_id);
+                // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
+                if (!isEmpty(props.sourceList.data) && props.isCustom) {
+                    icon = get_nested_property(props.sourceList.data, data_source_id);
+                }
             }
             return icon;
         } else {
@@ -73,7 +85,7 @@ const com_style = computed(() => {
     return style;
 });
 const set_count = () => {
-    if (props.isPercentage) {
+    if (props.isDisplayPanel) {
         return '';
     } else {
         return `width: ${ form.value.com_width }px; height: ${ form.value.com_height }px;`;

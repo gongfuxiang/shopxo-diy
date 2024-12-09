@@ -4,7 +4,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { percentage_count, radius_computer } from '@/utils';
+import { percentage_count, radius_computer, get_nested_property } from '@/utils';
 import { isEmpty } from 'lodash';
 const props = defineProps({
     value: {
@@ -20,7 +20,7 @@ const props = defineProps({
             return {};
         }
     },
-    isPercentage: {
+    isDisplayPanel: {
         type: Boolean,
         default: false
     },
@@ -45,14 +45,30 @@ const img = computed(() => {
         return form.value.img[0];
     } else {
         if (!isEmpty(props.sourceList)) {
-            // 不输入商品， 文章和品牌时，从外层处理数据
-            let image_url = props.sourceList[form.value.data_source_id];
-            // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
-            if (!isEmpty(props.sourceList.data) && props.isCustom) {
-                if (form.value.data_source_id == props.imgParams) {
-                    image_url = !isEmpty(props.sourceList.new_cover)? props.sourceList.new_cover[0]?.url || '' : props.sourceList.data[props.imgParams];
-                } else {
-                    image_url = props.sourceList.data[form.value.data_source_id];
+            let image_url = '';
+            // 取出数据源ID
+            const data_source_id = form.value.data_source_id;
+            if (!data_source_id.includes('.')) {
+                // 不输入商品， 文章和品牌时，从外层处理数据
+                image_url = props.sourceList[data_source_id];
+                // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
+                if (!isEmpty(props.sourceList.data) && props.isCustom) {
+                    if (data_source_id == props.imgParams) {
+                        image_url = !isEmpty(props.sourceList.new_cover)? props.sourceList.new_cover[0]?.url || '' : props.sourceList.data[data_source_id];
+                    } else {
+                        image_url = props.sourceList.data[data_source_id];
+                    }
+                }
+            } else {
+                // 循环取值,使用reduce 累加函数循环取值
+                image_url = get_nested_property(props.sourceList, data_source_id);
+                // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
+                if (!isEmpty(props.sourceList.data) && props.isCustom) {
+                    if (data_source_id == props.imgParams) {
+                        image_url = !isEmpty(props.sourceList.new_cover)? props.sourceList.new_cover[0]?.url || '' : get_nested_property(props.sourceList.data, data_source_id);
+                    } else {
+                        image_url = get_nested_property(props.sourceList.data, data_source_id);
+                    }
                 }
             }
             return image_url;
@@ -74,7 +90,7 @@ const border_style = computed(() => {
     return style;
 });
 const set_count = () => {
-    if (props.isPercentage) {
+    if (props.isDisplayPanel) {
         return `width: ${ percentage_count(form.value.img_width, form.value.com_width) }; height: ${ percentage_count(form.value.img_height, form.value.com_height) };`;
     } else {
         return `width: ${form.value.img_width}px; height: ${form.value.img_height}px;`;

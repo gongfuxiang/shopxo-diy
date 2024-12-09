@@ -11,7 +11,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { radius_computer, padding_computer, gradient_handle } from '@/utils';
+import { radius_computer, padding_computer, gradient_handle, get_nested_property } from '@/utils';
 import { isEmpty } from 'lodash';
 const props = defineProps({
     value: {
@@ -27,7 +27,7 @@ const props = defineProps({
             return {};
         }
     },
-    isPercentage: {
+    isDisplayPanel: {
         type: Boolean,
         default: false
     },
@@ -42,32 +42,79 @@ const props = defineProps({
     titleParams: {
         type: String,
         default: ''
+    },
+    options: {
+        type: Array<any>,
+        default: () => [],
     }
 });
 
 // 用于页面判断显示
 const form = computed(() => props.value);
 const text_title = computed(() => {
-    let text = '';
-    let text_title = props.sourceList[form.value.data_source_id];
-    // 如果是商品的标题或者是品牌的名称，需要判断是否有新的标题，没有的话就取原来的标题
-    if (!isEmpty(props.sourceList.data) && props.isCustom) {
-        // 其他的切换为从data中取数据
-        if (form.value.data_source_id == props.titleParams) {
-            text_title = !isEmpty(props.sourceList.new_title) ? props.sourceList.new_title : props.sourceList.data[props.titleParams];
+    return getTextTitle(form.value, props);
+});
+/**
+ * 根据表单值和属性获取文本标题
+ * 此函数用于根据提供的表单值和组件属性，在不同的条件下返回相应的文本标题
+ * 主要处理逻辑包括：检查表单值和数据源列表的存在性、处理数据源ID以获取标题、处理自定义标题情况、错误处理以及最终文本的确定
+ * 
+ * @param formValue 表单的当前值，包含数据源ID和可能的文本标题
+ * @param props 组件的属性，包括数据源列表、是否显示面板、是否自定义标题等
+ * @returns {string} 根据不同条件返回的文本标题
+ */
+ const getTextTitle = (formValue: any, props: any): string => {
+    // 检查表单值和数据源列表是否存在，以及是否显示面板，以确定返回的默认文本
+    if (!formValue || !props.sourceList) {
+        if (!props.isDisplayPanel) {
+            return '请在此输入文字';
         } else {
-            text_title = props.sourceList.data[form.value.data_source_id];
+            return '';
         }
     }
-    if (!isEmpty(form.value.text_title)) {
-        text = form.value.text_title;
-    } else if(text_title != undefined) {
-        text = text_title;
-    } else if(!props.isPercentage){
-        text = '请在此输入文字';
+    // 获取数据源ID
+    const data_source_id = formValue.data_source_id;
+    let text_title = '';
+    try {
+        // 根据数据源ID是否包含点号来区分处理方式
+        if (!data_source_id.includes('.')) {
+            // 从数据源列表中获取标题
+            text_title = props.sourceList[data_source_id];
+            // 如果是自定义标题，进一步处理
+            if (props.sourceList.data && props.isCustom) {
+                if (data_source_id === props.titleParams) {
+                    text_title = props.sourceList.new_title || props.sourceList.data[data_source_id];
+                } else {
+                    text_title = props.sourceList.data[data_source_id];
+                }
+            }
+        } else {
+            text_title = get_nested_property(props.sourceList, data_source_id);
+            // 如果是自定义标题，进一步处理嵌套对象中的数据
+            if (props.sourceList.data && props.isCustom) {
+                if (data_source_id === props.titleParams) {
+                    text_title = props.sourceList.new_title || get_nested_property(props.sourceList.data, data_source_id);
+                } else {
+                    text_title = get_nested_property(props.sourceList.data, data_source_id);
+                }
+            }
+        }
+    } catch (error) {
+        // 错误处理：打印错误信息，并根据是否显示面板返回默认文本
+        console.error('Error in getTextTitle:', error);
+        if (!props.isDisplayPanel) {
+            return '请在此输入文字';
+        } else {
+            return '';
+        }
+    }
+    // 确定最终返回的文本，优先使用表单值中的文本标题，如果为空则使用之前获取的标题或默认文本
+    let text = formValue.text_title || text_title;
+    if (text === '' && !props.isDisplayPanel) {
+        text = props.options.find((item: any) => item.field === data_source_id)?.name || '请在此输入文字';
     }
     return text;
-});
+}
 
 const text_style = computed(() => {
     let style = `font-size: ${ form.value.text_size * props.scale }px;line-height: ${ (typeof form.value.line_text_size === "number" ? form.value.line_text_size : form.value.text_size) * props.scale}px;color: ${ form.value.text_color }; text-align: ${ form.value.text_location }; transform: rotate(${form.value.text_rotate}deg);text-decoration: ${ form.value.text_option };${ padding_computer(form.value.text_padding, props.scale) };`;
@@ -91,7 +138,7 @@ const com_style = computed(() => {
     return style;
 });
 const set_count = () => {
-    if (props.isPercentage) {
+    if (props.isDisplayPanel) {
         return '';
     } else {
         return `width: ${ form.value.com_width }px; height: ${ form.value.com_height }px;`;
