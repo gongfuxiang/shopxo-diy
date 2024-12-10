@@ -170,7 +170,10 @@ const text_change = (key: string) => {
         }
     } else {
         // 如果没有数据，就赋值为空
-        form.value.data_source_field = get_data_fields([], 'text', '');
+        form.value.data_source_field = {
+            id: [],
+            option: [],
+        };
     }
 };
 // 数据字段切换时，更新另外一个数据
