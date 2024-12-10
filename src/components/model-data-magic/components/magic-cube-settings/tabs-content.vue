@@ -94,7 +94,7 @@
     </template>
     <template v-else-if="form.data_type == 'custom'">
         <div class="bg-f5 divider-line" />
-        <model-custom-content :key="key" :value="form" :magic-width="form.width"></model-custom-content>
+        <model-custom-content :key="key" :value="form" :magic-width="form.width" @data_source_change="data_source_change"></model-custom-content>
     </template>
     <template v-else>
         <div class="bg-f5 divider-line" />
@@ -190,6 +190,10 @@ const url_value_dialog_call_back = (item: any[]) => {
             data: item[0],
         };
     }
+};
+
+const data_source_change = (name: string) => {
+    form.value.custom_mark_name = name;
 };
 </script>
 <style lang="scss" scoped>

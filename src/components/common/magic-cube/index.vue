@@ -270,6 +270,10 @@ const data_title = (item: CubeItem) => {
             title = `共有${ item.data_content.goods_list.length }个商品`;
         } else if (item.data_content.data_type == 'images') {
             title = `共有${ item.data_content.images_list.length }个图片`;
+        } else if (item.data_content.data_type == 'custom') {
+            title = `自定义${ !isEmpty(item.data_content.custom_mark_name) ? '(' + item.data_content.custom_mark_name + ')' : '' }`;
+        } else {
+            title = `视频`;
         }
     }
     return title;

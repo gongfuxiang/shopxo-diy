@@ -253,6 +253,7 @@ const data_content = {
         // 自动
         data_auto_list: [],
     },
+    custom_mark_name: '',
     // 自定义内容列表
     custom_list: [],
     //视频信息

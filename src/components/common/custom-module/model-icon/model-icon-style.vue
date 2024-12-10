@@ -139,9 +139,9 @@ const icon_change = (key: string) => {
 const link_change = (key: string) => {
     if (key == '2') {
         form.value.icon_link = {};
-        form.value.data_source_link_field = get_data_fields(props.options, 'icon', form.value.data_source_link_field.id);
+        form.value.data_source_link_field = get_data_fields(props.options, 'link', form.value.data_source_link_field.id);
     } else {
-        form.value.data_source_link_field = get_data_fields([], 'icon', '');
+        form.value.data_source_link_field = get_data_fields([], 'link', '');
     }
 };
 const mult_color_picker_event = (arry: color_list[], type: number) => {
