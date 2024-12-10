@@ -83,7 +83,7 @@ const text_title = computed(() => {
         if (data_source_id.length > 0) {
             // 遍历取出所有的值
             data_source_id.forEach((source_id: string) => {
-                const sourceList = option.filter((item: any) => item.field == source_id);
+                const sourceList = option.find((item: any) => item.field == source_id);
                 // 根据数据源ID是否包含点号来区分处理方式
                 if (source_id.includes(';')) {
                     const ids = source_id.split(';');
@@ -91,9 +91,9 @@ const text_title = computed(() => {
                     ids.forEach((item: string, index: number) => {
                         text += data_handling(item) + (index != ids.length - 1 ? (sourceList?.join || '') : '');
                     });
-                    text_title += (sourceList?.first || '') + text + (sourceList?.last || '');
+                    text_title += (sourceList?.first || '') + (text == '' && !props.isDisplayPanel ? sourceList?.name || '请在此输入文字' : text ) + (sourceList?.last || '');
                 } else {
-                    text_title += (sourceList?.first || '') + data_handling(source_id) + (sourceList?.last || '');
+                    text_title += (sourceList?.first || '') + (data_handling(source_id) == '' && !props.isDisplayPanel ? sourceList?.name || '请在此输入文字' : data_handling(source_id) ) + (sourceList?.last || '');
                 }
             });
         }
@@ -107,7 +107,7 @@ const text_title = computed(() => {
     // 确定最终返回的文本，优先使用表单值中的文本标题，如果为空则使用之前获取的标题或默认文本
     let text = formValue.text_title || text_title || '';
     if (text == '' && !props.isDisplayPanel) {
-        text = props.options.find((item: any) => item.field === data_source_id)?.name || '请在此输入文字';
+        text = '请在此输入文字';
     }
     return text;
 }
