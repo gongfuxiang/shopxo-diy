@@ -73,35 +73,31 @@ const text_title = computed(() => {
         }
     }
     // 获取数据源ID
-    const data_source_id = formValue.data_source_id;
+    const data_source_id = !isEmpty(formValue?.data_source_field?.id || '') ? formValue?.data_source_field?.id : [ formValue.data_source_id ];
+    // 数据源内容
+    const option = formValue?.data_source_field?.option || {};
+    // 文本信息
     let text_title = '';
     try {
-        // 根据数据源ID是否包含点号来区分处理方式
-        if (!data_source_id.includes('.')) {
-            // 从数据源列表中获取标题
-            text_title = props.sourceList[data_source_id];
-            // 如果是自定义标题，进一步处理
-            if (props.sourceList.data && props.isCustom) {
-                if (data_source_id === props.titleParams) {
-                    text_title = props.sourceList.new_title || props.sourceList.data[data_source_id];
+        // 多选判断
+        if (data_source_id.length > 0) {
+            // 遍历取出所有的值
+            data_source_id.forEach((source_id: string) => {
+                const sourceList = option.filter((item: any) => item.field == source_id);
+                // 根据数据源ID是否包含点号来区分处理方式
+                if (source_id.includes(';')) {
+                    const ids = source_id.split(';');
+                    let text = '';
+                    ids.forEach((item: string, index: number) => {
+                        text += data_handling(item) + (index != ids.length - 1 ? (sourceList?.join || '') : '');
+                    });
+                    text_title += (sourceList?.first || '') + text + (sourceList?.last || '');
                 } else {
-                    text_title = props.sourceList.data[data_source_id];
+                    text_title += (sourceList?.first || '') + data_handling(source_id) + (sourceList?.last || '');
                 }
-            }
-        } else {
-            text_title = get_nested_property(props.sourceList, data_source_id);
-            // 如果是自定义标题，进一步处理嵌套对象中的数据
-            if (props.sourceList.data && props.isCustom) {
-                if (data_source_id === props.titleParams) {
-                    text_title = props.sourceList.new_title || get_nested_property(props.sourceList.data, data_source_id);
-                } else {
-                    text_title = get_nested_property(props.sourceList.data, data_source_id);
-                }
-            }
+            });
         }
     } catch (error) {
-        // 错误处理：打印错误信息，并根据是否显示面板返回默认文本
-        console.error('Error in getTextTitle:', error);
         if (!props.isDisplayPanel) {
             return '请在此输入文字';
         } else {
@@ -109,11 +105,24 @@ const text_title = computed(() => {
         }
     }
     // 确定最终返回的文本，优先使用表单值中的文本标题，如果为空则使用之前获取的标题或默认文本
-    let text = formValue.text_title || text_title;
-    if (text === '' && !props.isDisplayPanel) {
+    let text = formValue.text_title || text_title || '';
+    if (text == '' && !props.isDisplayPanel) {
         text = props.options.find((item: any) => item.field === data_source_id)?.name || '请在此输入文字';
     }
     return text;
+}
+
+const data_handling = (data_source_id: string) => {
+    let text_title = get_nested_property(props.sourceList, data_source_id);
+    // 如果是自定义标题，进一步处理嵌套对象中的数据
+    if (props.sourceList.data && props.isCustom) {
+        if (data_source_id === props.titleParams) {
+            text_title = props.sourceList.new_title || get_nested_property(props.sourceList.data, data_source_id);
+        } else {
+            text_title = get_nested_property(props.sourceList.data, data_source_id);
+        }
+    }
+    return text_title;
 }
 
 const text_style = computed(() => {

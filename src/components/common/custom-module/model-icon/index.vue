@@ -47,29 +47,39 @@ const icon_class = computed(() => {
     } else {
         if (!isEmpty(props.sourceList)) {
             let icon = '';
-            // 获取数据源ID
-            const data_source_id = form.value.data_source_id;
-            if (!data_source_id.includes('.')) {
-                // 不输入商品， 文章和品牌时，从外层处理数据
-                icon = props.sourceList[data_source_id];
-                // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
-                if (!isEmpty(props.sourceList.data) && props.isCustom) {
-                    icon = props.sourceList.data[data_source_id];
-                }
+            // 取出数据源ID
+            const data_source_id = !isEmpty(form.value?.data_source_field?.id || '') ? form.value?.data_source_field?.id : form.value.data_source_id;
+            // 数据源内容
+            const option = form.value?.data_source_field?.option || {};
+            if (data_source_id.includes(';')) {
+                // 取出所有的字段，使用;分割
+                const ids = data_source_id.split(';');
+                let text = '';
+                ids.forEach((item: string, index: number) => {
+                    text += data_handling(item) + (index != ids.length - 1 ? (option?.join || '') : '');
+                });
+                icon = text;
             } else {
                 // 不输入商品， 文章和品牌时，从外层处理数据
-                icon = get_nested_property(props.sourceList, data_source_id);
-                // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
-                if (!isEmpty(props.sourceList.data) && props.isCustom) {
-                    icon = get_nested_property(props.sourceList.data, data_source_id);
-                }
+                icon = data_handling(data_source_id);
             }
-            return icon;
+            return (option?.first || '') + icon + (option?.last || '');
         } else {
             return '';
         }
     }
 });
+
+const data_handling = (data_source_id: string) => {
+    // 不输入商品， 文章和品牌时，从外层处理数据
+    let icon = get_nested_property(props.sourceList, data_source_id);
+    // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
+    if (!isEmpty(props.sourceList.data) && props.isCustom) {
+        icon = get_nested_property(props.sourceList.data, data_source_id);
+    }
+    return icon;
+}
+
 const com_style = computed(() => {
     let style = `${ set_count() } ${ gradient_handle(form.value.color_list, form.value.direction) } ${ radius_computer(form.value.bg_radius, props.scale) };transform: rotate(${form.value.icon_rotate}deg);${ padding_computer(form.value.icon_padding, props.scale) };`;
     if (form.value.border_show == '1') {

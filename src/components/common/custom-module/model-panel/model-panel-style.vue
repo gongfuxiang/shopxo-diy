@@ -17,7 +17,7 @@
                     <url-value v-model="form.link"></url-value>
                 </el-form-item>
                 <el-form-item label="数据链接">
-                    <el-select v-model="form.data_source_link" value-key="id" clearable filterable placeholder="请选择数据链接字段" size="default" class="flex-1" @change="img_link_change('2')">
+                    <el-select v-model="form.data_source_link_field.id" value-key="id" clearable filterable placeholder="请选择数据链接字段" size="default" class="flex-1" @change="img_link_change('2')">
                         <el-option v-for="item in options.filter((item) => item.type == 'link')" :key="item.field" :label="item.name" :value="item.field" />
                     </el-select>
                 </el-form-item>
@@ -80,7 +80,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { location_compute } from '@/utils';
+import { get_data_fields, location_compute } from '@/utils';
 import { pick, cloneDeep } from 'lodash';
 const props = defineProps({
     value: {
@@ -124,8 +124,9 @@ const location_y_change = (val: number) => {
 const img_link_change = (key: string) => {
     if (key == '2') {
         form.value.link = {};
+        form.value.data_source_link_field = get_data_fields(props.options, 'link', form.value.data_source_link_field.id);
     } else {
-        form.value.data_source_link = '';
+        form.value.data_source_link_field = get_data_fields([], 'link', '');
     }
 }
 

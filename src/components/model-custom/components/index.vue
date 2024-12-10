@@ -418,6 +418,14 @@ watch(() => center_height.value, () => {
                 // 规整历史数据，避免有新增字段丢失
                 ...Object.assign({}, cloneDeep((defaultComData as any)[`${item.key}_com_data`]), item.com_data),
                 com_height: item.com_data.staging_height,
+                data_source_field: {
+                    ...item.com_data?.data_source_field ?? { id:'', option: {} },
+                    id: !isEmpty(item.com_data?.data_source_field?.id || '')? item.com_data.data_source_field.id : item.com_data.data_source_id,
+                },
+                data_source_link_field: {
+                    ...item.com_data?.data_source_link_field ?? { id: '', option: {} },
+                    id: !isEmpty(item.com_data?.data_source_link_field?.id || '')? item.com_data.data_source_link_field.id : item.com_data.data_source_link,
+                },
             },
         }));
         // 容器高度变化时，组件不绑定右侧数据

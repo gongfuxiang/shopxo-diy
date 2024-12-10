@@ -17,7 +17,7 @@
                     <upload v-model="form.img" :limit="1" size="50" @update:model-value="img_src_change('1')"></upload>
                 </el-form-item>
                 <el-form-item label="数据字段">
-                    <el-select v-model="form.data_source_id" value-key="id" clearable filterable placeholder="请选择数据字段" size="default" class="flex-1" @change="img_src_change('2')">
+                    <el-select v-model="form.data_source_field.id" value-key="id" clearable filterable placeholder="请选择数据字段" size="default" class="flex-1" @change="img_src_change('2')">
                         <el-option v-for="item in options.filter(item => item.type == 'images')" :key="item.field" :label="item.name" :value="item.field" />
                     </el-select>
                 </el-form-item>
@@ -25,7 +25,7 @@
                     <url-value v-model="form.link" @update:model-value="img_link_change('1')"></url-value>
                 </el-form-item>
                 <el-form-item label="数据链接">
-                    <el-select v-model="form.data_source_link" value-key="id" clearable filterable placeholder="请选择数据链接字段" size="default" class="flex-1" @change="img_link_change('2')">
+                    <el-select v-model="form.data_source_link_field.id" value-key="id" clearable filterable placeholder="请选择数据链接字段" size="default" class="flex-1" @change="img_link_change('2')">
                         <el-option v-for="item in options.filter((item) => item.type == 'link')" :key="item.field" :label="item.name" :value="item.field" />
                     </el-select>
                 </el-form-item>
@@ -74,7 +74,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { location_compute } from '@/utils';
+import { get_data_fields, location_compute } from '@/utils';
 import { pick } from 'lodash';
 const props = defineProps({
     value: {
@@ -105,16 +105,18 @@ const border_radius_change = (radius: any) => {
 const img_src_change = (key: string) => {
     if (key == '2') {
         form.value.img = [];
+        form.value.data_source_field = get_data_fields(props.options, 'images', form.value.data_source_field.id);
     } else {
-        form.value.data_source_id = '';
+        form.value.data_source_field = get_data_fields([], 'images', '');
     }
 }
 // 数据链接字段切换时，更新另外一个数据
 const img_link_change = (key: string) => {
     if (key == '2') {
         form.value.link = {};
+        form.value.data_source_link_field = get_data_fields(props.options, 'link', form.value.data_source_link_field.id);
     } else {
-        form.value.data_source_link = '';
+        form.value.data_source_link_field = get_data_fields([], 'link', '');
     }
 }
 

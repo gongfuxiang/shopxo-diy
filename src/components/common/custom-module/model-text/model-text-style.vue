@@ -17,7 +17,7 @@
                     <el-input v-model="form.text_title" placeholder="请输入文本内容" type="textarea" clearable :rows="3" @input="text_change('1')"></el-input>
                 </el-form-item>
                 <el-form-item label="数据字段">
-                    <el-select v-model="form.data_source_id" value-key="id" clearable filterable placeholder="请选择数据字段" size="default" class="flex-1" @change="text_change('2')">
+                    <el-select v-model="form.data_source_field.id" value-key="id" multiple collapse-tags clearable filterable placeholder="请选择数据字段" size="default" class="flex-1" @change="text_change('2')">
                         <el-option v-for="item in options.filter((item) => item.type == 'text')" :key="item.field" :label="item.name" :value="item.field" />
                     </el-select>
                 </el-form-item>
@@ -25,7 +25,7 @@
                     <url-value v-model="form.text_link" @update:model-value="text_link_change('1')"></url-value>
                 </el-form-item>
                 <el-form-item label="数据链接">
-                    <el-select v-model="form.data_source_link" value-key="id" clearable filterable placeholder="请选择数据链接字段" size="default" class="flex-1" @change="text_link_change('2')">
+                    <el-select v-model="form.data_source_link_field.id" value-key="id" clearable filterable placeholder="请选择数据链接字段" size="default" class="flex-1" @change="text_link_change('2')">
                         <el-option v-for="item in options.filter((item) => item.type == 'link')" :key="item.field" :label="item.name" :value="item.field" />
                     </el-select>
                 </el-form-item>
@@ -123,7 +123,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { location_compute } from '@/utils';
+import { location_compute, get_data_fields } from '@/utils';
 import { pick, cloneDeep } from 'lodash';
 const props = defineProps({
     value: {
@@ -160,16 +160,23 @@ onBeforeMount(() => {
 const text_change = (key: string) => {
     if (key == '2') {
         form.value.text_title = '';
+        if (form.value.data_source_field.id.length > 0) {
+            form.value.data_source_field.option = props.options.filter((item) => item.type == 'text' && form.value.data_source_field.id.includes(item.field))
+        } else {
+            form.value.data_source_field = get_data_fields([], 'text', '');
+        }
     } else {
-        form.value.data_source_id = '';
+        // 如果没有数据，就赋值为空
+        form.value.data_source_field = get_data_fields([], 'text', '');
     }
 };
 // 数据字段切换时，更新另外一个数据
 const text_link_change = (key: string) => {
     if (key == '2') {
         form.value.text_link = {};
+        form.value.data_source_link_field = get_data_fields(props.options, 'link', form.value.data_source_link_field.id);
     } else {
-        form.value.data_source_link = '';
+        form.value.data_source_link_field = get_data_fields([], 'link', '');
     }
 };
 // 文字大小变化时，同步更新行间距

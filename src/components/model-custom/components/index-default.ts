@@ -1,3 +1,4 @@
+import { id } from "element-plus/es/locale"
 
 // 文本的默认值
 const text_com_data = {
@@ -5,9 +6,16 @@ const text_com_data = {
     com_height: 17,
     staging_height: 17,
     text_title: '文本',
-    data_source_id: '',
+    data_source_field: {
+        id: [],
+        option: []
+    },
     data_source_list: {},
     text_link: {},
+    data_source_link_field: {
+        id: '',
+        option: {}
+    },
     is_rich_text: '0',
     is_up_down: '1',
     text_color: '#000',
@@ -45,9 +53,16 @@ const img_com_data = {
     com_height: 50,
     staging_height: 50,
     img: [],
-    data_source_id: '',
+    data_source_field: {
+        id: '',
+        option: {}
+    },
     data_source_list: {},
     link: {},
+    data_source_link_field: {
+        id: '',
+        option: {}
+    },
     img_radius: {
         radius: 0,
         radius_top_left: 0,
@@ -90,9 +105,16 @@ const icon_com_data = {
     com_height: 36,
     staging_height: 36,
     icon_class: '',
-    data_source_id: '',
+   data_source_field: {
+        id: '',
+        option: {}
+    },
     data_source_list: {},
     icon_link: {},
+    data_source_link_field: {
+        id: '',
+        option: {}
+    },
     is_rich_icon: '0',
     is_up_down: '1',
     icon_color: '#000',
@@ -130,6 +152,10 @@ const panel_com_data = {
     com_height: 100,
     staging_height: 100,
     link: {},
+    data_source_link_field: {
+        id: '',
+        option: {}
+    },
     icon_rotate: 0,
     background_img_style: '2',
     background_img: [],

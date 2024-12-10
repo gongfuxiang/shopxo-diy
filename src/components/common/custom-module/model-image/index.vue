@@ -47,36 +47,42 @@ const img = computed(() => {
         if (!isEmpty(props.sourceList)) {
             let image_url = '';
             // 取出数据源ID
-            const data_source_id = form.value.data_source_id;
-            if (!data_source_id.includes('.')) {
-                // 不输入商品， 文章和品牌时，从外层处理数据
-                image_url = props.sourceList[data_source_id];
-                // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
-                if (!isEmpty(props.sourceList.data) && props.isCustom) {
-                    if (data_source_id == props.imgParams) {
-                        image_url = !isEmpty(props.sourceList.new_cover)? props.sourceList.new_cover[0]?.url || '' : props.sourceList.data[data_source_id];
-                    } else {
-                        image_url = props.sourceList.data[data_source_id];
-                    }
-                }
+            const data_source_id = !isEmpty(form.value?.data_source_field?.id || '') ? form.value?.data_source_field?.id : form.value.data_source_id;
+            // 数据源内容
+            const option = form.value?.data_source_field?.option || {};
+            // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
+            if (data_source_id.includes(';')) {
+                // 取出所有的字段，使用;分割
+                const ids = data_source_id.split(';');
+                let url = '';
+                ids.forEach((item: string, index: number) => {
+                    url += data_handling(item) + (index != ids.length - 1 ? (option?.join || '') : '');
+                });
+                image_url = url;
             } else {
                 // 循环取值,使用reduce 累加函数循环取值
-                image_url = get_nested_property(props.sourceList, data_source_id);
-                // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
-                if (!isEmpty(props.sourceList.data) && props.isCustom) {
-                    if (data_source_id == props.imgParams) {
-                        image_url = !isEmpty(props.sourceList.new_cover)? props.sourceList.new_cover[0]?.url || '' : get_nested_property(props.sourceList.data, data_source_id);
-                    } else {
-                        image_url = get_nested_property(props.sourceList.data, data_source_id);
-                    }
-                }
+                image_url = data_handling(data_source_id);
             }
-            return image_url;
+            return (option?.first || '') + image_url + (option?.last || '');
         } else {
             return '';
         }
     }
 });
+
+const data_handling = (data_source_id: string) => {
+    // 循环取值,使用reduce 累加函数循环取值
+    let image_url = get_nested_property(props.sourceList, data_source_id);
+    // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
+    if (!isEmpty(props.sourceList.data) && props.isCustom) {
+        if (data_source_id == props.imgParams) {
+            image_url = !isEmpty(props.sourceList.new_cover)? props.sourceList.new_cover[0]?.url || '' : get_nested_property(props.sourceList.data, data_source_id);
+        } else {
+            image_url = get_nested_property(props.sourceList.data, data_source_id);
+        }
+    }
+    return image_url;
+}
 
 const image_style = computed(() => {
     return `${ set_count() };transform: rotate(${form.value.img_rotate}deg); ${ radius_computer(form.value.img_radius, props.scale) };`;

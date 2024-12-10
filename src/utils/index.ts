@@ -45,6 +45,46 @@ export function get_nested_property(obj: any, path: string): string {
     // 如果当前对象存在且拥有下一个属性键，则继续访问；否则返回空字符串
     return keys.reduce((o, key) => (o && o[key] ? o[key] : ''), obj) || '';
 }
+
+/**
+ * 定义一个ListItem类型，用于描述列表项的结构
+ */
+type ListItem = { type: string; field: string; option?: Record<string, any> };
+
+/**
+ * 根据指定的类型和字段从列表中获取数据字段
+ * 
+ * @param list 列表项数组，每个项包含type和field属性
+ * @param type 要匹配的类型
+ * @param field 要匹配的字段名称
+ * @returns 返回一个包含id和option的对象，id为匹配的字段名，option为匹配项的option属性
+ */
+export const get_data_fields = (list: Array<ListItem>, type: string, field: string) => {
+    // 定义默认返回结果
+    const defaultResult = { id: '', option: {} };
+    try {
+        // 如果列表为空，直接返回默认结果
+        if (list.length === 0) {
+            return defaultResult;
+        }
+        // 过滤列表，找出类型和字段都匹配的项
+        const new_list = list.filter((item) => item.type === type && item.field === field);
+        // 如果找到匹配的项，返回第一个匹配项的字段名和全部信息
+        if (new_list.length > 0) {
+            return {
+                id: new_list[0].field,
+                option: new_list[0],
+            };
+        } else {
+            // 如果没有找到匹配的项，返回默认结果
+            return defaultResult;
+        }
+    } catch (error) {
+        // 捕获异常，返回默认结果
+        return defaultResult;
+    }
+}
+
 /**
  * 将对象或数组中的字符串转换为数字
  * 此函数递归地遍历给定对象或数组，将所有能转换为数字的字符串转换成数字类型
