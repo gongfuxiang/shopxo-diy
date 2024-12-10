@@ -157,9 +157,9 @@ const dialog_title = computed(() => {
         } else if (props.type[0] == 'coupon') {
             name = '优惠券';
         }
-        return name + '链接';
+        return name + '选择';
     } else {
-        return '选择链接';
+        return '内容选择';
     }
 });
 

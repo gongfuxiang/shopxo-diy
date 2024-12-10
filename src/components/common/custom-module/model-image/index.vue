@@ -47,7 +47,7 @@ const img = computed(() => {
         if (!isEmpty(props.sourceList)) {
             let image_url = '';
             // 取出数据源ID
-            const data_source_id = !isEmpty(form.value?.data_source_field?.id || '') ? form.value?.data_source_field?.id : form.value.data_source_id;
+            const data_source_id = !isEmpty(form.value?.data_source_field?.id || '') ? form.value?.data_source_field?.id : '';
             // 数据源内容
             const option = form.value?.data_source_field?.option || {};
             // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据

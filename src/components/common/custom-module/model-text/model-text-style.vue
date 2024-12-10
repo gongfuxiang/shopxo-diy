@@ -163,7 +163,10 @@ const text_change = (key: string) => {
         if (form.value.data_source_field.id.length > 0) {
             form.value.data_source_field.option = props.options.filter((item) => item.type == 'text' && form.value.data_source_field.id.includes(item.field))
         } else {
-            form.value.data_source_field = get_data_fields([], 'text', '');
+            form.value.data_source_field = {
+                id: [],
+                option: [],
+            };
         }
     } else {
         // 如果没有数据，就赋值为空

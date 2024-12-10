@@ -16,12 +16,12 @@
                 <el-input v-model="keyword" placeholder="请输入商品关键字" clearable @blur="keyword_blur"></el-input>
             </el-form-item>
             <el-form-item label="商品分类">
-                <el-select v-model="form.category_ids" multiple collapse-tags placeholder="请选择商品分类">
+                <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择商品分类">
                     <el-option v-for="item in common_store.common.goods_category" :key="item.id" :label="item.name" :value="item.id" />
                 </el-select>
             </el-form-item>
             <el-form-item label="指定品牌">
-                <el-select v-model="form.brand_ids" multiple collapse-tags placeholder="请选择品牌">
+                <el-select v-model="form.brand_ids" multiple collapse-tags filterable placeholder="请选择品牌">
                     <el-option v-for="item in common_store.common.brand_list" :key="item.id" :label="item.name" :value="item.id" />
                 </el-select>
             </el-form-item>
@@ -57,7 +57,7 @@
                 <el-input v-model="keyword" placeholder="请输入文章关键字" clearable @blur="keyword_blur"></el-input>
             </el-form-item>
             <el-form-item label="文章分类">
-                <el-select v-model="form.category_ids" multiple collapse-tags placeholder="请选择文章分类">
+                <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择文章分类">
                     <el-option v-for="item in common_store.common.article_category" :key="item.id" :label="item.name" :value="item.id" />
                 </el-select>
             </el-form-item>
@@ -96,7 +96,7 @@
                 <el-input v-model="keyword" placeholder="请输入品牌关键字" clearable @blur="keyword_blur"></el-input>
             </el-form-item>
             <el-form-item label="品牌分类">
-                <el-select v-model="form.category_ids" multiple collapse-tags placeholder="请选择品牌分类">
+                <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择品牌分类">
                     <el-option v-for="item in common_store.common.brand_list" :key="item.id" :label="item.name" :value="item.id" />
                 </el-select>
             </el-form-item>

@@ -73,9 +73,9 @@ const text_title = computed(() => {
         }
     }
     // 获取数据源ID
-    const data_source_id = !isEmpty(formValue?.data_source_field?.id || '') ? formValue?.data_source_field?.id : [ formValue.data_source_id ];
+    const data_source_id = !isEmpty(formValue?.data_source_field?.id || []) ? formValue?.data_source_field?.id : [];
     // 数据源内容
-    const option = formValue?.data_source_field?.option || {};
+    const option = formValue?.data_source_field?.option || [];
     // 文本信息
     let text_title = '';
     try {

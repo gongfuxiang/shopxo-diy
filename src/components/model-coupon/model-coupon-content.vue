@@ -29,7 +29,7 @@
                 </template>
                 <template v-else>
                     <el-form-item label="类型">
-                        <el-select v-model="form.type" multiple collapse-tags placeholder="请选择优惠券类型">
+                        <el-select v-model="form.type" multiple collapse-tags filterable placeholder="请选择优惠券类型">
                             <el-option v-for="item in base_list.coupon_type_list" :key="item.value" :label="item.name" :value="item.value" />
                         </el-select>
                     </el-form-item>

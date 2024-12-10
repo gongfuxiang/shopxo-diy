@@ -2,7 +2,7 @@
     <!-- 优惠券 -->
     <div class="container">
         <div class="flex-row jc-e gap-20 mb-20">
-            <el-select v-model="type" class="search-w" placeholder="请选择" clearable @change="handle_search">
+            <el-select v-model="type" class="search-w" placeholder="请选择" filterable clearable @change="handle_search">
                 <el-option v-for="item in coupon_type_list" :key="item.value" :label="item.name" :value="item.value" />
             </el-select>
             <el-input v-model="search_value" placeholder="请输入搜索内容" class="search-w" @change="handle_search">

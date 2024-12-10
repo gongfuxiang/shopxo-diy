@@ -2,7 +2,7 @@
     <!-- 品牌 -->
     <div class="container">
         <div class="flex-row jc-e gap-20 mb-20">
-            <el-select v-model="brand_ids" class="search-w" placeholder="品牌" clearable @change="handle_search">
+            <el-select v-model="brand_ids" class="search-w" placeholder="品牌" filterable clearable @change="handle_search">
                 <el-option v-for="item in brand_category" :key="item.id" :label="item.name" :value="item.id" />
             </el-select>
             <el-input v-model="search_value" placeholder="请输入搜索内容" class="search-w" @change="handle_search">

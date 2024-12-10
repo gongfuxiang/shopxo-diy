@@ -48,7 +48,7 @@ const icon_class = computed(() => {
         if (!isEmpty(props.sourceList)) {
             let icon = '';
             // 取出数据源ID
-            const data_source_id = !isEmpty(form.value?.data_source_field?.id || '') ? form.value?.data_source_field?.id : form.value.data_source_id;
+            const data_source_id = !isEmpty(form.value?.data_source_field?.id || '') ? form.value?.data_source_field?.id : '';
             // 数据源内容
             const option = form.value?.data_source_field?.option || {};
             if (data_source_id.includes(';')) {

@@ -419,12 +419,12 @@ watch(() => center_height.value, () => {
                 ...Object.assign({}, cloneDeep((defaultComData as any)[`${item.key}_com_data`]), item.com_data),
                 com_height: item.com_data.staging_height,
                 data_source_field: {
-                    ...item.com_data?.data_source_field ?? { id:'', option: {} },
-                    id: !isEmpty(item.com_data?.data_source_field?.id || '')? item.com_data.data_source_field.id : item.com_data.data_source_id,
+                    ...item.com_data?.data_source_field ?? { id: item.key == 'text' ? [] : '', option: item.key == 'text' ? [] : {} },
+                    id: !isEmpty(item.com_data?.data_source_field?.id || '') ? item.com_data.data_source_field.id : item.key == 'text' ? [] : '',
                 },
                 data_source_link_field: {
                     ...item.com_data?.data_source_link_field ?? { id: '', option: {} },
-                    id: !isEmpty(item.com_data?.data_source_link_field?.id || '')? item.com_data.data_source_link_field.id : item.com_data.data_source_link,
+                    id: !isEmpty(item.com_data?.data_source_link_field?.id || '')? item.com_data.data_source_link_field.id : '',
                 },
             },
         }));
