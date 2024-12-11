@@ -9,7 +9,17 @@
                     <template v-else>
                         <image-empty class="img" error-img-style="width:2rem;height:2rem;"></image-empty>
                     </template>
-                    <div class="title" :style="title_style(index) + (index == activeIndex ? '' : padding_bottom)">{{ item.title }}</div>
+                    <template v-if="item.tabs_type == '1'">
+                        <template v-if="!isEmpty(item.tabs_icon)">
+                            <el-icon :class="`iconfont ${ 'icon-' + item.tabs_icon}`" class="title" :style="icon_style(index) + (index == activeIndex ? '' : padding_bottom)" />
+                        </template>
+                        <template v-else>
+                            <image-empty v-model="item.tabs_img[0]" fit="contain" class="title" :style="img_style() + (index == activeIndex ? '' : padding_bottom)" error-img-style="width: 2rem;height: 2rem;" />
+                        </template>
+                    </template>
+                    <template v-else>
+                        <div class="title" :style="title_style(index) + (index == activeIndex ? '' : padding_bottom)">{{ item.title }}</div>
+                    </template>
                     <div class="desc" :style="tabs_theme_index == '1' && index == activeIndex ? tabs_check : ''">{{ item.desc }}</div>
                     <icon name="checked-smooth" class="icon" :style="tabs_theme_index == '3' ? icon_tabs_check() : ''"></icon>
                     <div class="bottom_line" :class="tabs_bottom_line_theme" :style="tabs_check"></div>
@@ -21,7 +31,7 @@
 </template>
 
 <script lang="ts" setup>
-import { gradient_computer } from '@/utils';
+import { gradient_computer, radius_computer } from '@/utils';
 import { isEmpty } from 'lodash';
 const props = defineProps({
     value: {
@@ -98,6 +108,29 @@ const title_style = (index: number) => {
     }
     return style;
 };
+
+const icon_style = (index: number) => {
+    // 默认是未选中的状态
+    let style = `font-size: ${new_style.value.tabs_icon_size}px;line-height: ${new_style.value.tabs_icon_size}px;color:${new_style.value.tabs_icon_color};`;
+    // 选中的状态
+    if (index == props.activeIndex) {
+        let checked_style = `font-size: ${new_style.value.tabs_icon_size_checked}px;line-height: ${new_style.value.tabs_icon_size_checked}px;color:${new_style.value.tabs_icon_color_checked};`;
+        if (['2', '4'].includes(tabs_theme_index.value)) {
+            checked_style += tabs_check.value;
+        }
+        style = checked_style;
+    }
+    return style;
+};
+
+const img_style = () => {
+    let style = `height: ${new_style.value.tabs_img_height}px;` + radius_computer(new_style.value.tabs_img_radius);
+    if (new_style.value.is_tabs_img_background == '1' && ['2', '4'].includes(tabs_theme_index.value)) {
+        style += tabs_check.value;
+    }
+    return style;
+};
+
 const padding_bottom = computed(() => {
     let bottom = 0;
     if (form.value.tabs_theme == '0') {

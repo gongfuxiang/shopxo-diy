@@ -37,8 +37,19 @@
                     <drag :data="form.tabs_list" type="card" icon-position="top" :space-col="20" @click="tabs_list_click" @remove="tabs_list_remove" @on-sort="tabs_list_sort">
                         <template #default="{ row, index }">
                             <div class="flex-col w">
-                                <el-form-item label="显示标题">
-                                    <el-input v-model="row.title" placeholder="请输入标题文字" clearable />
+                                <el-form-item label="数据类型" class="w mb-10">
+                                    <div class="flex-col gap-10 w h">
+                                        <el-radio-group v-model="row.tabs_type">
+                                            <el-radio value="0">文本</el-radio>
+                                            <el-radio value="1">图片/图标</el-radio>
+                                        </el-radio-group>
+                                        <template v-if="row.tabs_type == '1'">
+                                            <upload v-model="row.tabs_img" v-model:icon-value="row.tabs_icon" is-icon :limit="1" size="50"></upload>
+                                        </template>
+                                        <template v-else>
+                                            <el-input v-model="row.title" placeholder="请输入标题文字" clearable />
+                                        </template>
+                                    </div>
                                 </el-form-item>
                                 <template v-if="form.tabs_active_index == index">
                                     <el-form-item v-if="form.tabs_theme == '4'" label="上传图片">

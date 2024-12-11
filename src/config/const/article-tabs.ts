@@ -9,6 +9,9 @@ interface ArticleList {
 }
 interface articleTabsList {
     id: string;
+    tabs_type: string;
+    tabs_img: uploadList[];
+    tabs_icon: string;
     title: string;
     desc: string;
     data_type: string;
@@ -48,6 +51,13 @@ interface DefaultArticleTabs {
         tabs_weight: string;
         tabs_size: number;
         tabs_color: string;
+        tabs_icon_color_checked: string;
+        tabs_icon_size_checked: number,
+        tabs_icon_color: string,
+        tabs_icon_size: number,
+        is_tabs_img_background: string,
+        tabs_img_radius: radiusStyle,
+        tabs_img_height: number,
         tabs_spacing: number;
         tabs_bg_direction: string,
         tabs_bg_color_list: color_list[],
@@ -107,12 +117,12 @@ const defaultArticleTabs: DefaultArticleTabs = {
         article_theme: '0',
         article_carousel_col: '2',
         tabs_list: [
-            { id: '1', title: '热门推荐', desc: '简介', data_type: '0', keyword: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
-            { id: '2', title: '测试一', desc: '简介', data_type: '0', keyword: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
-            { id: '3', title: '测试二', desc: '简介', data_type: '0', keyword: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
-            { id: '4', title: '测试三', desc: '简介', data_type: '0', keyword: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
-            { id: '5', title: '测试四', desc: '简介', data_type: '0', keyword: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
-            { id: '6', title: '测试五', desc: '简介', data_type: '0', keyword: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
+            { id: '1', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '热门推荐', desc: '简介', data_type: '0', keyword: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
+            { id: '2', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试一', desc: '简介', data_type: '0', keyword: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
+            { id: '3', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试二', desc: '简介', data_type: '0', keyword: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
+            { id: '4', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试三', desc: '简介', data_type: '0', keyword: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
+            { id: '5', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试四', desc: '简介', data_type: '0', keyword: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
+            { id: '6', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试五', desc: '简介', data_type: '0', keyword: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
         ],
         tabs_active_index: 0,
         field_show: ['0', '1', '3'],
@@ -137,6 +147,20 @@ const defaultArticleTabs: DefaultArticleTabs = {
         tabs_weight: '500',
         tabs_size: 14,
         tabs_color: 'rgba(51,51,51,1)',
+        // 选项卡图标和图片设置
+        tabs_icon_color_checked: 'rgba(51,51,51,1)',
+        tabs_icon_size_checked: 14,
+        tabs_icon_color: 'rgba(51,51,51,1)',
+        tabs_icon_size: 14,
+        is_tabs_img_background: '0',
+        tabs_img_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+        },
+        tabs_img_height: 20,
         tabs_spacing: 20,
         tabs_sign_spacing: 4,
         // 选项卡背景设置

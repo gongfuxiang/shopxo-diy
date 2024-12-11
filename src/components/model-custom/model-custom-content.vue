@@ -46,7 +46,7 @@
                                 </div>
                             </template>
                             <template v-else>
-                                <filter-form :filter-data="default_type_data?.filter_config?.filter_form_config || {}" direction="vertical" :title-width="70" :data-interface="form.data_source_content" @form-change="filter_form_change"></filter-form>
+                                <filter-form :filter-data="default_type_data?.filter_config?.filter_form_config || {}" direction="vertical" :title-width="58" :data-interface="form.data_source_content" @form-change="filter_form_change"></filter-form>
                             </template>
                         </div>
                     </card-container>
@@ -332,10 +332,10 @@ const changeDataSource = (key: string) => {
     form.value.data_source_direction = 'vertical';
     // 如果存在默认数据类型的时候，就直接赋值给data_list
     if (type_data.length > 0 && !isEmpty(type_data[0].appoint_data)) {
-        emits('data_source_change', type_data[0].name)
+        emits('data_source_change', type_data[0].name);
         form.value.data_source_content.data_list = [ type_data[0].appoint_data ];
     } else if (type_data.length > 0 && !isEmpty(type_data[0].custom_config)) {
-        emits('data_source_change', type_data[0].name)
+        emits('data_source_change', type_data[0].name);
         // 是自定义数据类型
         form.value.is_custom_data = '1';
         // 自定义数据取值

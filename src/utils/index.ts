@@ -40,10 +40,10 @@ export function get_nested_property(obj: any, path: string): string {
     
     // 将属性路径字符串拆分为属性键数组
     const keys = path.split('.');
-    
+
     // 使用reduce方法遍历属性键数组，逐层访问对象属性
     // 如果当前对象存在且拥有下一个属性键，则继续访问；否则返回空字符串
-    return keys.reduce((o, key) => (o && o[key] ? o[key] : ''), obj) || '';
+    return keys.reduce((o, key) => (o != undefined && o[key] != undefined ? o[key] : ''), obj) ?? '';
 }
 
 /**

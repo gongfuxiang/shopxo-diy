@@ -2,6 +2,9 @@ import { get_math } from '@/utils';
 import defaultCommon from './index';
 interface tabs_page {
     id: string;
+    tabs_type: string;
+    tabs_img: uploadList[];
+    tabs_icon: string;
     title: string;
     desc: string;
     data_type: string;
@@ -27,6 +30,13 @@ interface defaultTabs {
         tabs_weight: string;
         tabs_size: number;
         tabs_color: string;
+        tabs_icon_color_checked: string;
+        tabs_icon_size_checked: number,
+        tabs_icon_color: string,
+        tabs_icon_size: number,
+        is_tabs_img_background: string,
+        tabs_img_radius: radiusStyle,
+        tabs_img_height: number,
         tabs_spacing: number;
         tabs_sign_spacing: number;
         tabs_padding: paddingStyle;
@@ -40,11 +50,11 @@ const defaultTabs: defaultTabs = {
     content: {
         tabs_theme: '0',
         tabs_top_up: '1',
-        home_data: { id: get_math(), title: '首页', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
+        home_data: { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', title: '首页', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
         tabs_list: [
-            { id: get_math(), title: '热门推荐', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
-            { id: get_math(), title: '测试一', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
-            { id: get_math(), title: '测试二', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
+            { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', title: '热门推荐', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
+            { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试一', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
+            { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试二', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
         ],
     },
     style: {
@@ -60,6 +70,19 @@ const defaultTabs: defaultTabs = {
         tabs_weight: '500',
         tabs_size: 14,
         tabs_color: 'rgba(51,51,51,1)',
+        tabs_icon_color_checked: 'rgba(51,51,51,1)',
+        tabs_icon_size_checked: 14,
+        tabs_icon_color: 'rgba(51,51,51,1)',
+        tabs_icon_size: 14,
+        is_tabs_img_background: '0',
+        tabs_img_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+        },
+        tabs_img_height: 20,
         tabs_spacing: 20,
         tabs_sign_spacing: 4,
         tabs_padding: {

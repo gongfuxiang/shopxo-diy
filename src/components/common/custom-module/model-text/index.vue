@@ -93,7 +93,7 @@ const text_title = computed(() => {
                     });
                     text_title += (sourceList?.first || '') + (text == '' && !props.isDisplayPanel ? sourceList?.name || '请在此输入文字' : text ) + (sourceList?.last || '');
                 } else {
-                    text_title += (sourceList?.first || '') + (data_handling(source_id) == '' && !props.isDisplayPanel ? sourceList?.name || '请在此输入文字' : data_handling(source_id) ) + (sourceList?.last || '');
+                    text_title += (sourceList?.first || '') + (data_handling(source_id) === '' && !props.isDisplayPanel ? sourceList?.name || '请在此输入文字' : data_handling(source_id) ) + (sourceList?.last || '');
                 }
             });
         }
@@ -105,8 +105,8 @@ const text_title = computed(() => {
         }
     }
     // 确定最终返回的文本，优先使用表单值中的文本标题，如果为空则使用之前获取的标题或默认文本
-    let text = formValue.text_title || text_title || '';
-    if (text == '' && !props.isDisplayPanel) {
+    let text = formValue.text_title || text_title;
+    if (text === '' && !props.isDisplayPanel) {
         text = '请在此输入文字';
     }
     return text;

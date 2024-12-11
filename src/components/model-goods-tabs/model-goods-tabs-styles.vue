@@ -16,6 +16,27 @@
                 <el-form-item label="未选文字">
                     <color-text-size-group v-model:color="form.tabs_color" v-model:typeface="form.tabs_weight" v-model:size="form.tabs_size" default-color="rgba(51,51,51,1)"></color-text-size-group>
                 </el-form-item>
+                <el-form-item label="选中图标">
+                    <color-text-size-group v-model:color="form.tabs_icon_color_checked" v-model:size="form.tabs_icon_size_checked" default-color="rgba(51,51,51,1)" slider-name="大小" :type-list="['color', 'size']"  />
+                </el-form-item>
+                <el-form-item label="未选图标">
+                    <color-text-size-group v-model:color="form.tabs_icon_color" v-model:size="form.tabs_icon_size" default-color="rgba(51,51,51,1)" slider-name="大小" :type-list="['color', 'size']" />
+                </el-form-item>
+                <el-form-item label="图片设置">
+                    <div class="flex-col gap-10 w">
+                        <template v-if="['2', '4'].includes(data.tabs_theme)">
+                            <el-form-item label="背景" label-width="40">
+                                <el-switch v-model="form.is_tabs_img_background" active-value="1" inactive-value="0" />
+                            </el-form-item>
+                        </template>
+                        <el-form-item label="圆角" label-width="40">
+                            <radius :value="form.tabs_img_radius"></radius>
+                        </el-form-item>
+                        <el-form-item label="高度" label-width="40">
+                            <slider v-model="form.tabs_img_height" :max="200"></slider>
+                        </el-form-item>
+                    </div>
+                </el-form-item>
                 <el-form-item label="上下间距">
                     <slider v-model="form.tabs_sign_spacing" :max="50"></slider>
                 </el-form-item>

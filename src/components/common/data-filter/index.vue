@@ -5,13 +5,11 @@
                 <el-radio v-for="item in baseList.product_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
             </el-radio-group>
         </el-form-item>
-        <template v-if="form.data_type === '0'">
-            <div class="nav-list">
-                <drag-group :list="drag_list" img-params="images" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
-                <el-button class="mt-20 w" @click="add">+添加</el-button>
-            </div>
-        </template>
-        <template v-else>
+        <div v-show="form.data_type === '0'" class="nav-list">
+            <drag-group :list="drag_list" img-params="images" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
+            <el-button class="mt-20 w" @click="add">+添加</el-button>
+        </div>
+        <div v-show="form.data_type === '1'" class="w h">
             <el-form-item label="关键字">
                 <el-input v-model="keyword" placeholder="请输入商品关键字" clearable @blur="keyword_blur"></el-input>
             </el-form-item>
@@ -38,7 +36,7 @@
                     <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                 </el-radio-group>
             </el-form-item>
-        </template>
+        </div>
     </template>
     <template v-else-if="type === 'article'">
         <el-form-item label="读取方式">
@@ -46,13 +44,11 @@
                 <el-radio v-for="item in baseList.data_type_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
             </el-radio-group>
         </el-form-item>
-        <template v-if="form.data_type === '0'">
-            <div class="nav-list">
-                <drag-group :list="drag_list" img-params="cover" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
-                <el-button class="mtb-20 w" @click="add">+添加</el-button>
-            </div>
-        </template>
-        <template v-else>
+        <div v-show="form.data_type === '0'" class="nav-list">
+            <drag-group :list="drag_list" img-params="cover" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
+            <el-button class="mtb-20 w" @click="add">+添加</el-button>
+        </div>
+        <div v-show="form.data_type === '1'" class="w h">
             <el-form-item label="关键字">
                 <el-input v-model="keyword" placeholder="请输入文章关键字" clearable @blur="keyword_blur"></el-input>
             </el-form-item>
@@ -77,7 +73,7 @@
             <el-form-item label="封面图片">
                 <el-switch v-model="form.is_cover" active-value="1" inactive-value="0" />
             </el-form-item>
-        </template>
+        </div>
     </template>
     <template v-else>
         <el-form-item label="读取方式">
@@ -85,13 +81,11 @@
                 <el-radio v-for="item in baseList.brand_data_type_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
             </el-radio-group>
         </el-form-item>
-        <template v-if="form.data_type === '0'">
-            <div class="nav-list">
-                <drag-group :list="drag_list" img-params="logo" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
-                <el-button class="mt-20 w" @click="add">+添加</el-button>
-            </div>
-        </template>
-        <template v-else>
+        <div v-show="form.data_type === '0'" class="nav-list">
+            <drag-group :list="drag_list" img-params="logo" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
+            <el-button class="mt-20 w" @click="add">+添加</el-button>
+        </div>
+        <div v-show="form.data_type === '1'" class="w h">
             <el-form-item label="关键字">
                 <el-input v-model="keyword" placeholder="请输入品牌关键字" clearable @blur="keyword_blur"></el-input>
             </el-form-item>
@@ -113,7 +107,7 @@
                     <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                 </el-radio-group>
             </el-form-item>
-        </template>
+        </div>
     </template>
 </template>
 
