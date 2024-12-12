@@ -159,7 +159,11 @@ const outer_container_padding = ref(0);
 const bottom_navigation_show = ref(true);
 // 更新数据第一个的安全距离
 const set_padding_top_value = () => {
-    if (diy_data.value.length > 0) {
+    if (tabs_data.value.length > 0) {
+        tabs_data.value.forEach((item: any) => {
+            item.com_data.style.common_style.padding_top_safe_value = common_store.header_height;
+        });
+    } else if (diy_data.value.length > 0) {
         // 初始数据为0
         let padding_top_index = 0;
         // 如果前几个为悬浮按钮，则加一，找到不是悬浮按钮的第一个处理
@@ -263,12 +267,10 @@ const show_model_border = ref(true);
 const draggable_click = (item: componentsData) => {
     const type_data = ['tabs', 'tabs-carousel'];
     if (type_data.includes(item.key)) {
-        
-        if (common_store.is_immersion_model) {
-            ElMessage.error('开启沉浸样式下不可以添加该组件');
-            return;
-        }
-
+        // if (common_store.is_immersion_model) {
+        //     ElMessage.error('开启沉浸样式下不可以添加该组件');
+        //     return;
+        // }
         if (isEmpty(tabs_data.value)) {
             // 添加tabs组件
             tabs_data.value.push({
@@ -281,7 +283,7 @@ const draggable_click = (item: componentsData) => {
                 key: item.key,
                 com_data: cloneDeep((defaultSettings as any)[item.key.replace(/-/g, '_')]),
             });
-            common_store.set_is_have_tabs(true);
+            // common_store.set_is_have_tabs(true);
             set_tabs_event(true);
         } else if (!isEmpty(tabs_data.value)) {
             if (tabs_data.value[0].key == item.key) {
@@ -292,11 +294,11 @@ const draggable_click = (item: componentsData) => {
         }
     }
 };
-watchEffect(() => {
-    if (tabs_data.value.length <= 0) {
-        common_store.set_is_have_tabs(false);
-    }
-});
+// watchEffect(() => {
+//     if (tabs_data.value.length <= 0) {
+//         common_store.set_is_have_tabs(false);
+//     }
+// });
 
 // 复制
 const clone_item_com_data = (item: commonComponentData) => {

@@ -6,6 +6,12 @@ interface carousel_list {
     carousel_video: uploadList[];
     carousel_link: object;
     video_title: string;
+    style: {
+        direction: string;
+        color_list: color_list[];
+        background_img_style: string;
+        background_img: uploadList[];
+    }
 }
 interface defaultSearch {
     content: {
@@ -61,19 +67,37 @@ const defaultSearch: defaultSearch = {
                 carousel_img: [],
                 carousel_video: [],
                 carousel_link: {},
-                video_title: '视频名称'
+                video_title: '视频名称',
+                style: {
+                    direction: '90deg',
+                    color_list: [{ color: '', color_percentage: undefined }],
+                    background_img_style: '2',
+                    background_img: [],
+                }
             },
             {
                 carousel_img: [],
                 carousel_video: [],
                 carousel_link: {},
-                video_title: '视频名称'
+                video_title: '视频名称',
+                style: {
+                    direction: '90deg',
+                    color_list: [{ color: '', color_percentage: undefined }],
+                    background_img_style: '2',
+                    background_img: [],
+                }
             },
             {
                 carousel_img: [],
                 carousel_video: [],
                 carousel_link: {},
-                video_title: '视频名称'
+                video_title: '视频名称',
+                style: {
+                    direction: '90deg',
+                    color_list: [{ color: '', color_percentage: undefined }],
+                    background_img_style: '2',
+                    background_img: [],
+                }
             }
         ]
     },

@@ -4,10 +4,10 @@
             <template v-for="(item, index) in form.tabs_list" :key="index">
                 <div class="item nowrap flex-col jc-c" :class="tabs_theme + (index == activeIndex ? ' active' : '') + ((tabs_theme_index == '0' && tabs_theme_1_style) || tabs_theme_index == '1' || tabs_theme_index == '2' ? ' pb-0' : '')" :style="`row-gap: ${new_style.tabs_sign_spacing}px;`">
                     <template v-if="!isEmpty(item.img)">
-                        <image-empty v-model="item.img[0]" class="img" error-img-style="width:2rem;height:2rem;"></image-empty>
+                        <image-empty v-model="item.img[0]" class="img" :style="top_img_style('data')" fit="contain" error-img-style="width:3.9rem;height:3.9rem;"></image-empty>
                     </template>
                     <template v-else>
-                        <image-empty class="img" error-img-style="width:2rem;height:2rem;"></image-empty>
+                        <image-empty class="img" :style="top_img_style('noData')" fit="contain" error-img-style="width:3.9rem;height:3.9rem;"></image-empty>
                     </template>
                     <template v-if="item.tabs_type == '1'">
                         <template v-if="!isEmpty(item.tabs_icon)">
@@ -131,6 +131,12 @@ const img_style = () => {
     return style;
 };
 
+const top_img_style = (type: string) => {
+    const tabs_top_img_height = new_style.value?.tabs_top_img_height || 39;
+    const tabs_top_img_radius = new_style.value?.tabs_top_img_radius || { radius: 100, radius_top_left: 100, radius_top_right: 100, radius_bottom_left: 100, radius_bottom_right: 100}
+    return `height: ${tabs_top_img_height}px; width: ${ type == 'noData' ? tabs_top_img_height + 'px;' : '100%;' }` + radius_computer(tabs_top_img_radius);
+};
+
 const padding_bottom = computed(() => {
     let bottom = 0;
     if (form.value.tabs_theme == '0') {
@@ -195,9 +201,9 @@ const icon_tabs_check = () => {
             display: none;
         }
         .img {
-            width: 3.9rem;
-            height: 3.9rem;
-            border-radius: 100%;
+            // width: 3.9rem;
+            // height: 3.9rem;
+            // border-radius: 100%;
             border: 0.1rem solid transparent;
             display: none;
         }

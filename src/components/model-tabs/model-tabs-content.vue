@@ -11,8 +11,8 @@
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="滑动置顶">
-                    <el-switch v-model="form.tabs_top_up" class="mr-10" active-value="1" inactive-value="0"></el-switch>
-                    <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="滑动置顶仅手机端有效" raw-content placement="top">
+                    <el-switch v-model="form.tabs_top_up" class="mr-10" active-value="1" inactive-value="0" :disabled="is_immersion_model" />
+                    <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>1.开启沉浸样式时，选项卡置顶功能禁用</span><br/><span>2.滑动置顶仅手机端有效</span>" raw-content placement="top">
                         <icon name="miaosha-hdgz" size="12" color="#999"></icon>
                     </el-tooltip>
                 </el-form-item>
@@ -80,6 +80,8 @@
 </template>
 <script setup lang="ts">
 import { get_math, tabs_style } from '@/utils';
+import { commonStore } from '@/store';
+const common_store = commonStore();
 
 const props = defineProps({
     value: {
@@ -123,6 +125,13 @@ const on_sort = (new_list: nav_group[]) => {
 const tabs_theme_change = (val: string | number | boolean | undefined): void => {
     styles.value.tabs_color_checked = tabs_style(styles.value.tabs_color_checked, val);
 };
+// 选项卡是否可以滑动置顶
+const is_immersion_model = computed(() => common_store.is_immersion_model);
+watchEffect(() => {
+    if (is_immersion_model.value) {
+        form.value.tabs_top_up = '0';
+    }
+});
 </script>
 <style lang="scss" scoped>
 .cursor-move {

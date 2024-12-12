@@ -1,6 +1,6 @@
 <template>
-    <div :style="style_container">
-        <div class="re" :style="style_img_container">
+    <div :style="style_container + swiper_bg_style">
+        <div class="re" :style="style_img_container + swiper_bg_img_style">
             <div ref="swiperSize" class="swiper-container w h oh">
                 <swiper
                     :key="carouselKey"
@@ -73,7 +73,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, radius_computer, get_math, gradient_computer, padding_computer, common_img_computer } from '@/utils';
+import { common_styles_computer, radius_computer, get_math, gradient_computer, padding_computer, common_img_computer, background_computer } from '@/utils';
 import { isEmpty, cloneDeep, throttle } from 'lodash';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay, EffectCoverflow } from 'swiper/modules';
@@ -153,7 +153,7 @@ const indicator_location_style = computed(() => {
 });
 //#endregion
 const seat_list = computed(() => {
-    if (form.value.carousel_list.length > 3) {
+    if (form.value.carousel_list.length > 3 || form.value.carousel_type !== 'card') {
         return [];
     } else {
         let seat_list = [];
@@ -282,18 +282,49 @@ watch(() => new_style.value.common_style, () => {
     })
 }, {deep: true});
 
+const swiper_bg_style = computed(() => {
+    if (!props.isCommon) {
+        return '';
+    }
+    const style = form.value?.carousel_list?.[actived_index.value]?.style;
+    if (style && !isEmpty(style.color_list)) {
+        const color_list = style.color_list;
+        const list = color_list.filter((item: { color: string }) => !isEmpty(item.color));
+        if (list.length > 0) {
+            try {
+                return gradient_computer(style);
+            } catch (error) {
+                return '';
+            }
+        }
+        return '';
+    }
+    return '';
+});
+
+const swiper_bg_img_style = computed(() => {
+    if (!props.isCommon) {
+        return '';
+    }
+    if (!isEmpty(form.value.carousel_list[actived_index.value].style.background_img)) {
+        return background_computer(form.value.carousel_list[actived_index.value].style);
+    }
+    return '';
+});
+const emit = defineEmits(['slideChange']);
 const slideChange = (swiper: { realIndex: number }) => {
-    if (swiper.realIndex > form.value.carousel_list.length - 1) {
+    if (swiper.realIndex > form.value.carousel_list.length - 1 && form.value.carousel_type == 'card') {
         const seat_length = seat_list.value.length;
         if (seat_length == 2 && swiper.realIndex == 3) {
             actived_index.value = 1;
-        } else if (seat_length == 3) {
-            actived_index.value = 0;
         } else {
-            actived_index.value = swiper.realIndex - seat_list.value.length;
+            actived_index.value = 0;
         }
     } else {
         actived_index.value = swiper.realIndex;
+    }
+    if (!props.isCommon) {
+        emit('slideChange', actived_index.value);
     }
 }
 </script>

@@ -30,7 +30,7 @@
                 </el-form-item>
                 <el-form-item v-if="form.header_background_type == 'transparent'" label="沉浸样式">
                     <div class="flex-row align-c gap-10">
-                        <el-switch v-model="form.immersive_style" active-value="1" inactive-value="0" :disabled="is_have_tabs" @change="change_immersive_style"></el-switch>
+                        <el-switch v-model="form.immersive_style" active-value="1" inactive-value="0" @change="change_immersive_style"></el-switch>
                         <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>开启沉浸样式时，不可添加选项卡和选项卡轮播。<br/>并且商品选项卡和文章选项卡的选项卡置顶功能禁用</span>" raw-content placement="top">
                             <icon name="miaosha-hdgz" size="12" color="#999"></icon>
                         </el-tooltip>
@@ -185,10 +185,6 @@ const props = defineProps({
         default: () => {},
     },
 });
-const is_have_tabs = computed(() => {
-    return common_store.is_have_tabs;
-});
-
 const emit = defineEmits(['update:value']);
 const state = reactive({
     form: props.value,
@@ -210,10 +206,10 @@ const header_background_type_change_event = (val: any) => {
         common_store.set_is_immersion_model(false);
     } else {
         // 没有tabs的情况下，默认开启沉浸模式
-        if (!common_store.is_have_tabs) {
-            form.value.immersive_style = '1';
-            common_store.set_is_immersion_model(true);
-        }
+        // if (!common_store.is_have_tabs) {
+        form.value.immersive_style = '1';
+        common_store.set_is_immersion_model(true);
+        // }
     }
 };
 

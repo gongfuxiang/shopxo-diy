@@ -86,7 +86,7 @@ const init_data = () => {
         // 获取所有的选中数据的长度
         const all_length = select_data.value.length;
         // 将没有data_key的值取出来
-        const list = select_data.value.filter((item: any) => item[props.dataListKey] == undefined );
+        const list = select_data.value.filter((item: any) => item[props.dataListKey] == null );
         if (list.length == 0) {
            return true;
         } else {

@@ -290,7 +290,7 @@ const filter_data_handling = (type: string = 'old') => {
         }
         // 历史数据的话，需要判断一下，如果历史数据没有，那么就使用默认数据
         if (type == 'old') {
-            staging_data[item.form_name] = form.value.data_source_content[item.form_name] == undefined ? value : form.value.data_source_content[item.form_name];
+            staging_data[item.form_name] = form.value.data_source_content[item.form_name] == null ? value : form.value.data_source_content[item.form_name];
         } else {
             staging_data[item.form_name] = value;
         }

@@ -1,6 +1,6 @@
 <template>
-    <div :style="style_container">
-        <div class="flex-col oh" :style="style_img_container">
+    <div :style="style_container + swiper_bg_style">
+        <div class="flex-col oh" :style="style_img_container + swiper_bg_img_style">
             <div class="oh" :style="tabs_container">
                 <div class="oh" :style="tabs_img_container">
                     <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true" :active-index="tabs_active_index"></tabs-view>
@@ -8,7 +8,7 @@
             </div>
             <div class="oh" :style="carousel_container">
                 <div class="oh" :style="carousel_img_container">
-                    <model-carousel :value="value" :is-common="false"></model-carousel>
+                    <model-carousel :value="value" :is-common="false" @slide-change="slideChange"></model-carousel>
                 </div>
             </div>
         </div>
@@ -16,7 +16,7 @@
 </template>
 <script setup lang="ts">
 import { common_styles_computer, common_img_computer, padding_computer, gradient_computer, background_computer, margin_computer, radius_computer } from '@/utils';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isEmpty } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
@@ -67,5 +67,35 @@ watch(
 
 const style_container = computed(() => `${common_styles_computer(props.value.style.common_style)};`);
 const style_img_container = computed(() => `${common_img_computer(props.value.style.common_style)};gap:${props.value.style.data_spacing}px`);
+
+const form = computed(() => props.value.content);
+const actived_index = ref(0);
+const slideChange = (index: number) => {
+    actived_index.value = index;
+};
+
+const swiper_bg_style = computed(() => {
+    const style = form.value?.carousel_list?.[actived_index.value]?.style;
+    if (style && !isEmpty(style.color_list)) {
+        const color_list = style.color_list;
+        const list = color_list.filter((item: { color: string }) => !isEmpty(item.color));
+        if (list.length > 0) {
+            try {
+                return gradient_computer(style);
+            } catch (error) {
+                return '';
+            }
+        }
+        return '';
+    }
+    return '';
+});
+
+const swiper_bg_img_style = computed(() => {
+    if (!isEmpty(form.value?.carousel_list[actived_index.value]?.style?.background_img)) {
+        return background_computer(form.value.carousel_list[actived_index.value].style);
+    }
+    return '';
+});
 </script>
 <style lang="scss" scoped></style>

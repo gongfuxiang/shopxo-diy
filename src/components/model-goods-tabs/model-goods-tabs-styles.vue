@@ -22,6 +22,16 @@
                 <el-form-item label="未选图标">
                     <color-text-size-group v-model:color="form.tabs_icon_color" v-model:size="form.tabs_icon_size" default-color="rgba(51,51,51,1)" slider-name="大小" :type-list="['color', 'size']" />
                 </el-form-item>
+                <el-form-item v-if="['4'].includes(data.tabs_theme)" label="标题上图">
+                    <div class="flex-col gap-10 w">
+                        <el-form-item label="圆角" label-width="40">
+                            <radius :value="form.tabs_top_img_radius"></radius>
+                        </el-form-item>
+                        <el-form-item label="高度" label-width="40">
+                            <slider v-model="form.tabs_top_img_height" :max="200"></slider>
+                        </el-form-item>
+                    </div>
+                </el-form-item>
                 <el-form-item label="图片设置">
                     <div class="flex-col gap-10 w">
                         <template v-if="['2', '4'].includes(data.tabs_theme)">

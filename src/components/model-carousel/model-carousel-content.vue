@@ -31,27 +31,44 @@
             <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">内容设置</div>
-                <div class="tips mt-10 mb-20 size-12">最多添加{{ form.carousel_list.length }}张图片，建议尺寸750*300px</div>
+                <div class="tips mt-10 mb-20 size-12">最多添加{{ carousel_list.length }}张图片，建议尺寸750*300px</div>
                 <div class="flex-col gap-20">
-                    <div v-for="(item, index) in form.carousel_list" :key="index" class="card-background box-shadow-sm re">
-                        <div class="flex-col align-c jc-c gap-20 w">
-                            <div class="upload_style">
-                                <upload v-model="item.carousel_img" :limit="1" size="100%">
-                                    <span class="upload-text">上传图片</span>
-                                </upload>
-                            </div>
-                            <el-form-item label="图片链接" class="w">
-                                <url-value v-model="item.carousel_link"></url-value>
-                            </el-form-item>
-                            <div class="upload_style">
-                                <upload v-model="item.carousel_video" :limit="1" type="video" size="100%">
-                                    <span class="upload-text">上传视频</span>
-                                </upload>
-                            </div>
-                            <el-form-item v-if="item.carousel_video.length > 0" label="按钮名称" class="w">
-                                <el-input v-model="item.video_title" placeholder="请输入视频按钮名称" clearable></el-input>
-                            </el-form-item>
-                        </div>
+                    <div v-for="(item, index) in carousel_list" :key="index" class="card-background box-shadow-sm re">
+                        <el-tabs v-model="item.tabs_name" class="content-tabs">
+                            <el-tab-pane label="内容设置" name="content">
+                                <div class="flex-col align-c jc-c gap-20 w">
+                                    <div class="upload_style">
+                                        <upload v-model="item.carousel_img" :limit="1" size="100%">
+                                            <span class="upload-text">上传图片</span>
+                                        </upload>
+                                    </div>
+                                    <el-form-item label="图片链接" class="w">
+                                        <url-value v-model="item.carousel_link"></url-value>
+                                    </el-form-item>
+                                    <div class="upload_style">
+                                        <upload v-model="item.carousel_video" :limit="1" type="video" size="100%">
+                                            <span class="upload-text">上传视频</span>
+                                        </upload>
+                                    </div>
+                                    <el-form-item v-if="item.carousel_video.length > 0" label="按钮名称" class="w">
+                                        <el-input v-model="item.video_title" placeholder="请输入视频按钮名称" clearable></el-input>
+                                    </el-form-item>
+                                </div>
+                            </el-tab-pane>
+                            <el-tab-pane label="样式设置" name="styles">
+                                <el-form-item label-width="0">
+                                    <div class="flex-col gap-10 w">
+                                        <div class="size-12">背景色</div>
+                                        <mult-color-picker :value="item.style.color_list" :type="item.style.direction" @update:value="(...value: [color_list[],  number]) => carousel_tabs_mult_color_picker_event(...value, index)"></mult-color-picker>
+                                        <div class="flex-row jc-sb align-c">
+                                            <div class="size-12">背景图</div>
+                                            <bg-btn-style v-model="item.style.background_img_style"></bg-btn-style>
+                                        </div>
+                                        <upload v-model="item.style.background_img" :limit="1" @update:model-value="carousel_tabs_background_img_change($event, index)"></upload>
+                                    </div>
+                                </el-form-item>
+                            </el-tab-pane>
+                        </el-tabs>
                         <el-icon class="iconfont icon-close-fillup size-16 abs cr-c top-de-5 right-de-5" @click="remove(index)" />
                     </div>
                 </div>
@@ -61,6 +78,7 @@
     </div>
 </template>
 <script setup lang="ts">
+import { isEmpty } from "lodash";
 const props = defineProps({
     value: {
         type: Object,
@@ -72,16 +90,48 @@ const state = reactive({
     form: props.value,
 });
 const { form } = toRefs(state);
+
+const carousel_list = computed(() => {
+    form.value.carousel_list.forEach((item: any) => {
+        item.tabs_name = "content";
+        if (isEmpty(item.style)) {
+            item.style = {
+                direction: '90deg',
+                color_list: [{ color: '', color_percentage: undefined }],
+                background_img_style: '2',
+                background_img: [],
+            }
+        }
+    });
+    return form.value.carousel_list;
+});
+
 const add = () => {
     form.value.carousel_list.push({
         carousel_img: [],
         carousel_video: [],
         carousel_link: {},
-        video_title: "视频名称"
+        video_title: "视频名称",
+        style: {
+            direction: '90deg',
+            color_list: [{ color: '', color_percentage: undefined }],
+            background_img_style: '2',
+            background_img: [],
+        }
     });
 };
 const remove = (index: number) => {
     form.value.carousel_list.splice(index, 1);
+};
+
+// 内容区域背景渐变设置
+const carousel_tabs_mult_color_picker_event = (arry: color_list[], type: number, index: number) => {
+    form.value.carousel_list[index].style.color_list = arry;
+    form.value.carousel_list[index].style.direction = type.toString();
+};
+// 内容区域背景图片设置
+const carousel_tabs_background_img_change = (arry: uploadList[], index: number) => {
+    form.value.carousel_list[index].style.background_img = arry;
 };
 </script>
 <style lang="scss" scoped>
@@ -89,7 +139,7 @@ const remove = (index: number) => {
     background: #fff;
     padding-left: 1.6rem;
     padding-right: 2rem;
-    padding-top: 4.6rem;
+    // padding-top: 4.6rem;
     padding-bottom: 1.6rem;
     :deep(.el-form-item) {
         margin-bottom: 0;
@@ -107,5 +157,26 @@ const remove = (index: number) => {
     color: #999999;
     text-align: left;
     font-style: normal;
+}
+
+:deep(.el-tabs.content-tabs) {
+    .el-tabs__header.is-top {
+        background: #fff;
+        margin: 0;
+        padding-top: 2rem;
+        padding-bottom: 1rem;
+    }
+    .el-tabs__item.is-top {
+        padding: 0;
+        align-items: center;
+        width: 10rem;
+        font-size: 1.4rem;
+    }
+    .el-tabs__content {
+        overflow: visible;
+    }
+    .el-tabs__active-bar{
+        width: 100%;
+    }
 }
 </style>

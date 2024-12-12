@@ -388,11 +388,11 @@ export const percentage_count = (num: number, container_size: number) => {
  * @returns boolean true表示相等，false表示不相等
  */
 export const areAllEqual = (a: number, b: number, c: number, d: number) => {
-    if (a === null || a === undefined || b === null || b === undefined || c === null || c === undefined || d === null || d === undefined) {
-      return false;
+    if (a == null || b == null || c == null || d == null) {
+        return false;
     }
     return a === b && b === c && c === d;
-  }
+}
 
 /**
  * 计算当前偏移量

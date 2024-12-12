@@ -18,6 +18,12 @@ interface carousel_list {
     carousel_video: uploadList[];
     carousel_link: object;
     video_title: string;
+    style: {
+        direction: string;
+        color_list: color_list[];
+        background_img_style: string;
+        background_img: uploadList[];
+    }
 }
 interface defaultTabs {
     content: {
@@ -104,7 +110,7 @@ const defaultTabs: defaultTabs = {
         // 选项卡风格
         tabs_theme: '0',
         // 是否置顶
-        tabs_top_up: '1',
+        tabs_top_up: '0',
         // 选项卡数据
         home_data: { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', title: '首页', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
         tabs_list: [
@@ -126,18 +132,36 @@ const defaultTabs: defaultTabs = {
                 carousel_video: [],
                 carousel_link: {},
                 video_title: '视频名称',
+                style: {
+                    direction: '90deg',
+                    color_list: [{ color: '', color_percentage: undefined }],
+                    background_img_style: '2',
+                    background_img: [],
+                }
             },
             {
                 carousel_img: [],
                 carousel_video: [],
                 carousel_link: {},
                 video_title: '视频名称',
+                style: {
+                    direction: '90deg',
+                    color_list: [{ color: '', color_percentage: undefined }],
+                    background_img_style: '2',
+                    background_img: [],
+                }
             },
             {
                 carousel_img: [],
                 carousel_video: [],
                 carousel_link: {},
                 video_title: '视频名称',
+                style: {
+                    direction: '90deg',
+                    color_list: [{ color: '', color_percentage: undefined }],
+                    background_img_style: '2',
+                    background_img: [],
+                }
             },
         ],
         // 轮播高度

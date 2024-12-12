@@ -59,6 +59,8 @@ interface DefaultProductList {
         tabs_icon_color: string,
         tabs_icon_size: number,
         is_tabs_img_background: string,
+        tabs_top_img_radius: radiusStyle;
+        tabs_top_img_height: number;
         tabs_img_radius: radiusStyle,
         tabs_img_height: number,
         tabs_spacing: number;
@@ -181,6 +183,14 @@ const defaultProductList: DefaultProductList = {
         tabs_icon_size_checked: 14,
         tabs_icon_color: 'rgba(51,51,51,1)',
         tabs_icon_size: 14,
+        tabs_top_img_radius: {
+            radius: 100,
+            radius_top_left: 100,
+            radius_top_right: 100,
+            radius_bottom_left: 100,
+            radius_bottom_right: 100,
+        },
+        tabs_top_img_height: 39,
         is_tabs_img_background: '0',
         tabs_img_radius: {
             radius: 0,
