@@ -234,6 +234,9 @@ const tabs_list_sort = (item: any) => {
 const tabs_add = () => {
     form.tabs_list.push({
         id: get_math(),
+        tabs_type: '0', 
+        tabs_img: [], 
+        tabs_icon: '',
         title: '',
         desc: '',
         data_type: '0',

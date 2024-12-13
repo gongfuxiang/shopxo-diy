@@ -26,6 +26,7 @@
                     </el-form-item>
                 </card-container>
             </template>
+            <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">图片设置</div>
                 <el-form-item label="圆角">

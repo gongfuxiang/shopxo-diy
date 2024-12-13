@@ -1,8 +1,8 @@
 <template>
     <div class="flex-row gap-10 jc-sb align-c">
-        <div class="tabs flex-row oh" :style="`column-gap: ${new_style.tabs_spacing}px;`">
+        <div class="tabs flex-row oh" :style="`column-gap: ${new_style.tabs_spacing}px;height: ${tabs_height}`">
             <template v-for="(item, index) in form.tabs_list" :key="index">
-                <div class="item nowrap flex-col jc-c" :class="tabs_theme + (index == activeIndex ? ' active' : '') + ((tabs_theme_index == '0' && tabs_theme_1_style) || tabs_theme_index == '1' || tabs_theme_index == '2' ? ' pb-0' : '')" :style="`row-gap: ${new_style.tabs_sign_spacing}px;`">
+                <div class="item nowrap flex-col jc-c" :class="tabs_theme + (index == activeIndex ? ' active' : '') + ((tabs_theme_index == '0' && tabs_theme_1_style) || tabs_theme_index == '1' || tabs_theme_index == '2' ? ' pb-0' : '')" :style="`flex:0 0 auto;row-gap: ${new_style.tabs_sign_spacing}px;`">
                     <template v-if="!isEmpty(item.img)">
                         <image-empty v-model="item.img[0]" class="img" :style="top_img_style('data')" fit="contain" error-img-style="width:3.9rem;height:3.9rem;"></image-empty>
                     </template>
@@ -11,10 +11,14 @@
                     </template>
                     <template v-if="item.tabs_type == '1'">
                         <template v-if="!isEmpty(item.tabs_icon)">
-                            <el-icon :class="`iconfont ${ 'icon-' + item.tabs_icon}`" class="title" :style="icon_style(index) + (index == activeIndex ? '' : padding_bottom)" />
+                            <div class="title" :style="index == activeIndex ? ['2', '4'].includes(tabs_theme_index) ? tabs_check : '' : padding_bottom">
+                                <el-icon :class="`iconfont ${ 'icon-' + item.tabs_icon}`" :style="icon_style(index)" />
+                            </div>
                         </template>
                         <template v-else>
-                            <image-empty v-model="item.tabs_img[0]" fit="contain" class="title" :style="img_style() + (index == activeIndex ? '' : padding_bottom)" error-img-style="width: 2rem;height: 2rem;" />
+                            <div class="title" :style="index == activeIndex ? new_style.is_tabs_img_background == '1' && ['2', '4'].includes(tabs_theme_index) ? tabs_check : '' : padding_bottom">
+                                <image-empty v-model="item.tabs_img[0]" fit="contain" :style="img_style()" error-img-style="width: 2rem;height: 2rem;" />
+                            </div>
                         </template>
                     </template>
                     <template v-else>
@@ -78,6 +82,46 @@ const tabs_theme_1_style = computed(() => {
     return new_style.value.tabs_one_theme == '1';
 });
 
+const tabs_height = computed(() => {
+    const DEFAULT_HEIGHT_THEME_2 = 12;
+    const DEFAULT_HEIGHT_THEME_4 = 4;
+
+    let default_height = 0;
+    const { tabs_size_checked, tabs_size, tabs_icon_size_checked = 0, tabs_icon_size = 0, tabs_img_height = 0, tabs_top_img_height = 0, tabs_sign_spacing = 0 } = new_style.value || {};
+
+    if (form.value?.tabs_theme === '2') {
+        default_height = DEFAULT_HEIGHT_THEME_2; // 选中的时候,风格二的内间距
+    } else if (form.value?.tabs_theme === '4') {
+        default_height = DEFAULT_HEIGHT_THEME_4 + tabs_top_img_height + tabs_sign_spacing; // 选中的时候,风格二的内间距 加上上边图片的大小和上边图片之间的间距
+    }
+
+    // 筛选出所有的icon
+    const is_icon = form.value?.tabs_list?.findIndex((item: { tabs_type: string, tabs_icon: string }) => item.tabs_type === '1' && !isEmpty(item.tabs_icon)) ?? -1;
+
+    // 如果有icon，则取选中的icon大小和未选中的icon大小取最大值，作为图标的高度
+    let icon_height = 0;
+    if (is_icon > -1) {
+        icon_height = Math.max(tabs_icon_size_checked + default_height, tabs_icon_size);
+    }
+
+    // 筛选出所有的图片, 没有选择图标的时候默认是图片
+    const is_img = form.value?.tabs_list?.findIndex((item: { tabs_type: string, tabs_icon: string }) => item.tabs_type === '1' && isEmpty(item.tabs_icon)) ?? -1;
+
+    // 选项卡高度 五个值，作为判断依据，因为图片没有未选中的大小设置，所以高度判断的时候只取选中的高度, 其余的icon和标题都分别取选中和未选中的大小对比，取出最大的值，作为选项卡的高度，避免选项卡切换时会出现抖动问题
+    const height = Math.max(
+        tabs_size_checked + default_height,
+        tabs_size,
+        icon_height,
+        is_img > -1 ? (tabs_img_height + default_height) : 0
+    );
+
+    try {
+        return ['2', '4'].includes(form.value?.tabs_theme) ? `${height}px;` : '100%;';
+    } catch (error) {
+        return '100%;';
+    }
+});
+
 // 选中的背景渐变色样式
 const tabs_check = computed(() => {
     const new_gradient_params = {
@@ -114,21 +158,13 @@ const icon_style = (index: number) => {
     let style = `font-size: ${new_style.value.tabs_icon_size}px;line-height: ${new_style.value.tabs_icon_size}px;color:${new_style.value.tabs_icon_color};`;
     // 选中的状态
     if (index == props.activeIndex) {
-        let checked_style = `font-size: ${new_style.value.tabs_icon_size_checked}px;line-height: ${new_style.value.tabs_icon_size_checked}px;color:${new_style.value.tabs_icon_color_checked};`;
-        if (['2', '4'].includes(tabs_theme_index.value)) {
-            checked_style += tabs_check.value;
-        }
-        style = checked_style;
+        style = `font-size: ${new_style.value.tabs_icon_size_checked}px;line-height: ${new_style.value.tabs_icon_size_checked}px;color:${new_style.value.tabs_icon_color_checked};`;
     }
     return style;
 };
 
 const img_style = () => {
-    let style = `height: ${new_style.value.tabs_img_height}px;` + radius_computer(new_style.value.tabs_img_radius);
-    if (new_style.value.is_tabs_img_background == '1' && ['2', '4'].includes(tabs_theme_index.value)) {
-        style += tabs_check.value;
-    }
-    return style;
+    return `height: ${new_style.value.tabs_img_height}px;` + radius_computer(new_style.value.tabs_img_radius);
 };
 
 const top_img_style = (type: string) => {
@@ -238,7 +274,6 @@ const icon_tabs_check = () => {
         &.tabs-style-3 {
             &.active {
                 .title {
-                    background: #ff2222;
                     border-radius: 2rem;
                     padding: 0.6rem 1.2rem;
                     color: #fff;
@@ -261,11 +296,8 @@ const icon_tabs_check = () => {
             align-items: center;
             &.active {
                 .title {
-                    font-size: 1.1rem;
-                    background: #ff5e5e;
                     border-radius: 2rem;
                     padding: 0.2rem 0.7rem;
-                    color: #fff;
                 }
                 .img {
                     border-color: #ff5e5e;
