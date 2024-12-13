@@ -287,8 +287,8 @@ const swiper_bg_style = computed(() => {
         return '';
     }
     const style = form.value?.carousel_list?.[actived_index.value]?.style;
-    if (style && !isEmpty(style.color_list)) {
-        const color_list = style.color_list;
+    if (style && !isEmpty(style?.color_list)) {
+        const color_list = style?.color_list || [];
         const list = color_list.filter((item: { color: string }) => !isEmpty(item.color));
         if (list.length > 0) {
             try {
@@ -306,7 +306,7 @@ const swiper_bg_img_style = computed(() => {
     if (!props.isCommon) {
         return '';
     }
-    if (!isEmpty(form.value.carousel_list[actived_index.value].style.background_img)) {
+    if (!isEmpty(form.value.carousel_list[actived_index.value]?.style?.background_img)) {
         return background_computer(form.value.carousel_list[actived_index.value].style);
     }
     return '';
