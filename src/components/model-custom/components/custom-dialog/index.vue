@@ -182,7 +182,7 @@ const get_table_list = (val: any) => {
                 pagination_data.value.data_total = res.data.data_total;
             }
         }).catch((error) => {
-            // 接口取消的时候，不处理loading
+            // 接口因为多次调用取消的时候，不处理loading
             if (error != 'canceled') {
                 loading.value = false;
             }
