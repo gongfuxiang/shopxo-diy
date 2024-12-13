@@ -5,15 +5,7 @@
             <el-form :model="form" label-width="70">
                 <div class="mb-12">通用</div>
                 <el-form-item label="底部背景">
-                    <div v-if="isMultBackground" class="flex-col gap-10 w">
-                        <div class="size-12">背景色</div>
-                        <mult-color-picker :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
-                        <div class="flex-row jc-sb align-c">
-                            <div class="size-12">背景图</div>
-                            <bg-btn-style v-model="form.background_img_style"></bg-btn-style>
-                        </div>
-                        <upload v-model="form.background_img" :limit="1" @update:model-value="background_img_change"></upload>
-                    </div>
+                    <background-common v-if="isMultBackground" v-model:color_list="form.color_list" v-model:direction="form.direction" v-model:img_style="form.background_img_style" v-model:img="form.background_img" @mult_color_picker_event="mult_color_picker_event" />
                     <div v-else>
                         <color-picker v-model="form.color_list[0].color"></color-picker>
                     </div>

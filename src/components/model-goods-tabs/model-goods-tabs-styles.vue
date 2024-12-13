@@ -54,15 +54,7 @@
                     <slider v-model="form.tabs_spacing" :max="100"></slider>
                 </el-form-item>
                 <el-form-item label="选项卡背景">
-                    <div class="flex-col gap-10 w">
-                        <div class="size-12">背景色</div>
-                        <mult-color-picker :value="form.tabs_bg_color_list" :type="form.tabs_bg_direction" @update:value="tabs_bg_mult_color_picker_event"></mult-color-picker>
-                        <div class="flex-row jc-sb align-c">
-                            <div class="size-12">背景图</div>
-                            <bg-btn-style v-model="form.tabs_bg_background_img_style"></bg-btn-style>
-                        </div>
-                        <upload v-model="form.tabs_bg_background_img" :limit="1" @update:model-value="tabs_bg_background_img_change"></upload>
-                    </div>
+                    <background-common v-model:color_list="form.tabs_bg_color_list" v-model:direction="form.tabs_bg_direction" v-model:img_style="form.tabs_bg_background_img_style" v-model:img="form.tabs_bg_background_img" @mult_color_picker_event="tabs_bg_mult_color_picker_event" />
                 </el-form-item>
                 <el-form-item label="圆角">
                     <radius :value="form.tabs_radius"></radius>
@@ -75,15 +67,7 @@
             <card-container>
                 <div class="mb-12">内容样式</div>
                 <el-form-item label="内容背景">
-                    <div class="flex-col gap-10 w">
-                        <div class="size-12">背景色</div>
-                        <mult-color-picker :value="form.shop_content_color_list" :type="form.shop_content_direction" @update:value="shop_content_mult_color_picker_event"></mult-color-picker>
-                        <div class="flex-row jc-sb align-c">
-                            <div class="size-12">背景图</div>
-                            <bg-btn-style v-model="form.shop_content_background_img_style"></bg-btn-style>
-                        </div>
-                        <upload v-model="form.shop_content_background_img" :limit="1" @update:model-value="shop_content_background_img_change"></upload>
-                    </div>
+                    <background-common v-model:color_list="form.shop_content_color_list" v-model:direction="form.shop_content_direction" v-model:img_style="form.shop_content_background_img_style" v-model:img="form.shop_content_background_img" @mult_color_picker_event="shop_content_mult_color_picker_event" />
                 </el-form-item>
                 <el-form-item label="圆角">
                     <radius :value="form.shop_content_radius"></radius>
@@ -102,15 +86,7 @@
             <card-container>
                 <div class="mb-12">商品样式</div>
                 <el-form-item v-if="theme != '6'" label="商品背景">
-                    <div class="flex-col gap-10 w">
-                        <div class="size-12">背景色</div>
-                        <mult-color-picker :value="form.shop_color_list" :type="form.shop_direction" @update:value="mult_color_picker_event"></mult-color-picker>
-                        <div class="flex-row jc-sb align-c">
-                            <div class="size-12">背景图</div>
-                            <bg-btn-style v-model="form.shop_background_img_style"></bg-btn-style>
-                        </div>
-                        <upload v-model="form.shop_background_img" :limit="1" @update:model-value="background_img_change"></upload>
-                    </div>
+                    <background-common v-model:color_list="form.shop_color_list" v-model:direction="form.shop_direction" v-model:img_style="form.shop_background_img_style" v-model:img="form.shop_background_img" @mult_color_picker_event="mult_color_picker_event" />
                 </el-form-item>
                 <template v-if="data.is_show.includes('title')">
                     <el-form-item label="商品名称">

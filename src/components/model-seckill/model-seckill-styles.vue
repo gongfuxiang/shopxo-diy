@@ -20,15 +20,7 @@
                         <color-text-size-group v-model:color="form.head_button_color" v-model:size="form.head_button_size" :default-color="clone_form.head_button_color" :type-list="['color', 'size']"></color-text-size-group>
                     </el-form-item>
                     <el-form-item label="头部背景">
-                        <div class="flex-col gap-10">
-                            <div class="size-12">背景色</div>
-                            <mult-color-picker :value="form.header_background_color_list" :type="form.header_background_direction" @update:value="mult_color_picker_event"></mult-color-picker>
-                            <div class="flex-row jc-sb align-c">
-                                <div class="size-12">背景图</div>
-                                <bg-btn-style v-model="form.header_background_img_style"></bg-btn-style>
-                            </div>
-                            <upload v-model="form.header_background_img" :limit="1"></upload>
-                        </div>
+                        <background-common v-model:color_list="form.header_background_color_list" v-model:direction="form.header_background_direction" v-model:img_style="form.header_background_img_style" v-model:img="form.header_background_img" @mult_color_picker_event="mult_color_picker_event" />
                     </el-form-item>
                     <el-form-item label="圆角">
                         <radius :value="form.seckill_head_radius"></radius>
@@ -42,15 +34,7 @@
             <card-container>
                 <div class="mb-12">商品样式</div>
                 <el-form-item label="商品背景">
-                    <div class="flex-col gap-10 w">
-                        <div class="size-12">背景色</div>
-                        <mult-color-picker :value="form.shop_color_list" :type="form.shop_direction" @update:value="shop_mult_color_picker_event"></mult-color-picker>
-                        <div class="flex-row jc-sb align-c">
-                            <div class="size-12">背景图</div>
-                            <bg-btn-style v-model="form.shop_background_img_style"></bg-btn-style>
-                        </div>
-                        <upload v-model="form.shop_background_img" :limit="1" @update:model-value="shop_background_img_change"></upload>
-                    </div>
+                    <background-common v-model:color_list="form.shop_color_list" v-model:direction="form.shop_direction" v-model:img_style="form.shop_background_img_style" v-model:img="form.shop_background_img" @mult_color_picker_event="shop_mult_color_picker_event" />
                 </el-form-item>
                 <template v-if="data.is_show.includes('title')">
                     <el-form-item label="商品名称">

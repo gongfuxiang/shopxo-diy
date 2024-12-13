@@ -52,14 +52,7 @@
                         <upload v-model="form.up_slide_logo" :limit="1"></upload>
                     </el-form-item>
                     <el-form-item label="上滑背景">
-                        <div class="w h flex-col gap-10">
-                            <mult-color-picker :value="form?.up_slide_background_color_list || []" :type="form?.up_slide_background_direction || '180deg'" @update:value="up_slide_mult_color_picker_event"></mult-color-picker>
-                            <div class="flex-row jc-sb align-c">
-                                <div class="size-12">背景图</div>
-                                <bg-btn-style v-model="form.up_slide_background_img_style"></bg-btn-style>
-                            </div>
-                            <upload v-model="form.up_slide_background_img" :limit="1"></upload>
-                        </div>
+                        <background-common v-model:color_list="form.up_slide_background_color_list" v-model:direction="form.up_slide_background_direction" v-model:img_style="form.up_slide_background_img_style" v-model:img="form.up_slide_background_img" @mult_color_picker_event="up_slide_mult_color_picker_event" />
                     </el-form-item>
                 </template>
                 <el-form-item label="返回颜色">
@@ -77,15 +70,7 @@
                 <card-container>
                     <div class="mb-12">定位设置</div>
                     <el-form-item label="定位背景">
-                        <div class="flex-col gap-10 w">
-                            <div class="size-12">背景色</div>
-                            <mult-color-picker :value="form.location_color_list" :type="form.location_direction" @update:value="location_mult_color_picker_event"></mult-color-picker>
-                            <div class="flex-row jc-sb align-c">
-                                <div class="size-12">背景图</div>
-                                <bg-btn-style v-model="form.location_background_img_style"></bg-btn-style>
-                            </div>
-                            <upload v-model="form.location_background_img" :limit="1" @update:model-value="location_background_img_change"></upload>
-                        </div>
+                        <background-common v-model:color_list="form.location_color_list" v-model:direction="form.location_direction" v-model:img_style="form.location_background_img_style" v-model:img="form.location_background_img" @mult_color_picker_event="location_mult_color_picker_event" />
                     </el-form-item>
                     <el-form-item label="定位颜色">
                         <color-picker v-model="form.location_color" default-color="#333"></color-picker>

@@ -31,7 +31,7 @@
             <card-container>
                 <div class="mb-12">选项卡设置</div>
                 <div class="nav-list">
-                    <drag :data="form.tabs_list" type="card" icon-position="top" :space-col="20" @click="tabs_list_click" @remove="tabs_list_remove" @on-sort="tabs_list_sort">
+                    <drag :data="tabs_list" type="card" icon-position="top" :space-col="20" @click="tabs_list_click" @remove="tabs_list_remove" @on-sort="tabs_list_sort">
                         <template #default="{ row, index }">
                             <div class="flex-col w">
                                 <el-form-item label="数据类型" class="w mb-10">
@@ -86,6 +86,7 @@
     </div>
 </template>
 <script setup lang="ts">
+import { isEmpty } from 'lodash';
 import { get_math, tabs_style } from '@/utils';
 import { commonStore } from '@/store';
 const common_store = commonStore();
@@ -138,16 +139,6 @@ const base_list = reactive({
         { name: '选择文章', value: '0' },
         { name: '筛选文章', value: '1' },
     ],
-    // article_category_list: [] as select_1[],
-    // sort_list: [
-    //     { name: '综合', value: '0' },
-    //     { name: '时间', value: '1' },
-    //     { name: '浏览量', value: '2' },
-    // ],
-    // order_by_rule_list: [
-    //     { name: '降序（desc）', value: '0' },
-    //     { name: '升序（asc）', value: '1' },
-    // ],
     field_show_list: [
         { name: '文章标题', value: '3' },
         { name: '日期时间', value: '0' },
@@ -157,12 +148,6 @@ const base_list = reactive({
 });
 const emits = defineEmits(['theme_change']);
 onMounted(() => {
-    // nextTick(() => {
-    //     // 定时获取common_store.common.article_category的数据，直到拿到值或者关闭页面为止
-    //     if (common_store.common.article_category.length > 0) {
-    //         base_list.article_category_list = common_store.common.article_category;
-    //     }
-    // });
     // 如果历史数据没有操作，则修改默认值
     const { content_img_width = '', content_img_height = '' } = styles;
     // 宽度和高度为空的时候，并且不是无图模式和左右滑动模式的时候，修改默认值
@@ -173,6 +158,16 @@ onMounted(() => {
         }
     }
 });
+
+const tabs_list = computed(() => {
+    return form.tabs_list.map((item: any) => ({
+        ...item,
+        tabs_img: isEmpty(item.data_type) ? [] : item.tabs_img,
+        tabs_icon: isEmpty(item.data_type) ? '' : item.tabs_icon,
+        tabs_type: isEmpty(item.data_type) ? '0' : item.data_type,
+    }));
+});
+
 // 监听tabs_theme_list的变化
 const article_theme_change = (val: any) => {
     if (val == '3' || val == '4') {

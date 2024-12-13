@@ -17,15 +17,7 @@
                         <color-picker v-model="form.button_inner_color" default-color="#fff"></color-picker>
                     </el-form-item>
                     <el-form-item v-if="content.search_type != 'img'" label="背景设置">
-                        <div class="flex-col gap-10 w">
-                            <div class="size-12">背景色</div>
-                            <mult-color-picker :value="form.search_botton_color_list" :type="form.search_botton_direction" @update:value="mult_color_picker_event"></mult-color-picker>
-                            <div class="flex-row jc-sb align-c">
-                                <div class="size-12">背景图</div>
-                                <bg-btn-style v-model="form.search_botton_background_img_style"></bg-btn-style>
-                            </div>
-                            <upload v-model="form.search_botton_background_img" :limit="1"></upload>
-                        </div>
+                        <background-common v-model:color_list="form.search_botton_color_list" v-model:direction="form.search_botton_direction" v-model:img_style="form.search_botton_background_img_style" v-model:img="form.search_botton_background_img" @mult_color_picker_event="mult_color_picker_event" />
                     </el-form-item>
                     <el-form-item label="按钮圆角">
                         <radius :value="form.search_button_radius" @update:value="button_radius_change"></radius>

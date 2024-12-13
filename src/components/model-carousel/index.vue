@@ -1,6 +1,7 @@
 <template>
-    <div :style="style_container + swiper_bg_style">
-        <div class="re" :style="style_img_container + swiper_bg_img_style">
+    <div class="re" :style="style_container + swiper_bg_style">
+        <div class="abs z-i top-0 w h" :style="swiper_bg_img_style"></div>
+        <div class="re" :style="style_img_container">
             <div ref="swiperSize" class="swiper-container w h oh">
                 <swiper
                     :key="carouselKey"
@@ -296,8 +297,9 @@ const swiper_bg_style = computed(() => {
             } catch (error) {
                 return '';
             }
+        } else {
+            return '';
         }
-        return '';
     }
     return '';
 });
@@ -307,7 +309,7 @@ const swiper_bg_img_style = computed(() => {
         return '';
     }
     if (!isEmpty(form.value.carousel_list[actived_index.value]?.style?.background_img)) {
-        return background_computer(form.value.carousel_list[actived_index.value].style);
+        return background_computer(form.value.carousel_list[actived_index.value].style) + `filter: blur(${form.value.carousel_list[actived_index.value]?.style?.background_img_blur || 0}px);`;
     }
     return '';
 });

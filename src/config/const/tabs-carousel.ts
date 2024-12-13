@@ -23,6 +23,7 @@ interface carousel_list {
         color_list: color_list[];
         background_img_style: string;
         background_img: uploadList[];
+        background_img_blur: number;
     }
 }
 interface defaultTabs {
@@ -114,7 +115,7 @@ const defaultTabs: defaultTabs = {
         // 选项卡数据
         home_data: { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', title: '首页', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
         tabs_list: [
-            { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', title: '热门推荐', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
+            { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '',  title: '热门推荐', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
             { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试一', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
             { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试二', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
         ],
@@ -137,6 +138,7 @@ const defaultTabs: defaultTabs = {
                     color_list: [{ color: '', color_percentage: undefined }],
                     background_img_style: '2',
                     background_img: [],
+                    background_img_blur: 0,
                 }
             },
             {
@@ -149,6 +151,7 @@ const defaultTabs: defaultTabs = {
                     color_list: [{ color: '', color_percentage: undefined }],
                     background_img_style: '2',
                     background_img: [],
+                    background_img_blur: 0,
                 }
             },
             {
@@ -161,6 +164,7 @@ const defaultTabs: defaultTabs = {
                     color_list: [{ color: '', color_percentage: undefined }],
                     background_img_style: '2',
                     background_img: [],
+                    background_img_blur: 0,
                 }
             },
         ],

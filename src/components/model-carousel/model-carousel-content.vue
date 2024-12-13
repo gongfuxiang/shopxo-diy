@@ -57,14 +57,10 @@
                             </el-tab-pane>
                             <el-tab-pane label="样式设置" name="styles">
                                 <el-form-item label-width="0">
-                                    <div class="flex-col gap-10 w">
-                                        <div class="size-12">背景色</div>
-                                        <mult-color-picker :value="item.style.color_list" :type="item.style.direction" @update:value="(...value: [color_list[],  number]) => carousel_tabs_mult_color_picker_event(...value, index)"></mult-color-picker>
-                                        <div class="flex-row jc-sb align-c">
-                                            <div class="size-12">背景图</div>
-                                            <bg-btn-style v-model="item.style.background_img_style"></bg-btn-style>
-                                        </div>
-                                        <upload v-model="item.style.background_img" :limit="1" @update:model-value="carousel_tabs_background_img_change($event, index)"></upload>
+                                    <background-common v-model:color_list="item.style.color_list" v-model:direction="item.style.direction" v-model:img_style="item.style.background_img_style" v-model:img="item.style.background_img" :tooltip-content="'1.背景图的优先级比背景色的优先级高<br/>2.覆盖通用背景样式'" @mult_color_picker_event="(...value: [color_list[],  number]) => carousel_tabs_mult_color_picker_event(...value, index)" />
+                                    <div class="flex-col w gap-10">
+                                        <div class="size-12">背景图模糊</div>
+                                        <slider v-model="item.style.background_img_blur" :min="0" :max="100"></slider>
                                     </div>
                                 </el-form-item>
                             </el-tab-pane>
@@ -100,6 +96,7 @@ const carousel_list = computed(() => {
                 color_list: [{ color: '', color_percentage: undefined }],
                 background_img_style: '2',
                 background_img: [],
+                background_img_blur: 0,
             }
         }
     });
@@ -117,6 +114,7 @@ const add = () => {
             color_list: [{ color: '', color_percentage: undefined }],
             background_img_style: '2',
             background_img: [],
+            background_img_blur: 0,
         }
     });
 };

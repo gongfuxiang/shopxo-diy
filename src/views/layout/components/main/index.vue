@@ -163,7 +163,15 @@ const set_padding_top_value = () => {
         tabs_data.value.forEach((item: any) => {
             item.com_data.style.common_style.padding_top_safe_value = common_store.header_height;
         });
+        // 处理另外一个数组的时候，将所有的padding_top_safe_value设置为0
+        diy_data.value.forEach((item: any) => {
+            item.com_data.style.common_style.padding_top_safe_value = 0;
+        });
     } else if (diy_data.value.length > 0) {
+        // 处理另外一个数组的时候，将所有的padding_top_safe_value设置为0
+        tabs_data.value.forEach((item: any) => {
+            item.com_data.style.common_style.padding_top_safe_value = 0;
+        });
         // 初始数据为0
         let padding_top_index = 0;
         // 如果前几个为悬浮按钮，则加一，找到不是悬浮按钮的第一个处理

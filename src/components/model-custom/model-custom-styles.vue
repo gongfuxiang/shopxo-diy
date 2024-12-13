@@ -28,15 +28,7 @@
             <card-container>
                 <div class="mb-12">数据样式</div>
                 <el-form-item label="背景">
-                    <div class="flex-col gap-10 w">
-                        <div class="size-12">背景色</div>
-                        <mult-color-picker :value="form.data_style.color_list" :type="form.data_style.direction" @update:value="mult_color_picker_event"></mult-color-picker>
-                        <div class="flex-row jc-sb align-c">
-                            <div class="size-12">背景图</div>
-                            <bg-btn-style v-model="form.data_style.background_img_style"></bg-btn-style>
-                        </div>
-                        <upload v-model="form.data_style.background_img" :limit="1"></upload>
-                    </div>
+                    <background-common v-model:color_list="form.data_style.color_list" v-model:direction="form.data_style.direction" v-model:img_style="form.data_style.background_img_style" v-model:img="form.data_style.background_img" @mult_color_picker_event="mult_color_picker_event" />
                 </el-form-item>
                 <el-form-item label="外间距">
                     <margin :value="form.data_style"></margin>

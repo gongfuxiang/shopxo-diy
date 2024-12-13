@@ -68,15 +68,7 @@
         <card-container>
             <div class="mb-12">数据样式</div>
             <el-form-item label="背景">
-                <div class="flex-col gap-10 w">
-                    <div class="size-12">背景色</div>
-                    <mult-color-picker :key="form.carouselKey" :value="form.data_color_list" :type="form.data_direction" @update:value="data_mult_color_picker_event"></mult-color-picker>
-                    <div class="flex-row jc-sb align-c">
-                        <div class="size-12">背景图</div>
-                        <bg-btn-style v-model="form.data_background_img_style"></bg-btn-style>
-                    </div>
-                    <upload v-model="form.data_background_img" :limit="1"></upload>
-                </div>
+                <background-common :key="form.carouselKey" v-model:color_list="form.data_color_list" v-model:direction="form.data_direction" v-model:img_style="form.data_background_img_style" v-model:img="form.data_background_img" @mult_color_picker_event="data_mult_color_picker_event" />
             </el-form-item>
             <el-form-item v-if="tabs_content.data_type == 'custom'" label="外间距">
                 <margin :key="form.carouselKey" :value="form.data_chunk_margin" @update:value="data_chunk_margin_change"></margin>
@@ -143,15 +135,7 @@
                 </template>
             </template>
             <el-form-item label="背景">
-                <div class="flex-col gap-10 w">
-                    <div class="size-12">背景色</div>
-                    <mult-color-picker :key="form.carouselKey" :value="form.goods_color_list" :type="form.goods_direction" @update:value="goods_mult_color_picker_event"></mult-color-picker>
-                    <div class="flex-row jc-sb align-c">
-                        <div class="size-12">背景图</div>
-                        <bg-btn-style v-model="form.goods_background_img_style"></bg-btn-style>
-                    </div>
-                    <upload v-model="form.goods_background_img" :limit="1"></upload>
-                </div>
+                <background-common :key="form.carouselKey" v-model:color_list="form.goods_color_list" v-model:direction="form.goods_direction" v-model:img_style="form.goods_background_img_style" v-model:img="form.goods_background_img" @mult_color_picker_event="goods_mult_color_picker_event" />
             </el-form-item>
             <el-form-item label="内间距">
                 <padding :key="form.carouselKey" :value="form.goods_chunk_padding" @update:value="goods_chunk_padding_change"></padding>
@@ -165,15 +149,7 @@
     <card-container class="mb-8">
         <div class="mb-12">通用样式</div>
         <el-form-item label="底部背景">
-            <div class="flex-col gap-10 w">
-                <div class="size-12">背景色</div>
-                <mult-color-picker :key="form.carouselKey" :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
-                <div class="flex-row jc-sb align-c">
-                    <div class="size-12">背景图</div>
-                    <bg-btn-style v-model="form.background_img_style"></bg-btn-style>
-                </div>
-                <upload v-model="form.background_img" :limit="1"></upload>
-            </div>
+            <background-common :key="form.carouselKey" v-model:color_list="form.color_list" v-model:direction="form.direction" v-model:img_style="form.background_img_style" v-model:img="form.background_img" @mult_color_picker_event="mult_color_picker_event" />
         </el-form-item>
         <el-form-item v-if="tabs_content.data_type != 'custom'" label="内间距">
             <padding :key="form.carouselKey" :value="form.chunk_padding" @update:value="chunk_padding_change"></padding>

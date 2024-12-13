@@ -60,15 +60,7 @@
                     </el-form-item>
                 </template>
                 <el-form-item label="容器背景">
-                    <div class="flex-col gap-10 w">
-                        <div class="size-12">背景色</div>
-                        <mult-color-picker :value="form.container_color_list" :type="form.container_direction" @update:value="mult_color_picker_event"></mult-color-picker>
-                        <div class="flex-row jc-sb align-c">
-                            <div class="size-12">背景图</div>
-                            <bg-btn-style v-model="form.container_background_img_style"></bg-btn-style>
-                        </div>
-                        <upload v-model="form.container_background_img" :limit="1"></upload>
-                    </div>
+                    <background-common v-model:color_list="form.container_color_list" v-model:direction="form.container_direction" v-model:img_style="form.container_background_img_style" v-model:img="form.container_background_img" @mult_color_picker_event="mult_color_picker_event" />
                 </el-form-item>
                 <el-form-item label="容器圆角">
                     <radius :value="form.container_radius"></radius>

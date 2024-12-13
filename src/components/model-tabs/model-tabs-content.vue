@@ -38,7 +38,7 @@
                             </div>
                         </el-form-item>
                     </div>
-                    <drag :data="form.tabs_list" type="card" :space-col="25" @remove="remove" @on-sort="on_sort">
+                    <drag :data="tabs_list" type="card" :space-col="25" @remove="remove" @on-sort="on_sort">
                         <template #default="scoped">
                             <div class="flex-col align-c jc-s gap-20 flex-1 w">
                                 <el-form-item label="数据类型" class="w mb-0">
@@ -80,6 +80,7 @@
 </template>
 <script setup lang="ts">
 import { get_math, tabs_style } from '@/utils';
+import { isEmpty } from 'lodash';
 import { commonStore } from '@/store';
 const common_store = commonStore();
 
@@ -99,6 +100,16 @@ const state = reactive({
     styles: props.tabStyle,
 });
 const { form, styles } = toRefs(state);
+
+const tabs_list = computed(() => {
+    return form.value.tabs_list.map((item: any) => ({
+        ...item,
+        tabs_img: isEmpty(item.data_type) ? [] : item.tabs_img,
+        tabs_icon: isEmpty(item.data_type) ? '' : item.tabs_icon,
+        tabs_type: isEmpty(item.data_type) ? '0' : item.data_type,
+    }));
+});
+
 const add = () => {
     form.value.tabs_list.push({
         id: get_math(),

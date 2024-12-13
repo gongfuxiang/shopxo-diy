@@ -44,15 +44,7 @@
                     <slider v-model="form.tabs_spacing" :max="100"></slider>
                 </el-form-item>
                 <el-form-item label="选项卡背景">
-                    <div class="flex-col gap-10 w">
-                        <div class="size-12">背景色</div>
-                        <mult-color-picker :value="form.tabs_bg_color_list" :type="form.tabs_bg_direction" @update:value="tabs_bg_mult_color_picker_event"></mult-color-picker>
-                        <div class="flex-row jc-sb align-c">
-                            <div class="size-12">背景图</div>
-                            <bg-btn-style v-model="form.tabs_bg_background_img_style"></bg-btn-style>
-                        </div>
-                        <upload v-model="form.tabs_bg_background_img" :limit="1" @update:model-value="tabs_bg_background_img_change"></upload>
-                    </div>
+                    <background-common v-model:color_list="form.tabs_bg_color_list" v-model:direction="form.tabs_bg_direction" v-model:img_style="form.tabs_bg_background_img_style" v-model:img="form.tabs_bg_background_img" @mult_color_picker_event="tabs_bg_mult_color_picker_event" />
                 </el-form-item>
                 <el-form-item label="圆角">
                     <radius :value="form.tabs_radius"></radius>
@@ -65,15 +57,7 @@
             <card-container>
                 <div class="mb-12">内容样式</div>
                 <el-form-item label="内容背景">
-                    <div class="flex-col gap-10 w">
-                        <div class="size-12">背景色</div>
-                        <mult-color-picker :value="form.article_content_color_list" :type="form.article_content_direction" @update:value="article_content_mult_color_picker_event"></mult-color-picker>
-                        <div class="flex-row jc-sb align-c">
-                            <div class="size-12">背景图</div>
-                            <bg-btn-style v-model="form.article_content_background_img_style"></bg-btn-style>
-                        </div>
-                        <upload v-model="form.article_content_background_img" :limit="1" @update:model-value="article_content_background_img_change"></upload>
-                    </div>
+                    <background-common v-model:color_list="form.article_content_color_list" v-model:direction="form.article_content_direction" v-model:img_style="form.article_content_background_img_style" v-model:img="form.article_content_background_img" @mult_color_picker_event="article_content_mult_color_picker_event" />
                 </el-form-item>
                 <el-form-item label="圆角">
                     <radius :value="form.article_content_radius"></radius>
@@ -92,15 +76,7 @@
             <card-container>
                 <div class="mb-12">文章样式</div>
                 <el-form-item v-if="theme != '3'" label="文章背景">
-                    <div class="flex-col gap-10 w">
-                        <div class="size-12">背景色</div>
-                        <mult-color-picker :value="form.article_color_list" :type="form.article_direction" @update:value="mult_color_picker_event"></mult-color-picker>
-                        <div class="flex-row jc-sb align-c">
-                            <div class="size-12">背景图</div>
-                            <bg-btn-style v-model="form.article_background_img_style"></bg-btn-style>
-                        </div>
-                        <upload v-model="form.article_background_img" :limit="1" @update:model-value="background_img_change"></upload>
-                    </div>
+                    <background-common v-model:color_list="form.article_color_list" v-model:direction="form.article_direction" v-model:img_style="form.article_background_img_style" v-model:img="form.article_background_img" @mult_color_picker_event="mult_color_picker_event" />
                 </el-form-item>
                 <el-form-item label="文章名称">
                     <color-text-size-group v-model:color="form.name_color" v-model:typeface="form.name_weight" v-model:size="form.name_size" :label-width="data.article_theme == '4' && data.name_float == '1' ? 60 : 40">

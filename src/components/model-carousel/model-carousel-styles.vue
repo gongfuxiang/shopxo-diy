@@ -5,15 +5,7 @@
                 <card-container>
                     <div class="mb-12">内容设置</div>
                     <el-form-item label="内容背景">
-                        <div class="flex-col gap-10 w">
-                            <div class="size-12">背景色</div>
-                            <mult-color-picker :value="form.carousel_content_color_list" :type="form.carousel_content_direction" @update:value="carousel_content_mult_color_picker_event"></mult-color-picker>
-                            <div class="flex-row jc-sb align-c">
-                                <div class="size-12">背景图</div>
-                                <bg-btn-style v-model="form.carousel_content_background_img_style"></bg-btn-style>
-                            </div>
-                            <upload v-model="form.carousel_content_background_img" :limit="1" @update:model-value="carousel_content_background_img_change"></upload>
-                        </div>
+                        <background-common v-model:color_list="form.carousel_content_color_list" v-model:direction="form.carousel_content_direction" v-model:img_style="form.carousel_content_background_img_style" v-model:img="form.carousel_content_background_img" @mult_color_picker_event="carousel_content_mult_color_picker_event" />
                     </el-form-item>
                     <el-form-item label="圆角">
                         <radius :value="form.carousel_content_radius"></radius>
