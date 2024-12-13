@@ -174,15 +174,19 @@ const get_table_list = (val: any) => {
             method: 'post', // 请求方式
             data    // 请求数据
         }).then((res) => {
+            loading.value = false;
             if (res.data) {
                 // 列表数据改变时，清空报错的内容
                 tableRowClassList.value = [];
                 tableData.value = res.data.data_list;
                 pagination_data.value.data_total = res.data.data_total;
             }
-        }).finally(() => {
-            loading.value = false;
-        });
+        }).catch((error) => {
+            // 接口取消的时候，不处理loading
+            if (error != 'canceled') {
+                loading.value = false;
+            }
+        })
     }
 }
 watch(() => default_data.value, (val) => {
