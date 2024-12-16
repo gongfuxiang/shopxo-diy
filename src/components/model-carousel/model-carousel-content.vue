@@ -31,7 +31,10 @@
             <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">内容设置</div>
-                <div class="tips mt-10 mb-20 size-12">最多添加{{ carousel_list.length }}张图片，建议尺寸750*300px</div>
+                <div class="tips mt-10 mb-20 size-12">最多添加{{ carousel_list.length }}张图片，建议尺寸750*300px
+                    <br/>
+                    <div class="mt-4" style="color: red;">模式二和模式四最少需要4张图片才能实现轮播，模式三最少需要3张图片， 模式一不限制数量</div>
+                </div>
                 <div class="flex-col gap-20">
                     <div v-for="(item, index) in carousel_list" :key="index" class="card-background box-shadow-sm re">
                         <el-tabs v-model="item.tabs_name" class="content-tabs">
@@ -58,9 +61,9 @@
                             <el-tab-pane label="样式设置" name="styles">
                                 <el-form-item label-width="0">
                                     <background-common v-model:color_list="item.style.color_list" v-model:direction="item.style.direction" v-model:img_style="item.style.background_img_style" v-model:img="item.style.background_img" :tooltip-content="'1.背景图的优先级比背景色的优先级高<br/>2.覆盖通用背景样式'" @mult_color_picker_event="(...value: [color_list[],  number]) => carousel_tabs_mult_color_picker_event(...value, index)" />
-                                    <div class="flex-col w gap-10">
+                                    <div class="flex-row w gap-10">
                                         <div class="size-12">背景图模糊</div>
-                                        <slider v-model="item.style.background_img_blur" :min="0" :max="100"></slider>
+                                        <el-switch v-model="form.is_background_img_blur" active-value="1" inactive-value="0" />
                                     </div>
                                 </el-form-item>
                             </el-tab-pane>
@@ -96,7 +99,7 @@ const carousel_list = computed(() => {
                 color_list: [{ color: '', color_percentage: undefined }],
                 background_img_style: '2',
                 background_img: [],
-                background_img_blur: 0,
+                background_img_blur: '0',
             }
         }
     });
@@ -114,7 +117,7 @@ const add = () => {
             color_list: [{ color: '', color_percentage: undefined }],
             background_img_style: '2',
             background_img: [],
-            background_img_blur: 0,
+            background_img_blur: '0',
         }
     });
 };
@@ -126,10 +129,6 @@ const remove = (index: number) => {
 const carousel_tabs_mult_color_picker_event = (arry: color_list[], type: number, index: number) => {
     form.value.carousel_list[index].style.color_list = arry;
     form.value.carousel_list[index].style.direction = type.toString();
-};
-// 内容区域背景图片设置
-const carousel_tabs_background_img_change = (arry: uploadList[], index: number) => {
-    form.value.carousel_list[index].style.background_img = arry;
 };
 </script>
 <style lang="scss" scoped>

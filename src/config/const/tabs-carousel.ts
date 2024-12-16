@@ -23,7 +23,7 @@ interface carousel_list {
         color_list: color_list[];
         background_img_style: string;
         background_img: uploadList[];
-        background_img_blur: number;
+        is_background_img_blur: string;
     }
 }
 interface defaultTabs {
@@ -138,7 +138,7 @@ const defaultTabs: defaultTabs = {
                     color_list: [{ color: '', color_percentage: undefined }],
                     background_img_style: '2',
                     background_img: [],
-                    background_img_blur: 0,
+                    is_background_img_blur: '0',
                 }
             },
             {
@@ -151,7 +151,7 @@ const defaultTabs: defaultTabs = {
                     color_list: [{ color: '', color_percentage: undefined }],
                     background_img_style: '2',
                     background_img: [],
-                    background_img_blur: 0,
+                    is_background_img_blur: '0',
                 }
             },
             {
@@ -164,7 +164,20 @@ const defaultTabs: defaultTabs = {
                     color_list: [{ color: '', color_percentage: undefined }],
                     background_img_style: '2',
                     background_img: [],
-                    background_img_blur: 0,
+                    is_background_img_blur: '0',
+                }
+            },
+            {
+                carousel_img: [],
+                carousel_video: [],
+                carousel_link: {},
+                video_title: '视频名称',
+                style: {
+                    direction: '90deg',
+                    color_list: [{ color: '', color_percentage: undefined }],
+                    background_img_style: '2',
+                    background_img: [],
+                    is_background_img_blur: '0',
                 }
             },
         ],

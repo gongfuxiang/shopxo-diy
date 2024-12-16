@@ -104,8 +104,8 @@ const { form, styles } = toRefs(state);
 const tabs_list = computed(() => {
     return form.value.tabs_list.map((item: any) => ({
         ...item,
-        tabs_img: isEmpty(item.data_type) ? [] : item.tabs_img,
-        tabs_icon: isEmpty(item.data_type) ? '' : item.tabs_icon,
+        tabs_img: isEmpty(item.tabs_img) ? [] : item.tabs_img,
+        tabs_icon: isEmpty(item.tabs_icon) ? '' : item.tabs_icon,
         tabs_type: isEmpty(item.data_type) ? '0' : item.data_type,
     }));
 });

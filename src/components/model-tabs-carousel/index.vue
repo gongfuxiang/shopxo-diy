@@ -1,6 +1,7 @@
 <template>
     <div :style="style_container + swiper_bg_style">
-        <div class="flex-col oh" :style="style_img_container + swiper_bg_img_style">
+        <div class="abs top-0 w h" :style="swiper_bg_img_style"></div>
+        <div class="flex-col oh" :style="style_img_container + (!isEmpty(swiper_bg_img_style) ? `background-image: url('');` : '')">
             <div class="oh" :style="tabs_container">
                 <div class="oh" :style="tabs_img_container">
                     <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true" :active-index="tabs_active_index"></tabs-view>
@@ -93,7 +94,7 @@ const swiper_bg_style = computed(() => {
 
 const swiper_bg_img_style = computed(() => {
     if (!isEmpty(form.value?.carousel_list[actived_index.value]?.style?.background_img)) {
-        return background_computer(form.value.carousel_list[actived_index.value].style);
+        return background_computer(form.value.carousel_list[actived_index.value].style) + (form.value.is_background_img_blur == '1' ? `filter: blur(14px);opacity: 0.6;` : '');
     }
     return '';
 });

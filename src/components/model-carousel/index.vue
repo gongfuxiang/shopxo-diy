@@ -1,7 +1,7 @@
 <template>
     <div class="re" :style="style_container + swiper_bg_style">
-        <div class="abs z-i top-0 w h" :style="swiper_bg_img_style"></div>
-        <div class="re" :style="style_img_container">
+        <div class="abs top-0 w h" :style="swiper_bg_img_style"></div>
+        <div class="re" :style="style_img_container + (!isEmpty(swiper_bg_img_style) ? `background-image: url('');` : '')">
             <div ref="swiperSize" class="swiper-container w h oh">
                 <swiper
                     :key="carouselKey"
@@ -154,11 +154,11 @@ const indicator_location_style = computed(() => {
 });
 //#endregion
 const seat_list = computed(() => {
-    if (form.value.carousel_list.length > 3 || form.value.carousel_type !== 'card') {
+    let seat_list = [];
+    const list = cloneDeep(form.value.carousel_list);
+    if (form.value.carousel_list.length > 3) {
         return [];
     } else {
-        let seat_list = [];
-        const list = cloneDeep(form.value.carousel_list);
         switch (list.length) {
             case 1:
                 seat_list = [ ...list, ...list, ...list];
@@ -167,13 +167,13 @@ const seat_list = computed(() => {
                 seat_list.push(...list)
                 break;
             case 3:
-                seat_list.push(...list.slice(0, 1))
+                seat_list.push(...list)
                 break;
             default:
                 break;
         }
-        return seat_list;
     }
+    return seat_list;
 })
 // 轮播图自适应高度 
 const newHeight = computed(() => form.value.height + 'px');
@@ -222,6 +222,10 @@ const swiper_style = computed(() => {
         slidesPerView = 3;
         centeredSlides = false
         spaceBetween = new_style.value.image_spacing;
+    } else if (form.value.carousel_type == 'inherit') {
+        slidesPerView = 1;
+        centeredSlides = true;
+        spaceBetween = 0;
     }
     return {
         slidesPerView: slidesPerView,
@@ -309,16 +313,16 @@ const swiper_bg_img_style = computed(() => {
         return '';
     }
     if (!isEmpty(form.value.carousel_list[actived_index.value]?.style?.background_img)) {
-        return background_computer(form.value.carousel_list[actived_index.value].style) + `filter: blur(${form.value.carousel_list[actived_index.value]?.style?.background_img_blur || 0}px);`;
+        return background_computer(form.value.carousel_list[actived_index.value].style) + (form.value.is_background_img_blur == '1' ? `filter: blur(14px);opacity: 0.6;` : '');
     }
     return '';
 });
 const emit = defineEmits(['slideChange']);
 const slideChange = (swiper: { realIndex: number }) => {
-    if (swiper.realIndex > form.value.carousel_list.length - 1 && form.value.carousel_type == 'card') {
+    if (swiper.realIndex > form.value.carousel_list.length - 1) {
         const seat_length = seat_list.value.length;
-        if (seat_length == 2 && swiper.realIndex == 3) {
-            actived_index.value = 1;
+        if (form.value.carousel_list.length > 1) {
+            actived_index.value = swiper.realIndex - seat_length;
         } else {
             actived_index.value = 0;
         }
