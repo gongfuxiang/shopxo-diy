@@ -61,7 +61,7 @@
                             <el-tab-pane label="样式设置" name="styles">
                                 <el-form-item label-width="0">
                                     <background-common v-model:color_list="item.style.color_list" v-model:direction="item.style.direction" v-model:img_style="item.style.background_img_style" v-model:img="item.style.background_img" :tooltip-content="'1.背景图的优先级比背景色的优先级高<br/>2.覆盖通用背景样式'" @mult_color_picker_event="(...value: [color_list[],  number]) => carousel_tabs_mult_color_picker_event(...value, index)" />
-                                    <div class="flex-row w gap-10">
+                                    <div class="flex-row w gap-10 mt-10">
                                         <div class="size-12">背景图模糊</div>
                                         <el-switch v-model="form.is_background_img_blur" active-value="1" inactive-value="0" />
                                     </div>
