@@ -27,7 +27,7 @@
                     @slide-change="slideChange"
                 >
                     <swiper-slide v-for="(item, index) in form.carousel_list" :key="index">
-                        <div class="item-image flex align-c w h re" :style="img_style">
+                        <div class="item-image flex align-c w h re oh" :style="img_style">
                             <image-empty v-model="item.carousel_img[0]" :style="img_style" :fit="img_fit"></image-empty>
                             <div v-if="new_style.video_is_show == '1' && item.carousel_video.length > 0" :class="{'x-middle': new_style.video_location == 'center', 'right-0': new_style.video_location == 'flex-end' }" class="z-deep abs oh video-class" :style="`bottom: ${new_style.video_bottom}px;`">
                                 <div class="flex-row gap-5 align-c" :style="video_style">
@@ -43,7 +43,7 @@
                         </div>
                     </swiper-slide>
                     <swiper-slide v-for="(item, index1) in seat_list" :key="index1">
-                        <div class="item-image flex align-c w h re" :style="img_style">
+                        <div class="item-image flex align-c w h re oh" :style="img_style">
                             <image-empty v-model="item.carousel_img[0]" :style="img_style" :fit="img_fit"></image-empty>
                             <div v-if="new_style.video_is_show == '1' && item.carousel_video.length > 0" :class="{'x-middle': new_style.video_location == 'center', 'right-0': new_style.video_location == 'flex-end' }" class="z-deep abs oh video-class" :style="`bottom: ${new_style.video_bottom}px;`">
                                 <div class="flex-row gap-5 align-c" :style="video_style">
