@@ -38,7 +38,7 @@
                             </div>
                         </el-form-item>
                     </div>
-                    <drag :data="tabs_list" type="card" :space-col="25" @remove="remove" @on-sort="on_sort">
+                    <drag :data="form.tabs_list" type="card" :space-col="25" @remove="remove" @on-sort="on_sort">
                         <template #default="scoped">
                             <div class="flex-col align-c jc-s gap-20 flex-1 w">
                                 <el-form-item label="数据类型" class="w mb-0">
@@ -101,13 +101,14 @@ const state = reactive({
 });
 const { form, styles } = toRefs(state);
 
-const tabs_list = computed(() => {
-    return form.value.tabs_list.map((item: any) => ({
-        ...item,
-        tabs_img: isEmpty(item.tabs_img) ? [] : item.tabs_img,
-        tabs_icon: isEmpty(item.tabs_icon) ? '' : item.tabs_icon,
-        tabs_type: isEmpty(item.data_type) ? '0' : item.data_type,
-    }));
+onBeforeMount(() => {
+    if (form.value.tabs_list.length > 1) {
+        form.value.tabs_list.forEach((item: any) => {
+            item.tabs_img = !isEmpty(item.tabs_img) ? item.tabs_img : [];
+            item.tabs_icon = !isEmpty(item.tabs_icon) ? item.tabs_icon : '';
+            item.tabs_type = !isEmpty(item.tabs_type) ?  item.tabs_type : '0';
+        });
+    }
 });
 
 const add = () => {

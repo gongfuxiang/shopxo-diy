@@ -31,7 +31,7 @@
             <card-container>
                 <div class="mb-12">选项卡设置</div>
                 <div class="nav-list">
-                    <drag :data="tabs_list" type="card" icon-position="top" :space-col="20" @click="tabs_list_click" @remove="tabs_list_remove" @on-sort="tabs_list_sort">
+                    <drag :data="form.tabs_list" type="card" icon-position="top" :space-col="20" @click="tabs_list_click" @remove="tabs_list_remove" @on-sort="tabs_list_sort">
                         <template #default="{ row, index }">
                             <div class="flex-col w">
                                 <el-form-item label="数据类型" class="w mb-10">
@@ -157,15 +157,13 @@ onMounted(() => {
             emits('theme_change', list[0].width, list[0].height);
         }
     }
-});
-
-const tabs_list = computed(() => {
-    return form.tabs_list.map((item: any) => ({
-        ...item,
-        tabs_img: isEmpty(item.tabs_img) ? [] : item.tabs_img,
-        tabs_icon: isEmpty(item.tabs_icon) ? '' : item.tabs_icon,
-        tabs_type: isEmpty(item.data_type) ? '0' : item.data_type,
-    }));
+    if (form.tabs_list.length > 1) {
+        form.tabs_list.forEach((item: any) => {
+            item.tabs_img = !isEmpty(item.tabs_img) ? item.tabs_img : [];
+            item.tabs_icon = !isEmpty(item.tabs_icon) ? item.tabs_icon : '';
+            item.tabs_type = !isEmpty(item.tabs_type) ?  item.tabs_type : '0';
+        });
+    }
 });
 
 // 监听tabs_theme_list的变化
