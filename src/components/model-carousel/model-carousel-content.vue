@@ -31,10 +31,7 @@
             <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">内容设置</div>
-                <div class="tips mt-10 mb-20 size-12">最多添加{{ carousel_list.length }}张图片，建议尺寸750*300px
-                    <br/>
-                    <div class="mt-4" style="color: red;">模式二和模式四最少需要4张图片才能实现轮播，模式三最少需要3张图片， 模式一不限制数量</div>
-                </div>
+                <div class="tips mt-10 mb-20 size-12">最多添加{{ carousel_list.length }}张图片，建议尺寸750*300px</div>
                 <div class="flex-col gap-20">
                     <div v-for="(item, index) in carousel_list" :key="index" class="card-background box-shadow-sm re">
                         <el-tabs v-model="item.tabs_name" class="content-tabs">
