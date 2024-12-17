@@ -313,7 +313,7 @@ const swiper_bg_img_style = computed(() => {
         return '';
     }
     if (!isEmpty(form.value.carousel_list[actived_index.value]?.style?.background_img)) {
-        return background_computer(form.value.carousel_list[actived_index.value].style) + (form.value.is_background_img_blur == '1' ? `filter: blur(14px);opacity: 0.6;` : '');
+        return background_computer(form.value.carousel_list[actived_index.value].style) + (form.value.carousel_list[actived_index.value].is_background_img_blur == '1' ? `filter: blur(14px);opacity: 0.6;` : '');
     }
     return '';
 });
