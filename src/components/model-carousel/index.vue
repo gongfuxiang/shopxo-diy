@@ -312,8 +312,17 @@ const swiper_bg_img_style = computed(() => {
     if (!props.isCommon) {
         return '';
     }
-    if (!isEmpty(form.value.carousel_list[actived_index.value]?.style?.background_img)) {
-        return background_computer(form.value.carousel_list[actived_index.value].style) + (form.value.carousel_list[actived_index.value].is_background_img_blur == '1' ? `filter: blur(14px);opacity: 0.6;` : '');
+    const { carousel_img, style = {} } = form.value?.carousel_list[actived_index.value] || {};
+    // 如果是自定义的图片 判断图片是否存在
+    if (!isEmpty(carousel_img) && style?.background_type == 'carousel') {
+        // 如果是使用轮播图，判断轮播图是否存在
+        const data = {
+            background_img: carousel_img,
+            background_img_style: style?.background_img_style || '2',
+        }
+        return background_computer(data) + (style.is_background_img_blur == '1' ? `filter: blur(14px);opacity: 0.6;` : '');
+    } else if (!isEmpty(style?.background_img)) {
+        return background_computer(style) + (style.is_background_img_blur == '1' ? `filter: blur(14px);opacity: 0.6;` : '');
     }
     return '';
 });

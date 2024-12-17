@@ -57,10 +57,10 @@
                             </el-tab-pane>
                             <el-tab-pane label="样式设置" name="styles">
                                 <el-form-item label-width="0">
-                                    <background-common v-model:color_list="item.style.color_list" v-model:direction="item.style.direction" v-model:img_style="item.style.background_img_style" v-model:img="item.style.background_img" :tooltip-content="'1.背景图的优先级比背景色的优先级高<br/>2.覆盖通用背景样式'" @mult_color_picker_event="(...value: [color_list[],  number]) => carousel_tabs_mult_color_picker_event(...value, index)" />
+                                    <background-common v-model:color_list="item.style.color_list" v-model:direction="item.style.direction" v-model:type="item.style.background_type" v-model:img_style="item.style.background_img_style" v-model:img="item.style.background_img" component-type="carousel" :tooltip-content="'1.背景图的优先级比背景色的优先级高<br/>2.覆盖通用背景样式'" @mult_color_picker_event="(...value: [color_list[],  number]) => carousel_tabs_mult_color_picker_event(...value, index)" />
                                     <div class="flex-row w gap-10 mt-10">
                                         <div class="size-12">背景图模糊</div>
-                                        <el-switch v-model="item.is_background_img_blur" active-value="1" inactive-value="0" />
+                                        <el-switch v-model="item.style.is_background_img_blur" active-value="1" inactive-value="0" />
                                     </div>
                                 </el-form-item>
                             </el-tab-pane>
@@ -89,12 +89,13 @@ const { form } = toRefs(state);
 
 const carousel_list = computed(() => {
     form.value.carousel_list.forEach((item: any) => {
-        item.tabs_name = "content";
+        item.tabs_name = isEmpty(item.tabs_name) ?  "content" : item.tabs_name;
         if (isEmpty(item.style)) {
             item.style = {
                 direction: '90deg',
                 color_list: [{ color: '', color_percentage: undefined }],
                 background_img_style: '2',
+                background_type: 'custom',
                 background_img: [],
                 is_background_img_blur: '0',
             }
@@ -113,6 +114,7 @@ const add = () => {
             direction: '90deg',
             color_list: [{ color: '', color_percentage: undefined }],
             background_img_style: '2',
+            background_type: 'custom',
             background_img: [],
             is_background_img_blur: '0',
         }

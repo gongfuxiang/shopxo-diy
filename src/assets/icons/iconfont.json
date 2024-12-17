@@ -6,6 +6,83 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "42773571",
+      "name": "更多四块",
+      "font_class": "more-four-pieces",
+      "unicode": "e7b8",
+      "unicode_decimal": 59320
+    },
+    {
+      "icon_id": "42773581",
+      "name": "列表挂件",
+      "font_class": "list-widget",
+      "unicode": "e7ad",
+      "unicode_decimal": 59309
+    },
+    {
+      "icon_id": "42773579",
+      "name": "结算概况",
+      "font_class": "settlement",
+      "unicode": "e7ae",
+      "unicode_decimal": 59310
+    },
+    {
+      "icon_id": "42773580",
+      "name": "用户列表",
+      "font_class": "user-group",
+      "unicode": "e7af",
+      "unicode_decimal": 59311
+    },
+    {
+      "icon_id": "42773578",
+      "name": "店铺管理",
+      "font_class": "shop-setup",
+      "unicode": "e7b0",
+      "unicode_decimal": 59312
+    },
+    {
+      "icon_id": "42773576",
+      "name": "层级3",
+      "font_class": "triangle-level-3",
+      "unicode": "e7b1",
+      "unicode_decimal": 59313
+    },
+    {
+      "icon_id": "42773577",
+      "name": "成交记录",
+      "font_class": "log-check",
+      "unicode": "e7b2",
+      "unicode_decimal": 59314
+    },
+    {
+      "icon_id": "42773575",
+      "name": "商品管理",
+      "font_class": "menu-setup",
+      "unicode": "e7b3",
+      "unicode_decimal": 59315
+    },
+    {
+      "icon_id": "42773573",
+      "name": "列表-斜角",
+      "font_class": "list-angle",
+      "unicode": "e7b5",
+      "unicode_decimal": 59317
+    },
+    {
+      "icon_id": "42773572",
+      "name": "列表设置",
+      "font_class": "list-setup",
+      "unicode": "e7b7",
+      "unicode_decimal": 59319
+    },
+    {
+      "icon_id": "42435511",
+      "name": "向下空隙箭头",
+      "font_class": "down-gap",
+      "unicode": "e7ac",
+      "unicode_decimal": 59308
+    },
+    {
       "icon_id": "42424398",
       "name": "小圆背景右箭头",
       "font_class": "arrow-right-bg-radius",

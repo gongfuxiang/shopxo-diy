@@ -10,6 +10,7 @@ interface carousel_list {
         direction: string;
         color_list: color_list[];
         background_img_style: string;
+        background_type: string; // 背景类型 custom 自定义 carousel 轮播图片
         background_img: uploadList[];
         is_background_img_blur: string,
     }
@@ -73,6 +74,7 @@ const defaultSearch: defaultSearch = {
                     direction: '90deg',
                     color_list: [{ color: '', color_percentage: undefined }],
                     background_img_style: '2',
+                    background_type: 'custom',
                     background_img: [],
                     is_background_img_blur: '0',
                 }
@@ -86,6 +88,7 @@ const defaultSearch: defaultSearch = {
                     direction: '90deg',
                     color_list: [{ color: '', color_percentage: undefined }],
                     background_img_style: '2',
+                    background_type: 'custom',
                     background_img: [],
                     is_background_img_blur: '0',
                 }
@@ -99,6 +102,7 @@ const defaultSearch: defaultSearch = {
                     direction: '90deg',
                     color_list: [{ color: '', color_percentage: undefined }],
                     background_img_style: '2',
+                    background_type: 'custom',
                     background_img: [],
                     is_background_img_blur: '0',
                 }
@@ -112,6 +116,7 @@ const defaultSearch: defaultSearch = {
                     direction: '90deg',
                     color_list: [{ color: '', color_percentage: undefined }],
                     background_img_style: '2',
+                    background_type: 'custom',
                     background_img: [],
                     is_background_img_blur: '0',
                 }

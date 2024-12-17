@@ -22,6 +22,7 @@ interface carousel_list {
         direction: string;
         color_list: color_list[];
         background_img_style: string;
+        background_type: string,
         background_img: uploadList[];
         is_background_img_blur: string;
     }
@@ -137,6 +138,7 @@ const defaultTabs: defaultTabs = {
                     direction: '90deg',
                     color_list: [{ color: '', color_percentage: undefined }],
                     background_img_style: '2',
+                    background_type: 'custom',
                     background_img: [],
                     is_background_img_blur: '0',
                 }
@@ -150,6 +152,7 @@ const defaultTabs: defaultTabs = {
                     direction: '90deg',
                     color_list: [{ color: '', color_percentage: undefined }],
                     background_img_style: '2',
+                    background_type: 'custom',
                     background_img: [],
                     is_background_img_blur: '0',
                 }
@@ -163,6 +166,7 @@ const defaultTabs: defaultTabs = {
                     direction: '90deg',
                     color_list: [{ color: '', color_percentage: undefined }],
                     background_img_style: '2',
+                    background_type: 'custom',
                     background_img: [],
                     is_background_img_blur: '0',
                 }
@@ -176,6 +180,7 @@ const defaultTabs: defaultTabs = {
                     direction: '90deg',
                     color_list: [{ color: '', color_percentage: undefined }],
                     background_img_style: '2',
+                    background_type: 'custom',
                     background_img: [],
                     is_background_img_blur: '0',
                 }

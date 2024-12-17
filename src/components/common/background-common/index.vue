@@ -11,16 +11,29 @@
             <div class="size-12">背景图</div>
             <bg-btn-style v-model="background_img_style"></bg-btn-style>
         </div>
-        <upload v-model="background_img" :limit="1"></upload>
+        <template v-if="componentType == 'carousel'">
+            <el-radio-group v-model="background_type">
+                <el-radio value="custom">自定义图片</el-radio>
+                <el-radio value="carousel">轮播图片</el-radio>
+            </el-radio-group>
+            <template v-if="background_type == 'custom'">
+                <upload v-model="background_img" :limit="1"></upload>
+            </template>
+        </template>
+        <template v-else>
+            <upload v-model="background_img" :limit="1"></upload>
+        </template>
     </div>
 </template>
 
 <script lang="ts" setup>
 interface Props {
     tooltipContent?: string;
+    componentType?: string;
 }
 const props = withDefaults(defineProps<Props>(), {
     tooltipContent: '背景图的优先级比背景色的优先级高',
+    componentType: 'all'
 });
 
 const color_list = defineModel('color_list', {
@@ -38,6 +51,10 @@ const background_img_style = defineModel('img_style', {
 const background_img = defineModel('img', {
     type: Array as PropType<uploadList[]>,
     default: () => [],
+});
+const background_type = defineModel('type', {
+    type: String,
+    default: 'custom',
 });
 const emit = defineEmits(['mult_color_picker_event']);
 const mult_color_picker_event = (arry: color_list[], type: number) => {
