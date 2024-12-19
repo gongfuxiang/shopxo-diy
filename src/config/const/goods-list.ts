@@ -20,6 +20,7 @@ interface DefaultProductList {
         order_by_type: number;
         order_by_rule: number;
         is_show: string[];
+        simple_desc_row: string;
         static_img: uploadList[];
         is_shop_show: string;
         shop_type: string;
@@ -107,6 +108,7 @@ const defaultProductList: DefaultProductList = {
         order_by_rule: defaultSetting.order_by_rule,
         // 显示内容
         is_show: ['title', 'plugins_view_icon', 'price', 'sales_count', 'original_price'],
+        simple_desc_row: '1',
         // 价格图标地址
         static_img: [{ id: 2, url: new_url + 'price.png', original: '角标', title: '角标', ext: '.png', type: 'img' }],
         // 是否显示购买按钮

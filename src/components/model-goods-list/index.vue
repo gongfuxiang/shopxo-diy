@@ -32,7 +32,7 @@
                                     <div class="flex-col gap-10 top-title">
                                         <div v-if="is_show('title') || (['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc'))" class="flex-col" :style="`gap: ${ new_style.title_simple_desc_spacing }px;`">
                                             <div v-if="is_show('title')" :class="text_line" :style="trends_config('title', 'title')">{{ item.title }}</div>
-                                            <div v-if="['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc')" class="text-line-1" :style="trends_config('simple_desc', 'desc')">{{ item.simple_desc }}</div>
+                                            <div v-if="['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc')" :class="form.simple_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('simple_desc', 'desc')">{{ item.simple_desc }}</div>
                                         </div>
                                         <div v-if="show_content && is_show('plugins_view_icon') && !isEmpty(item.plugins_view_icon_data)" class="flex-row gap-5 align-c">
                                             <div v-for="(icon_data, icon_index) in item.plugins_view_icon_data" :key="icon_index" class="radius-sm size-9 pl-3 pr-3" :style="icon_style(icon_data)">{{ icon_data.name }}</div>
@@ -122,7 +122,7 @@
                                     <div class="flex-col gap-10 top-title">
                                         <div v-if="is_show('title') || (['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc'))" class="flex-col" :style="`gap: ${ new_style.title_simple_desc_spacing }px;`">
                                             <div v-if="is_show('title')" :class="text_line" :style="trends_config('title', 'title')">{{ item.title }}</div>
-                                            <div v-if="['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc')" class="text-line-1" :style="trends_config('simple_desc', 'desc')">{{ item.simple_desc }}</div>
+                                            <div v-if="['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc')" :class="form.simple_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('simple_desc', 'desc')">{{ item.simple_desc }}</div>
                                         </div>
                                         <div v-if="show_content && is_show('plugins_view_icon') && !isEmpty(item.plugins_view_icon_data)" class="flex-row gap-5 align-c">
                                             <div v-for="(icon_data, icon_index) in item.plugins_view_icon_data" :key="icon_index" class="radius-sm size-9 pl-3 pr-3" :style="icon_style(icon_data)">{{ icon_data.name }}</div>
@@ -424,7 +424,11 @@ const style_config = (typeface: string, size: number, color: string | object, ty
             style += `line-height: ${size > 0 ? size + 3 : 0}px;height: ${size > 0 ? (size + 3) * 2 : 0}px;color: ${color};`;
         }
     } else if (type == 'desc') {
-        style += `line-height: ${size}px;height: ${size}px;color: ${color};`;
+        if (form.value.simple_desc_row == '2') {
+            style += `line-height: ${size > 0 ? size + 3 : 0}px;height: ${size > 0 ? (size + 3) * 2 : 0}px;color: ${color};`;
+        } else {
+            style += `line-height: ${size}px;height: ${size}px;color: ${color};`;
+        }
     } else {
         style += `color: ${color};`;
     }

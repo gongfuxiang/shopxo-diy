@@ -32,6 +32,7 @@ interface DefaultProductList {
         tabs_active_index: number;
         static_img: uploadList[];
         is_show: string[];
+        simple_desc_row: string;
         is_shop_show: string;
         is_price_solo: string;
         shop_type: string;
@@ -148,6 +149,8 @@ const defaultProductList: DefaultProductList = {
         static_img: [{ id: 2, url: new_url + 'price.png', original: '角标', title: '角标', ext: '.png', type: 'img' }],
         // 显示内容
         is_show: ['title', 'plugins_view_icon', 'price', 'sales_count', 'original_price'],
+        // 显示简介行数
+        simple_desc_row: '1',
         // 是否显示购买按钮
         is_shop_show: '1',
         // 价格是否独行

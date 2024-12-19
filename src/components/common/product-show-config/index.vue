@@ -6,6 +6,11 @@
                 <el-checkbox v-for="item in base_list.list_show_list.filter(item => item.type.includes(form.theme))" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
             </el-checkbox-group>
         </el-form-item>
+        <el-form-item v-if="form.is_show.includes('simple_desc')" label="简述行数">
+            <el-radio-group v-model="form.simple_desc_row">
+                <el-radio v-for="item in base_list.shopping_simple_desc_row" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+            </el-radio-group>
+        </el-form-item>
         <el-form-item v-if="['0', '1', '2'].includes(form.theme)" label="价格独行">
             <el-switch v-model="form.is_price_solo" active-value="1" inactive-value="0"></el-switch>
         </el-form-item>
@@ -69,6 +74,10 @@ const base_list = {
     shopping_cart_list: [
         { name: '进入商品详情页', value: '0' },
         { name: '商品加购', value: '1' }
+    ],
+    shopping_simple_desc_row: [
+        { name: '一行', value: '1' },
+        { name: '两行', value: '2' }
     ]
 };
 const emit = defineEmits(['change_shop_type']);

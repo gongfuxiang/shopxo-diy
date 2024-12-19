@@ -20,7 +20,7 @@
                             <div v-if="field_show.includes('0') || field_show.includes('1') || field_show.includes('2') || field_show.includes('3')" class="jc-sb flex-1" :class="article_theme == '3' ? 'flex-row align-c' : 'flex-col'" :style="article_theme != '0' ? content_padding : 'width: 0;'">
                                 <div class="flex-col" :class="article_theme == '3' ? 'flex-1 flex-width' : ''" :style="'gap:' + new_style.name_desc_space + 'px;'">
                                     <div v-if="field_show.includes('3')" class="title" :class="article_theme == '3' ? 'text-line-1' : 'text-line-2'" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
-                                    <div v-if="field_show.includes('2')" class="desc text-line-1" :style="article_desc">{{ item.data.describe || '' }}</div>
+                                    <div v-if="field_show.includes('2')" :class="'desc ' + field_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="article_desc">{{ item.data.describe || '' }}</div>
                                 </div>
                                 <div class="flex-row jc-sb gap-8" :class="article_theme == '3' ? 'ml-10' : 'align-e mt-10'">
                                     <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
@@ -55,7 +55,7 @@
                                 <div v-if="field_show.includes('0') || field_show.includes('1') || field_show.includes('2') || (field_show.includes('3') && new_content.name_float == '0')" class="jc-sb flex-1 flex-col" :style="article_theme != '0' ? content_padding : ''">
                                     <div class="flex-col" :style="'gap:' + new_style.name_desc_space + 'px;'">
                                         <div v-if="field_show.includes('3') && new_content.name_float == '0'" class="title text-line-2" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
-                                        <div v-if="field_show.includes('2')" class="desc text-line-1" :style="article_desc">{{ item.data.describe || '' }}</div>
+                                        <div v-if="field_show.includes('2')" :class="'desc ' + field_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="article_desc">{{ item.data.describe || '' }}</div>
                                     </div>
                                     <div :class="[ 'flex-row jc-sb gap-8 align-e', { 'mt-10': (field_show.includes('3') && new_content.name_float == '0') || field_show.includes('2') }] ">
                                         <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
@@ -299,6 +299,7 @@ const float_name_style = computed(() => {
     let location = 'position:absolute;bottom:0;left:0;right:0;'
     return gradient_computer(data) + radius_computer(name_bg_radius) + padding_computer(name_bg_padding) + margin_computer(name_bg_margin) + location;
 });
+const field_desc_row = ref('1');
 // 监听value数据变化
 watch(
     () => props.value,
@@ -309,7 +310,14 @@ watch(
         field_show.value = new_content.field_show;
         // 样式
         article_name.value = 'font-size:' + new_style.name_size + 'px;' + 'font-weight:' + new_style.name_weight + ';' + 'color:' + new_style.name_color + ';';
-        article_desc.value = 'font-size:' + new_style.desc_size + 'px;line-height:' + new_style.desc_size + 'px;height:'+ new_style.desc_size + 'px;color:' + new_style.desc_color + ';';
+        // 文章描述
+        const desc_size = new_style.desc_size;
+        field_desc_row.value = new_content.field_desc_row;
+        if (new_content.field_desc_row == '2') {
+            article_desc.value = 'font-size:' + desc_size + 'px;line-height:' + (desc_size > 0 ? desc_size + 3 : 0 ) + 'px;height:'+ (desc_size > 0 ? (desc_size + 3) * 2 : 0) + 'px;color:' + new_style.desc_color + ';';
+        } else {
+            article_desc.value = 'font-size:' + desc_size + 'px;line-height:' + desc_size + 'px;height:'+ desc_size + 'px;color:' + new_style.desc_color + ';';
+        }
         article_date.value = 'font-size:' + new_style.time_size + 'px;' + 'font-weight:' + new_style.time_weight + ';' + 'color:' + new_style.time_color + ';';
         article_page_view.value = 'font-size:' + new_style.page_view_size + 'px;' + 'font-weight:' + new_style.page_view_weight + ';' + 'color:' + new_style.page_view_color + ';';
         content_radius.value = radius_computer(new_style.content_radius);

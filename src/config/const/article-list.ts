@@ -23,6 +23,7 @@ interface DefaultArticleList {
         order_by_type: number;
         order_by_rule: number;
         field_show: string[];
+        field_desc_row: string,
         is_cover: string;
         seckill_subscript_show: string;
         subscript_type: string;
@@ -82,6 +83,7 @@ const defaultArticleList: DefaultArticleList = {
         order_by_type: defaultSetting.order_by_type,
         order_by_rule: defaultSetting.order_by_rule,
         field_show: ['0', '1', '3'],
+        field_desc_row: '1',
         is_cover: defaultSetting.is_cover,
         // 角标配置
         seckill_subscript_show: '0',

@@ -34,6 +34,7 @@ interface DefaultArticleTabs {
         tabs_list: articleTabsList[];
         tabs_active_index: number;
         field_show: string[];
+        field_desc_row: string;
         seckill_subscript_show: string;
         subscript_type: string;
         subscript_img_src: uploadList[];
@@ -126,6 +127,7 @@ const defaultArticleTabs: DefaultArticleTabs = {
         ],
         tabs_active_index: 0,
         field_show: ['0', '1', '3'],
+        field_desc_row: '1',
         // 角标配置
         seckill_subscript_show: '0',
         subscript_type: 'text',
