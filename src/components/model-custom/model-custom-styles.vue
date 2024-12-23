@@ -39,6 +39,16 @@
                 <el-form-item label="圆角">
                     <radius :value="form.data_style"></radius>
                 </el-form-item>
+                <el-form-item label="数据间距">
+                    <div class="flex-col w h gap-10">
+                        <el-form-item v-if="['vertical', 'horizontal'].includes(data.data_source_direction)" label="横向" label-width="40" class="mb-0 w form-item-child-label">
+                            <slider v-model="form.column_gap" :max="100"></slider>
+                        </el-form-item>
+                        <el-form-item v-if="['vertical', 'vertical-scroll'].includes(data.data_source_direction)" label="纵向" label-width="40" class="mb-0 w form-item-child-label">
+                            <slider v-model="form.row_gap" :max="100"></slider>
+                        </el-form-item>
+                    </div>
+                </el-form-item>
             </card-container>
         </el-form>
         <div class="bg-f5 divider-line" />

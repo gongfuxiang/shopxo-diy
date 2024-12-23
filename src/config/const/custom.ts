@@ -99,6 +99,8 @@ interface defaultSearch {
         indicator_size: number;
         indicator_radius: radiusStyle;
         data_style: object;
+        row_gap: number;
+        column_gap: number;
         // 通用样式
         common_style: object;
     };
@@ -174,6 +176,8 @@ const defaultSearch: defaultSearch = {
             margin_left: 0,
             margin_right: 0,
         },
+        row_gap: 0,
+        column_gap: 0,
         common_style: {
             ...defaultCommon,
             color_list: [{ color: 'rgb(244, 252, 255)', color_percentage: undefined }],
