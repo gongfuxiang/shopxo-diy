@@ -791,6 +791,12 @@ const rect_style = computed(() => {
 //#endregion
 //#region 绑定上下左右事件
 const handleKeyUp = (e: KeyboardEvent) => {
+    // 排除默认事件
+    const default_list = ['textarea', 'input'];
+    // 判断是否是用户手动输入的内容
+    if (e.target instanceof HTMLElement && default_list.includes(e.target?.localName)) {
+        return;
+    }
     let key_code = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
     let x = 0;
     let y = 0;
