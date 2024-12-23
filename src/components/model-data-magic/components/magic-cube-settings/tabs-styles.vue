@@ -79,6 +79,16 @@
             <el-form-item label="圆角">
                 <radius :key="form.carouselKey" :value="form.data_radius" @update:value="data_radius_change"></radius>
             </el-form-item>
+            <el-form-item v-if="tabs_content.data_type == 'custom'" label="数据间距">
+                <div class="flex-col w h gap-10">
+                    <el-form-item v-if="['vertical', 'horizontal'].includes(tabs_content.data_source_direction)" label="横向" label-width="40" class="mb-0 w form-item-child-label">
+                        <slider v-model="form.column_gap" :max="100"></slider>
+                    </el-form-item>
+                    <el-form-item v-if="['vertical', 'vertical-scroll'].includes(tabs_content.data_source_direction)" label="纵向" label-width="40" class="mb-0 w form-item-child-label">
+                        <slider v-model="form.row_gap" :max="100"></slider>
+                    </el-form-item>
+                </div>
+            </el-form-item>
             <el-form-item v-if="tabs_content.data_type == 'goods'" label="数据间距">
                 <slider v-model="form.data_goods_gap" :min="0" :max="50"></slider>
             </el-form-item>

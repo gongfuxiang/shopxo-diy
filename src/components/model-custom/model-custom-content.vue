@@ -20,7 +20,7 @@
                                 <el-radio v-for="(item, index) in default_type_data?.show_type" :key="index" :value="item">{{ item == 'vertical' ? '纵向展示' : item == 'vertical-scroll' ? '纵向滑动' : '横向滑动' }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
-                        <template v-if="default_type_data?.show_number.length > 0 && ['vertical-scroll', 'horizontal'].includes(form.data_source_direction)">
+                        <template v-if="default_type_data?.show_number.length > 0">
                             <el-form-item label="每屏显示">
                                 <el-radio-group v-model="form.data_source_carousel_col">
                                     <el-radio v-for="(item, index) in default_type_data?.show_number" :key="index" :value="item">{{ item }}{{ form.data_source_direction == 'vertical-scroll' ? '行' : '列' }}展示</el-radio>
@@ -117,8 +117,8 @@ const form = ref(props.value);
 const center_width = ref(props.magicWidth);
 // 可拖拽区域的宽度
 const custom_width = computed(() => {
-    // 如果是横向展示，那么就需要根据每屏显示的数量来计算宽度 data_source_direction == horizontal 为横向滑动
-    if (form.value.is_custom_data == '1' && form.value.data_source_direction == 'horizontal') {
+    // 如果是横向展示，那么就需要根据每屏显示的数量来计算宽度 data_source_direction != vertical-scroll 不为纵向滑动的都是横向宽度变化
+    if (form.value.is_custom_data == '1' && form.value.data_source_direction != 'vertical-scroll') {
         return center_width.value / form.value.data_source_carousel_col;
     } else {
         return center_width.value;

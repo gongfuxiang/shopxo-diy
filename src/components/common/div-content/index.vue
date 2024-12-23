@@ -348,7 +348,7 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
 }
 .plug-in-mark-name {
     position: absolute;
-    top: -0.6rem;
+    top: -0.7rem;
     left: -0.6rem;
 }
 .plug-in-close::before {

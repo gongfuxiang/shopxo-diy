@@ -41,7 +41,7 @@
                                             <image-empty v-if="form.location_left_img.length > 0" v-model="form.location_left_img[0]" fit="contain" :error-img-style="'width: 12px; height:12px'"></image-empty>
                                             <icon v-else :name="form.location_left_icon" :size="new_style?.location_left_icon_size + '' || '12'"></icon>
                                         </template>
-                                        <span class="location-name size-14 text-line-1">{{ form.positioning_name }}</span>
+                                        <span class="location-name size-14 text-line-1" :style="location_name_style">{{ form.positioning_name }}</span>
                                         <template v-if="form.is_location_right_icon_show == '1'">
                                             <image-empty v-if="form.location_right_img.length > 0" v-model="form.location_right_img[0]" fit="contain" :error-img-style="'width: 12px; height:12px'"></image-empty>
                                             <icon v-else :name="form.location_right_icon" :size="new_style?.location_right_icon_size + '' || '12'"></icon>
@@ -64,7 +64,7 @@
                         <div v-if="is_search_alone_row || is_icon_alone_row" class="model-head-content flex-row align-c gap-16">
                             <template v-if="['3', '5'].includes(form.theme) && is_search_alone_row">
                                 <div class="flex-1">
-                                    <model-search :value="pageData.com_data" :is-page-settings="true"></model-search>
+                                    <model-search :value="pageData.com_data" :is-page-settings="true" search-type="header" :header-location-style="style_location_container" :header-location-img-style="style_location_img_container"></model-search>
                                 </div>
                             </template>
                             <div v-if="!isEmpty(form.icon_setting) && is_icon_alone_row" class="flex-row align-c" :class="'gap-' + new_style.img_space">
@@ -199,6 +199,21 @@ const style_location_img_container = computed(() => {
     const height = 32 - location_margin.margin_top - location_margin.margin_bottom;
     return background_computer(style) + padding_computer(location_padding) + radius_computer(new_style.value.location_radius) + border + `height: ${height}px;line-height: ${height}px;`;
 });
+
+const location_name_style = computed(() => {
+    let width = 0;
+    if (is_search_alone_row.value && is_icon_alone_row.value) {
+        width = 200;
+    } else if (is_search_alone_row.value || is_icon_alone_row.value) {
+        width = 100;
+    }
+    if (form.value.theme == '4') {
+       return `max-width: ${ 150 + width }px;`;
+    } else {
+       return `max-width: ${ 100 + width }px;`;
+    }
+});
+
 // 文字样式
 const text_style = computed(() => `font-weight:${new_style.value.header_background_title_typeface}; font-size: ${new_style.value.header_background_title_size}px; color: ${new_style.value.header_background_title_color};`);
 const position_class = computed(() => (form.value?.indicator_location == 'center' ? `indicator-center` : ''));
@@ -230,8 +245,6 @@ const position_class = computed(() => (form.value?.indicator_location == 'center
     .model-head-content {
         height: 3.2rem;
         .location-name {
-            // line-height: 100%;
-            max-width: 15rem;
             width: 100%;
             flex-basis: content;
             flex-shrink: 1;

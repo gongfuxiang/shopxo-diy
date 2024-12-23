@@ -186,6 +186,8 @@ const data_style = {
         radius_bottom_left: 4,
         radius_bottom_right: 4,
     },
+    column_gap: 0,
+    row_gap: 0,
     indicator_style: 'dot',
     indicator_new_location: 'bottom',
     indicator_location: 'center',

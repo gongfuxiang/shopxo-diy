@@ -9,7 +9,7 @@
                                 <image-empty v-if="form.location_left_img.length > 0" v-model="form.location_left_img[0]" fit="contain" :error-img-style="'width: 12px; height:12px'"></image-empty>
                                 <icon v-else :name="form.location_left_icon" :size="new_style?.location_left_icon_size + '' || '12'"></icon>
                             </template>
-                            <span class="location-name size-12 text-line-1">{{ form.positioning_name }}</span>
+                            <span class="location-name size-12 text-line-1" :style="`max-width: ${ form.theme == '4' ? '150px' : '100px;' }`">{{ form.positioning_name }}</span>
                             <template v-if="form.is_location_right_icon_show == '1'">
                                 <image-empty v-if="form.location_right_img.length > 0" v-model="form.location_right_img[0]" fit="contain" :error-img-style="'width: 12px; height:12px'"></image-empty>
                                 <icon v-else :name="form.location_right_icon" :size="new_style?.location_right_icon_size + '' || '12'"></icon>
