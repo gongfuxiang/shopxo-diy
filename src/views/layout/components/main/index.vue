@@ -593,7 +593,7 @@ const footer_nav_event = () => {
 }
 .plug-drawer-mark-name {
     position: absolute;
-    top: -1.3rem;
+    top: -1.4rem;
     left: -0.6rem;
 }
 </style>

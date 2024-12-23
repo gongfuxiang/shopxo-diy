@@ -5,7 +5,7 @@
                 <div class="flex-row flex-wrap" :style="`row-gap: ${ new_style.row_gap }px;column-gap: ${ new_style.column_gap }px;`">
                     <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="`width: ${ gap_width }`">
                         <div :style="style_chunk_container">
-                            <div class="w h" :style="style_chunk_img_container">
+                            <div class="w h oh" :style="style_chunk_img_container">
                                 <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="form.height" :scale="scale" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }"></data-rendering>
                             </div>
                         </div>
@@ -16,7 +16,7 @@
                 <swiper :key="carouselKey" class="w flex" :direction="form.data_source_direction == 'horizontal' ? 'horizontal': 'vertical'" :height="swiper_height" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="slides_per_group" :space-between="space_between" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
                     <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
                         <div :style="style_chunk_container">
-                            <div class="w h" :style="style_chunk_img_container">
+                            <div class="w h oh" :style="style_chunk_img_container">
                                 <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="form.height" :scale="scale" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }"></data-rendering>
                             </div>
                         </div>
@@ -35,7 +35,7 @@
             </div>
             <template v-else>
                 <div :style="style_chunk_container">
-                    <div class="w h" :style="style_chunk_img_container">
+                    <div class="w h oh" :style="style_chunk_img_container">
                         <data-rendering :custom-list="form.custom_list" :data-height="form.height" :scale="scale"></data-rendering>
                     </div>
                 </div>
