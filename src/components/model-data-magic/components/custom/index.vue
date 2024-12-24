@@ -90,8 +90,7 @@ interface new_style {
     data_background_img: uploadList[];
     data_background_img_style: string;
 }
-console.log(new_style.value.data_content_style);
-
+// 默认数据
 const defalt_style: any = {
     color_list: [{ color: '', color_percentage: undefined }],
     direction: '180deg',
