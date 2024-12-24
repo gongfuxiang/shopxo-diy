@@ -1,36 +1,40 @@
 <template>
-    <template v-if="data_source_content_list.length > 0 && form.data_source_direction == 'vertical'">
-        <div class="flex-row flex-wrap" :style="`row-gap: ${ new_style.row_gap }px;column-gap: ${ new_style.column_gap }px;`">
-            <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="`width: ${ gap_width }`">
-                <div :style="style_container">
-                    <div class="w h oh" :style="style_img_container">
-                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :data-height="form.height" :scale="scale"></data-rendering>
+    <div :style="style_content_container">
+        <div :style="style_content_img_container">
+            <template v-if="data_source_content_list.length > 0 && form.data_source_direction == 'vertical'">
+                <div class="flex-row flex-wrap" :style="`row-gap: ${ new_style.row_gap }px;column-gap: ${ new_style.column_gap }px;`">
+                    <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="`width: ${ gap_width }`">
+                        <div :style="style_container">
+                            <div class="w h oh" :style="style_img_container">
+                                <data-rendering :custom-list="form.custom_list" :source-list="item1" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :data-height="form.height" :scale="scale"></data-rendering>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </template>
+            <div v-else-if="data_source_content_list.length > 0 && ['vertical-scroll', 'horizontal'].includes(form.data_source_direction)" class="oh" :style="form.data_source_direction == 'horizontal' ? `height:100%;` : `height: ${ swiper_height }px;`">
+                <swiper :key="carouselKey" class="w flex" :direction="form.data_source_direction == 'horizontal' ? 'horizontal': 'vertical'" :height="swiper_height" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="slides_per_group" :space-between="space_between" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
+                    <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
+                        <div :style="style_container">
+                            <div class="w h oh" :style="style_img_container">
+                                <data-rendering :custom-list="form.custom_list" :source-list="item1" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :data-height="form.height" :scale="scale"></data-rendering>
+                            </div>
+                        </div>
+                    </swiper-slide>
+                </swiper>
             </div>
-        </div>
-    </template>
-    <div v-else-if="data_source_content_list.length > 0 && ['vertical-scroll', 'horizontal'].includes(form.data_source_direction)" class="oh" :style="form.data_source_direction == 'horizontal' ? `height:100%;` : `height: ${ swiper_height }px;`">
-        <swiper :key="carouselKey" class="w flex" :direction="form.data_source_direction == 'horizontal' ? 'horizontal': 'vertical'" :height="swiper_height" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="slides_per_group" :space-between="space_between" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
-            <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
-                <div :style="style_container">
+            <template v-else>
+                <div class="oh" :style="style_container">
                     <div class="w h oh" :style="style_img_container">
-                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :data-height="form.height" :scale="scale"></data-rendering>
+                        <data-rendering :custom-list="form.custom_list" :data-height="form.height" :scale="scale"></data-rendering>
                     </div>
                 </div>
-            </swiper-slide>
-        </swiper>
+            </template>
+        </div>
     </div>
-    <template v-else>
-        <div class="oh" :style="style_container">
-            <div class="w h oh" :style="style_img_container">
-                <data-rendering :custom-list="form.custom_list" :data-height="form.height" :scale="scale"></data-rendering>
-            </div>
-        </div>
-    </template>
 </template>
 <script setup lang="ts">
-import { background_computer, get_math, gradient_computer, margin_computer, padding_computer, radius_computer } from '@/utils';
+import { background_computer, common_img_computer, common_styles_computer, get_math, gradient_computer, margin_computer, padding_computer, radius_computer } from '@/utils';
 import { isEmpty } from "lodash";
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
@@ -86,6 +90,46 @@ interface new_style {
     data_background_img: uploadList[];
     data_background_img_style: string;
 }
+console.log(new_style.value.data_content_style);
+
+const defalt_style: any = {
+    color_list: [{ color: '', color_percentage: undefined }],
+    direction: '180deg',
+    background_img_style: '2',
+    background_img: [],
+    radius: 0,
+    radius_top_left: 0,
+    radius_top_right: 0,
+    radius_bottom_left: 0,
+    radius_bottom_right: 0,
+    padding: 0,
+    padding_top: 0,
+    padding_bottom: 0,
+    padding_left: 0,
+    padding_right: 0,
+    margin: 0,
+    margin_top: 0,
+    margin_bottom: 0,
+    margin_left: 0,
+    margin_right: 0,
+};
+// 内容样式
+const style_content_container = computed(() => {
+    if (!isEmpty(new_style.value.data_content_style)) {
+        return common_styles_computer(new_style.value.data_content_style);
+    } else {
+        // 没有样式的时候，使用默认样式
+        return common_styles_computer(defalt_style);
+    }
+});
+const style_content_img_container = computed(() => {
+    if (!isEmpty(new_style.value.data_content_style)) {
+        return common_img_computer(new_style.value.data_content_style);
+    } else {
+        return common_img_computer(defalt_style);
+    }
+});
+
 // 用于样式显示
 const style_container = computed(() => {
     if (!isEmpty(new_style.value)) {
