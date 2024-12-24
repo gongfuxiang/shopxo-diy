@@ -58,41 +58,13 @@
                 <el-button class="w" size="large" @click="custom_edit"><icon name="edit" size="12"></icon>自定义编辑</el-button>
             </card-container>
         </el-form>
-        <Dialog ref="dialog" @accomplish="accomplish">
-            <div class="flex-row h w">
-                <!-- 左侧和中间区域 -->
-                <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="custom_width" :source-list="!isEmpty(data_source_content_list) ? data_source_content_list[0] : {}" :options="model_data_source" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }"  :list="custom_list" @right-update="right_update"></DragIndex>
-                <!-- 右侧配置区域 -->
-                <div class="settings">
-                    <template v-if="diy_data.key === 'img'">
-                        <model-image-style :key="key" v-model:height="center_height" :options="model_data_source" :value="diy_data"></model-image-style>
-                    </template>
-                    <template v-else-if="diy_data.key == 'text'">
-                        <model-text-style :key="key" v-model:height="center_height" :options="model_data_source" :value="diy_data"></model-text-style>
-                    </template>
-                    <template v-else-if="diy_data.key == 'auxiliary-line'">
-                        <model-lines-style :key="key" v-model:height="center_height" :value="diy_data"></model-lines-style>
-                    </template>
-                    <template v-else-if="diy_data.key == 'icon'">
-                        <model-icon-style :key="key" v-model:height="center_height" :options="model_data_source" :value="diy_data"></model-icon-style>
-                    </template>
-                    <template v-else-if="diy_data.key == 'panel'">
-                        <model-panel-style :key="key" v-model:height="center_height" :options="model_data_source" :value="diy_data"></model-panel-style>
-                    </template>
-                    <template v-else>
-                        <div class="w h flex align-c bg-f">
-                            <no-data></no-data>
-                        </div>
-                    </template>
-                </div>
-            </div>
-        </Dialog>
+        <!-- 自定义内容处理 -->
+        <custom-config v-model:visible="dialogVisible" v-model:width="custom_width" v-model:height="center_height" :dragkey="dragkey" :options="model_data_source" :source-list="!isEmpty(data_source_content_list) ? data_source_content_list[0] : {}" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :custom-list="custom_list" @accomplish="accomplish"></custom-config>
+        <!-- 手动筛选数据弹出框 -->
         <custom-dialog v-model:dialog-visible="url_value_dialog_visible" :data-list-key="form.show_data?.data_key || 'id'" :config="default_type_data.appoint_config" :multiple="url_value_multiple_bool" @confirm_event="url_value_dialog_call_back"></custom-dialog>
     </div>
 </template>
 <script setup lang="ts">
-import Dialog from './components/dialog.vue';
-import DragIndex from './components/index.vue';
 import { isEmpty, cloneDeep, omit } from 'lodash';
 import request from '@/utils/request';
 import CustomAPI from '@/api/custom';
@@ -110,10 +82,7 @@ const props = defineProps({
         default: 390,
     }
 });
-
-const dialog = ref<expose | null>(null);
-const draglist = ref<diy_data | null>(null);
-const form = ref(props.value);
+// 容器宽度
 const center_width = ref(props.magicWidth);
 // 可拖拽区域的宽度
 const custom_width = computed(() => {
@@ -124,41 +93,21 @@ const custom_width = computed(() => {
         return center_width.value;
     }
 })
-//#region 自定义编辑的内部处理逻辑
-const diy_data = ref<diy>({
-    key: '',
-    location: {
-        x: 0,
-        y: 0,
-        record_x: 0,
-        record_y: 0,
-        staging_y: 0,
-    },
-    com_data: {},
-});
-const key = ref('');
-const dragkey = ref('');
 
-const right_update = (item: any) => {
-    diy_data.value = item;
-    // 生成随机id
-    key.value = Math.random().toString(36).substring(2);
-};
+const dialogVisible = ref(false);
+const form = ref(props.value);
+
+const dragkey = ref('');
 // 自定义编辑的逻辑
 const custom_edit = () => {
-    if (!dialog.value) return;
-    dialog.value.dialogVisible = true;
+    dialogVisible.value = true;
     dragkey.value = Math.random().toString(36).substring(2);
     custom_list = cloneDeep(form.value.custom_list);
     center_height.value = cloneDeep(form.value.height);
 };
 // 点击完成的处理逻辑
-const accomplish = () => {
-    if (!draglist.value) {
-        return;
-    } else {
-        form.value.custom_list = draglist.value.diy_data;
-    }
+const accomplish = (list: any) => {
+    form.value.custom_list = list;
     form.value.height = center_height.value;
 };
 //#endregion
@@ -480,17 +429,6 @@ watch(() => data_source_content_value.value, (new_val, old_val) => {
 //#endregion
 </script>
 <style lang="scss" scoped>
-.settings {
-    width: 46rem;
-    overflow: auto;
-    display: flex;
-    flex-direction: column;
-}
-@media screen and (max-width: 1560px) {
-    .settings {
-        width: 40rem;
-    }
-}
 :deep(.el-dialog) {
     margin-top: 0;
     padding: 0;
@@ -514,14 +452,5 @@ watch(() => data_source_content_value.value, (new_val, old_val) => {
     .el-dialog__footer {
         padding: 2.4rem 3rem;
     }
-}
-.replace-data {
-    height: 2.4rem;
-    bottom: 0.5rem;
-    left: 2.1rem;
-    line-height: 2.2rem;
-    border-radius: 2rem;
-    border: 1px solid #ddd;
-    cursor: pointer;
 }
 </style>

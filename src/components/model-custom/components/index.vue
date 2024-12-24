@@ -163,6 +163,12 @@ const components = reactive([
                 new_name: '',
                 com_data: defaultComData.panel_com_data,
             },
+            {
+                key: 'custom-group',
+                name: '自定义组',
+                new_name: '',
+                com_data: defaultComData.custom_group_com_data,
+            },
         ],
     },
 ]);

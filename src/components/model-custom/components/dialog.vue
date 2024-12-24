@@ -9,8 +9,7 @@
     </el-dialog>
 </template>
 <script setup lang="ts">
-const dialogVisible = ref(false);
-
+const dialogVisible = defineModel('visible', { type: Boolean, default: false });
 const handleClose = () => {
     dialogVisible.value = false;
 };
@@ -19,10 +18,6 @@ const accomplish = () => {
     emits('accomplish');
     dialogVisible.value = false;
 };
-
-defineExpose({
-    dialogVisible,
-});
 </script>
 
 <style lang="scss" scoped></style>

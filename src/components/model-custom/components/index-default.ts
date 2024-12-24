@@ -1,5 +1,3 @@
-import { id } from "element-plus/es/locale"
-
 // 文本的默认值
 const text_com_data = {
     com_width: 150,
@@ -175,6 +173,9 @@ const panel_com_data = {
     z_index: 0
 }
 
+const custom_group_com_data = {
+    custom_list: [],
+}
 // 判断两个矩形是否有交集或者被包裹
 export const isRectangleIntersecting = (rect1: react1, rect2: react1) => {
     // 矩形的格式为 { x, y, width, height }
@@ -199,5 +200,6 @@ export const defaultComData = {
     img_com_data,
     line_com_data,
     icon_com_data,
-    panel_com_data
+    panel_com_data,
+    custom_group_com_data
 }
