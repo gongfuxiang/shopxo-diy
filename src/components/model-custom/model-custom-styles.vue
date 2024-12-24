@@ -50,6 +50,22 @@
                     </div>
                 </el-form-item>
             </card-container>
+            <div class="bg-f5 divider-line" />
+            <card-container>
+                <div class="mb-12">内容样式</div>
+                <el-form-item label="背景">
+                    <background-common v-model:color_list="form.data_content_style.color_list" v-model:direction="form.data_content_style.direction" v-model:img_style="form.data_content_style.background_img_style" v-model:img="form.data_content_style.background_img" @mult_color_picker_event="mult_content_color_picker_event" />
+                </el-form-item>
+                <el-form-item label="外间距">
+                    <margin :value="form.data_content_style"></margin>
+                </el-form-item>
+                <el-form-item label="内间距">
+                    <padding :value="form.data_content_style"></padding>
+                </el-form-item>
+                <el-form-item label="圆角">
+                    <radius :value="form.data_content_style"></radius>
+                </el-form-item>
+            </card-container>
         </el-form>
         <div class="bg-f5 divider-line" />
         <common-styles :value="form.common_style" />
@@ -72,7 +88,12 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, data } = toRefs(state);
-
+// 内容样式
+const mult_content_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.data_content_style.color_list = arry;
+    form.value.data_content_style.direction = type.toString();
+}
+// 数据样式
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.data_style.color_list = arry;
     form.value.data_style.direction = type.toString();
