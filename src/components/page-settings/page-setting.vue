@@ -82,8 +82,14 @@ const default_data = {
         location_right_icon_size: 12,
         location_border_show: '0',
         location_border_color: '#FF3F3F',
-        location_border_direction:  'all',
-        location_border_size: 1,
+        location_border_style: 'solid',
+        location_border_size: {
+            padding: 0,
+            padding_top: 0,
+            padding_right: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+        },
         location_radius: {
             radius: 0,
             radius_top_left: 0,

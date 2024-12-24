@@ -182,19 +182,14 @@ const style_location_container = computed(() => {
 });
 // 背景图片
 const style_location_img_container = computed(() => {
-    const { location_background_img, location_background_img_style, location_padding, location_border_direction, location_border_size, location_border_color, location_margin } = new_style.value;
+    const { location_background_img, location_background_img_style, location_padding, location_border_size, location_border_color, location_margin, location_border_style = 'solid' } = new_style.value;
     const style = {
         background_img: location_background_img,
         background_img_style: location_background_img_style,
     }
     let border = ``;
     if (new_style.value.location_border_show == '1') {
-        // 边框
-        if (location_border_direction == 'all') {
-            border += `border: ${location_border_size}px solid ${location_border_color};`;
-        } else {
-            border += `border-${location_border_direction}: ${location_border_size}px solid ${location_border_color};`;
-        }
+        border += `border-width: ${location_border_size.padding_top}px ${location_border_size.padding_right}px ${location_border_size.padding_bottom}px ${location_border_size.padding_left}px;border-style: ${ location_border_style };border-color: ${location_border_color};`
     }
     const height = 32 - location_margin.margin_top - location_margin.margin_bottom;
     return background_computer(style) + padding_computer(location_padding) + radius_computer(new_style.value.location_radius) + border + `height: ${height}px;line-height: ${height}px;`;

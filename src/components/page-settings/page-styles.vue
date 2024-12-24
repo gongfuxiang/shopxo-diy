@@ -102,26 +102,8 @@
                     <el-form-item label="外边距">
                         <margin :value="form.location_margin"></margin>
                     </el-form-item>
-                    <el-form-item label="边框">
-                        <el-switch v-model="form.location_border_show" active-value="1" inactive-value="0" />
-                    </el-form-item>
-                    <template v-if="form.location_border_show == '1'">
-                        <el-form-item label="边框颜色">
-                            <color-picker v-model="form.location_border_color" default-color="#FF3F3F"></color-picker>
-                        </el-form-item>
-                        <el-form-item label="边框位置">
-                            <el-radio-group v-model="form.location_border_direction">
-                                <el-radio value="all">全部</el-radio>
-                                <el-radio value="left">左侧</el-radio>
-                                <el-radio value="right">右侧</el-radio>
-                                <el-radio value="top">上边框</el-radio>
-                                <el-radio value="bottom">下边框</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
-                        <el-form-item label="边框粗细">
-                            <slider v-model="form.location_border_size" :max="100"></slider>
-                        </el-form-item>
-                    </template>
+                    <!-- 边框处理 -->
+                    <border-config v-model:show="form.location_border_show" v-model:color="form.location_border_color" v-model:style="form.location_border_style" v-model:size="form.location_border_size" :type-list="['color', 'style', 'size']" default-color="#FF3F3F"></border-config>
                 </card-container>
             </template>
             <div class="bg-f5 divider-line" />
@@ -213,10 +195,6 @@ const up_slide_mult_color_picker_event = (arry: color_list[], type: number) => {
 const location_mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.location_color_list = arry;
     form.value.location_direction = type.toString();
-};
-// 定位背景图片处理
-const location_background_img_change = (val: uploadList[]) => {
-    form.value.location_background_img = val;
 };
 
 const change_immersive_style = (val: string | number | boolean) => {
