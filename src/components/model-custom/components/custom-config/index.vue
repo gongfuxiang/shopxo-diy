@@ -20,6 +20,9 @@
                 <template v-else-if="diy_data.key == 'panel'">
                     <model-panel-style :key="key" v-model:height="center_height" :options="options" :value="diy_data"></model-panel-style>
                 </template>
+                <template v-else-if="diy_data.key == 'custom-group'">
+                    <model-custom-group-style :key="key" v-model:height="center_height" :options="options" :value="diy_data" @custom_edit="custom_edit"></model-custom-group-style>
+                </template>
                 <template v-else>
                     <div class="w h flex align-c bg-f">
                         <no-data></no-data>
@@ -84,14 +87,16 @@ const right_update = (item: any) => {
 };
 
 const draglist = ref<diy_data | null>(null);
-const emits = defineEmits(['accomplish']);
+const emits = defineEmits(['accomplish', 'custom_edit']);
 const accomplish = () => {
     if (!draglist.value) {
         return;
     } else {
         emits('accomplish', draglist.value.diy_data);
     }
-    
+};
+const custom_edit = (list: diy, height: number) => {
+    emits('custom_edit', list, height);
 };
 </script>
 

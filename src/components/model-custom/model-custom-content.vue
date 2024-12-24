@@ -55,10 +55,12 @@
             <div class="divider-line"></div>
             <card-container>
                 <div class="mb-20">内容设置</div>
-                <el-button class="w" size="large" @click="custom_edit"><icon name="edit" size="12"></icon>自定义编辑</el-button>
+                <el-button class="w" size="large" @click="custom_edit('custom')"><icon name="edit" size="12"></icon>自定义编辑</el-button>
             </card-container>
         </el-form>
         <!-- 自定义内容处理 -->
+        <custom-config v-model:visible="dialogVisible" v-model:width="custom_width" v-model:height="center_height" :dragkey="dragkey" :options="model_data_source" :source-list="!isEmpty(data_source_content_list) ? data_source_content_list[0] : {}" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :custom-list="custom_list" @accomplish="accomplish"></custom-config>
+        <!-- 自定义内部数据内容处理 -->
         <custom-config v-model:visible="dialogVisible" v-model:width="custom_width" v-model:height="center_height" :dragkey="dragkey" :options="model_data_source" :source-list="!isEmpty(data_source_content_list) ? data_source_content_list[0] : {}" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :custom-list="custom_list" @accomplish="accomplish"></custom-config>
         <!-- 手动筛选数据弹出框 -->
         <custom-dialog v-model:dialog-visible="url_value_dialog_visible" :data-list-key="form.show_data?.data_key || 'id'" :config="default_type_data.appoint_config" :multiple="url_value_multiple_bool" @confirm_event="url_value_dialog_call_back"></custom-dialog>
@@ -93,17 +95,31 @@ const custom_width = computed(() => {
         return center_width.value;
     }
 })
-
+// 外层自定义的弹出框
 const dialogVisible = ref(false);
+// 自定义组的弹出框
+const dialogVisible_group = ref(false);
 const form = ref(props.value);
-
+// 外层的内容
+let custom_list = reactive([]);
+const center_height = ref(0);
+// 自定义组的内容
+let custom_group_list = reactive([]);
+const center_group_height = ref(0);
 const dragkey = ref('');
 // 自定义编辑的逻辑
-const custom_edit = () => {
-    dialogVisible.value = true;
+const custom_edit = (type: string, list?: any, height?: number) => {
     dragkey.value = Math.random().toString(36).substring(2);
-    custom_list = cloneDeep(form.value.custom_list);
-    center_height.value = cloneDeep(form.value.height);
+    if (type == 'custom') {
+        dialogVisible.value = true;
+        custom_list = cloneDeep(form.value.custom_list);
+        center_height.value = cloneDeep(form.value.height);
+    } else {
+        dialogVisible_group.value = true;
+        custom_group_list = list;
+
+        center_group_height.value = height || 0;
+    }
 };
 // 点击完成的处理逻辑
 const accomplish = (list: any) => {
@@ -112,8 +128,6 @@ const accomplish = (list: any) => {
 };
 //#endregion
 // 弹出框里的内容
-let custom_list = reactive([]);
-const center_height = ref(0);
 interface custom_config {
     show_type: string[],
     show_number: number[],
