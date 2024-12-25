@@ -84,6 +84,9 @@
                                         <template v-else-if="item.key == 'panel'">
                                             <model-panel :key="item.id" :value="item.com_data" :source-list="props.sourceList" :is-custom="isCustom"></model-panel>
                                         </template>
+                                        <template v-else-if="item.key == 'custom-group'">
+                                            <model-custom-group :key="item.id" :value="item.com_data" :source-list="props.sourceList" :data-height="item.com_data.com_height" :data-width="item.com_data.com_width" :is-custom="isCustom"></model-custom-group>
+                                        </template>
                                     </div>
                                 </Vue3DraggableResizable>
                             </DraggableContainer>
@@ -202,10 +205,7 @@ const on_sort = (item: SortableEvent) => {
 };
 //#endregion 
 //#region 中间区域的处理逻辑
-const diy_data = ref<any[]>([]);
-watch(props.list, (newVal) => {
-    diy_data.value = newVal;
-}, {immediate: true, deep: true});
+const diy_data = toRef(props.list);
 // 因为容器变更的话，需要重新计算高度，所以不能默认选中第一个
 // onMounted(() => {
 //     // 如果默认不等于空的话，则默认选中第一个
@@ -260,9 +260,13 @@ const edit_close_processing = (index: number) => {
 // 复制
 const copy = (index: null | number) => {
     if (typeof index === 'number' && !isNaN(index)) {
+        const data = cloneDeep(get_diy_index_data(index));
+        // 计算存在多少个相同的key
+        const list = diy_data.value.filter(item => item.key == data.key);
         // 获取当前数据, 复制的时候id更换一下
         const new_data = {
-            ...cloneDeep(get_diy_index_data(index)),
+            ...data,
+            new_name: data.name + list.length, // 添加别名, 复制是在原有的基础上复制，所以必须要不需要判断是否存在历史的
             id: get_math(),
         };
         // 在当前位置下插入数据

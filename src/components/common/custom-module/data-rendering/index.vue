@@ -14,7 +14,10 @@
                 <model-icon :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :is-custom="isCustom"  :is-display-panel="true"></model-icon>
             </template>
             <template v-else-if="item.key == 'panel'">
-                <model-panel :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :is-custom="isCustom"  :is-display-panel="true"></model-panel>
+                <model-panel :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :is-custom="isCustom" :is-display-panel="true"></model-panel>
+            </template>
+            <template v-else-if="item.key == 'custom-group'">
+                <model-custom-group :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :data-height="item.com_data.com_height" :data-width="item.com_data.com_width" :is-custom="isCustom" :is-display-panel="true"></model-custom-group>
             </template>
         </div>
     </div>

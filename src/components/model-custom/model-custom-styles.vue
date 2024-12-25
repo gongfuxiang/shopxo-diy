@@ -68,7 +68,7 @@
             </card-container>
         </el-form>
         <div class="bg-f5 divider-line" />
-        <common-styles :value="form.common_style" />
+        <common-styles :value="form.common_style" :is-floating-up="isFloatingUp" />
     </div>
 </template>
 <script setup lang="ts">
@@ -80,7 +80,11 @@ const props = defineProps({
     content: {
         type: Object,
         default: () => ({}),
-    }
+    },
+    isFloatingUp: {
+        type: Boolean,
+        default: true,
+    },
 });
 const state = reactive({
     form: props.value,

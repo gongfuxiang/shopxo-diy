@@ -175,18 +175,16 @@ const panel_com_data = {
 }
 
 const custom_group_com_data = {
+    // 容器高度
     com_width: 100,
     com_height: 100,
     staging_height: 100,
-    color_list: [{ color: 'rgb(244, 252, 255)', color_percentage: undefined }],
-    direction: '90deg',
-    custom_list: [],
+    custom_list: [], // 自定义内容处理
     custom_height: 100, // 自定义高度
-    data_content: {
-        
-    },
+    data_source_direction: 'vertical', // 铺满方式
+    data_source_carousel_col: 1, // 铺满数量
     data_style: {
-        ...defaultCustom
+        ...defaultCustom.style
     }
 }
 // 判断两个矩形是否有交集或者被包裹

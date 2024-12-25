@@ -12,16 +12,22 @@
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>
-                <div class="mb-20">自定义设置</div>
-                <el-button class="w" size="large" @click="custom_edit"><icon name="edit" size="12"></icon>自定义编辑</el-button>
+                <div class="mb-12">容器设置</div>
+                <el-form-item label="容器宽度">
+                    <slider v-model="form.com_width" :max="390"></slider>
+                </el-form-item>
+                <el-form-item label="容器高度">
+                    <slider v-model="form.com_height" :max="1000"></slider>
+                </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
             <el-tabs v-model="tabs_name" class="content-tabs">
                 <el-tab-pane label="内容设置" name="content">
-                    <tabs-content :value="form.data_content"></tabs-content>
+                    <custom-tabs-content :value="form" @custom_edit="custom_edit"></custom-tabs-content>
                 </el-tab-pane>
                 <el-tab-pane label="样式设置" name="styles">
-                    <model-custom-styles :value="form.data_style" :content="form.data_content"></model-custom-styles>
+                    {{ diy_data.location.x }}
+                    <model-custom-styles :value="form.data_style" :content="form" :is-floating-up="false"></model-custom-styles>
                 </el-tab-pane>
             </el-tabs>
         </el-form>
@@ -52,7 +58,9 @@ const center_height = defineModel('height', { type: Number, default: 0 });
 const emit = defineEmits(['custom_edit']);
 const custom_edit = () => {
     const { custom_list, com_width, custom_height } = form.value;
-    emit('custom_edit', diy_data.value.id, custom_list, com_width, custom_height);
+    // 计算宽度
+    const width = form.value.data_source_direction != 'vertical-scroll' ? com_width / form.value.data_source_carousel_col : com_width; // 可拖拽区域的宽度
+    emit('custom_edit', diy_data.value.id, custom_list, width, custom_height);
 };
 // x轴变化时，更新记录的位置
 const location_x_change = (val: number) => {
@@ -82,5 +90,21 @@ watch(
 .border-style-item {
     width: 3rem;
     height: 2rem;
+}
+:deep(.el-tabs.content-tabs) {
+    .el-tabs__header.is-top {
+        background: #fff;
+        margin: 0;
+        padding-top: 2rem;
+    }
+    .el-tabs__item.is-top {
+        padding: 0;
+        align-items: center;
+        width: 10rem;
+        font-size: 1.4rem;
+    }
+    .el-tabs__active-bar{
+        width: 100%;
+    }
 }
 </style>
