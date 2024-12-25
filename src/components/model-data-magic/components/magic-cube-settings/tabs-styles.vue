@@ -94,6 +94,24 @@
             </el-form-item>
         </card-container>
         <div class="bg-f5 divider-line" />
+        <template v-if="tabs_content.data_type == 'custom'">
+            <card-container>
+                <div class="mb-12">内容样式</div>
+                <el-form-item label="背景">
+                    <background-common :key="form.carouselKey" v-model:color_list="form.data_content_style.color_list" v-model:direction="form.data_content_style.direction" v-model:img_style="form.data_content_style.background_img_style" v-model:img="form.data_content_style.background_img" @mult_color_picker_event="data_content_mult_color_picker_event" />
+                </el-form-item>
+                <el-form-item v-if="tabs_content.data_type == 'custom'" label="外间距">
+                    <margin :key="form.carouselKey" :value="form.data_content_style"></margin>
+                </el-form-item>
+                <el-form-item label="内间距">
+                    <padding :key="form.carouselKey" :value="form.data_content_style"></padding>
+                </el-form-item>
+                <el-form-item label="圆角">
+                    <radius :key="form.carouselKey" :value="form.data_content_style"></radius>
+                </el-form-item>
+            </card-container>
+            <div class="bg-f5 divider-line" />
+        </template>
     </template>
     <template v-if="tabs_content.data_type === 'goods'">
         <card-container>
@@ -199,6 +217,11 @@ const img_radius_change = (radius: radiusStyle) => {
         'radius_bottom_left',
         'radius_bottom_right',
     ]));
+}
+// 内容底板颜色
+const data_content_mult_color_picker_event = (arry: string[], type: number) => {
+    form.value.data_content_style.color_list = arry;
+    form.value.data_content_style.direction = type.toString();
 }
 // 数据底板颜色
 const data_mult_color_picker_event = (arry: string[], type: number) => {

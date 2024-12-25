@@ -1,48 +1,51 @@
 <template>
     <div :style="style_container">
-        <div class="w h re" :style="style_img_container">
-            <template v-if="data_source_content_list.length > 0 && form.data_source_direction == 'vertical'">
-                <div class="flex-row flex-wrap" :style="`row-gap: ${ new_style.row_gap }px;column-gap: ${ new_style.column_gap }px;`">
-                    <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="`width: ${ gap_width }`">
-                        <div :style="style_chunk_container">
-                            <div class="w h oh" :style="style_chunk_img_container">
-                                <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="form.height" :scale="scale" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }"></data-rendering>
+        <div :style="style_img_container">
+            <div :style="style_content_container">
+                <div class="w h re" :style="style_content_img_container">
+                    <template v-if="data_source_content_list.length > 0 && form.data_source_direction == 'vertical'">
+                        <div class="flex-row flex-wrap" :style="`row-gap: ${ new_style.row_gap }px;column-gap: ${ new_style.column_gap }px;`">
+                            <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="`width: ${ gap_width }`">
+                                <div :style="style_chunk_container">
+                                    <div class="w h oh" :style="style_chunk_img_container">
+                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="form.height" :scale="scale" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }"></data-rendering>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </template>
-            <div v-else-if="data_source_content_list.length > 0 && ['vertical-scroll', 'horizontal'].includes(form.data_source_direction)" class="oh" :style="form.data_source_direction == 'horizontal' ? `height:100%;` : `height: ${ swiper_height }px;`">
-                <swiper :key="carouselKey" class="w flex" :direction="form.data_source_direction == 'horizontal' ? 'horizontal': 'vertical'" :height="swiper_height" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="slides_per_group" :space-between="space_between" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
-                    <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
-                        <div :style="style_chunk_container">
-                            <div class="w h oh" :style="style_chunk_img_container">
-                                <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="form.height" :scale="scale" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }"></data-rendering>
-                            </div>
-                        </div>
-                    </swiper-slide>
-                </swiper>
-                <div v-if="new_style.is_show == '1' && dot_list.length > 1" :class="['left', 'right'].includes(new_style.indicator_new_location) ? 'indicator_up_down_location' : 'indicator_about_location'" :style="indicator_location_style">
-                    <template v-if="new_style.indicator_style == 'num'">
-                        <div :style="indicator_style" class="dot-item">
-                            <span class="num-active">{{ actived_index + 1 }}</span><span>/{{ dot_list.length }}</span>
                         </div>
                     </template>
+                    <div v-else-if="data_source_content_list.length > 0 && ['vertical-scroll', 'horizontal'].includes(form.data_source_direction)" class="oh" :style="form.data_source_direction == 'horizontal' ? `height:100%;` : `height: ${ swiper_height }px;`">
+                        <swiper :key="carouselKey" class="w flex" :direction="form.data_source_direction == 'horizontal' ? 'horizontal': 'vertical'" :height="swiper_height" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="slides_per_group" :space-between="space_between" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
+                            <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
+                                <div :style="style_chunk_container">
+                                    <div class="w h oh" :style="style_chunk_img_container">
+                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="form.height" :scale="scale" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }"></data-rendering>
+                                    </div>
+                                </div>
+                            </swiper-slide>
+                        </swiper>
+                        <div v-if="new_style.is_show == '1' && dot_list.length > 1" :class="['left', 'right'].includes(new_style.indicator_new_location) ? 'indicator_up_down_location' : 'indicator_about_location'" :style="indicator_location_style">
+                            <template v-if="new_style.indicator_style == 'num'">
+                                <div :style="indicator_style" class="dot-item">
+                                    <span class="num-active">{{ actived_index + 1 }}</span><span>/{{ dot_list.length }}</span>
+                                </div>
+                            </template>
+                            <template v-else>
+                                <div v-for="(item, index) in dot_list" :key="index" :style="indicator_style" :class="{ 'dot-item': true, active: actived_index == index }" />
+                            </template>
+                        </div>
+                    </div>
                     <template v-else>
-                        <div v-for="(item, index) in dot_list" :key="index" :style="indicator_style" :class="{ 'dot-item': true, active: actived_index == index }" />
+                        <div :style="style_chunk_container">
+                            <div class="w h oh" :style="style_chunk_img_container">
+                                <data-rendering :custom-list="form.custom_list" :data-height="form.height" :scale="scale"></data-rendering>
+                            </div>
+                        </div>
                     </template>
                 </div>
             </div>
-            <template v-else>
-                <div :style="style_chunk_container">
-                    <div class="w h oh" :style="style_chunk_img_container">
-                        <data-rendering :custom-list="form.custom_list" :data-height="form.height" :scale="scale"></data-rendering>
-                    </div>
-                </div>
-            </template>
         </div>
     </div>
-    
 </template>
 <script setup lang="ts">
 import { isEmpty, cloneDeep } from 'lodash';
@@ -92,11 +95,15 @@ const gap_width = computed(() => {
 const scale = ref(1);
 // 计算整体宽度和比例
 watchEffect(() => {
-    const { common_style, data_style } = new_style.value;
+    const { common_style, data_style, data_content_style } = new_style.value;
+    // 外层左右间距
     const outer_spacing = common_style.margin_left + common_style.margin_right + common_style.padding_left + common_style.padding_right;
+    // 内容左右间距
+    const content_spacing = data_content_style.margin_left + data_content_style.margin_right + data_content_style.padding_left + data_content_style.padding_right;
+    // 数据左右间距
     const internal_spacing = data_style.margin_left + data_style.margin_right + data_style.padding_left + data_style.padding_right;
     // 根据容器宽度来计算内部大小
-    const width = 390 - outer_spacing - internal_spacing - props.outerContainerPadding;
+    const width = 390 - outer_spacing - internal_spacing - content_spacing - props.outerContainerPadding;
     // 获得对应宽度的比例
     scale.value = width / 390;
 });
@@ -104,7 +111,10 @@ watchEffect(() => {
 // 公共样式
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));
 const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
-
+// 内容样式
+const style_content_container = computed(() => common_styles_computer(new_style.value.data_content_style));
+const style_content_img_container = computed(() => common_img_computer(new_style.value.data_content_style));
+// 数据样式
 const style_chunk_container = computed(() => common_styles_computer(new_style.value.data_style));
 const style_chunk_img_container = computed(() => common_img_computer(new_style.value.data_style));
 

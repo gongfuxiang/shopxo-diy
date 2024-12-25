@@ -99,6 +99,7 @@ interface defaultSearch {
         indicator_size: number;
         indicator_radius: radiusStyle;
         data_style: object;
+        data_content_style: object;
         row_gap: number;
         column_gap: number;
         // 通用样式
@@ -156,6 +157,27 @@ const defaultSearch: defaultSearch = {
             radius_bottom_right: 4,
         },
         data_style: {
+            color_list: [{ color: '', color_percentage: undefined }],
+            direction: '180deg',
+            background_img_style: '2',
+            background_img: [],
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+            padding: 0,
+            padding_top: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+            padding_right: 0,
+            margin: 0,
+            margin_top: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
+        },
+        data_content_style: {
             color_list: [{ color: '', color_percentage: undefined }],
             direction: '180deg',
             background_img_style: '2',
