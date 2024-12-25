@@ -1,11 +1,6 @@
 <template>
     <div class="slider w">
-        <template v-if="max <= 10">
-            <el-slider v-model="modelValue" :min="min" :max="max" :step="step" show-stops />
-        </template>
-        <template v-else>
-            <el-slider v-model="modelValue" :min="min" :max="max" :step="step" />
-        </template>
+        <el-slider v-model="modelValue" :min="min" :max="max" :step="step" :show-stops="max <= 10" />
         <input-number v-model="modelValue" :class="type == 'notRetract'? 'slider-input' : 'slider-retract-input'" :min="min" :max="max"></input-number>
     </div>
 </template>

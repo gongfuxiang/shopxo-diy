@@ -1,15 +1,7 @@
 <template>
     <div class="w h bg-f">
         <el-form :model="form" label-width="70">
-            <card-container>
-                <div class="mb-12">定位设置</div>
-                <el-form-item label="X轴">
-                    <slider v-model="diy_data.location.x" :max="390" @update:model-value="location_x_change"></slider>
-                </el-form-item>
-                <el-form-item label="Y轴">
-                    <slider v-model="diy_data.location.y" :max="1000" @update:model-value="location_y_change"></slider>
-                </el-form-item>
-            </card-container>
+            <custom-location v-model="diy_data.location"></custom-location>
             <div class="bg-f5 divider-line" />
             <card-container>
                 <div class="mb-12">容器设置</div>
@@ -26,7 +18,6 @@
                     <custom-tabs-content :value="form" @custom_edit="custom_edit"></custom-tabs-content>
                 </el-tab-pane>
                 <el-tab-pane label="样式设置" name="styles">
-                    {{ diy_data.location.x }}
                     <model-custom-styles :value="form.data_style" :content="form" :is-floating-up="false"></model-custom-styles>
                 </el-tab-pane>
             </el-tabs>
@@ -46,15 +37,15 @@ const props = defineProps({
     },
 });
 // 默认值
+const tabs_name = 'content';
+const center_height = defineModel('height', { type: Number, default: 0 });
 const state = reactive({
     diy_data: props.value,
 });
 // 如果需要解构，确保使用toRefs
 const { diy_data } = toRefs(state);
 const form = ref(diy_data.value.com_data);
-const tabs_name = 'content';
-const center_height = defineModel('height', { type: Number, default: 0 });
-
+//#region 自定义组的编辑功能  
 const emit = defineEmits(['custom_edit']);
 const custom_edit = () => {
     const { custom_list, com_width, custom_height } = form.value;
@@ -62,15 +53,8 @@ const custom_edit = () => {
     const width = form.value.data_source_direction != 'vertical-scroll' ? com_width / form.value.data_source_carousel_col : com_width; // 可拖拽区域的宽度
     emit('custom_edit', diy_data.value.id, custom_list, width, custom_height);
 };
-// x轴变化时，更新记录的位置
-const location_x_change = (val: number) => {
-    diy_data.value.location.record_x = val;
-}
-// y轴变化时，更新记录的位置
-const location_y_change = (val: number) => {
-    diy_data.value.location.record_y = val;
-    diy_data.value.location.staging_y = val;
-}
+//# endregion
+//#region 位置计算
 // 监听数据变化
 watch(
     diy_data,
@@ -85,6 +69,7 @@ watch(
     },
     { immediate: true, deep: true }
 );
+//#endregion
 </script>
 <style lang="scss" scoped>
 .border-style-item {

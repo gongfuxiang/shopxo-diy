@@ -1,15 +1,7 @@
 <template>
     <div class="w h bg-f">
         <el-form :model="form" label-width="70">
-            <card-container>
-                <div class="mb-12">定位设置</div>
-                <el-form-item label="X轴">
-                    <slider v-model="diy_data.location.x" :max="390" @update:model-value="location_x_change"></slider>
-                </el-form-item>
-                <el-form-item label="Y轴">
-                    <slider v-model="diy_data.location.y" :max="1000" @update:model-value="location_y_change"></slider>
-                </el-form-item>
-            </card-container>
+            <custom-location v-model="diy_data.location"></custom-location>
             <div class="bg-f5 divider-line" />
             <card-container>
                 <div class="mb-12">容器设置</div>
@@ -102,16 +94,6 @@ const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.direction = type.toString();
 };
 
-// x轴变化时，更新记录的位置
-const location_x_change = (val: number) => {
-    diy_data.value.location.record_x = val;
-}
-// y轴变化时，更新记录的位置
-const location_y_change = (val: number) => {
-    diy_data.value.location.record_y = val;
-    diy_data.value.location.staging_y = val;
-}
-
 // 数据链接字段切换时，更新另外一个数据
 const img_link_change = (key: string) => {
     if (key == '2') {
@@ -121,7 +103,8 @@ const img_link_change = (key: string) => {
         form.value.data_source_link_field = get_data_fields([], 'link', '');
     }
 }
-
+// #region 位置计算
+// 监听数据变化
 watch(
     diy_data,
     (val) => {
@@ -130,11 +113,11 @@ watch(
         diy_data.value.location.record_x = location_compute(form.value.com_width, val.location.record_x, 390);
         diy_data.value.location.record_y = location_compute(form.value.com_height, val.location.record_y, center_height.value);
         diy_data.value.location.staging_y = location_compute(form.value.com_height, val.location.staging_y, center_height.value);
-
         form.value.staging_height = form.value.com_height;
     },
     { immediate: true, deep: true }
 );
+// #endregion
 </script>
 <style lang="scss" scoped>
 .border-style-item {

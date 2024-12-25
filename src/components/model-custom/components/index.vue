@@ -205,6 +205,7 @@ const on_sort = (item: SortableEvent) => {
 };
 //#endregion 
 //#region 中间区域的处理逻辑
+// 数据只需要一次更新即可，避免多次更新导致数据不一致
 const diy_data = toRef(props.list);
 // 因为容器变更的话，需要重新计算高度，所以不能默认选中第一个
 // onMounted(() => {
@@ -669,7 +670,7 @@ const start_drag_area_box = (index: number, event: MouseEvent) => {
             // 遍历对象,包裹在区域内部的拖拽距离更新
             diy_data.value.forEach(item => {
                 if (item.is_hot == '1') { // 只更新交集和包裹中的数据
-                    let { record_x, record_y} = cloneDeep(item.location);
+                    let { record_x, record_y } = cloneDeep(item.location);
                     item.location.x = Math.max(0, record_x + move_x);
                     item.location.y = Math.max(0, record_y + move_y);
                 }
@@ -727,7 +728,6 @@ const start_drag_btn = (index: number, event: MouseEvent, type: string) => {
         //用鼠标的位置减去鼠标相对元素的位置，得到元素的位置
         if (drag_box_scale_bool.value) {
             if (!imgBoxRef.value) return;
-
             switch (type) {
                 case 'br':
                     // 下右
