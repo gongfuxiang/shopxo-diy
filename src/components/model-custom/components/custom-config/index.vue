@@ -2,7 +2,7 @@
     <Dialog v-model:visible="dialogVisible" @accomplish="accomplish">
         <div class="flex-row h w">
             <!-- 左侧和中间区域 -->
-            <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="center_width" :source-list="sourceList" :options="options" :is-custom="isCustom" :show-data="showData" :list="customList" @right-update="right_update"></DragIndex>
+            <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="center_width" :config-type="configType" :source-list="sourceList" :options="options" :is-custom="isCustom" :show-data="showData" :list="customList" @right-update="right_update"></DragIndex>
             <!-- 右侧配置区域 -->
             <div class="settings">
                 <template v-if="diy_data.key === 'img'">
@@ -20,7 +20,7 @@
                 <template v-else-if="diy_data.key == 'panel'">
                     <model-panel-style :key="key" v-model:height="center_height" :options="options" :value="diy_data"></model-panel-style>
                 </template>
-                <template v-else-if="diy_data.key == 'custom-group'">
+                <template v-else-if="diy_data.key == 'custom-group' && configType == 'custom'">
                     <model-custom-group-style :key="key" v-model:height="center_height" :options="options" :value="diy_data" @custom_edit="custom_edit"></model-custom-group-style>
                 </template>
                 <template v-else>
@@ -36,6 +36,10 @@
 import Dialog from '@/components/model-custom/components/dialog.vue';
 import DragIndex from '@/components/model-custom/components/index.vue';
 const props = defineProps({
+    configType: {
+        type: String,
+        default: 'custom',
+    },
     dragkey: {
         type: String,
         default: '',
@@ -56,11 +60,17 @@ const props = defineProps({
         type: Object,
         default: () => ({ data_key: 'id', data_name: 'name' }),
     },
+    customId: {
+        type: String,
+        default: '',
+    },
     customList: {
         type: Array<any>,
         default: () => [],
     },
-})
+});
+// 自定义组的父组件数据
+const custom_father_list = defineModel('fatherList', { type: Array, default: () => [] });
 // 中间区域的宽高
 const center_width = defineModel('width', { type: Number, default: 390 });
 const center_height = defineModel('height', { type: Number, default: 0 });
@@ -85,18 +95,36 @@ const right_update = (item: any) => {
     // 生成随机id
     key.value = Math.random().toString(36).substring(2);
 };
-
 const draglist = ref<diy_data | null>(null);
 const emits = defineEmits(['accomplish', 'custom_edit']);
+// 点击完成按钮
 const accomplish = () => {
+    // 如果没有数据，直接返回
     if (!draglist.value) {
         return;
     } else {
-        emits('accomplish', draglist.value.diy_data);
+        // 如果是自定点击完成，需要将数据传递给父组件
+        if (props.configType == 'custom') {
+            emits('accomplish', props.configType, draglist.value.diy_data);
+        } else {
+            // 如果是自定义组点击完成，需要将值赋值给对应的父组件数据中，再将完整的数据渲染出来
+            custom_father_list.value.forEach((item: any) => {
+                if (item.id == props.customId) {
+                    item.com_data.custom_height = center_height.value;
+                    item.com_data.custom_list = draglist.value?.diy_data || [];
+                }
+            });
+            emits('accomplish', 'custom-group', custom_father_list.value);
+        }
     }
 };
-const custom_edit = (list: diy, height: number) => {
-    emits('custom_edit', list, height);
+// 自定义组编辑
+const custom_edit = (id: string, list: diy, width: number, height: number) => {
+    let father_list : any = [];
+    if (props.configType == 'custom') {
+        father_list = draglist.value?.diy_data || [];
+    }
+    emits('custom_edit', 'custom-group', id, father_list, list, width, height);
 };
 </script>
 

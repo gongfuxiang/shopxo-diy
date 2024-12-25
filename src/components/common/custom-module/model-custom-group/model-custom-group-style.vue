@@ -12,31 +12,23 @@
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>
-                <div class="mb-12">自定义设置</div>
+                <div class="mb-20">自定义设置</div>
                 <el-button class="w" size="large" @click="custom_edit"><icon name="edit" size="12"></icon>自定义编辑</el-button>
             </card-container>
             <div class="bg-f5 divider-line" />
-            <card-container>
-                <div class="mb-12">容器设置</div>
-                <el-form-item label="容器宽度">
-                    <slider v-model="form.com_width" :max="1000"></slider>
-                </el-form-item>
-                <el-form-item label="容器高度">
-                    <slider v-model="form.com_height" :max="1000"></slider>
-                </el-form-item>
-                <el-form-item label="背景颜色">
-                    <mult-color-picker :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
-                </el-form-item>
-                <el-form-item label="圆角">
-                    <radius :value="form.bg_radius" @update:value="bg_radius_change"></radius>
-                </el-form-item>
-            </card-container>
+            <el-tabs v-model="tabs_name" class="content-tabs">
+                <el-tab-pane label="内容设置" name="content">
+                    <tabs-content :value="form.data_content"></tabs-content>
+                </el-tab-pane>
+                <el-tab-pane label="样式设置" name="styles">
+                    <model-custom-styles :value="form.data_style" :content="form.data_content"></model-custom-styles>
+                </el-tab-pane>
+            </el-tabs>
         </el-form>
     </div>
 </template>
 <script setup lang="ts">
 import { location_compute } from '@/utils';
-import { pick, cloneDeep } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
@@ -54,20 +46,13 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { diy_data } = toRefs(state);
 const form = ref(diy_data.value.com_data);
+const tabs_name = 'content';
 const center_height = defineModel('height', { type: Number, default: 0 });
 
 const emit = defineEmits(['custom_edit']);
 const custom_edit = () => {
-    emit('custom_edit', form.value.custom_list, form.value.com_height);
-};
-// 通用配置
-const mult_color_picker_event = (arry: color_list[], type: number) => {
-    form.value.color_list = arry;
-    form.value.direction = type.toString();
-};
-// 背景圆角配置
-const bg_radius_change = (radius: any) => {
-    form.value.bg_radius = Object.assign(form.value.bg_radius, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
+    const { custom_list, com_width, custom_height } = form.value;
+    emit('custom_edit', diy_data.value.id, custom_list, com_width, custom_height);
 };
 // x轴变化时，更新记录的位置
 const location_x_change = (val: number) => {

@@ -1,3 +1,4 @@
+import defaultCustom from '@/config/const/custom';
 // 文本的默认值
 const text_com_data = {
     com_width: 150,
@@ -174,7 +175,19 @@ const panel_com_data = {
 }
 
 const custom_group_com_data = {
+    com_width: 100,
+    com_height: 100,
+    staging_height: 100,
+    color_list: [{ color: 'rgb(244, 252, 255)', color_percentage: undefined }],
+    direction: '90deg',
     custom_list: [],
+    custom_height: 100, // 自定义高度
+    data_content: {
+        
+    },
+    data_style: {
+        ...defaultCustom
+    }
 }
 // 判断两个矩形是否有交集或者被包裹
 export const isRectangleIntersecting = (rect1: react1, rect2: react1) => {

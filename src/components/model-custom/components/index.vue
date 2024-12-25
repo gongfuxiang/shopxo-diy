@@ -5,7 +5,7 @@
             <el-collapse v-model="activeNames">
                 <el-collapse-item v-for="(com, i) in components" :key="i" :title="com.title" :name="com.key">
                     <div class="component flex-row flex-wrap">
-                        <div v-for="item in com.item" :key="item.key" class="item">
+                        <div v-for="item in com.item.filter(item => item.is_show)" :key="item.key" class="item">
                             <div class="siderbar-item flex-col jc-c align-c gap-4 draggable" draggable="true" @dragstart="dragStart(item, $event)" @dragend="dragEnd">
                                 <img class="img radius-xs" :src="url_computer(item.key)" />
                                 <div>{{ item.name }}</div>
@@ -118,6 +118,7 @@ const app = getCurrentInstance();
 //#region 传递参数和传出数据的处理
 const emits = defineEmits(['rightUpdate']);
 interface Props {
+    configType: string;
     list: diy_content[];
     sourceList: object;
     isCustom: boolean;
@@ -136,36 +137,42 @@ const components = reactive([
             {
                 key: 'text',
                 name: '文本',
+                is_show: true,
                 new_name: '',
                 com_data: defaultComData.text_com_data
             },
             {
                 key: 'img',
                 name: '图片',
+                is_show: true,
                 new_name: '',
                 com_data: defaultComData.img_com_data,
             },
             {
                 key: 'auxiliary-line',
                 name: '线条',
+                is_show: true,
                 new_name: '',
                 com_data: defaultComData.line_com_data,
             },
             {
                 key: 'icon',
                 name: '图标',
+                is_show: true,
                 new_name: '',
                 com_data: defaultComData.icon_com_data,
             },
             {
                 key: 'panel',
                 name: '面板',
+                is_show: true,
                 new_name: '',
                 com_data: defaultComData.panel_com_data,
             },
             {
                 key: 'custom-group',
                 name: '自定义组',
+                is_show: props.configType == 'custom' ? true : false,
                 new_name: '',
                 com_data: defaultComData.custom_group_com_data,
             },
@@ -195,8 +202,10 @@ const on_sort = (item: SortableEvent) => {
 };
 //#endregion 
 //#region 中间区域的处理逻辑
-const diy_data = toRef(props.list);
-
+const diy_data = ref<any[]>([]);
+watch(props.list, (newVal) => {
+    diy_data.value = newVal;
+}, {immediate: true, deep: true});
 // 因为容器变更的话，需要重新计算高度，所以不能默认选中第一个
 // onMounted(() => {
 //     // 如果默认不等于空的话，则默认选中第一个

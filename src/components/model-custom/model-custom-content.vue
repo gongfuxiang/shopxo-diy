@@ -59,9 +59,9 @@
             </card-container>
         </el-form>
         <!-- 自定义内容处理 -->
-        <custom-config v-model:visible="dialogVisible" v-model:width="custom_width" v-model:height="center_height" :dragkey="dragkey" :options="model_data_source" :source-list="!isEmpty(data_source_content_list) ? data_source_content_list[0] : {}" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :custom-list="custom_list" @accomplish="accomplish"></custom-config>
+        <custom-config :key="dragkey + 'custom'" v-model:visible="dialogVisible" v-model:width="custom_width" v-model:height="center_height" :dragkey="dragkey + 'custom'" :options="model_data_source" :source-list="!isEmpty(data_source_content_list) ? data_source_content_list[0] : {}" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :custom-list="custom_list" @accomplish="accomplish" @custom_edit="custom_edit"></custom-config>
         <!-- 自定义内部数据内容处理 -->
-        <custom-config v-model:visible="dialogVisible" v-model:width="custom_width" v-model:height="center_height" :dragkey="dragkey" :options="model_data_source" :source-list="!isEmpty(data_source_content_list) ? data_source_content_list[0] : {}" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :custom-list="custom_list" @accomplish="accomplish"></custom-config>
+        <custom-config :key="drag_group_key + 'custom-group'" v-model:visible="dialogVisible_group" v-model:width="center_group_width" v-model:height="center_group_height" v-model:father-list="custom_group_father_list" config-type="custom-group" :dragkey="drag_group_key + 'custom-group'" :options="model_data_source" :source-list="!isEmpty(data_source_content_list) ? data_source_content_list[0] : {}" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :custom-id="center_group_id" :custom-list="custom_group_list" @accomplish="accomplish"></custom-config>
         <!-- 手动筛选数据弹出框 -->
         <custom-dialog v-model:dialog-visible="url_value_dialog_visible" :data-list-key="form.show_data?.data_key || 'id'" :config="default_type_data.appoint_config" :multiple="url_value_multiple_bool" @confirm_event="url_value_dialog_call_back"></custom-dialog>
     </div>
@@ -75,6 +75,10 @@ import { get_math } from '@/utils';
 const data_source_store = DataSourceStore();
 
 const props = defineProps({
+    configType: {
+        type: String,
+        default: 'custom',
+    },
     value: {
         type: Object,
         default: () => {},
@@ -95,36 +99,62 @@ const custom_width = computed(() => {
         return center_width.value;
     }
 })
-// 外层自定义的弹出框
-const dialogVisible = ref(false);
-// 自定义组的弹出框
-const dialogVisible_group = ref(false);
 const form = ref(props.value);
 // 外层的内容
-let custom_list = reactive([]);
+// 外层自定义的弹出框
+const dragkey = ref('');
+const dialogVisible = ref(false);
+const custom_list = ref([]);
 const center_height = ref(0);
 // 自定义组的内容
-let custom_group_list = reactive([]);
+// 自定义组的弹出框
+const dialogVisible_group = ref(false);
+ // 自定义组数据
+const custom_group_list = ref([]);
+// 自定义组的默认宽高
 const center_group_height = ref(0);
-const dragkey = ref('');
+const center_group_width = ref(0);
+// 自定义组的id
+const center_group_id = ref('');
+// 自定义组的父级数据
+const custom_group_father_list = ref([]);
+// 自定义组的弹出框的key值
+const drag_group_key = ref('');
 // 自定义编辑的逻辑
-const custom_edit = (type: string, list?: any, height?: number) => {
-    dragkey.value = Math.random().toString(36).substring(2);
+const custom_edit = (type: string, id?: string, father_list?: any, list?: any, width?: number, height?: number) => {
+    // 如果是自定义点击编辑
     if (type == 'custom') {
+        dragkey.value = Math.random().toString(36).substring(2);
         dialogVisible.value = true;
-        custom_list = cloneDeep(form.value.custom_list);
+        // 主自定义的数据
+        custom_list.value = cloneDeep(form.value.custom_list);
+        // 主自定义的高度
         center_height.value = cloneDeep(form.value.height);
     } else {
+        drag_group_key.value = Math.random().toString(36).substring(2);
+        // 自定义组的弹出框
         dialogVisible_group.value = true;
-        custom_group_list = list;
-
+        // 自定义组数据
+        custom_group_list.value = list;
+        // 自定义组的父级数据，因为父级没有点击完成数据不会记录，所以需要子级点击完成的时候传递过来
+        custom_group_father_list.value = father_list;
+        // 自定义组的id，避免多个组的赋值失败
+        center_group_id.value = id || '';
+        // 自定义组的默认宽高
+        center_group_width.value = width || 0;
         center_group_height.value = height || 0;
     }
 };
 // 点击完成的处理逻辑
-const accomplish = (list: any) => {
-    form.value.custom_list = list;
-    form.value.height = center_height.value;
+const accomplish = (type: string, list: any) => {
+    // 如果是自定义点击完成，就更新主数据
+    if (type == 'custom') {
+        form.value.custom_list = list;
+        form.value.height = center_height.value;
+    } else {
+        // 自定义组点击完成，更新自定义内的数据
+        custom_list.value = list;
+    }
 };
 //#endregion
 // 弹出框里的内容
