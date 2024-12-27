@@ -308,52 +308,45 @@ const del = (index: null | number) => {
         });
     }
 };
+
 //前置一层 - 1
 const previous_layer = (index: number) => {
-    if (diy_data.value.length > 0) {
-        const old_data = get_diy_index_data(index);
-        // 删除当前位置信息
-        diy_data.value.splice(index, 1);
-        // 将数据插入下一层数据中
-        diy_data.value.splice(index - 1, 0, old_data);
-        set_show_tabs(index - 1);
+    if (diy_data.value.length > 0 && index > 0) {
+        moveItem(index, index - 1);
     }
 }
-
 //后置一层 + 1
 const underlying_layer = (index: number) => {
-    if (diy_data.value.length > 0) {
-        const old_data = get_diy_index_data(index);
-        // 删除当前位置信息
-        diy_data.value.splice(index, 1);
-        // 将数据插入上一层数据中
-        diy_data.value.splice(index + 1, 0, old_data);
-        // 设置对应的位置为显示
-        set_show_tabs(index + 1);
+    if (diy_data.value.length > 0 && index < diy_data.value.length - 1) {
+        moveItem(index, index + 1);
     }
 }
 //组件置顶
 const top_up = (index: number) => {
     if (!isEmpty(diy_data.value[index])) {
-        const old_data = get_diy_index_data(index);
-        // 删除当前位置信息
-        diy_data.value.splice(index, 1);
-        // 将数据插入下一层数据中
-        diy_data.value.splice(0, 0, old_data);
-        set_show_tabs(0);
+        moveItem(index, 0);
     }
 }
-
 //组件置底
 const bottom_up = (index: number) => {
     if (!isEmpty(diy_data.value[index])) {
-        const old_data = get_diy_index_data(index);
         const old_length = diy_data.value.length - 1;
+        moveItem(index, old_length);
+    }
+}
+const moveItem = (index: number, newIndex: number) => {
+    if (index < 0 || index >= diy_data.value.length || newIndex < 0 || newIndex >= diy_data.value.length) {
+        return;
+    }
+    try {
+        const old_data = get_diy_index_data(index);
         // 删除当前位置信息
         diy_data.value.splice(index, 1);
-        // 将数据插入下一层数据中
-        diy_data.value.splice(old_length, 0, old_data);
-        set_show_tabs(old_length);
+        // 将数据插入新位置
+        diy_data.value.splice(newIndex, 0, old_data);
+        set_show_tabs(newIndex);
+    } catch (error) {
+        console.error('Error moving item:', error);
     }
 }
 
@@ -420,6 +413,7 @@ const drag_area_width = computed(() => center_width.value + 'px');
 
 const draggable_container = ref(true);
 let data = reactive<diy_content[]>([]);
+// 拖拽组件高度变化时数据需要重新赋值，避免拖拽不到新高度的区域
 watch(() => center_height.value, () => {
     data = diy_data.value;
     // 从 DOM 中删除组件
