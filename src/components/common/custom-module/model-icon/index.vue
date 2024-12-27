@@ -40,7 +40,7 @@ const props = defineProps({
 });
 // 用于页面判断显示
 const form = computed(() => props.value);
-
+// 图标样式
 const icon_class = computed(() => {
     if (!isEmpty(form.value.icon_class)) {
         return form.value.icon_class;
@@ -69,7 +69,7 @@ const icon_class = computed(() => {
         }
     }
 });
-
+// 数据处理
 const data_handling = (data_source_id: string) => {
     // 不输入商品， 文章和品牌时，从外层处理数据
     let icon = get_nested_property(props.sourceList, data_source_id);
@@ -79,7 +79,7 @@ const data_handling = (data_source_id: string) => {
     }
     return icon;
 }
-
+// 外层样式
 const com_style = computed(() => {
     let style = `${ set_count() } ${ gradient_handle(form.value.color_list, form.value.direction) } ${ radius_computer(form.value.bg_radius, props.scale) };transform: rotate(${form.value.icon_rotate}deg);${ padding_computer(form.value.icon_padding, props.scale) };`;
     if (form.value.border_show == '1') {
@@ -94,6 +94,7 @@ const com_style = computed(() => {
     }
     return style;
 });
+// 不同地方下的样式
 const set_count = () => {
     if (props.isDisplayPanel) {
         return '';

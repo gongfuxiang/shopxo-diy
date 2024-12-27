@@ -30,7 +30,7 @@ const props = defineProps({
 });
 // 用于页面判断显示
 const form = computed(() => props.value);
-
+// 外层样式
 const com_style = computed(() => {
     let style = `${ set_count() } ${ gradient_handle(form.value.color_list, form.value.direction) } ${ radius_computer(form.value.bg_radius, props.scale) }; transform: rotate(${form.value.panel_rotate}deg);`;
     if (form.value.border_show == '1') {
@@ -38,7 +38,7 @@ const com_style = computed(() => {
     }
     return style;
 });
-
+// 背景图
 const com_img_style = computed(() => {
     const data = {
         background_img: form.value?.background_img || [],
@@ -46,6 +46,7 @@ const com_img_style = computed(() => {
     }
     return background_computer(data);
 });
+// 不同地方下的宽度显示
 const set_count = () => {
     if (props.isDisplayPanel) {
         return '';

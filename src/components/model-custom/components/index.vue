@@ -85,7 +85,7 @@
                                             <model-panel :key="item.id" :value="item.com_data" :source-list="props.sourceList" :is-custom="isCustom"></model-panel>
                                         </template>
                                         <template v-else-if="item.key == 'custom-group'">
-                                            <model-custom-group :key="item.id" :value="item.com_data" :source-list="props.sourceList" :data-height="item.com_data.com_height" :data-width="item.com_data.com_width" :is-custom="isCustom"></model-custom-group>
+                                            <model-custom-group :key="item.id" :value="item.com_data" :source-list="props.sourceList" :data-height="item.com_data.custom_height" :data-width="item.com_data.com_width" :is-custom="isCustom"></model-custom-group>
                                         </template>
                                     </div>
                                 </Vue3DraggableResizable>
@@ -111,7 +111,7 @@
 </template>
 <script setup lang="ts">
 import { cloneDeep, isEmpty, property } from 'lodash';
-import { get_math } from '@/utils';
+import { get_math, adjustPosition } from '@/utils';
 import { defaultComData, isRectangleIntersecting } from "./index-default";
 import { SortableEvent, VueDraggable } from 'vue-draggable-plus';
 import { commonStore } from '@/store';
@@ -174,7 +174,7 @@ const components = reactive([
             },
             {
                 key: 'custom-group',
-                name: '自定义组',
+                name: '编组',
                 is_show: props.configType == 'custom' ? true : false,
                 new_name: '',
                 com_data: defaultComData.custom_group_com_data,
@@ -182,6 +182,7 @@ const components = reactive([
         ],
     },
 ]);
+// 图标地址
 const url_computer = (name: string) => {
     const new_url = ref(common_store.common.config.attachment_host + `/static/diy/images/custom/${name}.png`).value;
     return new_url;
@@ -240,6 +241,7 @@ const outerClick = (e: any) => {
         edit_index.value = -1;
     }
 };
+// 双击事件
 const double_click = (index: number) => {
     edit_index.value = index;
     edit_processing(index);
@@ -409,7 +411,7 @@ const cancel = () => {
     emits('rightUpdate', {});
 };
 //#endregion
-//#region 容器高度发生变化时的处理
+//#region 容器高度发生变化时的处理，拖拽组件高度变化时数据需要重新赋值，避免拖拽不到新高度的区域
 const center_height = defineModel('height', { type: Number, default: 0 });
 const center_width = defineModel('width', { type: Number, default: 390 });
 
@@ -474,19 +476,24 @@ const dragStart = (item: any, event: any) => {
     // 拖拽的时候清空热区
     hot_list.data = [];
 };
+// 没有拖拽到内容区域的逻辑
 const dragEnd = () => {
     draggedItem.value = {};
 };
+// 拖拽到内容区域的逻辑
 const drop = (event: any) => {
     if (draggedItem.value) {
+        // 记录当前组件的默认宽度和高度
         const com_width = draggedItem.value.com_data.com_width;
         const com_height = draggedItem.value.com_data.com_height;
+        // 记录当天鼠标所在的位置
         let location_x = event.offsetX;
         let location_y = event.offsetY;
-        // 使用新函数调整位置
+        // 使用新函数调整位置，使添加的元素居中显示
         const { x: adjustedX, y: adjustedY } = adjustPosition(location_x, location_y, com_width, com_height, 390, center_height.value);
-        // 计算存在多少个相同的key
+        // 计算存在多少个相同的key，设置组件别名
         const list = diy_data.value.filter(item => item.key == draggedItem.value.key);
+        // 组装新数据
         const newItem = {
             ...draggedItem.value,
             new_name: list.length > 0 ? draggedItem.value.name + list.length : draggedItem.value.name, // 默认添加别名
@@ -500,26 +507,16 @@ const drop = (event: any) => {
         };
         // 因为修改层级之后z-index是递减的，所以新添加的元素，需要添加到头部    
         diy_data.value.unshift(newItem);
-        // 选中第0个
+        // 因为是添加到头部，所以默认选中第0个
         set_show_tabs(0);
     }
 };
-function adjustPosition(x: number, y: number, width:number, height:number, maxWidth:number, maxHeight:number) {
-    const halfWidth = width / 2;
-    const halfHeight = height / 2;
-
-    // 确保元素不会超出屏幕范围
-    x = Math.max(0, Math.min(maxWidth - width, x - halfWidth));
-    y = Math.max(0, Math.min(maxHeight - height, y - halfHeight));
-
-    return { x, y };
-}
 //#endregion
 //#region 区域内拖拽显示
 const dragEndHandle = (item: any, index: number) => {
     diy_data.value[index].location = { x: item.x, y: item.y, record_x: item.x, record_y: item.y, staging_y: item.y };
 };
-// {x: number, y: number, w: number, h: number}
+// 拖拽结束时触发的事件 {x: number, y: number, w: number, h: number}
 const resizingHandle = (new_location: any, key: string, index: number) => {
     const { x, y, w, h } = new_location;
     // 对应位置的定位修改为当前更新的位置
@@ -558,7 +555,7 @@ const handleAuxiliaryLine = (com_data: any, w: number, h: number ) => {
     }
 };
 //#endregion
-//#region 全部拖拽添加
+//#region 同时拖拽多个组件的逻辑，生成一个虚拟的盒子跟盒子有关联的都需要更新x y
 const hot_list = reactive({ data: [] as hotListData[] });
 const hot_list_index = ref(0);
 const imgBoxRef = ref<HTMLElement | null>(null);
@@ -695,7 +692,7 @@ const start_drag_area_box = (index: number, event: MouseEvent) => {
     };
 };
 
-// drag-btn
+// drag-btn, 角标触发事件
 const start_drag_btn_br = (index: number, event: MouseEvent) => {
     start_drag_btn(index, event, 'br');
 };
@@ -812,7 +809,7 @@ const rect_style = computed(() => {
 const handleKeyUp = (e: KeyboardEvent) => {
     // 排除默认事件
     const default_list = ['textarea', 'input'];
-    // 判断是否是用户手动输入的内容
+    // 判断是否是用户手动输入框之内操作的
     if (e.target instanceof HTMLElement && default_list.includes(e.target?.localName)) {
         return;
     }
@@ -829,25 +826,36 @@ const handleKeyUp = (e: KeyboardEvent) => {
     } else if (e.key === 'ArrowRight') { //右键
         x = 1;
     }
+    // 阻止默认事件
     e.preventDefault();
     // 只有是点击上下左右的时候才会生效
     if (key_code.includes(e.key)) {
         data_handling(x, y);
     }
 };
-const data_handling = (x: number, y: number) => {
-    // 遍历对象,内部容器更新
+/**
+ * 数据处理函数，用于处理操作键盘上下左右操作后的数据更新
+ * 判断是否生成了多个组件同时拖拽的盒子，如果有则更新盒子和盒子有交集的组件, 如果内容没有盒子则只更新当前选中的
+ * hot_list: 存放盒子的数组，因为目前最多只能生成一个盒子，所以直接取第一个盒子即可
+ * @param {number} x 键盘上下左右操作在x轴上的变化量
+ * @param {number} y 键盘上下左右操作在y轴上的变化量
+ */
+ const data_handling = (x: number, y: number) => {
+    // 遍历对象,内部容器更新,
     if (hot_list.data.length > 0) {
         // 更新热区位置
         const { drag_start, drag_end } = hot_list.data[0];
+        // 检查热区在x轴上的新位置是否在有效范围内
         if (isWithinBounds(drag_start.x + x, drag_end.width, 390)) {
             hot_list.data[0].drag_start.x += x;
         }
+        // 检查热区在y轴上的新位置是否在有效范围内
         if (isWithinBounds(drag_start.y + y, drag_end.height, center_height.value)) {
             hot_list.data[0].drag_start.y += y;
         }
         // 按下按钮的时候判断当前包含哪些组件, 避免后续包裹的或者没有手动拖拽过的无法更新其中组件的内容
         const rect1 = { x: drag_start.x, y: drag_start.y, width: drag_end.width, height: drag_end.height }
+        // 遍历自定义数据，更新组件位置
         diy_data.value.forEach(item => {
             const rect2 = { x: item.location.x, y: item.location.y, width: item.com_data.com_width, height: item.com_data.com_height };
             // 如果交集或者包裹，返回为1，否则为0
@@ -864,6 +872,7 @@ const data_handling = (x: number, y: number) => {
             }
         });
     } else {
+        // 如果没有热区数据，则直接更新自定义数据中选中组件的位置
         diy_data.value.forEach(item => {
             // 只更新选中的数据
             if (item.show_tabs == '1') {
@@ -891,6 +900,7 @@ onUnmounted(() => {
     document.removeEventListener('keyup', handleKeyUp);
 });
 //#endregion 
+// 暴露出去的数据，避免跟外部数据双向绑定，点击保存的时候才会保存数据
 defineExpose({
     diy_data,
 });

@@ -509,3 +509,28 @@ export const online_url = async (directory: string = '') => {
         return attachemnt_host + directory;
     }
 };
+
+/**
+ * 调整元素的位置，使其保持在指定的最大宽度和高度范围内
+ * @param x 元素的初始横坐标
+ * @param y 元素的初始纵坐标
+ * @param width 元素的宽度
+ * @param height 元素的高度
+ * @param maxWidth 屏幕的最大宽度
+ * @param maxHeight 屏幕的最大高度
+ * @returns 返回调整后的元素位置坐标
+ */
+export const adjustPosition = (x: number, y: number, width:number, height:number, maxWidth:number, maxHeight:number) => {
+    // 计算元素的半宽度和半高度，用于后续计算元素的最终位置
+    const halfWidth = width / 2;
+    const halfHeight = height / 2;
+
+    // 确保元素不会超出屏幕范围
+    // 对于横坐标x，使用Math.max和Math.min函数限制其值在0到(maxWidth - width)之间
+    // 对于纵坐标y，使用Math.max和Math.min函数限制其值在0到(maxHeight - height)之间
+    x = Math.max(0, Math.min(maxWidth - width, x - halfWidth));
+    y = Math.max(0, Math.min(maxHeight - height, y - halfHeight));
+
+    // 返回调整后的元素位置坐标
+    return { x, y };
+}

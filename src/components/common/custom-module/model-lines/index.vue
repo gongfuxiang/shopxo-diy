@@ -21,7 +21,7 @@ const props = defineProps({
 });
 // 用于页面判断显示
 const form = computed(() => props.value);
-
+// 边框样式
 const border_style = computed(() => {
     if (form.value.line_settings === 'horizontal') {
         return `${set_count()} margin: 5px 0;border-bottom: ${form.value.line_size * props.scale}px ${form.value.line_style} ${form.value.line_color};`;
@@ -29,6 +29,7 @@ const border_style = computed(() => {
         return `${set_count()} margin: 0 5px;border-right: ${form.value.line_size * props.scale}px ${form.value.line_style} ${form.value.line_color};`;
     }
 });
+// 不同地方下的宽度显示
 const set_count = () => {
     if (form.value.line_settings === 'horizontal') {
         return `width: ${form.value.com_width}px;`;

@@ -1,5 +1,5 @@
 <template>
-    <div :style="style_container">
+    <div class="w h" :style="style_container">
         <div :style="style_img_container">
             <div :style="style_content_container">
                 <div class="w h re" :style="style_content_img_container">
@@ -93,7 +93,7 @@ const props = defineProps({
 const form = computed(() => props.value);
 const new_style = computed(() => props.value.data_style);
 // 公共样式
-const style_container = computed(() => common_styles_computer(new_style.value.common_style));
+const style_container = computed(() => common_styles_computer(new_style.value.common_style) + 'overflow: auto;');
 const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
 // 内容样式
 const style_content_container = computed(() => common_styles_computer(new_style.value.data_content_style));

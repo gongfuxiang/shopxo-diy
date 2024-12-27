@@ -111,7 +111,7 @@ const text_title = computed(() => {
     }
     return text;
 }
-
+// 数据处理
 const data_handling = (data_source_id: string) => {
     let text_title = get_nested_property(props.sourceList, data_source_id);
     // 如果是自定义标题，进一步处理嵌套对象中的数据
@@ -124,7 +124,7 @@ const data_handling = (data_source_id: string) => {
     }
     return text_title;
 }
-
+// 文本样式
 const text_style = computed(() => {
     let style = `font-size: ${ form.value.text_size * props.scale }px;line-height: ${ (typeof form.value.line_text_size === "number" ? form.value.line_text_size : form.value.text_size) * props.scale}px;color: ${ form.value.text_color }; text-align: ${ form.value.text_location }; transform: rotate(${form.value.text_rotate}deg);text-decoration: ${ form.value.text_option };${ padding_computer(form.value.text_padding, props.scale) };`;
     if (form.value.text_weight == 'italic') {
@@ -134,7 +134,7 @@ const text_style = computed(() => {
     }
     return style;
 });
-
+// 外层样式
 const com_style = computed(() => {
     let style = `${ set_count() } ${ gradient_handle(form.value.color_list, form.value.direction) } ${ radius_computer(form.value.bg_radius, props.scale) }`;
     if (form.value.border_show == '1') {
@@ -146,6 +146,7 @@ const com_style = computed(() => {
     }
     return style;
 });
+// 不同地方下的宽度显示
 const set_count = () => {
     if (props.isDisplayPanel) {
         return '';

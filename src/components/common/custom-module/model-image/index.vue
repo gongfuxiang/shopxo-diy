@@ -39,7 +39,7 @@ const props = defineProps({
 });
 // 用于页面判断显示
 const form = computed(() => props.value);
-
+// 图片地址
 const img = computed(() => {
     if (!isEmpty(form.value.img[0])) {
         return form.value.img[0];
@@ -69,7 +69,7 @@ const img = computed(() => {
         }
     }
 });
-
+// 数据处理
 const data_handling = (data_source_id: string) => {
     // 循环取值,使用reduce 累加函数循环取值
     let image_url = get_nested_property(props.sourceList, data_source_id);
@@ -83,11 +83,11 @@ const data_handling = (data_source_id: string) => {
     }
     return image_url;
 }
-
+// 图片的样式
 const image_style = computed(() => {
     return `${ set_count() };transform: rotate(${form.value.img_rotate}deg); ${ radius_computer(form.value.img_radius, props.scale) };`;
 });
-
+// 边框样式
 const border_style = computed(() => {
     let style = ``;
     if (form.value.border_show == '1') {
@@ -95,6 +95,7 @@ const border_style = computed(() => {
     }
     return style;
 });
+// 不同地方下的宽度显示
 const set_count = () => {
     if (props.isDisplayPanel) {
         return `width: ${ percentage_count(form.value.img_width, form.value.com_width) }; height: ${ percentage_count(form.value.img_height, form.value.com_height) };`;
