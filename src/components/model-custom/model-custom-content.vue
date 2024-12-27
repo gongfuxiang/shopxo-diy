@@ -130,6 +130,8 @@ const custom_edit = (type: string, id?: string, father_list?: any, list?: any, w
         custom_list.value = cloneDeep(form.value.custom_list);
         // 主自定义的高度
         center_height.value = cloneDeep(form.value.height);
+        // 设置是否是子页面
+        data_source_store.set_is_children_custom(false);
     } else {
         drag_group_key.value = Math.random().toString(36).substring(2);
         // 自定义组的弹出框
@@ -143,10 +145,14 @@ const custom_edit = (type: string, id?: string, father_list?: any, list?: any, w
         // 自定义组的默认宽高
         center_group_width.value = width || 0;
         center_group_height.value = height || 0;
+        // 设置是否是子页面
+        data_source_store.set_is_children_custom(true);
     }
 };
 // 点击完成的处理逻辑
 const accomplish = (type: string, list: any) => {
+    // 点击完成，证明弹出框结束了，不管是子页面结束还是主页面结束，都是非子页面
+    data_source_store.set_is_children_custom(false);
     // 如果是自定义点击完成，就更新主数据
     if (type == 'custom') {
         form.value.custom_list = list;

@@ -1,5 +1,5 @@
 <template>
-    <div class="w h" :style="style_container">
+    <div class="flex-1" :style="style_container">
         <div :style="style_img_container">
             <div :style="style_content_container">
                 <div class="w h re" :style="style_content_img_container">
@@ -115,9 +115,9 @@ watchEffect(() => {
     // 数据左右间距
     const internal_spacing = data_style.margin_left + data_style.margin_right + data_style.padding_left + data_style.padding_right;
     // 根据容器宽度来计算内部大小
-    const width = old_width - outer_spacing - internal_spacing - content_spacing;
+    const new_width = old_width - outer_spacing - internal_spacing - content_spacing;
     // 获得对应宽度的比例
-    custom_scale.value = width / old_width;
+    custom_scale.value = new_width / old_width;
 });
 //#endregion
 // 计算纵向显示的宽度

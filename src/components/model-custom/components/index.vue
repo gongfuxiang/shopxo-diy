@@ -68,7 +68,7 @@
                             <DraggableContainer v-if="draggable_container" style="z-index:0" :reference-line-visible="true" :disabled="false" reference-line-color="#ddd" @selectstart.prevent @contextmenu.prevent @dragstart.prevent>
                                 <!-- @mouseover="on_choose(index)" -->
                                 <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="{'plug-in-show-component-line': is_show_component_line, 'plug-in-show-tabs': item.show_tabs == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1' }" :style="{ 'z-index': (diy_data.length - 1) - index }" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index)" @resize-end="resizingHandle($event, item.key, index)">
-                                    <div :class="['main-content', { 'plug-in-border': item.show_tabs == '1' }]">
+                                    <div :class="['main-content flex-row', { 'plug-in-border': item.show_tabs == '1' }]">
                                         <template v-if="item.key == 'text'">
                                             <model-text :key="item.id" :value="item.com_data" :source-list="props.sourceList" :is-custom="isCustom" :title-params="showData?.data_name || 'name'" :options="options"></model-text>
                                         </template>
@@ -111,10 +111,10 @@
 </template>
 <script setup lang="ts">
 import { cloneDeep, isEmpty, property } from 'lodash';
-import { get_math, adjustPosition } from '@/utils';
+import { get_math, adjustPosition, getPlatform } from '@/utils';
 import { defaultComData, isRectangleIntersecting } from "./index-default";
 import { SortableEvent, VueDraggable } from 'vue-draggable-plus';
-import { commonStore } from '@/store';
+import { commonStore, DataSourceStore } from '@/store';
 const common_store = commonStore();
 // 删除
 const app = getCurrentInstance();
@@ -431,7 +431,7 @@ watch(() => center_height.value, () => {
                 staging_y: item.location.staging_y,
             },
             com_data: {
-                // 规整历史数据，避免有新增字段丢失
+                // 规整历史数据，避免有新增字段不存在导致报错
                 ...Object.assign({}, cloneDeep((defaultComData as any)[`${item.key}_com_data`]), item.com_data),
                 com_height: item.com_data.staging_height,
                 data_source_field: {
@@ -799,7 +799,35 @@ const rect_style = computed(() => {
     };
 });
 //#endregion
-//#region 绑定上下左右事件
+//#region 绑定上下左右事件和回退按钮
+// 获取电脑是什么牌子 window 还是mac
+const platform = getPlatform();
+// 缓存内容，用于回退
+const data_source_store = DataSourceStore();
+const pressedKeys = new Set(); // 使用 Set 记录按下的按键
+const handle_keydown = (e: KeyboardEvent) => {
+    // 排除默认事件
+    const default_list = ['textarea', 'input'];
+    // 判断是否是用户手动输入框之内操作的
+    if (e.target instanceof HTMLElement && default_list.includes(e.target?.localName)) {
+        return;
+    }
+    // 使用 key 或 code 属性代替 keyCode
+    const key = e.key.toLowerCase(); // 将按键转换为小写，确保一致性
+    // 添加按键到 Set 中
+    pressedKeys.add(key);
+    // 检查 A 和 B 键是否同时按下
+    if ((pressedKeys.has('control') && pressedKeys.has('z') && platform == 'Windows') || (pressedKeys.has('meta') && pressedKeys.has('z') && platform == 'Mac')) {
+        // 监听开启的是全局监听，为了避免全局监听的同时也监听了子组件的回退事件，所以需要判断当前是全局监听还是子组件监听
+        if (!data_source_store.is_children_custom && props.configType == 'custom') {
+            console.log('同时按下了A和B键', props.configType); // 执行相应的操作
+        } else if (data_source_store.is_children_custom && props.configType == 'custom-group') {
+            console.log('同时按下了A和B键', props.configType); // 执行相应的操作
+        }
+    }
+    // 阻止默认事件
+    e.preventDefault();
+}
 const handleKeyUp = (e: KeyboardEvent) => {
     // 排除默认事件
     const default_list = ['textarea', 'input'];
@@ -820,11 +848,27 @@ const handleKeyUp = (e: KeyboardEvent) => {
     } else if (e.key === 'ArrowRight') { //右键
         x = 1;
     }
-    // 阻止默认事件
-    e.preventDefault();
-    // 只有是点击上下左右的时候才会生效
-    if (key_code.includes(e.key)) {
-        data_handling(x, y);
+    // 监听开启的是全局监听，为了避免全局监听的同时也监听了子组件的回退事件，所以需要判断当前是全局监听还是子组件监听
+    if (!data_source_store.is_children_custom && props.configType == 'custom') {
+        // 移除按键
+        const key = e.key.toLowerCase();
+        pressedKeys.delete(key);
+        // 阻止默认事件
+        e.preventDefault();
+        // 只有是点击上下左右的时候才会生效
+        if (key_code.includes(e.key)) {
+            data_handling(x, y);
+        }
+    } else if (data_source_store.is_children_custom && props.configType == 'custom-group') {
+        // 移除按键
+        const key = e.key.toLowerCase();
+        pressedKeys.delete(key);
+        // 阻止默认事件
+        e.preventDefault();
+        // 只有是点击上下左右的时候才会生效
+        if (key_code.includes(e.key)) {
+            data_handling(x, y);
+        }
     }
 };
 /**
@@ -885,11 +929,16 @@ const handleKeyUp = (e: KeyboardEvent) => {
 };
 // coordinate 新的坐标 current_size 当前坐标对应的组件大小(指的是组件的宽高) max_size 容器的最大大小
 const isWithinBounds = (coordinate:number, current_size: number, max_size: number) => coordinate >= 0 && coordinate + current_size <= max_size;
+
+// 键盘控制
 onMounted(() => {
+    document.addEventListener('keydown', handle_keydown);
     // 监听键盘事件
     document.addEventListener('keyup', handleKeyUp);
 });
+
 onUnmounted(() => {
+    document.removeEventListener('keyup', handleKeyUp);
     // 移除监听事件
     document.removeEventListener('keyup', handleKeyUp);
 });

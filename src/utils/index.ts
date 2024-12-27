@@ -534,3 +534,30 @@ export const adjustPosition = (x: number, y: number, width:number, height:number
     // 返回调整后的元素位置坐标
     return { x, y };
 }
+
+
+export const getPlatform = () => {
+    // 检查 navigator.platform 是否存在且不为空
+    if (!navigator || !navigator.platform) {
+        return 'Unknown';
+    }
+
+    const platform = navigator.platform.toLowerCase();
+    
+    // 使用正则表达式进行平台匹配
+    const platformMap = [
+        { regex: /^win/, name: 'Windows' },
+        { regex: /^mac/, name: 'Mac' },
+        { regex: /^linux/, name: 'Linux' },
+        { regex: /android/, name: 'Android' },
+        { regex: /ios/, name: 'iOS' }
+    ];
+
+    for (const { regex, name } of platformMap) {
+        if (regex.test(platform)) {
+            return name;
+        }
+    }
+
+    return 'Unknown';
+}

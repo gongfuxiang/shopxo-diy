@@ -1,6 +1,6 @@
 <template>
     <div class="w h re custom-other">
-        <div v-for="(item, index) in list" :key="item.id" class="main-content" :style="{'left': percentage_count(item.location.x) , 'top': percentage_count(item.location.y), 'width': percentage_count(item.com_data.com_width), 'height': percentage_count(item.com_data.com_height), 'z-index': (customList.length - 1) - index}">
+        <div v-for="(item, index) in list" :key="item.id" class="main-content flex-row" :style="{'left': percentage_count(item.location.x) , 'top': percentage_count(item.location.y), 'width': percentage_count(item.com_data.com_width), 'height': percentage_count(item.com_data.com_height), 'z-index': (customList.length - 1) - index}">
             <template v-if="item.key == 'text'">
                 <model-text :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :is-custom="isCustom" :title-params="showData?.data_name || 'name'" :is-display-panel="true"></model-text>
             </template>

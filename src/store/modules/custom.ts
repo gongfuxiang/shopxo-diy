@@ -13,6 +13,7 @@ export const DataSourceStore = defineStore('dataSource', () => {
         data: data_list[];
         type: string;
     };
+    const is_children_custom = ref(false);
     // 上传是否需要调接口判断
     const is_data_source_api = ref(false);
     // 数据源
@@ -27,10 +28,16 @@ export const DataSourceStore = defineStore('dataSource', () => {
         is_data_source_api.value = bool;
     };
 
+    const set_is_children_custom = (bool: boolean) => {
+        is_children_custom.value = bool;
+    };
+
     return {
+        is_children_custom,
         data_source_list,
         is_data_source_api,
         set_data_source,
         set_is_data_source_api,
+        set_is_children_custom,
     };
 });
