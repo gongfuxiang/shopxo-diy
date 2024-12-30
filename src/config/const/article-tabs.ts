@@ -66,7 +66,9 @@ interface DefaultArticleTabs {
         tabs_bg_background_img: string[],
         tabs_sign_spacing: number;
         tabs_radius: radiusStyle;
+        tabs_margin: marginStyle;
         tabs_padding: paddingStyle;
+        tabs_content: object;
         article_content_direction: string;
         article_content_color_list: color_list[];
         article_content_background_img_style: string;
@@ -75,6 +77,7 @@ interface DefaultArticleTabs {
         article_content_margin: marginStyle;
         article_content_padding: paddingStyle;
         article_content_spacing: number;
+        article_content: object;
         article_direction: string,
         article_color_list: color_list[],
         article_background_img_style: string,
@@ -98,7 +101,18 @@ interface DefaultArticleTabs {
         page_view_color: string;
         content_radius: radiusStyle;
         img_radius: radiusStyle;
+        margin: marginStyle;    
         padding: paddingStyle;
+        border_is_show: string;
+        border_color: string;
+        border_style: string;
+        border_size: paddingStyle;
+        // 阴影
+        box_shadow_color: string;
+        box_shadow_x: number;
+        box_shadow_y: number;
+        box_shadow_blur: number;
+        box_shadow_spread: number;
         article_spacing: number;
         content_spacing: number;
         article_height: number;
@@ -177,12 +191,38 @@ const defaultArticleTabs: DefaultArticleTabs = {
             radius_bottom_left: 0,
             radius_bottom_right: 0,
         },
+        tabs_margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
+        },
         tabs_padding: {
             padding: 10,
             padding_top: 10,
             padding_bottom: 10,
             padding_left: 10,
             padding_right: 10,
+        },
+        tabs_content: {
+            // 边框样式
+            border_is_show: '0',
+            border_color: '#FF3F3F',
+            border_style: 'solid',
+            border_size: {
+                padding: 1,
+                padding_top: 1,
+                padding_right: 1,
+                padding_bottom: 1,
+                padding_left: 1,
+            },
+            // 阴影
+            box_shadow_color: '',
+            box_shadow_x: 0,
+            box_shadow_y: 0,
+            box_shadow_blur: 0,
+            box_shadow_spread: 0,
         },
         // 文章内容设置
         article_content_direction: '90deg',
@@ -209,6 +249,25 @@ const defaultArticleTabs: DefaultArticleTabs = {
             padding_bottom: 10,
             padding_left: 10,
             padding_right: 10,
+        },
+        article_content: {
+            // 边框样式
+            border_is_show: '0',
+            border_color: '#FF3F3F',
+            border_style: 'solid',
+            border_size: {
+                padding: 1,
+                padding_top: 1,
+                padding_right: 1,
+                padding_bottom: 1,
+                padding_left: 1,
+            },
+            // 阴影
+            box_shadow_color: '',
+            box_shadow_x: 0,
+            box_shadow_y: 0,
+            box_shadow_blur: 0,
+            box_shadow_spread: 0,
         },
         article_content_spacing: 0,
         // 文章背景设置
@@ -267,6 +326,13 @@ const defaultArticleTabs: DefaultArticleTabs = {
             radius_bottom_left: 4,
             radius_bottom_right: 4,
         },
+        margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
+        },
         // 内间距
         padding: {
             padding: 10,
@@ -275,6 +341,23 @@ const defaultArticleTabs: DefaultArticleTabs = {
             padding_left: 10,
             padding_right: 10,
         },
+        // 边框样式
+        border_is_show: '0',
+        border_color: '#FF3F3F',
+        border_style: 'solid',
+        border_size: {
+            padding: 1,
+            padding_top: 1,
+            padding_right: 1,
+            padding_bottom: 1,
+            padding_left: 1,
+        },
+        // 阴影
+        box_shadow_color: '',
+        box_shadow_x: 0,
+        box_shadow_y: 0,
+        box_shadow_blur: 0,
+        box_shadow_spread: 0,
         content_spacing: 10, // 内容间距
         article_spacing: 10, // 文章间距
         article_height: 155, // 文章高度

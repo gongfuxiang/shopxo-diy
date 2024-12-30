@@ -37,6 +37,9 @@
                 <el-form-item label="浏览量">
                     <color-text-size-group v-model:color="form.page_view_color" v-model:typeface="form.page_view_weight" v-model:size="form.page_view_size"></color-text-size-group>
                 </el-form-item>
+                <el-form-item v-if="theme != '3'" label="外间距">
+                    <margin :value="form.margin"></margin>
+                </el-form-item>
                 <el-form-item label="内间距">
                     <padding :value="form.padding"></padding>
                 </el-form-item>
@@ -62,6 +65,10 @@
                     <el-form-item label="图片圆角">
                         <radius :value="form.img_radius"></radius>
                     </el-form-item>
+                    <!-- 边框处理 -->
+                    <border-config v-model:show="form.border_is_show" v-model:color="form.border_color" v-model:style="form.border_style" v-model:size="form.border_size"></border-config>
+                    <!-- 阴影配置 -->
+                    <shadow-config v-model="form"></shadow-config>
                 </template>
                 <template v-if="!['3', '4'].includes(theme)">
                     <el-form-item v-if="['0'].includes(theme)" label="图片宽度">

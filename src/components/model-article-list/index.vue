@@ -76,7 +76,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, padding_computer, radius_computer, get_math, is_obj_empty, common_img_computer, background_computer, gradient_handle, gradient_computer, margin_computer } from '@/utils';
+import { common_styles_computer, padding_computer, radius_computer, get_math, is_obj_empty, common_img_computer, background_computer, gradient_handle, gradient_computer, margin_computer, box_shadow_computer, border_computer } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 import ArticleAPI from '@/api/article';
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -337,16 +337,16 @@ watch(
             background_img: new_style.article_background_img,
         }
         style.value = '';
-        // 渐变效果
-        const gradient = gradient_handle(new_style.article_color_list, new_style.article_direction);
+        // 样式处理
+        const all_style = gradient_handle(new_style.article_color_list, new_style.article_direction) + margin_computer(new_style.margin) + box_shadow_computer(new_style) + border_computer(new_style);
         if (article_theme.value == '0') {
-            article_style.value += content_radius.value + gradient;
+            article_style.value += content_radius.value + all_style;
             article_img_style.value = content_spacing.value + content_padding.value + background_computer(article_data);
         } else if (article_theme.value == '1') {
-            article_style.value += `width: calc(50% - ${new_style.article_spacing / 2}px);` + content_radius.value + gradient;
+            article_style.value += `width: calc(50% - ${new_style.article_spacing / 2}px);` + content_radius.value + all_style;
             article_img_style.value = background_computer(article_data);
         } else if (article_theme.value == '2') {
-            article_style.value += content_radius.value + gradient;
+            article_style.value += content_radius.value + all_style;
             article_img_style.value = background_computer(article_data);
         } else if (article_theme.value == '3') {
             style.value = `padding: 0 ${new_style.content_spacing}px;background:#fff;` + content_radius.value;
@@ -370,7 +370,7 @@ watch(
             // 判断是平移还是整屏滚动
             slides_per_group.value = new_style.rolling_fashion == 'translation' ? 1 : Number(new_content.carousel_col) + 1;
             article_item_height.value = `${new_style.article_height}px`;
-            article_style.value += content_radius.value + gradient;
+            article_style.value += content_radius.value + all_style;
             article_img_style.value = background_computer(article_data);
         }
         if (new_style.common_style && props.isCommonStyle) {

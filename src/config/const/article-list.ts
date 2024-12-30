@@ -56,7 +56,18 @@ interface DefaultArticleList {
         page_view_color: string;
         content_radius: radiusStyle;
         img_radius: radiusStyle;
+        margin: marginStyle;    
         padding: paddingStyle;
+        border_is_show: string;
+        border_color: string;
+        border_style: string;
+        border_size: paddingStyle;
+        // 阴影
+        box_shadow_color: string;
+        box_shadow_x: number;
+        box_shadow_y: number;
+        box_shadow_blur: number;
+        box_shadow_spread: number;
         article_spacing: number;
         content_spacing: number;
         article_height: number;
@@ -149,6 +160,13 @@ const defaultArticleList: DefaultArticleList = {
             radius_bottom_left: 4,
             radius_bottom_right: 4,
         },
+        margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
+        },
         // 内间距
         padding: {
             padding: 10,
@@ -157,6 +175,23 @@ const defaultArticleList: DefaultArticleList = {
             padding_left: 10,
             padding_right: 10,
         },
+        // 边框样式
+        border_is_show: '0',
+        border_color: '#FF3F3F',
+        border_style: 'solid',
+        border_size: {
+            padding: 1,
+            padding_top: 1,
+            padding_right: 1,
+            padding_bottom: 1,
+            padding_left: 1,
+        },
+        // 阴影
+        box_shadow_color: '',
+        box_shadow_x: 0,
+        box_shadow_y: 0,
+        box_shadow_blur: 0,
+        box_shadow_spread: 0,
         content_spacing: 10, // 内容间距
         article_spacing: 10, // 文章间距
         article_height: 155, // 文章高度

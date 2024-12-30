@@ -56,22 +56,24 @@ interface DefaultProductList {
         tabs_size: number;
         tabs_color: string;
         tabs_icon_color_checked: string;
-        tabs_icon_size_checked: number,
-        tabs_icon_color: string,
-        tabs_icon_size: number,
-        is_tabs_img_background: string,
+        tabs_icon_size_checked: number;
+        tabs_icon_color: string;
+        tabs_icon_size: number;
+        is_tabs_img_background: string;
         tabs_top_img_radius: radiusStyle;
         tabs_top_img_height: number;
-        tabs_img_radius: radiusStyle,
-        tabs_img_height: number,
+        tabs_img_radius: radiusStyle;
+        tabs_img_height: number;
         tabs_spacing: number;
         tabs_sign_spacing: number;
-        tabs_bg_direction: string,
-        tabs_bg_color_list: color_list[],
-        tabs_bg_background_img_style: string,
-        tabs_bg_background_img: string[],
+        tabs_bg_direction: string;
+        tabs_bg_color_list: color_list[];
+        tabs_bg_background_img_style: string;
+        tabs_bg_background_img: string[];
         tabs_radius: radiusStyle;
+        tabs_margin: marginStyle;
         tabs_padding: paddingStyle;
+        tabs_content: object;
         shop_content_direction: string;
         shop_content_color_list: color_list[];
         shop_content_background_img_style: string;
@@ -80,10 +82,22 @@ interface DefaultProductList {
         shop_content_margin: marginStyle;
         shop_content_padding: paddingStyle;
         shop_content_spacing: number;
+        shop_content: object;
         shop_direction: string;
         shop_color_list: color_list[];
         shop_background_img_style: string;
         shop_background_img: uploadList[];
+        border_is_show: string;
+        border_color: string;
+        border_style: string;
+        border_size: paddingStyle;
+        // 阴影
+        box_shadow_color: string;
+        box_shadow_x: number;
+        box_shadow_y: number;
+        box_shadow_blur: number;
+        box_shadow_spread: number;
+        shop_margin: marginStyle;
         shop_padding: paddingStyle;
         shop_img_radius: radiusStyle;
         shop_radius: radiusStyle;
@@ -123,7 +137,7 @@ interface DefaultProductList {
         shop_button_text_color: string;
         shop_icon_size: number;
         shop_icon_color: string;
-        subscript_style: object,
+        subscript_style: object;
         common_style: object;
     };
 }
@@ -218,12 +232,38 @@ const defaultProductList: DefaultProductList = {
             radius_bottom_left: 0,
             radius_bottom_right: 0,
         },
+        tabs_margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
+        },
         tabs_padding: {
             padding: 10,
             padding_top: 10,
             padding_bottom: 10,
             padding_left: 10,
             padding_right: 10,
+        },
+        tabs_content: {
+            // 边框样式
+            border_is_show: '0',
+            border_color: '#FF3F3F',
+            border_style: 'solid',
+            border_size: {
+                padding: 1,
+                padding_top: 1,
+                padding_right: 1,
+                padding_bottom: 1,
+                padding_left: 1,
+            },
+            // 阴影
+            box_shadow_color: '',
+            box_shadow_x: 0,
+            box_shadow_y: 0,
+            box_shadow_blur: 0,
+            box_shadow_spread: 0,
         },
         // 商品内容设置
         shop_content_direction: '90deg',
@@ -252,11 +292,54 @@ const defaultProductList: DefaultProductList = {
             padding_right: 10,
         },
         shop_content_spacing: 0,
+        shop_content: {
+            // 边框样式
+            border_is_show: '0',
+            border_color: '#FF3F3F',
+            border_style: 'solid',
+            border_size: {
+                padding: 1,
+                padding_top: 1,
+                padding_right: 1,
+                padding_bottom: 1,
+                padding_left: 1,
+            },
+            // 阴影
+            box_shadow_color: '',
+            box_shadow_x: 0,
+            box_shadow_y: 0,
+            box_shadow_blur: 0,
+            box_shadow_spread: 0,
+        },
         // 商品背景设置
         shop_direction: '90deg',
         shop_color_list: [{ color: '#fff', color_percentage: undefined }],
         shop_background_img_style: '0',
         shop_background_img: [],
+        // 边框样式
+        border_is_show: '0',
+        border_color: '#FF3F3F',
+        border_style: 'solid',
+        border_size: {
+            padding: 1,
+            padding_top: 1,
+            padding_right: 1,
+            padding_bottom: 1,
+            padding_left: 1,
+        },
+        // 阴影
+        box_shadow_color: '',
+        box_shadow_x: 0,
+        box_shadow_y: 0,
+        box_shadow_blur: 0,
+        box_shadow_spread: 0,
+        shop_margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
+        },
         // 商品圆角
         shop_padding: {
             padding: 10,

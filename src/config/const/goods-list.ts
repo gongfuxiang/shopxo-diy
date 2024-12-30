@@ -34,30 +34,30 @@ interface DefaultProductList {
         subscript_text: string;
     };
     style: {
-        shop_direction: string,
-        shop_color_list: color_list[],
-        shop_background_img_style: string,
-        shop_background_img: uploadList[],
+        shop_direction: string;
+        shop_color_list: color_list[];
+        shop_background_img_style: string;
+        shop_background_img: uploadList[];
         shop_padding: paddingStyle;
-        shop_margin: marginStyle,
-        border_is_show: string,
-        border_color: string,
-        border_style: string,
-        border_size: paddingStyle,
+        shop_margin: marginStyle;
+        border_is_show: string;
+        border_color: string;
+        border_style: string;
+        border_size: paddingStyle;
         // 阴影
-        box_shadow_color: string,
-        box_shadow_x: number,
-        box_shadow_y: number,
-        box_shadow_blur: number,
-        box_shadow_spread: number,
+        box_shadow_color: string;
+        box_shadow_x: number;
+        box_shadow_y: number;
+        box_shadow_blur: number;
+        box_shadow_spread: number;
         shop_img_radius: radiusStyle;
         shop_radius: radiusStyle;
         content_outer_spacing: number;
         content_outer_height: number;
         content_img_width: number | undefined;
         content_img_height: number | undefined;
-        is_roll: string,
-        interval_time: number,
+        is_roll: string;
+        interval_time: number;
         rolling_fashion: string;
         content_spacing: number;
         shop_title_typeface: string;
@@ -66,7 +66,7 @@ interface DefaultProductList {
         shop_simple_desc_typeface: string;
         shop_simple_desc_size: number;
         shop_simple_desc_color: string;
-        title_simple_desc_spacing: number,
+        title_simple_desc_spacing: number;
         shop_price_typeface: string;
         shop_price_size: number;
         shop_price_color: string;
@@ -85,10 +85,10 @@ interface DefaultProductList {
         shop_button_typeface:string;
         shop_button_size: number;
         shop_button_color: color_list[];
-        shop_button_text_color: string,
+        shop_button_text_color: string;
         shop_icon_size: number;
         shop_icon_color: string;
-        subscript_style: object,
+        subscript_style: object;
         common_style: object;
     };
 }
