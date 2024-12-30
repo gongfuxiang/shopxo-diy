@@ -22,6 +22,7 @@ import { is_obj, set_cookie, get_cookie } from '@/utils';
 import { Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
 import defaultConfigSetting from '@/config/setting';
+import defaultConfigConst from '@/config/const/index';
 import { cloneDeep, isEmpty, omit } from 'lodash';
 import DiyAPI, { diyData, headerAndFooter, diyConfig } from '@/api/diy';
 import CommonAPI from '@/api/common';
@@ -177,6 +178,10 @@ const default_merge = (data: any, key: string) => {
         }
     } else {
         data.style = cloneDeep((defaultSettings as any)[key.replace(/-/g, '_')]).style;
+    }
+    // 兼融老数据
+    if (!isEmpty(data.style.common_style)) {
+        data.style.common_style = Object.assign({}, cloneDeep(defaultConfigConst), data.style.common_style);
     }
     if (data.content) {
         data.content = Object.assign({}, cloneDeep((defaultSettings as any)[key.replace(/-/g, '_')]).content, data.content);

@@ -39,6 +39,17 @@ interface DefaultProductList {
         shop_background_img_style: string,
         shop_background_img: uploadList[],
         shop_padding: paddingStyle;
+        shop_margin: marginStyle,
+        border_is_show: string,
+        border_color: string,
+        border_style: string,
+        border_size: paddingStyle,
+        // 阴影
+        box_shadow_color: string,
+        box_shadow_x: number,
+        box_shadow_y: number,
+        box_shadow_blur: number,
+        box_shadow_spread: number,
         shop_img_radius: radiusStyle;
         shop_radius: radiusStyle;
         content_outer_spacing: number;
@@ -131,6 +142,23 @@ const defaultProductList: DefaultProductList = {
         shop_color_list: [{ color: '#fff', color_percentage: undefined }],
         shop_background_img_style: '0',
         shop_background_img: [],
+        // 边框样式
+        border_is_show: '0',
+        border_color: '#FF3F3F',
+        border_style: 'solid',
+        border_size: {
+            padding: 1,
+            padding_top: 1,
+            padding_right: 1,
+            padding_bottom: 1,
+            padding_left: 1,
+        },
+        // 阴影
+        box_shadow_color: '',
+        box_shadow_x: 0,
+        box_shadow_y: 0,
+        box_shadow_blur: 0,
+        box_shadow_spread: 0,
         // 商品内边距
         shop_padding: {
             padding: 10, 
@@ -138,6 +166,13 @@ const defaultProductList: DefaultProductList = {
             padding_bottom: 10, 
             padding_left: 10, 
             padding_right: 10,
+        },
+        shop_margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
         },
         // 图标圆角
         shop_img_radius: {
@@ -171,7 +206,7 @@ const defaultProductList: DefaultProductList = {
         shop_title_size: 14,    
         shop_title_color: "#333333",
         shop_simple_desc_typeface: '400',
-        shop_simple_desc_size: 12,    
+        shop_simple_desc_size: 12,
         shop_simple_desc_color: "#999",
         title_simple_desc_spacing: 4,
         shop_price_typeface: '500',

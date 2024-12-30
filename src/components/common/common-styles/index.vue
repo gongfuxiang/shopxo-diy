@@ -17,33 +17,18 @@
                     <slider v-model="form.module_z_index" :min="0" :max="10"></slider>
                 </el-form-item>
                 <el-form-item label="内边距">
-                    <padding :value="form" :is-up-down="isUpDown" @update:value="padding_change"></padding>
+                    <padding :value="form" :is-up-down="isUpDown"></padding>
                 </el-form-item>
                 <el-form-item v-if="isMargin" label="外边距">
-                    <margin :value="form" @update:value="margin_change"></margin>
+                    <margin :value="form"></margin>
                 </el-form-item>
                 <el-form-item v-if="isRadius" label="圆角">
-                    <radius :value="form" @update:value="radius_change"></radius>
+                    <radius :value="form"></radius>
                 </el-form-item>
-                <el-form-item v-if="isShadow" label="阴影设置">
-                    <div class="flex-col gap-10 w">
-                        <el-form-item label="颜色" label-width="45">
-                            <color-picker v-model="form.box_shadow_color"></color-picker>
-                        </el-form-item>
-                        <el-form-item label="X轴" label-width="45">
-                            <slider v-model="form.box_shadow_x" :min="-20" :max="20"></slider>
-                        </el-form-item>
-                        <el-form-item label="Y轴" label-width="45">
-                            <slider v-model="form.box_shadow_y" :min="-20" :max="20"></slider>
-                        </el-form-item>
-                        <el-form-item label="模糊" label-width="45">
-                            <slider v-model="form.box_shadow_blur"></slider>
-                        </el-form-item>
-                        <el-form-item label="扩展" label-width="45">
-                            <slider v-model="form.box_shadow_spread"></slider>
-                        </el-form-item>
-                    </div>
-                </el-form-item>
+                <!-- 边框处理 -->
+                <border-config v-if="isShowBorder" v-model:show="form.border_is_show" v-model:color="form.border_color" v-model:style="form.border_style" v-model:size="form.border_size"></border-config>
+                <!-- 阴影配置 -->
+                <shadow-config v-if="isShadow" v-model="form"></shadow-config>
             </el-form>
         </div>
     </card-container>
@@ -60,6 +45,18 @@ const props = defineProps({
             background_img_style: '0',
             floating_up: 0,
             is_bottom_up: '0',
+            border: {
+                is_show: '0',
+                color: '#FF3F3F',
+                style: 'solid',
+                size: {
+                    padding: 1,
+                    padding_top: 1,
+                    padding_right: 1,
+                    padding_bottom: 1,
+                    padding_left: 1,
+                },
+            },
             padding: 0,
             padding_top: 0,
             padding_bottom: 0,
@@ -105,7 +102,11 @@ const props = defineProps({
     isUpDown: {
         type: Boolean,
         default: true,
-    }
+    },
+    isShowBorder: {
+        type: Boolean,
+        default: true,
+    },
 });
 // value 和初始化数据合并数据
 let form = ref(props.value);

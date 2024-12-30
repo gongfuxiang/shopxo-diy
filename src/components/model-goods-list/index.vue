@@ -163,7 +163,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_img_computer, common_styles_computer, get_math, gradient_handle, padding_computer, radius_computer, background_computer } from '@/utils';
+import { common_img_computer, common_styles_computer, get_math, gradient_handle, padding_computer, radius_computer, background_computer, border_computer, box_shadow_computer, margin_computer } from '@/utils';
 import { isEmpty, cloneDeep, throttle } from 'lodash';
 import ShopAPI from '@/api/shop';
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -363,7 +363,7 @@ const layout_type = computed(() => {
 // 容器样式
 const layout_style = computed(() => {
     const radius = theme.value == '6' ? '' : content_radius.value;
-    const gradient = theme.value != '6' ? gradient_handle(new_style.value.shop_color_list, new_style.value.shop_direction) : '';
+    const gradient = theme.value != '6' ? gradient_handle(new_style.value.shop_color_list, new_style.value.shop_direction) + margin_computer(new_style.value.shop_margin) + border_computer(new_style.value) + box_shadow_computer(new_style.value) : '';
     return `${radius} ${ gradient }`;
 });
 

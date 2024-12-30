@@ -5,6 +5,16 @@ const defaultCommon: componentsCommonCommonStyle = {
     floating_up: 0,
     module_z_index: 0,
     padding_top_safe_value: 0, // 安全距离值，在顶部时，需要加上安全距离，防止遮挡
+    border_is_show: '0',
+    border_color: '#FF3F3F',
+    border_style: 'solid',
+    border_size: {
+        padding: 1,
+        padding_top: 1,
+        padding_right: 1,
+        padding_bottom: 1,
+        padding_left: 1,
+    },
     padding: 0,
     padding_top: 0,
     padding_bottom: 0,

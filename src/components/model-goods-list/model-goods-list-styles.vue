@@ -50,6 +50,9 @@
                     <color-picker v-model="form.shop_score_color" default-color="#000000"></color-picker>
                 </el-form-item> -->
                 <template v-if="theme != '6'">
+                    <el-form-item label="外间距">
+                        <margin :value="form.shop_margin"></margin>
+                    </el-form-item>
                     <el-form-item label="内间距">
                         <padding :value="form.shop_padding"></padding>
                     </el-form-item>
@@ -64,6 +67,10 @@
                     <radius :value="form.shop_radius"></radius>
                 </el-form-item>
                 <template v-if="theme != '6'">
+                    <!-- 边框处理 -->
+                    <border-config v-model:show="form.border_is_show" v-model:color="form.border_color" v-model:style="form.border_style" v-model:size="form.border_size"></border-config>
+                    <!-- 阴影配置 -->
+                    <shadow-config v-model="form"></shadow-config>
                     <template v-if="theme == '5'">
                         <el-form-item label="内容高度">
                             <slider v-model="form.content_outer_height" :max="1000"></slider>

@@ -293,6 +293,14 @@ export function background_computer(new_style: backgroundImgUrlStyle) {
         return '';
     }
 }
+
+export const border_computer = (new_style: componentsCommonCommonStyle) => {
+    const { border_is_show = '0', border_color = '', border_style = 'solid', border_size = { padding: 0, padding_bottom: 0, padding_left: 0, padding_right: 0, padding_top: 0 } } = new_style;
+    if (border_is_show == '1') {
+       return `border-width: ${border_size.padding_top}px ${border_size.padding_right}px ${border_size.padding_bottom}px ${border_size.padding_left}px;border-style: ${ border_style };border-color: ${border_color};`
+    }
+    return '';
+};
 /**
  * 计算并组合组件的常用样式。
  *
@@ -303,7 +311,7 @@ export function background_computer(new_style: backgroundImgUrlStyle) {
  * @returns 返回一个字符串，包含了计算后的样式定义，可以被直接应用于组件的样式属性。
  */
 export function common_styles_computer(new_style: componentsCommonCommonStyle) {
-    return gradient_computer(new_style) + margin_computer(new_style) + radius_computer(new_style) + box_shadow_computer(new_style) + `overflow:hidden;`;
+    return gradient_computer(new_style) + margin_computer(new_style) + radius_computer(new_style) + box_shadow_computer(new_style) + border_computer(new_style) + `overflow:hidden;`;
 }
 
 export function common_img_computer(new_style: componentsCommonCommonStyle) {

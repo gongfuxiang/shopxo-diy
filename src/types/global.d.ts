@@ -90,6 +90,10 @@ declare global {
         floating_up: number;
         module_z_index: number;
         padding_top_safe_value: number;
+        border_is_show: string,
+        border_color: string,
+        border_style: string,
+        border_size: paddingStyle,
         padding: number;
         padding_top: number;
         padding_bottom: number;
