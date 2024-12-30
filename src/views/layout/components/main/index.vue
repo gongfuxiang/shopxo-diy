@@ -165,7 +165,9 @@ const set_padding_top_value = () => {
         });
         // 处理另外一个数组的时候，将所有的padding_top_safe_value设置为0
         diy_data.value.forEach((item: any) => {
-            item.com_data.style.common_style.padding_top_safe_value = 0;
+            if (item.key !== 'float-window') {
+                item.com_data.style.common_style.padding_top_safe_value = 0;
+            }
         });
     } else if (diy_data.value.length > 0) {
         // 处理另外一个数组的时候，将所有的padding_top_safe_value设置为0
