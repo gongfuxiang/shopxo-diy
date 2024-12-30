@@ -159,12 +159,16 @@ watchEffect(() => {
     // 重新赋值
     form.value = props.value.data_content;
     new_style.value = props.value.data_style;
-
+    const old_width = form.value.width * props.magicScale;
     const { padding_left, padding_right } = new_style.value.data_chunk_padding;
     const { margin_left, margin_right } = new_style.value.data_chunk_margin;
+    const data_content_style = new_style.value?.data_content_style || {};
+    // 内容左右间距
+    const content_spacing = (data_content_style?.margin_left || 0) + (data_content_style?.margin_right || 0) + (data_content_style?.padding_left || 0) + (data_content_style?.padding_right || 0);
     // 当前容器的宽度 减去 左右两边的padding值 再减去 数据间距的一半 再除以 容器的宽度 得到比例 再乘以数据魔方的比例
-    const width = form.value.width - padding_left - padding_right - margin_left - margin_right - (props.dataSpacing / 2);
-    scale.value = (width / form.value.width) * props.magicScale;
+    const width = old_width - padding_left - padding_right - margin_left - margin_right - content_spacing - (props.dataSpacing / 2);
+
+    scale.value = width / old_width;
 })
 // 计算纵向显示的宽度
 const gap_width = computed(() => {
