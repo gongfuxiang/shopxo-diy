@@ -29,7 +29,6 @@
     </div>
 </template>
 <script setup lang="ts">
-import { pick } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,

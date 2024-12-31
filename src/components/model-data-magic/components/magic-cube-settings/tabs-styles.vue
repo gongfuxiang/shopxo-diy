@@ -70,7 +70,7 @@
             <el-form-item label="背景">
                 <background-common :key="form.carouselKey" v-model:color_list="form.data_color_list" v-model:direction="form.data_direction" v-model:img_style="form.data_background_img_style" v-model:img="form.data_background_img" @mult_color_picker_event="data_mult_color_picker_event" />
             </el-form-item>
-            <el-form-item v-if="tabs_content.data_type == 'custom'" label="外间距">
+            <el-form-item label="外间距">
                 <margin :key="form.carouselKey" :value="form.data_chunk_margin" @update:value="data_chunk_margin_change"></margin>
             </el-form-item>
             <el-form-item label="内间距">
@@ -92,6 +92,10 @@
             <el-form-item v-if="tabs_content.data_type == 'goods'" label="数据间距">
                 <slider v-model="form.data_goods_gap" :min="0" :max="50"></slider>
             </el-form-item>
+            <!-- 边框处理 -->
+            <border-config v-model:show="form.data_pattern.border_is_show" v-model:color="form.data_pattern.border_color" v-model:style="form.data_pattern.border_style" v-model:size="form.data_pattern.border_size"></border-config>
+            <!-- 阴影配置 -->
+            <shadow-config v-model="form.data_pattern"></shadow-config>
         </card-container>
         <div class="bg-f5 divider-line" />
         <template v-if="tabs_content.data_type == 'custom'">
@@ -100,7 +104,7 @@
                 <el-form-item label="背景">
                     <background-common :key="form.carouselKey" v-model:color_list="form.data_content_style.color_list" v-model:direction="form.data_content_style.direction" v-model:img_style="form.data_content_style.background_img_style" v-model:img="form.data_content_style.background_img" @mult_color_picker_event="data_content_mult_color_picker_event" />
                 </el-form-item>
-                <el-form-item v-if="tabs_content.data_type == 'custom'" label="外间距">
+                <el-form-item label="外间距">
                     <margin :key="form.carouselKey" :value="form.data_content_style"></margin>
                 </el-form-item>
                 <el-form-item label="内间距">
@@ -109,6 +113,10 @@
                 <el-form-item label="圆角">
                     <radius :key="form.carouselKey" :value="form.data_content_style"></radius>
                 </el-form-item>
+                <!-- 边框处理 -->
+                <border-config v-model:show="form.data_content_style.border_is_show" v-model:color="form.data_content_style.border_color" v-model:style="form.data_content_style.border_style" v-model:size="form.data_content_style.border_size"></border-config>
+                <!-- 阴影配置 -->
+                <shadow-config v-model="form.data_content_style"></shadow-config>
             </card-container>
             <div class="bg-f5 divider-line" />
         </template>
@@ -165,12 +173,19 @@
             <el-form-item label="背景">
                 <background-common :key="form.carouselKey" v-model:color_list="form.goods_color_list" v-model:direction="form.goods_direction" v-model:img_style="form.goods_background_img_style" v-model:img="form.goods_background_img" @mult_color_picker_event="goods_mult_color_picker_event" />
             </el-form-item>
+            <el-form-item label="外间距">
+                <margin :key="form.carouselKey" :value="form.goods_chunk_margin"></margin>
+            </el-form-item>
             <el-form-item label="内间距">
-                <padding :key="form.carouselKey" :value="form.goods_chunk_padding" @update:value="goods_chunk_padding_change"></padding>
+                <padding :key="form.carouselKey" :value="form.goods_chunk_padding"></padding>
             </el-form-item>
             <el-form-item label="圆角">
                 <radius :key="form.carouselKey" :value="form.goods_radius" @update:value="goods_radius_change"></radius>
             </el-form-item>
+            <!-- 边框处理 -->
+            <border-config v-model:show="form.border_is_show" v-model:color="form.border_color" v-model:style="form.border_style" v-model:size="form.border_size"></border-config>
+            <!-- 阴影配置 -->
+            <shadow-config v-model="form"></shadow-config>
         </card-container>
         <div class="bg-f5 divider-line" />
     </template>
@@ -179,9 +194,16 @@
         <el-form-item label="底部背景">
             <background-common :key="form.carouselKey" v-model:color_list="form.color_list" v-model:direction="form.direction" v-model:img_style="form.background_img_style" v-model:img="form.background_img" @mult_color_picker_event="mult_color_picker_event" />
         </el-form-item>
-        <el-form-item v-if="tabs_content.data_type != 'custom'" label="内间距">
-            <padding :key="form.carouselKey" :value="form.chunk_padding" @update:value="chunk_padding_change"></padding>
+        <el-form-item label="外间距">
+            <margin :key="form.carouselKey" :value="form.chunk_margin"></margin>
         </el-form-item>
+        <el-form-item label="内间距">
+            <padding :key="form.carouselKey" :value="form.chunk_padding"></padding>
+        </el-form-item>
+        <!-- 边框处理 -->
+        <border-config v-model:show="form.data_common_style.border_is_show" v-model:color="form.data_common_style.border_color" v-model:style="form.data_common_style.border_style" v-model:size="form.data_common_style.border_size"></border-config>
+        <!-- 阴影配置 -->
+        <shadow-config v-model="form.data_common_style"></shadow-config>
     </card-container>
 </template>
 <script setup lang="ts">

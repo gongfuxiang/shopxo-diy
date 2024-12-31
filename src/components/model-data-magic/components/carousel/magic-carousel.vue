@@ -1,6 +1,6 @@
 <template>
-    <div ref="card_container" class="w h oh" :style="props.type === 'img' ? '' : style_container">
-        <div class="w h re oh" :style="props.type === 'img' ? `height: ${ outer_height }px;` : `height: ${ outer_height }px;${ style_img_container }`">
+    <div ref="card_container" class="flex-1 oh" :style="props.type === 'img' ? '' : style_container">
+        <div class="re oh" :style="props.type === 'img' ? `height: ${ outer_height }px;` : `height: ${ outer_height }px;${ style_img_container }`">
             <swiper :key="form.data_style.carouselKey" class="w flex" :direction="form.data_style.rotation_direction" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="1" :space-between="props.type === 'img' ? 0 : form.data_style.data_goods_gap" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
                 <swiper-slide v-for="(item1, index1) in form.data_content.list" :key="index1">
                     <template v-if="props.type === 'img'">
@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { gradient_computer, radius_computer, padding_computer, background_computer } from "@/utils";
+import { gradient_computer, radius_computer, padding_computer, background_computer, margin_computer, box_shadow_computer, border_computer, old_radius, old_margin, old_padding } from "@/utils";
 import { isEmpty } from "lodash";
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
@@ -32,24 +32,23 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
     goodStyle: {},
 });
-
 const form = computed(() => props.value);
 // 用于样式显示
 const style_container = computed(() => {
     if (!isEmpty(form.value.data_style)) {
-        const { data_color_list = [], data_direction = '180deg', data_radius = { radius: 0, radius_top_left: 0, radius_top_right: 0, radius_bottom_left: 0, radius_bottom_right: 0 }} = form.value.data_style;
+        const { data_color_list = [], data_direction = '180deg', data_chunk_margin = old_margin, data_radius = old_radius, data_pattern = { border_is_show: '0', border_color: '#FF3F3F', border_style: 'solid', border_size: { padding: 1, padding_top: 1, padding_right: 1, padding_bottom: 1, padding_left: 1 }, box_shadow_color: '', box_shadow_x: 0, box_shadow_y: 0, box_shadow_blur: 0, box_shadow_spread: 0 } } = form.value.data_style;
         const data = {
             color_list: data_color_list,
             direction: data_direction,
         }
-        return gradient_computer(data) + radius_computer(data_radius);
+        return gradient_computer(data) + radius_computer(data_radius) + margin_computer(data_chunk_margin) + box_shadow_computer(data_pattern) + border_computer(data_pattern);
     } else {
         return '';
     }
 });
 const style_img_container = computed(() => {
     if (!isEmpty(form.value.data_style)) {
-        const { data_background_img = [], data_background_img_style = '2', data_chunk_padding = { padding: 0, padding_top: 0, padding_bottom: 0, padding_left: 0, padding_right: 0 }} = form.value.data_style;
+        const { data_background_img = [], data_background_img_style = '2', data_chunk_padding = old_padding } = form.value.data_style;
         const data = {
             background_img: data_background_img,
             background_img_style: data_background_img_style,

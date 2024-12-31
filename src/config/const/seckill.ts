@@ -41,19 +41,32 @@ interface DefaultSeckill {
         header_background_img_style: string;
         header_background_img: uploadList[];
         seckill_head_radius: radiusStyle;
+        seckill_head_margin: marginStyle;
         seckill_head_padding: paddingStyle;
+        seckill_head_style: object;
         shop_direction: string,
         shop_color_list: color_list[],
         shop_background_img_style: string,
         shop_background_img: uploadList[],
         shop_radius: radiusStyle;
         shop_img_radius: radiusStyle;
+        shop_margin: marginStyle;
         shop_padding: paddingStyle;
+        shop_style: object;
         content_outer_spacing: number;
         content_spacing: number;
         content_outer_height: number;
         content_img_width: number | undefined;
         content_img_height: number | undefined;
+        shop_content_direction: string;
+        shop_content_color_list: color_list[];
+        shop_content_background_img_style: string;
+        shop_content_background_img: string[];
+        shop_content_radius: radiusStyle;
+        shop_content_margin: marginStyle;
+        shop_content_padding: paddingStyle;
+        shop_content_spacing: number;
+        shop_content: object;
         shop_title_color: string;
         shop_title_typeface: string;
         shop_title_size: number;
@@ -145,6 +158,13 @@ const defaultSeckill: DefaultSeckill = {
             radius_bottom_left: 0,
             radius_bottom_right: 0,
         },
+        seckill_head_margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
+        },
         // 头部内边距
         seckill_head_padding: {
             padding: 0,
@@ -152,6 +172,25 @@ const defaultSeckill: DefaultSeckill = {
             padding_bottom: 15,
             padding_left: 13,
             padding_right: 13,
+        },
+        seckill_head_style: {
+            // 边框样式
+            border_is_show: '0',
+            border_color: '#FF3F3F',
+            border_style: 'solid',
+            border_size: {
+                padding: 1,
+                padding_top: 1,
+                padding_right: 1,
+                padding_bottom: 1,
+                padding_left: 1,
+            },
+            // 阴影
+            box_shadow_color: '',
+            box_shadow_x: 0,
+            box_shadow_y: 0,
+            box_shadow_blur: 0,
+            box_shadow_spread: 0,
         },
         shop_direction: '90deg',
         shop_color_list: [{ color: '#fff', color_percentage: undefined }],
@@ -173,6 +212,13 @@ const defaultSeckill: DefaultSeckill = {
             radius_bottom_left: 4,
             radius_bottom_right: 4,
         },
+        shop_margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
+        },
         // 商品间距
         shop_padding: {
             padding: 10,
@@ -181,6 +227,25 @@ const defaultSeckill: DefaultSeckill = {
             padding_left: 10,
             padding_right: 10,
         },
+        shop_style: {
+            // 边框样式
+            border_is_show: '0',
+            border_color: '#FF3F3F',
+            border_style: 'solid',
+            border_size: {
+                padding: 1,
+                padding_top: 1,
+                padding_right: 1,
+                padding_bottom: 1,
+                padding_left: 1,
+            },
+            // 阴影
+            box_shadow_color: '',
+            box_shadow_x: 0,
+            box_shadow_y: 0,
+            box_shadow_blur: 0,
+            box_shadow_spread: 0,
+        },
         content_outer_spacing: 10, // 商品外间距
         // 商品内间距
         content_spacing: 10,
@@ -188,6 +253,52 @@ const defaultSeckill: DefaultSeckill = {
         content_outer_height: 232,
         content_img_width: undefined,
         content_img_height: undefined,
+        // 商品内容设置
+        shop_content_direction: '90deg',
+        shop_content_color_list: [{ color: '', color_percentage: undefined }],
+        shop_content_background_img_style: '2',
+        shop_content_background_img: [],
+        shop_content_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+        },
+        shop_content_margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
+        },
+        shop_content_padding: {
+            padding: 0,
+            padding_top: 0,
+            padding_bottom: 10,
+            padding_left: 10,
+            padding_right: 10,
+        },
+        shop_content_spacing: 0,
+        shop_content: {
+            // 边框样式
+            border_is_show: '0',
+            border_color: '#FF3F3F',
+            border_style: 'solid',
+            border_size: {
+                padding: 1,
+                padding_top: 1,
+                padding_right: 1,
+                padding_bottom: 1,
+                padding_left: 1,
+            },
+            // 阴影
+            box_shadow_color: '',
+            box_shadow_x: 0,
+            box_shadow_y: 0,
+            box_shadow_blur: 0,
+            box_shadow_spread: 0,
+        },
         shop_title_typeface: '500',
         shop_title_size: 14,
         shop_title_color: '#333333',

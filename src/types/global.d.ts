@@ -80,6 +80,7 @@ declare global {
         background_img_style: string;
     };
 
+    type border_style = { border_is_show: string, border_color: string, border_style: string, border_size: paddingStyle };
     /**
      * 通用样式参数
      */

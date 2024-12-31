@@ -49,6 +49,10 @@
                         </el-form-item>
                     </div>
                 </el-form-item>
+                <!-- 边框处理 -->
+                <border-config v-model:show="form.data_style.border_is_show" v-model:color="form.data_style.border_color" v-model:style="form.data_style.border_style" v-model:size="form.data_style.border_size"></border-config>
+                <!-- 阴影配置 -->
+                <shadow-config v-model="form.data_style"></shadow-config>
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>
@@ -65,6 +69,10 @@
                 <el-form-item label="圆角">
                     <radius :value="form.data_content_style"></radius>
                 </el-form-item>
+                <!-- 边框处理 -->
+                <border-config v-model:show="form.data_content_style.border_is_show" v-model:color="form.data_content_style.border_color" v-model:style="form.data_content_style.border_style" v-model:size="form.data_content_style.border_size"></border-config>
+                <!-- 阴影配置 -->
+                <shadow-config v-model="form.data_content_style"></shadow-config>
             </card-container>
         </el-form>
         <div class="bg-f5 divider-line" />

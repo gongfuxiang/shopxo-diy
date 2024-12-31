@@ -34,7 +34,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, common_img_computer, common_styles_computer, get_math, gradient_computer, margin_computer, padding_computer, radius_computer } from '@/utils';
+import { background_computer, border_computer, border_width, box_shadow_computer, common_img_computer, common_styles_computer, get_math, gradient_computer, margin_computer, old_margin, old_padding, old_radius, padding_computer, radius_computer } from '@/utils';
 import { isEmpty } from "lodash";
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
@@ -128,23 +128,22 @@ const style_content_img_container = computed(() => {
         return common_img_computer(defalt_style);
     }
 });
-
 // 用于样式显示
 const style_container = computed(() => {
     if (!isEmpty(new_style.value)) {
-        const { data_color_list = [], data_direction = '180deg', data_radius = { radius: 0, radius_top_left: 0, radius_top_right: 0, radius_bottom_left: 0, radius_bottom_right: 0 }, data_chunk_margin = { margin: 0, margin_top: 0, margin_bottom: 0, margin_left: 0, margin_right: 0 }} = new_style.value;
+        const { data_color_list = [], data_direction = '180deg', data_radius = old_radius, data_chunk_margin = old_margin, data_pattern = { border_is_show: '0', border_color: '#FF3F3F', border_style: 'solid', border_size: { padding: 1, padding_top: 1, padding_right: 1, padding_bottom: 1, padding_left: 1 }, box_shadow_color: '', box_shadow_x: 0, box_shadow_y: 0, box_shadow_blur: 0, box_shadow_spread: 0 }} = new_style.value;
         const data = {
             color_list: data_color_list,
             direction: data_direction,
         }
-        return gradient_computer(data) + radius_computer(data_radius) + margin_computer(data_chunk_margin);
+        return gradient_computer(data) + radius_computer(data_radius) + margin_computer(data_chunk_margin) + box_shadow_computer(data_pattern) + border_computer(data_pattern);
     } else {
         return '';
     }
 });
 const style_img_container = computed(() => {
     if (!isEmpty(new_style.value)) {
-        const { data_background_img = [], data_background_img_style = '2', data_chunk_padding = { padding: 0, padding_top: 0, padding_bottom: 0, padding_left: 0, padding_right: 0 }} = new_style.value;
+        const { data_background_img = [], data_background_img_style = '2', data_chunk_padding = old_padding } = new_style.value;
         const data = {
             background_img: data_background_img,
             background_img_style: data_background_img_style,
@@ -160,16 +159,24 @@ watchEffect(() => {
     form.value = props.value.data_content;
     new_style.value = props.value.data_style;
     const old_width = form.value.width * props.magicScale;
+    // 数据样式
     const { padding_left, padding_right } = new_style.value.data_chunk_padding;
     const { margin_left, margin_right } = new_style.value.data_chunk_margin;
-    const data_content_style = new_style.value?.data_content_style || {};
+    const data_style = padding_left - padding_right - margin_left - margin_right- border_width(new_style.value.data_pattern);
+    // 通用样式
+    const common_border = new_style.value?.data_common_style || {};
+    const chunk_padding = new_style.value?.chunk_padding || old_padding;
+    const chunk_margin = new_style.value?.chunk_margin || old_margin;
+    const common_styles = (chunk_margin?.margin_left || 0) + (chunk_margin?.margin_right || 0) + (chunk_padding?.padding_left || 0) + (chunk_padding?.padding_right || 0) + border_width(common_border);
     // 内容左右间距
-    const content_spacing = (data_content_style?.margin_left || 0) + (data_content_style?.margin_right || 0) + (data_content_style?.padding_left || 0) + (data_content_style?.padding_right || 0);
+    const data_content_style = new_style.value?.data_content_style || {};
+    const content_spacing = (data_content_style?.margin_left || 0) + (data_content_style?.margin_right || 0) + (data_content_style?.padding_left || 0) + (data_content_style?.padding_right || 0) + border_width(data_content_style);
     // 当前容器的宽度 减去 左右两边的padding值 再减去 数据间距的一半 再除以 容器的宽度 得到比例 再乘以数据魔方的比例
-    const width = old_width - padding_left - padding_right - margin_left - margin_right - content_spacing - (props.dataSpacing / 2);
+    const width = old_width - data_style - content_spacing - common_styles - (props.dataSpacing / 2);
 
     scale.value = width / old_width;
 })
+
 // 计算纵向显示的宽度
 const gap_width = computed(() => {
     const model_number = Number(form.value.data_source_carousel_col);

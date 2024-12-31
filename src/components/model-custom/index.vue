@@ -49,7 +49,7 @@
 </template>
 <script setup lang="ts">
 import { isEmpty, cloneDeep } from 'lodash';
-import { common_img_computer, common_styles_computer, get_math, radius_computer } from '@/utils';
+import { border_width, common_img_computer, common_styles_computer, get_math, radius_computer } from '@/utils';
 import { source_list } from '@/config/const/custom';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
@@ -97,11 +97,11 @@ const scale = ref(1);
 watchEffect(() => {
     const { common_style, data_style, data_content_style } = new_style.value;
     // 外层左右间距
-    const outer_spacing = common_style.margin_left + common_style.margin_right + common_style.padding_left + common_style.padding_right;
+    const outer_spacing = common_style.margin_left + common_style.margin_right + common_style.padding_left + common_style.padding_right + border_width(common_style);
     // 内容左右间距
-    const content_spacing = data_content_style.margin_left + data_content_style.margin_right + data_content_style.padding_left + data_content_style.padding_right;
+    const content_spacing = data_content_style.margin_left + data_content_style.margin_right + data_content_style.padding_left + data_content_style.padding_right + border_width(data_content_style);
     // 数据左右间距
-    const internal_spacing = data_style.margin_left + data_style.margin_right + data_style.padding_left + data_style.padding_right;
+    const internal_spacing = data_style.margin_left + data_style.margin_right + data_style.padding_left + data_style.padding_right + border_width(data_style);
     // 根据容器宽度来计算内部大小
     const width = 390 - outer_spacing - internal_spacing - content_spacing - props.outerContainerPadding;
     // 获得对应宽度的比例

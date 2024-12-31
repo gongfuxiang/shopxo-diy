@@ -176,6 +176,23 @@ const defaultSearch: defaultSearch = {
             margin_bottom: 0,
             margin_left: 0,
             margin_right: 0,
+            // 边框样式
+            border_is_show: '0',
+            border_color: '#FF3F3F',
+            border_style: 'solid',
+            border_size: {
+                padding: 1,
+                padding_top: 1,
+                padding_right: 1,
+                padding_bottom: 1,
+                padding_left: 1,
+            },
+            // 阴影
+            box_shadow_color: '',
+            box_shadow_x: 0,
+            box_shadow_y: 0,
+            box_shadow_blur: 0,
+            box_shadow_spread: 0,
         },
         data_content_style: {
             color_list: [{ color: '', color_percentage: undefined }],
@@ -197,6 +214,23 @@ const defaultSearch: defaultSearch = {
             margin_bottom: 0,
             margin_left: 0,
             margin_right: 0,
+            // 边框样式
+            border_is_show: '0',
+            border_color: '#FF3F3F',
+            border_style: 'solid',
+            border_size: {
+                padding: 1,
+                padding_top: 1,
+                padding_right: 1,
+                padding_bottom: 1,
+                padding_left: 1,
+            },
+            // 阴影
+            box_shadow_color: '',
+            box_shadow_x: 0,
+            box_shadow_y: 0,
+            box_shadow_blur: 0,
+            box_shadow_spread: 0,
         },
         row_gap: 0,
         column_gap: 0,
