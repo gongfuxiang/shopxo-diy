@@ -369,8 +369,9 @@ const layout_type = computed(() => {
 // 容器样式
 const layout_style = computed(() => {
     const radius = theme.value == '6' ? '' : content_radius.value;
+    const width = theme.value == '0' ? `width: calc(100% - ${ shop_left_right_width_margin.value }px);` : '';
     const gradient = theme.value != '6' ? gradient_handle(new_style.value.shop_color_list, new_style.value.shop_direction) + margin_computer(new_style.value.shop_margin) + border_computer(new_style.value) + box_shadow_computer(new_style.value) : '';
-    return `${radius} ${ gradient }`;
+    return `${radius} ${ gradient } ${ width }`;
 });
 
 // 容器图片样式

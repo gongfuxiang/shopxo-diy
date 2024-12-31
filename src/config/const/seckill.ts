@@ -275,9 +275,9 @@ const defaultSeckill: DefaultSeckill = {
         shop_content_padding: {
             padding: 0,
             padding_top: 0,
-            padding_bottom: 10,
-            padding_left: 10,
-            padding_right: 10,
+            padding_bottom: 0,
+            padding_left: 0,
+            padding_right: 0,
         },
         shop_content_spacing: 0,
         shop_content: {

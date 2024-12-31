@@ -404,7 +404,6 @@ const article_theme_class = computed(() => {
 <style lang="scss" scoped>
 .style1 {
     .item {
-        width: 100%;
         .img {
             height: v-bind(article_img_height);
             width: v-bind(article_img_width);
@@ -428,7 +427,6 @@ const article_theme_class = computed(() => {
 }
 .style4 {
     .item {
-        width: 100%;
         &:not(:last-child) {
             border-bottom: 0.1rem solid #eee;
         }

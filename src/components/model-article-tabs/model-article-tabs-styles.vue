@@ -121,7 +121,9 @@
                     <color-text-size-group v-model:color="form.page_view_color" v-model:typeface="form.page_view_weight" v-model:size="form.page_view_size"></color-text-size-group>
                 </el-form-item>
                 <template v-if="theme != '3'">
-                    <margin :value="form.margin"></margin>
+                    <el-form-item label="外间距">
+                        <margin :value="form.margin"></margin>
+                    </el-form-item>
                 </template>
                 <el-form-item label="内间距">
                     <padding :value="form.padding"></padding>
