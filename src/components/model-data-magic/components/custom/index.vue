@@ -34,7 +34,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, border_computer, border_width, box_shadow_computer, common_img_computer, common_styles_computer, get_math, gradient_computer, margin_computer, old_margin, old_padding, old_radius, padding_computer, radius_computer } from '@/utils';
+import { background_computer, border_computer, border_width, box_shadow_computer, common_img_computer, common_styles_computer, get_math, gradient_computer, margin_computer, old_border_and_box_shadow, old_margin, old_padding, old_radius, padding_computer, radius_computer } from '@/utils';
 import { isEmpty } from "lodash";
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
@@ -131,7 +131,7 @@ const style_content_img_container = computed(() => {
 // 用于样式显示
 const style_container = computed(() => {
     if (!isEmpty(new_style.value)) {
-        const { data_color_list = [], data_direction = '180deg', data_radius = old_radius, data_chunk_margin = old_margin, data_pattern = { border_is_show: '0', border_color: '#FF3F3F', border_style: 'solid', border_size: { padding: 1, padding_top: 1, padding_right: 1, padding_bottom: 1, padding_left: 1 }, box_shadow_color: '', box_shadow_x: 0, box_shadow_y: 0, box_shadow_blur: 0, box_shadow_spread: 0 }} = new_style.value;
+        const { data_color_list = [], data_direction = '180deg', data_radius = old_radius, data_chunk_margin = old_margin, data_pattern = old_border_and_box_shadow } = new_style.value;
         const data = {
             color_list: data_color_list,
             direction: data_direction,
@@ -162,7 +162,7 @@ watchEffect(() => {
     // 数据样式
     const { padding_left, padding_right } = new_style.value.data_chunk_padding;
     const { margin_left, margin_right } = new_style.value.data_chunk_margin;
-    const data_style = padding_left - padding_right - margin_left - margin_right- border_width(new_style.value.data_pattern);
+    const data_style = padding_left + padding_right + margin_left + margin_right + border_width(new_style.value.data_pattern);
     // 通用样式
     const common_border = new_style.value?.data_common_style || {};
     const chunk_padding = new_style.value?.chunk_padding || old_padding;
@@ -173,8 +173,7 @@ watchEffect(() => {
     const content_spacing = (data_content_style?.margin_left || 0) + (data_content_style?.margin_right || 0) + (data_content_style?.padding_left || 0) + (data_content_style?.padding_right || 0) + border_width(data_content_style);
     // 当前容器的宽度 减去 左右两边的padding值 再减去 数据间距的一半 再除以 容器的宽度 得到比例 再乘以数据魔方的比例
     const width = old_width - data_style - content_spacing - common_styles - (props.dataSpacing / 2);
-
-    scale.value = width / old_width;
+    scale.value = width / form.value.width;
 })
 
 // 计算纵向显示的宽度

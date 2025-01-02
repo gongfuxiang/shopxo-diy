@@ -455,13 +455,12 @@ const style_container = computed(() => common_styles_computer(new_style.value.co
 const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
 // 图片魔方的缩放比例
 const magic_scale = ref(1);
-const typewidth = ref(0);
 watchEffect(() => {
     const { margin_left, margin_right, padding_left, padding_right } = new_style.value.common_style;
     // 根据容器宽度来计算内部大小
-    typewidth.value = 390 - margin_left - margin_right - padding_left - padding_right - border_width(new_style.value.common_style) - props.outerContainerPadding;
+    const typewidth = 390 - margin_left - margin_right - padding_left - padding_right - border_width(new_style.value.common_style) - props.outerContainerPadding;
     // 获得对应宽度的比例
-    magic_scale.value = typewidth.value / 390;
+    magic_scale.value = typewidth / 390;
 });
 </script>
 <style lang="scss" scoped>

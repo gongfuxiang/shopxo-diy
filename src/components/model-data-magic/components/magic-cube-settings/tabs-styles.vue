@@ -71,13 +71,13 @@
                 <background-common :key="form.carouselKey" v-model:color_list="form.data_color_list" v-model:direction="form.data_direction" v-model:img_style="form.data_background_img_style" v-model:img="form.data_background_img" @mult_color_picker_event="data_mult_color_picker_event" />
             </el-form-item>
             <el-form-item label="外间距">
-                <margin :key="form.carouselKey" :value="form.data_chunk_margin" @update:value="data_chunk_margin_change"></margin>
+                <margin :key="form.carouselKey" :value="form.data_chunk_margin"></margin>
             </el-form-item>
             <el-form-item label="内间距">
-                <padding :key="form.carouselKey" :value="form.data_chunk_padding" @update:value="data_chunk_padding_change"></padding>
+                <padding :key="form.carouselKey" :value="form.data_chunk_padding"></padding>
             </el-form-item>
             <el-form-item label="圆角">
-                <radius :key="form.carouselKey" :value="form.data_radius" @update:value="data_radius_change"></radius>
+                <radius :key="form.carouselKey" :value="form.data_radius"></radius>
             </el-form-item>
             <el-form-item v-if="tabs_content.data_type == 'custom'" label="数据间距">
                 <div class="flex-col w h gap-10">

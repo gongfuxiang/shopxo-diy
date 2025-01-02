@@ -173,13 +173,7 @@ const style_container = computed(() => {
                 color_list: goods_color_list,
                 direction: goods_direction,
             }
-            const borderData = {
-                border_is_show: val.border_is_show,
-                border_color: val.border_color,
-                border_style: val.border_style,
-                border_size: val.border_size,
-            };
-            return gradient_computer(data) + radius_computer(goods_radius) + margin_computer(goods_chunk_margin) + border_computer(borderData) + box_shadow_computer(val);
+            return gradient_computer(data) + radius_computer(goods_radius) + margin_computer(goods_chunk_margin) + border_computer(val) + box_shadow_computer(val);
         } else {
             return '';
         }

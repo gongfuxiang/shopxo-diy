@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { gradient_computer, radius_computer, padding_computer, background_computer, margin_computer, box_shadow_computer, border_computer, old_radius, old_margin, old_padding } from "@/utils";
+import { gradient_computer, radius_computer, padding_computer, background_computer, margin_computer, box_shadow_computer, border_computer, old_radius, old_margin, old_padding, old_border_and_box_shadow } from "@/utils";
 import { isEmpty } from "lodash";
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
@@ -36,7 +36,7 @@ const form = computed(() => props.value);
 // 用于样式显示
 const style_container = computed(() => {
     if (!isEmpty(form.value.data_style)) {
-        const { data_color_list = [], data_direction = '180deg', data_chunk_margin = old_margin, data_radius = old_radius, data_pattern = { border_is_show: '0', border_color: '#FF3F3F', border_style: 'solid', border_size: { padding: 1, padding_top: 1, padding_right: 1, padding_bottom: 1, padding_left: 1 }, box_shadow_color: '', box_shadow_x: 0, box_shadow_y: 0, box_shadow_blur: 0, box_shadow_spread: 0 } } = form.value.data_style;
+        const { data_color_list = [], data_direction = '180deg', data_chunk_margin = old_margin, data_radius = old_radius, data_pattern = old_border_and_box_shadow } = form.value.data_style;
         const data = {
             color_list: data_color_list,
             direction: data_direction,
