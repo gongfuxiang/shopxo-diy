@@ -22,7 +22,7 @@
                     </el-select>
                 </el-form-item>
                 <el-form-item label="图片圆角">
-                    <radius :value="form.img_radius" @update:value="img_radius_change"></radius>
+                    <radius :value="form.img_radius"></radius>
                 </el-form-item>
                 <el-form-item label="图片宽度">
                     <slider v-model="form.img_width" :max="1000"></slider>
@@ -57,7 +57,7 @@
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item label="边框圆角">
-                        <radius :value="form.border_radius" @update:value="border_radius_change"></radius>
+                        <radius :value="form.border_radius"></radius>
                     </el-form-item>
                     <el-form-item label="边框粗细">
                         <slider v-model="form.border_size" :max="100"></slider>
@@ -88,13 +88,6 @@ const state = reactive({
 const { diy_data } = toRefs(state);
 const form = ref(diy_data.value.com_data);
 const center_height = defineModel('height', { type: Number, default: 0 });
-
-const img_radius_change = (radius: any) => {
-    form.value.img_radius = Object.assign(form.value.img_radius, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
-};
-const border_radius_change = (radius: any) => {
-    form.value.border_radius = Object.assign(form.value.border_radius, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
-};
 // 数据字段切换时，更新另外一个数据
 const img_src_change = (key: string) => {
     if (key == '2') {

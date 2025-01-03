@@ -63,7 +63,7 @@
                     <mult-color-picker :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
                 </el-form-item>
                 <el-form-item label="圆角">
-                    <radius :value="form.bg_radius" @update:value="bg_radius_change"></radius>
+                    <radius :value="form.bg_radius"></radius>
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
@@ -117,10 +117,7 @@ const center_height = defineModel('height', { type: Number, default: 0 });
 
 const padding_change = (padding: any) => {
     form.value.icon_padding = Object.assign(form.value.icon_padding, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
-};
-const bg_radius_change = (radius: any) => {
-    form.value.bg_radius = Object.assign(form.value.bg_radius, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
-};
+}
 
 const icon_change = (key: string) => {
     if (key == '2') {

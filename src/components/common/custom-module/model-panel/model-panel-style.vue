@@ -17,7 +17,7 @@
                     <background-common v-model:color_list="form.color_list" v-model:direction="form.direction" v-model:img_style="form.background_img_style" v-model:img="form.background_img" @mult_color_picker_event="mult_color_picker_event" />
                 </el-form-item>
                 <el-form-item label="圆角">
-                    <radius :value="form.bg_radius" @update:value="bg_radius_change"></radius>
+                    <radius :value="form.bg_radius"></radius>
                 </el-form-item>
                 <el-form-item label="旋转角度">
                     <slider v-model="form.panel_rotate" :max="1000"></slider>
@@ -87,9 +87,6 @@ const { diy_data } = toRefs(state);
 const form = ref(diy_data.value.com_data);
 
 const center_height = defineModel('height', { type: Number, default: 0 });
-const bg_radius_change = (radius: any) => {
-    form.value.bg_radius = Object.assign(form.value.bg_radius, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
-};
 
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.color_list = arry;

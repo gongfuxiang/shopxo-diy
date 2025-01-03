@@ -25,7 +25,7 @@
                 </template>
             </template>
             <el-form-item v-if="tabs_content.data_type != 'custom'" :label="tabs_content.data_type != 'video' ? '图片圆角' : '视频圆角'">
-                <radius :key="form.carouselKey" :value="form.img_radius" @update:value="img_radius_change"></radius>
+                <radius :key="form.carouselKey" :value="form.img_radius"></radius>
             </el-form-item>
         </card-container>
         <div class="bg-f5 divider-line" />
@@ -180,7 +180,7 @@
                 <padding :key="form.carouselKey" :value="form.goods_chunk_padding"></padding>
             </el-form-item>
             <el-form-item label="圆角">
-                <radius :key="form.carouselKey" :value="form.goods_radius" @update:value="goods_radius_change"></radius>
+                <radius :key="form.carouselKey" :value="form.goods_radius"></radius>
             </el-form-item>
             <!-- 边框处理 -->
             <border-config v-model:show="form.border_is_show" v-model:color="form.border_color" v-model:style="form.border_style" v-model:size="form.border_size"></border-config>
@@ -226,20 +226,6 @@ const mult_color_picker_event = (arry: string[], type: number) => {
     form.value.color_list = arry;
     form.value.direction = type.toString();
 };
-const chunk_padding_change = (padding: paddingStyle) => {
-    form.value.chunk_padding = Object.assign(form.value.chunk_padding, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
-};
-// 内容圆角
-const img_radius_change = (radius: radiusStyle) => {
-    const data = !isEmpty(form.value.img_radius) ? form.value.img_radius : { radius: 4, radius_top_left: 4, radius_top_right: 4, radius_bottom_left: 4, radius_bottom_right: 4 };
-    form.value.img_radius = Object.assign(data, pick(radius, [
-        'radius',
-        'radius_top_left',
-        'radius_top_right',
-        'radius_bottom_left',
-        'radius_bottom_right',
-    ]));
-}
 // 内容底板颜色
 const data_content_mult_color_picker_event = (arry: string[], type: number) => {
     form.value.data_content_style.color_list = arry;
@@ -250,45 +236,11 @@ const data_mult_color_picker_event = (arry: string[], type: number) => {
     form.value.data_color_list = arry;
     form.value.data_direction = type.toString();
 }
-const data_chunk_padding_change = (padding: paddingStyle) => {
-    form.value.data_chunk_padding = Object.assign(form.value.data_chunk_padding, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
-};
-
-const data_chunk_margin_change = (margin: marginStyle) => {
-    form.value.data_chunk_margin = Object.assign(form.value.data_chunk_margin, pick(margin, ['margin', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right']));
-};
-// 内容圆角
-const data_radius_change = (radius: radiusStyle) => {
-    const data = !isEmpty(form.value.data_radius) ? form.value.data_radius : { radius: 4, radius_top_left: 4, radius_top_right: 4, radius_bottom_left: 4, radius_bottom_right: 4 };
-    form.value.data_radius = Object.assign(data, pick(radius, [
-        'radius',
-        'radius_top_left',
-        'radius_top_right',
-        'radius_bottom_left',
-        'radius_bottom_right',
-    ]));
-}
-
 // 商品底部颜色
 const goods_mult_color_picker_event = (arry: string[], type: number) => {
     form.value.goods_color_list = arry;
     form.value.goods_direction = type.toString();
 }
-const goods_chunk_padding_change = (padding: paddingStyle) => {
-    form.value.goods_chunk_padding = Object.assign(form.value.goods_chunk_padding, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
-};
-// 内容圆角
-const goods_radius_change = (radius: radiusStyle) => {
-    const data = !isEmpty(form.value.goods_radius) ? form.value.goods_radius : { radius: 4, radius_top_left: 4, radius_top_right: 4, radius_bottom_left: 4, radius_bottom_right: 4 };
-    form.value.goods_radius = Object.assign(data, pick(radius, [
-        'radius',
-        'radius_top_left',
-        'radius_top_right',
-        'radius_bottom_left',
-        'radius_bottom_right',
-    ]));
-}
-
 // 商品价格底部颜色
 const goods_price_mult_color_picker_event = (arry: string[], type: number) => {
     form.value.goods_price_color_list = arry;

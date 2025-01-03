@@ -34,16 +34,6 @@ const { form } = toRefs(state);
 const common_style_update = (value: any) => {
     form.value.common_style = value;
 };
-// 内容圆角
-const data_radius_change = (radius: any) => {
-    form.value.data_radius = Object.assign(form.value.data_radius, pick(radius, [
-        'radius',
-        'radius_top_left',
-        'radius_top_right',
-        'radius_bottom_left',
-        'radius_bottom_right',
-    ]));
-}
 </script>
 <style lang="scss" scoped>
 .topic {

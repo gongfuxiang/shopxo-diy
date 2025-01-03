@@ -75,9 +75,6 @@
                 <el-form-item label="旋转角度">
                     <slider v-model="form.text_rotate" :max="1000"></slider>
                 </el-form-item>
-                <!-- <el-form-item label="是否置底">
-                    <el-switch v-model="form.bottom_up" active-value="1" inactive-value="0" />
-                </el-form-item> -->
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>
@@ -92,7 +89,7 @@
                     <mult-color-picker :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
                 </el-form-item>
                 <el-form-item label="圆角">
-                    <radius :value="form.bg_radius" @update:value="bg_radius_change"></radius>
+                    <radius :value="form.bg_radius"></radius>
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
@@ -147,9 +144,6 @@ const center_height = defineModel('height', { type: Number, default: 0 });
 
 const padding_change = (padding: any) => {
     form.value.text_padding = Object.assign(form.value.text_padding, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
-};
-const bg_radius_change = (radius: any) => {
-    form.value.bg_radius = Object.assign(form.value.bg_radius, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
 };
 // 如果历史的字体高度为空，就赋值为文字内容的大小
 onBeforeMount(() => {

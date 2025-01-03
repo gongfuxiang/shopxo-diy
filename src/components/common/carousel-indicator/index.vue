@@ -45,7 +45,7 @@
             <slider v-model="form.indicator_bottom" :min="0" :max="100"></slider>
         </el-form-item>
         <el-form-item v-if="form.indicator_style != 'num'" label="圆角">
-            <radius :value="form.indicator_radius" @update:value="indicator_radius_change"></radius>
+            <radius :value="form.indicator_radius"></radius>
         </el-form-item>
     </template>
 </template>
@@ -87,14 +87,4 @@ const color_picker_change = (color: string, type: string) => {
         form.value.color = color;
     }
 };
-// 指示器圆角
-const indicator_radius_change = (radius: radiusStyle) => {
-    form.value.indicator_radius = Object.assign(form.value.indicator_radius, pick(radius, [
-        'radius',
-        'radius_top_left',
-        'radius_top_right',
-        'radius_bottom_left',
-        'radius_bottom_right',
-    ]));
-}
 </script>

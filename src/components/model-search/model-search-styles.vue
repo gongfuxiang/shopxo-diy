@@ -20,7 +20,7 @@
                         <background-common v-model:color_list="form.search_botton_color_list" v-model:direction="form.search_botton_direction" v-model:img_style="form.search_botton_background_img_style" v-model:img="form.search_botton_background_img" @mult_color_picker_event="mult_color_picker_event" />
                     </el-form-item>
                     <el-form-item label="按钮圆角">
-                        <radius :value="form.search_button_radius" @update:value="button_radius_change"></radius>
+                        <radius :value="form.search_button_radius"></radius>
                     </el-form-item>
                 </card-container>
                 <div class="bg-f5 divider-line" />
@@ -42,7 +42,7 @@
                     <color-picker v-model="form.search_bg_color" default-color="#fff"></color-picker>
                 </el-form-item>
                 <el-form-item label="框体圆角">
-                    <radius :value="form.search_border_radius" @update:value="border_radius_change"></radius>
+                    <radius :value="form.search_border_radius"></radius>
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
@@ -95,16 +95,6 @@ const emit = defineEmits(['update:value']);
 const common_styles_update = (val: Object) => {
     form.value.common_style = val;
 };
-
-// 按钮圆角
-const button_radius_change = (radius: any) => {
-    form.value.search_button_radius = Object.assign(form.value.search_button_radius, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
-};
-// 搜索框圆角
-const border_radius_change = (radius: any) => {
-    form.value.search_border_radius = Object.assign(form.value.search_border_radius, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
-};
-
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.search_botton_color_list = arry;
     form.value.search_botton_direction = type.toString();

@@ -14,7 +14,7 @@
             <card-container>
                 <div class="mb-12">图片样式</div>
                 <el-form-item label="图片圆角">
-                    <radius :value="form" @update:value="radius_change"></radius>
+                    <radius :value="form"></radius>
                 </el-form-item>
                 <el-form-item label="图片大小">
                     <slider v-model="form.img_size" :max="100" :min="10"></slider>
@@ -124,10 +124,6 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form, data_content } = toRefs(state);
 
-// 图片圆角
-const radius_change = (radius: nav_group_styles) => {
-    form.value = Object.assign(form.value, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
-};
 // 通用样式处理
 const common_styles_update = (val: Object) => {
     form.value.common_style = val;

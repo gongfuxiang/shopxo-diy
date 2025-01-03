@@ -116,23 +116,6 @@ const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.color_list = arry;
     form.value.direction = type.toString();
 };
-const background_img_style_change = (style: any) => {
-    form.value.background_img_style = style;
-};
-const background_img_change = (arry: uploadList[]) => {
-    form.value.background_img = arry;
-};
-const radius_change = (radius: any) => {
-    form.value = Object.assign(form.value, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
-};
-
-const margin_change = (margin: any) => {
-    form.value = Object.assign(form.value, pick(margin, ['margin', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right']));
-};
-
-const padding_change = (padding: any) => {
-    form.value = Object.assign(form.value, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
-};
 </script>
 <style lang="scss" scoped>
 .common-styles {
