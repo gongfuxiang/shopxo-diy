@@ -44,7 +44,12 @@ const text_com_data = {
     border_size: 1,
     direction: '90deg',
     color_list: [{ color: '', color_percentage: undefined }],
-    z_index: 0
+    // 条件判断
+    condition: {
+        field: '', // 字段id
+        type: '', // 条件类型
+        value: '', // 值
+    }
 }
 // 图片的默认值
 const img_com_data = {
@@ -83,7 +88,12 @@ const img_com_data = {
         radius_bottom_right: 0,
     },
     border_size: 1,
-    z_index: 0
+    // 条件判断
+    condition: {
+        field: '', // 字段id
+        type: '', // 条件类型
+        value: '', // 值
+    }
 }
 // 线条的默认值
 const line_com_data = {
@@ -95,7 +105,12 @@ const line_com_data = {
     line_width: 306,
     line_size: 1,
     line_color: '#000',
-    z_index: 0,
+    // 条件判断
+    condition: {
+        field: '', // 字段id
+        type: '', // 条件类型
+        value: '', // 值
+    }
 }
 
 // icon的默认值
@@ -142,7 +157,12 @@ const icon_com_data = {
     border_size: 1,
     direction: '90deg',
     color_list: [{ color: '', color_percentage: undefined }],
-    z_index: 0
+    // 条件判断
+    condition: {
+        field: '', // 字段id
+        type: '', // 条件类型
+        value: '', // 值
+    }
 }
 
 // 面板的默认值
@@ -171,7 +191,12 @@ const panel_com_data = {
     border_size: 1,
     direction: '90deg',
     color_list: [{ color: '#fff', color_percentage: undefined }],
-    z_index: 0
+    // 条件判断
+    condition: {
+        field: '', // 字段id
+        type: '', // 条件类型
+        value: '', // 值
+    }
 }
 
 const custom_group_com_data = {
@@ -179,6 +204,12 @@ const custom_group_com_data = {
     com_width: 100,
     com_height: 100,
     staging_height: 100,
+    // 条件判断
+    condition: {
+        field: '', // 字段id
+        type: '', // 条件类型
+        value: '', // 值
+    },
     custom_list: [], // 自定义内容处理
     custom_height: 100, // 自定义高度
     data_source_direction: 'vertical', // 铺满方式

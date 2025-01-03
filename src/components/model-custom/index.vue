@@ -67,6 +67,7 @@ const props = defineProps({
         default: 0,
     }
 });
+
 // 用于页面判断显示
 const state = reactive({
     form: props.value.content,
@@ -74,6 +75,8 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, new_style } = toRefs(state);
+// 将顶级的字段暴露给孙子组件, 避免传递层级太深
+provide('field_list', form.value.field_list);
 onBeforeMount(() => {
     // 历史数据处理
     if (!Object.keys(form.value.data_source_content).includes('data_auto_list') && !Object.keys(form.value.data_source_content).includes('data_list')) {

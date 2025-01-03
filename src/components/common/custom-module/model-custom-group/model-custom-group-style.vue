@@ -13,6 +13,8 @@
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
+            <condition-config :value="form" :options="options"></condition-config>
+            <div class="bg-f5 divider-line" />
             <el-tabs v-model="tabs_name" class="content-tabs">
                 <el-tab-pane label="内容设置" name="content">
                     <custom-tabs-content :value="form" @custom_edit="custom_edit"></custom-tabs-content>

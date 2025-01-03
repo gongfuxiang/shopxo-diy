@@ -37,6 +37,8 @@
                     <el-switch v-model="form.bottom_up" active-value="1" inactive-value="0" />
                 </el-form-item> -->
             </card-container>
+            <div class="bg-f5 divider-line" />
+            <condition-config :value="form" :options="options"></condition-config>
         </el-form>
     </div>
 </template>
@@ -47,7 +49,11 @@ const props = defineProps({
     value: {
         type: Object,
         default: () => ({}),
-    }
+    },
+    options: {
+        type: Array<any>,
+        default: () => [],
+    },
 });
 // 默认值
 const state = reactive({

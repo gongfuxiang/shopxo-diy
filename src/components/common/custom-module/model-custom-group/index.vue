@@ -1,5 +1,5 @@
 <template>
-    <div class="flex-1" :style="style_container">
+    <div v-if="is_show" class="flex-1" :style="style_container">
         <div :style="style_img_container">
             <div :style="style_content_container">
                 <div class="w h re" :style="style_content_img_container">
@@ -48,7 +48,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_img_computer, common_styles_computer, get_math, radius_computer } from '@/utils';
+import { border_width, common_img_computer, common_styles_computer, get_math, radius_computer, custom_condition_data, custom_condition_judg } from '@/utils';
 import { isEmpty } from 'lodash';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
@@ -92,6 +92,25 @@ const props = defineProps({
 // 用于页面判断显示
 const form = computed(() => props.value);
 const new_style = computed(() => props.value.data_style);
+// 从组件的顶层获取数据，避免多层组件传值导致数据遗漏和多余代码
+const field_list: any[] | undefined = inject('field_list', []);
+const is_show = computed(() => {
+    // 取出条件判断的内容
+    const condition = form.value?.condition || { field: '', type: '', value: ''};
+    // 获取对应条件字段的字段数据
+    let option: any[] = [];
+    if (field_list) {
+        option = field_list.filter((item: any) => item.field === condition.field);
+    }
+    // 获取到字段的真实数据
+    const field_value = custom_condition_data(condition?.field || '', option[0] || {}, props.sourceList, props.isCustom);
+    // 判断条件字段是否为空并且是显示面板才会生效，则直接返回true
+    if (!isEmpty(condition.field) && !props.isDisplayPanel) {
+        return custom_condition_judg(field_value, condition.type, condition.value);
+    } else {
+        return true;
+    }
+});
 // 公共样式
 const style_container = computed(() => common_styles_computer(new_style.value.common_style) + 'overflow: auto;');
 const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
@@ -109,11 +128,11 @@ watchEffect(() => {
     const { common_style, data_style, data_content_style } = new_style.value;
     const old_width = props.dataWidth * props.scale;
     // 外层左右间距
-    const outer_spacing = common_style.margin_left + common_style.margin_right + common_style.padding_left + common_style.padding_right;
+    const outer_spacing = common_style.margin_left + common_style.margin_right + common_style.padding_left + common_style.padding_right + border_width(common_style);
     // 内容左右间距
-    const content_spacing = data_content_style.margin_left + data_content_style.margin_right + data_content_style.padding_left + data_content_style.padding_right;
+    const content_spacing = data_content_style.margin_left + data_content_style.margin_right + data_content_style.padding_left + data_content_style.padding_right + border_width(data_content_style);
     // 数据左右间距
-    const internal_spacing = data_style.margin_left + data_style.margin_right + data_style.padding_left + data_style.padding_right;
+    const internal_spacing = data_style.margin_left + data_style.margin_right + data_style.padding_left + data_style.padding_right + border_width(data_style);
     // 根据容器宽度来计算内部大小
     const new_width = old_width - outer_spacing - internal_spacing - content_spacing;
     // 获得对应宽度的比例

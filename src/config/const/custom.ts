@@ -84,6 +84,7 @@ interface defaultSearch {
         data_source_direction: string;
         data_source_carousel_col: number;
         custom_list: string[];
+        field_list: string[];
     };
     style: {
         is_roll: string;
@@ -133,7 +134,9 @@ const defaultSearch: defaultSearch = {
         // 滑动时的显示 轮播数量
         data_source_carousel_col: 1,
         // 自定义内容列表
-        custom_list: []
+        custom_list: [],
+        // 存放所有的数据字段
+        field_list: [],
     },
     style: {
         is_roll: '1',

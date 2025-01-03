@@ -33,6 +33,8 @@
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
+            <condition-config :value="form" :options="options"></condition-config>
+            <div class="bg-f5 divider-line" />
             <card-container>
                 <div class="mb-12">边框设置</div>
                 <el-form-item label="边框显示">

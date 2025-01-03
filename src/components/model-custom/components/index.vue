@@ -444,6 +444,7 @@ watch(() => center_height.value, () => {
                 },
             },
         }));
+        console.log(diy_data.value);
         // 容器高度变化时，组件不绑定右侧数据
         emits('rightUpdate', {});
         draggable_container.value = true;

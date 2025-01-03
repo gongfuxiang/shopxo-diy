@@ -1,5 +1,5 @@
 <template>
-    <div class="img-outer w h re oh" :style="com_style">
+    <div v-if="is_show" class="img-outer w h re oh" :style="com_style">
         <div :style="text_style" class="text-word-break">
             <template v-if="form.is_rich_text == '1'">
                 <div class="rich-text-content" :innerHTML="text_title"></div>
@@ -11,7 +11,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { radius_computer, padding_computer, gradient_handle, get_nested_property } from '@/utils';
+import { radius_computer, padding_computer, gradient_handle, get_nested_property, custom_condition_judg, custom_condition_data } from '@/utils';
 import { isEmpty } from 'lodash';
 const props = defineProps({
     value: {
@@ -51,6 +51,26 @@ const props = defineProps({
 
 // 用于页面判断显示
 const form = computed(() => props.value);
+// 从组件的顶层获取数据，避免多层组件传值导致数据遗漏和多余代码
+const field_list: any[] | undefined = inject('field_list', []);
+const is_show = computed(() => {
+    // 取出条件判断的内容
+    const condition = form.value?.condition || { field: '', type: '', value: ''};
+    // 获取对应条件字段的字段数据
+    let option: any[] = [];
+    if (field_list) {
+        option = field_list.filter((item: any) => item.field === condition.field);
+    }
+    // 获取到字段的真实数据
+    const field_value = custom_condition_data(condition?.field || '', option[0] || {}, props.sourceList, props.isCustom);
+    // 判断条件字段是否为空并且是显示面板才会生效，则直接返回true
+    if (!isEmpty(condition.field) && !props.isDisplayPanel) {
+        return custom_condition_judg(field_value, condition.type, condition.value);
+    } else {
+        return true;
+    }
+});
+
 const text_title = computed(() => {
     return getTextTitle(form.value, props);
 });
@@ -111,6 +131,7 @@ const text_title = computed(() => {
     }
     return text;
 }
+
 // 数据处理
 const data_handling = (data_source_id: string) => {
     let text_title = get_nested_property(props.sourceList, data_source_id);

@@ -303,8 +303,10 @@ const processing_data = (key: string) => {
     const list = options.value.filter((item) => item.type == key);
     if (list.length > 0) {
         model_data_source.value = list[0].data;
+        form.value.field_list = list[0].data;
     } else {
         model_data_source.value = [];
+        form.value.field_list = [];
     }
 };
 //#endregion

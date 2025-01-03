@@ -12,7 +12,7 @@
                     <model-text-style :key="key" v-model:height="center_height" :options="options" :value="diy_data"></model-text-style>
                 </template>
                 <template v-else-if="diy_data.key == 'auxiliary-line'">
-                    <model-lines-style :key="key" v-model:height="center_height" :value="diy_data"></model-lines-style>
+                    <model-lines-style :key="key" v-model:height="center_height" :options="options" :value="diy_data"></model-lines-style>
                 </template>
                 <template v-else-if="diy_data.key == 'icon'">
                     <model-icon-style :key="key" v-model:height="center_height" :options="options" :value="diy_data"></model-icon-style>

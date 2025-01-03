@@ -1,4 +1,5 @@
 import CommonAPI from '@/api/common';
+import { isEmpty } from 'lodash';
 // 定义一组预定义的颜色数组，用于在各种场景中轻松引用这些颜色
 // 这些颜色包括从白色到黑色的不同灰度，以及一些鲜艳的颜色，格式有十六进制、RGB、RGBA、HSV、HSL等
 export const predefine_colors = ['#fff', '#ddd', '#ccc', '#999', '#666', '#333', '#000', '#ff4500', '#ff8c00', '#ffd700', '#90ee90', '#00ced1', '#c71585', 'rgba(255, 69, 0, 0.68)', 'rgb(255, 120, 0)', 'hsv(51, 100, 98)', 'hsva(120, 40, 94, 0.5)', 'hsl(181, 100%, 37%)', '#1F93FF', '#c7158577'];
@@ -137,13 +138,112 @@ export function convert_strings_to_numbers(obj: any, maxDepth: number = 100, cur
 
 type PaddingStyle = { padding_left: number; padding_right: number;};
 
-type BorderStyle = { border_is_show: boolean; border_size?: PaddingStyle; };
+type BorderStyle = { border_is_show: string; border_size?: PaddingStyle; };
 
 export const border_width = (style: BorderStyle): number => {
     if (!style) { return 0; }
-    if (!style.border_is_show) { return 0; }
-    const { padding_left = 0, padding_right = 0 } = style.border_size || {};
-    return padding_left + padding_right;
+    if (style.border_is_show == '1') {
+        const { padding_left = 0, padding_right = 0 } = style.border_size || {};
+        return padding_left + padding_right; 
+    } else { 
+        return 0;
+    }
+}
+
+/**
+ * 根据指定的条件类型和值，判断字段值是否满足条件
+ * @param fieldValue 字段值，可以是任何类型
+ * @param type 条件类型，如'contains', 'is-empty', 'greater-than'等
+ * @param value 用于比较的值，可以是数字或字符串
+ * @returns 返回一个布尔值，表示字段值是否满足指定的条件
+ */
+export const custom_condition_judg = (fieldValue: any, type: string, value: number | string): boolean => {
+    // 处理 null 或 undefined 的情况
+    if (fieldValue == null) {
+        return true;
+    }
+
+    // 提前计算并缓存转换结果
+    const stringValue = String(fieldValue);
+    const valueStr = String(value);
+    const numberValue = Number(value);
+    switch (type) {
+        case 'contains':
+        case 'does-not-contain':
+            // 处理包含和不包含的逻辑, 如果值为空，直接返回为空
+            if (!isEmpty(valueStr)) {
+                const result = stringValue.includes(valueStr);
+                return type === 'contains' ? result : !result;
+            } else {
+                return true;
+            }
+        case 'is-empty':
+        case 'is-not-empty':
+            // 处理为空和不为空的逻辑
+            const is_Empty = ['', '{}', '[]'].includes(stringValue.trim()) || (Array.isArray(fieldValue) && fieldValue.length === 0);
+            return type === 'is-empty' ? is_Empty : !is_Empty;
+        case 'greater-than':
+        case 'less-than':
+        case 'equal':
+            // 根据字段值的类型，进行数字间的比较
+            if (typeof fieldValue === 'number') {
+                return compare_numbers(fieldValue, numberValue, type);
+            } else if (Array.isArray(fieldValue)) {
+                // 如果字段值是数组，比较数组长度和指定值
+                const valueLength = fieldValue.length;
+                return compare_numbers(valueLength, numberValue, type);
+            } else {
+                // 将字段值转换为数字进行比较, 如果是字符串的话，直接为NAN，比对不会成功，为空的时候会转为0 == 0会成功，其他情况下不会成功
+                const numericFieldValue = +stringValue;
+                return compare_numbers(numericFieldValue, numberValue, type);
+            }
+        default:
+            return true;
+    }
+}
+
+/**
+ * 比较两个数字的大小
+ * @param a 第一个数字
+ * @param b 第二个数字
+ * @param type 比较类型，如'greater-than', 'less-than', 'equal'等
+ * @returns 根据比较类型返回比较结果
+ */
+const compare_numbers = (a: number, b: number, type: string): boolean => {
+    switch (type) {
+        case 'greater-than': return a > b;
+        case 'less-than': return a < b;
+        case 'equal': return a === b;
+        default: return false;
+    }
+}
+
+export const custom_condition_data = (data_source_id: string, option: any, sourceList: any, isCustom: boolean) => {
+    let data_value = '';
+    if (data_source_id.includes(';')) {
+        // 取出所有的字段，使用;分割
+        const ids = data_source_id.split(';');
+        let text = '';
+        ids.forEach((item: string, index: number) => {
+            text += data_handling(item, sourceList, isCustom) + (index != ids.length - 1 ? (option?.join || '') : '');
+        });
+        data_value = text;
+    } else {
+        // 不输入商品， 文章和品牌时，从外层处理数据
+        data_value = data_handling(data_source_id, sourceList, isCustom);
+    }
+    return (option?.first || '') + data_value + (option?.last || '');
+}
+
+// 数据处理
+const data_handling = (data_source_id: string, sourceList: any, isCustom: boolean) => {
+    // 不输入商品， 文章和品牌时，从外层处理数据
+    let icon = get_nested_property(sourceList, data_source_id);
+    // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
+    if (!isEmpty(sourceList.data) && isCustom) {
+        icon = get_nested_property(sourceList.data, data_source_id);
+    }
+    return icon;
 }
 
 /**
