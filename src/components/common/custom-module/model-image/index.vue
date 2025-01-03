@@ -53,8 +53,6 @@ const is_show = computed(() => {
     const field_value = custom_condition_data(condition?.field || '', option[0] || {}, props.sourceList, props.isCustom);
     // 判断条件字段是否为空并且是显示面板才会生效，则直接返回true
     if (!isEmpty(condition.field) && !isEmpty(condition.type) && props.isDisplayPanel) {
-        console.log(condition, !props.isDisplayPanel);
-        console.log(custom_condition_judg(field_value, condition.type, condition.value));
         return custom_condition_judg(field_value, condition.type, condition.value);
     } else {
         return true;

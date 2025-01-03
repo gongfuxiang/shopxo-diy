@@ -4,6 +4,7 @@ const text_com_data = {
     com_width: 150,
     com_height: 17,
     staging_height: 17,
+    text_captions: '',
     text_title: '文本',
     data_source_field: {
         id: [],

@@ -53,7 +53,7 @@ const is_show = computed(() => {
     // 获取到字段的真实数据
     const field_value = custom_condition_data(condition?.field || '', option[0] || {}, props.sourceList, props.isCustom);
     // 判断条件字段是否为空并且是显示面板才会生效，则直接返回true
-    if (!isEmpty(condition.field) && !isEmpty(condition.type) && !props.isDisplayPanel) {
+    if (!isEmpty(condition.field) && !isEmpty(condition.type) && props.isDisplayPanel) {
         return custom_condition_judg(field_value, condition.type, condition.value);
     } else {
         return true;

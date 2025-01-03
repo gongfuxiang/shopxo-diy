@@ -5,6 +5,9 @@
             <div class="bg-f5 divider-line" />
             <card-container>
                 <div class="mb-12">文本设置</div>
+                <el-form-item label="文本标题">
+                    <el-input v-model="form.text_captions" placeholder="请输入文本内容" type="input" clearable></el-input>
+                </el-form-item>
                 <el-form-item label="文本内容">
                     <el-input v-model="form.text_title" placeholder="请输入文本内容" type="textarea" clearable :rows="3" @input="text_change('1')"></el-input>
                 </el-form-item>
@@ -155,7 +158,7 @@ const text_change = (key: string) => {
     if (key == '2') {
         form.value.text_title = '';
         if (form.value.data_source_field.id.length > 0) {
-            form.value.data_source_field.option = props.options.filter((item) => item.type == 'text' && form.value.data_source_field.id.includes(item.field))
+            form.value.data_source_field.option = props.options.filter((item) => item.type == 'text' && form.value.data_source_field.id.includes(item.field));
         } else {
             form.value.data_source_field = {
                 id: [],
