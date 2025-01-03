@@ -113,9 +113,5 @@ const tabs_bg_mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.tabs_bg_color_list = arry;
     form.value.tabs_bg_direction = type.toString();
 };
-// 选项卡背景图片设置
-const tabs_bg_background_img_change = (arry: uploadList[]) => {
-    form.value.tabs_bg_background_img = arry;
-};
 </script>
 <style lang="scss" scoped></style>

@@ -261,30 +261,17 @@ const tabs_bg_mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.tabs_bg_color_list = arry;
     form.value.tabs_bg_direction = type.toString();
 };
-// 选项卡背景图片设置
-const tabs_bg_background_img_change = (arry: uploadList[]) => {
-    form.value.tabs_bg_background_img = arry;
-};
 
 // 内容区域背景渐变设置
 const article_content_mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.article_content_color_list = arry;
     form.value.article_content_direction = type.toString();
 };
-// 内容区域背景图片设置
-const article_content_background_img_change = (arry: uploadList[]) => {
-    form.value.article_content_background_img = arry;
-};
 // 文章背景渐变设置
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.article_color_list = arry;
     form.value.article_direction = type.toString();
 };
-// 文章背景图片设置
-const background_img_change = (arry: uploadList[]) => {
-    form.value.article_background_img = arry;
-};
-
 // 通用样式回调
 const common_styles_update = (val: Object) => {
     form.value.common_style = val;

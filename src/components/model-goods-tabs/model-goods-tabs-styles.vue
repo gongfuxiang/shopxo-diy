@@ -290,18 +290,10 @@ const tabs_bg_mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.tabs_bg_color_list = arry;
     form.value.tabs_bg_direction = type.toString();
 };
-// 选项卡背景图片设置
-const tabs_bg_background_img_change = (arry: uploadList[]) => {
-    form.value.tabs_bg_background_img = arry;
-};
 // 内容区域背景渐变设置
 const shop_content_mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.shop_content_color_list = arry;
     form.value.shop_content_direction = type.toString();
-};
-// 内容区域背景图片设置
-const shop_content_background_img_change = (arry: uploadList[]) => {
-    form.value.shop_content_background_img = arry;
 };
 
 // 商品背景渐变设置
@@ -309,11 +301,6 @@ const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.shop_color_list = arry;
     form.value.shop_direction = type.toString();
 };
-// 商品背景图片设置
-const background_img_change = (arry: uploadList[]) => {
-    form.value.shop_background_img = arry;
-};
-
 const tabs_checked_event = (arry: string[], type: number) => {
     form.value.tabs_checked = arry;
     form.value.tabs_direction = type.toString();

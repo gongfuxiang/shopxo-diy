@@ -164,10 +164,6 @@ const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.article_color_list = arry;
     form.value.article_direction = type.toString();
 };
-// 文章背景图片设置
-const background_img_change = (arry: uploadList[]) => {
-    form.value.article_background_img = arry;
-};
 // 文章标题浮起显示设置
 const name_bg_mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.name_bg_color_list = arry;

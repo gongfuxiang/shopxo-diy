@@ -66,7 +66,6 @@
     </div>
 </template>
 <script setup lang="ts">
-import { isEmpty, pick } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,

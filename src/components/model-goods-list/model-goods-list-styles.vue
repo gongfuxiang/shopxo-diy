@@ -193,10 +193,6 @@ const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.shop_color_list = arry;
     form.value.shop_direction = type.toString();
 };
-// 商品背景图片设置
-const background_img_change = (arry: uploadList[]) => {
-    form.value.shop_background_img = arry;
-};
 </script>
 <style lang="scss" scoped>
 .topic {
