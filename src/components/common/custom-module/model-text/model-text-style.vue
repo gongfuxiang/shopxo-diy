@@ -9,7 +9,10 @@
                     <el-input v-model="form.text_captions" placeholder="请输入文本内容" type="input" clearable></el-input>
                 </el-form-item>
                 <el-form-item label="文本内容">
-                    <el-input v-model="form.text_title" placeholder="请输入文本内容" type="textarea" clearable :rows="3" @input="text_change('1')"></el-input>
+                    <div class="flex-row gap-5 align-s w">
+                        <el-input v-model="form.text_title" placeholder="请输入文本内容" type="textarea" clearable :rows="3" @input="text_change('1')"></el-input>
+                        <el-button @click="copy_field">复制字段</el-button>
+                    </div>
                 </el-form-item>
                 <el-form-item label="数据字段">
                     <el-select v-model="form.data_source_field.id" value-key="id" multiple collapse-tags clearable filterable placeholder="请选择数据字段" size="default" class="flex-1" @change="text_change('2')">
@@ -117,6 +120,7 @@
                 </template>
             </card-container>
         </el-form>
+        <field_dialog v-model:dialog-visible="copy_field_visiable" :option="options"></field_dialog>
     </div>
 </template>
 <script setup lang="ts">
@@ -189,6 +193,11 @@ const text_size_change = (size: number) => {
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.color_list = arry;
     form.value.direction = type.toString();
+};
+// 复制字段
+const copy_field_visiable = ref(false);
+const copy_field = () => {
+    copy_field_visiable.value = true;
 };
 // #region 位置计算
 // 监听数据变化

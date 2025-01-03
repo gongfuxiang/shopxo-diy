@@ -12,7 +12,7 @@
 </template>
 <script setup lang="ts">
 import { radius_computer, padding_computer, gradient_handle, get_nested_property, custom_condition_judg, custom_condition_data } from '@/utils';
-import { isEmpty } from 'lodash';
+import { cloneDeep, isEmpty } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
@@ -92,44 +92,64 @@ const text_title = computed(() => {
             return '';
         }
     }
-    // 获取数据源ID
-    const data_source_id = !isEmpty(formValue?.data_source_field?.id || []) ? formValue?.data_source_field?.id : [];
-    // 数据源内容
-    const option = formValue?.data_source_field?.option || [];
     // 文本信息
     let text_title = '';
-    try {
-        // 多选判断
-        if (data_source_id.length > 0) {
-            // 遍历取出所有的值
-            data_source_id.forEach((source_id: string) => {
-                const sourceList = option.find((item: any) => item.field == source_id);
-                // 根据数据源ID是否包含点号来区分处理方式
-                if (source_id.includes(';')) {
-                    const ids = source_id.split(';');
-                    let text = '';
-                    ids.forEach((item: string, index: number) => {
-                        text += data_handling(item) + (index != ids.length - 1 ? (sourceList?.join || '') : '');
-                    });
-                    text_title += (sourceList?.first || '') + (text == '' && !props.isDisplayPanel ? sourceList?.name || '请在此输入文字' : text ) + (sourceList?.last || '');
-                } else {
-                    text_title += (sourceList?.first || '') + (data_handling(source_id) === '' && !props.isDisplayPanel ? sourceList?.name || '请在此输入文字' : data_handling(source_id) ) + (sourceList?.last || '');
+    if (!isEmpty(formValue.text_title)) {
+        // 存储待处理的文本标题
+        let new_title = cloneDeep(formValue.text_title);
+        // 遍历字段列表，替换文本标题中的占位符
+        if (field_list) {
+            field_list.forEach((item: any) => {
+                const new_field = '${' +  item.field + '}';
+                if (formValue.text_title.includes(new_field)) {
+                    // 获取到字段的真实数据
+                    const field_value = custom_condition_data(item.field, item, props.sourceList, props.isCustom);
+                    // 使用正则表达式替换文本标题
+                    const regular = new RegExp(`\\$\\{\\s*${item.field}\\s*\\}`, 'g');
+                    // 替换后的内容赋值给原内容, 确保后续可以继续替换
+                    new_title = new_title.replace(regular, field_value);
                 }
             });
         }
-    } catch (error) {
-        if (!props.isDisplayPanel) {
-            return '请在此输入文字';
-        } else {
-            return '';
+        // 将内容替换为处理后的标题
+        text_title = new_title;
+    } else {
+        // 获取数据源ID
+        const data_source_id = !isEmpty(formValue?.data_source_field?.id || []) ? formValue?.data_source_field?.id : [];
+        // 数据源内容
+        const option = formValue?.data_source_field?.option || [];
+        try {
+            // 多选判断
+            if (data_source_id.length > 0) {
+                // 遍历取出所有的值
+                data_source_id.forEach((source_id: string) => {
+                    const sourceList = option.find((item: any) => item.field == source_id);
+                    // 根据数据源ID是否包含点号来区分处理方式
+                    if (source_id.includes(';')) {
+                        const ids = source_id.split(';');
+                        let text = '';
+                        ids.forEach((item: string, index: number) => {
+                            text += data_handling(item) + (index != ids.length - 1 ? (sourceList?.join || '') : '');
+                        });
+                        text_title += (sourceList?.first || '') + (text == '' && !props.isDisplayPanel ? sourceList?.name || '请在此输入文字' : text ) + (sourceList?.last || '');
+                    } else {
+                        text_title += (sourceList?.first || '') + (data_handling(source_id) === '' && !props.isDisplayPanel ? sourceList?.name || '请在此输入文字' : data_handling(source_id) ) + (sourceList?.last || '');
+                    }
+                });
+            }
+        } catch (error) {
+            if (!props.isDisplayPanel) {
+                return '请在此输入文字';
+            } else {
+                return '';
+            }
         }
     }
     // 确定最终返回的文本，优先使用表单值中的文本标题，如果为空则使用之前获取的标题或默认文本
-    let text = formValue.text_title || text_title;
-    if (text === '' && !props.isDisplayPanel) {
-        text = '请在此输入文字';
+    if (text_title === '' && !props.isDisplayPanel) {
+        text_title = '请在此输入文字';
     }
-    return text;
+    return text_title;
 }
 
 // 数据处理

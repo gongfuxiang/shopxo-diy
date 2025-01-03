@@ -100,6 +100,7 @@ const custom_width = computed(() => {
     }
 })
 const form = ref(props.value);
+provide('field_list', form.value.field_list);
 // 外层的内容
 // 外层自定义的弹出框
 const dragkey = ref('');
