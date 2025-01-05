@@ -154,7 +154,7 @@ const text_title = computed(() => {
 
 // 数据处理
 const data_handling = (data_source_id: string) => {
-    let text_title = get_nested_property(props.sourceList, data_source_id);
+    let text_title = get_nested_property(props.sourceList, data_source_id);    
     // 如果是自定义标题，进一步处理嵌套对象中的数据
     if (props.sourceList.data && props.isCustom) {
         if (data_source_id === props.titleParams) {

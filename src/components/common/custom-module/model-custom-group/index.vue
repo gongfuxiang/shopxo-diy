@@ -8,7 +8,7 @@
                             <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="`width: ${ gap_width }`">
                                 <div :style="style_chunk_container">
                                     <div class="w h oh" :style="style_chunk_img_container">
-                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }"></data-rendering>
+                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale"></data-rendering>
                                     </div>
                                 </div>
                             </div>
@@ -19,7 +19,7 @@
                             <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
                                 <div :style="style_chunk_container">
                                     <div class="w h oh" :style="style_chunk_img_container">
-                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }"></data-rendering>
+                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale"></data-rendering>
                                     </div>
                                 </div>
                             </swiper-slide>
@@ -38,7 +38,7 @@
                     <template v-else>
                         <div :style="style_chunk_container">
                             <div class="w h oh" :style="style_chunk_img_container">
-                                <data-rendering :custom-list="form.custom_list" :source-list="sourceList" :data-height="dataHeight" :scale="custom_scale" :is-custom="isCustom" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }"></data-rendering>
+                                <data-rendering :custom-list="form.custom_list" :data-height="form.height" :scale="custom_scale"></data-rendering>
                             </div>
                         </div>
                     </template>
@@ -111,6 +111,32 @@ const is_show = computed(() => {
         return true;
     }
 });
+
+const data_source_content_list = computed(() => {
+    if (!isEmpty(props.sourceList)) {
+        const data_source_id = form.value.data_source_field.id;
+        let list = get_nested_property(props.sourceList, data_source_id);
+        // 如果是自定义标题，进一步处理嵌套对象中的数据
+        if (props.sourceList.data) {
+            list = get_nested_property(props.sourceList.data, data_source_id);
+        }
+        return list == '' ? [] : list;
+    } else {
+        return [];
+    }
+});
+
+const get_nested_property = (obj: any, path: string) => {
+    // 检查路径参数是否为字符串且非空，若不满足条件则返回空字符串
+    if (typeof path !== 'string' || !path) return [];
+    
+    // 将属性路径字符串拆分为属性键数组
+    const keys = path.split('.');
+
+    // 使用reduce方法遍历属性键数组，逐层访问对象属性
+    // 如果当前对象存在且拥有下一个属性键，则继续访问；否则返回空字符串
+    return keys.reduce((o, key) => (o != null && o[key] != null ? o[key] : []), obj) ?? [];
+}
 // 公共样式
 const style_container = computed(() => common_styles_computer(new_style.value.common_style) + 'overflow: auto;');
 const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
@@ -120,7 +146,6 @@ const style_content_img_container = computed(() => common_img_computer(new_style
 // 数据样式
 const style_chunk_container = computed(() => common_styles_computer(new_style.value.data_style));
 const style_chunk_img_container = computed(() => common_img_computer(new_style.value.data_style));
-const data_source_content_list = ref([]);
 //#region 计算比例大小，和每块当前的大小
 const custom_scale = ref(1);
 // 计算整体宽度和比例
@@ -183,9 +208,9 @@ watchEffect(() => {
     const { padding_top, padding_bottom, margin_bottom, margin_top } = new_style.value.data_style;
     // 轮播图高度控制
     if (form.value.data_source_direction == 'horizontal') {
-        swiper_height.value = form.value.height * custom_scale.value + padding_top + padding_bottom + margin_bottom + margin_top;
+        swiper_height.value = form.value.custom_height * custom_scale.value + padding_top + padding_bottom + margin_bottom + margin_top;
     } else {
-        swiper_height.value = (form.value.height * custom_scale.value + padding_top + padding_bottom + margin_bottom + margin_top) * col + ((data_source_carousel_col - 1) * space_between.value);
+        swiper_height.value = (form.value.custom_height * custom_scale.value + padding_top + padding_bottom + margin_bottom + margin_top) * col + ((data_source_carousel_col - 1) * space_between.value);
     }
     dot_list.value = Array(num);
     // 更新轮播图的key，确保更换时能重新更新轮播图
@@ -250,11 +275,12 @@ const indicator_location_style = computed(() => {
 //#endregion
 </script>
 <style lang="scss" scoped>
-.rich-text-content {
-    white-space: normal;
-    word-break:break-all;
-    * {
-        max-width: 100%;
+.dot-item {
+    &.active {
+        background: v-bind(actived_color) !important;
+    }
+    .num-active {
+        color: v-bind(actived_color) !important;
     }
 }
 </style>

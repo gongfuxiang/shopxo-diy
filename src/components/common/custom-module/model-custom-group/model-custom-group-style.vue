@@ -17,7 +17,7 @@
             <div class="bg-f5 divider-line" />
             <el-tabs v-model="tabs_name" class="content-tabs">
                 <el-tab-pane label="内容设置" name="content">
-                    <custom-tabs-content :value="form" @custom_edit="custom_edit" @operation_end="operation_end"></custom-tabs-content>
+                    <custom-tabs-content :value="form" :options="options" @custom_edit="custom_edit" @operation_end="operation_end"></custom-tabs-content>
                 </el-tab-pane>
                 <el-tab-pane label="样式设置" name="styles">
                     <model-custom-styles :value="form.data_style" :content="form" :is-floating-up="false" @operation_end="operation_end"></model-custom-styles>
@@ -49,11 +49,12 @@ const { diy_data } = toRefs(state);
 const form = ref(diy_data.value.com_data);
 //#region 自定义组的编辑功能  
 const emit = defineEmits(['custom_edit', 'operation_end']);
-const custom_edit = () => {
+const custom_edit = (data_source_field: any[]) => {
     const { custom_list, com_width, custom_height } = form.value;
     // 计算宽度
     const width = form.value.data_source_direction != 'vertical-scroll' ? com_width / form.value.data_source_carousel_col : com_width; // 可拖拽区域的宽度
-    emit('custom_edit', diy_data.value.id, custom_list, width, custom_height);
+
+    emit('custom_edit', diy_data.value.id, custom_list, width, custom_height, data_source_field);
 };
 //# endregion
 // 操作结束触发事件

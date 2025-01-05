@@ -10,8 +10,8 @@
                 </el-form-item>
                 <el-form-item label="文本内容">
                     <div class="flex-row gap-5 align-s w">
-                        <el-input v-model="form.text_title" placeholder="请输入文本内容" type="textarea" clearable :rows="3" @blur="operation_end" @input="text_change('1')"></el-input>
-                        <el-button @click="copy_field">复制字段</el-button>
+                        <el-input v-model="form.text_title" placeholder="请输入文本内容" type="textarea" clearable :rows="4" @blur="operation_end" @input="text_change('1')"></el-input>
+                        <el-button class="h" @click="copy_field"><div class="flex-col gap-5"><span>复</span><span>制</span><span>变</span><span>量</span></div></el-button>
                     </div>
                 </el-form-item>
                 <el-form-item label="数据字段">
@@ -122,7 +122,6 @@
 </template>
 <script setup lang="ts">
 import { location_compute, get_data_fields } from '@/utils';
-import { pick, cloneDeep } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,

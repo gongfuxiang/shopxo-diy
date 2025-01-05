@@ -120,7 +120,7 @@ const icon_com_data = {
     com_height: 36,
     staging_height: 36,
     icon_class: '',
-   data_source_field: {
+    data_source_field: {
         id: '',
         option: {}
     },
@@ -205,6 +205,10 @@ const custom_group_com_data = {
     com_width: 100,
     com_height: 100,
     staging_height: 100,
+    data_source_field: {
+        id: '',
+        option: []
+    },
     // 条件判断
     condition: {
         field: '', // 字段id

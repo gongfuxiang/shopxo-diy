@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="dialogVisible" title="编辑自定义" :fullscreen="true" :close-on-press-escape="false" :close-on-click-modal="false" :append-to-body="false" :before-close="handleClose">
+    <el-dialog v-model="dialogVisible" :title="title" :fullscreen="true" :close-on-press-escape="false" :close-on-click-modal="false" :append-to-body="false" :before-close="handleClose">
         <slot></slot>
         <template #footer>
             <div class="dialog-footer">
@@ -9,6 +9,12 @@
     </el-dialog>
 </template>
 <script setup lang="ts">
+const props = defineProps({
+    title: {
+        type: String,
+        default: '编辑自定义',
+    }
+});
 const dialogVisible = defineModel('visible', { type: Boolean, default: false });
 const handleClose = () => {
     dialogVisible.value = false;

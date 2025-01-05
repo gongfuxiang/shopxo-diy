@@ -2,9 +2,9 @@
     <card-container>
         <div class="mb-20">显示设置</div>
         <el-form-item label="数据来源">
-            <!-- <el-radio-group v-model="form.data_source_type" @change="operation_end">
-                <el-radio v-for="(item, index) in default_type_data?.data_source" :key="index" :value="item">{{ item }}</el-radio>
-            </el-radio-group> -->
+            <el-select v-model="form.data_source_field.id" value-key="id" clearable filterable placeholder="请选择数据字段" size="default" class="flex-1" @change="group_change">
+                <el-option v-for="item in options.filter(item => item.type == 'custom-data-list')" :key="item.field" :label="item.name" :value="item.field" />
+            </el-select>
         </el-form-item>
         <el-form-item label="铺满方式">
             <el-radio-group v-model="form.data_source_direction" @change="operation_end">
@@ -28,16 +28,29 @@ const props = defineProps({
     value: {
         type: Object,
         default: () => {},
+    },
+    options: {
+        type: Array<any>,
+        default: () => [],
     }
 });
 const form = ref(props.value);
 const default_type_data = {
-    show_type: ['vertical', 'vertical-scroll', 'horizontal-scroll'],
+    show_type: ['vertical', 'vertical-scroll', 'horizontal'],
     show_number: [1, 2, 3, 4],
 };
+const group_change = () => {
+    const option = props.options.filter((item) => item.type == 'custom-data-list' && form.value.data_source_field.id === item.field);
+    if (option.length > 0) {
+        form.value.data_source_field.option = option[0].data;
+    } else {
+        form.value.data_source_field.option = [];
+    }
+};
+
 const emit = defineEmits(['custom_edit', 'operation_end']);
 const custom_edit = () => {
-    emit('custom_edit');
+    emit('custom_edit', form.value.data_source_field);
 };
 // 操作结束触发事件
 const operation_end = () => {

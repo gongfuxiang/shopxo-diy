@@ -1,5 +1,5 @@
 <template>
-    <Dialog v-model:visible="dialogVisible" @accomplish="accomplish">
+    <Dialog v-model:visible="dialogVisible" :title="configType == 'custom' ? '编辑自定义' : '编辑自定义组'" @accomplish="accomplish">
         <div class="flex-row h w">
             <!-- 左侧和中间区域 -->
             <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="center_width" :config-type="configType" :source-list="sourceList" :options="options" :is-custom="isCustom" :show-data="showData" :list="customList" @right-update="right_update"></DragIndex>
@@ -119,12 +119,12 @@ const accomplish = () => {
     }
 };
 // 自定义组编辑
-const custom_edit = (id: string, list: diy, width: number, height: number) => {
+const custom_edit = (id: string, list: diy, width: number, height: number, data_source_field: object) => {
     let father_list : any = [];
     if (props.configType == 'custom') {
         father_list = draglist.value?.diy_data || [];
     }
-    emits('custom_edit', 'custom-group', id, father_list, list, width, height);
+    emits('custom_edit', 'custom-group', id, father_list, list, width, height, data_source_field);
 };
 const operation_end = () => {
     console.log('操作结束');

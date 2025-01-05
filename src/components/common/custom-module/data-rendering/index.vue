@@ -76,7 +76,6 @@ const props = defineProps({
 });
 
 const list = computed(() => props.customList);
-
 const percentage_count = (val: number) => {
     return val * props.scale + 'px';
 };
