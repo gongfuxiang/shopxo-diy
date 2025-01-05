@@ -631,7 +631,7 @@ const del_icon_event = () => {
     icon_value.value = '';
 };
 //#endregion 图标 ----------------------------------------------------------end
-const emit = defineEmits(['update:icon']);
+const emit = defineEmits(['update:icon', 'operation_end']);
 // 确认
 const confirm_event = () => {
     dialog_visible.value = false;
@@ -661,6 +661,11 @@ const confirm_event = () => {
     search_filter.value = '';
     is_replace.value = false;
     replace_index.value = -1;
+    operation_end();
+};
+// 操作结束触发事件
+const operation_end = () => {
+    emit('operation_end');
 };
 // 替换标识
 const is_replace = ref(false);

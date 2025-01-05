@@ -9,7 +9,7 @@
         <mult-color-picker :value="color_list" :type="direction" @update:value="mult_color_picker_event"></mult-color-picker>
         <div class="flex-row jc-sb align-c">
             <div class="size-12">背景图</div>
-            <bg-btn-style v-model="background_img_style"></bg-btn-style>
+            <bg-btn-style v-model="background_img_style" @operation_end="operation_end"></bg-btn-style>
         </div>
         <template v-if="componentType == 'carousel'">
             <el-radio-group v-model="background_type">
@@ -17,11 +17,11 @@
                 <el-radio value="carousel">轮播图片</el-radio>
             </el-radio-group>
             <template v-if="background_type == 'custom'">
-                <upload v-model="background_img" :limit="1"></upload>
+                <upload v-model="background_img" :limit="1" @update:model-value="operation_end"></upload>
             </template>
         </template>
         <template v-else>
-            <upload v-model="background_img" :limit="1"></upload>
+            <upload v-model="background_img" :limit="1" @update:model-value="operation_end"></upload>
         </template>
     </div>
 </template>
@@ -56,8 +56,13 @@ const background_type = defineModel('type', {
     type: String,
     default: 'custom',
 });
-const emit = defineEmits(['mult_color_picker_event']);
+const emit = defineEmits(['mult_color_picker_event', 'operation_end']);
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     emit('mult_color_picker_event', arry, type);
+    operation_end();
+};
+
+const operation_end = () => {
+    emit('operation_end');
 };
 </script>

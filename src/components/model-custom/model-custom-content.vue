@@ -425,7 +425,7 @@ const data_list_index_update = () => {
     }
 };
 // 数据来源的内容
-let data_source_content_list = computed(() => {
+const data_source_content_list = computed(() => {
     if (form.value.is_custom_data == '1') {
         if (Number(form.value.data_source_content.data_type) === 0) {
             return form.value.data_source_content.data_list;

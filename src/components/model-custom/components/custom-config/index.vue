@@ -6,22 +6,22 @@
             <!-- 右侧配置区域 -->
             <div class="settings">
                 <template v-if="diy_data.key === 'img'">
-                    <model-image-style :key="key" v-model:height="center_height" :options="options" :value="diy_data"></model-image-style>
+                    <model-image-style :key="key" v-model:height="center_height" :options="options" :value="diy_data" @operation_end="operation_end"></model-image-style>
                 </template>
                 <template v-else-if="diy_data.key == 'text'">
-                    <model-text-style :key="key" v-model:height="center_height" :options="options" :value="diy_data"></model-text-style>
+                    <model-text-style :key="key" v-model:height="center_height" :options="options" :value="diy_data" @operation_end="operation_end"></model-text-style>
                 </template>
                 <template v-else-if="diy_data.key == 'auxiliary-line'">
-                    <model-lines-style :key="key" v-model:height="center_height" :options="options" :value="diy_data"></model-lines-style>
+                    <model-lines-style :key="key" v-model:height="center_height" :options="options" :value="diy_data" @operation_end="operation_end"></model-lines-style>
                 </template>
                 <template v-else-if="diy_data.key == 'icon'">
-                    <model-icon-style :key="key" v-model:height="center_height" :options="options" :value="diy_data"></model-icon-style>
+                    <model-icon-style :key="key" v-model:height="center_height" :options="options" :value="diy_data" @operation_end="operation_end"></model-icon-style>
                 </template>
                 <template v-else-if="diy_data.key == 'panel'">
-                    <model-panel-style :key="key" v-model:height="center_height" :options="options" :value="diy_data"></model-panel-style>
+                    <model-panel-style :key="key" v-model:height="center_height" :options="options" :value="diy_data" @operation_end="operation_end"></model-panel-style>
                 </template>
                 <template v-else-if="diy_data.key == 'custom-group' && configType == 'custom'">
-                    <model-custom-group-style :key="key" v-model:height="center_height" :options="options" :value="diy_data" @custom_edit="custom_edit"></model-custom-group-style>
+                    <model-custom-group-style :key="key" v-model:height="center_height" :options="options" :value="diy_data" @custom_edit="custom_edit" @operation_end="operation_end"></model-custom-group-style>
                 </template>
                 <template v-else>
                     <div class="w h flex align-c bg-f">
@@ -126,6 +126,9 @@ const custom_edit = (id: string, list: diy, width: number, height: number) => {
     }
     emits('custom_edit', 'custom-group', id, father_list, list, width, height);
 };
+const operation_end = () => {
+    console.log('操作结束');
+}
 </script>
 
 <style lang="scss" scoped>

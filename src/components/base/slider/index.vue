@@ -1,7 +1,7 @@
 <template>
     <div class="slider w">
-        <el-slider v-model="modelValue" :min="min" :max="max" :step="step" :show-stops="max <= 10" />
-        <input-number v-model="modelValue" :class="type == 'notRetract'? 'slider-input' : 'slider-retract-input'" :min="min" :max="max"></input-number>
+        <el-slider v-model="modelValue" :min="min" :max="max" :step="step" :show-stops="max <= 10" @change="operation_end" />
+        <input-number v-model="modelValue" :class="type == 'notRetract'? 'slider-input' : 'slider-retract-input'" :min="min" :max="max" @operation_end="operation_end"></input-number>
     </div>
 </template>
 
@@ -25,6 +25,11 @@ const props = defineProps({
     },
 });
 const modelValue = defineModel({ type: Number, default: 0 });
+const emit = defineEmits(['operation_end']);
+// 失去焦点时触发事件
+const operation_end = () => {
+    emit('operation_end');
+};
 </script>
 <style lang="scss" scoped>
 .slider {

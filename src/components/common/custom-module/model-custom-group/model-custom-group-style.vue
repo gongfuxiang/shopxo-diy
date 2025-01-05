@@ -1,26 +1,26 @@
 <template>
     <div class="w h bg-f">
         <el-form :model="form" label-width="70">
-            <custom-location v-model="diy_data.location"></custom-location>
+            <custom-location v-model="diy_data.location" @operation_end="operation_end"></custom-location>
             <div class="bg-f5 divider-line" />
             <card-container>
                 <div class="mb-12">容器设置</div>
                 <el-form-item label="容器宽度">
-                    <slider v-model="form.com_width" :max="390"></slider>
+                    <slider v-model="form.com_width" :max="390" @operation_end="operation_end"></slider>
                 </el-form-item>
                 <el-form-item label="容器高度">
-                    <slider v-model="form.com_height" :max="1000"></slider>
+                    <slider v-model="form.com_height" :max="1000" @operation_end="operation_end"></slider>
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
-            <condition-config :value="form" :options="options"></condition-config>
+            <condition-config :value="form" :options="options" @operation_end="operation_end"></condition-config>
             <div class="bg-f5 divider-line" />
             <el-tabs v-model="tabs_name" class="content-tabs">
                 <el-tab-pane label="内容设置" name="content">
-                    <custom-tabs-content :value="form" @custom_edit="custom_edit"></custom-tabs-content>
+                    <custom-tabs-content :value="form" @custom_edit="custom_edit" @operation_end="operation_end"></custom-tabs-content>
                 </el-tab-pane>
                 <el-tab-pane label="样式设置" name="styles">
-                    <model-custom-styles :value="form.data_style" :content="form" :is-floating-up="false"></model-custom-styles>
+                    <model-custom-styles :value="form.data_style" :content="form" :is-floating-up="false" @operation_end="operation_end"></model-custom-styles>
                 </el-tab-pane>
             </el-tabs>
         </el-form>
@@ -48,7 +48,7 @@ const state = reactive({
 const { diy_data } = toRefs(state);
 const form = ref(diy_data.value.com_data);
 //#region 自定义组的编辑功能  
-const emit = defineEmits(['custom_edit']);
+const emit = defineEmits(['custom_edit', 'operation_end']);
 const custom_edit = () => {
     const { custom_list, com_width, custom_height } = form.value;
     // 计算宽度
@@ -56,6 +56,10 @@ const custom_edit = () => {
     emit('custom_edit', diy_data.value.id, custom_list, width, custom_height);
 };
 //# endregion
+// 操作结束触发事件
+const operation_end = () => {
+    emit('operation_end');
+};
 //#region 位置计算
 // 监听数据变化
 watch(

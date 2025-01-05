@@ -1,13 +1,18 @@
 <template>
     <card-container>
         <div class="mb-20">显示设置</div>
+        <el-form-item label="数据来源">
+            <!-- <el-radio-group v-model="form.data_source_type" @change="operation_end">
+                <el-radio v-for="(item, index) in default_type_data?.data_source" :key="index" :value="item">{{ item }}</el-radio>
+            </el-radio-group> -->
+        </el-form-item>
         <el-form-item label="铺满方式">
-            <el-radio-group v-model="form.data_source_direction">
+            <el-radio-group v-model="form.data_source_direction" @change="operation_end">
                 <el-radio v-for="(item, index) in default_type_data?.show_type" :key="index" :value="item">{{ item == 'vertical' ? '纵向展示' : item == 'vertical-scroll' ? '纵向滑动' : '横向滑动' }}</el-radio>
             </el-radio-group>
         </el-form-item>
         <el-form-item label="每屏显示">
-            <el-radio-group v-model="form.data_source_carousel_col">
+            <el-radio-group v-model="form.data_source_carousel_col" @change="operation_end">
                 <el-radio v-for="(item, index) in default_type_data?.show_number" :key="index" :value="item">{{ item }}{{ form.data_source_direction == 'vertical-scroll' ? '行' : '列' }}展示</el-radio>
             </el-radio-group>
         </el-form-item>
@@ -30,9 +35,13 @@ const default_type_data = {
     show_type: ['vertical', 'vertical-scroll', 'horizontal-scroll'],
     show_number: [1, 2, 3, 4],
 };
-const emit = defineEmits(['custom_edit']);
+const emit = defineEmits(['custom_edit', 'operation_end']);
 const custom_edit = () => {
     emit('custom_edit');
+};
+// 操作结束触发事件
+const operation_end = () => {
+    emit('operation_end');
 };
 </script>
 <style lang="scss" scoped>

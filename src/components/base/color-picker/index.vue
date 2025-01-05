@@ -1,6 +1,6 @@
 <template>
     <div class="flex-row align-c gap-12">
-        <el-color-picker v-model="color" :predefine="predefine_colors" />
+        <el-color-picker v-model="color" :predefine="predefine_colors" @change="blur" />
         <icon name="reset" color="primary" size="16" :class="['c-pointer', { disable: color == defaultColor }]" @click="reset_event"></icon>
     </div>
 </template>
@@ -27,6 +27,12 @@ const reset_event = () => {
             color.value = '';
         }
     }
+    blur();
+};
+
+const emit = defineEmits(['operation_end']);
+const blur = () => {
+    emit('operation_end');
 };
 </script>
 <style lang="scss" scoped>
