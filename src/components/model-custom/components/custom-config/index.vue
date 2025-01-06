@@ -2,7 +2,7 @@
     <Dialog v-model:visible="dialogVisible" :title="configType == 'custom' ? '编辑自定义' : '编辑自定义组'" @accomplish="accomplish">
         <div class="flex-row h w">
             <!-- 左侧和中间区域 -->
-            <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="center_width" :config-type="configType" :source-list="sourceList" :options="options" :is-custom="isCustom" :show-data="showData" :list="customList" @right-update="right_update"></DragIndex>
+            <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="center_width" :config-type="configType" :source-list="sourceList" :custom-group-field-id="customGroupFieldId" :is-custom="configType == 'custom'? isCustom : false" :show-data="showData" :list="customList" @right-update="right_update"></DragIndex>
             <!-- 右侧配置区域 -->
             <div class="settings">
                 <template v-if="diy_data.key === 'img'">
@@ -61,6 +61,10 @@ const props = defineProps({
         default: () => ({ data_key: 'id', data_name: 'name' }),
     },
     customId: {
+        type: String,
+        default: '',
+    },
+    customGroupFieldId: {
         type: String,
         default: '',
     },

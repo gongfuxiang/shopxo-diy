@@ -8,7 +8,7 @@
                             <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="`width: ${ gap_width }`">
                                 <div :style="style_chunk_container">
                                     <div class="w h oh" :style="style_chunk_img_container">
-                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale" :custom-group-field-id="form?.data_source_field?.id || ''" :is-custom-group="true"></data-rendering>
+                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale" :custom-group-field-id="form?.data_source_field?.id || ''"></data-rendering>
                                     </div>
                                 </div>
                             </div>
@@ -19,7 +19,7 @@
                             <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
                                 <div :style="style_chunk_container">
                                     <div class="w h oh" :style="style_chunk_img_container">
-                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale" :custom-group-field-id="form?.data_source_field?.id || ''" :is-custom-group="true"></data-rendering>
+                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale" :custom-group-field-id="form?.data_source_field?.id || ''"></data-rendering>
                                     </div>
                                 </div>
                             </swiper-slide>
@@ -38,7 +38,7 @@
                     <template v-else>
                         <div :style="style_chunk_container">
                             <div class="w h oh" :style="style_chunk_img_container">
-                                <data-rendering :custom-list="form.custom_list" :data-height="form.height" :scale="custom_scale" :is-custom-group="true"></data-rendering>
+                                <data-rendering :custom-list="form.custom_list" :data-height="form.height" :scale="custom_scale"></data-rendering>
                             </div>
                         </div>
                     </template>
@@ -93,11 +93,11 @@ const props = defineProps({
 const form = computed(() => props.value);
 const new_style = computed(() => props.value.data_style);
 // 从组件的顶层获取数据，避免多层组件传值导致数据遗漏和多余代码
-const field_list: any[] | undefined = inject('field_list', []);
+const field_list: any = toRef(inject('field_list', []));
 const is_show = computed(() => {
     // 取出条件判断的内容
     const condition = form.value?.condition || { field: '', type: '', value: '' };
-    return get_is_eligible(field_list, condition, props);
+    return get_is_eligible(field_list.value, condition, props);
 });
 
 //#region 自定义组真实数据
@@ -140,7 +140,7 @@ const style_chunk_img_container = computed(() => common_img_computer(new_style.v
 const custom_scale = ref(1);
 // 计算整体宽度和比例
 watchEffect(() => {
-    const { common_style, data_style, data_content_style } = new_style.value;
+    const { common_style, data_style, data_content_style, column_gap = 0 } = new_style.value;
     const old_width = props.dataWidth * props.scale;
     // 外层左右间距
     const outer_spacing = common_style.margin_left + common_style.margin_right + common_style.padding_left + common_style.padding_right + border_width(common_style);
@@ -148,10 +148,12 @@ watchEffect(() => {
     const content_spacing = data_content_style.margin_left + data_content_style.margin_right + data_content_style.padding_left + data_content_style.padding_right + border_width(data_content_style);
     // 数据左右间距
     const internal_spacing = data_style.margin_left + data_style.margin_right + data_style.padding_left + data_style.padding_right + border_width(data_style);
+    // 数据间距
+    const data_spacing = ['vertical', 'horizontal'].includes(form.value.data_source_direction) ? column_gap * (form.value.data_source_carousel_col - 1) : 0;
     // 根据容器宽度来计算内部大小
-    const new_width = old_width - outer_spacing - internal_spacing - content_spacing;
+    const new_width = old_width - outer_spacing - internal_spacing - content_spacing - data_spacing;
     // 获得对应宽度的比例
-    custom_scale.value = new_width / old_width;
+    custom_scale.value = new_width / props.dataWidth;
 });
 //#endregion
 // 计算纵向显示的宽度

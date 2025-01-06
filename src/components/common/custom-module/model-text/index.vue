@@ -39,10 +39,6 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
-    isCustomGroup: {
-        type: Boolean,
-        default: false
-    },
     customGroupFieldId: {
         type: String,
         default: ''
@@ -50,21 +46,17 @@ const props = defineProps({
     titleParams: {
         type: String,
         default: ''
-    },
-    options: {
-        type: Array<any>,
-        default: () => [],
     }
 });
 
 // 用于页面判断显示
 const form = computed(() => props.value);
 // 从组件的顶层获取数据，避免多层组件传值导致数据遗漏和多余代码
-const field_list: any[] | undefined = inject('field_list', []);
+const field_list: any = toRef(inject('field_list', []));
 const is_show = computed(() => {
     // 取出条件判断的内容
     const condition = form.value?.condition || { field: '', type: '', value: '' };
-    return get_is_eligible(field_list, condition, props);
+    return get_is_eligible(field_list.value, condition, props);
 });
 
 const text_title = computed(() => {
@@ -93,9 +85,17 @@ const text_title = computed(() => {
     if (!isEmpty(formValue.text_title)) {
         // 存储待处理的文本标题
         let new_title = cloneDeep(formValue.text_title);
+        let new_field_list = field_list.value;
+        // 判断是否是自定义组
+        if (!props.isCustom && !isEmpty(props.customGroupFieldId)) {
+            // 取出对应自定义组的内容
+            const group_option_list = new_field_list.find((item: any) => item.field === props.customGroupFieldId);
+            // 取出自定义组内部数据源参数的详细数据
+            new_field_list = group_option_list?.data || [];
+        }
         // 遍历字段列表，替换文本标题中的占位符
-        if (field_list) {
-            field_list.forEach((item: any) => {
+        if (!isEmpty(new_field_list)) {
+            new_field_list.forEach((item: any) => {
                 const new_field = '${' +  item.field + '}';
                 if (formValue.text_title.includes(new_field)) {
                     // 获取到字段的真实数据

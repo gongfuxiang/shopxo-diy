@@ -26,6 +26,10 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
+    customGroupFieldId: {
+        type: String,
+        default: ''
+    },
     scale: {
         type: Number,
         default: 1,
@@ -34,11 +38,11 @@ const props = defineProps({
 // 用于页面判断显示
 const form = computed(() => props.value);
 // 从组件的顶层获取数据，避免多层组件传值导致数据遗漏和多余代码
-const field_list: any[] | undefined = inject('field_list', []);
+const field_list: any = toRef(inject('field_list', []));
 const is_show = computed(() => {
     // 取出条件判断的内容
     const condition = form.value?.condition || { field: '', type: '', value: '' };
-    return get_is_eligible(field_list, condition, props);
+    return get_is_eligible(field_list.value, condition, props);
 });
 // 边框样式
 const border_style = computed(() => {

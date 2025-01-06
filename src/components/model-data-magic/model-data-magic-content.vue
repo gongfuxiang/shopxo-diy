@@ -365,6 +365,8 @@ const data_content = {
     custom_mark_name: '',
     // 自定义内容列表
     custom_list: [],
+    // 存放所有的数据字段
+    field_list: [],
     //视频信息
     video: [],
     video_img: [],

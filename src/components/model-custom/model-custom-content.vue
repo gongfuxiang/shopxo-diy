@@ -61,7 +61,7 @@
         <!-- 自定义内容处理 -->
         <custom-config :key="dragkey + 'custom'" v-model:visible="dialogVisible" v-model:width="custom_width" v-model:height="center_height" :dragkey="dragkey + 'custom'" :options="model_data_source" :source-list="!isEmpty(data_source_content_list) ? data_source_content_list[0] : {}" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :custom-list="custom_list" @accomplish="accomplish" @custom_edit="custom_edit"></custom-config>
         <!-- 自定义内部数据内容处理 -->
-        <custom-config :key="drag_group_key + 'custom-group'" v-model:visible="dialogVisible_group" v-model:width="center_group_width" v-model:height="center_group_height" v-model:father-list="custom_group_father_list" config-type="custom-group" :dragkey="drag_group_key + 'custom-group'" :options="custom_group_option_list" :source-list="!isEmpty(new_group_source_list) ? new_group_source_list : {}" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :custom-id="center_group_id" :custom-list="custom_group_list" @accomplish="accomplish"></custom-config>
+        <custom-config :key="drag_group_key + 'custom-group'" v-model:visible="dialogVisible_group" v-model:width="center_group_width" v-model:height="center_group_height" v-model:father-list="custom_group_father_list" config-type="custom-group" :dragkey="drag_group_key + 'custom-group'" :options="custom_group_option_list" :source-list="!isEmpty(new_group_source_list) ? new_group_source_list : {}" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :custom-id="center_group_id" :custom-list="custom_group_list" :custom-group-field-id="custom_group_field_id" @accomplish="accomplish"></custom-config>
         <!-- 手动筛选数据弹出框 -->
         <custom-dialog v-model:dialog-visible="url_value_dialog_visible" :data-list-key="form.show_data?.data_key || 'id'" :config="default_type_data.appoint_config" :multiple="url_value_multiple_bool" @confirm_event="url_value_dialog_call_back"></custom-dialog>
     </div>
@@ -100,7 +100,6 @@ const custom_width = computed(() => {
     }
 })
 const form = ref(props.value);
-provide('field_list', form.value.field_list);
 // 外层的内容
 // 外层自定义的弹出框
 const dragkey = ref('');
@@ -121,7 +120,9 @@ const center_group_id = ref('');
 const custom_group_father_list = ref([]);
 // 自定义组的弹出框的key值
 const drag_group_key = ref('');
-
+// 数据源id
+const custom_group_field_id = ref('');
+// 获取到真实数据和选项值
 const custom_group_option_list = ref<any[]>([]);
 const new_group_source_list = ref({});
 // 自定义编辑的逻辑
@@ -151,6 +152,7 @@ const custom_edit = (type: string, id?: string, father_list?: any, list?: any, w
         center_group_width.value = width || 0;
         center_group_height.value = height || 0;
         // 获取到真实数据和选项值
+        custom_group_field_id.value = data_source_field?.id || '';
         new_group_source_list.value = new_group_source_list_handle(data_source_field?.id || '');
         custom_group_option_list.value = data_source_field?.option || [];
         // 设置是否是子页面
@@ -331,6 +333,8 @@ const processing_data = (key: string) => {
         form.value.field_list = [];
     }
 };
+// 将内容传递给子组件
+provide('field_list', computed(() => form.value.field_list));
 //#endregion
 //#region 数据源更新逻辑处理
 // 打开弹出框

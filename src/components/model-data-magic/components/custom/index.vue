@@ -64,6 +64,7 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form, new_style } = toRefs(state);
 const scale = ref(1);
+provide('field_list', computed(() => form.value.field_list));
 // 数据来源的内容
 let data_source_content_list = computed(() => {
     if (form.value.is_custom_data == '1') {
@@ -171,8 +172,10 @@ watchEffect(() => {
     // 内容左右间距
     const data_content_style = new_style.value?.data_content_style || {};
     const content_spacing = (data_content_style?.margin_left || 0) + (data_content_style?.margin_right || 0) + (data_content_style?.padding_left || 0) + (data_content_style?.padding_right || 0) + border_width(data_content_style);
+    // 数据间距
+    const data_spacing = ['vertical', 'horizontal'].includes(form.value.data_source_direction) ? new_style.value.column_gap * (form.value.data_source_carousel_col - 1) : 0;
     // 当前容器的宽度 减去 左右两边的padding值 再减去 数据间距的一半 再除以 容器的宽度 得到比例 再乘以数据魔方的比例
-    const width = old_width - data_style - content_spacing - common_styles - (props.dataSpacing / 2);
+    const width = old_width - data_style - content_spacing - common_styles - data_spacing - (props.dataSpacing / 2);
     scale.value = width / form.value.width;
 })
 

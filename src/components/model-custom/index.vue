@@ -76,7 +76,7 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form, new_style } = toRefs(state);
 // 将顶级的字段暴露给孙子组件, 避免传递层级太深
-provide('field_list', form.value.field_list);
+provide('field_list', computed(() => form.value.field_list));
 onBeforeMount(() => {
     // 历史数据处理
     if (!Object.keys(form.value.data_source_content).includes('data_auto_list') && !Object.keys(form.value.data_source_content).includes('data_list')) {
@@ -98,15 +98,17 @@ const gap_width = computed(() => {
 const scale = ref(1);
 // 计算整体宽度和比例
 watchEffect(() => {
-    const { common_style, data_style, data_content_style } = new_style.value;
+    const { common_style, data_style, data_content_style, column_gap } = new_style.value;
     // 外层左右间距
     const outer_spacing = common_style.margin_left + common_style.margin_right + common_style.padding_left + common_style.padding_right + border_width(common_style);
     // 内容左右间距
     const content_spacing = data_content_style.margin_left + data_content_style.margin_right + data_content_style.padding_left + data_content_style.padding_right + border_width(data_content_style);
     // 数据左右间距
     const internal_spacing = data_style.margin_left + data_style.margin_right + data_style.padding_left + data_style.padding_right + border_width(data_style);
+    // 数据间距
+    const data_spacing = ['vertical', 'horizontal'].includes(form.value.data_source_direction) ? column_gap * (form.value.data_source_carousel_col - 1) : 0;
     // 根据容器宽度来计算内部大小
-    const width = 390 - outer_spacing - internal_spacing - content_spacing - props.outerContainerPadding;
+    const width = 390 - outer_spacing - internal_spacing - content_spacing - data_spacing - props.outerContainerPadding;
     // 获得对应宽度的比例
     scale.value = width / 390;
 });
