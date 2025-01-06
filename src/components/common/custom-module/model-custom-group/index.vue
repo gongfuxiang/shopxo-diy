@@ -8,7 +8,7 @@
                             <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="`width: ${ gap_width }`">
                                 <div :style="style_chunk_container">
                                     <div class="w h oh" :style="style_chunk_img_container">
-                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale"></data-rendering>
+                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale" :custom-group-field-id="form?.data_source_field?.id || ''" :is-custom-group="true"></data-rendering>
                                     </div>
                                 </div>
                             </div>
@@ -19,7 +19,7 @@
                             <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
                                 <div :style="style_chunk_container">
                                     <div class="w h oh" :style="style_chunk_img_container">
-                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale"></data-rendering>
+                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale" :custom-group-field-id="form?.data_source_field?.id || ''" :is-custom-group="true"></data-rendering>
                                     </div>
                                 </div>
                             </swiper-slide>
@@ -38,7 +38,7 @@
                     <template v-else>
                         <div :style="style_chunk_container">
                             <div class="w h oh" :style="style_chunk_img_container">
-                                <data-rendering :custom-list="form.custom_list" :data-height="form.height" :scale="custom_scale"></data-rendering>
+                                <data-rendering :custom-list="form.custom_list" :data-height="form.height" :scale="custom_scale" :is-custom-group="true"></data-rendering>
                             </div>
                         </div>
                     </template>
@@ -48,7 +48,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { border_width, common_img_computer, common_styles_computer, get_math, radius_computer, custom_condition_data, custom_condition_judg } from '@/utils';
+import { border_width, common_img_computer, common_styles_computer, get_math, radius_computer, get_is_eligible } from '@/utils';
 import { isEmpty } from 'lodash';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
@@ -96,20 +96,8 @@ const new_style = computed(() => props.value.data_style);
 const field_list: any[] | undefined = inject('field_list', []);
 const is_show = computed(() => {
     // 取出条件判断的内容
-    const condition = form.value?.condition || { field: '', type: '', value: ''};
-    // 获取对应条件字段的字段数据
-    let option: any[] = [];
-    if (field_list) {
-        option = field_list.filter((item: any) => item.field === condition.field);
-    }
-    // 获取到字段的真实数据
-    const field_value = custom_condition_data(condition?.field || '', option[0] || {}, props.sourceList, props.isCustom);
-    // 判断条件字段是否为空并且是显示面板才会生效，则直接返回true
-    if (!isEmpty(condition.field) && !isEmpty(condition.type) && props.isDisplayPanel) {
-        return custom_condition_judg(field_value, condition.type, condition.value);
-    } else {
-        return true;
-    }
+    const condition = form.value?.condition || { field: '', type: '', value: '' };
+    return get_is_eligible(field_list, condition, props);
 });
 
 const data_source_content_list = computed(() => {
@@ -240,6 +228,7 @@ const indicator_style = computed(() => {
     }
     return indicator_styles;
 });
+// 指示器选中效果
 const actived_index = ref(0);
 const slideChange = (swiper: { realIndex: number }) => {
     // 轮播图滚动时，更新当前激活的下标， 如果不是平移的时候，需要除以列数，否则就是当前的下标

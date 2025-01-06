@@ -137,6 +137,7 @@ const custom_edit = (type: string, id?: string, father_list?: any, list?: any, w
         // 设置是否是子页面
         data_source_store.set_is_children_custom(false);
     } else {
+        // 自定义组的弹出框显示
         drag_group_key.value = Math.random().toString(36).substring(2);
         // 自定义组的弹出框
         dialogVisible_group.value = true;
@@ -156,7 +157,7 @@ const custom_edit = (type: string, id?: string, father_list?: any, list?: any, w
         data_source_store.set_is_children_custom(true);
     }
 };
-// 处理获取真实数据
+// 处理获取自定义组内的真实数据
 const new_group_source_list_handle = (data_source_id: string) => {
     const source_list = !isEmpty(data_source_content_list.value) ? data_source_content_list.value[0] : {};
     if (!isEmpty(source_list)) {

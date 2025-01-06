@@ -1,6 +1,5 @@
 <template>
     <card-container>
-        <div class="mb-20">显示设置</div>
         <el-form-item label="数据来源">
             <el-select v-model="form.data_source_field.id" value-key="id" clearable filterable placeholder="请选择数据字段" size="default" class="flex-1" @change="group_change">
                 <el-option v-for="item in options.filter(item => item.type == 'custom-data-list')" :key="item.field" :label="item.name" :value="item.field" />

@@ -4,7 +4,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { radius_computer, gradient_handle, background_computer, custom_condition_judg, custom_condition_data } from '@/utils';
+import { radius_computer, gradient_handle, background_computer, get_is_eligible } from '@/utils';
 import { isEmpty } from 'lodash';
 const props = defineProps({
     value: {
@@ -39,20 +39,8 @@ const form = computed(() => props.value);
 const field_list: any[] | undefined = inject('field_list', []);
 const is_show = computed(() => {
     // 取出条件判断的内容
-    const condition = form.value?.condition || { field: '', type: '', value: ''};
-    // 获取对应条件字段的字段数据
-    let option: any[] = [];
-    if (field_list) {
-        option = field_list.filter((item: any) => item.field === condition.field);
-    }
-    // 获取到字段的真实数据
-    const field_value = custom_condition_data(condition?.field || '', option[0] || {}, props.sourceList, props.isCustom);
-    // 判断条件字段是否为空并且是显示面板才会生效，则直接返回true
-    if (!isEmpty(condition.field) && !isEmpty(condition.type) && props.isDisplayPanel) {
-        return custom_condition_judg(field_value, condition.type, condition.value);
-    } else {
-        return true;
-    }
+    const condition = form.value?.condition || { field: '', type: '', value: '' };
+    return get_is_eligible(field_list, condition, props);
 });
 // 外层样式
 const com_style = computed(() => {

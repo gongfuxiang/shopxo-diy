@@ -218,24 +218,85 @@ const compare_numbers = (a: number, b: number, type: string): boolean => {
     }
 }
 
+/**
+ * 判断给定条件是否符合资格，主要用于自定义内部各个组件是否符合显示条件
+ * @param field_list 字段列表，包含各个字段的数据
+ * @param condition 条件数据，包括字段、类型和值
+ * @param props 额外属性，包含自定义组和数据源等信息
+ * @returns 返回一个布尔值，表示是否符合条件
+ */
+type condition_data = { field: string, type: string, value: string  };
+export const get_is_eligible = (field_list: any[], condition: condition_data, props: any) => {
+    try {
+        // 获取对应条件字段的字段数据
+        let option: any = {};
+        if (field_list) {
+            // 判断是否是自定义组并且 自定义组选则了对应的数据源
+            if (props.isCustomGroup && !isEmpty(props.customGroupFieldId)) {
+                // 取出对应自定义组的内容
+                const group_option_list = field_list.find((item: any) => item.field === props.customGroupFieldId);
+                // 取出自定义组内部数据源参数的详细数据
+                const new_field_list = group_option_list?.data || [];
+                // 通过对应条件，筛选出对应的数据
+                option = new_field_list.find((item: any) => item.field === condition.field);
+            } else {
+                option = field_list.find((item: any) => item.field === condition.field);
+            }
+        }
+        // 获取到字段的真实数据, option的使用主要是为了获取的他的中间参数和前缀，后缀等拼接在一起
+        const field_value = custom_condition_data(condition.field || '', option || {}, props.sourceList, props.isCustom);
+        // 判断条件字段是否为空并且是显示面板才会生效，则直接返回true
+        if (!isEmpty(condition.field) && !isEmpty(condition.type) && props.isDisplayPanel) {
+            return custom_condition_judg(field_value, condition.type, condition.value);
+        } else {
+            return true;
+        }
+    } catch (error) {
+        return true; // 或者根据业务需求返回适当的默认值
+    }
+}
+
+/**
+ * 根据数据源ID和配置选项来处理和返回特定格式的数据
+ * 
+ * @param data_source_id 数据源ID字符串，可以包含多个用分号分隔的ID
+ * @param option 配置选项，包含数据处理的额外参数
+ * @param sourceList 数据源列表，用于查找和处理数据
+ * @param isCustom 是否为自定义模式，用于确定数据处理的方式
+ * @returns 返回处理后的数据字符串
+ */
 export const custom_condition_data = (data_source_id: string, option: any, sourceList: any, isCustom: boolean) => {
     let data_value = '';
     if (data_source_id.includes(';')) {
+        // 当数据源ID包含多个用分号分隔的ID时
         // 取出所有的字段，使用;分割
         const ids = data_source_id.split(';');
         let text = '';
+        // 遍历每个ID，处理数据并合并
         ids.forEach((item: string, index: number) => {
             text += data_handling(item, sourceList, isCustom) + (index != ids.length - 1 ? (option?.join || '') : '');
         });
         data_value = text;
     } else {
         // 不输入商品， 文章和品牌时，从外层处理数据
+        // 当数据源ID不包含分号时，直接处理数据
         data_value = data_handling(data_source_id, sourceList, isCustom);
     }
+    // 根据配置选项，添加前缀和后缀到处理后的数据
     return (option?.first || '') + data_value + (option?.last || '');
 }
 
-// 数据处理
+/**
+ * 数据处理函数
+ * 该函数根据数据源ID和一个数据对象，返回对应的图标路径
+ * 主要用于从复杂的数据结构中提取图标信息，根据是否是自定义图标，
+ * 从不同的数据层级中获取信息
+ * 
+ * @param data_source_id 数据源ID，用于定位图标在数据结构中的位置
+ * @param sourceList 包含图标数据的对象，可以是多层嵌套结构
+ * @param isCustom 布尔值，指示是否为自定义图标，影响数据获取的方式
+ * @returns 返回找到的图标路径，如果没有找到或数据为空，则返回空值
+ */
 const data_handling = (data_source_id: string, sourceList: any, isCustom: boolean) => {
     // 不输入商品， 文章和品牌时，从外层处理数据
     let icon = get_nested_property(sourceList, data_source_id);
