@@ -106,7 +106,7 @@
 <script setup lang="ts">
 import customIndex from './components/custom/index.vue';
 import videoIndex from './components/video/index.vue';
-import { background_computer, common_styles_computer, get_math, gradient_computer, radius_computer, padding_computer, common_img_computer, is_number, percentage_count, margin_computer, box_shadow_computer, border_computer, old_margin, old_border_and_box_shadow, border_width } from '@/utils';
+import { background_computer, common_styles_computer, get_math, gradient_computer, radius_computer, padding_computer, common_img_computer, is_number, percentage_count, margin_computer, box_shadow_computer, border_computer, old_margin, old_border_and_box_shadow, border_width, get_indicator_location } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 const props = defineProps({
     value: {
@@ -217,33 +217,6 @@ const indicator_style = (item: any) => {
     }
     return styles;
 };
-//#region 指示器位置
-// 根据指示器的位置来处理 对齐方式的处理
-const indicator_location_style = (item: any) => {
-    const { indicator_new_location,  indicator_location, indicator_bottom } = item;
-    let styles = '';
-    if (['left', 'right'].includes(indicator_new_location)) {
-        if (indicator_location == 'flex-start') {
-            styles += `top: 0px;`;
-        } else if (indicator_location == 'center') {
-            styles += `top: 50%; transform: translateY(-50%);`;
-        } else {
-            styles += `bottom: 0px;`;
-        }
-    } else {
-        if (indicator_location == 'flex-start') {
-            styles += `left: 0px;`;
-        } else if (indicator_location == 'center') {
-            styles += `left: 50%; transform: translateX(-50%);`;
-        } else {
-            styles += `right: 0px;`;
-        }
-    }
-    // 如果有位置的处理，就使用指示器的位置处理，否则的话就用下边距处理
-    styles += `${ !isEmpty(indicator_new_location) ? `${indicator_new_location}: ${ indicator_bottom }px;` : `bottom: ${ indicator_bottom }px;` }`;
-    return styles;
-};
-//#endregion
 const style_actived_color = (item: any, index: number) => {
    return item.actived_index == index ? `background: ${ item.data_style.actived_color };` : ''
 }
@@ -382,7 +355,8 @@ watch(props.value.content, (val) => {
         item.actived_index = 0;
         // 指示器样式
         data_style.indicator_styles = indicator_style(data_style);
-        data_style.indicator_location_styles = indicator_location_style(data_style);
+        // 根据指示器的位置来处理
+        data_style.indicator_location_styles = get_indicator_location(data_style);
         // 获取当前的margin
         const chunk_margin = data_style?.chunk_margin || old_margin;
         // 计算左右间距

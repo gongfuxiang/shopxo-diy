@@ -49,7 +49,7 @@
 </template>
 <script setup lang="ts">
 import { isEmpty, cloneDeep } from 'lodash';
-import { border_width, common_img_computer, common_styles_computer, get_math, radius_computer } from '@/utils';
+import { border_width, common_img_computer, common_styles_computer, get_indicator_location, get_math, radius_computer } from '@/utils';
 import { source_list } from '@/config/const/custom';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
@@ -217,30 +217,7 @@ const slideChange = (swiper: { realIndex: number }) => {
 //#endregion
 //#region 指示器位置
 // 根据指示器的位置来处理 对齐方式的处理
-const indicator_location_style = computed(() => {
-    const { indicator_new_location,  indicator_location, indicator_bottom } = new_style.value;
-    let styles = '';
-    if (['left', 'right'].includes(indicator_new_location)) {
-        if (indicator_location == 'flex-start') {
-            styles += `top: 0px;`;
-        } else if (indicator_location == 'center') {
-            styles += `top: 50%; transform: translateY(-50%);`;
-        } else {
-            styles += `bottom: 0px;`;
-        }
-    } else {
-        if (indicator_location == 'flex-start') {
-            styles += `left: 0px;`;
-        } else if (indicator_location == 'center') {
-            styles += `left: 50%; transform: translateX(-50%);`;
-        } else {
-            styles += `right: 0px;`;
-        }
-    }
-    // 如果有位置的处理，就使用指示器的位置处理，否则的话就用下边距处理
-    styles += `${ !isEmpty(indicator_new_location) ? `${indicator_new_location}: ${ indicator_bottom }px;` : `bottom: ${ indicator_bottom }px;` }`;
-    return styles;
-});
+const indicator_location_style = computed(() => get_indicator_location(new_style.value));
 //#endregion
 </script>
 <style lang="scss" scoped>

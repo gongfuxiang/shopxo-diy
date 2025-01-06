@@ -218,6 +218,47 @@ const compare_numbers = (a: number, b: number, type: string): boolean => {
     }
 }
 
+
+/**
+ * 根据新的样式对象计算指示器的位置样式
+ * 
+ * 此函数根据指示器的新位置和当前位置以及底部距离来生成相应的CSS样式
+ * 它处理的是一个包含指示器位置信息的对象，并返回一个字符串形式的CSS样式
+ * 
+ * @param new_style 包含指示器新位置和当前位置及底部距离的样式对象
+ * @returns 返回计算出的指示器位置CSS样式字符串
+ */
+type indicator_data = { indicator_new_location: string, indicator_location: string, indicator_bottom: number }
+export const get_indicator_location = (new_style: indicator_data) => {
+    // 解构指示器的位置信息
+    const { indicator_new_location = '',  indicator_location = '', indicator_bottom = 0 } = new_style;
+    let styles = '';
+    // 根据指示器的新位置是水平方向（left或right）还是垂直方向（默认）来决定如何设置样式
+    if (['left', 'right'].includes(indicator_new_location)) {
+        // 如果是水平方向，根据指示器的当前位置设置top、center或bottom样式
+        if (indicator_location == 'flex-start') {
+            styles += `top: 0px;`;
+        } else if (indicator_location == 'center') {
+            styles += `top: 50%; transform: translateY(-50%);`;
+        } else {
+            styles += `bottom: 0px;`;
+        }
+    } else {
+        // 如果是垂直方向，根据指示器的当前位置设置left、center或right样式
+        if (indicator_location == 'flex-start') {
+            styles += `left: 0px;`;
+        } else if (indicator_location == 'center') {
+            styles += `left: 50%; transform: translateX(-50%);`;
+        } else {
+            styles += `right: 0px;`;
+        }
+    }
+    // 如果有位置的处理，就使用指示器的位置处理，否则的话就用下边距处理
+    styles += `${ !isEmpty(indicator_new_location) ? `${indicator_new_location}: ${ indicator_bottom }px;` : `bottom: ${ indicator_bottom }px;` }`;
+    // 返回计算出的指示器位置样式
+    return styles;
+}
+
 /**
  * 判断给定条件是否符合资格，主要用于自定义内部各个组件是否符合显示条件
  * @param field_list 字段列表，包含各个字段的数据
