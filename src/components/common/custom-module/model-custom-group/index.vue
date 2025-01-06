@@ -153,7 +153,8 @@ watchEffect(() => {
     // 根据容器宽度来计算内部大小
     const new_width = old_width - outer_spacing - internal_spacing - content_spacing - data_spacing;
     // 获得对应宽度的比例
-    custom_scale.value = new_width / props.dataWidth;
+    const scale_number = new_width / props.dataWidth;
+    custom_scale.value = scale_number > 0 ? scale_number : 0;
 });
 //#endregion
 // 计算纵向显示的宽度

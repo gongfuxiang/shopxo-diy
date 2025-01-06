@@ -76,7 +76,7 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form, new_style } = toRefs(state);
 // 将顶级的字段暴露给孙子组件, 避免传递层级太深
-provide('field_list', computed(() => form.value.field_list));
+provide('field_list', computed(() => form.value?.field_list || []));
 onBeforeMount(() => {
     // 历史数据处理
     if (!Object.keys(form.value.data_source_content).includes('data_auto_list') && !Object.keys(form.value.data_source_content).includes('data_list')) {
@@ -110,7 +110,8 @@ watchEffect(() => {
     // 根据容器宽度来计算内部大小
     const width = 390 - outer_spacing - internal_spacing - content_spacing - data_spacing - props.outerContainerPadding;
     // 获得对应宽度的比例
-    scale.value = width / 390;
+    const scale_number = width / 390;
+    scale.value = scale_number > 0 ? scale_number : 0;
 });
 //#endregion
 // 公共样式
@@ -176,12 +177,11 @@ watchEffect(() => {
     if (!isEmpty(data_source_content_list.value)) {
         num = new_style.value.rolling_fashion == 'translation' ? data_source_content_list.value.length : Math.ceil(data_source_content_list.value.length / Number(data_source_carousel_col));
     }
-    const { padding_top, padding_bottom, margin_bottom, margin_top } = new_style.value.data_style;
     // 轮播图高度控制
     if (form.value.data_source_direction == 'horizontal') {
-        swiper_height.value = form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top;
+        swiper_height.value = form.value.height * scale.value;
     } else {
-        swiper_height.value = (form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top) * col + ((data_source_carousel_col - 1) * space_between.value);
+        swiper_height.value = (form.value.height * scale.value) * col + ((data_source_carousel_col - 1) * space_between.value);
     }
     dot_list.value = Array(num);
     // 更新轮播图的key，确保更换时能重新更新轮播图

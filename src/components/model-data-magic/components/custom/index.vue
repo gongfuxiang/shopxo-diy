@@ -176,7 +176,8 @@ watchEffect(() => {
     const data_spacing = ['vertical', 'horizontal'].includes(form.value.data_source_direction) ? new_style.value.column_gap * (form.value.data_source_carousel_col - 1) : 0;
     // 当前容器的宽度 减去 左右两边的padding值 再减去 数据间距的一半 再除以 容器的宽度 得到比例 再乘以数据魔方的比例
     const width = old_width - data_style - content_spacing - common_styles - data_spacing - (props.dataSpacing / 2);
-    scale.value = width / form.value.width;
+    const scale_number = width / form.value.width;
+    scale.value = scale_number > 0 ? scale_number : 0;
 })
 
 // 计算纵向显示的宽度
@@ -216,13 +217,11 @@ watchEffect(() => {
     const col = data_source_content_list.value.length > carousel_col ? carousel_col : data_source_content_list.value.length;
     // 一屏显示的数量
     slides_per_view.value = col;
-    const { margin_bottom, margin_top } = new_style.value.data_chunk_margin;
-    const { padding_top, padding_bottom } = new_style.value.data_chunk_padding;
     // 轮播图高度控制
     if (form.value.data_source_direction == '2') {
-        swiper_height.value = form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top;
+        swiper_height.value = form.value.height * scale.value;
     } else {
-        swiper_height.value = (form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top) * col + ((carousel_col - 1) * space_between.value);
+        swiper_height.value = (form.value.height * scale.value) * col + ((carousel_col - 1) * space_between.value);
     }
     // 更新轮播图的key，确保更换时能重新更新轮播图
     carouselKey.value = get_math();

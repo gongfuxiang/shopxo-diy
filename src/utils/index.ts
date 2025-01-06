@@ -340,12 +340,12 @@ export const custom_condition_data = (data_source_id: string, option: any, sourc
  */
 const data_handling = (data_source_id: string, sourceList: any, isCustom: boolean) => {
     // 不输入商品， 文章和品牌时，从外层处理数据
-    let icon = get_nested_property(sourceList, data_source_id);
+    let new_data = get_nested_property(sourceList, data_source_id);
     // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
     if (!isEmpty(sourceList.data) && isCustom) {
-        icon = get_nested_property(sourceList.data, data_source_id);
+        new_data = get_nested_property(sourceList.data, data_source_id);
     }
-    return icon;
+    return new_data;
 }
 
 /**
