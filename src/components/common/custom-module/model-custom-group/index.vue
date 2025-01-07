@@ -198,12 +198,11 @@ watchEffect(() => {
     if (!isEmpty(data_source_content_list.value)) {
         num = new_style.value.rolling_fashion == 'translation' ? data_source_content_list.value.length : Math.ceil(data_source_content_list.value.length / Number(data_source_carousel_col));
     }
-    const { padding_top, padding_bottom, margin_bottom, margin_top } = new_style.value.data_style;
     // 轮播图高度控制
     if (form.value.data_source_direction == 'horizontal') {
-        swiper_height.value = form.value.custom_height * custom_scale.value + padding_top + padding_bottom + margin_bottom + margin_top;
+        swiper_height.value = props.dataHeight * custom_scale.value;
     } else {
-        swiper_height.value = (form.value.custom_height * custom_scale.value + padding_top + padding_bottom + margin_bottom + margin_top) * col + ((data_source_carousel_col - 1) * space_between.value);
+        swiper_height.value = (props.dataHeight * custom_scale.value) * col + ((data_source_carousel_col - 1) * space_between.value);
     }
     dot_list.value = Array(num);
     // 更新轮播图的key，确保更换时能重新更新轮播图
@@ -216,7 +215,7 @@ const indicator_style = computed(() => {
     if (!isEmpty(new_style.value.indicator_radius)) {
         indicator_styles += radius_computer(new_style.value.indicator_radius);
     }
-    const size = new_style.value?.indicator_size || 5;
+    const size = new_style.value.indicator_size;
     if (new_style.value.indicator_style == 'num') {
         indicator_styles += `color: ${new_style.value?.color || '#DDDDDD'};`;
         indicator_styles += `font-size: ${size}px;`;

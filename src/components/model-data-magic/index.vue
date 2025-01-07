@@ -200,7 +200,7 @@ const indicator_style = (item: any) => {
     if (!isEmpty(item.indicator_radius)) {
         styles += radius_computer(item.indicator_radius)
     }
-    const size = item?.indicator_size || 5;
+    const size = item.indicator_size;
     if (item.indicator_style == 'num') {
         styles += `color: ${item?.color || '#DDDDDD'};`;
         styles += `font-size: ${size}px;`;

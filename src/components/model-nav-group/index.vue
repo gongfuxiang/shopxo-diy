@@ -70,7 +70,7 @@ const indicator_style = computed(() => {
     if (!isEmpty(new_style.value.indicator_radius)) {
         indicator_styles += radius_computer(new_style.value.indicator_radius);
     }
-    const size = new_style.value?.indicator_size || 5;
+    const size = new_style.value.indicator_size;
     if (new_style.value.indicator_style == 'num') {
         indicator_styles += `color: ${new_style.value?.color || '#DDDDDD'};`;
         indicator_styles += `font-size: ${size}px;`;
