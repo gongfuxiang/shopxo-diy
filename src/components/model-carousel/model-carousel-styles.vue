@@ -16,6 +16,10 @@
                     <el-form-item label="内间距">
                         <padding :value="form.carousel_content_padding"></padding>
                     </el-form-item>
+                    <!-- 边框处理 -->
+                    <border-config v-model:show="form.carousel_content.border_is_show" v-model:color="form.carousel_content.border_color" v-model:style="form.carousel_content.border_style" v-model:size="form.carousel_content.border_size"></border-config>
+                    <!-- 阴影配置 -->
+                    <shadow-config v-model="form.carousel_content"></shadow-config>
                 </card-container>
                 <div class="divider-line"></div>
             </template>

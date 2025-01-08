@@ -64,7 +64,9 @@ interface defaultTabs {
         tabs_bg_background_img_style: string,
         tabs_bg_background_img: string[],
         tabs_radius: radiusStyle;
+        tabs_margin: marginStyle;
         tabs_padding: paddingStyle;
+        tabs_content: object;
         carousel_content_direction: string;
         carousel_content_color_list: color_list[];
         carousel_content_background_img_style: string;
@@ -72,6 +74,7 @@ interface defaultTabs {
         carousel_content_radius: radiusStyle;
         carousel_content_margin: marginStyle;
         carousel_content_padding: paddingStyle;
+        carousel_content: object;
         more_icon_class: string;
         more_icon_color: string;
         more_icon_size: number;
@@ -230,12 +233,38 @@ const defaultTabs: defaultTabs = {
             radius_bottom_left: 0,
             radius_bottom_right: 0,
         },
+        tabs_margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
+        },
         tabs_padding: {
             padding: 10,
             padding_top: 10,
             padding_bottom: 10,
             padding_left: 10,
             padding_right: 10,
+        },
+        tabs_content: {
+            // 边框样式
+            border_is_show: '0',
+            border_color: '#FF3F3F',
+            border_style: 'solid',
+            border_size: {
+                padding: 1,
+                padding_top: 1,
+                padding_right: 1,
+                padding_bottom: 1,
+                padding_left: 1,
+            },
+            // 阴影
+            box_shadow_color: '',
+            box_shadow_x: 0,
+            box_shadow_y: 0,
+            box_shadow_blur: 0,
+            box_shadow_spread: 0,
         },
         // 轮播内间距设置
         carousel_content_direction: '90deg',
@@ -262,6 +291,25 @@ const defaultTabs: defaultTabs = {
             padding_bottom: 10,
             padding_left: 10,
             padding_right: 10,
+        },
+        carousel_content: {
+            // 边框样式
+            border_is_show: '0',
+            border_color: '#FF3F3F',
+            border_style: 'solid',
+            border_size: {
+                padding: 1,
+                padding_top: 1,
+                padding_right: 1,
+                padding_bottom: 1,
+                padding_left: 1,
+            },
+            // 阴影
+            box_shadow_color: '',
+            box_shadow_x: 0,
+            box_shadow_y: 0,
+            box_shadow_blur: 0,
+            box_shadow_spread: 0,
         },
         // 更多设置
         more_icon_class: 'category-more',

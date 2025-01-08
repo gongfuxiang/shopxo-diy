@@ -50,9 +50,16 @@
                     <el-form-item label="圆角">
                         <radius :value="form.tabs_radius"></radius>
                     </el-form-item>
+                    <el-form-item label="外边距">
+                        <margin :value="form.tabs_margin"></margin>
+                    </el-form-item>
                     <el-form-item label="内边距">
                         <padding :value="form.tabs_padding"></padding>
                     </el-form-item>
+                    <!-- 边框处理 -->
+                    <border-config v-model:show="form.tabs_content.border_is_show" v-model:color="form.tabs_content.border_color" v-model:style="form.tabs_content.border_style" v-model:size="form.tabs_content.border_size"></border-config>
+                    <!-- 阴影配置 -->
+                    <shadow-config v-model="form.tabs_content"></shadow-config>
                 </template>
             </card-container>
             <div class="divider-line"></div>

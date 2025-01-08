@@ -16,7 +16,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, common_img_computer, padding_computer, gradient_computer, background_computer, margin_computer, radius_computer } from '@/utils';
+import { common_styles_computer, common_img_computer, padding_computer, gradient_computer, background_computer, margin_computer, radius_computer, box_shadow_computer, border_computer } from '@/utils';
 import { cloneDeep, isEmpty } from 'lodash';
 const props = defineProps({
     value: {
@@ -48,7 +48,8 @@ watch(
             background_img_style: new_style.tabs_bg_background_img_style,
             background_img: new_style.tabs_bg_background_img,
         }
-        tabs_container.value = gradient_computer(tabs_data) + radius_computer(new_style.tabs_radius);
+        tabs_container.value = gradient_computer(tabs_data) + radius_computer(new_style.tabs_radius) + margin_computer(new_style.tabs_margin) + box_shadow_computer(new_style.tabs_content) + border_computer(new_style.tabs_content);
+        console.log(new_style.tabs_margin);
         tabs_img_container.value = background_computer(tabs_data) + padding_computer(new_style.tabs_padding);
         // 轮播区域背景设置
         const carousel_content_data = {
@@ -57,7 +58,7 @@ watch(
             background_img_style: new_style.carousel_content_background_img_style,
             background_img: new_style.carousel_content_background_img,
         }
-        carousel_container.value = gradient_computer(carousel_content_data) + margin_computer(new_style.carousel_content_margin) + radius_computer(new_style.carousel_content_radius);
+        carousel_container.value = gradient_computer(carousel_content_data) + margin_computer(new_style.carousel_content_margin) + radius_computer(new_style.carousel_content_radius) + box_shadow_computer(new_style.carousel_content) + border_computer(new_style.carousel_content);
         carousel_img_container.value = background_computer(carousel_content_data) + padding_computer(new_style.carousel_content_padding);
         // 处理数据
         new_data.content.tabs_list = [home_data, ...new_data.content.tabs_list];

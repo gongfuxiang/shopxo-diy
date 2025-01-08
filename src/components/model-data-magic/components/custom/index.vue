@@ -217,11 +217,13 @@ watchEffect(() => {
     const col = data_source_content_list.value.length > carousel_col ? carousel_col : data_source_content_list.value.length;
     // 一屏显示的数量
     slides_per_view.value = col;
+    const { margin_bottom, margin_top } = new_style.value.data_chunk_margin;
+    const { padding_top, padding_bottom } = new_style.value.data_chunk_padding;
     // 轮播图高度控制
     if (form.value.data_source_direction == '2') {
-        swiper_height.value = form.value.height * scale.value;
+        swiper_height.value = form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top;
     } else {
-        swiper_height.value = (form.value.height * scale.value) * col + ((carousel_col - 1) * space_between.value);
+        swiper_height.value = (form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top) * col + ((carousel_col - 1) * space_between.value);
     }
     // 更新轮播图的key，确保更换时能重新更新轮播图
     carouselKey.value = get_math();
