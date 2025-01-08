@@ -39,7 +39,7 @@ const props = defineProps({
     },
 });
 // 默认值
-const tabs_name = 'content';
+const tabs_name = ref('content');
 const center_height = defineModel('height', { type: Number, default: 0 });
 const state = reactive({
     diy_data: props.value,
