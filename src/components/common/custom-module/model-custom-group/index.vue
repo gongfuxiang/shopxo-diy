@@ -190,9 +190,6 @@ watchEffect(() => {
     const data_source_carousel_col = Number(form.value.data_source_carousel_col);
     // 判断是平移还是整屏滚动
     slides_per_group.value = new_style.value.rolling_fashion == 'translation' ? 1 : Number(data_source_carousel_col);
-    // 商品数量大于列数的时候，高度是列数，否则是当前的数量
-    const col = data_source_content_list.value.length > Number(data_source_carousel_col) ? Number(data_source_carousel_col) : data_source_content_list.value.length;
-    slides_per_view.value = col;
     let num = 0;
     // 轮播图数量
     if (!isEmpty(data_source_content_list.value)) {
@@ -202,7 +199,11 @@ watchEffect(() => {
     // 轮播图高度控制
     if (form.value.data_source_direction == 'horizontal') {
         swiper_height.value = props.dataHeight * custom_scale.value + padding_top + padding_bottom + margin_bottom + margin_top;
+        slides_per_view.value = Number(data_source_carousel_col);
     } else {
+        // 商品数量大于列数的时候，高度是列数，否则是当前的数量
+        const col = data_source_content_list.value.length > Number(data_source_carousel_col) ? Number(data_source_carousel_col) : data_source_content_list.value.length;
+        slides_per_view.value = col;
         swiper_height.value = (props.dataHeight * custom_scale.value + padding_top + padding_bottom + margin_bottom + margin_top) * col + ((data_source_carousel_col - 1) * space_between.value);
     }
     dot_list.value = Array(num);
