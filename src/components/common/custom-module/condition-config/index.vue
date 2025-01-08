@@ -3,7 +3,7 @@
         <div class="mb-12">条件设置</div>
         <el-form-item label="条件字段">
             <el-select v-model="form.condition.field" clearable filterable placeholder="请选择数据字段" size="default" class="flex-1" @change="operation_end">
-                <el-option v-for="item in options" :key="item.field" :label="item.name" :value="item.field" />
+                <el-option v-for="item in options" :key="item.field + '-' + item.type" :label="item.name" :value="item.field + '{|}' + item.type" />
             </el-select>
         </el-form-item>
         <el-form-item label="条件判断">

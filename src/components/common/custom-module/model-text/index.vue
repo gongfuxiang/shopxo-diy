@@ -117,8 +117,9 @@ const text_title = computed(() => {
         try {
             // 多选判断
             if (data_source_id.length > 0) {
+                text_title += form.value?.data_split?.left || '';
                 // 遍历取出所有的值
-                data_source_id.forEach((source_id: string) => {
+                data_source_id.forEach((source_id: string, index: number) => {
                     const sourceList = option.find((item: any) => item.field == source_id);
                     // 根据数据源ID是否包含点号来区分处理方式
                     if (source_id.includes(';')) {
@@ -131,7 +132,11 @@ const text_title = computed(() => {
                     } else {
                         text_title += (sourceList?.first || '') + (data_handling(source_id) === '' && !props.isDisplayPanel ? sourceList?.name || '请在此输入文字' : data_handling(source_id) ) + (sourceList?.last || '');
                     }
+                    if (index < data_source_id.length - 1) {
+                        text_title += form.value?.data_split?.middle || '';
+                    }
                 });
+                text_title += form.value?.data_split?.right || '';
             }
         } catch (error) {
             if (!props.isDisplayPanel) {

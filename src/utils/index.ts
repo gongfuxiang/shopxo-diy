@@ -151,6 +151,45 @@ export const border_width = (style: BorderStyle): number => {
 }
 
 /**
+ * 接口字段数据处理函数
+ * 根据提供的列表和类型，处理并返回一个包含默认值或历史值的对象
+ * @param {any} list - 包含多项配置的列表，用于处理数据
+ * @param {string} type - 数据类型标识符，决定是否使用历史数据
+ * @param {any} data_source_content - 历史数据
+ * @returns {any} - 处理后的数据对象
+ */
+export const interface_field_processing = (list: any, type: string, data_source_content: any) => {
+    // 初始化一个空对象来存储处理后的数据
+    const staging_data: any = {};
+    // 如果列表不一样0，则遍历列表处理每一项
+    if (!isEmpty(list)) {
+        list.forEach((item: any) => {
+            // 初始化值变量，根据不同的类型将被赋予不同的默认值
+            let value : number | string | Array<any> = '';
+            // 处理多选类型，默认值为空数组
+            if (item.type == 'checkbox' || (item.type == 'select' && +item?.config?.is_multiple == 1)) {
+                value = item?.config?.default ?? [];
+            } else if ((item.type == 'input' && item?.config?.type == 'number') || item.type == 'switch') {
+                // 处理数字或开关类型，默认值为0
+                value = Number(item?.config?.default ?? 0);
+            } else {
+                // 其他情况，默认值为空字符串
+                value = item?.config?.default ?? '';
+            }
+            // 如果是历史数据，且历史数据存在，则使用历史数据；否则使用默认值
+            if (type == 'old') {
+                staging_data[item.form_name] = data_source_content[item.form_name] == null ? value : data_source_content[item.form_name];
+            } else {
+                // 如果不是历史数据，直接使用默认值
+                staging_data[item.form_name] = value;
+            }
+        })
+    }
+    // 返回处理后的数据对象
+    return staging_data;
+}
+
+/**
  * 根据指定的条件类型和值，判断字段值是否满足条件
  * @param fieldValue 字段值，可以是任何类型
  * @param type 条件类型，如'contains', 'is-empty', 'greater-than'等
@@ -269,6 +308,11 @@ export const get_indicator_location = (new_style: indicator_data) => {
 type condition_data = { field: string, type: string, value: string  };
 export const get_is_eligible = (field_list: any[], condition: condition_data, props: any) => {
     try {
+        // 条件加特殊标识，避免选择的时候出现重复的
+        let new_field = condition.field;
+        if (condition.field.includes('{|}')) {
+            new_field = condition.field.split('{|}')[0];
+        }
         // 获取对应条件字段的字段数据
         let option: any = {};
         if (field_list) {
@@ -279,16 +323,21 @@ export const get_is_eligible = (field_list: any[], condition: condition_data, pr
                 // 取出自定义组内部数据源参数的详细数据
                 const new_field_list = group_option_list?.data || [];
                 // 通过对应条件，筛选出对应的数据
-                option = new_field_list.find((item: any) => item.field === condition.field);
+                option = new_field_list.find((item: any) => item.field === new_field);
             } else {
-                option = field_list.find((item: any) => item.field === condition.field);
+                option = field_list.find((item: any) => item.field === new_field);
             }
         }
-        // 获取到字段的真实数据, option的使用主要是为了获取的他的中间参数和前缀，后缀等拼接在一起
-        const field_value = custom_condition_data(condition.field || '', option || {}, props.sourceList, props.isCustom);
-        // 判断条件字段是否为空并且是显示面板才会生效，则直接返回true
-        if (!isEmpty(condition.field) && !isEmpty(condition.type) && props.isDisplayPanel) {
-            return custom_condition_judg(field_value, condition.type, condition.value);
+        // 找不到对应的字段，就直接返回为成功，条件不存在
+        if (!isEmpty(option)) {
+            // 获取到字段的真实数据, option的使用主要是为了获取的他的中间参数和前缀，后缀等拼接在一起
+            const field_value = custom_condition_data(new_field || '', option || {}, props.sourceList, props.isCustom);
+            // 判断条件字段是否为空并且是显示面板才会生效，则直接返回true
+            if (!isEmpty(new_field) && !isEmpty(condition.type) && props.isDisplayPanel) {
+                return custom_condition_judg(field_value, condition.type, condition.value);
+            } else {
+                return true;
+            }
         } else {
             return true;
         }

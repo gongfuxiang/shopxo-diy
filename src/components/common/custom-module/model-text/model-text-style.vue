@@ -19,6 +19,13 @@
                         <el-option v-for="item in options.filter((item) => item.type == 'text')" :key="item.field" :label="item.name" :value="item.field" />
                     </el-select>
                 </el-form-item>
+                <el-form-item label="拼接值">
+                    <div class="flex-row gap-10">
+                        <el-input v-model="form.data_split.left" placeholder="数据左侧" type="input" clearable @blur="operation_end" @input="text_change('2')"></el-input>
+                        <el-input v-model="form.data_split.middle" placeholder="数据中间" type="input" clearable @blur="operation_end" @input="text_change('2')"></el-input>
+                        <el-input v-model="form.data_split.right" placeholder="数据右侧" type="input" clearable @blur="operation_end" @input="text_change('2')"></el-input>
+                    </div>
+                </el-form-item>
                 <el-form-item label="链接">
                     <url-value v-model="form.text_link" @update:model-value="text_link_change('1')"></url-value>
                 </el-form-item>
@@ -164,6 +171,7 @@ const text_change = (key: string) => {
             id: [],
             option: [],
         };
+        form.value.data_split = '';
     }
 };
 // 数据字段切换时，更新另外一个数据

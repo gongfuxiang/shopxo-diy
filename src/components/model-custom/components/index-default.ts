@@ -16,6 +16,11 @@ const text_com_data = {
         id: '',
         option: {}
     },
+    data_split: {
+        left: '',
+        middle: '',
+        right: '',
+    },
     is_rich_text: '0',
     is_up_down: '1',
     text_color: '#000',

@@ -40,9 +40,10 @@
                                 </el-radio-group>
                             </el-form-item>
                             <template v-if="Number(form.data_source_content.data_type) === 0">
-                                <div class="nav-list">
-                                    <drag-group :list="form.data_source_content.data_list" :img-params="form.show_data?.data_logo || ''" :title-params="form.show_data?.data_name || 'name'" type="custom" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
-                                    <el-button class="mt-20 w" @click="add">+添加</el-button>
+                                <div class="nav-list flex-col gap-20">
+                                    <filter-form v-if="!isEmpty(default_type_data?.appoint_config?.filter_form_config || {})" :filter-data="default_type_data?.appoint_config?.filter_form_config || {}" direction="vertical" :title-width="58" :data-interface="form.data_source_content" @form-change="filter_form_change"></filter-form>
+                                    <drag-group v-if="!isEmpty(form.data_source_content.data_list)" :list="form.data_source_content.data_list" :img-params="form.show_data?.data_logo || ''" :title-params="form.show_data?.data_name || 'name'" type="custom" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
+                                    <el-button class="w" @click="add">+添加</el-button>
                                 </div>
                             </template>
                             <template v-else>
@@ -63,15 +64,15 @@
         <!-- 自定义内部数据内容处理 -->
         <custom-config :key="drag_group_key + 'custom-group'" v-model:visible="dialogVisible_group" v-model:width="center_group_width" v-model:height="center_group_height" v-model:father-list="custom_group_father_list" config-type="custom-group" :dragkey="drag_group_key + 'custom-group'" :options="custom_group_option_list" :source-list="!isEmpty(new_group_source_list) ? new_group_source_list : {}" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :custom-id="center_group_id" :custom-list="custom_group_list" :custom-group-field-id="custom_group_field_id" @accomplish="accomplish"></custom-config>
         <!-- 手动筛选数据弹出框 -->
-        <custom-dialog v-model:dialog-visible="url_value_dialog_visible" :data-list-key="form.show_data?.data_key || 'id'" :config="default_type_data.appoint_config" :multiple="url_value_multiple_bool" @confirm_event="url_value_dialog_call_back"></custom-dialog>
+        <custom-dialog v-model:dialog-visible="url_value_dialog_visible" :data-list-key="form.show_data?.data_key || 'id'" :config="default_type_data.appoint_config" :extra-search-data="form.data_source_content" :multiple="url_value_multiple_bool" @confirm_event="url_value_dialog_call_back"></custom-dialog>
     </div>
 </template>
 <script setup lang="ts">
-import { isEmpty, cloneDeep, omit } from 'lodash';
+import { isEmpty, cloneDeep, pick } from 'lodash';
 import request from '@/utils/request';
 import CustomAPI from '@/api/custom';
 import { DataSourceStore } from '@/store';
-import { get_math, get_nested_property } from '@/utils';
+import { get_math, get_nested_property, interface_field_processing } from '@/utils';
 const data_source_store = DataSourceStore();
 
 const props = defineProps({
@@ -301,25 +302,26 @@ const filter_data_handling = (type: string = 'old') => {
         // 类型 历史的如果不存在，就使用第一个，否则的话，使用第一个
         data_type: type == 'old'? (form.value.data_source_content?.data_type ?? data_type) : data_type,
     };
-    // 根据不同的类型，初始化不同的数据, 并将对象处理成对应的值
-    default_type_data.value?.filter_config?.filter_form_config.forEach((item: any) => {
-        let value : number | string | Array<any> = '';
-        if (item.type == 'checkbox' || (item.type == 'select' && +item?.config?.is_multiple == 1)) { // 多选
-            value = item?.config?.default ?? [];
-        } else if ((item.type == 'input' && item?.config?.type == 'number') || item.type == 'switch') { // 数字/开关
-            value = Number(item?.config?.default ?? 0);
-        } else {
-            value = item?.config?.default ?? '';
+    let new_data_field = {};
+    // 根据不同的数据初始化不同的内容
+    if (staging_data.data_type === 0) {
+        // 如果是手动模式，就取手动模式的数据为默认数据，避免两者重复导致数据冲突
+        new_data_field = {
+            ...interface_field_processing(default_type_data.value?.filter_config?.filter_form_config, type, form.value?.data_source_content || {}),
+            ...interface_field_processing(default_type_data.value?.appoint_config?.filter_form_config, type, form.value?.data_source_content || {}),
         }
-        // 历史数据的话，需要判断一下，如果历史数据没有，那么就使用默认数据
-        if (type == 'old') {
-            staging_data[item.form_name] = form.value.data_source_content[item.form_name] == null ? value : form.value.data_source_content[item.form_name];
-        } else {
-            staging_data[item.form_name] = value;
+    } else {
+        // 如果是自动模式，就取自动模式的数据为默认数据，避免两者重复导致数据冲突
+        new_data_field = {
+            ...interface_field_processing(default_type_data.value?.appoint_config?.filter_form_config, type, form.value?.data_source_content || {}),
+            ...interface_field_processing(default_type_data.value?.filter_config?.filter_form_config, type, form.value?.data_source_content || {}),
         }
-    })
+    }
     // 循环完之后赋值，避免多次赋值，传递给子组件出现多次调用和回调问题
-    form.value.data_source_content = staging_data;
+    form.value.data_source_content = {
+        ...staging_data,
+        ...new_data_field,
+    };
 };
 // 处理显示的图片和传递到下去的数据结构
 const model_data_source = ref<data_list[]>([]);
@@ -468,7 +470,12 @@ const get_auto_data = () => {
     } else if (isEmpty(default_type_data.value.filter_config.data_url)) {
         ElMessage.error('请先配置请求地址(data_url)');
     } else {
-        const data = omit(cloneDeep(form.value.data_source_content), ['data_ids', 'data_list', 'data_auto_list', 'data_type']);
+        // 取出自动模式所有的字段
+        const filter_data = interface_field_processing(default_type_data.value?.filter_config?.filter_form_config, 'new', {}) || {};
+        // 取出所有字段的key
+        const filter_key = Object.keys(filter_data);
+        // 取出对应key的数据
+        const data = pick(cloneDeep(form.value.data_source_content), filter_key);
         request({
             url: default_type_data.value.filter_config.data_url, // 请求地址
             method: 'post', // 请求方式

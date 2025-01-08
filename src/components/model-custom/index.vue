@@ -125,7 +125,7 @@ const style_chunk_container = computed(() => common_styles_computer(new_style.va
 const style_chunk_img_container = computed(() => common_img_computer(new_style.value.data_style));
 
 // 数据来源的内容
-let data_source_content_list = computed(() => {
+const data_source_content_list = computed(() => {
     // 是自定义数据类型的时候，显示自定义数据，否则显示数据来源的数据
     if (form.value.is_custom_data == '1') {
         if (Number(form.value.data_source_content.data_type) === 0) {

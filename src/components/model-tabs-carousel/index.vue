@@ -49,7 +49,6 @@ watch(
             background_img: new_style.tabs_bg_background_img,
         }
         tabs_container.value = gradient_computer(tabs_data) + radius_computer(new_style.tabs_radius) + margin_computer(new_style.tabs_margin) + box_shadow_computer(new_style.tabs_content) + border_computer(new_style.tabs_content);
-        console.log(new_style.tabs_margin);
         tabs_img_container.value = background_computer(tabs_data) + padding_computer(new_style.tabs_padding);
         // 轮播区域背景设置
         const carousel_content_data = {
