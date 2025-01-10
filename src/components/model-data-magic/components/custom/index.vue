@@ -213,17 +213,18 @@ watchEffect(() => {
     const carousel_col = Number(form.value?.data_source_carousel_col) || 1;
     // 判断是平移还是整屏滚动
     slides_per_group.value = new_style.value.rolling_fashion == 'translation' ? 1 : carousel_col;
-    // 商品数量大于列数的时候，高度是列数，否则是当前的数量
-    const col = data_source_content_list.value.length > carousel_col ? carousel_col : data_source_content_list.value.length;
-    // 一屏显示的数量
-    slides_per_view.value = col;
     const { margin_bottom, margin_top } = new_style.value.data_chunk_margin;
     const { padding_top, padding_bottom } = new_style.value.data_chunk_padding;
     // 轮播图高度控制
-    if (form.value.data_source_direction == '2') {
+    if (form.value.data_source_direction == 'horizontal') {
         swiper_height.value = form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top;
+        slides_per_view.value = Number(carousel_col);
     } else {
+        // 商品数量大于列数的时候，高度是列数，否则是当前的数量
+        const col = data_source_content_list.value.length > carousel_col ? carousel_col : data_source_content_list.value.length;
         swiper_height.value = (form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top) * col + ((carousel_col - 1) * space_between.value);
+        // 一屏显示的数量
+        slides_per_view.value = col;
     }
     // 更新轮播图的key，确保更换时能重新更新轮播图
     carouselKey.value = get_math();
