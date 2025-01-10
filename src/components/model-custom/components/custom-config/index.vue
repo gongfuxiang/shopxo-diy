@@ -188,7 +188,9 @@ const operation_end = (is_compare: boolean = true) => {
         }
         // 新的数据
         const new_compare_data = cloneDeep(draglist.value.diy_data);
-
+        console.log(old_compare_data);
+        console.log(new_compare_data);
+        console.log(!isEqual(old_compare_data, new_compare_data));
         if (!is_compare || !isEqual(old_compare_data, new_compare_data)) {
             // 如果是自定点击完成，需要将数据传递给父组件
             if (props.configType == 'custom') {

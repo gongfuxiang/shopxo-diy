@@ -209,7 +209,7 @@ const on_sort = (item: SortableEvent) => {
 //#endregion 
 //#region 中间区域的处理逻辑
 // 数据只需要一次更新即可，避免多次更新导致数据不一致
-const diy_data = toRef(props.list);
+const diy_data = ref(props.list);
 // 因为容器变更的话，需要重新计算高度，所以不能默认选中第一个
 // onMounted(() => {
 //     // 如果默认不等于空的话，则默认选中第一个
@@ -879,8 +879,8 @@ const back = (index: number, type: string) => {
         setIndex(type, new_index);
         const data = list[new_index];
         if (!isEmpty(data)) {
-            diy_data.value = data.value;
-            center_height.value = data?.height || center_height.value;
+            diy_data.value = cloneDeep(data.value);
+            center_height.value = cloneDeep(data?.height || center_height.value);
             cancel();
         }
     }
@@ -895,8 +895,8 @@ const forward = (index: number, type: string) => {
         setIndex(type, new_index);
         const data = list[new_index];
         if (!isEmpty(data)) {
-            diy_data.value = data.value;
-            center_height.value = data?.height || center_height.value;
+            diy_data.value = cloneDeep(data.value);
+            center_height.value = cloneDeep(data?.height || center_height.value);
             cancel();
         }
     }
@@ -910,13 +910,12 @@ const handle_history = (index: number, type: string) => {
         setIndex(type, index);
         const data = list[index];
         if (!isEmpty(data)) {
-            diy_data.value = data.value;
-            center_height.value = data?.height || center_height.value;
+            diy_data.value = cloneDeep(data.value);
+            center_height.value = cloneDeep(data?.height || center_height.value);
             cancel();
         }
     }
 };
-
 const handleKeyUp = (e: KeyboardEvent) => {
     // 排除默认事件
     const default_list = ['textarea', 'input'];
