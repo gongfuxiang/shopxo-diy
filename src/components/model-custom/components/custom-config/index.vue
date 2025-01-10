@@ -1,5 +1,5 @@
 <template>
-    <Dialog v-model:visible="dialogVisible" :title="configType == 'custom' ? '编辑自定义' : '编辑自定义组'" @accomplish="accomplish">
+    <Dialog v-model:visible="dialogVisible" :title="configType == 'custom' ? '编辑自定义' : '编辑自定义组'" @accomplish="accomplish" @close_event="close_event">
         <div class="flex-row h w">
             <!-- 左侧和中间区域 -->
             <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="center_width" :config-type="configType" :source-list="sourceList" :custom-group-field-id="customGroupFieldId" :is-custom="configType == 'custom'? isCustom : false" :show-data="showData" :list="new_list" @right-update="right_update" @operation_end="operation_end"></DragIndex>
@@ -107,6 +107,19 @@ const right_update = (item: any) => {
 };
 const draglist = ref<diy_data | null>(null);
 const emits = defineEmits(['accomplish', 'custom_edit']);
+// 点击取消按钮显示逻辑
+const close_event = () => {
+    // 如果是自定点击完成，需要将数据传递给父组件
+    if (props.configType == 'custom') {
+        // 点击完成的时候，清除历史数据
+        data_source_store.set_custom_records([]);
+        data_source_store.set_custom_records_index(-1);
+    } else {
+        // 点击完成的时候，清除历史数据
+        data_source_store.set_custom_group_records([]);
+        data_source_store.set_custom_group_records_index(-1);
+    }
+}
 // 点击完成按钮
 const accomplish = () => {
     // 如果没有数据，直接返回

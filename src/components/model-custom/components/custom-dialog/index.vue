@@ -74,9 +74,10 @@ const table_select = (val: any) => {
     }
     select_data.value = val;
 };
-const emit = defineEmits(['confirm_event']);
+const emit = defineEmits(['confirm_event', 'close_event']);
 const close_event = () => {
     dialogVisible.value = false;
+    emit('close_event');
 };
 const confirm_event = () => {
     if (init_data()) {
