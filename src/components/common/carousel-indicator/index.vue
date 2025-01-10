@@ -1,7 +1,12 @@
 <template>
     <div class="mb-12">指示器设置</div>
     <el-form-item label="是否显示">
-        <el-switch v-model="form.is_show" active-value="1" inactive-value="0" @change="operation_end"/>
+        <div class="flex-row gap-10">
+            <el-switch v-model="form.is_show" active-value="1" inactive-value="0" @change="operation_end"/>
+            <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="当数据只有一条的时候不展示指示器" raw-content placement="top">
+                <icon name="miaosha-hdgz" size="12" color="#999"></icon>
+            </el-tooltip>
+        </div>
     </el-form-item>
     <template v-if="form.is_show == '1'">
         <el-form-item label="位置">

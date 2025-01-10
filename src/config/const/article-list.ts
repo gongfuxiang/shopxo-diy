@@ -1,4 +1,5 @@
 import defaultCommon from './index';
+import commonTop from './common-top';
 import defaultSetting from '../setting/index';
 import subscriptStyle from './subscript-style';
 
@@ -10,6 +11,7 @@ interface ArticleList {
 }
 interface DefaultArticleList {
     content: {
+        content_top: object;
         // 风格
         theme: string;
         carousel_col: string;
@@ -82,6 +84,9 @@ interface DefaultArticleList {
 }
 const defaultArticleList: DefaultArticleList = {
     content: {
+        content_top: {
+            ...commonTop
+        },
         theme: '0',
         carousel_col: '2',
         data_type: '0',

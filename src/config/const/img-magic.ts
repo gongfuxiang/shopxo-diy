@@ -1,5 +1,6 @@
 import { get_math } from "@/utils";
 import defaultCommon from "./index";
+import commonTop from './common-top';
 interface img_magic {
     start: object;
     end: object;
@@ -8,6 +9,7 @@ interface img_magic {
 }
 interface defaultSearch {
     content: {
+        content_top: object;
         style_actived: number;
         img_magic_list: img_magic[];
         container_height: number;
@@ -46,6 +48,9 @@ interface defaultSearch {
 
 const defaultSearch: defaultSearch = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         // 图标风格
         style_actived: 0,
         // 图标数据

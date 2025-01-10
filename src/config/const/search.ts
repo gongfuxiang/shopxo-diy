@@ -1,5 +1,6 @@
 import { get_math } from "@/utils";
 import defaultCommon from "./index";
+import commonTop from './common-top';
 interface hot_word_list {
     id: string;
     value: string;
@@ -7,6 +8,7 @@ interface hot_word_list {
 }
 interface defaultSearch {
     content: {
+        content_top: object;
         is_center: string;
         is_icon_show: string;
         icon_link: object;
@@ -43,6 +45,9 @@ interface defaultSearch {
 }
 const defaultSearch: defaultSearch = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         // 搜索提示是否居中
         is_center: '0',
         // 是否显示左侧icon

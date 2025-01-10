@@ -1,4 +1,5 @@
 import defaultCommon from './index';
+import commonTop from './common-top';
 import defaultSetting from '../setting/index';
 import subscriptStyle from './subscript-style';
 interface ArticleList {
@@ -27,6 +28,7 @@ interface articleTabsList {
 }
 interface DefaultArticleTabs {
     content: {
+        content_top: object;
         tabs_theme: string;
         tabs_top_up: string;
         article_theme: string;
@@ -127,6 +129,9 @@ interface DefaultArticleTabs {
 }
 const defaultArticleTabs: DefaultArticleTabs = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         tabs_theme: '0',
         tabs_top_up: '0',
         article_theme: '0',

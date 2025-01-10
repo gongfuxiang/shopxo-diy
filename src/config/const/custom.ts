@@ -1,4 +1,5 @@
 import defaultCommon from "./index";
+import commonTop from './common-top';
 export const source_list = {
     goods: {
         // 存放手动输入的id
@@ -76,6 +77,7 @@ interface content {
 }
 interface defaultSearch {
     content: {
+        content_top: object;
         height: number;
         is_custom_data: string;
         show_data: object;
@@ -109,6 +111,9 @@ interface defaultSearch {
 }
 const defaultSearch: defaultSearch = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         // 自定义内容高度
         height: 390,
         // 数据源内容

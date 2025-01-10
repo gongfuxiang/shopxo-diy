@@ -1,9 +1,11 @@
 import defaultCommon from './index';
 import subscriptStyle from './subscript-style';
+import commonTop from './common-top';
 import { online_url } from '@/utils';
 const new_url = await online_url('/static/plugins/seckill/images/diy/').then((res) => res);
 interface DefaultSeckill {
     content: {
+        content_top: object;
         head_state: string;
         theme: string;
         title_type: string;
@@ -104,6 +106,9 @@ interface DefaultSeckill {
 }
 const defaultSeckill: DefaultSeckill = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         // 头部状态
         head_state: '1',
         // 主题风格配置

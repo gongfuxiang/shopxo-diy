@@ -1,6 +1,8 @@
 <template>
     <div class="auxiliary-line custom-data">
         <el-form :model="form" label-width="70">
+            <common-content-top :value="form.content_top"></common-content-top>
+            <div class="divider-line"></div>
             <card-container>
                 <div class="mb-20">数据源</div>
                 <el-form-item label="动态数据">

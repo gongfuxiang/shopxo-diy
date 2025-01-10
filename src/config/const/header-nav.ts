@@ -1,6 +1,7 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { commonStore } from '@/store';
+import commonTop from './common-top';
 import App from '@/App.vue';
 const app = createApp(App);
 const pinia = createPinia();
@@ -16,6 +17,7 @@ interface hot_word_list {
 }
 interface DefaultFooterNav {
     content: {
+        content_top: object;
         theme: string;
         logo: uploadList[];
         title: string;
@@ -101,6 +103,9 @@ interface DefaultFooterNav {
 }
 const defaultFooterNav: DefaultFooterNav = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         // 页面设置的风格
         theme: '1',
         logo: [],

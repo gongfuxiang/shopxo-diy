@@ -27,17 +27,29 @@
             <div ref="left_scrollTop" class="drawer-drag-area">
                 <div v-for="(item, index) in tabs_data" :key="index" :class="['flex ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-drag-bg': item.show_tabs == '1' }]" @click="set_tabs_event(true)">
                     <el-icon class="iconfont icon-jinzhi size-16 cr-d" />
-                    <span class="size-12 cr-6">{{ item.name }}</span>
+                    <el-tooltip effect="dark" :show-after="200" :hide-after="200" :content="`<span>开始时间: ${ !isEmpty(new_date_value(item)) ? new_date_value(item)[0] : '' }</span><br/><span>结束时间: ${ !isEmpty(new_date_value(item)[1]) ? new_date_value(item)[1] : '' }</span>`" raw-content placement="top" :disabled="isEmpty(new_date_value(item))">
+                        <span class="size-12 cr-6 re">
+                            <div class="flex-row gap-5 align-c jc-c">
+                                {{ item.name }}
+                                <div v-if="!isEmpty(new_date_value(item))" class="plug-in-name-tips"></div>
+                            </div>
+                        </span>
+                    </el-tooltip>
                     <el-icon class="iconfont icon-close-round-o size-16 abs" :style="[item.show_tabs == '1' ? '' : 'display:none']" @click.stop="del(index, true)" />
                 </div>
                 <VueDraggable v-model="diy_data" :animation="400" target=".sort-target" :scroll="true" :on-sort="on_sort">
                     <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col">
                         <li v-for="(item, index) in diy_data" :key="index" :class="['flex ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-drag-bg': item.show_tabs == '1' }]" @click="on_choose(index, item.show_tabs)">
                             <el-icon class="iconfont icon-drag size-16 cr-d" />
-                            <span class="size-12 cr-6 re">
-                                {{ item.name }}
-                                <div v-if="!isEmpty(item.mark_name)" class="plug-drawer-mark-name mark-name-style">{{ item.mark_name }}</div>
-                            </span>
+                            <el-tooltip effect="dark" :show-after="200" :hide-after="200" :content="`<span>开始时间: ${ !isEmpty(new_date_value(item)) ? new_date_value(item)[0] : '' }</span><br/><span>结束时间: ${ !isEmpty(new_date_value(item)[1]) ? new_date_value(item)[1] : '' }</span>`" raw-content placement="top" :disabled="isEmpty(new_date_value(item))">
+                                <span class="size-12 cr-6 re">
+                                    <div class="flex-row gap-5 align-c jc-c">
+                                        {{ item.name }}
+                                        <div v-if="!isEmpty(new_date_value(item))" class="plug-in-name-tips"></div>
+                                    </div>
+                                    <div v-if="!isEmpty(item.mark_name)" class="plug-drawer-mark-name mark-name-style">{{ item.mark_name }}</div>
+                                </span>
+                            </el-tooltip>
                             <el-icon class="iconfont icon-close-round-o size-16 abs" :style="[item.show_tabs == '1' ? '' : 'display:none']" @click.stop="del(index, false)" />
                         </li>
                     </TransitionGroup>
@@ -117,6 +129,13 @@ const props = defineProps({
         default: () => {},
     },
 });
+// 时间处理
+const new_date_value = computed(() => {
+    return (item: any) => {
+        return item.com_data?.content?.content_top?.time_value || [];
+    }
+});
+
 const diy_data = ref(props.diyData);
 const tabs_data = ref(props.tabsData);
 const page_data = ref(props.header);

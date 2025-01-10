@@ -1,6 +1,8 @@
 import defaultCommon from "./index";
+import commonTop from './common-top';
 interface defaultSearch {
     content: {
+        content_top: object;
         height: number;
     };
     style: {
@@ -10,6 +12,9 @@ interface defaultSearch {
 }
 const defaultSearch: defaultSearch = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         height: 50
     },
     style: {

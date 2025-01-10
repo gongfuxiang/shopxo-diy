@@ -1,6 +1,7 @@
 import defaultCommon from './index';
 import defaultSetting from '../setting/index';
 import subscriptStyle from './subscript-style';
+import commonTop from './common-top';
 import { online_url } from '@/utils';
 const new_url = await online_url('/static/app/common/').then((res) => res);
 interface articleTabsList {
@@ -24,6 +25,7 @@ interface articleTabsList {
 }
 interface DefaultProductList {
     content: {
+        content_top: object;
         tabs_theme: string;
         tabs_top_up: string;
         theme: string;
@@ -143,6 +145,9 @@ interface DefaultProductList {
 }
 const defaultProductList: DefaultProductList = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         // 选项卡风格
         tabs_theme: '0',
         // 是否置顶

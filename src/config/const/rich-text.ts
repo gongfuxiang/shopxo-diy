@@ -1,6 +1,8 @@
 import defaultCommon from './index';
+import commonTop from './common-top';
 interface DefaultUserInfo {
     content: {
+        content_top: object;
         html: string;
     };
     style: {
@@ -9,6 +11,9 @@ interface DefaultUserInfo {
 }
 const defaultUserInfo: DefaultUserInfo = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         html: '',
     },
     style: {

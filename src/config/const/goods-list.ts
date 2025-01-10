@@ -1,10 +1,12 @@
 import defaultCommon from './index';
 import defaultSetting from '../setting/index';
 import subscriptStyle from './subscript-style';
+import commonTop from './common-top';
 import { online_url } from '@/utils';
 const new_url = await online_url('/static/app/common/').then((res) => res);
 interface DefaultProductList {
     content: {
+        content_top: object;
         theme: string;
         data_type: string;
         keyword: string;
@@ -94,6 +96,9 @@ interface DefaultProductList {
 }
 const defaultProductList: DefaultProductList = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         // 商品风格
         theme: '0',
         // 商品类型

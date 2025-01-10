@@ -1,6 +1,8 @@
 import defaultCommon from './index';
+import commonTop from './common-top';
 interface DefaultUserInfo {
     content: {
+        content_top: object;
         config: string[];
         icon_setting: { id: string; img: uploadList[]; link: object; icon: string }[];
     };
@@ -27,6 +29,9 @@ interface DefaultUserInfo {
 }
 const defaultUserInfo: DefaultUserInfo = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         config: ['order_count', 'goods_favor_count', 'goods_browse_count', 'integral_number', 'number_code'],
         icon_setting: [
             { id: '1', img: [], icon: 'setup', link: { name: '设置中心', page: '/pages/setup/setup' } },

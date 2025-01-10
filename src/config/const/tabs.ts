@@ -1,5 +1,6 @@
 import { get_math } from '@/utils';
 import defaultCommon from './index';
+import commonTop from './common-top';
 interface tabs_page {
     id: string;
     tabs_type: string;
@@ -15,6 +16,7 @@ interface tabs_page {
 }
 interface defaultTabs {
     content: {
+        content_top: object;
         tabs_theme: string;
         tabs_top_up: string;
         home_data: tabs_page;
@@ -48,6 +50,9 @@ interface defaultTabs {
 }
 const defaultTabs: defaultTabs = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         tabs_theme: '0',
         tabs_top_up: '0',
         home_data: { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', title: '首页', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },

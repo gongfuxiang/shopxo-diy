@@ -81,6 +81,9 @@ declare global {
     };
 
     type border_style = { border_is_show: string, border_color: string, border_style: string, border_size: paddingStyle };
+    type componentsTopStyle = {
+        time_value: any;
+    };
     /**
      * 通用样式参数
      */

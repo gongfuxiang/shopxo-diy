@@ -1,5 +1,6 @@
 import { get_math } from "@/utils";
 import defaultCommon from "./index";
+import commonTop from './common-top';
 interface data_magic {
     start: object;
     end: object;
@@ -8,6 +9,7 @@ interface data_magic {
 }
 interface defaultSearch {
     content: {
+        content_top: object;
         magic_cube_density: number;
         style_actived: number;
         container_height: number;
@@ -40,6 +42,9 @@ interface defaultSearch {
 
 const defaultSearch: defaultSearch = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         // 数据密度 4 x 4 | 6 x 6 | 8 x 8
         magic_cube_density: 4,
         // 样式风格

@@ -1,6 +1,8 @@
 <template>
     <div class="auxiliary-line">
         <el-form :model="form" label-width="70">
+            <common-content-top :value="form.content_top"></common-content-top>
+            <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">按钮设置</div>
                 <el-form-item label="按钮跳转">

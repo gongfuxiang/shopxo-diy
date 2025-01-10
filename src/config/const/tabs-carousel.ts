@@ -1,5 +1,6 @@
 import { get_math } from '@/utils';
 import defaultCommon from './index';
+import commonTop from './common-top';
 interface tabs_page {
     id: string;
     tabs_type: string;
@@ -29,6 +30,7 @@ interface carousel_list {
 }
 interface defaultTabs {
     content: {
+        content_top: object;
         tabs_theme: string;
         tabs_top_up: string;
         home_data: tabs_page;
@@ -112,6 +114,9 @@ interface defaultTabs {
 }
 const defaultTabs: defaultTabs = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         // 选项卡风格
         tabs_theme: '0',
         // 是否置顶
