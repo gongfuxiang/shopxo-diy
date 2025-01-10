@@ -17,12 +17,14 @@
             <div class="bg-f5 divider-line" />
             <el-tabs v-model="tabs_name" class="content-tabs">
                 <el-tab-pane label="内容设置" name="content">
-                    <custom-tabs-content :value="form" :options="options" @custom_edit="custom_edit" @operation_end="operation_end"></custom-tabs-content>
+                    <custom-tabs-content :value="form" :options="options" @operation_end="operation_end"></custom-tabs-content>
                 </el-tab-pane>
                 <el-tab-pane label="样式设置" name="styles">
                     <model-custom-styles :value="form.data_style" :content="form" :is-floating-up="false" @operation_end="operation_end"></model-custom-styles>
                 </el-tab-pane>
             </el-tabs>
+            <div class="bg-f5 divider-line" />
+            <el-button class="w custom-button size-14" size="large" @click="custom_edit"><icon name="edit" size="14"></icon>自定义编辑</el-button>
         </el-form>
     </div>
 </template>
@@ -49,7 +51,8 @@ const { diy_data } = toRefs(state);
 const form = ref(diy_data.value.com_data);
 //#region 自定义组的编辑功能  
 const emit = defineEmits(['custom_edit', 'operation_end']);
-const custom_edit = (data_source_field: any[]) => {
+const custom_edit = () => {
+    const data_source_field = form.value.data_source_field;
     const { custom_list, com_width, custom_height } = form.value;
     // 计算宽度
     const width = form.value.data_source_direction != 'vertical-scroll' ? com_width / form.value.data_source_carousel_col : com_width; // 可拖拽区域的宽度
@@ -98,5 +101,14 @@ watch(
     .el-tabs__active-bar{
         width: 100%;
     }
+}
+.custom-button {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0; /* 固定在底部 */
+  background-color: white; /* 设置背景色以避免按钮看不见 */
+  z-index: 1000; /* 确保按钮在其他内容之上 */
+  width: 100%; /* 确保按钮宽度占满父容器 */
+  padding: 1rem; /* 添加一些内边距 */
 }
 </style>

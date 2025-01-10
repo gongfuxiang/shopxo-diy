@@ -8,7 +8,7 @@
                 <el-radio-button class="radio-item" value="2">样式</el-radio-button>
             </el-radio-group>
         </card-container>
-        <div class="setting-content">
+        <div class="setting-content" :style="value.key == 'custom' ? '' : 'background-color: #fff;'">
             <!-- 基础组件 -->
             <!-- 页面设置 -->
             <template v-if="value.key == 'page-settings'">
@@ -155,7 +155,6 @@ const radio = ref('1'); // 创建一个响应式的数字变量，初始值为0
     .setting-content {
         height: calc(100vh - 14.8rem);
         overflow: auto;
-        background-color: #fff;
     }
     :deep(.el-input-number) {
         width: 100%;

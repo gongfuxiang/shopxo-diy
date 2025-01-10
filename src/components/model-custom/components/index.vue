@@ -17,7 +17,7 @@
         </card-container>
         <card-container class="mb-8">
             <div class="mb-12">内容设置</div>
-            <slider v-model="center_height" :max="1000">组件高度</slider>
+            <slider v-model="center_height" :max="1000" @operation_end="operation_end(false)">组件高度</slider>
         </card-container>
         <card-container class="h selected">
             <div class="flex-col gap-10 drawer-container">
@@ -42,7 +42,7 @@
                                         </template>
                                     </div>
                                     <div class="abs draggable-icon" :style="item.show_tabs == '1' ? 'opacity: 1;' : 'opacity: 0.5;'">
-                                        <el-icon class="iconfont icon-commodity-edit size-16 cr-primary do-not-trigger two-click"  @click="on_edit(index)" />
+                                        <el-icon class="iconfont icon-edit size-16 cr-primary do-not-trigger two-click"  @click="on_edit(index)" />
                                         <el-icon class="iconfont icon-close-round-o size-16" @click.stop="del(index)" />
                                     </div>
                                 </li>
@@ -62,12 +62,13 @@
             <right-side-operation v-if="typeof select_index === 'number' && !isNaN(select_index) && diy_data.length > 0" v-model:index="select_index" v-model:data-length="diy_data.length" @del="del" @copy="copy" @previous_layer="previous_layer" @underlying_layer="underlying_layer" @top_up="top_up" @bottom_up="bottom_up"></right-side-operation>
             <!-- 拖拽区 -->
             <div class="model-drag">
+                <top-side-operation class="model-top-wall" :config-type="props.configType" @back="back" @forward="forward" @handle-history="handle_history"></top-side-operation>
                 <div class="model-wall">
                     <div ref="imgBoxRef" class="drag-area re dropzone" @dragover.prevent @dragenter.prevent @drop="drop">
                         <div class="w h" @mousedown.prevent="start_drag" @mousemove.prevent="move_drag" @mouseup.prevent="end_drag">
                             <DraggableContainer v-if="draggable_container" style="z-index:0" :reference-line-visible="true" :disabled="false" reference-line-color="#ddd" @selectstart.prevent @contextmenu.prevent @dragstart.prevent>
                                 <!-- @mouseover="on_choose(index)" -->
-                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="{'plug-in-show-component-line': is_show_component_line, 'plug-in-show-tabs': item.show_tabs == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1' }" :style="{ 'z-index': (diy_data.length - 1) - index }" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index)" @resize-end="resizingHandle($event, item.key, index)">
+                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="{'plug-in-show-component-line': is_show_component_line, 'plug-in-show-tabs': item.show_tabs == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1' }" :style="{ 'z-index': (diy_data.length - 1) - index }" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index, 'resizing')" @resize-end="resizingHandle($event, item.key, index, 'resizeEnd')">
                                     <div :class="['main-content flex-row', { 'plug-in-border': item.show_tabs == '1' }]">
                                         <template v-if="item.key == 'text'">
                                             <model-text :key="item.id" :value="item.com_data" :source-list="props.sourceList" :is-custom="isCustom" :custom-group-field-id="customGroupFieldId" :title-params="showData?.data_name || 'name'"></model-text>
@@ -110,7 +111,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { cloneDeep, isEmpty, property } from 'lodash';
+import { cloneDeep, isEmpty, property, isEqual } from 'lodash';
 import { get_math, adjustPosition, getPlatform } from '@/utils';
 import { defaultComData, isRectangleIntersecting } from "./index-default";
 import { SortableEvent, VueDraggable } from 'vue-draggable-plus';
@@ -119,7 +120,7 @@ const common_store = commonStore();
 // 删除
 const app = getCurrentInstance();
 //#region 传递参数和传出数据的处理
-const emits = defineEmits(['rightUpdate']);
+const emits = defineEmits(['rightUpdate', 'operation_end']);
 interface Props {
     configType: string;
     list: diy_content[];
@@ -203,6 +204,7 @@ const on_sort = (item: SortableEvent) => {
     let index = item?.newIndex || 0;
     // 设置对应的位置为显示
     set_show_tabs(index);
+    operation_end();
 };
 //#endregion 
 //#region 中间区域的处理逻辑
@@ -237,8 +239,12 @@ const on_edit = (index: number) => {
 // 判断点击的是否是可以点击的区域，其他区域隐藏掉编辑属性
 const outerClick = (e: any) => {
     if ((!isEmpty(e.target.className) && !e.target.className.includes('do-not-trigger')) && (!isEmpty(e.target.parentNode.className) && !e.target.parentNode.className.includes('do-not-trigger'))) {
-        edit_close_processing(edit_index.value);
-        edit_index.value = -1;
+        // 点击区域结束的时候触发事件, 为-1的时候，证明没有触发事件
+        if (edit_index.value !== -1) {
+            edit_close_processing(edit_index.value);
+            edit_index.value = -1;
+            operation_end();
+        }
     }
 };
 // 双击事件
@@ -275,6 +281,7 @@ const copy = (index: null | number) => {
         // 在当前位置下插入数据
         diy_data.value.splice(index, 0, new_data);
         set_show_tabs(index + 1);
+        operation_end();
     }
 };
 
@@ -305,6 +312,7 @@ const del = (index: null | number) => {
                 diy_data.value.splice(index, 1);
             }
             select_index.value = diy_data.value.length > 0 ? select_index.value : null;
+            operation_end();
         });
     }
 };
@@ -345,6 +353,7 @@ const moveItem = (index: number, newIndex: number) => {
         // 将数据插入新位置
         diy_data.value.splice(newIndex, 0, old_data);
         set_show_tabs(newIndex);
+        operation_end();
     } catch (error) {
         console.error('Error moving item:', error);
     }
@@ -410,6 +419,8 @@ const center_width = defineModel('width', { type: Number, default: 390 });
 
 const drag_area_height = computed(() => center_height.value + 'px');
 const drag_area_width = computed(() => center_width.value + 'px');
+// 头部页面显示内容
+const drag_area_top_width = computed(() => center_width.value > 170 ? center_width.value + 'px' : '170px');
 
 const draggable_container = ref(true);
 let data = reactive<diy_content[]>([]);
@@ -490,7 +501,7 @@ const drop = (event: any) => {
         // 组装新数据
         const newItem = {
             ...draggedItem.value,
-            new_name: list.length > 0 ? draggedItem.value.name + list.length : draggedItem.value.name, // 默认添加别名
+            new_name: list.length > 0 ? draggedItem.value.name + list.length : '', // 默认添加别名
             location: {
                 x: adjustedX,
                 y: adjustedY,
@@ -503,15 +514,22 @@ const drop = (event: any) => {
         diy_data.value.unshift(newItem);
         // 因为是添加到头部，所以默认选中第0个
         set_show_tabs(0);
+        operation_end();
     }
 };
 //#endregion
 //#region 区域内拖拽显示
 const dragEndHandle = (item: any, index: number) => {
-    diy_data.value[index].location = { x: item.x, y: item.y, record_x: item.x, record_y: item.y, staging_y: item.y };
+    const old_location = diy_data.value[index].location;
+    const new_location = { x: item.x, y: item.y, record_x: item.x, record_y: item.y, staging_y: item.y };
+    // 对数组进行比较，确定跟之前的是否有变化
+    if (!isEqual(old_location, new_location)) {
+        operation_end();
+    }
+    diy_data.value[index].location = new_location;
 };
 // 拖拽结束时触发的事件 {x: number, y: number, w: number, h: number}
-const resizingHandle = (new_location: any, key: string, index: number) => {
+const resizingHandle = (new_location: any, key: string, index: number, type: string) => {
     const { x, y, w, h } = new_location;
     // 对应位置的定位修改为当前更新的位置
     diy_data.value[index].location = { x, y, record_x: x, record_y: y, staging_y: y };
@@ -530,6 +548,9 @@ const resizingHandle = (new_location: any, key: string, index: number) => {
         const { line_width, line_size } = handleAuxiliaryLine(com_data, w, h);
         com_data.line_width = line_width;
         com_data.line_size = line_size;
+    }
+    if (type == 'resizeEnd') {
+        operation_end();
     }
 };
 // 图片大小的计算
@@ -683,6 +704,7 @@ const start_drag_area_box = (index: number, event: MouseEvent) => {
                 item.location.record_y = y;
             }
         });
+        operation_end();
     };
 };
 
@@ -804,7 +826,6 @@ const rect_style = computed(() => {
 const platform = getPlatform();
 // 缓存内容，用于回退
 const data_source_store = DataSourceStore();
-const pressedKeys = new Set(); // 使用 Set 记录按下的按键
 const handle_keydown = (e: KeyboardEvent) => {
     // 排除默认事件
     const default_list = ['textarea', 'input'];
@@ -812,22 +833,90 @@ const handle_keydown = (e: KeyboardEvent) => {
     if (e.target instanceof HTMLElement && default_list.includes(e.target?.localName)) {
         return;
     }
-    // 使用 key 或 code 属性代替 keyCode
-    const key = e.key.toLowerCase(); // 将按键转换为小写，确保一致性
-    // 添加按键到 Set 中
-    pressedKeys.add(key);
     // 检查 A 和 B 键是否同时按下
-    if ((pressedKeys.has('control') && pressedKeys.has('z') && platform == 'Windows') || (pressedKeys.has('meta') && pressedKeys.has('z') && platform == 'Mac')) {
+    if ((e.ctrlKey && e.key === 'z' && platform == 'Windows') || (e.metaKey && e.key === 'z' && platform == 'Mac')) {
         // 监听开启的是全局监听，为了避免全局监听的同时也监听了子组件的回退事件，所以需要判断当前是全局监听还是子组件监听
         if (!data_source_store.is_children_custom && props.configType == 'custom') {
-            console.log('同时按下了A和B键', props.configType); // 执行相应的操作
+            back(data_source_store.custom_records_index, props.configType);
         } else if (data_source_store.is_children_custom && props.configType == 'custom-group') {
-            console.log('同时按下了A和B键', props.configType); // 执行相应的操作
+            back(data_source_store.custom_group_records_index, props.configType);
+        }
+    } else if ((e.ctrlKey && e.key === 'y' && platform == 'Windows') || (e.metaKey && e.key === 'y' && platform == 'Mac')) {
+        // 监听开启的是全局监听，为了避免全局监听的同时也监听了子组件的回退事件，所以需要判断当前是全局监听还是子组件监听
+        if (!data_source_store.is_children_custom && props.configType == 'custom') {
+            forward(data_source_store.custom_records_index, props.configType);
+        } else if (data_source_store.is_children_custom && props.configType == 'custom-group') {
+            forward(data_source_store.custom_group_records_index, props.configType);
         }
     }
     // 阻止默认事件
     e.preventDefault();
 }
+
+// 提取公共逻辑
+const getRecordsList = (type: string) => {
+    if (type === 'custom') {
+        return data_source_store.custom_records;
+    } else if (type === 'custom-group') {
+        return data_source_store.custom_group_records;
+    }
+    throw new Error('Invalid type');
+};
+// 设置新的选中值
+const setIndex = (type: string, index: number) => {
+    if (type === 'custom') {
+        data_source_store.set_custom_records_index(index);
+    } else if (type === 'custom-group') {
+        data_source_store.set_custom_group_records_index(index);
+    }
+};
+// 数据回退
+const back = (index: number, type: string) => {
+    const list = getRecordsList(type);
+    if (!list || list.length === 0) return;
+    let new_index = index + 1;
+    if (new_index < list.length) {
+        setIndex(type, new_index);
+        const data = list[new_index];
+        if (!isEmpty(data)) {
+            diy_data.value = data.value;
+            center_height.value = data?.height || center_height.value;
+            cancel();
+        }
+    }
+};
+// 数据前进
+const forward = (index: number, type: string) => {
+    const list = getRecordsList(type);
+    if (!list || list.length === 0) return;
+
+    let new_index = Math.max(0, index - 1);
+    if (new_index >= 0 && new_index < list.length) {
+        setIndex(type, new_index);
+        const data = list[new_index];
+        if (!isEmpty(data)) {
+            diy_data.value = data.value;
+            center_height.value = data?.height || center_height.value;
+            cancel();
+        }
+    }
+};
+// 跳转到指定数据
+const handle_history = (index: number, type: string) => {
+    const list = getRecordsList(type);
+    if (!list || list.length === 0 || index === -1) return;
+
+    if (index >= 0 && index < list.length) {
+        setIndex(type, index);
+        const data = list[index];
+        if (!isEmpty(data)) {
+            diy_data.value = data.value;
+            center_height.value = data?.height || center_height.value;
+            cancel();
+        }
+    }
+};
+
 const handleKeyUp = (e: KeyboardEvent) => {
     // 排除默认事件
     const default_list = ['textarea', 'input'];
@@ -850,24 +939,20 @@ const handleKeyUp = (e: KeyboardEvent) => {
     }
     // 监听开启的是全局监听，为了避免全局监听的同时也监听了子组件的回退事件，所以需要判断当前是全局监听还是子组件监听
     if (!data_source_store.is_children_custom && props.configType == 'custom') {
-        // 移除按键
-        const key = e.key.toLowerCase();
-        pressedKeys.delete(key);
         // 阻止默认事件
         e.preventDefault();
         // 只有是点击上下左右的时候才会生效
         if (key_code.includes(e.key)) {
             data_handling(x, y);
+            operation_end();
         }
     } else if (data_source_store.is_children_custom && props.configType == 'custom-group') {
-        // 移除按键
-        const key = e.key.toLowerCase();
-        pressedKeys.delete(key);
         // 阻止默认事件
         e.preventDefault();
         // 只有是点击上下左右的时候才会生效
         if (key_code.includes(e.key)) {
             data_handling(x, y);
+            operation_end();
         }
     }
 };
@@ -938,11 +1023,15 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-    document.removeEventListener('keyup', handleKeyUp);
+    document.removeEventListener('keydown', handle_keydown);
     // 移除监听事件
     document.removeEventListener('keyup', handleKeyUp);
 });
-//#endregion 
+//#endregion
+// 用户操作结束触发事件
+const operation_end = (is_compare: boolean = true) => {
+    emits('operation_end', is_compare);
+}
 // 暴露出去的数据，避免跟外部数据双向绑定，点击保存的时候才会保存数据
 defineExpose({
     diy_data,
@@ -953,6 +1042,11 @@ defineExpose({
 @import 'index.scss';
 .model-drag {
     overflow-y: scroll;
+    .model-top-wall {
+        width: v-bind(drag_area_top_width);
+        margin: 0 auto;
+        z-index: 999;
+    }
     .model-wall {
         width: v-bind(drag_area_width);
         background-image: linear-gradient(45deg, #e5e5e5 25%, transparent 25%), linear-gradient(135deg, #e5e5e5 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e5e5e5 75%), linear-gradient(135deg, transparent 75%, #e5e5e5 75%);
@@ -962,7 +1056,7 @@ defineExpose({
         .drag-area {
             height: v-bind(drag_area_height);
             width: 100%;
-            margin: 0.5rem 0; // 用于将上边框和下边框显示出来
+            margin: 1.4rem 0; // 用于将上边框和下边框显示出来
             user-select: none;
             cursor: crosshair;
         }

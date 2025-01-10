@@ -128,7 +128,7 @@ const get_nested_property = (obj: any, path: string) => {
 }
 // #endregion
 // 公共样式
-const style_container = computed(() => common_styles_computer(new_style.value.common_style) + 'overflow: auto;');
+const style_container = computed(() => common_styles_computer(new_style.value.common_style) + (form.value.is_scroll_bar == '1' ? 'overflow: auto;' : ''));
 const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
 // 内容样式
 const style_content_container = computed(() => common_styles_computer(new_style.value.data_content_style));

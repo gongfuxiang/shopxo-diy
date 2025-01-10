@@ -2,7 +2,7 @@
     <Dialog v-model:visible="dialogVisible" :title="configType == 'custom' ? '编辑自定义' : '编辑自定义组'" @accomplish="accomplish">
         <div class="flex-row h w">
             <!-- 左侧和中间区域 -->
-            <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="center_width" :config-type="configType" :source-list="sourceList" :custom-group-field-id="customGroupFieldId" :is-custom="configType == 'custom'? isCustom : false" :show-data="showData" :list="customList" @right-update="right_update"></DragIndex>
+            <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="center_width" :config-type="configType" :source-list="sourceList" :custom-group-field-id="customGroupFieldId" :is-custom="configType == 'custom'? isCustom : false" :show-data="showData" :list="new_list" @right-update="right_update" @operation_end="operation_end"></DragIndex>
             <!-- 右侧配置区域 -->
             <div class="settings">
                 <template v-if="diy_data.key === 'img'">
@@ -35,6 +35,11 @@
 <script lang="ts" setup>
 import Dialog from '@/components/model-custom/components/dialog.vue';
 import DragIndex from '@/components/model-custom/components/index.vue';
+import { DataSourceStore } from '@/store';
+import { formatDate } from '@/utils';
+import { cloneDeep, isEqual } from "lodash";
+const data_source_store = DataSourceStore();
+
 const props = defineProps({
     configType: {
         type: String,
@@ -73,6 +78,7 @@ const props = defineProps({
         default: () => [],
     },
 });
+const new_list = ref(cloneDeep(props.customList))
 // 自定义组的父组件数据
 const custom_father_list = defineModel('fatherList', { type: Array, default: () => [] });
 // 中间区域的宽高
@@ -109,8 +115,14 @@ const accomplish = () => {
     } else {
         // 如果是自定点击完成，需要将数据传递给父组件
         if (props.configType == 'custom') {
+            // 点击完成的时候，清除历史数据
+            data_source_store.set_custom_records([]);
+            data_source_store.set_custom_records_index(-1);
             emits('accomplish', props.configType, draglist.value.diy_data);
         } else {
+            // 点击完成的时候，清除历史数据
+            data_source_store.set_custom_group_records([]);
+            data_source_store.set_custom_group_records_index(-1);
             // 如果是自定义组点击完成，需要将值赋值给对应的父组件数据中，再将完整的数据渲染出来
             custom_father_list.value.forEach((item: any) => {
                 if (item.id == props.customId) {
@@ -130,8 +142,86 @@ const custom_edit = (id: string, list: diy, width: number, height: number, data_
     }
     emits('custom_edit', 'custom-group', id, father_list, list, width, height, data_source_field);
 };
-const operation_end = () => {
-    console.log('操作结束');
+// 初始化的时候默认生成一条新数据，避免用户无法回到最初的记录
+onBeforeMount(() => {
+    const new_data = [{ name: formatDate('HH点mm分ss秒'), height: center_height.value, value: props.customList }];
+    if (props.configType == 'custom') {
+        // 传递给store进行存储
+        data_source_store.set_custom_records(new_data);
+        // 操作之后更新数据
+        data_source_store.set_custom_records_index(0);
+    } else {
+        // 传递给store进行存储
+        data_source_store.set_custom_group_records(new_data);
+        // 操作之后更新数据
+        data_source_store.set_custom_group_records_index(0);
+    }
+})
+// 操作结束触发事件
+const operation_end = (is_compare: boolean = true) => {
+    // 如果没有数据，直接返回
+    if (!draglist.value) {
+        return;
+    } else {
+        // 历史数据和新数据进行对比，如果新数据跟历史数据不相同就设置历史数据记录， is_compare = false的值是代表着不需要进行判断就要保存的记录
+        let old_index = 0;
+        let old_compare_data = {};
+        if (props.configType == 'custom') {
+            old_index = data_source_store.custom_records_index;
+            old_compare_data = cloneDeep(data_source_store.custom_records[old_index].value) || {};
+        } else {
+            old_index = data_source_store.custom_group_records_index;
+            old_compare_data = cloneDeep(data_source_store.custom_group_records[old_index].value) || {};
+        }
+        // 新的数据
+        const new_compare_data = cloneDeep(draglist.value.diy_data);
+
+        if (!is_compare || !isEqual(old_compare_data, new_compare_data)) {
+            // 如果是自定点击完成，需要将数据传递给父组件
+            if (props.configType == 'custom') {
+                // 获取历史数据
+                const new_data = old_data_handle(data_source_store?.custom_records || [], data_source_store?.custom_records_index || -1);
+                // 新增一条新数据
+                new_data.unshift({ name: formatDate('HH点mm分ss秒'), height: center_height.value, value: new_compare_data });
+                // 传递给store进行存储
+                data_source_store.set_custom_records(new_data);
+                // 操作之后更新数据
+                data_source_store.set_custom_records_index(0);
+            } else {
+                // 获取历史数据
+                const new_data = old_data_handle(data_source_store?.custom_group_records || [], data_source_store?.custom_group_records_index || -1);
+                // 新增一条新数据
+                new_data.unshift({ name: formatDate('HH点mm分ss秒'), height: center_height.value, value: new_compare_data });
+                // 更改自定义组的内容
+                data_source_store.set_custom_group_records(new_data);
+                // 更改自定义组的历史记录值
+                data_source_store.set_custom_group_records_index(0);
+            }
+        }
+    }
+}
+/**
+ * 处理旧数据以生成新数据数组
+ * 此函数用于根据当前选中的历史记录索引，对旧数据进行克隆和更新
+ * 主要目的是维护一个最多包含10条记录的历史数据列表
+ * 
+ * @param old_data 任何类型的旧数据数组，包含历史记录
+ * @param index 当前选中的历史记录的索引，用于决定如何更新数据
+ * @returns 返回更新后的新数据数组
+ */
+ const old_data_handle = (old_data: any, index: number) => {
+    // 克隆旧数据数组以避免直接修改原始数据
+    const new_data = cloneDeep(old_data);
+    // 判断当前选中的历史记录是不是最新的,如果不是，更新之后清除当前数据
+    if (index !== 0 && index !== -1) {
+        // 先判断index是为了确保10条数据更新的时候不会出现数据问题
+        new_data.splice(index, 1);
+    } else if (new_data.length == 10) {
+        // 如果历史数据已经是10条了，那就删除最后一条数据， 否则的话就可以正常添加
+        new_data.splice(new_data.length - 1, 1);
+    }
+    // 返回处理后的新数据数组
+    return new_data;
 }
 </script>
 

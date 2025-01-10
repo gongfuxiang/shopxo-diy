@@ -224,6 +224,7 @@ const custom_group_com_data = {
     custom_height: 100, // 自定义高度
     data_source_direction: 'vertical', // 铺满方式
     data_source_carousel_col: 1, // 铺满数量
+    is_scroll_bar: false,   // 是否需要滚动条
     data_style: {
         ...defaultCustom.style
     }

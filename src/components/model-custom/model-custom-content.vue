@@ -1,5 +1,5 @@
 <template>
-    <div class="auxiliary-line">
+    <div class="auxiliary-line custom-data">
         <el-form :model="form" label-width="70">
             <card-container>
                 <div class="mb-20">数据源</div>
@@ -54,10 +54,7 @@
                 </template>
             </template>
             <div class="divider-line"></div>
-            <card-container>
-                <div class="mb-20">内容设置</div>
-                <el-button class="w" size="large" @click="custom_edit('custom')"><icon name="edit" size="12"></icon>自定义编辑</el-button>
-            </card-container>
+            <el-button class="w custom-button size-14" size="large" @click="custom_edit('custom')"><icon name="edit" size="14"></icon>自定义编辑</el-button>
         </el-form>
         <!-- 自定义内容处理 -->
         <custom-config :key="dragkey + 'custom'" v-model:visible="dialogVisible" v-model:width="custom_width" v-model:height="center_height" :dragkey="dragkey + 'custom'" :options="model_data_source" :source-list="!isEmpty(data_source_content_list) ? data_source_content_list[0] : {}" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :custom-list="custom_list" @accomplish="accomplish" @custom_edit="custom_edit"></custom-config>
@@ -537,5 +534,17 @@ watch(() => data_source_content_value.value, (new_val, old_val) => {
     .el-dialog__footer {
         padding: 2.4rem 3rem;
     }
+}
+.custom-data {
+    background: transparent;
+}
+.custom-button {
+  position: -webkit-sticky;
+  position: sticky;
+  bottom: 0; /* 固定在底部 */
+  background-color: white; /* 设置背景色以避免按钮看不见 */
+  z-index: 1000; /* 确保按钮在其他内容之上 */
+  width: 100%; /* 确保按钮宽度占满父容器 */
+  padding: 1rem; /* 添加一些内边距 */
 }
 </style>

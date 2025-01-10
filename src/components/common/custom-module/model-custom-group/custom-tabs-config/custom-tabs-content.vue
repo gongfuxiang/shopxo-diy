@@ -15,11 +15,9 @@
                 <el-radio v-for="(item, index) in default_type_data?.show_number" :key="index" :value="item">{{ item }}{{ form.data_source_direction == 'vertical-scroll' ? '行' : '列' }}展示</el-radio>
             </el-radio-group>
         </el-form-item>
-    </card-container>
-    <div class="bg-f5 divider-line" />
-    <card-container>
-        <div class="mb-20">自定义设置</div>
-        <el-button class="w" size="large" @click="custom_edit"><icon name="edit" size="12"></icon>自定义编辑</el-button>
+        <el-form-item label="滚动条">
+            <el-switch v-model="form.is_scroll_bar" active-value="1" inactive-value="0" @change="operation_end" />
+        </el-form-item>
     </card-container>
 </template>
 <script setup lang="ts">
@@ -47,10 +45,7 @@ const group_change = () => {
     }
 };
 
-const emit = defineEmits(['custom_edit', 'operation_end']);
-const custom_edit = () => {
-    emit('custom_edit', form.value.data_source_field);
-};
+const emit = defineEmits(['operation_end']);
 // 操作结束触发事件
 const operation_end = () => {
     emit('operation_end');

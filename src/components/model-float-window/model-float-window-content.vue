@@ -7,6 +7,7 @@
                     <el-radio-group v-model="form.button_jump">
                         <el-radio value="link">页面链接</el-radio>
                         <el-radio value="customer_service">客服入口</el-radio>
+                        <el-radio value="quick_nav">快捷导航</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="上传图片">

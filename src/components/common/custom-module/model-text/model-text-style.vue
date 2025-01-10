@@ -50,7 +50,7 @@
                         <el-radio value="italic">倾斜</el-radio>
                     </el-radio-group>
                     <el-form-item label="字号" label-width="50" class="mb-0 w">
-                        <slider v-model="form.text_size" :max="100" @update:model-value="text_size_change"></slider>
+                        <slider v-model="form.text_size" :max="100" @update:model-value="text_size_change" @operation_end="operation_end"></slider>
                     </el-form-item>
                     <el-form-item label="行间距" label-width="50" class="mb-0 w">
                         <slider v-model="form.line_text_size" :max="200" @operation_end="operation_end"></slider>
@@ -187,7 +187,6 @@ const text_link_change = (key: string) => {
 // 文字大小变化时，同步更新行间距
 const text_size_change = (size: number) => {
     form.value.line_text_size = size;
-    operation_end();
 };
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.color_list = arry;

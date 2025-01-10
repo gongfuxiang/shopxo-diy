@@ -273,34 +273,34 @@ const default_list = {
 ** @return {Array}
 */
 const commodity_list = (list: any[], num: number, data_content: any, data_style: any) => {
-        if (list.length > 0) {
-            // 深拷贝一下，确保不会出现问题
-            const goods_list = cloneDeep(list).map((item: any) => ({
-                ...item.data,
-                title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
-                new_cover: item.new_cover,
-            }));
-            // 存储数据显示
-            let nav_list: { split_list: any[] }[] = [];
-            // 如果是滑动，需要根据每行显示的个数来区分来拆分数据  translation 表示的是平移
-            if (data_style.rolling_fashion != 'translation') {
-                // 拆分的数量
-                const split_num = Math.ceil(goods_list.length / num);
-                for (let i = 0; i < split_num; i++) {
-                    nav_list.push({ split_list: goods_list.slice(i * num, (i + 1) * num) });
-                }
-                return nav_list;
-            } else {
-                return rotation_calculation(goods_list, num, data_content, data_style)
+    if (list.length > 0) {
+        // 深拷贝一下，确保不会出现问题
+        const goods_list = cloneDeep(list).map((item: any) => ({
+            ...item.data,
+            title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
+            new_cover: item.new_cover,
+        }));
+        // 存储数据显示
+        let nav_list: { split_list: any[] }[] = [];
+        // 如果是滑动，需要根据每行显示的个数来区分来拆分数据  translation 表示的是平移
+        if (data_style.rolling_fashion != 'translation') {
+            // 拆分的数量
+            const split_num = Math.ceil(goods_list.length / num);
+            for (let i = 0; i < split_num; i++) {
+                nav_list.push({ split_list: goods_list.slice(i * num, (i + 1) * num) });
             }
+            return nav_list;
         } else {
-            const list = Array(num).fill(default_list);
-            if (data_style.rolling_fashion != 'translation') {
-                return [{ split_list: list }];
-            } else {
-                return rotation_calculation(list, num, data_content, data_style)
-            }
+            return rotation_calculation(goods_list, num, data_content, data_style)
         }
+    } else {
+        const list = Array(num).fill(default_list);
+        if (data_style.rolling_fashion != 'translation') {
+            return [{ split_list: list }];
+        } else {
+            return rotation_calculation(list, num, data_content, data_style)
+        }
+    }
 }
 
 const rotation_calculation = (list: Array<any>, num: number, data_content: any, data_style: any) => {
