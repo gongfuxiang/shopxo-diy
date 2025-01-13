@@ -2,7 +2,7 @@
     <el-dialog v-model="dialog_visible_category_operate" class="radius-lg" width="500" :close-on-click-modal="false" draggable append-to-body>
         <template #header>
             <div class="title center re">
-                <div class="tc size-16 fw">{{ type == 'add' ? '添加' : '编辑' }}附件分类</div>
+                <div class="tc size-16 fw-b">{{ type == 'add' ? '添加' : '编辑' }}附件分类</div>
             </div>
         </template>
         <div class="mt-16 pa-20">

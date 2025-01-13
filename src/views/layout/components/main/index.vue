@@ -23,7 +23,7 @@
     </div>
     <div class="drawer-container" :style="`width: ${drawer_selected ? '12.8rem' : '0px'}`">
         <div class="drawer-content pt-5" :style="{ left: drawer_selected ? '0' : '-100%' }">
-            <div class="size-14 cr-3 fw pl-12 drawer-title" :style="{ opacity: drawer_selected ? '1' : '0' }">已选组件({{ diy_data.length }})</div>
+            <div class="size-14 cr-3 fw-b pl-12 drawer-title" :style="{ opacity: drawer_selected ? '1' : '0' }">已选组件({{ diy_data.length }})</div>
             <div ref="left_scrollTop" class="drawer-drag-area">
                 <div v-for="(item, index) in tabs_data" :key="index" :class="['flex ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-drag-bg': item.show_tabs == '1' }]" @click="set_tabs_event(true)">
                     <el-icon class="iconfont icon-jinzhi size-16 cr-d" />

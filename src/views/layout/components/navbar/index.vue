@@ -23,7 +23,7 @@
     <el-dialog v-model="dialog_visible" class="radius-lg" width="650" draggable :close-on-click-modal="false" append-to-body>
         <template #header>
             <div class="title re">
-                <div class="middle size-16 fw">附件管理</div>
+                <div class="middle size-16 fw-b">附件管理</div>
             </div>
         </template>
         <div class="content pa-20">

@@ -9,7 +9,7 @@
                     <el-radio-button value="video" :disabled="!(const_upload_type == 'video') && isCheckConfirm">视频</el-radio-button>
                     <el-radio-button value="file" :disabled="!(const_upload_type == 'file') && isCheckConfirm">文件</el-radio-button>
                 </el-radio-group>
-                <div class="middle size-16 fw">附件管理</div>
+                <div class="middle size-16 fw-b">附件管理</div>
             </div>
         </template>
         <div class="upload-content pa-20">

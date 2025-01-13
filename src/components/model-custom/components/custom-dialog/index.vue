@@ -2,7 +2,7 @@
     <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body :close-on-click-modal="false" :top="dialogPositionTop ? dialogPositionTop + 'px' : ''" @close="close_event">
         <template #header>
             <div class="title center re">
-                <div class="tc size-16 fw">{{ config?.popup_title || '数据选择' }}</div>
+                <div class="tc size-16 fw-b">{{ config?.popup_title || '数据选择' }}</div>
             </div>
         </template>
         <div class="flex-col gap-20 w h pa-20 oh">

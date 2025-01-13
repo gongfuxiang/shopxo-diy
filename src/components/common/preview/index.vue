@@ -2,7 +2,7 @@
     <el-dialog v-model="dialog_visible" class="radius-lg dialog-center oh" width="1168" :close-on-click-modal="false" destroy-on-close append-to-body>
         <template #header>
             <div class="title re">
-                <div class="middle size-16 fw">预览</div>
+                <div class="middle size-16 fw-b">预览</div>
             </div>
         </template>
         <div class="flex-row iframe-content oh">
