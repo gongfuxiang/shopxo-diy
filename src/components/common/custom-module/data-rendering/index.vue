@@ -2,7 +2,7 @@
     <div class="w h re custom-other">
         <div v-for="(item, index) in list" :key="item.id" class="main-content flex-row" :style="{'left': percentage_count(item.location.x) , 'top': percentage_count(item.location.y), 'width': percentage_count(item.com_data.com_width), 'height': percentage_count(item.com_data.com_height), 'z-index': (customList.length - 1) - index}">
             <template v-if="item.key == 'text'">
-                <model-text :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList"  :is-custom="isCustom" :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :title-params="showData?.data_name || 'name'" :is-display-panel="true"></model-text>
+                <model-text :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :is-custom="isCustom" :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :title-params="showData?.data_name || 'name'" :is-display-panel="true"></model-text>
             </template>
             <template v-else-if="item.key == 'img'">
                 <model-image :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :is-custom="isCustom" :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :img-params="showData?.data_logo || ''" :is-display-panel="true"></model-image>
@@ -17,7 +17,7 @@
                 <model-panel :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :is-custom="isCustom" :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :is-display-panel="true"></model-panel>
             </template>
             <template v-else-if="item.key == 'custom-group'">
-                <model-custom-group :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :data-height="item.com_data.custom_height" :data-width="item.com_data.com_width" :is-custom="isCustom" :is-display-panel="true"></model-custom-group>
+                <model-custom-group :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :group-source-list="groupSourceList" :show-data="showData" :data-height="item.com_data.custom_height" :data-width="item.com_data.com_width" :is-custom="isCustom" :is-display-panel="true"></model-custom-group>
             </template>
         </div>
     </div>
@@ -65,6 +65,12 @@ const props = defineProps({
     isCustomGroup: {
         type: Boolean,
         default: false
+    },
+    groupSourceList: {
+        type: Array,
+        default: () => {
+            return [];
+        }
     },
     customGroupFieldId: {
         type: String,

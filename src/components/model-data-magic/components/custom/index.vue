@@ -6,7 +6,7 @@
                     <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="`width: ${ gap_width }`">
                         <div :style="style_container">
                             <div class="w h oh" :style="style_img_container">
-                                <data-rendering :custom-list="form.custom_list" :source-list="item1" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :data-height="form.height" :scale="scale"></data-rendering>
+                                <data-rendering :custom-list="form.custom_list" :source-list="item1" :group-source-list="data_source_content_list" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :data-height="form.height" :scale="scale"></data-rendering>
                             </div>
                         </div>
                     </div>
@@ -17,7 +17,7 @@
                     <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
                         <div :style="style_container">
                             <div class="w h oh" :style="style_img_container">
-                                <data-rendering :custom-list="form.custom_list" :source-list="item1" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :data-height="form.height" :scale="scale"></data-rendering>
+                                <data-rendering :custom-list="form.custom_list" :source-list="item1" :group-source-list="data_source_content_list" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :data-height="form.height" :scale="scale"></data-rendering>
                             </div>
                         </div>
                     </swiper-slide>

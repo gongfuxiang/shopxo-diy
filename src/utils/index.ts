@@ -317,7 +317,7 @@ export const get_is_eligible = (field_list: any[], condition: condition_data, pr
         let option: any = {};
         if (field_list) {
             // 判断是否是自定义组并且 自定义组选则了对应的数据源
-            if (!props.isCustom && !isEmpty(props.customGroupFieldId)) {
+            if (props.isCustomGroup && !isEmpty(props.customGroupFieldId)) {
                 // 取出对应自定义组的内容
                 const group_option_list = field_list.find((item: any) => item.field === props.customGroupFieldId);
                 // 取出自定义组内部数据源参数的详细数据

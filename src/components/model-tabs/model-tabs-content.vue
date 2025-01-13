@@ -1,8 +1,10 @@
 <template>
     <div class="common-content-height">
         <el-form :model="form" label-width="60">
-            <common-content-top :value="form.content_top"></common-content-top>
-            <div class="divider-line"></div>
+            <template v-if="isCommon">
+                <common-content-top :value="form.content_top"></common-content-top>
+                <div class="divider-line"></div>
+            </template>
             <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选择风格">
@@ -94,6 +96,10 @@ const props = defineProps({
     tabStyle: {
         type: Object,
         default: () => ({}),
+    },
+    isCommon: {
+        type: Boolean,
+        default: true,
     },
 });
 

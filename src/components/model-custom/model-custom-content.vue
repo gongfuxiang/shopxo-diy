@@ -59,9 +59,9 @@
             <el-button class="w custom-button size-14" size="large" @click="custom_edit('custom')"><icon name="edit" size="14"></icon>自定义编辑</el-button>
         </el-form>
         <!-- 自定义内容处理 -->
-        <custom-config :key="dragkey + 'custom'" v-model:visible="dialogVisible" v-model:width="custom_width" v-model:height="center_height" :dragkey="dragkey + 'custom'" :options="model_data_source" :source-list="!isEmpty(data_source_content_list) ? data_source_content_list[0] : {}" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :custom-list="custom_list" @accomplish="accomplish" @custom_edit="custom_edit"></custom-config>
+        <custom-config :key="dragkey + 'custom'" v-model:visible="dialogVisible" v-model:width="custom_width" v-model:height="center_height" :dragkey="dragkey + 'custom'" :options="model_data_source" :source-list="!isEmpty(data_source_content_list) ? data_source_content_list[0] : {}" :group-source-list="data_source_content_list" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :custom-list="custom_list" @accomplish="accomplish" @custom_edit="custom_edit"></custom-config>
         <!-- 自定义内部数据内容处理 -->
-        <custom-config :key="drag_group_key + 'custom-group'" v-model:visible="dialogVisible_group" v-model:width="center_group_width" v-model:height="center_group_height" v-model:father-list="custom_group_father_list" config-type="custom-group" :dragkey="drag_group_key + 'custom-group'" :options="custom_group_option_list" :source-list="!isEmpty(new_group_source_list) ? new_group_source_list : {}" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :custom-id="center_group_id" :custom-list="custom_group_list" :custom-group-field-id="custom_group_field_id" @accomplish="accomplish"></custom-config>
+        <custom-config :key="drag_group_key + 'custom-group'" v-model:visible="dialogVisible_group" v-model:width="center_group_width" v-model:height="center_group_height" v-model:father-list="custom_group_father_list" config-type="custom-group" :dragkey="drag_group_key + 'custom-group'" :options="custom_group_option_list" :source-list="!isEmpty(new_group_source_list) ? new_group_source_list : {}" :group-source-list="data_source_content_list" :is-custom="form.is_custom_data == '1'" :is-custom-group="true" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :custom-id="center_group_id" :custom-list="custom_group_list" :custom-group-field-id="custom_group_field_id" @accomplish="accomplish"></custom-config>
         <!-- 手动筛选数据弹出框 -->
         <custom-dialog v-model:dialog-visible="url_value_dialog_visible" :data-list-key="form.show_data?.data_key || 'id'" :config="default_type_data.appoint_config" :extra-search-data="form.data_source_content" :multiple="url_value_multiple_bool" @confirm_event="url_value_dialog_call_back"></custom-dialog>
     </div>
@@ -153,8 +153,15 @@ const custom_edit = (type: string, id?: string, father_list?: any, list?: any, w
         center_group_height.value = height || 0;
         // 获取到真实数据和选项值
         custom_group_field_id.value = data_source_field?.id || '';
-        new_group_source_list.value = new_group_source_list_handle(data_source_field?.id || '');
-        custom_group_option_list.value = data_source_field?.option || [];
+        // 自定义组的数据源内容切换, 如果选择了自定义数据源，那么就获取到自定义数据源的内容，否则的话取当前整个自定义组的数据源
+        const is_data_source_id = model_data_source.value.filter((item: any) => item.field == data_source_field?.id);
+        if (is_data_source_id.length > 0) {
+            custom_group_option_list.value = data_source_field?.option || [];
+            new_group_source_list.value = new_group_source_list_handle(data_source_field?.id || '');
+        } else {
+            custom_group_option_list.value = model_data_source.value;
+            new_group_source_list.value = !isEmpty(data_source_content_list) ? data_source_content_list.value[0] : {};
+        }
         // 设置是否是子页面
         data_source_store.set_is_children_custom(true);
     }

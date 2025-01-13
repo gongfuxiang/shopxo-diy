@@ -2,7 +2,7 @@
     <Dialog v-model:visible="dialogVisible" :title="configType == 'custom' ? '编辑自定义' : '编辑自定义组'" @accomplish="accomplish" @close_event="close_event">
         <div class="flex-row h w">
             <!-- 左侧和中间区域 -->
-            <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="center_width" :config-type="configType" :source-list="sourceList" :custom-group-field-id="customGroupFieldId" :is-custom="configType == 'custom'? isCustom : false" :show-data="showData" :list="new_list" @right-update="right_update" @operation_end="operation_end"></DragIndex>
+            <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="center_width" :config-type="configType" :source-list="sourceList" :group-source-list="groupSourceList" :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :is-custom="isCustom" :show-data="showData" :list="new_list" @right-update="right_update" @operation_end="operation_end"></DragIndex>
             <!-- 右侧配置区域 -->
             <div class="settings">
                 <template v-if="diy_data.key === 'img'">
@@ -41,6 +41,7 @@ import { cloneDeep, isEqual } from "lodash";
 const data_source_store = DataSourceStore();
 
 const props = defineProps({
+    // 配置类型，custom：自定义，custom-group：自定义组
     configType: {
         type: String,
         default: 'custom',
@@ -49,30 +50,49 @@ const props = defineProps({
         type: String,
         default: '',
     },
+    // 数据源配置项
     options: {
         type: Array<any>,
         default: () => [],
     },
+    // 真实数据，独立的数据信息
     sourceList: {
         type: Object,
         default: () => {},
     },
+    // 自定义组使用的真实数据，包含整个外层真实数据，如果自定义组不使用内部数据源的时候，那么就是父级的数据源
+    groupSourceList: {
+        type: Array,
+        default: () => {
+            return [];
+        }
+    },
+    // 判断是否是自定义
     isCustom: {
         type: Boolean,
         default: false,
     },
+    // 判断是否是自定义组
+    isCustomGroup: {
+        type: Boolean,
+        default: false,
+    },
+    // 手动模式下的显示数据
     showData: {
         type: Object,
         default: () => ({ data_key: 'id', data_name: 'name' }),
     },
+    // 自定义组的id
     customId: {
         type: String,
         default: '',
     },
+    // 自定义数据源id
     customGroupFieldId: {
         type: String,
         default: '',
     },
+    // 自定义内容的渲染处理，自定义组传递的是内部的自定义内容
     customList: {
         type: Array<any>,
         default: () => [],
@@ -188,9 +208,6 @@ const operation_end = (is_compare: boolean = true) => {
         }
         // 新的数据
         const new_compare_data = cloneDeep(draglist.value.diy_data);
-        console.log(old_compare_data);
-        console.log(new_compare_data);
-        console.log(!isEqual(old_compare_data, new_compare_data));
         if (!is_compare || !isEqual(old_compare_data, new_compare_data)) {
             // 如果是自定点击完成，需要将数据传递给父组件
             if (props.configType == 'custom') {

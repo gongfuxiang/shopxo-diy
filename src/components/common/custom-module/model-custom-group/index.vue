@@ -8,7 +8,7 @@
                             <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="`width: ${ gap_width }`">
                                 <div :style="style_chunk_container">
                                     <div class="w h oh" :style="style_chunk_img_container">
-                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale" :custom-group-field-id="form?.data_source_field?.id || ''"></data-rendering>
+                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale" :custom-group-field-id="form?.data_source_field?.id || ''" :is-custom-group="true" :is-custom="isCustom" :show-data="showData"></data-rendering>
                                     </div>
                                 </div>
                             </div>
@@ -19,7 +19,7 @@
                             <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
                                 <div :style="style_chunk_container">
                                     <div class="w h oh" :style="style_chunk_img_container">
-                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale" :custom-group-field-id="form?.data_source_field?.id || ''"></data-rendering>
+                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale" :custom-group-field-id="form?.data_source_field?.id || ''" :is-custom-group="true" :is-custom="isCustom" :show-data="showData"></data-rendering>
                                     </div>
                                 </div>
                             </swiper-slide>
@@ -38,7 +38,7 @@
                     <template v-else>
                         <div :style="style_chunk_container">
                             <div class="w h oh" :style="style_chunk_img_container">
-                                <data-rendering :custom-list="form.custom_list" :data-height="form.height" :scale="custom_scale"></data-rendering>
+                                <data-rendering :custom-list="form.custom_list" :data-height="form.height" :scale="custom_scale" :is-custom-group="true" :is-custom="isCustom"></data-rendering>
                             </div>
                         </div>
                     </template>
@@ -87,6 +87,23 @@ const props = defineProps({
     isCustom: {
         type: Boolean,
         default: false
+    },
+    groupSourceList: {
+        type: Array,
+        default: () => {
+            return [];
+        }
+    },
+    showData: {
+        type: Object as PropType<{
+            data_key: string;
+            data_name: string;
+            data_logo?: string;
+        }>,
+        default: () => ({
+            data_key: 'id',
+            data_name: 'name',
+        })
     }
 });
 // 用于页面判断显示
@@ -102,19 +119,24 @@ const is_show = computed(() => {
 
 //#region 自定义组真实数据
 const data_source_content_list = computed(() => {
-    if (!isEmpty(props.sourceList)) {
-        const data_source_id = form.value.data_source_field.id;
-        let list = get_nested_property(props.sourceList, data_source_id);
-        // 如果是自定义标题，进一步处理嵌套对象中的数据
-        if (props.sourceList.data) {
-            list = get_nested_property(props.sourceList.data, data_source_id);
+    const data_source_id = form.value?.data_source_field?.id || '';
+    // 自定义组的数据源内容切换
+    const is_data_source_id = field_list.value.filter((item: any) => item.field == data_source_id);
+    if (is_data_source_id.length > 0) {
+        if (!isEmpty(props.sourceList)) {
+            let list = get_nested_property(props.sourceList, data_source_id);
+            // 如果是自定义标题，进一步处理嵌套对象中的数据
+            if (props.sourceList.data) {
+                list = get_nested_property(props.sourceList.data, data_source_id);
+            }
+            return list == '' ? [] : list;
+        } else {
+            return [];
         }
-        return list == '' ? [] : list;
     } else {
-        return [];
+        return props.groupSourceList;
     }
 });
-
 const get_nested_property = (obj: any, path: string) => {
     // 检查路径参数是否为字符串且非空，若不满足条件则返回空字符串
     if (typeof path !== 'string' || !path) return [];

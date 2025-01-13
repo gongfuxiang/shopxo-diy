@@ -32,6 +32,10 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
+    isCustomGroup: {
+        type: Boolean,
+        default: false
+    },
     customGroupFieldId: {
         type: String,
         default: ''

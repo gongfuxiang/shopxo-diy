@@ -39,6 +39,10 @@ const props = defineProps({
         type: Boolean,
         default: false
     },
+    isCustomGroup: {
+        type: Boolean,
+        default: false
+    },
     customGroupFieldId: {
         type: String,
         default: ''
@@ -87,7 +91,7 @@ const text_title = computed(() => {
         let new_title = cloneDeep(formValue.text_title);
         let new_field_list = field_list.value;
         // 判断是否是自定义组
-        if (!props.isCustom && !isEmpty(props.customGroupFieldId)) {
+        if (props.isCustomGroup && !isEmpty(props.customGroupFieldId)) {
             // 取出对应自定义组的内容
             const group_option_list = new_field_list.find((item: any) => item.field === props.customGroupFieldId);
             // 取出自定义组内部数据源参数的详细数据

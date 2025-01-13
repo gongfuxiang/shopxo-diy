@@ -1,8 +1,10 @@
 <template>
     <div class="auxiliary-line common-content-height">
         <el-form :model="form" label-width="60">
-            <common-content-top :value="form.content_top"></common-content-top>
-            <div class="divider-line"></div>
+            <template v-if="isCommon">
+                <common-content-top :value="form.content_top"></common-content-top>
+                <div class="divider-line"></div>
+            </template>
             <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="样式设置">
@@ -81,6 +83,10 @@ const props = defineProps({
     value: {
         type: Object,
         default: () => {},
+    },
+    isCommon: {
+        type: Boolean,
+        default: true,
     },
 });
 
