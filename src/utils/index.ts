@@ -30,6 +30,21 @@ export function is_number(val: string | number): boolean {
     return typeof val == 'number' && !isNaN(val);
 }
 
+
+export const get_history_name = (components: any) => {
+    // 输入验证
+    if (!components || typeof components !== 'object' || !('name' in components)) {
+        return '';
+    }
+    try {
+        // 确保 new_name 是字符串或 undefined
+        const newName = typeof components.new_name === 'string' ? components.new_name : '';
+        // 返回 new_name 如果它不为空，否则返回 name
+        return !isEmpty(newName) ? newName : components.name;
+    } catch (error) {
+        return '';
+    }
+}
 /**
  * 获取嵌套对象的属性值
  * 

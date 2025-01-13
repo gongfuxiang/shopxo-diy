@@ -68,8 +68,8 @@
     </div>
 </template>
 <script setup lang="ts">
-import { get_data_fields, location_compute } from '@/utils';
-import { pick } from 'lodash';
+import { get_data_fields, get_history_name, location_compute } from '@/utils';
+import { isEmpty } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
@@ -111,7 +111,7 @@ const img_link_change = (key: string) => {
 // 操作结束触发的事件
 const emit = defineEmits(['operation_end']);
 const operation_end = () => {
-    emit('operation_end');
+    emit('operation_end', get_history_name(diy_data.value));
 };
 //#region 位置计算
 // 监听数据变化

@@ -17,7 +17,7 @@
         </card-container>
         <card-container class="mb-8">
             <div class="mb-12">内容设置</div>
-            <slider v-model="center_height" :max="1000" @operation_end="operation_end(false)">组件高度</slider>
+            <slider v-model="center_height" :max="1000" @operation_end="operation_end('容器', false)">组件高度</slider>
         </card-container>
         <card-container class="h selected">
             <div class="flex-col gap-10 drawer-container">
@@ -112,7 +112,7 @@
 </template>
 <script setup lang="ts">
 import { cloneDeep, isEmpty, property, isEqual } from 'lodash';
-import { get_math, adjustPosition, getPlatform } from '@/utils';
+import { get_math, adjustPosition, getPlatform, get_history_name } from '@/utils';
 import { defaultComData, isRectangleIntersecting } from "./index-default";
 import { SortableEvent, VueDraggable } from 'vue-draggable-plus';
 import { commonStore, DataSourceStore } from '@/store';
@@ -191,6 +191,7 @@ const url_computer = (name: string) => {
     return new_url;
 };
 //#endregion
+// 获取历史记录存储的别名
 //#region 组件边线相关
 const is_show_component_line = ref(false);
 const show_computer_line = () => {
@@ -202,11 +203,11 @@ const show_computer_line = () => {
 //#region 左侧处理逻辑
 const select_index = ref<null | number>(null);
 // 任何行动都会触发
-const on_sort = (item: SortableEvent) => {
+const on_sort = (item: any) => {
     let index = item?.newIndex || 0;
     // 设置对应的位置为显示
     set_show_tabs(index);
-    operation_end();
+    operation_end(get_history_name(item.data));
 };
 //#endregion 
 //#region 中间区域的处理逻辑
@@ -245,7 +246,6 @@ const outerClick = (e: any) => {
         if (edit_index.value !== -1) {
             edit_close_processing(edit_index.value);
             edit_index.value = -1;
-            operation_end();
         }
     }
 };
@@ -267,6 +267,7 @@ const edit_close_processing = (index: number) => {
     if (!isEmpty(list) && !isEmpty(list.new_name) && list.new_name === list.name) {
         list.new_name = '';
     }
+    operation_end(get_history_name(list));
 };
 // 复制
 const copy = (index: null | number) => {
@@ -283,7 +284,7 @@ const copy = (index: null | number) => {
         // 在当前位置下插入数据
         diy_data.value.splice(index, 0, new_data);
         set_show_tabs(index + 1);
-        operation_end();
+        operation_end(data.name + list.length);
     }
 };
 
@@ -296,6 +297,7 @@ const del = (index: null | number) => {
                 message: '删除成功!',
             });
             const show_tabs_index = diy_data.value.findIndex((item: any) => item.show_tabs == '1');
+            operation_end(get_history_name(diy_data.value.find((item: any) => item.show_tabs == '1')));
             // 删除的是当前的这个数据
             if (show_tabs_index == index) {
                 // 调用删除接口，然后，更新数据
@@ -314,7 +316,6 @@ const del = (index: null | number) => {
                 diy_data.value.splice(index, 1);
             }
             select_index.value = diy_data.value.length > 0 ? select_index.value : null;
-            operation_end();
         });
     }
 };
@@ -355,7 +356,7 @@ const moveItem = (index: number, newIndex: number) => {
         // 将数据插入新位置
         diy_data.value.splice(newIndex, 0, old_data);
         set_show_tabs(newIndex);
-        operation_end();
+        operation_end(get_history_name(old_data));
     } catch (error) {
         console.error('Error moving item:', error);
     }
@@ -516,7 +517,7 @@ const drop = (event: any) => {
         diy_data.value.unshift(newItem);
         // 因为是添加到头部，所以默认选中第0个
         set_show_tabs(0);
-        operation_end();
+        operation_end(get_history_name(newItem));
     }
 };
 //#endregion
@@ -526,7 +527,7 @@ const dragEndHandle = (item: any, index: number) => {
     const new_location = { x: item.x, y: item.y, record_x: item.x, record_y: item.y, staging_y: item.y };
     // 对数组进行比较，确定跟之前的是否有变化
     if (!isEqual(old_location, new_location)) {
-        operation_end();
+        operation_end(get_history_name(diy_data.value[index]));
     }
     diy_data.value[index].location = new_location;
 };
@@ -552,7 +553,7 @@ const resizingHandle = (new_location: any, key: string, index: number, type: str
         com_data.line_size = line_size;
     }
     if (type == 'resizeEnd') {
-        operation_end();
+        operation_end(get_history_name(diy_data.value[index]));
     }
 };
 // 图片大小的计算
@@ -706,7 +707,9 @@ const start_drag_area_box = (index: number, event: MouseEvent) => {
                 item.location.record_y = y;
             }
         });
-        operation_end();
+        if (hot_list?.data.length > 0) {
+            operation_end('多选');
+        }
     };
 };
 
@@ -945,7 +948,6 @@ const handleKeyUp = (e: KeyboardEvent) => {
         // 只有是点击上下左右的时候才会生效
         if (key_code.includes(e.key)) {
             data_handling(x, y);
-            operation_end();
         }
     } else if (data_source_store.is_children_custom && props.configType == 'custom-group') {
         // 阻止默认事件
@@ -953,7 +955,6 @@ const handleKeyUp = (e: KeyboardEvent) => {
         // 只有是点击上下左右的时候才会生效
         if (key_code.includes(e.key)) {
             data_handling(x, y);
-            operation_end();
         }
     }
 };
@@ -995,6 +996,7 @@ const handleKeyUp = (e: KeyboardEvent) => {
                 }
             }
         });
+        operation_end('多选');
     } else {
         // 如果没有热区数据，则直接更新自定义数据中选中组件的位置
         diy_data.value.forEach(item => {
@@ -1009,6 +1011,7 @@ const handleKeyUp = (e: KeyboardEvent) => {
                     item.location.y += y;
                     item.location.staging_y += y;
                 }
+                operation_end(get_history_name(item));
             }
         });
     }
@@ -1030,8 +1033,8 @@ onUnmounted(() => {
 });
 //#endregion
 // 用户操作结束触发事件
-const operation_end = (is_compare: boolean = true) => {
-    emits('operation_end', is_compare);
+const operation_end = (name: string = '', is_compare: boolean = true) => {
+    emits('operation_end', name, is_compare);
 }
 // 暴露出去的数据，避免跟外部数据双向绑定，点击保存的时候才会保存数据
 defineExpose({

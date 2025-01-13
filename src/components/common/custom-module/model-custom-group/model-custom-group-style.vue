@@ -29,7 +29,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { location_compute } from '@/utils';
+import { get_history_name, location_compute } from '@/utils';
 const props = defineProps({
     value: {
         type: Object,
@@ -62,7 +62,7 @@ const custom_edit = () => {
 //# endregion
 // 操作结束触发事件
 const operation_end = () => {
-    emit('operation_end');
+    emit('operation_end', get_history_name(diy_data.value));
 };
 //#region 位置计算
 // 监听数据变化

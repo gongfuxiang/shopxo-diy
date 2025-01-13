@@ -13,10 +13,10 @@
                 <el-icon :class="['iconfont icon-historical-records tooltip-icon', { 'disabled': history_list.length === 0 }]" @click.stop="open_history(history_list.length !== 0)" />
             </el-tooltip>
         </div>
-        <el-dialog v-model="dialogVisible" class="history-dialog" :style="{ top: '80px', left: dialog_left + 'px' }" title="历史记录" width="200" draggable show-close :modal="false" :close-on-click-modal="false" :close-on-press-escape="false">
+        <el-dialog v-model="dialogVisible" class="history-dialog" :style="{ top: '80px', left: dialog_left + 'px' }" title="历史记录" width="220" draggable show-close :modal="false" :close-on-click-modal="false" :close-on-press-escape="false">
             <div ref="historyDialog" class="history-dialog-content flex-col gap-14">
                 <div v-for="(item, index1) in history_list" :key="index1" :class="[`history-dialog-item ${props.configType}`, {'active': records_index == index1 }]" @click="handleHistory(index1, records_index !== index1)">
-                    <div class="history-dialog-item-title">{{ item.name }}</div>
+                    <div class="history-dialog-item-title flex-row gap-5"><span class="item-title text-line-1">{{ item.title }}</span>{{ item.name }}</div>
                     <el-icon v-if="records_index == index1" class="iconfont icon-checked size-14" />
                 </div>
             </div>
@@ -46,7 +46,7 @@ onUnmounted(() => {
 const dialog_left = ref(0);
 const handleResize = () => {
     // 处理一半区域的大小
-    let width = (window.innerWidth - 200) / 2;
+    let width = (window.innerWidth - 220) / 2;
     // 减去右侧的宽度
     if (window.innerWidth <= 1560) {
         width = width - 410;
@@ -182,6 +182,11 @@ const open_history = (is_click: boolean) => {
         color: #666666;
         line-height: 20px;
         font-style: normal;
+    }
+    .item-title {
+        width: 6rem;
+        overflow: hidden;
+        font-weight: bold;
     }
     .history-dialog-item.active {
         background: #F4f4f4;

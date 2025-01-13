@@ -43,7 +43,8 @@
     </div>
 </template>
 <script setup lang="ts">
-import { location_compute } from '@/utils';
+import { get_history_name, location_compute } from '@/utils';
+import { isEmpty } from 'lodash';
 
 const props = defineProps({
     value: {
@@ -67,7 +68,7 @@ const center_height = defineModel("height", { type: Number, default: 0 })
 // 操作结束触发的事件
 const emit = defineEmits(['operation_end']);
 const operation_end = () => {
-    emit('operation_end');
+    emit('operation_end', get_history_name(diy_data.value));
 };
 
 //#region 位置计算
