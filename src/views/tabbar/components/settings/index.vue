@@ -42,7 +42,7 @@ const footer_config = {
         padding: 2.1rem 3.8rem;
         .title {
             font-size: 16px;
-            font-weight: 500;
+            font-weight: bold;
             color: #333;
         }
         .radio-group {

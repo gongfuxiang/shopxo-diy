@@ -45,7 +45,7 @@
                 </el-form-item>
                 <el-form-item label="文字大小">
                     <el-radio-group v-model="form.text_weight" @change="operation_end">
-                        <el-radio value="500">加粗</el-radio>
+                        <el-radio value="bold">加粗</el-radio>
                         <el-radio value="normal">正常</el-radio>
                         <el-radio value="italic">倾斜</el-radio>
                     </el-radio-group>

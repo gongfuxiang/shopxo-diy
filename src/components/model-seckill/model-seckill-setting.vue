@@ -84,10 +84,10 @@ onBeforeMount(async () => {
             content_outer_spacing: 10, // 商品间距
             content_spacing: 10,
             content_outer_height: 232,
-            shop_title_typeface: '500',
+            shop_title_typeface: 'bold',
             shop_title_size: 14,  
             shop_title_color: "#333333",
-            shop_price_typeface: '500',
+            shop_price_typeface: 'bold',
             shop_price_size: 18,
             shop_price_color: "#EA3323;",
             shop_button_typeface:'400',

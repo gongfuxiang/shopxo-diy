@@ -316,7 +316,7 @@ const theme_7_background_style = computed(() => {
             .number {
                 font-size: 3rem;
                 line-height: 2.4rem;
-                font-weight: 500;
+                font-weight: bold;
                 padding: 0 0.4rem;
             }
         }
@@ -365,14 +365,14 @@ const theme_7_background_style = computed(() => {
             }
             .number {
                 font-size: 2.6rem;
-                font-weight: 500;
+                font-weight: bold;
                 padding: 0 0.4rem;
             }
         }
         .name {
             font-size: 0.8rem;
             color: v-bind('theme_style.name_color');
-            font-weight: 500;
+            font-weight: bold;
             margin-bottom: 0.4rem;
         }
         .desc {
@@ -453,12 +453,12 @@ const theme_7_background_style = computed(() => {
                 .name {
                     font-size: 1.8rem;
                     color: v-bind('theme_style.name_color');
-                    font-weight: 500;
+                    font-weight: bold;
                     line-height: 2.5rem;
                 }
                 .desc {
                     font-size: 1.4rem;
-                    font-weight: 500;
+                    font-weight: bold;
                     color: v-bind('theme_style.desc_color');
                     line-height: 2rem;
                 }
@@ -490,7 +490,7 @@ const theme_7_background_style = computed(() => {
                 color: v-bind('theme_style.btn_color');
                 position: relative;
                 font-size: 1.8rem;
-                font-weight: 500;
+                font-weight: bold;
                 text-align: center;
                 .icon {
                     font-size: 2rem;
@@ -596,7 +596,7 @@ const theme_7_background_style = computed(() => {
         }
         .title {
             font-size: 1.6rem;
-            font-weight: 500;
+            font-weight: bold;
             color: v-bind('theme_style.content_title_color');
             line-height: 2.2rem;
         }
@@ -650,11 +650,11 @@ const theme_7_background_style = computed(() => {
                 margin-bottom: 0.5rem;
                 .symbol {
                     font-size: 1.2rem;
-                    font-weight: 500;
+                    font-weight: bold;
                 }
                 .number {
                     font-size: 2.4rem;
-                    font-weight: 500;
+                    font-weight: bold;
                     line-height: 20px;
                     padding-left: 0.4rem;
                 }
@@ -682,7 +682,7 @@ const theme_7_background_style = computed(() => {
                 color: v-bind('theme_style.btn_color');
                 position: relative;
                 font-size: 1.2rem;
-                font-weight: 500;
+                font-weight: bold;
                 text-align: center;
                 letter-spacing: 0.2rem;
             }
@@ -744,11 +744,11 @@ const theme_7_background_style = computed(() => {
                 margin-bottom: 0.1rem;
                 .symbol {
                     font-size: 2rem;
-                    font-weight: 500;
+                    font-weight: bold;
                 }
                 .number {
                     font-size: 3.2rem;
-                    font-weight: 500;
+                    font-weight: bold;
                     line-height: 3.2rem;
                     padding-left: 0.4rem;
                 }
@@ -766,7 +766,7 @@ const theme_7_background_style = computed(() => {
                 position: relative;
                 font-size: 1.4rem;
                 line-height: 2.2rem;
-                font-weight: 500;
+                font-weight: bold;
                 text-align: center;
             }
         }
@@ -822,11 +822,11 @@ const theme_7_background_style = computed(() => {
                 margin-bottom: 0.5rem;
                 .symbol {
                     font-size: 1.2rem;
-                    font-weight: 500;
+                    font-weight: bold;
                 }
                 .number {
                     font-size: 2.4rem;
-                    font-weight: 500;
+                    font-weight: bold;
                     line-height: 2rem;
                     padding-left: 0.4rem;
                 }
@@ -857,7 +857,7 @@ const theme_7_background_style = computed(() => {
                 width: 100%;
                 color: v-bind('theme_style.btn_color');
                 font-size: 1rem;
-                font-weight: 500;
+                font-weight: bold;
                 text-align: center;
                 letter-spacing: 0.2rem;
                 height: 100%;

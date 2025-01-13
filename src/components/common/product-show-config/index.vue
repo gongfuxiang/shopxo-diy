@@ -109,7 +109,7 @@ const change_shop_type = () => {
         display: flex;
         align-items: flex-end;
         justify-content: center;
-        font-weight: 700;
+        font-weight: bold;
     }
 }
 :deep(.el-checkbox-group .el-checkbox){

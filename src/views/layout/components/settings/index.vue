@@ -133,7 +133,7 @@ const radio = ref('1'); // 创建一个响应式的数字变量，初始值为0
         height: 7.8rem;
         .title {
             font-size: 16px;
-            font-weight: 500;
+            font-weight: bold;
             color: #333;
         }
         .radio-group {

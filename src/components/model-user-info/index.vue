@@ -73,7 +73,7 @@ const base_data = reactive({
     // 用户名颜色
     user_name_color: 'rgba(0, 0, 0, 1)',
     // 用户名样式
-    user_name_weight: '500',
+    user_name_weight: 'bold',
     // 用户名字号
     user_name_size: 16,
     // 用户ID颜色
@@ -102,7 +102,7 @@ const base_data = reactive({
     // 统计数字颜色
     stats_number_color: 'rgba(0, 0, 0, 1)',
     // 统计数字样式
-    stats_number_weight: '500',
+    stats_number_weight: 'bold',
     // 统计数字字号
     stats_number_size: 16,
 });

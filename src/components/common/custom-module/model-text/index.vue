@@ -175,8 +175,8 @@ const text_style = computed(() => {
     let style = `font-size: ${ form.value.text_size * props.scale }px;line-height: ${ (typeof form.value.line_text_size === "number" ? form.value.line_text_size : form.value.text_size) * props.scale}px;color: ${ form.value.text_color }; text-align: ${ form.value.text_location }; transform: rotate(${form.value.text_rotate}deg);text-decoration: ${ form.value.text_option };${ padding_computer(form.value.text_padding, props.scale) };`;
     if (form.value.text_weight == 'italic') {
         style += `font-style: italic`;
-    } else if (form.value.text_weight == '500') {
-        style += `font-weight: 500`;
+    } else if (['bold', '500'].includes(form.value.text_weight)) {
+        style += `font-weight: bold;`;
     }
     return style;
 });

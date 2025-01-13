@@ -114,7 +114,7 @@ const defaultArticleList: DefaultArticleList = {
         article_color_list: [{ color: '#fff', color_percentage: undefined }],
         article_background_img_style: '0',
         article_background_img: [],
-        name_weight: '500',
+        name_weight: 'bold',
         name_size: 14,
         name_color: '#333',
         name_bg_color_list: [{ color: 'rgba(0, 0, 0, 0.7)', color_percentage: undefined }],

@@ -45,7 +45,7 @@ const default_data = {
         header_background_img_style: '2',
         header_background_img: [],
         header_background_title_color: '#333',
-        header_background_title_typeface: '500',
+        header_background_title_typeface: 'bold',
         header_background_title_size: 14,
         data_alone_row_space: 5,
         function_buttons_type: '0',

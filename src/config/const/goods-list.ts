@@ -207,14 +207,14 @@ const defaultProductList: DefaultProductList = {
         interval_time: 3,
         rolling_fashion: 'translation', // 滚动方式  translation 平移 cut-screen 切屏
         // 商品内容大小和颜色设置
-        shop_title_typeface: '500',
+        shop_title_typeface: 'bold',
         shop_title_size: 14,    
         shop_title_color: "#333333",
         shop_simple_desc_typeface: '400',
         shop_simple_desc_size: 12,
         shop_simple_desc_color: "#999",
         title_simple_desc_spacing: 4,
-        shop_price_typeface: '500',
+        shop_price_typeface: 'bold',
         shop_price_size: 18,
         shop_price_color: "#EA3323;",
         shop_price_symbol_color: '#EA3323',

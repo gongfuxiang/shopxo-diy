@@ -207,7 +207,7 @@ const switch_chage = (val: string | number | boolean) => {
         data.value.name_weight = '400';
     } else {
         data.value.name_color = '#333';
-        data.value.name_weight = '500';
+        data.value.name_weight = 'bold';
     }
 };
 </script>

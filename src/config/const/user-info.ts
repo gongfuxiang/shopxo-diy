@@ -41,7 +41,7 @@ const defaultUserInfo: DefaultUserInfo = {
     style: {
         user_avatar_size: '60',
         user_name_color: 'rgba(0, 0, 0, 1)',
-        user_name_weight: '500',
+        user_name_weight: 'bold',
         user_name_size: 16,
         number_code_color_list: [
             { color: 'rgba(254, 184, 143, 1)', color_percentage: undefined },
@@ -57,7 +57,7 @@ const defaultUserInfo: DefaultUserInfo = {
         stats_name_weight: '400',
         stats_name_size: 12,
         stats_number_color: 'rgba(0, 0, 0, 1)',
-        stats_number_weight: '500',
+        stats_number_weight: 'bold',
         stats_number_size: 16,
         common_style: {
             ...defaultCommon,
