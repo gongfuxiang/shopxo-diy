@@ -15,7 +15,7 @@
         </div>
         <el-dialog v-model="dialogVisible" class="history-dialog" :style="{ top: '80px', left: dialog_left + 'px' }" title="历史记录" width="200" draggable show-close :modal="false" :close-on-click-modal="false" :close-on-press-escape="false">
             <div ref="historyDialog" class="history-dialog-content flex-col gap-14">
-                <div v-for="(item, index1) in history_list" :key="index1" :class="[`history-dialog-item ${props.configType}`, {'active': records_index == index1, }]" @click="handleHistory(index1, records_index !== index1)">
+                <div v-for="(item, index1) in history_list" :key="index1" :class="[`history-dialog-item ${props.configType}`, {'active': records_index == index1 }]" @click="handleHistory(index1, records_index !== index1)">
                     <div class="history-dialog-item-title">{{ item.name }}</div>
                     <el-icon v-if="records_index == index1" class="iconfont icon-checked size-14" />
                 </div>
@@ -65,16 +65,18 @@ watchEffect(() => {
         history_list.value = dataSourceStore.custom_group_records;
         records_index.value = dataSourceStore.custom_group_records_index;
     }
-    // 获取当前选中的内容 --中间区域的滚动效果
-    const activeCard: HTMLElement | null = document.querySelector(`.history-dialog-item.active.${props.configType}`);
-    if (activeCard) {
-        // 获取选中内容的位置
-        const scrollY = activeCard.offsetTop;
-        if (historyDialog.value) {
-            // 选中的滚动到指定位置
-            historyDialog.value.scrollTo({ top: scrollY - 100, behavior: 'smooth' });
+    nextTick(() => {
+        // 获取当前选中的内容 --中间区域的滚动效果
+        const activeCard: HTMLElement | null = document.querySelector(`.history-dialog-item.active.${props.configType}`);
+        if (activeCard) {
+            // 获取选中内容的位置
+            const scrollY = activeCard.offsetTop;
+            if (historyDialog.value) {
+                // 选中的滚动到指定位置
+                historyDialog.value.scrollTo({ top: scrollY - 100, behavior: 'smooth' });
+            }
         }
-    }
+    });
 });
 const emits = defineEmits(['back', 'forward', 'handleHistory']);
 
