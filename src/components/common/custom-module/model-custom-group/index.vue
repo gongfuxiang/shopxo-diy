@@ -1,7 +1,7 @@
 <template>
     <div v-if="is_show" class="flex-1" :style="style_container">
-        <div :style="style_img_container">
-            <div :style="style_content_container">
+        <div class="w h" :style="style_img_container">
+            <div class="w h" :style="style_content_container">
                 <div class="w h re" :style="style_content_img_container">
                     <template v-if="data_source_content_list.length > 0 && form.data_source_direction == 'vertical'">
                         <div class="flex-row flex-wrap" :style="`row-gap: ${ new_style.row_gap }px;column-gap: ${ new_style.column_gap }px;`">
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <template v-else>
-                        <div :style="style_chunk_container">
+                        <div class="w h" :style="style_chunk_container">
                             <div class="w h oh" :style="style_chunk_img_container">
                                 <data-rendering :custom-list="form.custom_list" :data-height="form.height" :scale="custom_scale" :is-custom-group="true" :is-custom="isCustom"></data-rendering>
                             </div>

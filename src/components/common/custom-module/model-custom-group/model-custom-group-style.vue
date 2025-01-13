@@ -24,7 +24,7 @@
                 </el-tab-pane>
             </el-tabs>
             <div class="bg-f5 divider-line" />
-            <el-button class="w custom-button size-14" size="large" @click="custom_edit"><icon name="edit" size="14"></icon>自定义编辑</el-button>
+            <el-button class="w custom-button size-14" size="large" @click="custom_edit"><icon name="edit" size="14"></icon>编组编辑</el-button>
         </el-form>
     </div>
 </template>
