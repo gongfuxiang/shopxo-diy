@@ -31,6 +31,6 @@ let form = ref(props.value);
 
 <style scoped lang="scss">
 :deep(.el-date-editor .el-range-input) {
-    font-size: 1rem;
+    font-size: 1.2rem;
 }
 </style>
