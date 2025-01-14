@@ -297,7 +297,7 @@ const del = (index: null | number) => {
                 message: '删除成功!',
             });
             const show_tabs_index = diy_data.value.findIndex((item: any) => item.show_tabs == '1');
-            operation_end(get_history_name(diy_data.value.find((item: any) => item.show_tabs == '1')));
+            const new_name = get_history_name(cloneDeep(diy_data.value[show_tabs_index == -1 ? 0 : show_tabs_index]));
             // 删除的是当前的这个数据
             if (show_tabs_index == index) {
                 // 调用删除接口，然后，更新数据
@@ -316,6 +316,7 @@ const del = (index: null | number) => {
                 diy_data.value.splice(index, 1);
             }
             select_index.value = diy_data.value.length > 0 ? select_index.value : null;
+            operation_end(new_name);
         });
     }
 };
@@ -525,11 +526,11 @@ const drop = (event: any) => {
 const dragEndHandle = (item: any, index: number) => {
     const old_location = diy_data.value[index].location;
     const new_location = { x: item.x, y: item.y, record_x: item.x, record_y: item.y, staging_y: item.y };
+    diy_data.value[index].location = new_location;
     // 对数组进行比较，确定跟之前的是否有变化
     if (!isEqual(old_location, new_location)) {
         operation_end(get_history_name(diy_data.value[index]));
     }
-    diy_data.value[index].location = new_location;
 };
 // 拖拽结束时触发的事件 {x: number, y: number, w: number, h: number}
 const resizingHandle = (new_location: any, key: string, index: number, type: string) => {
