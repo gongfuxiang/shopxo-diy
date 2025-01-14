@@ -18,7 +18,7 @@
 // 动画类型
 const animation_type = defineModel('type', { type: String, default: 'default' });
 // 动画次数
-const animation_number = defineModel('number', { type: String, default: 'default' });
+const animation_number = defineModel('number', { type: String, default: 'infinite' });
 // 动画类型选项
 const animation_option = [
     { name: '无', value: 'default' },
@@ -32,7 +32,7 @@ const animation_option = [
     { name: '淡入淡出', value: 'fade-in-bck-alternate' },
     { name: '文字铺开', value: 'tracking-in-expand' },
     { name: '左侧弹跳', value: 'bounce-in-left' },
-    { name: '右侧滑动', value: 'slide-in-left' },
+    { name: '左侧滑动', value: 'slide-in-left' },
     { name: '中心滑动', value: 'slide-in-fwd-center' },
     { name: '心跳', value: 'heartbeat' },
     { name: '脉动', value: 'pulsate-bck' },
