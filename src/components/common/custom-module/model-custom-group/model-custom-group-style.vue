@@ -15,6 +15,8 @@
             <div class="bg-f5 divider-line" />
             <condition-config :value="form" :options="options" @operation_end="operation_end"></condition-config>
             <div class="bg-f5 divider-line" />
+            <animation-config v-model:type="form.animation_style.type" v-model:number="form.animation_style.number" @operation_end="operation_end"></animation-config>
+            <div class="bg-f5 divider-line" />
             <el-tabs v-model="tabs_name" class="content-tabs">
                 <el-tab-pane label="内容设置" name="content">
                     <custom-tabs-content :value="form" :options="options" @operation_end="operation_end"></custom-tabs-content>

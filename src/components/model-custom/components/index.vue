@@ -68,7 +68,7 @@
                         <div class="w h" @mousedown.prevent="start_drag" @mousemove.prevent="move_drag" @mouseup.prevent="end_drag">
                             <DraggableContainer v-if="draggable_container" style="z-index:0" :reference-line-visible="true" :disabled="false" reference-line-color="#ddd" @selectstart.prevent @contextmenu.prevent @dragstart.prevent>
                                 <!-- @mouseover="on_choose(index)" -->
-                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="{'plug-in-show-component-line': is_show_component_line, 'plug-in-show-tabs': item.show_tabs == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1' }" :style="{ 'z-index': (diy_data.length - 1) - index }" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index, 'resizing')" @resize-end="resizingHandle($event, item.key, index, 'resizeEnd')">
+                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="[`${ animation_class(item.com_data) } `, {'plug-in-show-component-line': is_show_component_line, 'plug-in-show-tabs': item.show_tabs == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1' }]" :style="{ 'z-index': (diy_data.length - 1) - index }" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index, 'resizing')" @resize-end="resizingHandle($event, item.key, index, 'resizeEnd')">
                                     <div :class="['main-content flex-row', { 'plug-in-border': item.show_tabs == '1' }]">
                                         <template v-if="item.key == 'text'">
                                             <model-text :key="item.id" :value="item.com_data" :source-list="props.sourceList" :is-custom="isCustom" :is-custom-group="isCustomGroup" :custom-group-field-id="customGroupFieldId" :title-params="showData?.data_name || 'name'"></model-text>
@@ -191,6 +191,17 @@ const url_computer = (name: string) => {
     return new_url;
 };
 //#endregion
+// 动画class处理
+const animation_class = computed(() => {
+    return (val: any) => {
+        const { type = 'none', number = 'infinite' } = val?.animation_style || {};
+        if (type != 'none') {
+            return type + (number == 'infinite' ? `-${number}` : '');
+        } else {
+            return '';
+        }
+    }
+});
 // 获取历史记录存储的别名
 //#region 组件边线相关
 const is_show_component_line = ref(false);
@@ -456,6 +467,10 @@ watch(() => center_height.value, () => {
                 data_source_link_field: {
                     ...item.com_data?.data_source_link_field ?? { id: '', option: {} },
                     id: !isEmpty(item.com_data?.data_source_link_field?.id || '')? item.com_data.data_source_link_field.id : '',
+                },
+                animation_style: {
+                    type: item.com_data?.animation_style?.type || 'none',
+                    number: item.com_data?.animation_style?.number || 'infinite',
                 },
             },
         }));

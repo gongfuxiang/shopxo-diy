@@ -55,6 +55,10 @@ const text_com_data = {
         field: '', // 字段id
         type: '', // 条件类型
         value: '', // 值
+    },
+    animation_style: {
+        type: 'none',
+        number: 'infinite',
     }
 }
 // 图片的默认值
@@ -99,6 +103,10 @@ const img_com_data = {
         field: '', // 字段id
         type: '', // 条件类型
         value: '', // 值
+    },
+    animation_style: {
+        type: 'none',
+        number: 'infinite',
     }
 }
 // 线条的默认值
@@ -116,6 +124,10 @@ const line_com_data = {
         field: '', // 字段id
         type: '', // 条件类型
         value: '', // 值
+    },
+    animation_style: {
+        type: 'none',
+        number: 'infinite',
     }
 }
 
@@ -168,6 +180,10 @@ const icon_com_data = {
         field: '', // 字段id
         type: '', // 条件类型
         value: '', // 值
+    },
+    animation_style: {
+        type: 'none',
+        number: 'infinite',
     }
 }
 
@@ -202,6 +218,10 @@ const panel_com_data = {
         field: '', // 字段id
         type: '', // 条件类型
         value: '', // 值
+    },
+    animation_style: {
+        type: 'none',
+        number: 'infinite',
     }
 }
 
@@ -227,6 +247,10 @@ const custom_group_com_data = {
     is_scroll_bar: false,   // 是否需要滚动条
     data_style: {
         ...defaultCustom.style
+    },
+    animation_style: {
+        type: 'none',
+        number: 'infinite',
     }
 }
 // 判断两个矩形是否有交集或者被包裹

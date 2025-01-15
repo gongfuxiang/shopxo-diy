@@ -39,6 +39,8 @@
             </card-container>
             <div class="bg-f5 divider-line" />
             <condition-config :value="form" :options="options" @operation_end="operation_end"></condition-config>
+            <div class="bg-f5 divider-line" />
+            <animation-config v-model:type="form.animation_style.type" v-model:number="form.animation_style.number" @operation_end="operation_end"></animation-config>
         </el-form>
     </div>
 </template>

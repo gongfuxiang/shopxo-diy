@@ -16,12 +16,12 @@
 
 <script lang="ts" setup>
 // 动画类型
-const animation_type = defineModel('type', { type: String, default: 'default' });
+const animation_type = defineModel('type', { type: String, default: 'none' });
 // 动画次数
 const animation_number = defineModel('number', { type: String, default: 'infinite' });
 // 动画类型选项
 const animation_option = [
-    { name: '无', value: 'default' },
+    { name: '无', value: 'none' },
     { name: '中心放大', value: 'scale-up-center' },
     { name: '中心缩小', value: 'scale-out-center' },
     { name: '垂直放大', value: 'scale-up-ver-bottom' },
@@ -33,10 +33,19 @@ const animation_option = [
     { name: '文字铺开', value: 'tracking-in-expand' },
     { name: '左侧弹跳', value: 'bounce-in-left' },
     { name: '左侧滑动', value: 'slide-in-left' },
+    { name: '向上弹跳', value: 'bounce-top' },
+    { name: '向下弹跳', value: 'bounce-bottom' },
+    { name: '向左弹跳', value: 'bounce-left' },
+    { name: '向右弹跳', value: 'bounce-right' },
     { name: '中心滑动', value: 'slide-in-fwd-center' },
+    { name: '左旋转', value: 'swirl-in-left-fwd' },
+    { name: '模糊显示', value: 'text-focus-in' },
     { name: '心跳', value: 'heartbeat' },
     { name: '脉动', value: 'pulsate-bck' },
     { name: '翻转', value: 'flip-in-diag-2-tl' },
+    { name: '摇动', value: 'shake-bottom' },
+    { name: '震动', value: 'vibrate' },
+    { name: '果冻', value: 'jello-horizontal' }
 ];
 // 动画类型次数
 const animation_number_option = [

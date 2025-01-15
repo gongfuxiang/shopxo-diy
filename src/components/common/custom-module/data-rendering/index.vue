@@ -1,6 +1,6 @@
 <template>
     <div class="w h re custom-other">
-        <div v-for="(item, index) in list" :key="item.id" class="main-content flex-row" :style="{'left': percentage_count(item.location.x) , 'top': percentage_count(item.location.y), 'width': percentage_count(item.com_data.com_width), 'height': percentage_count(item.com_data.com_height), 'z-index': (customList.length - 1) - index}">
+        <div v-for="(item, index) in list" :key="item.id" :class="`main-content flex-row ${ animation_class(item.com_data) }`" :style="{'left': percentage_count(item.location.x) , 'top': percentage_count(item.location.y), 'width': percentage_count(item.com_data.com_width), 'height': percentage_count(item.com_data.com_height), 'z-index': (customList.length - 1) - index}">
             <template v-if="item.key == 'text'">
                 <model-text :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :is-custom="isCustom" :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :title-params="showData?.data_name || 'name'" :is-display-panel="true"></model-text>
             </template>
@@ -95,6 +95,17 @@ const percentage_count = (val: number) => {
 };
 
 const custom_height = computed(() => props.dataHeight * props.scale + 'px');
+
+const animation_class = computed(() => {
+    return (val: any) => {
+        const { type = 'none', number = 'infinite' } = val?.animation_style || {};
+        if (type != 'none') {
+            return type + (number == 'infinite' ? `-${number}` : '');
+        } else {
+            return '';
+        }
+    }
+});
 </script>
 
 <style lang="scss" scoped>
