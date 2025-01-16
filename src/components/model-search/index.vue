@@ -37,18 +37,30 @@
                         </template>
                     </div>
                 </div>
-                <div v-if="form.is_search_show == '1'" class="abs search-botton h flex align-c jc-c" :style="search_button">
-                    <template v-if="form.search_type === 'text'">
-                        <div :class="['ptb-3 size-12', props.isPageSettings ? 'plr-12' : 'plr-16']">{{ form.search_tips }}</div>
+                <div class="flex-row align-c abs search-botton oh" :style="`border-radius: 0px ${ new_style.search_button_radius?.radius_top_right || 0 }px ${ new_style.search_button_radius?.radius_bottom_right || 0 }px 0px;`">
+                    <template v-if="form.is_right_icon_show == '1' && (form.right_icon_img.length > 0 || !isEmpty(form.right_icon_class))">
+                        <template v-if="form.right_icon_img.length > 0">
+                            <div class="img-box mr-10">
+                                <image-empty v-model="form.right_icon_img[0]" class="img" fit="contain" error-img-style="width: 4rem;height: 2.5rem;" />
+                            </div>
+                        </template>
+                        <template v-else-if="!isEmpty(form.right_icon_class)">
+                            <el-icon :class="`iconfont ${ 'icon-' + form.right_icon_class } size-14 mr-10`" :style="`color:${new_style.right_icon_color};`" />
+                        </template>
                     </template>
-                    <template v-else-if="!isEmpty(form.search_botton_img) && form.search_botton_img.length > 0">
-                        <image-empty v-model="form.search_botton_img[0]" class="img" :style="search_button_radius" error-img-style="width: 4rem;height: 2.8rem;" />
-                    </template>
-                    <template v-else>
-                        <div :class="['ptb-3 size-12', props.isPageSettings ? 'plr-12' : 'plr-16']">
-                            <el-icon :class="`iconfont ${ !isEmpty(form.search_botton_icon) ? 'icon-' + form.search_botton_icon : '' } size-14`" />
-                        </div>
-                    </template>
+                    <div v-if="form.is_search_show == '1'" class="h flex align-c jc-c" :style="search_button">
+                        <template v-if="form.search_type === 'text'">
+                            <div :class="['ptb-3 size-12', props.isPageSettings ? 'plr-12' : 'plr-16']">{{ form.search_tips }}</div>
+                        </template>
+                        <template v-else-if="!isEmpty(form.search_botton_img) && form.search_botton_img.length > 0">
+                            <image-empty v-model="form.search_botton_img[0]" class="img" :style="search_button_radius" error-img-style="width: 4rem;height: 2.8rem;" />
+                        </template>
+                        <template v-else>
+                            <div :class="['ptb-3 size-12', props.isPageSettings ? 'plr-12' : 'plr-16']">
+                                <el-icon :class="`iconfont ${ !isEmpty(form.search_botton_icon) ? 'icon-' + form.search_botton_icon : '' } size-14`" />
+                            </div>
+                        </template>
+                    </div>
                 </div>
             </div>
         </div>

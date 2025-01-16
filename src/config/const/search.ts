@@ -18,6 +18,10 @@ interface defaultSearch {
         search_botton_icon: string;
         is_tips_show: string;
         tips: string;
+        is_right_icon_show: string,
+        right_icon_link: object,
+        right_icon_img: uploadList[],
+        right_icon_class: string,
         is_search_show: string;
         search_type: string;
         search_tips: string;
@@ -26,6 +30,7 @@ interface defaultSearch {
     };
     style: {
         icon_color: string;
+        right_icon_color: string;
         button_inner_color: string;
         search_botton_color_list: color_list[];
         search_botton_direction: string;
@@ -58,6 +63,11 @@ const defaultSearch: defaultSearch = {
         // 搜索提示信息
         is_tips_show: '1',
         tips: '请输入搜索内容',
+        // 是否显示右侧icon
+        is_right_icon_show: '1',
+        right_icon_link: {},
+        right_icon_img: [],
+        right_icon_class: '',
         // 搜索按钮显示逻辑
         search_botton_img: [],
         search_botton_icon: '',
@@ -72,6 +82,7 @@ const defaultSearch: defaultSearch = {
     style: {
         // 搜索图标颜色
         icon_color: '#ccc',
+        right_icon_color: '#ccc',
         // 搜索按钮显示样式
         button_inner_color: '#fff',
         search_botton_color_list: [{ color: '#FF973D', color_percentage: undefined }, { color: '#FF3131', color_percentage: undefined }],

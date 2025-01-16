@@ -49,8 +49,8 @@ const animation_option = [
 ];
 // 动画类型次数
 const animation_number_option = [
-    { name: '单次', value: 'default' },
-    { name: '无限', value: 'infinite' }
+    { name: '单次显示', value: 'default' },
+    { name: '无限循环', value: 'infinite' }
 ]
 
 // 操作结束
