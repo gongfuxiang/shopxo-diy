@@ -6,7 +6,7 @@
                 <el-option v-for="item in animation_option" :key="item.value" :label="item.name" :value="item.value" />
             </el-select>
         </el-form-item>
-        <el-form-item label="动画次数">
+        <el-form-item v-if="animation_type != 'none'" label="动画次数">
             <el-select v-model="animation_number" value-key="id" filterable placeholder="请选择动画次数" size="default" class="flex-1" @change="operation_end">
                 <el-option v-for="item in animation_number_option" :key="item.value" :label="item.name" :value="item.value" />
             </el-select>
