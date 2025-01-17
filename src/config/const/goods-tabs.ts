@@ -27,6 +27,8 @@ interface DefaultProductList {
     content: {
         content_top: object;
         tabs_theme: string;
+        tabs_adorn_icon: string;
+        tabs_adorn_img: uploadList[];
         tabs_top_up: string;
         theme: string;
         carousel_col: number;
@@ -50,6 +52,10 @@ interface DefaultProductList {
     style: {
         tabs_one_theme: string;
         tabs_checked: color_list[];
+        is_tabs_adorn_img_background: string;
+        tabs_adorn_icon_size: number,
+        tabs_adorn_img_radius: radiusStyle,
+        tabs_adorn_img_height: number,
         tabs_direction: string;
         tabs_weight_checked: string;
         tabs_size_checked: number;
@@ -150,6 +156,9 @@ const defaultProductList: DefaultProductList = {
         },
         // 选项卡风格
         tabs_theme: '0',
+        // 选中装饰图标
+        tabs_adorn_icon: 'checked-smooth',
+        tabs_adorn_img: [],
         // 是否置顶
         tabs_top_up: '0',
         // 商品风格
@@ -194,6 +203,16 @@ const defaultProductList: DefaultProductList = {
             { color: '#FF2222', color_percentage: undefined },
             { color: '#FF9898', color_percentage: undefined },
         ],
+        is_tabs_adorn_img_background: '0',
+        tabs_adorn_icon_size: 10,
+        tabs_adorn_img_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+        },
+        tabs_adorn_img_height: 10,
         tabs_direction: '90deg',
         tabs_weight_checked: 'bold',
         tabs_size_checked: 14,

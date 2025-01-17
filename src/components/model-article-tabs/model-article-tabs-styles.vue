@@ -10,6 +10,25 @@
                     </el-radio-group>
                     <mult-color-picker :value="form.tabs_checked" :type="form.tabs_direction" @update:value="tabs_checked_event"></mult-color-picker>
                 </el-form-item>
+                <!-- 装饰图标设置 -->
+                <template v-if="data.tabs_theme == '3'">
+                    <el-form-item v-if="!isEmpty(data.tabs_adorn_icon)" label="装饰图标">
+                        <slider v-model="form.tabs_adorn_icon_size"></slider>
+                    </el-form-item>
+                    <el-form-item v-else label="装饰图片">
+                        <div class="flex-col gap-10 w">
+                            <el-form-item label="背景" label-width="40">
+                                <el-switch v-model="form.is_tabs_adorn_img_background" active-value="1" inactive-value="0" />
+                            </el-form-item>
+                            <el-form-item label="圆角" label-width="40">
+                                <radius :value="form.tabs_adorn_img_radius"></radius>
+                            </el-form-item>
+                            <el-form-item label="高度" label-width="40">
+                                <slider v-model="form.tabs_adorn_img_height" :max="200"></slider>
+                            </el-form-item>
+                        </div>
+                    </el-form-item>
+                </template>
                 <el-form-item label="选中文字">
                     <color-text-size-group v-model:color="form.tabs_color_checked" v-model:typeface="form.tabs_weight_checked" v-model:size="form.tabs_size_checked" default-color="rgba(51,51,51,1)"></color-text-size-group>
                 </el-form-item>
@@ -195,6 +214,7 @@
     </div>
 </template>
 <script setup lang="ts">
+import { isEmpty } from 'lodash'
 /**
  * @description: 文章选项卡列表 （样式）
  * @param value{Object} 样式数据

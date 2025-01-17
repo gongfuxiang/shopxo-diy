@@ -25,7 +25,14 @@
                         <div class="title" :style="title_style(index) + (index == activeIndex ? '' : padding_bottom)">{{ item.title }}</div>
                     </template>
                     <div class="desc" :style="tabs_theme_index == '1' && index == activeIndex ? tabs_check : ''">{{ item.desc }}</div>
-                    <icon name="checked-smooth" class="icon" :style="tabs_theme_index == '3' ? icon_tabs_check() : ''"></icon>
+                    <template v-if="tabs_theme_index == '3' && index == activeIndex">
+                        <template v-if="!isEmpty(form.tabs_adorn_icon)">
+                            <icon :name="form.tabs_adorn_icon" class="icon" :style="tabs_theme_index == '3' ? icon_tabs_check() : ''" :size="new_style.tabs_adorn_icon_size + ''"></icon>
+                        </template>
+                        <template v-else>
+                            <image-empty v-model="form.tabs_adorn_img[0]" fit="contain" :style="tabs_theme_index == '3' ? tabs_adorn_img_style : ''" error-img-style="width: 2rem;height: 2rem;" />
+                        </template>
+                    </template>
                     <div class="bottom_line" :class="tabs_bottom_line_theme" :style="tabs_check"></div>
                 </div>
             </template>
@@ -80,6 +87,10 @@ const tabs_bottom_line_theme = computed(() => {
 });
 const tabs_theme_1_style = computed(() => {
     return new_style.value.tabs_one_theme == '1';
+});
+
+const tabs_adorn_img_style = computed(() => {
+    return radius_computer(new_style.value.tabs_adorn_img_radius) + `height: ${new_style.value.tabs_adorn_img_height}px;${ new_style.value.is_tabs_adorn_img_background == '1' ? tabs_check.value : ''}`;
 });
 
 const tabs_height = computed(() => {
@@ -182,7 +193,7 @@ const padding_bottom = computed(() => {
             bottom = 3;
         }
     } else if (form.value.tabs_theme == '3') {
-        bottom = 10;
+        bottom = !isEmpty(form.value.tabs_adorn_icon) ? new_style.value.tabs_adorn_icon_size : new_style.value.tabs_adorn_img_height;
     }
     return ['1', '2', '4'].includes(form.value.tabs_theme) ? '' : `padding-bottom: ${(new_style.value?.tabs_sign_spacing || 0) + bottom}px;`;
 });
@@ -233,7 +244,7 @@ const icon_tabs_check = () => {
             bottom: 0;
             text-align: center;
             font-size: 2rem;
-            line-height: 1rem !important;
+            // line-height: 1rem !important;
             display: none;
         }
         .img {

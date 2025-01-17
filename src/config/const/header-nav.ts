@@ -145,7 +145,7 @@ const defaultFooterNav: DefaultFooterNav = {
         // 搜索提示信息
         tips: '请输入搜索内容',
         // 是否显示右侧icon
-        is_right_icon_show: '1',
+        is_right_icon_show: '0',
         right_icon_link: {},
         right_icon_img: [],
         right_icon_class: '',

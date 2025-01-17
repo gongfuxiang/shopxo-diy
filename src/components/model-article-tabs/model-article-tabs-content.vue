@@ -18,6 +18,9 @@
                         <el-radio v-for="item in base_list.tabs_theme_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
+                <el-form-item v-if="form.tabs_theme == '3'" label="选中图标">
+                    <upload v-model="form.tabs_adorn_img" v-model:icon-value="form.tabs_adorn_icon" is-icon :limit="1" size="50"></upload>
+                </el-form-item>
                 <el-form-item label="文章风格">
                     <el-radio-group v-model="form.article_theme" @change="article_theme_change">
                         <el-radio v-for="item in base_list.article_theme_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>

@@ -18,6 +18,8 @@ interface defaultTabs {
     content: {
         content_top: object;
         tabs_theme: string;
+        tabs_adorn_icon: string;
+        tabs_adorn_img: uploadList[];
         tabs_top_up: string;
         home_data: tabs_page;
         tabs_list: tabs_page[];
@@ -25,6 +27,10 @@ interface defaultTabs {
     style: {
         tabs_one_theme: string;
         tabs_checked: color_list[];
+        is_tabs_adorn_img_background: string;
+        tabs_adorn_icon_size: number,
+        tabs_adorn_img_radius: radiusStyle,
+        tabs_adorn_img_height: number,
         tabs_direction: string;
         tabs_weight_checked: string;
         tabs_size_checked: number;
@@ -54,6 +60,9 @@ const defaultTabs: defaultTabs = {
             ...commonTop,
         },
         tabs_theme: '0',
+        // 选中装饰图标
+        tabs_adorn_icon: 'checked-smooth',
+        tabs_adorn_img: [],
         tabs_top_up: '0',
         home_data: { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', title: '首页', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
         tabs_list: [
@@ -68,6 +77,16 @@ const defaultTabs: defaultTabs = {
             { color: '#FF2222', color_percentage: undefined },
             { color: '#FF9898', color_percentage: undefined },
         ],
+        is_tabs_adorn_img_background: '0',
+        tabs_adorn_icon_size: 10,
+        tabs_adorn_img_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+        },
+        tabs_adorn_img_height: 10,
         tabs_direction: '90deg',
         tabs_weight_checked: 'bold',
         tabs_size_checked: 14,
