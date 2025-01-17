@@ -78,7 +78,7 @@ const defaultTabs: defaultTabs = {
             { color: '#FF9898', color_percentage: undefined },
         ],
         is_tabs_adorn_img_background: '0',
-        tabs_adorn_icon_size: 10,
+        tabs_adorn_icon_size: 15,
         tabs_adorn_img_radius: {
             radius: 0,
             radius_top_left: 0,
