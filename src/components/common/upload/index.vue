@@ -220,7 +220,7 @@
     </template>
     <!-- 图片预览 -->
     <el-image-viewer v-if="preview_switch_img && upload_type == 'img'" class="123123" :z-index="999999" :url-list="[preview_url]" teleported :hide-on-click-modal="true" @close="preview_close"></el-image-viewer>
-    <upload-model v-model="upload_model_visible" :type="upload_type" :exts="props.type == 'img' ? ext_img_name_list : props.type == 'video' ? ext_video_name_list : ext_file_name_list" @close-all="close_all_upload_model" @close="close_upload_model"></upload-model>
+    <upload-model v-model="upload_model_visible" :type="upload_type" :exts="upload_type == 'img' ? ext_img_name_list : upload_type == 'video' ? ext_video_name_list : ext_file_name_list" @close-all="close_all_upload_model" @close="close_upload_model"></upload-model>
     <form-upload-category v-model="upload_category_model_visible" :value="upload_category_model" :type="upload_category_type" :category-id="upload_category_id" :category-pid="upload_category_pid" @confirm="upload_category_confirm"></form-upload-category>
 </template>
 <script lang="ts" setup>

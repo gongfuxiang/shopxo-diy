@@ -202,7 +202,7 @@ const upload_type_name = computed(() => {
     return props.type === 'img' ? '图片' : props.type === 'video' ? '视频' : '文件';
 });
 // 格式限制
-const exts_text = ref(props.exts.join(','));
+const exts_text = computed(() => props.exts.join(','));
 const file_list = ref<UploadUserFile[]>([]);
 interface fileData {
     file: File;
