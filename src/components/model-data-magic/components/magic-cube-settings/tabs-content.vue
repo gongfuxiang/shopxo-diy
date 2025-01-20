@@ -24,7 +24,18 @@
                 </div>
             </el-form-item>
             <el-form-item label="副标题">
-                <el-input v-model="form.subtitle" placeholder="请输入副标题" clearable></el-input>
+                <div class="flex-col gap-10 w">
+                    <el-radio-group v-model="form.subtitle_title_type">
+                        <el-radio value="text">文字</el-radio>
+                        <el-radio value="image">图片</el-radio>
+                    </el-radio-group>
+                    <template v-if="form.subtitle_title_type == 'text'">
+                        <el-input v-model="form.subtitle" placeholder="请输入副标题" clearable></el-input>
+                    </template>
+                    <template v-else>
+                        <upload v-model="form.subtitle_title_img" :limit="1" size="50"></upload>
+                    </template>
+                </div>
             </el-form-item>
             <el-form-item label="商品排列">
                 <el-radio-group v-model="form.goods_outerflex">

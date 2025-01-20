@@ -50,7 +50,14 @@
                 </template>
             </el-form-item>
             <el-form-item label="副标题">
-                <color-text-size-group v-model:color="form.subtitle_color" v-model:typeface="form.subtitle_typeface" v-model:size="form.subtitle_size" default-color="#000000"></color-text-size-group>
+                <template v-if="tabs_content.subtitle_title_type == 'text'">
+                    <color-text-size-group v-model:color="form.subtitle_color" v-model:typeface="form.subtitle_typeface" v-model:size="form.subtitle_size" default-color="#000000"></color-text-size-group>
+                </template>
+                <template v-else>
+                    <el-form-item label="图片高度" label-width="60" class="w form-item-child-label">
+                        <slider v-model="form.subtitle_img_height" :min="1" :max="200"></slider>
+                    </el-form-item>
+                </template>
             </el-form-item>
             <el-form-item label="标题内间距">
                 <slider v-model="form.title_gap" :min="0" :max="100"></slider>

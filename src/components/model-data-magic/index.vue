@@ -19,7 +19,14 @@
                                                 <template v-else>
                                                     <p class="ma-0 w text-word-break text-line-1 flex-basis-shrink" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
                                                 </template>
-                                                <p class="ma-0 w text-word-break text-line-1 flex-basis-shrink" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
+                                                <template v-if="item.data_content.subtitle_title_type && item.data_content.subtitle_title_type == 'image'">
+                                                    <div v-if="item.data_content.subtitle_title_img.length > 0" class="re" :style="`height: ${ item.data_style?.subtitle_img_height || 0 }px;`">
+                                                        <img :style="`height: ${ item.data_style?.subtitle_img_height || 0 }px;max-width: 100%;`" :src="item.data_content.subtitle_title_img[0].url" fit="contain" />
+                                                    </div>
+                                                </template>
+                                                <template v-else>
+                                                    <p class="ma-0 w text-word-break text-line-1 flex-basis-shrink" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
+                                                </template>
                                             </div>
                                             <div class="w h flex-1 oh flex-row">
                                                 <magic-carousel :key="form.style_actived" :value="item" :good-style="item.data_style" :actived="form.style_actived" type="product" @carousel_change="carousel_change(index, $event)"></magic-carousel>
@@ -67,7 +74,14 @@
                                             <template v-else>
                                                 <p class="ma-0 w text-word-break text-line-1 flex-basis-shrink" :style="trends_config(item.data_style, 'heading')">{{ item.data_content.heading_title || '' }}</p>
                                             </template>
-                                            <p class="ma-0 w text-word-break text-line-1 flex-basis-shrink" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
+                                            <template v-if="item.data_content.subtitle_title_type && item.data_content.subtitle_title_type == 'image'">
+                                                <div v-if="item.data_content.subtitle_title_img.length > 0" class="re" :style="`height: ${ item.data_style?.subtitle_img_height || 0 }px`">
+                                                    <img :style="`height: ${ item.data_style?.subtitle_img_height || 0 }px;max-width: 100%;`" :src="item.data_content.subtitle_title_img[0].url" fit="contain" />
+                                                </div>
+                                            </template>
+                                            <template v-else>
+                                                <p class="ma-0 w text-word-break text-line-1 flex-basis-shrink" :style="trends_config(item.data_style, 'subtitle')">{{ item.data_content.subtitle || '' }}</p>
+                                            </template>
                                         </div>
                                         <div class="w h flex-1 oh flex-row">
                                             <magic-carousel :key="form.style_actived" :value="item" :good-style="item.data_style" type="product" :actived="form.style_actived" @carousel_change="carousel_change(index, $event)"></magic-carousel>

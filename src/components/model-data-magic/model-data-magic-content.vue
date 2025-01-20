@@ -125,6 +125,7 @@ const data_style = {
     subtitle_color: '#FF852A',
     subtitle_typeface: '400',
     subtitle_size: 14,
+    subtitle_img_height: 28,
     goods_title_typeface: 'bold',
     goods_title_size: 14,    
     goods_title_color: "#333333",
@@ -320,7 +321,9 @@ const data_content = {
     heading_title_type: 'text',
     heading_title: '主标题',
     heading_title_img: [],
+    subtitle_title_type:'text',
     subtitle: '副标题',
+    subtitle_title_img: [],
     // 商品数据处理
     goods_list:[],
     goods_ids: '',
