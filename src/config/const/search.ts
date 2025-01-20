@@ -38,6 +38,11 @@ interface defaultSearch {
         search_botton_background_img: uploadList[];
         search_button_radius: object;
         search_botton_padding: paddingStyle;
+        search_botton_margin: marginStyle,
+        search_botton_border_show: string,
+        search_botton_border_color: string,
+        search_botton_border_style: string,
+        search_botton_border_size: paddingStyle;
         search_padding_left: number;
         tips_color: string;
         hot_words_color: string;
@@ -104,6 +109,23 @@ const defaultSearch: defaultSearch = {
             padding_right: 16,
             padding_bottom: 3,
         },
+        search_botton_margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_right: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+        },
+        search_botton_border_size: {
+            padding: 0,
+            padding_top: 0,
+            padding_right: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+        },
+        search_botton_border_show: '0',
+        search_botton_border_color: '#FF3F3F',
+        search_botton_border_style: 'solid',
         // 搜索提示颜色
         tips_color: '#ccc',
         // 搜索热词颜色

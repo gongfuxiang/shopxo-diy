@@ -81,6 +81,11 @@ interface DefaultFooterNav {
         search_botton_background_img: uploadList[];
         search_button_radius: object;
         search_botton_padding: paddingStyle;
+        search_botton_margin: marginStyle,
+        search_botton_border_show: string,
+        search_botton_border_color: string,
+        search_botton_border_style: string,
+        search_botton_border_size: paddingStyle;
         location_direction: string;
         location_color_list: color_list[],
         location_background_img_style: string,
@@ -256,6 +261,23 @@ const defaultFooterNav: DefaultFooterNav = {
             padding_right: 12,
             padding_bottom: 3,
         },
+        search_botton_margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_right: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+        },
+        search_botton_border_size: {
+            padding: 0,
+            padding_top: 0,
+            padding_right: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+        },
+        search_botton_border_show: '0',
+        search_botton_border_color: '#FF3F3F',
+        search_botton_border_style: 'solid',
         // 搜索按钮显示样式
         button_inner_color: '#fff',
         search_botton_color_list: [

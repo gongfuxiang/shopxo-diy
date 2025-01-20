@@ -132,6 +132,23 @@ const default_data = {
             padding_right: 12,
             padding_bottom: 3,
         },
+        search_botton_margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_right: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+        },
+        search_botton_border_size: {
+            padding: 0,
+            padding_top: 0,
+            padding_right: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+        },
+        search_botton_border_show: '0',
+        search_botton_border_color: '#FF3F3F',
+        search_botton_border_style: 'solid',
         search_padding_left: 15,
     }
 }

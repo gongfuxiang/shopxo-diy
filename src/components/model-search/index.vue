@@ -48,18 +48,20 @@
                             <el-icon :class="`iconfont ${ 'icon-' + form.right_icon_class } size-14 mr-10`" :style="`color:${new_style.right_icon_color};`" />
                         </template>
                     </template>
-                    <div v-if="form.is_search_show == '1'" class="h flex align-c jc-c" :style="search_button">
-                        <template v-if="form.search_type === 'text'">
-                            <div class="size-12" :style="search_button_style">{{ form.search_tips }}</div>
-                        </template>
-                        <template v-else-if="!isEmpty(form.search_botton_img) && form.search_botton_img.length > 0">
-                            <image-empty v-model="form.search_botton_img[0]" class="img" :style="search_button_radius" error-img-style="width: 4rem;height: 2.8rem;" />
-                        </template>
-                        <template v-else>
-                            <div class="size-12" :style="search_button_style">
-                                <el-icon :class="`iconfont ${ !isEmpty(form.search_botton_icon) ? 'icon-' + form.search_botton_icon : '' } size-14`" />
-                            </div>
-                        </template>
+                    <div v-if="form.is_search_show == '1'" class="h flex align-c jc-c" :style="search_button_style">
+                        <div class="oh" :style="search_button_img_style">
+                            <template v-if="form.search_type === 'text'">
+                                <div class="size-12">{{ form.search_tips }}</div>
+                            </template>
+                            <template v-else-if="!isEmpty(form.search_botton_img) && form.search_botton_img.length > 0">
+                                <image-empty v-model="form.search_botton_img[0]" class="img" :style="search_button_height" error-img-style="width: 4rem;height: 2.8rem;" />
+                            </template>
+                            <template v-else>
+                                <div class="size-12">
+                                    <el-icon :class="`iconfont ${ !isEmpty(form.search_botton_icon) ? 'icon-' + form.search_botton_icon : '' } size-14`" />
+                                </div>
+                            </template>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -67,7 +69,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, common_styles_computer, gradient_computer, radius_computer, common_img_computer, get_math, padding_computer, old_padding } from '@/utils';
+import { background_computer, common_styles_computer, gradient_computer, radius_computer, common_img_computer, get_math, padding_computer, old_padding, margin_computer, old_margin } from '@/utils';
 import { isEmpty } from 'lodash';
 
 const props = defineProps({
@@ -125,14 +127,9 @@ const box_style = computed(() => {
     }
     return style;
 });
-// 搜索按钮圆角
-const search_button_radius = computed(() => radius_computer(new_style.value.search_button_radius));
 const search_button_style = computed(() => {
-    return padding_computer(new_style.value?.search_botton_padding || old_padding);
-});
-const search_button = computed(() => {
-    let style = search_button_radius.value;
-    const { search_botton_color_list, search_botton_direction, search_botton_background_img_style, search_botton_background_img  } = new_style.value;
+    let style = radius_computer(new_style.value.search_button_radius);
+    const { search_botton_color_list, search_botton_direction, search_botton_background_img_style, search_botton_background_img, search_botton_margin = old_margin, search_botton_border_show = '0', search_botton_border_size = old_padding, search_botton_border_style = 'solid', search_botton_border_color = '' } = new_style.value;
     if (form.value.search_type != 'img') {
         const data = {
             color_list: search_botton_color_list,
@@ -140,10 +137,29 @@ const search_button = computed(() => {
             background_img: search_botton_background_img,
             background_img_style: search_botton_background_img_style,
         }
-        style += gradient_computer(data) + background_computer(data) + `color: ${ new_style.value.button_inner_color };`;
+        style += gradient_computer(data) + margin_computer(search_botton_margin) + `color: ${ new_style.value.button_inner_color };`;
     }
-    return style;
+    let border = ``;
+    if (new_style.value.search_botton_border_show == '1') {
+        border += `border-width: ${search_botton_border_size.padding_top}px ${search_botton_border_size.padding_right}px ${search_botton_border_size.padding_bottom}px ${search_botton_border_size.padding_left}px;border-style: ${ search_botton_border_style };border-color: ${search_botton_border_color};`
+    }
+    const height = 28 - search_botton_margin.margin_top - search_botton_margin.margin_bottom;
+    return style + border + `height: ${height}px;line-height: ${height}px;`;
 })
+const search_button_height = computed(() => {
+    const { search_botton_border_size = old_padding, search_botton_padding } = new_style.value;
+    const height = 28 - search_botton_border_size.padding_top - search_botton_border_size.padding_bottom - search_botton_padding.padding_top - search_botton_padding.padding_bottom;
+    return `height: ${height}px !important;line-height: ${height}px;`;
+});
+// 搜索按钮圆角
+const search_button_img_style = computed(() => {
+    const { search_botton_background_img_style, search_botton_background_img} = new_style.value;
+    const data = {
+        background_img: search_botton_background_img,
+        background_img_style: search_botton_background_img_style,
+    }
+    return background_computer(data) + padding_computer(new_style.value?.search_botton_padding || old_padding);
+});
 // 轮播图key值
 const carouselKey = ref('0');
 // 记录当前显示的轮播图的数据

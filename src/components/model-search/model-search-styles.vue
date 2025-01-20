@@ -25,9 +25,14 @@
                     <el-form-item label="按钮圆角">
                         <radius :value="form.search_button_radius"></radius>
                     </el-form-item>
-                    <el-form-item v-if="content.search_type != 'img'" label="内间距">
+                    <el-form-item label="内间距">
                         <padding :value="form.search_botton_padding"></padding>
                     </el-form-item>
+                    <el-form-item label="外边距">
+                        <margin :value="form.search_botton_margin"></margin>
+                    </el-form-item>
+                    <!-- 边框处理 -->
+                    <border-config v-model:show="form.search_botton_border_show" v-model:color="form.search_botton_border_color" v-model:style="form.search_botton_border_style" v-model:size="form.search_botton_border_size" :type-list="['color', 'style', 'size']" default-color="#FF3F3F"></border-config>
                 </card-container>
                 <div class="bg-f5 divider-line" />
             </template>
