@@ -62,7 +62,7 @@
                                                     <!-- <div v-if="is_show('4')" class="pl-5" :style="trends_config('score')">评分0</div> -->
                                                 </div>
                                             </div>
-                                            <div v-if="form.is_shop_show == '1'">
+                                            <div v-if="(form.is_shop_show == '1' && form.shop_button_effect == '1' && item.is_error == 0) || (form.is_shop_show == '1' && form.shop_button_effect == '0')">
                                                 <template v-if="form.shop_type == 'text'">
                                                     <div class="plr-11 ptb-3 round cr-f" :style="trends_config('button', 'gradient') + `color: ${new_style.shop_button_text_color};`">{{ form.shop_button_text }}</div>
                                                 </template>
@@ -88,7 +88,7 @@
                                                 </span>
                                             </div>
                                         </div>
-                                        <div v-if="form.is_shop_show == '1'">
+                                        <div v-if="(form.is_shop_show == '1' && form.shop_button_effect == '1' && item.is_error == 0) || (form.is_shop_show == '1' && form.shop_button_effect == '0')">
                                             <template v-if="form.shop_type == 'text'">
                                                 <div class="plr-11 ptb-3 round cr-f" :style="trends_config('button', 'gradient') + `color: ${new_style.shop_button_text_color};`">{{ form.shop_button_text }}</div>
                                             </template>
@@ -145,7 +145,7 @@
                                                     </span>
                                                 </div>
                                             </div>
-                                            <div v-if="form.is_shop_show == '1'">
+                                            <div v-if="(form.is_shop_show == '1' && form.shop_button_effect == '1' && item.is_error == 0) || (form.is_shop_show == '1' && form.shop_button_effect == '0')">
                                                 <template v-if="form.shop_type == 'text'">
                                                     <div class="plr-11 ptb-3 round cr-f" :style="trends_config('button', 'gradient') + `color: ${new_style.shop_button_text_color};`">{{ form.shop_button_text }}</div>
                                                 </template>
@@ -208,6 +208,7 @@ interface data_list {
     show_price_symbol: string;
     show_price_unit: string;
     sales_count: string;
+    is_error: number;
     plugins_view_icon_data: plugins_icon_data[];
 }
 const default_list = {
@@ -221,6 +222,7 @@ const default_list = {
     sales_count: '1000',
     images: '',
     new_cover: [],
+    is_error: 0,
     plugins_view_icon_data: [
         {
             name: '满减活动',
@@ -265,9 +267,9 @@ onMounted(() => {
 });
 
 const get_products = () => {
-    const { category_ids, brand_ids, number, order_by_type, order_by_rule, keyword } = form.value;
+    const { category_ids, brand_ids, number, order_by_type, order_by_rule, keywords } = form.value;
     const params = {
-        goods_keywords: keyword,
+        goods_keywords: keywords,
         goods_category_ids: category_ids,
         goods_brand_ids: brand_ids,
         goods_order_by_type: order_by_type,
@@ -285,8 +287,8 @@ const get_products = () => {
 };
 // 取出监听的数据
 const watch_data = computed(() => {
-    const { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, data_list, keyword } = form.value;
-    return { category_ids: category_ids, brand_ids: brand_ids, number: number, order_by_type: order_by_type, order_by_rule: order_by_rule, data_type: data_type, data_list: data_list, keyword: keyword };
+    const { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, data_list, keywords } = form.value;
+    return { category_ids: category_ids, brand_ids: brand_ids, number: number, order_by_type: order_by_type, order_by_rule: order_by_rule, data_type: data_type, data_list: data_list, keyword: keywords };
 })
 // 初始化的时候不执行, 监听数据变化
 watch(() => watch_data.value, (val, oldVal) => {

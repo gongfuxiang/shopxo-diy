@@ -64,7 +64,7 @@ watch(
         shop_img_container.value = background_computer(shop_content_data) + padding_computer(new_style.shop_content_padding);
         // 产品的值
         new_data.content.data_type = new_data.content.tabs_list[tabs_active_index.value].data_type;
-        new_data.content.keyword = new_data.content.tabs_list[tabs_active_index.value].keyword;
+        new_data.content.keywords = new_data.content.tabs_list[tabs_active_index.value].keywords;
         new_data.content.category_ids = new_data.content.tabs_list[tabs_active_index.value].category_ids;
         new_data.content.brand_ids = new_data.content.tabs_list[tabs_active_index.value].brand_ids;
         new_data.content.number = new_data.content.tabs_list[tabs_active_index.value].number;

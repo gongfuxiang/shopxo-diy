@@ -11,7 +11,7 @@ export const source_list = {
         // 商品类型
         data_type: 0,
         // 关键字
-        keyword: '',
+        keywords: '',
         // 商品分类
         category_ids: [],
         // 品牌
@@ -32,7 +32,7 @@ export const source_list = {
         data_auto_list: [],
         data_type: 0,
         // 关键字
-        keyword: '',
+        keywords: '',
         number: 4,
         order_by_type: '0',
         order_by_rule: '0',
@@ -51,7 +51,7 @@ export const source_list = {
         // 商品类型
         data_type: 0,
         // 关键字
-        keyword: '',
+        keywords: '',
         // 商品分类
         category_ids: [],
         // 显示数量

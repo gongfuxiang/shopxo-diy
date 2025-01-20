@@ -65,7 +65,7 @@ watch(
         //文章内容设置
         new_data.content.theme = new_data.content.article_theme;
         new_data.content.data_type = new_data.content.tabs_list[tabs_active_index.value].data_type;
-        new_data.content.keyword = new_data.content.tabs_list[tabs_active_index.value].keyword;
+        new_data.content.keywords = new_data.content.tabs_list[tabs_active_index.value].keywords;
         new_data.content.category_ids = new_data.content.tabs_list[tabs_active_index.value].category_ids;
         new_data.content.carousel_col = new_data.content.article_carousel_col;
         new_data.content.data_list = new_data.content.tabs_list[tabs_active_index.value].data_list;

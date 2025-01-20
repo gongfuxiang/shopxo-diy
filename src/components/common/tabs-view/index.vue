@@ -2,38 +2,38 @@
     <div class="flex-row gap-10 jc-sb align-c">
         <div class="tabs flex-row oh" :style="`column-gap: ${new_style.tabs_spacing}px;height: ${tabs_height}`">
             <template v-for="(item, index) in form.tabs_list" :key="index">
-                <div class="item nowrap flex-col jc-c" :class="tabs_theme + (index == activeIndex ? ' active' : '') + ((tabs_theme_index == '0' && tabs_theme_1_style) || tabs_theme_index == '1' || tabs_theme_index == '2' ? ' pb-0' : '')" :style="`flex:0 0 auto;row-gap: ${new_style.tabs_sign_spacing}px;`">
+                <div class="item nowrap ma-auto" :class="tabs_theme + (index == activeIndex ? ' active' : '') + ((tabs_theme_index == '0' && tabs_theme_1_style) || tabs_theme_index == '1' || tabs_theme_index == '2' ? ' pb-0' : '')" style="flex:0 0 auto;">
                     <template v-if="!isEmpty(item.img)">
-                        <image-empty v-model="item.img[0]" class="img" :style="top_img_style('data')" fit="contain" error-img-style="width:3.9rem;height:3.9rem;"></image-empty>
+                        <image-empty v-model="item.img[0]" class="img re z-deep" :style="top_img_style('data')" fit="contain" error-img-style="width:3.9rem;height:3.9rem;"></image-empty>
                     </template>
                     <template v-else>
-                        <image-empty class="img" :style="top_img_style('noData')" fit="contain" error-img-style="width:3.9rem;height:3.9rem;"></image-empty>
+                        <image-empty class="img re z-deep" :style="top_img_style('noData')" fit="contain" error-img-style="width:3.9rem;height:3.9rem;"></image-empty>
                     </template>
                     <template v-if="item.tabs_type == '1'">
                         <template v-if="!isEmpty(item.tabs_icon)">
-                            <div class="title" :style="index == activeIndex ? ['2', '4'].includes(tabs_theme_index) ? tabs_check : '' : padding_bottom">
+                            <div :class="['title re ', tabs_theme_index == '4' ? 'z-i' : 'z-deep']" :style="title_icon_style(index, 'icon') + (index == activeIndex ? '' : padding_bottom)">
                                 <el-icon :class="`iconfont ${ 'icon-' + item.tabs_icon}`" :style="icon_style(index)" />
                             </div>
                         </template>
                         <template v-else>
-                            <div class="title" :style="index == activeIndex ? new_style.is_tabs_img_background == '1' && ['2', '4'].includes(tabs_theme_index) ? tabs_check : '' : padding_bottom">
+                            <div :class="['title re ', tabs_theme_index == '4' ? 'z-i' : 'z-deep']" :style="title_icon_style(index, 'img') + (index == activeIndex ? '' : padding_bottom)">
                                 <image-empty v-model="item.tabs_img[0]" fit="contain" :style="img_style()" error-img-style="width: 2rem;height: 2rem;" />
                             </div>
                         </template>
                     </template>
                     <template v-else>
-                        <div class="title" :style="title_style(index) + (index == activeIndex ? '' : padding_bottom)">{{ item.title }}</div>
+                        <div :class="['title re ', tabs_theme_index == '4' ? 'z-i' : 'z-deep']" :style="title_style(index) + (index == activeIndex ? '' : padding_bottom)">{{ item.title }}</div>
                     </template>
-                    <div class="desc" :style="tabs_theme_index == '1' && index == activeIndex ? tabs_check : ''">{{ item.desc }}</div>
+                    <div class="desc w re z-i" :style="tabs_sign_spacing + (tabs_theme_index == '1' && index == activeIndex ? tabs_check : '')">{{ item.desc }}</div>
                     <template v-if="tabs_theme_index == '3' && index == activeIndex">
                         <template v-if="!isEmpty(form.tabs_adorn_icon)">
-                            <icon :name="form.tabs_adorn_icon" class="icon" :style="tabs_theme_index == '3' ? icon_tabs_check() : ''" :size="new_style.tabs_adorn_icon_size + ''"></icon>
+                            <icon :name="form.tabs_adorn_icon" class="icon re z-i" :style="icon_tabs_check() + tabs_sign_spacing" :size="new_style.tabs_adorn_icon_size + ''"></icon>
                         </template>
                         <template v-else>
-                            <image-empty v-model="form.tabs_adorn_img[0]" fit="contain" :style="tabs_theme_index == '3' ? tabs_adorn_img_style : ''" error-img-style="width: 2rem;height: 2rem;" />
+                            <image-empty v-model="form.tabs_adorn_img[0]" fit="contain" class="re z-i" :style="tabs_adorn_img_style + tabs_sign_spacing" error-img-style="width: 2rem;height: 2rem;" />
                         </template>
                     </template>
-                    <div class="bottom_line" :class="tabs_bottom_line_theme" :style="tabs_check"></div>
+                    <div class="bottom_line re z-i" :class="tabs_bottom_line_theme" :style="tabs_check + tabs_sign_spacing"></div>
                 </div>
             </template>
         </div>
@@ -66,6 +66,7 @@ const form = computed(() => props.value.content);
 const new_style = computed(() => props.value.style);
 // 选中的值
 const tabs_theme_index = computed(() => form.value.tabs_theme);
+const tabs_sign_spacing = computed(() => `margin-top: ${ new_style.value.tabs_sign_spacing }px;`);
 //选中的样式
 const tabs_theme = computed(() => {
     let tabs_theme = '';
@@ -161,15 +162,32 @@ const title_style = (index: number) => {
         }
         style = checked_style;
     }
+    if (tabs_theme_index.value == '4') {
+        style += tabs_sign_spacing.value;
+    }
+    return style;
+};
+
+const title_icon_style = (index: number, type: string) => {
+    let style = '';
+    // 选中的状态
+    if (index == props.activeIndex) {
+        if ((type =='icon' && ['2', '4'].includes(tabs_theme_index.value)) || (type =='img' && new_style.value.is_tabs_img_background == '1' && ['2', '4'].includes(tabs_theme_index.value))) {
+            style += tabs_check.value;
+        }
+    }
+    if (tabs_theme_index.value == '4') {
+        style += tabs_sign_spacing.value;
+    }
     return style;
 };
 
 const icon_style = (index: number) => {
     // 默认是未选中的状态
-    let style = `font-size: ${new_style.value.tabs_icon_size}px;line-height: ${new_style.value.tabs_icon_size}px;color:${new_style.value.tabs_icon_color};`;
+    let style = `font-size: ${new_style.value.tabs_icon_size}px;line-height: ${new_style.value.tabs_icon_size}px;color:${new_style.value.tabs_icon_color};display:flex;`;
     // 选中的状态
     if (index == props.activeIndex) {
-        style = `font-size: ${new_style.value.tabs_icon_size_checked}px;line-height: ${new_style.value.tabs_icon_size_checked}px;color:${new_style.value.tabs_icon_color_checked};`;
+        style = `font-size: ${new_style.value.tabs_icon_size_checked}px;line-height: ${new_style.value.tabs_icon_size_checked}px;color:${new_style.value.tabs_icon_color_checked};display:flex;`;
     }
     return style;
 };
@@ -253,6 +271,7 @@ const icon_tabs_check = () => {
             // border-radius: 100%;
             border: 0.1rem solid transparent;
             display: none;
+            margin: 0 auto;
         }
         &.tabs-style-1 {
             &.active {
@@ -279,7 +298,7 @@ const icon_tabs_check = () => {
             .desc {
                 border-radius: 2rem;
                 padding: 0.2rem 0.6rem;
-                display: inline-block;
+                display: block;
             }
         }
         &.tabs-style-3 {
@@ -322,5 +341,8 @@ const icon_tabs_check = () => {
 }
 .pb-0 {
     padding-bottom: 0 !important;
+}
+.ma-auto {
+    margin: auto;
 }
 </style>

@@ -67,7 +67,7 @@
                     </div>
                 </el-form-item>
                 <el-form-item label="上下间距">
-                    <slider v-model="form.tabs_sign_spacing" :max="50"></slider>
+                    <slider v-model="form.tabs_sign_spacing" :min="-50" :max="50"></slider>
                 </el-form-item>
                 <el-form-item label="左右间距">
                     <slider v-model="form.tabs_spacing" :max="100"></slider>
