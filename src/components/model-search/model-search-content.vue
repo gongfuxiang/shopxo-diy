@@ -1,8 +1,10 @@
 <template>
     <div class="w h">
         <el-form :model="form" label-width="70">
-            <common-content-top :value="form.content_top"></common-content-top>
-            <div class="divider-line"></div>
+            <template v-if="!isHeader">
+                <common-content-top :value="form.content_top"></common-content-top>
+                <div class="divider-line"></div>
+            </template>
             <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="左侧图标" class="align-s">
@@ -92,6 +94,10 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    isHeader: {
+        type: Boolean,
+        default: false,
+    }
 });
 
 const state = reactive({
