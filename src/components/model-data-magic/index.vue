@@ -13,7 +13,7 @@
                                             <div v-if="(!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle))" :class="'tl' + (item.data_style.title_line == '1' ? ' flex-row align-c' : ' flex-col')" :style="'gap:' + item.data_style.title_gap + 'px;'">
                                                 <template v-if="item.data_content.heading_title_type && item.data_content.heading_title_type == 'image'">
                                                     <div v-if="item.data_content.heading_title_img.length > 0" class="re" :style="`height: ${ item.data_style?.heading_img_height || 0 }px`">
-                                                        <img :style="`height: ${ item.data_style?.heading_img_height || 0 }px`" :src="item.data_content.heading_title_img[0].url" fit="contain" />
+                                                        <img :style="`height: ${ item.data_style?.heading_img_height || 0 }px;max-width: 100%;`" :src="item.data_content.heading_title_img[0].url" fit="contain" />
                                                     </div>
                                                 </template>
                                                 <template v-else>
@@ -61,7 +61,7 @@
                                         <div v-if="!isEmpty(item.data_content.heading_title) || !isEmpty(item.data_content.subtitle)" :class="'tl' + (item.data_style.title_line == '1' ? ' flex-row align-c' : ' flex-col')" :style="'gap:' + item.data_style.title_gap + 'px;'">
                                             <template v-if="item.data_content.heading_title_type && item.data_content.heading_title_type == 'image'">
                                                 <div v-if="item.data_content.heading_title_img.length > 0" class="re" :style="`height: ${ item.data_style?.heading_img_height || 0 }px`">
-                                                    <img :style="`height: ${ item.data_style?.heading_img_height || 0 }px`" :src="item.data_content.heading_title_img[0].url" fit="contain" />
+                                                    <img :style="`height: ${ item.data_style?.heading_img_height || 0 }px;max-width: 100%;`" :src="item.data_content.heading_title_img[0].url" fit="contain" />
                                                 </div>
                                             </template>
                                             <template v-else>
