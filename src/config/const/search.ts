@@ -37,6 +37,7 @@ interface defaultSearch {
         search_botton_background_img_style: string;
         search_botton_background_img: uploadList[];
         search_button_radius: object;
+        search_botton_padding: paddingStyle;
         search_padding_left: number;
         tips_color: string;
         hot_words_color: string;
@@ -95,6 +96,13 @@ const defaultSearch: defaultSearch = {
             radius_top_right: 16,
             radius_bottom_left: 16,
             radius_bottom_right: 16,
+        },
+        search_botton_padding: {
+            padding: 0,
+            padding_top: 3,
+            padding_left: 16,
+            padding_right: 16,
+            padding_bottom: 3,
         },
         // 搜索提示颜色
         tips_color: '#ccc',

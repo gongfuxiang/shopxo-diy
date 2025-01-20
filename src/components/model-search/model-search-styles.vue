@@ -1,19 +1,13 @@
 <template>
     <div>
         <el-form :model="form" label-width="70">
-            <template v-if="search_content.is_icon_show == '1'">
+            <template v-if="search_content.is_icon_show == '1' || search_content.is_right_icon_show == '1'">
                 <card-container>
-                    <div class="mb-12">左侧图标</div>
-                    <el-form-item label="图标">
+                    <div class="mb-12">搜索图标</div>
+                    <el-form-item v-if="search_content.is_icon_show == '1'" label="左侧图标">
                         <color-picker v-model="form.icon_color" default-color="#CCCCCC"></color-picker>
                     </el-form-item>
-                </card-container>
-                <div class="bg-f5 divider-line" />
-            </template>
-            <template v-if="search_content.is_right_icon_show == '1'">
-                <card-container>
-                    <div class="mb-12">左侧图标</div>
-                    <el-form-item label="图标">
+                    <el-form-item v-if="search_content.is_right_icon_show == '1'" label="右侧图标">
                         <color-picker v-model="form.right_icon_color" default-color="#CCCCCC"></color-picker>
                     </el-form-item>
                 </card-container>
@@ -30,6 +24,9 @@
                     </el-form-item>
                     <el-form-item label="按钮圆角">
                         <radius :value="form.search_button_radius"></radius>
+                    </el-form-item>
+                    <el-form-item v-if="content.search_type != 'img'" label="内间距">
+                        <padding :value="form.search_botton_padding"></padding>
                     </el-form-item>
                 </card-container>
                 <div class="bg-f5 divider-line" />

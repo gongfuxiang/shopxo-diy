@@ -80,6 +80,7 @@ interface DefaultFooterNav {
         search_botton_background_img_style: string;
         search_botton_background_img: uploadList[];
         search_button_radius: object;
+        search_botton_padding: paddingStyle;
         location_direction: string;
         location_color_list: color_list[],
         location_background_img_style: string,
@@ -247,6 +248,13 @@ const defaultFooterNav: DefaultFooterNav = {
             radius_top_right: 16,
             radius_bottom_left: 16,
             radius_bottom_right: 16,
+        },
+        search_botton_padding: {
+            padding: 0,
+            padding_top: 3,
+            padding_left: 12,
+            padding_right: 12,
+            padding_bottom: 3,
         },
         // 搜索按钮显示样式
         button_inner_color: '#fff',

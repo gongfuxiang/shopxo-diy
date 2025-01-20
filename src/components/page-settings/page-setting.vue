@@ -125,6 +125,13 @@ const default_data = {
             radius_bottom_left: 16,
             radius_bottom_right: 16,
         },
+        search_botton_padding: {
+            padding: 0,
+            padding_top: 3,
+            padding_left: 12,
+            padding_right: 12,
+            padding_bottom: 3,
+        },
         search_padding_left: 15,
     }
 }

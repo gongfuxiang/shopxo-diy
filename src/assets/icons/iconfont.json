@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "43190615",
+      "name": "照相机",
+      "font_class": "camera",
+      "unicode": "e7bb",
+      "unicode_decimal": 59323
+    },
+    {
       "icon_id": "43087330",
       "name": "箭头左",
       "font_class": "left-arrow",
