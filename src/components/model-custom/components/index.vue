@@ -721,6 +721,7 @@ const start_drag_area_box = (index: number, event: MouseEvent) => {
                 const { x, y } = cloneDeep(item.location);
                 item.location.record_x = x;
                 item.location.record_y = y;
+                item.location.staging_y = y;
             }
         });
         if (hot_list?.data.length > 0) {

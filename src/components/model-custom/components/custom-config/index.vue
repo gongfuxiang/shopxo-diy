@@ -201,10 +201,13 @@ const operation_end = (title:string, is_compare: boolean = true) => {
         let old_compare_data = {};
         if (props.configType == 'custom') {
             old_index = data_source_store.custom_records_index;
-            old_compare_data = cloneDeep(data_source_store.custom_records[old_index].value) || {};
+            old_compare_data = cloneDeep(data_source_store?.custom_records[old_index]?.value || {}) || {};
         } else {
             old_index = data_source_store.custom_group_records_index;
-            old_compare_data = cloneDeep(data_source_store.custom_group_records[old_index].value) || {};
+            old_compare_data = cloneDeep(data_source_store?.custom_group_records[old_index]?.value || {}) || {};
+        }
+        if (old_index == -1) {
+            return;
         }
         // 新的数据
         const new_compare_data = cloneDeep(draglist.value.diy_data);
