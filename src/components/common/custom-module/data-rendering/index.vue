@@ -2,22 +2,22 @@
     <div class="w h re custom-other">
         <div v-for="(item, index) in list" :key="item.id" :class="`main-content flex-row ${ animation_class(item.com_data) }`" :style="{'left': percentage_count(item.location.x) , 'top': percentage_count(item.location.y), 'width': percentage_count(item.com_data.com_width), 'height': percentage_count(item.com_data.com_height), 'z-index': (customList.length - 1) - index}">
             <template v-if="item.key == 'text'">
-                <model-text :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :is-custom="isCustom" :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :title-params="showData?.data_name || 'name'" :is-display-panel="true"></model-text>
+                <model-text :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :config-loop="configLoop" :is-custom="isCustom" :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :title-params="showData?.data_name || 'name'" :is-display-panel="true"></model-text>
             </template>
             <template v-else-if="item.key == 'img'">
-                <model-image :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :is-custom="isCustom" :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :img-params="showData?.data_logo || ''" :is-display-panel="true"></model-image>
+                <model-image :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :config-loop="configLoop" :is-custom="isCustom" :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :img-params="showData?.data_logo || ''" :is-display-panel="true"></model-image>
             </template>
             <template v-else-if="item.key == 'auxiliary-line'">
-                <model-lines :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :is-custom="isCustom"  :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :is-display-panel="true"></model-lines>
+                <model-lines :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :config-loop="configLoop" :is-custom="isCustom"  :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :is-display-panel="true"></model-lines>
             </template>
             <template v-else-if="item.key == 'icon'">
-                <model-icon :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :is-custom="isCustom"  :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :is-display-panel="true"></model-icon>
+                <model-icon :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :config-loop="configLoop" :is-custom="isCustom"  :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :is-display-panel="true"></model-icon>
             </template>
             <template v-else-if="item.key == 'panel'">
-                <model-panel :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :is-custom="isCustom" :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :is-display-panel="true"></model-panel>
+                <model-panel :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :config-loop="configLoop" :is-custom="isCustom" :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :is-display-panel="true"></model-panel>
             </template>
             <template v-else-if="item.key == 'custom-group'">
-                <model-custom-group :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :group-source-list="groupSourceList" :show-data="showData" :data-height="item.com_data.custom_height" :data-width="item.com_data.com_width" :is-custom="isCustom" :is-display-panel="true"></model-custom-group>
+                <model-custom-group :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :config-loop="configLoop" :group-source-list="groupSourceList" :show-data="showData" :data-height="item.com_data.custom_height" :data-width="item.com_data.com_width" :is-custom="isCustom" :is-display-panel="true"></model-custom-group>
             </template>
         </div>
     </div>
@@ -49,6 +49,10 @@ const props = defineProps({
         default: () => {
             return {};
         }
+    },
+    configLoop: {
+        type: String,
+        default: "1"
     },
     dataHeight: {
         type: Number,

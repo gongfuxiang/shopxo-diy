@@ -345,6 +345,7 @@ const data_content = {
     height: 150,
     // 容器基础的宽度
     width: 0,
+    data_source_is_loop: '1',
     // 手动模式下的唯一标识
     show_data: {
         data_key: 'id',

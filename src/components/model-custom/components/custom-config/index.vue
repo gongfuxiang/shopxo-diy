@@ -2,26 +2,26 @@
     <Dialog v-model:visible="dialogVisible" :title="configType == 'custom' ? '编辑自定义' : '编辑自定义组'" @accomplish="accomplish" @close_event="close_event">
         <div class="flex-row h w">
             <!-- 左侧和中间区域 -->
-            <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="center_width" :config-type="configType" :source-list="sourceList" :group-source-list="groupSourceList" :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :is-custom="isCustom" :show-data="showData" :list="new_list" @right-update="right_update" @operation_end="operation_end"></DragIndex>
+            <DragIndex ref="draglist" :key="dragkey" v-model:height="center_height" v-model:width="center_width" :config-type="configType" :config-loop="configLoop" :source-list="sourceList" :group-source-list="groupSourceList" :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :is-custom="isCustom" :show-data="showData" :list="new_list" @right-update="right_update" @operation_end="operation_end"></DragIndex>
             <!-- 右侧配置区域 -->
             <div class="settings">
                 <template v-if="diy_data.key === 'img'">
-                    <model-image-style :key="key" v-model:height="center_height" :options="options" :value="diy_data" @operation_end="operation_end"></model-image-style>
+                    <model-image-style :key="key" v-model:height="center_height" :options="configLoop == '1' ? options : []" :value="diy_data" @operation_end="operation_end"></model-image-style>
                 </template>
                 <template v-else-if="diy_data.key == 'text'">
-                    <model-text-style :key="key" v-model:height="center_height" :options="options" :value="diy_data" @operation_end="operation_end"></model-text-style>
+                    <model-text-style :key="key" v-model:height="center_height" :options="configLoop == '1' ? options : []" :value="diy_data" @operation_end="operation_end"></model-text-style>
                 </template>
                 <template v-else-if="diy_data.key == 'auxiliary-line'">
-                    <model-lines-style :key="key" v-model:height="center_height" :options="options" :value="diy_data" @operation_end="operation_end"></model-lines-style>
+                    <model-lines-style :key="key" v-model:height="center_height" :options="configLoop == '1' ? options : []" :value="diy_data" @operation_end="operation_end"></model-lines-style>
                 </template>
                 <template v-else-if="diy_data.key == 'icon'">
-                    <model-icon-style :key="key" v-model:height="center_height" :options="options" :value="diy_data" @operation_end="operation_end"></model-icon-style>
+                    <model-icon-style :key="key" v-model:height="center_height" :options="configLoop == '1' ? options : []" :value="diy_data" @operation_end="operation_end"></model-icon-style>
                 </template>
                 <template v-else-if="diy_data.key == 'panel'">
-                    <model-panel-style :key="key" v-model:height="center_height" :options="options" :value="diy_data" @operation_end="operation_end"></model-panel-style>
+                    <model-panel-style :key="key" v-model:height="center_height" :options="configLoop == '1' ? options : []" :value="diy_data" @operation_end="operation_end"></model-panel-style>
                 </template>
                 <template v-else-if="diy_data.key == 'custom-group' && configType == 'custom'">
-                    <model-custom-group-style :key="key" v-model:height="center_height" :options="options" :value="diy_data" @custom_edit="custom_edit" @operation_end="operation_end"></model-custom-group-style>
+                    <model-custom-group-style :key="key" v-model:height="center_height" :config-loop="configLoop" :options="configLoop == '1' ? options : []" :value="diy_data" @custom_edit="custom_edit" @operation_end="operation_end"></model-custom-group-style>
                 </template>
                 <template v-else>
                     <div class="w h flex align-c bg-f">
@@ -45,6 +45,10 @@ const props = defineProps({
     configType: {
         type: String,
         default: 'custom',
+    },
+    configLoop: {
+        type: String,
+        default: '1',
     },
     dragkey: {
         type: String,
@@ -168,12 +172,12 @@ const accomplish = () => {
     }
 };
 // 自定义组编辑
-const custom_edit = (id: string, list: diy, width: number, height: number, data_source_field: object) => {
+const custom_edit = (id: string, list: diy, width: number, height: number, data_source_field: object, is_use_parent_data: string) => {
     let father_list : any = [];
     if (props.configType == 'custom') {
         father_list = draglist.value?.diy_data || [];
     }
-    emits('custom_edit', 'custom-group', id, father_list, list, width, height, data_source_field);
+    emits('custom_edit', 'custom-group', id, father_list, list, width, height, data_source_field, is_use_parent_data);
 };
 // 初始化的时候默认生成一条新数据，避免用户无法回到最初的记录
 onBeforeMount(() => {

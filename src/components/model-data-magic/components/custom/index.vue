@@ -1,32 +1,48 @@
 <template>
     <div :style="style_content_container">
         <div :style="style_content_img_container">
-            <template v-if="data_source_content_list.length > 0 && form.data_source_direction == 'vertical'">
-                <div class="flex-row flex-wrap" :style="`row-gap: ${ new_style.row_gap }px;column-gap: ${ new_style.column_gap }px;`">
-                    <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="`width: ${ gap_width }`">
-                        <div :style="style_container">
-                            <div class="w h oh" :style="style_img_container">
-                                <data-rendering :custom-list="form.custom_list" :source-list="item1" :group-source-list="data_source_content_list" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :data-height="form.height" :scale="scale"></data-rendering>
+            <template v-if="!isEmpty(form.data_source) && form.data_source_is_loop !== '0'">
+                <template v-if="data_source_content_list.length > 0 && form.data_source_direction == 'vertical'">
+                    <div class="flex-row flex-wrap" :style="`row-gap: ${ new_style.row_gap }px;column-gap: ${ new_style.column_gap }px;`">
+                        <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="`width: ${ gap_width }`">
+                            <div :style="style_container">
+                                <div class="w h oh" :style="style_img_container">
+                                    <data-rendering :custom-list="form.custom_list" :source-list="item1" :config-loop="form?.data_source_is_loop || '1'" :group-source-list="data_source_content_list" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :data-height="form.height" :scale="scale"></data-rendering>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </template>
+                <div v-else-if="data_source_content_list.length > 0 && ['vertical-scroll', 'horizontal'].includes(form.data_source_direction)" class="oh" :style="form.data_source_direction == 'horizontal' ? `height:100%;` : `height: ${ swiper_height }px;`">
+                    <swiper :key="carouselKey" class="w flex" :direction="form.data_source_direction == 'horizontal' ? 'horizontal': 'vertical'" :height="swiper_height" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="slides_per_group" :space-between="space_between" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
+                        <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
+                            <div :style="style_container">
+                                <div class="w h oh" :style="style_img_container">
+                                    <data-rendering :custom-list="form.custom_list" :source-list="item1" :config-loop="form?.data_source_is_loop || '1'" :group-source-list="data_source_content_list" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :data-height="form.height" :scale="scale"></data-rendering>
+                                </div>
+                            </div>
+                        </swiper-slide>
+                    </swiper>
+                </div>
+                <template v-else>
+                    <div class="oh" :style="style_container">
+                        <div class="w h oh" :style="style_img_container">
+                            <data-rendering :custom-list="form.custom_list" :config-loop="form?.data_source_is_loop || '1'" :data-height="form.height" :scale="scale"></data-rendering>
+                        </div>
+                    </div>
+                </template>
+            </template>
+            <template v-else-if="!isEmpty(form.data_source) && form.data_source_is_loop == '0'">
+                <div :style="style_container">
+                    <div class="w h oh" :style="style_img_container">
+                        <data-rendering :custom-list="form.custom_list" :source-list="{}" :config-loop="form?.data_source_is_loop || '1'" :group-source-list="data_source_content_list" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :data-height="form.height" :scale="scale"></data-rendering>
+                    </div>
                 </div>
             </template>
-            <div v-else-if="data_source_content_list.length > 0 && ['vertical-scroll', 'horizontal'].includes(form.data_source_direction)" class="oh" :style="form.data_source_direction == 'horizontal' ? `height:100%;` : `height: ${ swiper_height }px;`">
-                <swiper :key="carouselKey" class="w flex" :direction="form.data_source_direction == 'horizontal' ? 'horizontal': 'vertical'" :height="swiper_height" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="slides_per_group" :space-between="space_between" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
-                    <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
-                        <div :style="style_container">
-                            <div class="w h oh" :style="style_img_container">
-                                <data-rendering :custom-list="form.custom_list" :source-list="item1" :group-source-list="data_source_content_list" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :data-height="form.height" :scale="scale"></data-rendering>
-                            </div>
-                        </div>
-                    </swiper-slide>
-                </swiper>
-            </div>
             <template v-else>
                 <div class="oh" :style="style_container">
                     <div class="w h oh" :style="style_img_container">
-                        <data-rendering :custom-list="form.custom_list" :data-height="form.height" :scale="scale"></data-rendering>
+                        <data-rendering :custom-list="form.custom_list" :config-loop="form?.data_source_is_loop || '1'" :data-height="form.height" :scale="scale"></data-rendering>
                     </div>
                 </div>
             </template>

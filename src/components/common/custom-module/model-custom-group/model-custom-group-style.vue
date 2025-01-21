@@ -19,7 +19,7 @@
             <div class="bg-f5 divider-line" />
             <el-tabs v-model="tabs_name" class="content-tabs">
                 <el-tab-pane label="内容设置" name="content">
-                    <custom-tabs-content :value="form" :options="options" @operation_end="operation_end"></custom-tabs-content>
+                    <custom-tabs-content :value="form" :options="options" :config-loop="configLoop" @operation_end="operation_end"></custom-tabs-content>
                 </el-tab-pane>
                 <el-tab-pane label="样式设置" name="styles">
                     <model-custom-styles :value="form.data_style" :content="form" :is-floating-up="false" @operation_end="operation_end"></model-custom-styles>
@@ -32,6 +32,7 @@
 </template>
 <script setup lang="ts">
 import { get_history_name, location_compute } from '@/utils';
+import { isEmpty } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
@@ -41,6 +42,10 @@ const props = defineProps({
         type: Array<any>,
         default: () => [],
     },
+    configLoop: {
+        type: String,
+        default: '1'
+    }
 });
 // 默认值
 const tabs_name = ref('content');
@@ -56,10 +61,17 @@ const emit = defineEmits(['custom_edit', 'operation_end']);
 const custom_edit = () => {
     const data_source_field = form.value.data_source_field;
     const { custom_list, com_width, custom_height } = form.value;
-    // 计算宽度
-    const width = form.value.data_source_direction != 'vertical-scroll' ? com_width / form.value.data_source_carousel_col : com_width; // 可拖拽区域的宽度
-
-    emit('custom_edit', diy_data.value.id, custom_list, width, custom_height, data_source_field);
+    const list = props.options.filter((item: any) => item.type == 'custom-data-list' && form.value.data_source_field.id === item.field);
+    let flag = false;
+    if (list.length > 0) {
+        flag = true;
+    }
+    let width = com_width;
+    if ((props.configLoop !== '1' && form.value.is_use_parent_data == '1') || (!isEmpty(form.value.data_source_field.id) && flag)) {
+        // 计算宽度
+        width = form.value.data_source_direction != 'vertical-scroll' ? com_width / form.value.data_source_carousel_col : com_width; // 可拖拽区域的宽度
+    }
+    emit('custom_edit', diy_data.value.id, custom_list, width, custom_height, data_source_field, form.value.is_use_parent_data);
 };
 //# endregion
 // 操作结束触发事件

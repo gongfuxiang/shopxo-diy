@@ -1,26 +1,40 @@
 <template>
     <card-container>
-        <el-form-item label="数据来源">
-            <el-select v-model="form.data_source_field.id" value-key="id" clearable filterable placeholder="请选择数据字段" size="default" class="flex-1" @change="group_change">
-                <el-option v-for="item in options.filter(item => item.type == 'custom-data-list')" :key="item.field" :label="item.name" :value="item.field" />
-            </el-select>
-        </el-form-item>
-        <el-form-item label="铺满方式">
-            <el-radio-group v-model="form.data_source_direction" @change="operation_end">
-                <el-radio v-for="(item, index) in default_type_data?.show_type" :key="index" :value="item">{{ item == 'vertical' ? '纵向展示' : item == 'vertical-scroll' ? '纵向滑动' : '横向滑动' }}</el-radio>
-            </el-radio-group>
-        </el-form-item>
-        <el-form-item label="每屏显示">
-            <el-radio-group v-model="form.data_source_carousel_col" @change="operation_end">
-                <el-radio v-for="(item, index) in default_type_data?.show_number" :key="index" :value="item">{{ item }}{{ form.data_source_direction == 'vertical-scroll' ? '行' : '列' }}展示</el-radio>
-            </el-radio-group>
-        </el-form-item>
+        <template v-if="configLoop !== '1'">
+            <el-form-item label="父级数据">
+                <el-radio-group v-model="form.is_use_parent_data" @change="operation_end">
+                    <el-radio value="1">使用父级数据</el-radio>
+                    <el-radio value="0">不使用父级数据</el-radio>
+                </el-radio-group>
+            </el-form-item>
+        </template>
+        <template v-if="configLoop === '1'">
+            <el-form-item label="数据来源">
+                <el-select v-model="form.data_source_field.id" value-key="id" clearable filterable placeholder="请选择数据字段" size="default" class="flex-1" @change="group_change">
+                    <el-option v-for="item in options.filter(item => item.type == 'custom-data-list')" :key="item.field" :label="item.name" :value="item.field" />
+                </el-select>
+            </el-form-item>
+        </template>
+        <template v-if="is_show || (configLoop !== '1' && form.is_use_parent_data == '1')">
+            <el-form-item label="铺满方式">
+                <el-radio-group v-model="form.data_source_direction" @change="operation_end">
+                    <el-radio v-for="(item, index) in default_type_data?.show_type" :key="index" :value="item">{{ item == 'vertical' ? '纵向展示' : item == 'vertical-scroll' ? '纵向滑动' : '横向滑动' }}</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="每屏显示">
+                <el-radio-group v-model="form.data_source_carousel_col" @change="operation_end">
+                    <el-radio v-for="(item, index) in default_type_data?.show_number" :key="index" :value="item">{{ item }}{{ form.data_source_direction == 'vertical-scroll' ? '行' : '列' }}展示</el-radio>
+                </el-radio-group>
+            </el-form-item>
+        </template>
         <el-form-item label="滚动条">
             <el-switch v-model="form.is_scroll_bar" active-value="1" inactive-value="0" @change="operation_end" />
         </el-form-item>
     </card-container>
 </template>
 <script setup lang="ts">
+import { isEmpty } from 'lodash';
+
 const props = defineProps({
     value: {
         type: Object,
@@ -29,9 +43,22 @@ const props = defineProps({
     options: {
         type: Array<any>,
         default: () => [],
+    },
+    configLoop: {
+        type: String,
+        default: '1',
     }
 });
 const form = ref(props.value);
+
+const is_show = computed(() => {
+    const list = props.options.filter((item: any) => item.type == 'custom-data-list' && form.value.data_source_field.id === item.field);
+    let flag = false;
+    if (list.length > 0) {
+        flag = true;
+    }
+    return !isEmpty(form.value.data_source_field.id) && flag;
+});
 const default_type_data = {
     show_type: ['vertical', 'vertical-scroll', 'horizontal'],
     show_number: [1, 2, 3, 4],

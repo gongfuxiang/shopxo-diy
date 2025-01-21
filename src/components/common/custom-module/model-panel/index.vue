@@ -39,6 +39,10 @@ const props = defineProps({
     scale: {
         type: Number,
         default: 1
+    },
+    configLoop: {
+        type: String,
+        default: '1'
     }
 });
 // 用于页面判断显示
@@ -46,9 +50,13 @@ const form = computed(() => props.value);
 // 从组件的顶层获取数据，避免多层组件传值导致数据遗漏和多余代码
 const field_list: any = toRef(inject('field_list', []));
 const is_show = computed(() => {
-    // 取出条件判断的内容
-    const condition = form.value?.condition || { field: '', type: '', value: '' };
-    return get_is_eligible(field_list.value, condition, props);
+    if (props.configLoop == '1') {
+        // 取出条件判断的内容
+        const condition = form.value?.condition || { field: '', type: '', value: '' };
+        return get_is_eligible(field_list.value, condition, props);
+    } else {
+        return true;
+    }
 });
 // 外层样式
 const com_style = computed(() => {

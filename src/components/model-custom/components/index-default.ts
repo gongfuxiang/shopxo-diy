@@ -242,6 +242,7 @@ const custom_group_com_data = {
     },
     custom_list: [], // 自定义内容处理
     custom_height: 100, // 自定义高度
+    is_use_parent_data: '1',
     data_source_direction: 'vertical', // 铺满方式
     data_source_carousel_col: 1, // 铺满数量
     is_scroll_bar: false,   // 是否需要滚动条

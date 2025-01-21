@@ -1,14 +1,14 @@
 <template>
     <div v-if="is_show" class="flex-1" :style="style_container">
-        <div class="w h" :style="style_img_container">
-            <div class="w h" :style="style_content_container">
+        <div :style="style_img_container">
+            <div :style="style_content_container">
                 <div class="w h re" :style="style_content_img_container">
                     <template v-if="data_source_content_list.length > 0 && form.data_source_direction == 'vertical'">
                         <div class="flex-row flex-wrap" :style="`row-gap: ${ new_style.row_gap }px;column-gap: ${ new_style.column_gap }px;`">
                             <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="`width: ${ gap_width }`">
                                 <div :style="style_chunk_container">
                                     <div class="w h oh" :style="style_chunk_img_container">
-                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale" :custom-group-field-id="form?.data_source_field?.id || ''" :is-custom-group="true" :is-custom="isCustom" :show-data="showData"></data-rendering>
+                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale" :custom-group-field-id="form?.data_source_field?.id || ''" :is-custom-group="true" :is-custom="isCustom" :show-data="showData" :config-loop="form.is_use_parent_data" ></data-rendering>
                                     </div>
                                 </div>
                             </div>
@@ -19,7 +19,7 @@
                             <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
                                 <div :style="style_chunk_container">
                                     <div class="w h oh" :style="style_chunk_img_container">
-                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale" :custom-group-field-id="form?.data_source_field?.id || ''" :is-custom-group="true" :is-custom="isCustom" :show-data="showData"></data-rendering>
+                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale" :custom-group-field-id="form?.data_source_field?.id || ''" :is-custom-group="true" :is-custom="isCustom" :show-data="showData" :config-loop="form.is_use_parent_data"></data-rendering>
                                     </div>
                                 </div>
                             </swiper-slide>
@@ -38,7 +38,7 @@
                     <template v-else>
                         <div class="w h" :style="style_chunk_container">
                             <div class="w h oh" :style="style_chunk_img_container">
-                                <data-rendering :custom-list="form.custom_list" :data-height="form.height" :scale="custom_scale" :is-custom-group="true" :is-custom="isCustom"></data-rendering>
+                                <data-rendering :custom-list="form.custom_list" :data-height="dataHeight" :scale="custom_scale" :is-custom-group="true" :is-custom="isCustom" :config-loop="form.is_use_parent_data"></data-rendering>
                             </div>
                         </div>
                     </template>
@@ -104,6 +104,10 @@ const props = defineProps({
             data_key: 'id',
             data_name: 'name',
         })
+    },
+    configLoop: {
+        type: String,
+        default: '1'
     }
 });
 // 用于页面判断显示
@@ -112,9 +116,13 @@ const new_style = computed(() => props.value.data_style);
 // 从组件的顶层获取数据，避免多层组件传值导致数据遗漏和多余代码
 const field_list: any = toRef(inject('field_list', []));
 const is_show = computed(() => {
-    // 取出条件判断的内容
-    const condition = form.value?.condition || { field: '', type: '', value: '' };
-    return get_is_eligible(field_list.value, condition, props);
+    if (props.configLoop == '1') {
+        // 取出条件判断的内容
+        const condition = form.value?.condition || { field: '', type: '', value: '' };
+        return get_is_eligible(field_list.value, condition, props);
+    } else {
+        return true;
+    }
 });
 
 //#region 自定义组真实数据
@@ -122,20 +130,34 @@ const data_source_content_list = computed(() => {
     const data_source_id = form.value?.data_source_field?.id || '';
     // 自定义组的数据源内容切换
     const is_data_source_id = field_list.value.filter((item: any) => item.field == data_source_id);
-    if (is_data_source_id.length > 0) {
-        if (!isEmpty(props.sourceList)) {
-            let list = get_nested_property(props.sourceList, data_source_id);
-            // 如果是自定义标题，进一步处理嵌套对象中的数据
-            if (props.sourceList.data) {
-                list = get_nested_property(props.sourceList.data, data_source_id);
+    if (props.configLoop == '1') {
+        if (is_data_source_id.length > 0) {
+            if (!isEmpty(props.sourceList)) {
+                let list = get_nested_property(props.sourceList, data_source_id);
+                // 如果是自定义标题，进一步处理嵌套对象中的数据
+                if (props.sourceList.data) {
+                    list = get_nested_property(props.sourceList.data, data_source_id);
+                }
+                return list == '' ? [] : list;
+            } else {
+                return [];
             }
-            return list == '' ? [] : list;
+        } else {
+            if (!isEmpty(props.sourceList)) {
+                return [ props.sourceList ];
+            } else {
+                return [];
+            }
+        }
+    } else {
+        // 如果使用父级数据，就直接使用父级的全部数据，否则的话就没有任何数据
+        if (form.value.is_use_parent_data == '1') {
+            return props.groupSourceList;
         } else {
             return [];
         }
-    } else {
-        return props.groupSourceList;
     }
+    
 });
 const get_nested_property = (obj: any, path: string) => {
     // 检查路径参数是否为字符串且非空，若不满足条件则返回空字符串
@@ -172,8 +194,8 @@ watchEffect(() => {
     const internal_spacing = data_style.margin_left + data_style.margin_right + data_style.padding_left + data_style.padding_right + border_width(data_style);
     // 数据间距
     const data_spacing = ['vertical', 'horizontal'].includes(form.value.data_source_direction) ? column_gap * (form.value.data_source_carousel_col - 1) : 0;
-    // 根据容器宽度来计算内部大小
-    const new_width = old_width - outer_spacing - internal_spacing - content_spacing - data_spacing;
+    // 根据容器宽度来计算内部大小 6 是滚动条的宽度
+    const new_width = old_width - outer_spacing - internal_spacing - content_spacing - data_spacing - (form.value.is_scroll_bar == '1' ? 6 : 0);
     // 获得对应宽度的比例
     const scale_number = new_width / props.dataWidth;
     custom_scale.value = scale_number > 0 ? scale_number : 0;

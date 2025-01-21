@@ -83,6 +83,7 @@ interface defaultSearch {
         show_data: object;
         data_source: string;
         data_source_content: content;
+        data_source_is_loop: string;
         data_source_direction: string;
         data_source_carousel_col: number;
         custom_list: string[];
@@ -116,6 +117,7 @@ const defaultSearch: defaultSearch = {
         },
         // 自定义内容高度
         height: 390,
+        data_source_is_loop: '1',
         // 数据源内容
         data_source_content: {
             // 存放手动输入的id
