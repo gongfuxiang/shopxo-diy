@@ -178,7 +178,7 @@ const style_location_container = computed(() => {
         direction: location_direction,
     }
     const height = 32 - location_margin.margin_top - location_margin.margin_bottom;
-    return gradient_computer(style) + margin_computer(location_margin) + radius_computer(location_radius) + `color: ${new_style.value.location_color};height: ${height}px;line-height: ${height}px;`;
+    return gradient_computer(style) + margin_computer(location_margin) + radius_computer(location_radius) + `color: ${new_style.value.location_color};height: ${height > 0 ? height : 0}px;line-height: ${height > 0 ? height : 0}px;`;
 });
 // 背景图片
 const style_location_img_container = computed(() => {
@@ -192,7 +192,7 @@ const style_location_img_container = computed(() => {
         border += `border-width: ${location_border_size.padding_top}px ${location_border_size.padding_right}px ${location_border_size.padding_bottom}px ${location_border_size.padding_left}px;border-style: ${ location_border_style };border-color: ${location_border_color};`
     }
     const height = 32 - location_margin.margin_top - location_margin.margin_bottom;
-    return background_computer(style) + padding_computer(location_padding) + radius_computer(new_style.value.location_radius) + border + `height: ${height}px;line-height: ${height}px;`;
+    return background_computer(style) + padding_computer(location_padding) + radius_computer(new_style.value.location_radius) + border + `height: ${height > 0 ? height : 0 }px;line-height: ${height > 0 ? height : 0}px;`;
 });
 
 const location_name_style = computed(() => {

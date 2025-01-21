@@ -37,18 +37,18 @@
                         </template>
                     </div>
                 </div>
-                <div class="flex-row align-c abs search-botton oh" :style="`border-radius: 0px ${ new_style.search_button_radius?.radius_top_right || 0 }px ${ new_style.search_button_radius?.radius_bottom_right || 0 }px 0px;`">
+                <div class="flex-row align-c abs search-botton oh" :style="`border-radius: 0px ${ new_style.search_border_radius?.radius_top_right || 0 }px ${ new_style.search_border_radius?.radius_bottom_right || 0 }px 0px;`">
                     <template v-if="form.is_right_icon_show == '1' && (form.right_icon_img.length > 0 || !isEmpty(form.right_icon_class))">
                         <template v-if="form.right_icon_img.length > 0">
-                            <div class="img-box mr-10">
-                                <image-empty v-model="form.right_icon_img[0]" class="img" fit="contain" error-img-style="width: 4rem;height: 2.5rem;" />
+                            <div class="img-box mr-10 flex-row align-c">
+                                <image-empty v-model="form.right_icon_img[0]" class="img right_icon_height" fit="contain" error-img-style="width: 4rem;height: 2.5rem;" />
                             </div>
                         </template>
                         <template v-else-if="!isEmpty(form.right_icon_class)">
-                            <el-icon :class="`iconfont ${ 'icon-' + form.right_icon_class } size-14 mr-10`" :style="`color:${new_style.right_icon_color};`" />
+                            <el-icon :class="`iconfont ${ 'icon-' + form.right_icon_class } size-14 mr-10 right_icon_height flex-row align-c`" :style="`color:${new_style.right_icon_color};`" />
                         </template>
                     </template>
-                    <div v-if="form.is_search_show == '1'" class="h flex align-c jc-c" :style="search_button_style">
+                    <div v-if="form.is_search_show == '1'" class="h flex align-c jc-c oh" :style="search_button_style">
                         <div class="oh" :style="search_button_img_style">
                             <template v-if="form.search_type === 'text'">
                                 <div class="size-12">{{ form.search_tips }}</div>
@@ -129,7 +129,7 @@ const box_style = computed(() => {
 });
 const search_button_style = computed(() => {
     let style = radius_computer(new_style.value.search_button_radius);
-    const { search_botton_color_list, search_botton_direction, search_botton_background_img_style, search_botton_background_img, search_botton_margin = old_margin, search_botton_border_show = '0', search_botton_border_size = old_padding, search_botton_border_style = 'solid', search_botton_border_color = '' } = new_style.value;
+    const { search_botton_color_list, search_botton_direction, search_botton_background_img_style, search_botton_background_img, search_botton_margin = old_margin, search_botton_border_size = old_padding, search_botton_border_style = 'solid', search_botton_border_color = '' } = new_style.value;
     if (form.value.search_type != 'img') {
         const data = {
             color_list: search_botton_color_list,
@@ -143,13 +143,13 @@ const search_button_style = computed(() => {
     if (new_style.value.search_botton_border_show == '1') {
         border += `border-width: ${search_botton_border_size.padding_top}px ${search_botton_border_size.padding_right}px ${search_botton_border_size.padding_bottom}px ${search_botton_border_size.padding_left}px;border-style: ${ search_botton_border_style };border-color: ${search_botton_border_color};`
     }
-    const height = 28 - search_botton_margin.margin_top - search_botton_margin.margin_bottom;
-    return style + border + `height: ${height}px;line-height: ${height}px;`;
+    const height = 32 - search_botton_margin.margin_top - search_botton_margin.margin_bottom - search_botton_border_size.padding_top - search_botton_border_size.padding_bottom;
+    return style + border + `height: ${height > 0 ? height : 0}px;line-height: ${height > 0 ? height : 0}px;`;
 })
 const search_button_height = computed(() => {
     const { search_botton_border_size = old_padding, search_botton_padding } = new_style.value;
-    const height = 28 - search_botton_border_size.padding_top - search_botton_border_size.padding_bottom - search_botton_padding.padding_top - search_botton_padding.padding_bottom;
-    return `height: ${height}px !important;line-height: ${height}px;`;
+    const height = 32 - search_botton_border_size.padding_top - search_botton_border_size.padding_bottom - search_botton_padding.padding_top - search_botton_padding.padding_bottom;
+    return `height: ${height > 0 ? height : 0}px !important;line-height: ${height > 0 ? height : 0}px;`;
 });
 // 搜索按钮圆角
 const search_button_img_style = computed(() => {
@@ -202,17 +202,21 @@ watchEffect(() => {
     // .box {
     //     padding: 0.6rem 1.5rem 0.6rem 0;
     // }
+    .right_icon_height {
+        position: relative;
+        height: 2.8rem !important;
+    }
     .img-box {
         height: 100%;
         min-width: 2rem;
         max-width: 6rem;
     }
     .search-botton {
-        height: 2.8rem;
-        top: 0.2rem;
-        right: 0.2rem;
+        height: 3.2rem;
+        top: 0rem;
+        right: 0rem;
         .img {
-            height: 2.8rem;
+            height: 3.2rem;
             min-width: 3rem;
             max-width: 10rem;
         }

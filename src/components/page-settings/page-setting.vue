@@ -134,9 +134,9 @@ const default_data = {
         },
         search_botton_margin: {
             margin: 0,
-            margin_top: 0,
-            margin_right: 0,
-            margin_bottom: 0,
+            margin_top: 2,
+            margin_right: 2,
+            margin_bottom: 2,
             margin_left: 0,
         },
         search_botton_border_size: {
