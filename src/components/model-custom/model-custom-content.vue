@@ -11,7 +11,7 @@
                     </el-select>
                 </el-form-item>
                 <template v-if="!isEmpty(form.data_source)">
-                    <el-form-item label="是否循环">
+                    <el-form-item label="数据循环">
                         <el-radio-group v-model="form.data_source_is_loop">
                             <el-radio value="1">是</el-radio>
                             <el-radio value="0">否</el-radio>
