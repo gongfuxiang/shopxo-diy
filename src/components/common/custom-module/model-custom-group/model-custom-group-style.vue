@@ -71,7 +71,7 @@ const custom_edit = () => {
         // 计算宽度
         width = form.value.data_source_direction != 'vertical-scroll' ? com_width / form.value.data_source_carousel_col : com_width; // 可拖拽区域的宽度
     }
-    emit('custom_edit', diy_data.value.id, custom_list, width, custom_height, data_source_field, form.value.is_use_parent_data);
+    emit('custom_edit', diy_data.value.id, custom_list, width, custom_height, data_source_field, props.configLoop !== '1' ? form.value.is_use_parent_data : '1');
 };
 //# endregion
 // 操作结束触发事件

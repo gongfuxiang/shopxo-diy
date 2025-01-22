@@ -168,7 +168,7 @@ const custom_edit = (type: string, id?: string, father_list?: any, list?: any, w
         custom_group_field_id.value = data_source_field?.id || '';
         // 自定义组的数据源内容切换, 如果选择了自定义数据源，那么就获取到自定义数据源的内容，否则的话取当前整个自定义组的数据源
         const is_data_source_id = model_data_source.value.filter((item: any) => item.field == data_source_field?.id);
-        if (form.value.configLoop == '1') {
+        if (form.value.data_source_is_loop == '1') {
             if (is_data_source_id.length > 0) {
                 custom_group_option_list.value = data_source_field?.option || [];
                 new_group_source_list.value = new_group_source_list_handle(data_source_field?.id || '');
