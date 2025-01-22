@@ -8,7 +8,7 @@
                             <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="`width: ${ gap_width }`">
                                 <div :style="style_chunk_container">
                                     <div class="w h oh" :style="style_chunk_img_container">
-                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale" :custom-group-field-id="form?.data_source_field?.id || ''" :is-custom-group="true" :is-custom="isCustom" :show-data="showData" :config-loop="configLoop !== '0' ? form.is_use_parent_data : '1'" ></data-rendering>
+                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale" :custom-group-field-id="form?.data_source_field?.id || ''" :is-custom-group="true" :is-custom="isCustom" :show-data="showData" :config-loop="configLoop !== '1' ? form.is_use_parent_data : '1'" ></data-rendering>
                                     </div>
                                 </div>
                             </div>
@@ -19,7 +19,7 @@
                             <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
                                 <div :style="style_chunk_container">
                                     <div class="w h oh" :style="style_chunk_img_container">
-                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale" :custom-group-field-id="form?.data_source_field?.id || ''" :is-custom-group="true" :is-custom="isCustom" :show-data="showData" :config-loop="configLoop !== '0' ? form.is_use_parent_data : '1'"></data-rendering>
+                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="dataHeight" :scale="custom_scale" :custom-group-field-id="form?.data_source_field?.id || ''" :is-custom-group="true" :is-custom="isCustom" :show-data="showData" :config-loop="configLoop !== '1' ? form.is_use_parent_data : '1'"></data-rendering>
                                     </div>
                                 </div>
                             </swiper-slide>
@@ -38,7 +38,7 @@
                     <template v-else>
                         <div class="w h" :style="style_chunk_container">
                             <div class="w h oh" :style="style_chunk_img_container">
-                                <data-rendering :custom-list="form.custom_list" :data-height="dataHeight" :scale="custom_scale" :is-custom-group="true" :is-custom="isCustom" :config-loop="configLoop !== '0' ? form.is_use_parent_data : '1'"></data-rendering>
+                                <data-rendering :custom-list="form.custom_list" :data-height="dataHeight" :scale="custom_scale" :is-custom-group="true" :is-custom="isCustom" :config-loop="configLoop !== '1' ? form.is_use_parent_data : '1'"></data-rendering>
                             </div>
                         </div>
                     </template>
