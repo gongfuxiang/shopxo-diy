@@ -1,7 +1,7 @@
 <template>
     <div class="styles">
         <el-form :model="form" label-width="70">
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12">列表样式</div>
                 <el-form-item v-if="theme != '3'" label="文章背景">
                     <background-common v-model:color_list="form.article_color_list" v-model:direction="form.article_direction" v-model:img_style="form.article_background_img_style" v-model:img="form.article_background_img" @mult_color_picker_event="mult_color_picker_event" />
@@ -80,8 +80,8 @@
                 </template>
             </card-container>
             <template v-if="theme == '4'">
-                <div class="divider-line"></div>
-                <card-container>
+                <div class="divider-line data-tabs-line"></div>
+                <card-container class="card-container">
                     <div class="mb-12">轮播设置</div>
                     <el-form-item label="自动轮播">
                         <el-switch v-model="form.is_roll" :active-value="1" :inactive-value="0" />
@@ -101,12 +101,12 @@
             </template>
             <!-- 角标 -->
             <template v-if="data.seckill_subscript_show == '1'">
-                <div class="divider-line"></div>
+                <div class="divider-line data-tabs-line"></div>
                 <subscript-styles :value="form.subscript_style" :data="data"></subscript-styles>
             </template>
         </el-form>
         <template v-if="isCommonStyle">
-            <div class="divider-line"></div>
+            <div class="divider-line data-tabs-line"></div>
             <common-styles :value="form.common_style" @update:value="common_style_update" />
         </template>
     </div>

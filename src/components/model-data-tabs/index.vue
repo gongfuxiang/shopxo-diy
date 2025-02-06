@@ -15,7 +15,7 @@
                         <model-article-list :value="tabs_list" :is-common-style="false"></model-article-list>
                     </template>
                     <template v-else-if="tabs_data_type == 'custom'">
-                        <model-custom :value="tabs_list" :is-common-style="false"></model-custom>
+                        <model-custom :value="tabs_list" :outer_container_padding="outer_container_width" :is-common-style="false"></model-custom>
                     </template>
                 </div>
             </div>
@@ -46,6 +46,8 @@ const tabs_img_container = ref('');
 // 商品区域样式设置
 const data_container = ref('');
 const data_img_container = ref('');
+// 外层容器的间距
+const outer_container_width = ref(0);
 watch(
     () => props.value,
     (val) => {
@@ -62,7 +64,7 @@ watch(
         }
         tabs_container.value = gradient_computer(tabs_data) + radius_computer(new_style.tabs_radius) + margin_computer(new_style.tabs_margin) + border_computer(new_style.tabs_content) + box_shadow_computer(new_style.tabs_content);
         tabs_img_container.value = background_computer(tabs_data) + padding_computer(new_style.tabs_padding);
-        // 商品区域背景设置
+        // 内容区域背景设置
         const data_content = {
             color_list: new_style.data_content_color_list,
             direction: new_style.data_content_direction,
@@ -71,6 +73,9 @@ watch(
         }
         data_container.value = gradient_computer(data_content) + margin_computer(new_style.data_content_margin) + radius_computer(new_style.data_content_radius) + border_computer(new_style.data_content) + box_shadow_computer(new_style.data_content);
         data_img_container.value = background_computer(data_content) + padding_computer(new_style.data_content_padding);
+        const common_style = new_style.common_style;
+        // 自定义需要做等比缩放，因此宽度需要减去 外层通用的宽度和内容区域的宽度
+        outer_container_width.value = common_style.margin_left + common_style.margin_right + common_style.padding_left + common_style.padding_right + new_style.data_content_margin.margin_left + new_style.data_content_margin.margin_right + new_style.data_content_padding.padding_left + new_style.data_content_padding.padding_right;
         // 显示的数据处理
         const tabs_data_list = new_data.content.tabs_list[tabs_active_index.value] || {};
         tabs_data_type.value = tabs_data_list?.tabs_data_type || '';
@@ -83,7 +88,7 @@ watch(
         }
         // 公共样式
         style_container.value += common_styles_computer(new_style.common_style);
-        style_img_container.value = common_img_computer(new_style.common_style) + `gap: ${new_style.shop_content_spacing}px;`;
+        style_img_container.value = common_img_computer(new_style.common_style) + `gap: ${new_style.data_content_spacing}px;`;
     },
     { immediate: true, deep: true }
 );

@@ -89,12 +89,9 @@ const props = defineProps({
 });
 
 // 用于页面判断显示
-const state = reactive({
-    form: props.value.content,
-    new_style: props.value.style,
-});
-// 如果需要解构，确保使用toRefs
-const { form, new_style } = toRefs(state);
+const form = computed(() => props.value?.content || {});
+const new_style = computed(() => props.value?.style || {});
+
 // 将顶级的字段暴露给孙子组件, 避免传递层级太深
 provide('field_list', computed(() => form.value?.field_list || []));
 onBeforeMount(() => {

@@ -1,5 +1,5 @@
 <template>
-    <card-container>
+    <card-container class="card-container">
         <div class="mb-12">展示设置</div>
         <el-form-item label="选择风格">
             <el-radio-group v-model="form.theme" @change="theme_change">
@@ -12,8 +12,8 @@
             </el-radio-group>
         </el-form-item>
     </card-container>
-    <div class="divider-line"></div>
-    <card-container>
+    <div class="divider-line data-tabs-line"></div>
+    <card-container class="card-container">
         <div class="mb-12">列表设置</div>
         <el-form-item label="是否显示">
             <el-checkbox-group v-model="form.field_show">
@@ -31,13 +31,13 @@
             </el-form-item>
         </template>
     </card-container>
-    <div class="divider-line"></div>
-    <card-container>
+    <div class="divider-line data-tabs-line"></div>
+    <card-container class="card-container">
         <div class="mb-12">角标设置</div>
         <!-- 角标设置 -->
         <subscript-content :value="form"></subscript-content>
     </card-container>
-    <div class="divider-line"></div>
+    <div class="divider-line data-tabs-line"></div>
     <!-- 数据筛选组件, 根据数据源类型显示不同的筛选组件 -->
     <data-filter type="article" :value="form" :list="form.data_list" :base-list="base_list" @add="add" @data_list_replace="data_list_replace" @data_list_remove="data_list_remove" @data_list_sort="data_list_sort"></data-filter>
     <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['article']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>

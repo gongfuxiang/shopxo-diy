@@ -66,7 +66,7 @@
                                                 <data-article-content :value="row.article_config.content" :tab-style="row.article_config.style"></data-article-content>
                                             </div>
                                             <div v-show="row.tabs_data_type == 'custom'" class="data-tabs-style">
-                                                <data-goods-content :value="row.goods_config.content" :tab-style="row.goods_config.style"></data-goods-content>
+                                                <data-custom-content :value="row.custom_config.content" :is-subcomponent="true"></data-custom-content>
                                             </div>
                                         </el-tab-pane>
                                         <el-tab-pane label="样式设置" name="styles">
@@ -77,7 +77,7 @@
                                                 <model-article-list-styles :value="row.article_config.style" :content="row.article_config.content" :is-common-style="false" />
                                             </div>
                                             <div v-show="row.tabs_data_type == 'custom'" class="data-tabs-style">
-                                                <data-goods-style :value="row.goods_config.style" :content="row.goods_config.content"></data-goods-style>
+                                                <model-custom-styles :value="row.custom_config.style" :content="row.custom_config.content" :is-common-style="false"></model-custom-styles>
                                             </div>
                                         </el-tab-pane>
                                     </el-tabs>

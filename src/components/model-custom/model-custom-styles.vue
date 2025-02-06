@@ -2,7 +2,7 @@
     <div class="w">
         <el-form :model="form" label-width="70">
             <template v-if="['vertical-scroll', 'horizontal'].includes(data.data_source_direction)">
-                <card-container>
+                <card-container class="card-container">
                     <div class="mb-12">轮播设置</div>
                         <el-form-item label="自动轮播">
                             <el-switch v-model="form.is_roll" active-value="1" inactive-value="0" @change="operation_end"/>
@@ -19,13 +19,13 @@
                             </el-form-item>
                         </template>
                 </card-container>
-                <div class="bg-f5 divider-line" />
-                <card-container>
+                <div class="divider-line data-tabs-line" />
+                <card-container class="card-container">
                     <carousel-indicator :value="form" @operation_end="operation_end"></carousel-indicator>
                 </card-container>
-                <div class="bg-f5 divider-line" />
+                <div class="divider-line data-tabs-line" />
             </template>
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12">数据样式</div>
                 <el-form-item label="背景">
                     <background-common v-model:color_list="form.data_style.color_list" v-model:direction="form.data_style.direction" v-model:img_style="form.data_style.background_img_style" v-model:img="form.data_style.background_img" @mult_color_picker_event="mult_color_picker_event" @operation_end="operation_end" />
@@ -54,8 +54,8 @@
                 <!-- 阴影配置 -->
                 <shadow-config v-model="form.data_style" @operation_end="operation_end"></shadow-config>
             </card-container>
-            <div class="bg-f5 divider-line" />
-            <card-container>
+            <div class="divider-line data-tabs-line" />
+            <card-container class="card-container">
                 <div class="mb-12">内容样式</div>
                 <el-form-item label="背景">
                     <background-common v-model:color_list="form.data_content_style.color_list" v-model:direction="form.data_content_style.direction" v-model:img_style="form.data_content_style.background_img_style" v-model:img="form.data_content_style.background_img" @mult_color_picker_event="mult_content_color_picker_event" @operation_end="operation_end" />
@@ -75,8 +75,10 @@
                 <shadow-config v-model="form.data_content_style" @operation_end="operation_end"></shadow-config>
             </card-container>
         </el-form>
-        <div class="bg-f5 divider-line" />
-        <common-styles :value="form.common_style" :is-floating-up="isFloatingUp" @operation_end="operation_end"/>
+        <template v-if="isCommonStyle">
+            <div class="divider-line data-tabs-line" />
+            <common-styles :value="form.common_style" :is-floating-up="isFloatingUp" @operation_end="operation_end"/>
+        </template>
     </div>
 </template>
 <script setup lang="ts">
@@ -93,6 +95,10 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
+    isCommonStyle: {
+        type: Boolean,
+        default: true,
+    }
 });
 const state = reactive({
     form: props.value,

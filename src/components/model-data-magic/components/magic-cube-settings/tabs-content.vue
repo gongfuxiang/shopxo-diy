@@ -105,7 +105,7 @@
     </template>
     <template v-else-if="form.data_type == 'custom'">
         <div class="bg-f5 divider-line" />
-        <model-custom-content :key="key" :value="form" :magic-width="form.width" :is-data-magic="true" @data_source_change="data_source_change"></model-custom-content>
+        <model-custom-content :key="key" :value="form" :magic-width="form.width" :is-subcomponent="true" @data_source_change="data_source_change"></model-custom-content>
     </template>
     <template v-else>
         <div class="bg-f5 divider-line" />

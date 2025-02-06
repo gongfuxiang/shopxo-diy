@@ -1,5 +1,5 @@
 <template>
-    <card-container>
+    <card-container class="card-container">
         <div v-if="props.type != 'nav-group'" class="mb-12">角标设置</div>
         <el-form-item label="角标位置">
             <div class="flex-col gap-10">

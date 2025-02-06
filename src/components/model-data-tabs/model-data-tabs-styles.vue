@@ -113,6 +113,7 @@
                 <shadow-config v-model="form.data_content"></shadow-config>
             </card-container>
         </el-form>
+        <div class="divider-line"></div>
         <common-styles :value="form.common_style" @update:value="common_style_update" />
     </div>
 </template>
@@ -149,25 +150,6 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, data } = toRefs(state);
-
-const theme = computed(() => data.value.theme);
-if (['0', '4'].includes(theme.value)) {
-    if (form.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (form.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
-        form.value.shop_img_radius.radius = props.defaultConfig.img_radius_0;
-        form.value.shop_img_radius.radius_bottom_left = props.defaultConfig.img_radius_0;
-        form.value.shop_img_radius.radius_bottom_right = props.defaultConfig.img_radius_0;
-        form.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_0;
-        form.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_0;
-    }
-} else {
-    if (form.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (form.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
-        form.value.shop_img_radius.radius = props.defaultConfig.img_radius_1;
-        form.value.shop_img_radius.radius_bottom_left = props.defaultConfig.img_radius_1;
-        form.value.shop_img_radius.radius_bottom_right = props.defaultConfig.img_radius_1;
-        form.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_1;
-        form.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_1;
-    }
-}
 const common_style_update = (value: any) => {
     form.value.common_style = value;
 };

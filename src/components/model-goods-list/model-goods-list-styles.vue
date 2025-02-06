@@ -1,7 +1,7 @@
 <template>
     <div class="w">
         <el-form :model="form" label-width="70">
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12">商品样式</div>
                 <el-form-item v-if="theme != '6'" label="商品背景">
                     <background-common v-model:color_list="form.shop_color_list" v-model:direction="form.shop_direction" v-model:img_style="form.shop_background_img_style" v-model:img="form.shop_background_img" @mult_color_picker_event="mult_color_picker_event" />
@@ -90,8 +90,8 @@
                 </template>
             </card-container>
             <template v-if="theme == '5'">
-                <div class="divider-line"></div>
-                <card-container>
+                <div class="divider-line data-tabs-line"></div>
+                <card-container class="card-container">
                     <div class="mb-12">轮播设置</div>
                     <el-form-item label="自动轮播">
                         <el-switch v-model="form.is_roll" active-value="1" inactive-value="0" />
@@ -111,12 +111,12 @@
             </template>
             <!-- 秒杀角标 -->
             <template v-if="data.seckill_subscript_show == '1'">
-                <div class="divider-line"></div>
+                <div class="divider-line data-tabs-line"></div>
                 <subscript-styles :value="form.subscript_style" :data="data"></subscript-styles>
             </template>
             <template v-if="data.is_shop_show == '1'">
-                <div class="divider-line"></div>
-                <card-container>
+                <div class="divider-line data-tabs-line"></div>
+                <card-container class="card-container">
                     <div class="mb-12">购物车按钮</div>
                     <el-form-item label="按钮颜色" class="topic">
                         <flex-gradients-create :color-list="form.shop_button_color" default-color="#FF3D53"></flex-gradients-create>
@@ -135,7 +135,7 @@
             </template>
         </el-form>
         <template v-if="isCommonStyle">
-            <div class="divider-line"></div>
+            <div class="divider-line data-tabs-line"></div>
             <common-styles :value="form.common_style" @update:value="common_style_update" />
         </template>
     </div>

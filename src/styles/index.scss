@@ -317,17 +317,14 @@ p {
 }
 
 .data-tabs-style {
-    .card {
+    .card-container {
         padding: 0 !important;
-        // .el-form-item:last-child {
-        //     margin-bottom: 1.8rem;
-        // }
         .flex-row.is-newline {
             flex-direction: column !important;
             align-items: flex-start;
         }
     }
-    .divider-line {
+    .data-tabs-line {
         height: 0.1rem !important;
         margin-bottom: 1rem;
         margin-top: 1rem;

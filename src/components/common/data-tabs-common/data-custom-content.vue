@@ -56,16 +56,14 @@
                                     <el-radio v-for="(item, index) in default_type_data.data_type" :key="index" :value="item">{{ +item === 0 ? '指定数据' : '筛选数据' }}</el-radio>
                                 </el-radio-group>
                             </el-form-item>
-                            <template v-if="Number(form.data_source_content.data_type) === 0">
-                                <div class="nav-list flex-col gap-20">
-                                    <filter-form v-if="!isEmpty(default_type_data?.appoint_config?.filter_form_config || {})" :filter-data="default_type_data?.appoint_config?.filter_form_config || {}" direction="vertical" :title-width="58" :data-interface="form.data_source_content" @form-change="filter_form_change"></filter-form>
-                                    <drag-group v-if="!isEmpty(form.data_source_content.data_list)" :list="form.data_source_content.data_list" :img-params="form.show_data?.data_logo || ''" :title-params="form.show_data?.data_name || 'name'" type="custom" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
-                                    <el-button class="w" @click="add">+添加</el-button>
-                                </div>
-                            </template>
-                            <template v-else>
+                            <div v-show="Number(form.data_source_content.data_type) === 0" class="nav-list flex-col gap-20">
+                                <filter-form v-if="!isEmpty(default_type_data?.appoint_config?.filter_form_config || {})" :filter-data="default_type_data?.appoint_config?.filter_form_config || {}" direction="vertical" :title-width="58" :data-interface="form.data_source_content" @form-change="filter_form_change"></filter-form>
+                                <drag-group v-if="!isEmpty(form.data_source_content.data_list)" :list="form.data_source_content.data_list" :img-params="form.show_data?.data_logo || ''" :title-params="form.show_data?.data_name || 'name'" type="custom" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
+                                <el-button class="w" @click="add">+添加</el-button>
+                            </div>
+                            <div v-show="Number(form.data_source_content.data_type) === 1">
                                 <filter-form :filter-data="default_type_data?.filter_config?.filter_form_config || {}" direction="vertical" :title-width="58" :data-interface="form.data_source_content" @form-change="filter_form_change"></filter-form>
-                            </template>
+                            </div>
                         </div>
                     </card-container>
                 </template>
