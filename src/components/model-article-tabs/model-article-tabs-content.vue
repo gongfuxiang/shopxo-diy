@@ -39,7 +39,7 @@
                     <drag :data="form.tabs_list" type="card" icon-position="top" :space-col="20" @click="tabs_list_click" @remove="tabs_list_remove" @on-sort="tabs_list_sort">
                         <template #default="{ row, index }">
                             <div class="flex-col w">
-                                <el-form-item label="数据类型" class="w mb-10">
+                                <el-form-item label="显示类型" class="w mb-10">
                                     <div class="flex-col gap-10 w h">
                                         <el-radio-group v-model="row.tabs_type">
                                             <el-radio value="0">文本</el-radio>

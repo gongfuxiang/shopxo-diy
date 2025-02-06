@@ -89,8 +89,8 @@
                     </template>
                 </template>
             </card-container>
-            <div class="divider-line"></div>
             <template v-if="theme == '5'">
+                <div class="divider-line"></div>
                 <card-container>
                     <div class="mb-12">轮播设置</div>
                     <el-form-item label="自动轮播">
@@ -108,14 +108,14 @@
                         </el-form-item>
                     </template>
                 </card-container>
-                <div class="divider-line"></div>
             </template>
             <!-- 秒杀角标 -->
             <template v-if="data.seckill_subscript_show == '1'">
-                <subscript-styles :value="form.subscript_style" :data="data"></subscript-styles>
                 <div class="divider-line"></div>
+                <subscript-styles :value="form.subscript_style" :data="data"></subscript-styles>
             </template>
             <template v-if="data.is_shop_show == '1'">
+                <div class="divider-line"></div>
                 <card-container>
                     <div class="mb-12">购物车按钮</div>
                     <el-form-item label="按钮颜色" class="topic">
@@ -132,10 +132,12 @@
                         </el-form-item>
                     </template>
                 </card-container>
-                <div class="divider-line"></div>
             </template>
         </el-form>
-        <common-styles :value="form.common_style" @update:value="common_style_update" />
+        <template v-if="isCommonStyle">
+            <div class="divider-line"></div>
+            <common-styles :value="form.common_style" @update:value="common_style_update" />
+        </template>
     </div>
 </template>
 <script setup lang="ts">
@@ -147,6 +149,10 @@ const props = defineProps({
     content: {
         type: Object,
         default: () => ({}),
+    },
+    isCommonStyle: {
+        type: Boolean,
+        default: true,
     },
     defaultConfig: {
         type: Object,

@@ -62,6 +62,10 @@
             <template v-else-if="value.key == 'goods-tabs'">
                 <model-goods-tabs-setting :type="radio" :value="value.com_data"></model-goods-tabs-setting>
             </template>
+            <!-- 数据选项卡 -->
+            <template v-else-if="value.key == 'data-tabs'">
+                <model-data-tabs-setting :type="radio" :value="value.com_data"></model-data-tabs-setting>
+            </template>
             <!-- 图片魔方 -->
             <template v-else-if="value.key == 'img-magic'">
                 <model-img-magic-setting :type="radio" :value="value.com_data"></model-img-magic-setting>

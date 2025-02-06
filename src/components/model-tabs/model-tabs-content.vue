@@ -30,7 +30,7 @@
                 <div class="flex-col gap-x-20">
                     <div class="card-background box-shadow-sm ptb-25 flex gap-y-16 re align-c">
                         <el-icon class="iconfont icon-jinzhi size-16 cursor-move" />
-                        <el-form-item label="数据类型" class="w mb-0">
+                        <el-form-item label="显示类型" class="w mb-0">
                             <div class="flex-col gap-10 w h">
                                 <el-radio-group v-model="form.home_data.tabs_type">
                                     <el-radio value="0">文本</el-radio>

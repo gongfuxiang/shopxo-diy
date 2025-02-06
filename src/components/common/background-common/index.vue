@@ -7,7 +7,7 @@
             </el-tooltip>
         </div>
         <mult-color-picker :value="color_list" :type="direction" @update:value="mult_color_picker_event"></mult-color-picker>
-        <div class="flex-row jc-sb align-c">
+        <div class="flex-row jc-sb align-c is-newline">
             <div class="size-12">背景图</div>
             <bg-btn-style v-model="background_img_style" @operation_end="operation_end"></bg-btn-style>
         </div>

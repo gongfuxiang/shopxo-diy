@@ -358,20 +358,10 @@ const tabs_list_click = (item: any, index: number) => {
        padding: 0 !important;
     }
 }
-:deep(.el-tabs.content-tabs) {
-    .el-tabs__header.is-top {
-        background: #fff;
-        margin: 0;
-        padding-bottom: 1rem;
-    }
-    .el-tabs__item.is-top {
-        padding: 0;
-        align-items: center;
-        width: 10rem;
-        font-size: 1.4rem;
-    }
-    .el-tabs__active-bar{
-        width: 100%;
+:deep(.content-tabs) {
+    .flex-row.is-newline {
+        flex-direction: column !important;
+        align-items: flex-start;
     }
 }
 </style>

@@ -96,19 +96,19 @@ onBeforeMount(() => {
     // 判断是否相等，如果不相等，就展开
     const flag = areAllEqual(form.value.radius_top_left, form.value.radius_top_right, form.value.radius_bottom_left, form.value.radius_bottom_right);
     if (!flag) {
-        icon_event('unified');
+        icon_event('margin');
     }
 });
 const icon_data = reactive({
-    name: 'unified',
+    name: 'margin',
     title: '独个'
 });
 const icon_event = (name: string) => {
-    if (name == 'unified') {
+    if (name == 'margin') {
         icon_data.name = 'alone';
         icon_data.title = '统一';
     } else {
-        icon_data.name = 'unified';
+        icon_data.name = 'margin';
         icon_data.title = '独个';
     }
 }

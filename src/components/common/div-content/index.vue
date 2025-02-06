@@ -78,6 +78,10 @@
             <template v-else-if="item.key == 'goods-tabs'">
                 <model-goods-tabs :key="item.com_data" :value="item.com_data"></model-goods-tabs>
             </template>
+            <!-- 数据选项卡 -->
+            <template v-else-if="item.key == 'data-tabs'">
+                <model-data-tabs :key="item.com_data" :value="item.com_data"></model-data-tabs>
+            </template>
             <!-- 图片魔方 -->
             <template v-else-if="item.key == 'img-magic'">
                 <model-img-magic :key="item.com_data" :value="item.com_data"></model-img-magic>
