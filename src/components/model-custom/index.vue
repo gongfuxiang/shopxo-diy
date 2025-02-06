@@ -78,6 +78,10 @@ const props = defineProps({
             return {};
         },
     },
+    isCommonStyle: {
+        type: Boolean,
+        default: true,
+    },
     outerContainerPadding: {
         type: Number,
         default: 0,
@@ -131,8 +135,8 @@ watchEffect(() => {
 });
 //#endregion
 // 公共样式
-const style_container = computed(() => common_styles_computer(new_style.value.common_style));
-const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
+const style_container = computed(() => props.isCommonStyle ? common_styles_computer(new_style.value.common_style) : '');
+const style_img_container = computed(() => props.isCommonStyle ? common_img_computer(new_style.value.common_style) : '');
 // 内容样式
 const style_content_container = computed(() => common_styles_computer(new_style.value.data_content_style));
 const style_content_img_container = computed(() => common_img_computer(new_style.value.data_content_style));

@@ -1,31 +1,29 @@
 <template>
-    <div class="data-tabs-style">
-        <el-form-item label="商品风格">
-            <el-radio-group v-model="form.theme" @change="change_style">
-                <el-radio v-for="item in base_list.product_style_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-            </el-radio-group>
-        </el-form-item>
-        <el-form-item v-if="form.theme == '5'" label="轮播列数">
-            <el-radio-group v-model="form.carousel_col">
-                <el-radio :value="1">单列展示</el-radio>
-                <el-radio :value="2">两列展示</el-radio>
-                <el-radio :value="3">三列展示</el-radio>
-                <el-radio :value="4">四列展示</el-radio>
-            </el-radio-group>
-        </el-form-item>
-        <div class="divider-line"></div>
-        <!-- 商品显示的配置信息 -->
-        <product-show-config :value="form" @change_shop_type="change_shop_type"></product-show-config>
-        <div class="divider-line"></div>
-        <card-container>
-            <div class="mb-12">角标设置</div>
-            <!-- 角标设置 -->
-            <subscript-content :value="form"></subscript-content>
-        </card-container>
-        <div class="divider-line"></div>
-        <!-- 数据筛选组件, 根据数据源类型显示不同的筛选组件 -->
-        <data-filter type="goods" :value="form" :list="form.data_list" :base-list="base_list" @add="product_add" @data_list_replace="data_list_replace" @data_list_remove="goods_list_remove" @data_list_sort="goods_list_sort"></data-filter>
-    </div>
+    <el-form-item label="商品风格">
+        <el-radio-group v-model="form.theme" @change="change_style">
+            <el-radio v-for="item in base_list.product_style_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+        </el-radio-group>
+    </el-form-item>
+    <el-form-item v-if="form.theme == '5'" label="轮播列数">
+        <el-radio-group v-model="form.carousel_col">
+            <el-radio :value="1">单列展示</el-radio>
+            <el-radio :value="2">两列展示</el-radio>
+            <el-radio :value="3">三列展示</el-radio>
+            <el-radio :value="4">四列展示</el-radio>
+        </el-radio-group>
+    </el-form-item>
+    <div class="divider-line"></div>
+    <!-- 商品显示的配置信息 -->
+    <product-show-config :value="form" @change_shop_type="change_shop_type"></product-show-config>
+    <div class="divider-line"></div>
+    <card-container>
+        <div class="mb-12">角标设置</div>
+        <!-- 角标设置 -->
+        <subscript-content :value="form"></subscript-content>
+    </card-container>
+    <div class="divider-line"></div>
+    <!-- 数据筛选组件, 根据数据源类型显示不同的筛选组件 -->
+    <data-filter type="goods" :value="form" :list="form.data_list" :base-list="base_list" @add="product_add" @data_list_replace="data_list_replace" @data_list_remove="goods_list_remove" @data_list_sort="goods_list_sort"></data-filter>
     <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['goods']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
 </template>
 
@@ -50,6 +48,7 @@ const props = defineProps({
         }),
     },
 });
+
 const base_list = reactive({
     product_style_list: [
         { name: '单列展示', value: '0', width: 110, height: 120 },
@@ -117,7 +116,6 @@ const change_style = (val: any): void => {
         styles.value.content_img_width = list[0].width;
         styles.value.content_img_height = list[0].height;
     }
-    console.log(styles.value);  
 };
 const url_value_multiple_bool = ref(true);
 const data_list_replace_index = ref(0);

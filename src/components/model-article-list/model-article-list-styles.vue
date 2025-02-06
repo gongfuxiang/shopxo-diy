@@ -105,8 +105,10 @@
                 <subscript-styles :value="form.subscript_style" :data="data"></subscript-styles>
             </template>
         </el-form>
-        <div class="divider-line"></div>
-        <common-styles :value="form.common_style" @update:value="common_style_update" />
+        <template v-if="isCommonStyle">
+            <div class="divider-line"></div>
+            <common-styles :value="form.common_style" @update:value="common_style_update" />
+        </template>
     </div>
 </template>
 <script setup lang="ts">
@@ -124,6 +126,10 @@ const props = defineProps({
     content: {
         type: Object,
         default: () => ({}),
+    },
+    isCommonStyle: {
+        type: Boolean,
+        default: true,
     },
     defaultConfig: {
         type: Object,

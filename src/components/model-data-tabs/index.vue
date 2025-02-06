@@ -11,6 +11,12 @@
                     <template v-if="tabs_data_type == 'goods'">
                         <model-goods-list :value="tabs_list" :is-common-style="false"></model-goods-list>
                     </template>
+                    <template v-else-if="tabs_data_type == 'article'">
+                        <model-article-list :value="tabs_list" :is-common-style="false"></model-article-list>
+                    </template>
+                    <template v-else-if="tabs_data_type == 'custom'">
+                        <model-custom :value="tabs_list" :is-common-style="false"></model-custom>
+                    </template>
                 </div>
             </div>
         </div>
@@ -68,17 +74,13 @@ watch(
         // 显示的数据处理
         const tabs_data_list = new_data.content.tabs_list[tabs_active_index.value] || {};
         tabs_data_type.value = tabs_data_list?.tabs_data_type || '';
-        console.log(tabs_data_list);
         if (tabs_data_list.tabs_data_type === 'goods') {
             tabs_list.value = tabs_data_list.goods_config;
         } else if (tabs_data_list.tabs_data_type === 'article') {
-            tabs_list.value = tabs_data_list.goods_config;
+            tabs_list.value = tabs_data_list.article_config;
         } else if (tabs_data_list.tabs_data_type === 'custom') {
-            tabs_list.value = tabs_data_list.goods_config;
+            tabs_list.value = tabs_data_list.custom_config;
         }
-        console.log(
-            tabs_list.value
-        );
         // 公共样式
         style_container.value += common_styles_computer(new_style.common_style);
         style_img_container.value = common_img_computer(new_style.common_style) + `gap: ${new_style.shop_content_spacing}px;`;

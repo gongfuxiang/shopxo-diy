@@ -59,25 +59,25 @@
                                     </el-form-item>
                                     <el-tabs v-model="row.tabs_name" class="content-tabs">
                                         <el-tab-pane label="内容设置" name="content">
-                                            <div v-show="row.tabs_data_type == 'goods'">
-                                                <goods-content :value="row.goods_config.content" :tab-style="row.goods_config.style"></goods-content>
+                                            <div v-show="row.tabs_data_type == 'goods'" class="data-tabs-style">
+                                                <data-goods-content :value="row.goods_config.content" :tab-style="row.goods_config.style"></data-goods-content>
                                             </div>
-                                            <div v-show="row.tabs_data_type == 'article'">
-                                                <goods-content :value="row.goods_config.content" :tab-style="row.goods_config.style"></goods-content>
+                                            <div v-show="row.tabs_data_type == 'article'" class="data-tabs-style">
+                                                <data-article-content :value="row.article_config.content" :tab-style="row.article_config.style"></data-article-content>
                                             </div>
-                                            <div v-show="row.tabs_data_type == 'custom'">
-                                                <goods-content :value="row.goods_config.content" :tab-style="row.goods_config.style"></goods-content>
+                                            <div v-show="row.tabs_data_type == 'custom'" class="data-tabs-style">
+                                                <data-goods-content :value="row.goods_config.content" :tab-style="row.goods_config.style"></data-goods-content>
                                             </div>
                                         </el-tab-pane>
                                         <el-tab-pane label="样式设置" name="styles">
-                                            <div v-show="row.tabs_data_type == 'goods'">
-                                                <goods-style :value="row.goods_config.style" :content="row.goods_config.content"></goods-style>
+                                            <div v-show="row.tabs_data_type == 'goods'" class="data-tabs-style">
+                                                <model-goods-list-styles :value="row.goods_config.style" :content="row.goods_config.content" :is-common-style="false"></model-goods-list-styles>
                                             </div>
-                                            <div v-show="row.tabs_data_type == 'article'">
-                                                <goods-style :value="row.goods_config.style" :content="row.goods_config.content"></goods-style>
+                                            <div v-show="row.tabs_data_type == 'article'" class="data-tabs-style">
+                                                <model-article-list-styles :value="row.article_config.style" :content="row.article_config.content" :is-common-style="false" />
                                             </div>
-                                            <div v-show="row.tabs_data_type == 'custom'">
-                                                <goods-style :value="row.goods_config.style" :content="row.goods_config.content"></goods-style>
+                                            <div v-show="row.tabs_data_type == 'custom'" class="data-tabs-style">
+                                                <data-goods-style :value="row.goods_config.style" :content="row.goods_config.content"></data-goods-style>
                                             </div>
                                         </el-tab-pane>
                                     </el-tabs>

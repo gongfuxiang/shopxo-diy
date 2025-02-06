@@ -458,21 +458,8 @@ const icon_style = (item: { bg_color: string; color: string; br_color: string })
     return style;
 };
 // 公共样式
-const style_container = computed(() => {
-    if (props.isCommonStyle) {
-        return common_styles_computer(new_style.value.common_style);
-    } else {
-        return '';
-    }
-});
-
-const style_img_container = computed(() => {
-    if (props.isCommonStyle) {
-        return common_img_computer(new_style.value.common_style);
-    } else {
-        return '';
-    }
-});
+const style_container = computed(() => props.isCommonStyle ? common_styles_computer(new_style.value.common_style) : '');
+const style_img_container = computed(() => props.isCommonStyle ? common_img_computer(new_style.value.common_style) : '');
 // 不换行显示
 const multicolumn_columns_width = computed(() => {
     const { carousel_col } = toRefs(form.value);
