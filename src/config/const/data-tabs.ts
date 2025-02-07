@@ -16,9 +16,9 @@ interface articleTabsList {
     data_type: string;
     tabs_data_type: string;
     tabs_name: string;
-    goods_config: any;
-    article_config: any;
-    custom_config: any;
+    goods_config?: any;
+    article_config?: any;
+    custom_config?: any;
 }
 interface DefaultProductList {
     content: {
@@ -149,10 +149,10 @@ const defaultProductList: DefaultProductList = {
         tabs_top_up: '0',
         // 选项卡数据
         tabs_list: [
-            { id: '1', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '热门推荐', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(goods_default_parameter), article_config: cloneDeep(article_default_parameter), custom_config: cloneDeep(defaultCustom) },
-            { id: '2', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试一', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(goods_default_parameter), article_config: cloneDeep(article_default_parameter), custom_config: cloneDeep(defaultCustom) },
-            { id: '3', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试二', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(goods_default_parameter), article_config: cloneDeep(article_default_parameter), custom_config: cloneDeep(defaultCustom) },
-            { id: '4', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试三', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(goods_default_parameter), article_config: cloneDeep(article_default_parameter), custom_config: cloneDeep(defaultCustom) },
+            { id: '1', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '热门推荐', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(goods_default_parameter) },
+            { id: '2', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试一', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(goods_default_parameter) },
+            { id: '3', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试二', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(goods_default_parameter) },
+            { id: '4', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试三', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(goods_default_parameter) },
         ],
         // 选中的内容索引
         tabs_active_index: 0,
