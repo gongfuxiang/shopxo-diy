@@ -23,6 +23,8 @@ import { Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
 import defaultConfigSetting from '@/config/setting';
 import defaultConfigConst from '@/config/const/index';
+import { article_default_parameter, goods_default_parameter } from '@/config/const/data-tabs';
+import defaultCustom from '@/config/const/custom';
 import { cloneDeep, isEmpty, omit } from 'lodash';
 import DiyAPI, { diyData, headerAndFooter, diyConfig } from '@/api/diy';
 import CommonAPI from '@/api/common';
@@ -326,20 +328,22 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
         } else if (new_array_6.includes(item.key)) {
             item.com_data.content.nav_content_list = item.com_data.content.nav_content_list.map((item0: any) => ({...omit(item0, 'tabs_name') }));
         } else if (['data-tabs'].includes(item.key)) {
+            item.com_data.content.tabs_active_index = 0;
             const new_tabs_list = item?.com_data?.content?.tabs_list || [];
             new_tabs_list.forEach((item: any) => {
+                item.tabs_name = 'content';
                 if (item.tabs_data_type == 'goods' || item.tabs_data_type == 'article') {
                     const new_com_data = item.tabs_data_type == 'goods' ? item.goods_config : item.article_config;
                     // 商品或文章的数据处理
                     goods_or_article_data_processing(new_com_data.content, item.tabs_data_type == 'goods');
                     // 是商品的时候需要将其他的两个数据清楚掉，避免下次切换时出现问题
                     if (item.tabs_data_type == 'goods') {
-                        goods_or_article_data_clear(item.article_config.content, false);
-                        clear_custom_data(item.custom_config.content);
+                        item.article_config = cloneDeep(article_default_parameter);
+                        item.custom_config = cloneDeep(defaultCustom)
                     } else {
                         // 是文章时清除掉其他的内容
-                        goods_or_article_data_clear(item.goods_config.content, true);
-                        clear_custom_data(item.custom_config.content);
+                        item.goods_config = cloneDeep(goods_default_parameter);
+                        item.custom_config = cloneDeep(defaultCustom)
                     }
                 } else if (item.tabs_data_type == 'custom') {
                     const new_com_data = item.custom_config;
@@ -348,8 +352,8 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                     // 自定义数据处理
                     custom_data_processing(new_com_data.content);
                     // 是自定义的时候清除掉其他的内容，避免下次点击时出现问题
-                    goods_or_article_data_clear(item.goods_config.content, true);
-                    goods_or_article_data_clear(item.article_config.content, false);
+                    item.goods_config = cloneDeep(goods_default_parameter);
+                    item.article_config = cloneDeep(article_default_parameter);
                 }
             });
         }
@@ -440,32 +444,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
     // 清空自动数据列表，为后续的数据处理或展示做准备
     new_com_data_content.data_auto_list = [];
 };
-// 清空其他组件的内容
-const goods_or_article_data_clear = (new_com_data_content: any, is_goods: boolean) => {
-    new_com_data_content.data_ids = '';
-    new_com_data_content.data_list = [];
-    // 清空自动数据列表，为后续的数据处理或展示做准备
-    new_com_data_content.data_auto_list = [];
-    // 设置分类ID、数量、排序规则等默认值，确保数据的一致性和完整性
-    new_com_data_content.category_ids = defaultConfigSetting.category_ids;
-    new_com_data_content.number = defaultConfigSetting.page_size;
-    new_com_data_content.order_by_rule = defaultConfigSetting.order_by_rule;
-    new_com_data_content.order_by_type = defaultConfigSetting.order_by_type;
-    
-    // 根据是否为商品，决定是否设置品牌ID或封面标志
-    if (is_goods) {
-        new_com_data_content.brand_ids = defaultConfigSetting.brand_ids;
-    } else {
-        new_com_data_content.is_cover = defaultConfigSetting.is_cover;
-    }
-}
-const clear_custom_data = (new_com_data_content: any) => {
-    // 如果数据不是自定义或数据类型不是0，清空相关数据字段
-    new_com_data_content.data_source_content.data_ids = [];
-    new_com_data_content.data_source_content.data_list = [];
-    // 自动数据清空
-    new_com_data_content.data_source_content.data_auto_list = [];
-}
+
 /**
  * 自定义数据处理函数
  * 该函数用于处理新组件数据内容，根据数据是否为自定义以及数据类型，对数据进行相应的处理和格式化

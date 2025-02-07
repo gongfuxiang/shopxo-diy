@@ -71,10 +71,10 @@
                                         </el-tab-pane>
                                         <el-tab-pane label="样式设置" name="styles">
                                             <div v-show="row.tabs_data_type == 'goods'" class="data-tabs-style">
-                                                <model-goods-list-styles :value="row.goods_config.style" :content="row.goods_config.content" :is-common-style="false"></model-goods-list-styles>
+                                                <data-goods-styles :value="row.goods_config.style" :content="row.goods_config.content"></data-goods-styles>
                                             </div>
                                             <div v-show="row.tabs_data_type == 'article'" class="data-tabs-style">
-                                                <model-article-list-styles :value="row.article_config.style" :content="row.article_config.content" :is-common-style="false" />
+                                                <data-article-styles :value="row.article_config.style" :content="row.article_config.content"></data-article-styles>
                                             </div>
                                             <div v-show="row.tabs_data_type == 'custom'" class="data-tabs-style">
                                                 <model-custom-styles :value="row.custom_config.style" :content="row.custom_config.content" :is-common-style="false"></model-custom-styles>
@@ -97,7 +97,9 @@
     </div>
 </template>
 <script setup lang="ts">
-import { isEmpty } from 'lodash';
+import { cloneDeep } from 'lodash';
+import { article_default_parameter, goods_default_parameter } from "@/config/const/data-tabs";
+import defaultCustom from '@/config/const/custom';
 import { get_math, tabs_style } from '@/utils';
 import { commonStore } from '@/store';
 const common_store = commonStore();
@@ -170,13 +172,11 @@ const tabs_add = () => {
         title: '',
         img: [],
         desc: '',
-        data_type: '0',
-        category: [],
-        data_ids: [],
-        number: 4,
-        order_by_type: '0',
-        order_by_rule: '0',
-        data_list: [],
+        tabs_data_type: 'goods',
+        tabs_name: 'content',
+        goods_config: cloneDeep(goods_default_parameter),
+        article_config: cloneDeep(article_default_parameter),
+        custom_config: cloneDeep(defaultCustom)
     });
     form.value.tabs_active_index = form.value.tabs_list.length - 1;
 };

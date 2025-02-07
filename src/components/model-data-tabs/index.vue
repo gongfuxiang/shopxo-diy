@@ -9,10 +9,18 @@
             <div class="oh" :style="data_container">
                 <div class="oh" :style="data_img_container">
                     <template v-if="tabs_data_type == 'goods'">
-                        <model-goods-list :value="tabs_list" :is-common-style="false"></model-goods-list>
+                        <div class="oh" :style="data_content_container">
+                            <div class="oh" :style="data_content_img_container">
+                                <model-goods-list :value="tabs_list" :is-common-style="false"></model-goods-list>
+                            </div>
+                        </div>
                     </template>
                     <template v-else-if="tabs_data_type == 'article'">
-                        <model-article-list :value="tabs_list" :is-common-style="false"></model-article-list>
+                        <div class="oh" :style="data_content_container">
+                            <div class="oh" :style="data_content_img_container">
+                                <model-article-list :value="tabs_list" :is-common-style="false"></model-article-list>
+                            </div>
+                        </div>
                     </template>
                     <template v-else-if="tabs_data_type == 'custom'">
                         <model-custom :value="tabs_list" :outer_container_padding="outer_container_width" :is-common-style="false"></model-custom>
@@ -25,6 +33,7 @@
 <script setup lang="ts">
 import { background_computer, border_computer, box_shadow_computer, common_img_computer, common_styles_computer, gradient_computer, margin_computer, padding_computer, radius_computer } from '@/utils';
 import { cloneDeep } from 'lodash';
+import { data_content_style } from '@/config/const/data-tabs';
 
 const props = defineProps({
     value: {
@@ -48,6 +57,9 @@ const data_container = ref('');
 const data_img_container = ref('');
 // 外层容器的间距
 const outer_container_width = ref(0);
+// 数据内容样式
+const data_content_container = ref('');
+const data_content_img_container = ref('');
 watch(
     () => props.value,
     (val) => {
@@ -81,8 +93,16 @@ watch(
         tabs_data_type.value = tabs_data_list?.tabs_data_type || '';
         if (tabs_data_list.tabs_data_type === 'goods') {
             tabs_list.value = tabs_data_list.goods_config;
+            const new_style = tabs_data_list.goods_config.style;
+            // 内容样式
+            data_content_container.value = common_styles_computer(new_style?.data_content_style || data_content_style);
+            data_content_img_container.value = common_img_computer(new_style?.data_content_style || data_content_style);
         } else if (tabs_data_list.tabs_data_type === 'article') {
             tabs_list.value = tabs_data_list.article_config;
+            const new_style = tabs_data_list.article_config.style;
+            // 内容样式
+            data_content_container.value = common_styles_computer(new_style?.data_content_style || data_content_style);
+            data_content_img_container.value = common_img_computer(new_style?.data_content_style || data_content_style);
         } else if (tabs_data_list.tabs_data_type === 'custom') {
             tabs_list.value = tabs_data_list.custom_config;
         }

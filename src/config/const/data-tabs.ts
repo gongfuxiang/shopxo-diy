@@ -75,6 +75,66 @@ interface DefaultProductList {
         common_style: object;
     };
 }
+// 内容区域的参数
+export const data_content_style = {
+    color_list: [{ color: '', color_percentage: undefined }],
+    direction: '180deg',
+    background_img_style: '2',
+    background_img: [],
+    radius: 0,
+    radius_top_left: 0,
+    radius_top_right: 0,
+    radius_bottom_left: 0,
+    radius_bottom_right: 0,
+    padding: 0,
+    padding_top: 0,
+    padding_bottom: 0,
+    padding_left: 0,
+    padding_right: 0,
+    margin: 0,
+    margin_top: 0,
+    margin_bottom: 0,
+    margin_left: 0,
+    margin_right: 0,
+    // 边框样式
+    border_is_show: '0',
+    border_color: '#FF3F3F',
+    border_style: 'solid',
+    border_size: {
+        padding: 1,
+        padding_top: 1,
+        padding_right: 1,
+        padding_bottom: 1,
+        padding_left: 1,
+    },
+    // 阴影
+    box_shadow_color: '',
+    box_shadow_x: 0,
+    box_shadow_y: 0,
+    box_shadow_blur: 0,
+    box_shadow_spread: 0,
+};
+
+export const goods_default_parameter = {
+    content: {
+        ...cloneDeep(defaultGoodsList.content),
+    },
+    style: {
+        ...cloneDeep(defaultGoodsList.style),
+        data_content_style: cloneDeep(data_content_style)
+    }
+}
+
+export const article_default_parameter = {
+    content: {
+        ...cloneDeep(defaultArticleList.content),
+    },
+    style: {
+        ...cloneDeep(defaultArticleList.style),
+        data_content_style: cloneDeep(data_content_style)
+    }
+}
+
 const defaultProductList: DefaultProductList = {
     content: {
         content_top: {
@@ -89,10 +149,10 @@ const defaultProductList: DefaultProductList = {
         tabs_top_up: '0',
         // 选项卡数据
         tabs_list: [
-            { id: '1', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '热门推荐', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(defaultGoodsList), article_config: cloneDeep(defaultArticleList), custom_config: cloneDeep(defaultCustom) },
-            { id: '2', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试一', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(defaultGoodsList), article_config: cloneDeep(defaultArticleList), custom_config: cloneDeep(defaultCustom) },
-            { id: '3', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试二', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(defaultGoodsList), article_config: cloneDeep(defaultArticleList), custom_config: cloneDeep(defaultCustom) },
-            { id: '4', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试三', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(defaultGoodsList), article_config: cloneDeep(defaultArticleList), custom_config: cloneDeep(defaultCustom) },
+            { id: '1', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '热门推荐', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(goods_default_parameter), article_config: cloneDeep(article_default_parameter), custom_config: cloneDeep(defaultCustom) },
+            { id: '2', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试一', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(goods_default_parameter), article_config: cloneDeep(article_default_parameter), custom_config: cloneDeep(defaultCustom) },
+            { id: '3', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试二', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(goods_default_parameter), article_config: cloneDeep(article_default_parameter), custom_config: cloneDeep(defaultCustom) },
+            { id: '4', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试三', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(goods_default_parameter), article_config: cloneDeep(article_default_parameter), custom_config: cloneDeep(defaultCustom) },
         ],
         // 选中的内容索引
         tabs_active_index: 0,
