@@ -91,19 +91,19 @@ watch(
         // 显示的数据处理
         const tabs_data_list = new_data.content.tabs_list[tabs_active_index.value] || {};
         tabs_data_type.value = tabs_data_list?.tabs_data_type || '';
-        if (tabs_data_list.tabs_data_type === 'goods') {
+        if (tabs_data_type.value === 'goods') {
             tabs_list.value = tabs_data_list.goods_config;
             const new_style = tabs_data_list.goods_config.style;
             // 内容样式
             data_content_container.value = common_styles_computer(new_style?.data_content_style || data_content_style);
             data_content_img_container.value = common_img_computer(new_style?.data_content_style || data_content_style);
-        } else if (tabs_data_list.tabs_data_type === 'article') {
+        } else if (tabs_data_type.value === 'article') {
             tabs_list.value = tabs_data_list.article_config;
             const new_style = tabs_data_list.article_config.style;
             // 内容样式
             data_content_container.value = common_styles_computer(new_style?.data_content_style || data_content_style);
             data_content_img_container.value = common_img_computer(new_style?.data_content_style || data_content_style);
-        } else if (tabs_data_list.tabs_data_type === 'custom') {
+        } else if (tabs_data_type.value === 'custom') {
             tabs_list.value = tabs_data_list.custom_config;
         }
         // 公共样式
