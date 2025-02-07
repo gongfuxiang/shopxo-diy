@@ -338,12 +338,16 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                     goods_or_article_data_processing(new_com_data.content, item.tabs_data_type == 'goods');
                     // 是商品的时候需要将其他的两个数据清楚掉，避免下次切换时出现问题
                     if (item.tabs_data_type == 'goods') {
-                        item.article_config = cloneDeep(article_default_parameter);
-                        item.custom_config = cloneDeep(defaultCustom)
+                        // item.article_config = cloneDeep(article_default_parameter);
+                        // item.custom_config = cloneDeep(defaultCustom)
+                        delete item.article_config;
+                        delete item.custom_config;
                     } else {
                         // 是文章时清除掉其他的内容
-                        item.goods_config = cloneDeep(goods_default_parameter);
-                        item.custom_config = cloneDeep(defaultCustom)
+                        // item.goods_config = cloneDeep(goods_default_parameter);
+                        // item.custom_config = cloneDeep(defaultCustom)
+                        delete item.goods_config;
+                        delete item.custom_config;
                     }
                 } else if (item.tabs_data_type == 'custom') {
                     const new_com_data = item.custom_config;
@@ -352,8 +356,10 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                     // 自定义数据处理
                     custom_data_processing(new_com_data.content);
                     // 是自定义的时候清除掉其他的内容，避免下次点击时出现问题
-                    item.goods_config = cloneDeep(goods_default_parameter);
-                    item.article_config = cloneDeep(article_default_parameter);
+                    delete item.goods_config;
+                    delete item.article_config;
+                    // item.goods_config = cloneDeep(goods_default_parameter);
+                    // item.article_config = cloneDeep(article_default_parameter);
                 }
             });
         }

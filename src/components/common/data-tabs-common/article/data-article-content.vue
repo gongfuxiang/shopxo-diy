@@ -102,13 +102,6 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, data } = toRefs(state);
-watch(() => props.value, (value) => {
-    form.value = value;
-},{deep: true, immediate: true });
-
-watch(() => props.tabStyle, (value) => {
-    data.value = value;
-},{deep: true, immediate: true });
 // 主题改变
 const theme_change = (val: any) => {
     if (val == '3' || val == '4') {

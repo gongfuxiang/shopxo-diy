@@ -41,14 +41,6 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form, data } = toRefs(state);
 
-watch(() => props.value, (value) => {
-    form.value = value;
-},{deep: true, immediate: true });
-
-watch(() => props.content, (value) => {
-    data.value = value;
-},{deep: true, immediate: true });
-
 // 内容样式
 const mult_content_color_picker_event = (arry: color_list[], type: number) => {
     form.value.data_content_style.color_list = arry;

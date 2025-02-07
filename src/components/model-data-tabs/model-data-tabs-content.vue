@@ -38,9 +38,7 @@
                                         <template v-if="row.tabs_type == '1'">
                                             <upload v-model="row.tabs_img" v-model:icon-value="row.tabs_icon" is-icon :limit="1" size="50"></upload>
                                         </template>
-                                        <template v-else>
-                                            <el-input v-model="row.title" placeholder="请输入标题文字" clearable />
-                                        </template>
+                                        <el-input v-else v-model="row.title" placeholder="请输入标题文字" clearable />
                                     </div>
                                 </el-form-item>
                                 <template v-if="form.tabs_active_index == index">
@@ -57,7 +55,7 @@
                                             <el-radio value="custom">自定义</el-radio>
                                         </el-radio-group>
                                     </el-form-item>
-                                    <el-tabs v-model="row.tabs_name" class="content-tabs">
+                                    <el-tabs v-model="row.tabs_name" class="content-tabs" @tab-change="tabs_change">
                                         <el-tab-pane label="内容设置" name="content">
                                             <div v-show="row.tabs_data_type == 'goods'" class="data-tabs-style">
                                                 <data-goods-content :value="row.goods_config.content" :tab-style="row.goods_config.style"></data-goods-content>
@@ -128,7 +126,23 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, styles } = toRefs(state);
-
+onBeforeMount(() => {
+    const arry_list = form.value.tabs_list;
+    // 历史数据处理
+    arry_list.forEach((item: any) => {
+        item.tabs_name = `content`;
+        if (item.tabs_data_type == 'goods') {
+            item.article_config = cloneDeep(article_default_parameter);
+            item.custom_config = cloneDeep(defaultCustom);
+        } else if (item.tabs_data_type == 'article') {
+            item.goods_config = cloneDeep(goods_default_parameter);
+            item.custom_config = cloneDeep(defaultCustom);
+        } else if (item.tabs_data_type == 'custom') {
+            item.goods_config = cloneDeep(goods_default_parameter);
+            item.article_config = cloneDeep(article_default_parameter);
+        }
+    })
+})
 const base_list = reactive({
     tabs_style_list: [
         { name: '样式一', value: '0' },
@@ -184,6 +198,10 @@ const tabs_theme_change = (val: string | number | boolean | undefined): void => 
     styles.value.tabs_color_checked = tabs_style(styles.value.tabs_color_checked, val);
 };
 const is_immersion_model = computed(() => common_store.is_immersion_model);
+
+const tabs_change = (val: string | number | boolean | undefined) => {
+    console.log(val);
+}
 watchEffect(() => {
     if (is_immersion_model.value) {
         form.value.tabs_top_up = '0';
@@ -201,5 +219,8 @@ watchEffect(() => {
     :deep(.el-input__wrapper .el-input__inner) {
         text-align: left;
     }
+}
+.tabs-animation {
+    transition: 0.8s ease;
 }
 </style>

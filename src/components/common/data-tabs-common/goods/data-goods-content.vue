@@ -73,14 +73,6 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form, styles } = toRefs(state);
 
-watch(() => props.value, (value) => {
-    form.value = value;
-},{deep: true, immediate: true });
-
-watch(() => props.tabStyle, (value) => {
-    styles.value = value;
-},{deep: true, immediate: true });
-
 const is_revise = ref(false);
 const change_shop_type = () => {
     is_revise.value = true;
