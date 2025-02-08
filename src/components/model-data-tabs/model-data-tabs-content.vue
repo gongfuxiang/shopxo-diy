@@ -267,6 +267,7 @@ const tabs_list_remove = (index: number) => {
         form.value.tabs_active_index = 0;
         ElMessage.warning('至少保留一个选项卡');
     }
+    set_offset_top(form.value.tabs_active_index);
 };
 const tabs_list_sort = (item: any) => {
     form.value.tabs_list = item;
@@ -287,6 +288,7 @@ const tabs_add = () => {
         custom_config: cloneDeep(defaultCustom)
     });
     form.value.tabs_active_index = form.value.tabs_list.length - 1;
+    set_offset_top(form.value.tabs_active_index);
 };
 const tabs_theme_change = (val: string | number | boolean | undefined): void => {
     styles.value.tabs_color_checked = tabs_style(styles.value.tabs_color_checked, val);

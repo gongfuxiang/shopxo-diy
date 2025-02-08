@@ -36,7 +36,7 @@
             </template>
             <!-- 导航组 -->
             <template v-else-if="value.key == 'nav-group'">
-                <model-nav-group-setting :type="radio" :value="value.com_data"></model-nav-group-setting>
+                <model-nav-group-setting :type="radio" :value="value.com_data" @set_offset_top="set_offset_top"></model-nav-group-setting>
             </template>
             <!-- 轮播图 -->
             <template v-else-if="value.key == 'carousel'">
