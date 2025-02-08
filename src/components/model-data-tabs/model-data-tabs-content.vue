@@ -50,17 +50,19 @@
                                     </el-form-item>
                                     <el-form-item label="数据类型">
                                         <el-radio-group v-model="row.tabs_data_type">
-                                            <el-radio value="goods" @click="radio_click('goods', index)">商品</el-radio>
-                                            <el-radio value="article" @click="radio_click('article', index)">文章</el-radio>
-                                            <el-radio value="custom" @click="radio_click('custom', index)">自定义</el-radio>
+                                            <el-radio v-for="(item, index1) in base_list.tabs_data_type_list" :key="index1" :value="item.value" @click="radio_click(item.value, index)">{{ item.label }}</el-radio>
                                         </el-radio-group>
                                     </el-form-item>
-                                    <el-tabs v-model="row.tabs_name" class="content-tabs" @tab-change="tabs_change">
+                                    <el-tabs v-model="row.tabs_name" class="content-tabs" @tab-change="tabs_change(index)">
                                         <el-tab-pane label="内容设置" name="content">
-                                            <component :is="getContentComponent(row.tabs_data_type)" v-bind="getContentProps(row)"></component>
+                                            <div class="data-tabs-style">
+                                                <component :is="getContentComponent(row.tabs_data_type)" v-bind="getContentProps(row)"></component>
+                                            </div>
                                         </el-tab-pane>
                                         <el-tab-pane label="样式设置" name="styles">
-                                            <component :is="getStylesComponent(row.tabs_data_type)" v-bind="getStylesProps(row)"></component>
+                                            <div class="data-tabs-style">
+                                                <component :is="getStylesComponent(row.tabs_data_type)" v-bind="getStylesProps(row)"></component>
+                                            </div>
                                         </el-tab-pane>
                                     </el-tabs>
                                 </template>
@@ -93,6 +95,25 @@ import defaultCustom from '@/config/const/custom';
 import { get_math, tabs_style } from '@/utils';
 import { commonStore } from '@/store';
 const common_store = commonStore();
+// 默认数据
+const base_list = reactive({
+    tabs_style_list: [
+        { name: '样式一', value: '0' },
+        { name: '样式二', value: '1' },
+        { name: '样式三', value: '2' },
+        { name: '样式四', value: '3' },
+        { name: '样式五', value: '4' },
+    ],
+    product_list: [
+        { name: '指定商品', value: '0' },
+        { name: '筛选商品', value: '1' },
+    ],
+    tabs_data_type_list: [
+        { label: '商品', value: 'goods',},
+        { label: '文章', value: 'article',},
+        { label: '自定义', value: 'custom',},
+    ]
+});
 
 const props = defineProps({
     value: {
@@ -133,6 +154,7 @@ arry_list.forEach((item: any) => {
         item.article_config = cloneDeep(article_default_parameter);
     }
 })
+//#region 组件数据渲染
 const getConfig = (tabs_data_type: string, row: any, ) => {
     switch (tabs_data_type) {
         case 'goods':
@@ -145,7 +167,6 @@ const getConfig = (tabs_data_type: string, row: any, ) => {
             return {};
     }
 }
-
 const getContentComponent = computed(() => {
     return (tabs_data_type: string) => {
         switch (tabs_data_type) {
@@ -201,23 +222,38 @@ const radio_click = (val: any, index: number) => {
         form.value.tabs_list[index].tabs_data_type = val;
     })
 }
-const base_list = reactive({
-    tabs_style_list: [
-        { name: '样式一', value: '0' },
-        { name: '样式二', value: '1' },
-        { name: '样式三', value: '2' },
-        { name: '样式四', value: '3' },
-        { name: '样式五', value: '4' },
-    ],
-    product_list: [
-        { name: '指定商品', value: '0' },
-        { name: '筛选商品', value: '1' },
-    ]
-});
-const emits = defineEmits(['theme_change']);
+//#endregion
+const emits = defineEmits(['theme_change', 'set_offset_top']);
+//#region 获取offsetTop的位置
+// 获取offsetTop的位置
+const set_offset_top = (index: number) => {
+    setTimeout(() => {
+        const elements = Array.from(document.querySelectorAll('.nav-list .flex.gap-y-16.re'));
+        if (elements && elements.length > 0) {
+            elements.forEach((element: any, index1: number) => {
+                if (index == index1) {
+                    const offsetTop = element.offsetTop;
+                    if (offsetTop != null) {
+                        emits('set_offset_top', offsetTop);
+                    }
+                }
+            })
+        }
+    })
+}
+// 选项卡点击
 const tabs_list_click = (item: any, index: number) => {
+    if (form.value.tabs_active_index !== index) {
+        set_offset_top(index);
+    }
     form.value.tabs_active_index = index;
 };
+// 选项卡中的tab切换
+const tabs_change = (index: number) => {
+    set_offset_top(index);
+}
+//#endregion
+//#region 选项卡数据设置
 // 选项卡设置
 const tabs_list_remove = (index: number) => {
     if (form.value.tabs_list.length > 1) {
@@ -255,11 +291,9 @@ const tabs_add = () => {
 const tabs_theme_change = (val: string | number | boolean | undefined): void => {
     styles.value.tabs_color_checked = tabs_style(styles.value.tabs_color_checked, val);
 };
+// #endregion
 const is_immersion_model = computed(() => common_store.is_immersion_model);
 
-const tabs_change = (val: string | number | boolean | undefined) => {
-    console.log(val);
-}
 watchEffect(() => {
     if (is_immersion_model.value) {
         form.value.tabs_top_up = '0';

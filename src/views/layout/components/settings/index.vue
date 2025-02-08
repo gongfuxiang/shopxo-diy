@@ -8,7 +8,7 @@
                 <el-radio-button class="radio-item" value="2">样式</el-radio-button>
             </el-radio-group>
         </card-container>
-        <div class="setting-content" :style="value.key == 'custom' ? '' : 'background-color: #fff;'">
+        <div ref="scrollTop" class="setting-content" :style="value.key == 'custom' ? '' : 'background-color: #fff;'">
             <!-- 基础组件 -->
             <!-- 页面设置 -->
             <template v-if="value.key == 'page-settings'">
@@ -64,7 +64,7 @@
             </template>
             <!-- 数据选项卡 -->
             <template v-else-if="value.key == 'data-tabs'">
-                <model-data-tabs-setting :type="radio" :value="value.com_data"></model-data-tabs-setting>
+                <model-data-tabs-setting :type="radio" :value="value.com_data" @set_offset_top="set_offset_top"></model-data-tabs-setting>
             </template>
             <!-- 图片魔方 -->
             <template v-else-if="value.key == 'img-magic'">
@@ -126,6 +126,14 @@ const props = defineProps({
     },
 });
 const radio = ref('1'); // 创建一个响应式的数字变量，初始值为0
+
+const scrollTop = ref<HTMLElement | null>(null);
+const set_offset_top = (scrollY: number) => {
+    if (scrollTop.value) {
+        // 选中的滚动到指定位置
+        scrollTop.value.scrollTo({ top: scrollY - 150, behavior: 'smooth' });
+    }
+};
 </script>
 <style lang="scss" scoped>
 .settings {
