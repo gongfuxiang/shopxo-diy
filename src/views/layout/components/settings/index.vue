@@ -131,7 +131,7 @@ const scrollTop = ref<HTMLElement | null>(null);
 const set_offset_top = (scrollY: number) => {
     if (scrollTop.value) {
         // 选中的滚动到指定位置
-        scrollTop.value.scrollTo({ top: scrollY - 150, behavior: 'smooth' });
+        scrollTop.value.scrollTo({ top: scrollY - 160, behavior: 'smooth' });
     }
 };
 </script>

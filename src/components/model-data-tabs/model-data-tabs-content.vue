@@ -239,7 +239,7 @@ const set_offset_top = (index: number) => {
                 }
             })
         }
-    })
+    }, 0)
 }
 // 选项卡点击
 const tabs_list_click = (item: any, index: number) => {
