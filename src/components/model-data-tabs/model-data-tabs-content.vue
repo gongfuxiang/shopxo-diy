@@ -50,33 +50,17 @@
                                     </el-form-item>
                                     <el-form-item label="数据类型">
                                         <el-radio-group v-model="row.tabs_data_type">
-                                            <el-radio value="goods">商品</el-radio>
-                                            <el-radio value="article">文章</el-radio>
-                                            <el-radio value="custom">自定义</el-radio>
+                                            <el-radio value="goods" @click="radio_click('goods', index)">商品</el-radio>
+                                            <el-radio value="article" @click="radio_click('article', index)">文章</el-radio>
+                                            <el-radio value="custom" @click="radio_click('custom', index)">自定义</el-radio>
                                         </el-radio-group>
                                     </el-form-item>
                                     <el-tabs v-model="row.tabs_name" class="content-tabs" @tab-change="tabs_change">
                                         <el-tab-pane label="内容设置" name="content">
-                                            <div v-show="row.tabs_data_type == 'goods'" class="data-tabs-style">
-                                                <data-goods-content :value="row.goods_config.content" :tab-style="row.goods_config.style"></data-goods-content>
-                                            </div>
-                                            <div v-show="row.tabs_data_type == 'article'" class="data-tabs-style">
-                                                <data-article-content :value="row.article_config.content" :tab-style="row.article_config.style"></data-article-content>
-                                            </div>
-                                            <div v-show="row.tabs_data_type == 'custom'" class="data-tabs-style">
-                                                <data-custom-content :value="row.custom_config.content" :is-subcomponent="true"></data-custom-content>
-                                            </div>
+                                            <component :is="getContentComponent(row.tabs_data_type)" v-bind="getContentProps(row)"></component>
                                         </el-tab-pane>
                                         <el-tab-pane label="样式设置" name="styles">
-                                            <div v-show="row.tabs_data_type == 'goods'" class="data-tabs-style">
-                                                <data-goods-styles :value="row.goods_config.style" :content="row.goods_config.content"></data-goods-styles>
-                                            </div>
-                                            <div v-show="row.tabs_data_type == 'article'" class="data-tabs-style">
-                                                <data-article-styles :value="row.article_config.style" :content="row.article_config.content"></data-article-styles>
-                                            </div>
-                                            <div v-show="row.tabs_data_type == 'custom'" class="data-tabs-style">
-                                                <model-custom-styles :value="row.custom_config.style" :content="row.custom_config.content" :is-common-style="false"></model-custom-styles>
-                                            </div>
+                                            <component :is="getStylesComponent(row.tabs_data_type)" v-bind="getStylesProps(row)"></component>
                                         </el-tab-pane>
                                     </el-tabs>
                                 </template>
@@ -95,6 +79,14 @@
     </div>
 </template>
 <script setup lang="ts">
+// 引入需要的组件
+import defaultDataGoodsContent from '@/components/common/data-tabs-common/goods/data-goods-content.vue';
+import defaultDataArticleContent from '@/components/common/data-tabs-common/article/data-article-content.vue';
+import defaultDataCustomContent from '@/components/common/data-tabs-common/data-custom-content.vue';
+import defaultDataGoodsStyles from '@/components/common/data-tabs-common/goods/data-goods-styles.vue';
+import defaultDataArticleStyles from '@/components/common/data-tabs-common/article/data-article-styles.vue';
+import defaultDataCustomStyles from '@/components/model-custom/model-custom-styles.vue';
+
 import { cloneDeep } from 'lodash';
 import { article_default_parameter, goods_default_parameter } from "@/config/const/data-tabs";
 import defaultCustom from '@/config/const/custom';
@@ -126,23 +118,89 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, styles } = toRefs(state);
-onBeforeMount(() => {
-    const arry_list = form.value.tabs_list;
-    // 历史数据处理
-    arry_list.forEach((item: any) => {
-        item.tabs_name = `content`;
-        if (item.tabs_data_type == 'goods') {
-            item.article_config = cloneDeep(article_default_parameter);
-            item.custom_config = cloneDeep(defaultCustom);
-        } else if (item.tabs_data_type == 'article') {
-            item.goods_config = cloneDeep(goods_default_parameter);
-            item.custom_config = cloneDeep(defaultCustom);
-        } else if (item.tabs_data_type == 'custom') {
-            item.goods_config = cloneDeep(goods_default_parameter);
-            item.article_config = cloneDeep(article_default_parameter);
-        }
-    })
+const arry_list = form.value.tabs_list;
+// 历史数据处理
+arry_list.forEach((item: any) => {
+    item.tabs_name = `content`;
+    if (item.tabs_data_type == 'goods') {
+        item.article_config = cloneDeep(article_default_parameter);
+        item.custom_config = cloneDeep(defaultCustom);
+    } else if (item.tabs_data_type == 'article') {
+        item.goods_config = cloneDeep(goods_default_parameter);
+        item.custom_config = cloneDeep(defaultCustom);
+    } else if (item.tabs_data_type == 'custom') {
+        item.goods_config = cloneDeep(goods_default_parameter);
+        item.article_config = cloneDeep(article_default_parameter);
+    }
 })
+const getConfig = (tabs_data_type: string, row: any, ) => {
+    switch (tabs_data_type) {
+        case 'goods':
+            return row.goods_config || {};
+        case 'article':
+            return row.article_config || {};
+        case 'custom':
+            return row.custom_config || {};
+        default:
+            return {};
+    }
+}
+
+const getContentComponent = computed(() => {
+    return (tabs_data_type: string) => {
+        switch (tabs_data_type) {
+            case 'goods':
+                return defaultDataGoodsContent;
+            case 'article':
+                return defaultDataArticleContent;
+            case 'custom':
+                return defaultDataCustomContent;
+            default:
+                return defaultDataGoodsContent; // 默认组件
+        }
+    }
+})
+const getContentProps = computed(() => {
+    return (row: any) => {
+        const config = getConfig(row.tabs_data_type, row);
+        return {
+            value: config.content,
+            tabStyle: config.style,
+            ...(row.tabs_data_type == 'custom' ? { isSubcomponent: true } : {})
+        };
+    }
+});
+
+const getStylesComponent = computed(() => {
+    return (tabs_data_type: string) => {
+        switch (tabs_data_type) {
+            case 'goods':
+                return defaultDataGoodsStyles;
+            case 'article':
+                return defaultDataArticleStyles;
+            case 'custom':
+                return defaultDataCustomStyles;
+            default:
+                return defaultDataGoodsStyles; // 默认组件
+        }
+    }
+})
+const getStylesProps = computed(() => {
+    return (row: any) => {
+        const config = getConfig(row.tabs_data_type, row);
+        return {
+            value: config.style,
+            content: config.content,
+            ...(row.tabs_data_type == 'custom' ? { isCommonStyle: false } : {})
+        };
+    }
+});
+// 层级太深了，导致radio切换出现问题，所以需要在每个里边加一个点击事件
+const radio_click = (val: any, index: number) => {
+    nextTick(() => {
+        form.value.tabs_list[index].tabs_data_type = val;
+    })
+}
 const base_list = reactive({
     tabs_style_list: [
         { name: '样式一', value: '0' },
