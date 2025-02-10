@@ -7,8 +7,8 @@
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选项卡置顶">
                     <div class="flex-row align-c gap-10">
-                        <el-switch v-model="form.tabs_top_up" active-value="1" inactive-value="0" :disabled="is_immersion_model" />
-                        <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>1.开启沉浸样式时，选项卡置顶功能禁用</span><br/><span>2.滑动置顶仅手机端有效</span>" raw-content placement="top">
+                        <el-switch v-model="form.tabs_top_up" active-value="1" inactive-value="0" />
+                        <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>滑动置顶仅手机端有效</span>" raw-content placement="top">
                             <icon name="miaosha-hdgz" size="12" color="#999"></icon>
                         </el-tooltip>
                     </div>
@@ -286,12 +286,12 @@ const is_revise = ref(false);
 const change_shop_type = () => {
     is_revise.value = true;
 };
-const is_immersion_model = computed(() => common_store.is_immersion_model);
-watchEffect(() => {
-    if (is_immersion_model.value) {
-        form.value.tabs_top_up = '0';
-    }
-});
+// const is_immersion_model = computed(() => common_store.is_immersion_model);
+// watchEffect(() => {
+//     if (is_immersion_model.value) {
+//         form.value.tabs_top_up = '0';
+//     }
+// });
 </script>
 <style lang="scss" scoped>
 .content {
