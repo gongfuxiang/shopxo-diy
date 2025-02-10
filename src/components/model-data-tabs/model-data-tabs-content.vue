@@ -72,11 +72,6 @@
                     <el-button class="mtb-20 w" @click="tabs_add">+添加</el-button>
                 </div>
             </card-container>
-            <div class="divider-line"></div>
-            <div class="divider-line"></div>
-            <card-container>
-                <div class="mb-12">角标设置</div>
-            </card-container>
         </el-form>
     </div>
 </template>
