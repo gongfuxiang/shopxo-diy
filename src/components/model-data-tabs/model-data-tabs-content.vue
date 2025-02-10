@@ -26,7 +26,7 @@
             <card-container>
                 <div class="mb-12">选项卡设置</div>
                 <div class="nav-list">
-                    <drag :data="form.tabs_list" type="card" icon-position="top" :space-col="20" @click="tabs_list_click" @remove="tabs_list_remove" @on-sort="tabs_list_sort">
+                    <drag :data="form.tabs_list" type="card" icon-position="top" :space-col="20" multiple-icons @click="tabs_list_click" @remove="tabs_list_remove" @copy="tabs_list_copy" @on-sort="tabs_list_sort">
                         <template #default="{ row, index }">
                             <div class="flex-col w">
                                 <el-form-item label="显示类型" class="w mb-10">
@@ -264,9 +264,23 @@ const tabs_list_remove = (index: number) => {
     }
     set_offset_top(form.value.tabs_active_index);
 };
+// 选项卡复制
+const tabs_list_copy = (index: number) => {
+    const data = {
+        ...cloneDeep(form.value.tabs_list[index]),
+        tabs_name: 'content',
+        title: (form.value.tabs_list[index]?.title || '') + '(复制)',
+    };
+    const new_index = index + 1;
+    form.value.tabs_list.splice(new_index, 0, data);
+    form.value.tabs_active_index = new_index;
+    set_offset_top(new_index);
+};
+// 选项卡排序
 const tabs_list_sort = (item: any) => {
     form.value.tabs_list = item;
 };
+// 添加选项卡
 const tabs_add = () => {
     form.value.tabs_list.push({
         id: get_math(),
