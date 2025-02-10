@@ -4,8 +4,8 @@
             <el-radio-group v-model="form.data_type">
                 <el-radio value="goods">商品</el-radio>
                 <el-radio value="images">图片</el-radio>
-                <el-radio value="custom">自定义</el-radio>
                 <el-radio value="video">视频</el-radio>
+                <el-radio value="custom">自定义</el-radio>
             </el-radio-group>
         </el-form-item>
         <template v-if="form.data_type === 'goods'">
