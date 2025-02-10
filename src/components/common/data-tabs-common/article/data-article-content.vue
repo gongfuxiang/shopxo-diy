@@ -129,8 +129,8 @@ const theme_change = (val: any) => {
     // 切换风格时，将对应图片的默认值宽度和高度赋值
     const list = base_list.theme_list.filter(item => item.value == form.value.theme);
     if (list.length > 0) {
-        data.value.style.content_img_width = list[0].width;
-        data.value.style.content_img_height = list[0].height;
+        data.value.content_img_width = list[0].width;
+        data.value.content_img_height = list[0].height;
     }
 };
 // 移除
