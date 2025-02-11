@@ -323,30 +323,6 @@ const draggable_click = (item: componentsData) => {
         }
     }
 };
-// 定义常量
-const TABS_TOP_UP_ENABLED = '1';
-const DEFAULT_TABS_TOP_UP = '0';
-// 判断是否是选项卡
-watchEffect(() => {
-    if (tabs_data.value.length > 0) {
-        const tabs_top_up = tabs_data.value[0]?.com_data?.content?.tabs_top_up || DEFAULT_TABS_TOP_UP;
-        if (tabs_top_up == TABS_TOP_UP_ENABLED) {
-            common_store.set_is_tabs_0_up(true);
-        } else {
-            common_store.set_is_tabs_0_up(false);
-        }
-    } else if (diy_data.value.length > 0) {
-        const tabs_top_up = diy_data.value[0]?.com_data?.content?.tabs_top_up || DEFAULT_TABS_TOP_UP;
-        if (tabs_top_up == TABS_TOP_UP_ENABLED) {
-            common_store.set_is_tabs_0_up(true);
-        } else {
-            common_store.set_is_tabs_0_up(false);
-        }
-    } else {
-        common_store.set_is_tabs_0_up(false);
-    }
-});
-
 // 复制
 const clone_item_com_data = (item: commonComponentData) => {
     return {

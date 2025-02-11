@@ -38,8 +38,8 @@
                 </el-form-item>
                 <el-form-item v-if="form.header_background_type == 'transparent' && form.immersive_style === '1'" label="安全距离">
                     <div class="flex-row align-c gap-10">
-                        <el-switch v-model="form.general_safe_distance_value" active-value="1" inactive-value="0" :disabled="is_tabs_0_up"></el-switch>
-                        <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>1.第一个组件包含选项卡置顶,并开启置顶,则强制开启安全距离。<br/>2.开启后第一个组件上内边距将增加顶部安全距离+导航高度</span>" raw-content placement="top">
+                        <el-switch v-model="form.general_safe_distance_value" active-value="1" inactive-value="0"></el-switch>
+                        <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>开启后第一个组件上内边距将增加顶部安全距离+导航高度</span>" raw-content placement="top">
                             <icon name="miaosha-hdgz" size="12" color="#999"></icon>
                         </el-tooltip>
                     </div>
@@ -196,8 +196,6 @@ const location_mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.location_color_list = arry;
     form.value.location_direction = type.toString();
 };
-const is_tabs_0_up = computed(() => common_store.is_tabs_0_up );
-
 const change_immersive_style = (val: string | number | boolean) => {
     if (val === '0') {
         // 沉浸模式关闭的时候，安全距离关闭
@@ -205,19 +203,11 @@ const change_immersive_style = (val: string | number | boolean) => {
         // common_store.set_is_immersion_model(false);
         return;
     } else {
-        // 沉浸模式开启的时候，并且第一个是选项卡置顶，安全距离打开
-        if (is_tabs_0_up.value) {
+        // 沉浸模式开启的时候，安全距离打开
             form.value.general_safe_distance_value = '1';
-        }
     }
     // common_store.set_is_immersion_model(true);
 };
-// 监听tabs是否置顶
-watchEffect(() => {
-    if (is_tabs_0_up.value) {
-        form.value.general_safe_distance_value = '1';
-    }
-});
 </script>
 <style lang="scss" scoped>
 .styles {
