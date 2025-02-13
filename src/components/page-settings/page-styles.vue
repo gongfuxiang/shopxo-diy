@@ -38,7 +38,7 @@
                 </el-form-item>
                 <el-form-item v-if="form.header_background_type == 'transparent' && form.immersive_style === '1'" label="安全距离">
                     <div class="flex-row align-c gap-10">
-                        <el-switch v-model="form.general_safe_distance_value" active-value="1" inactive-value="0"></el-switch>
+                        <el-switch v-model="form.general_safe_distance_value" active-value="1" inactive-value="0" @change="general_safe_distance_value_change"></el-switch>
                         <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>开启后第一个组件上内边距将增加顶部安全距离+导航高度</span>" raw-content placement="top">
                             <icon name="miaosha-hdgz" size="12" color="#999"></icon>
                         </el-tooltip>
@@ -170,6 +170,7 @@ const header_background_type_change_event = (val: any) => {
         form.value.immersive_style = '0';
         // 沉浸模式关闭的时候，安全距离关闭
         form.value.general_safe_distance_value = '0';
+        common_store.set_is_general_safe_distance(false);
         // common_store.set_is_immersion_model(false);
     } else {
         // 没有tabs的情况下，默认开启沉浸模式
@@ -200,14 +201,23 @@ const change_immersive_style = (val: string | number | boolean) => {
     if (val === '0') {
         // 沉浸模式关闭的时候，安全距离关闭
         form.value.general_safe_distance_value = '0';
+        common_store.set_is_general_safe_distance(false);
         // common_store.set_is_immersion_model(false);
-        return;
     } else {
         // 沉浸模式开启的时候，安全距离打开
-            form.value.general_safe_distance_value = '1';
+        form.value.general_safe_distance_value = '1';
+        common_store.set_is_general_safe_distance(true);
     }
     // common_store.set_is_immersion_model(true);
 };
+
+const general_safe_distance_value_change = (val: string | number | boolean) => {
+    if (val === '0') {
+        common_store.set_is_general_safe_distance(false);
+        return;
+    }
+    common_store.set_is_general_safe_distance(true);
+}
 </script>
 <style lang="scss" scoped>
 .styles {

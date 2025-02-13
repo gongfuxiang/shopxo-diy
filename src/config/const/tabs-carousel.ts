@@ -35,6 +35,7 @@ interface defaultTabs {
         tabs_adorn_icon: string;
         tabs_adorn_img: uploadList[];
         tabs_top_up: string;
+        is_tabs_safe_distance: string;
         home_data: tabs_page;
         tabs_list: tabs_page[];
         carousel_type: string;
@@ -130,6 +131,8 @@ const defaultTabs: defaultTabs = {
         tabs_adorn_img: [],
         // 是否置顶
         tabs_top_up: '0',
+        // 是否支持安全距离
+        is_tabs_safe_distance: '0',
         // 选项卡数据
         home_data: { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', title: '首页', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
         tabs_list: [

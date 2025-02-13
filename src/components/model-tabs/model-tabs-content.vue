@@ -23,6 +23,12 @@
                         <icon name="miaosha-hdgz" size="12" color="#999"></icon>
                     </el-tooltip>
                 </el-form-item>
+                <el-form-item v-if="is_general_safe_distance && !isCommon" label="安全距离">
+                    <el-switch v-model="form.is_tabs_safe_distance" class="mr-10" active-value="1" inactive-value="0" />
+                    <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>选项卡是否支持安全距离</span>" raw-content placement="top">
+                        <icon name="miaosha-hdgz" size="12" color="#999"></icon>
+                    </el-tooltip>
+                </el-form-item>
             </card-container>
             <div class="divider-line"></div>
             <card-container>
@@ -151,13 +157,13 @@ const on_sort = (new_list: nav_group[]) => {
 const tabs_theme_change = (val: string | number | boolean | undefined): void => {
     styles.value.tabs_color_checked = tabs_style(styles.value.tabs_color_checked, val);
 };
-// // 选项卡是否可以滑动置顶
-// const is_immersion_model = computed(() => common_store.is_immersion_model);
-// watchEffect(() => {
-//     if (is_immersion_model.value) {
-//         form.value.tabs_top_up = '0';
-//     }
-// });
+// 选项卡是否设置安全距离
+const is_general_safe_distance = computed(() => common_store.is_general_safe_distance);
+watchEffect(() => {
+    if (!is_general_safe_distance.value) {
+        form.value.is_tabs_safe_distance = '0';
+    }
+});
 </script>
 <style lang="scss" scoped>
 .cursor-move {

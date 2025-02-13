@@ -18,6 +18,9 @@
 <script setup lang="ts">
 import { common_styles_computer, common_img_computer, padding_computer, gradient_computer, background_computer, margin_computer, radius_computer, box_shadow_computer, border_computer } from '@/utils';
 import { cloneDeep, isEmpty } from 'lodash';
+import { commonStore } from '@/store';
+const common_store = commonStore();
+
 const props = defineProps({
     value: {
         type: Object,
@@ -39,7 +42,7 @@ watch(
     props.value,
     (val) => {
         let new_data = cloneDeep(val);
-        const { home_data } = new_data.content;
+        const { home_data, is_tabs_safe_distance = '0' } = new_data.content;
         const new_style = new_data?.style;
         // 选项卡背景设置
         const tabs_data = {
@@ -48,8 +51,14 @@ watch(
             background_img_style: new_style.tabs_bg_background_img_style,
             background_img: new_style.tabs_bg_background_img,
         }
-        tabs_container.value = gradient_computer(tabs_data) + radius_computer(new_style.tabs_radius) + margin_computer(new_style.tabs_margin) + box_shadow_computer(new_style.tabs_content) + border_computer(new_style.tabs_content);
-        tabs_img_container.value = background_computer(tabs_data) + padding_computer(new_style.tabs_padding);
+        // 选项卡是否开启了安全距离
+        const is_general_safe_distance = common_store.is_general_safe_distance && is_tabs_safe_distance == '1';
+        const new_tabs_padding = {
+            ...new_style.tabs_padding,
+            padding_top: (new_style.tabs_padding?.padding_top || 0) + (is_general_safe_distance ? common_store.header_height : 0),
+        }
+        tabs_container.value = gradient_computer(tabs_data) + radius_computer(new_style.tabs_radius) + margin_computer(new_style.tabs_margin) + box_shadow_computer(new_style.tabs_content) + border_computer(new_style.tabs_content) + `margin-top: ${ new_style.tabs_margin.margin_top - (is_general_safe_distance ? common_store.header_height : 0) }px;`;
+        tabs_img_container.value = background_computer(tabs_data) + padding_computer(new_tabs_padding);
         // 轮播区域背景设置
         const carousel_content_data = {
             color_list: new_style.carousel_content_color_list,

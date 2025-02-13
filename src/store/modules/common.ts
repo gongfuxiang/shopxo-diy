@@ -4,6 +4,7 @@ export const commonStore = defineStore('common', () => {
     // 链接是否需要调接口判断
     const is_common_api = ref(false);
     const is_immersion_model = ref(false);
+    const is_general_safe_distance = ref(false);
     const is_tabs_0_up = ref(false);
     const header_height = ref(0);
     const common = ref({
@@ -48,6 +49,10 @@ export const commonStore = defineStore('common', () => {
     const set_is_immersion_model = (bool: boolean) => {
         is_immersion_model.value = bool;
     };
+    
+    const set_is_general_safe_distance =  (bool: boolean) => {
+        is_general_safe_distance.value = bool;
+    };
 
     const set_is_tabs_0_up = (bool: boolean) => {
         is_tabs_0_up.value = bool;
@@ -63,9 +68,11 @@ export const commonStore = defineStore('common', () => {
         is_immersion_model,
         is_tabs_0_up,
         header_height,
+        is_general_safe_distance,
         set_common,
         set_is_common_api,
         set_is_immersion_model,
+        set_is_general_safe_distance,
         set_is_tabs_0_up,
         set_header_height,
     };
