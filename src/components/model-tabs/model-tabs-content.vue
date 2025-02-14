@@ -17,6 +17,16 @@
                 <el-form-item v-if="form.tabs_theme == '3'" label="选中图标">
                     <upload v-model="form.tabs_adorn_img" v-model:icon-value="form.tabs_adorn_icon" is-icon :limit="1" size="50"></upload>
                 </el-form-item>
+                <el-form-item label="对齐方式">
+                    <el-radio-group v-model="form.justification" @change="tabs_theme_change">
+                        <el-radio value="left">居左</el-radio>
+                        <el-radio value="center">居中</el-radio>
+                        <el-radio value="right">居右</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="更多按钮">
+                    <el-switch v-model="form.show_more" class="mr-10" active-value="1" inactive-value="0" />
+                </el-form-item>
                 <el-form-item label="滑动置顶">
                     <el-switch v-model="form.tabs_top_up" class="mr-10" active-value="1" inactive-value="0" />
                     <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>滑动置顶仅手机端有效</span>" raw-content placement="top">

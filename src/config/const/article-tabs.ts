@@ -45,6 +45,7 @@ interface DefaultArticleTabs {
         subscript_icon_class: string;
         subscript_text: string;
         name_float: string;
+        justification: string;
     };
     style: {
         tabs_one_theme: string;
@@ -138,6 +139,8 @@ const defaultArticleTabs: DefaultArticleTabs = {
         content_top: {
             ...commonTop,
         },
+        // 对齐方式
+        justification: 'left',
         tabs_theme: '0',
         // 选中装饰图标
         tabs_adorn_icon: 'checked-smooth',
@@ -162,7 +165,7 @@ const defaultArticleTabs: DefaultArticleTabs = {
         subscript_img_src: [],
         subscript_icon_class: '',
         subscript_text: '',
-        name_float: '0',
+        name_float: '0'
     },
     style: {
         tabs_one_theme: '0',

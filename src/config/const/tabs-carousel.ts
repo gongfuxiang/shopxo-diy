@@ -31,6 +31,8 @@ interface carousel_list {
 interface defaultTabs {
     content: {
         content_top: object;
+        justification: string,
+        show_more: string,
         tabs_theme: string;
         tabs_adorn_icon: string;
         tabs_adorn_img: uploadList[];
@@ -124,6 +126,8 @@ const defaultTabs: defaultTabs = {
         content_top: {
             ...commonTop,
         },
+        justification: 'left',
+        show_more: '1',
         // 选项卡风格
         tabs_theme: '0',
         // 选中装饰图标

@@ -48,6 +48,7 @@ interface DefaultProductList {
         subscript_img_src: uploadList[];
         subscript_icon_class: string;
         subscript_text: string;
+        justification: string;
     };
     style: {
         tabs_one_theme: string;
@@ -154,6 +155,7 @@ const defaultProductList: DefaultProductList = {
         content_top: {
             ...commonTop,
         },
+        justification: 'left',
         // 选项卡风格
         tabs_theme: '0',
         // 选中装饰图标

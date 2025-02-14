@@ -1,5 +1,5 @@
 <template>
-    <div class="flex-row gap-10 jc-sb align-c">
+    <div :class="`flex-row gap-10 align-c ${ form.justification == 'center' ? 'jc-c' : form.justification == 'right' ? 'jc-e': 'jc-sb' }`">
         <div class="tabs flex-row oh" :style="`column-gap: ${new_style.tabs_spacing}px;height: ${tabs_height}`">
             <template v-for="(item, index) in form.tabs_list" :key="index">
                 <div class="item nowrap ma-auto" :class="tabs_theme + (index == activeIndex ? ' active' : '') + ((tabs_theme_index == '0' && tabs_theme_1_style) || tabs_theme_index == '1' || tabs_theme_index == '2' ? ' pb-0' : '')" style="flex:0 0 auto;">
@@ -37,7 +37,7 @@
                 </div>
             </template>
         </div>
-        <icon v-if="isTabs" :name="new_style.more_icon_class || 'category-more'" :size="new_style.more_icon_size + '' || '14'" :color="new_style.more_icon_color || '#000'" :styles="padding_bottom"></icon>
+        <icon v-if="isTabs && form.show_more !== '0'" :name="new_style.more_icon_class || 'category-more'" :size="new_style.more_icon_size + '' || '14'" :color="new_style.more_icon_color || '#000'" :styles="padding_bottom"></icon>
     </div>
 </template>
 

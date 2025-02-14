@@ -5,6 +5,13 @@
             <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">展示设置</div>
+                <el-form-item label="对齐方式">
+                    <el-radio-group v-model="form.justification" @change="tabs_theme_change">
+                        <el-radio value="left">居左</el-radio>
+                        <el-radio value="center">居中</el-radio>
+                        <el-radio value="right">居右</el-radio>
+                    </el-radio-group>
+                </el-form-item>
                 <el-form-item label="选项卡置顶">
                     <div class="flex-row align-c gap-10">
                         <el-switch v-model="form.tabs_top_up" active-value="1" inactive-value="0" />

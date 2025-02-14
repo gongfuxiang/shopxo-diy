@@ -22,6 +22,7 @@ interface articleTabsList {
 }
 interface DefaultProductList {
     content: {
+        justification: string;
         content_top: object;
         tabs_theme: string;
         tabs_adorn_icon: string;
@@ -140,6 +141,8 @@ const defaultProductList: DefaultProductList = {
         content_top: {
             ...commonTop,
         },
+        // 对齐方式
+        justification: 'left',
         // 选项卡风格
         tabs_theme: '0',
         // 选中装饰图标
