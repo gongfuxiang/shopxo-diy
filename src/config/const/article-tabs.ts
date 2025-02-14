@@ -13,6 +13,7 @@ interface articleTabsList {
     tabs_type: string;
     tabs_img: uploadList[];
     tabs_icon: string;
+    is_sliding_fixed: string,
     title: string;
     desc: string;
     data_type: string;
@@ -149,12 +150,12 @@ const defaultArticleTabs: DefaultArticleTabs = {
         article_theme: '0',
         article_carousel_col: '2',
         tabs_list: [
-            { id: '1', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '热门推荐', desc: '简介', data_type: '0', keywords: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
-            { id: '2', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试一', desc: '简介', data_type: '0', keywords: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
-            { id: '3', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试二', desc: '简介', data_type: '0', keywords: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
-            { id: '4', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试三', desc: '简介', data_type: '0', keywords: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
-            { id: '5', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试四', desc: '简介', data_type: '0', keywords: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
-            { id: '6', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试五', desc: '简介', data_type: '0', keywords: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
+            { id: '1', tabs_type: '0', tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '热门推荐', desc: '简介', data_type: '0', keywords: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
+            { id: '2', tabs_type: '0', tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '测试一', desc: '简介', data_type: '0', keywords: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
+            { id: '3', tabs_type: '0', tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '测试二', desc: '简介', data_type: '0', keywords: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
+            { id: '4', tabs_type: '0', tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '测试三', desc: '简介', data_type: '0', keywords: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
+            { id: '5', tabs_type: '0', tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '测试四', desc: '简介', data_type: '0', keywords: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
+            { id: '6', tabs_type: '0', tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '测试五', desc: '简介', data_type: '0', keywords: '', category_ids: defaultSetting.category_ids, data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
         ],
         tabs_active_index: 0,
         field_show: ['0', '1', '3'],

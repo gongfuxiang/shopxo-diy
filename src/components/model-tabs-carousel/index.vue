@@ -4,7 +4,7 @@
         <div class="flex-col oh" :style="style_img_container + (!isEmpty(swiper_bg_img_style) ? `background-image: url('');` : '')">
             <div class="oh" :style="tabs_container">
                 <div class="oh" :style="tabs_img_container">
-                    <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true" :active-index="tabs_active_index"></tabs-view>
+                    <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true" :active-index="tabs_active_index" :tabs-sliding-fixed-bg="tabs_sliding_fixed_bg"></tabs-view>
                 </div>
             </div>
             <div class="oh" :style="carousel_container">
@@ -38,6 +38,8 @@ const tabs_img_container = ref('');
 // 轮播区域背景设置
 const carousel_container = ref('');
 const carousel_img_container = ref('');
+// 打开滑动固定开关之后，显示的样式
+const tabs_sliding_fixed_bg = ref('');
 watch(
     props.value,
     (val) => {
@@ -57,6 +59,7 @@ watch(
             ...new_style.tabs_padding,
             padding_top: (new_style.tabs_padding?.padding_top || 0) + (is_general_safe_distance ? common_store.header_height : 0),
         }
+        tabs_sliding_fixed_bg.value = gradient_computer(tabs_data);
         tabs_container.value = gradient_computer(tabs_data) + radius_computer(new_style.tabs_radius) + margin_computer(new_style.tabs_margin) + box_shadow_computer(new_style.tabs_content) + border_computer(new_style.tabs_content) + `margin-top: ${ new_style.tabs_margin.margin_top - (is_general_safe_distance ? common_store.header_height : 0) }px;`;
         tabs_img_container.value = background_computer(tabs_data) + padding_computer(new_tabs_padding);
         // 轮播区域背景设置

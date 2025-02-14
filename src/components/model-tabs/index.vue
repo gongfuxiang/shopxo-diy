@@ -1,12 +1,12 @@
 <template>
     <div :style="style">
         <div :style="style_img_container">
-            <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true"></tabs-view>
+            <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true" :tabs-sliding-fixed-bg="tabs_sliding_fixed_bg"></tabs-view>
         </div>
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, common_img_computer } from '@/utils';
+import { common_styles_computer, common_img_computer, gradient_computer } from '@/utils';
 import { cloneDeep } from 'lodash';
 const props = defineProps({
     value: {
@@ -18,11 +18,14 @@ const props = defineProps({
 });
 
 const tabs_list = ref(props.value);
+// 打开滑动固定开关之后，显示的样式
+const tabs_sliding_fixed_bg = ref('');
 watch(props.value, (val) => {
     let new_data = cloneDeep(val);
     const { home_data } = new_data.content;
     new_data.content.tabs_list = [home_data, ...new_data.content.tabs_list];
     tabs_list.value = new_data;
+    tabs_sliding_fixed_bg.value = gradient_computer(props.value.style.common_style);
 }, { immediate: true, deep: true });
 
 const style = computed(() => common_styles_computer(props.value.style.common_style));

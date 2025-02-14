@@ -6,6 +6,7 @@ interface tabs_page {
     tabs_type: string;
     tabs_img: uploadList[];
     tabs_icon: string;
+    is_sliding_fixed: string,
     title: string;
     desc: string;
     data_type: string;
@@ -138,11 +139,11 @@ const defaultTabs: defaultTabs = {
         // 是否支持安全距离
         is_tabs_safe_distance: '0',
         // 选项卡数据
-        home_data: { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', title: '首页', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
+        home_data: { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '首页', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
         tabs_list: [
-            { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '',  title: '热门推荐', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
-            { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试一', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
-            { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试二', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
+            { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '',  is_sliding_fixed: '0', title: '热门推荐', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
+            { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '测试一', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
+            { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '测试二', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
         ],
         // 轮播类型
         carousel_type: 'inherit',

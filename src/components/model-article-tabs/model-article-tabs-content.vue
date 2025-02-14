@@ -60,6 +60,7 @@
                                         </template>
                                     </div>
                                 </el-form-item>
+                                <sliding-fixed v-model="row.is_sliding_fixed" @sliding_fixed_change="sliding_fixed_change($event, index)"></sliding-fixed>
                                 <template v-if="form.tabs_active_index == index">
                                     <el-form-item v-if="form.tabs_theme == '1'" label="简介配置">
                                         <el-input v-model="row.desc" placeholder="请输入简介" clearable />
@@ -180,6 +181,7 @@ onMounted(() => {
     }
     if (form.tabs_list.length > 1) {
         form.tabs_list.forEach((item: any) => {
+            item.is_sliding_fixed = !isEmpty(item.is_sliding_fixed) ? item.is_sliding_fixed : '0';
             item.tabs_img = !isEmpty(item.tabs_img) ? item.tabs_img : [];
             item.tabs_icon = !isEmpty(item.tabs_icon) ? item.tabs_icon : '';
             item.tabs_type = !isEmpty(item.tabs_type) ?  item.tabs_type : '0';
@@ -253,6 +255,7 @@ const tabs_add = () => {
         tabs_type: '0', 
         tabs_img: [], 
         tabs_icon: '',
+        is_sliding_fixed: '0',
         title: '',
         desc: '',
         data_type: '0',
@@ -314,6 +317,26 @@ const url_value_dialog_call_back = (item: any[]) => {
         };
     }
 };
+/**
+ * 处理滑动固定状态变化的函数
+ * 当某个标签页的滑动固定状态发生变化时，确保同时只有一个标签页被设置为滑动固定
+ * 
+ * @param val 新的滑动固定状态值，可以是字符串、数字或布尔值
+ * @param index 当前标签页的索引
+ */
+ const sliding_fixed_change = (val: string | number | boolean, index: number) => {
+    // 查找除当前标签页外，其他标签页中是否已有滑动固定的
+    const tabs_list_is_sliding_fixed = form.value.tabs_list.findIndex((item: any, index1: number) => item.is_sliding_fixed == '1' && index != index1);
+    // 如果当前标签页的滑动固定状态为'1'，且已存在其他滑动固定的标签页
+    if (val == '1' && tabs_list_is_sliding_fixed != -1) {
+        // 遍历所有标签页，将其他标签页的滑动固定状态设置为'0'
+        form.value.tabs_list.forEach((item: any, index1: number) => {
+            if (index != index1) {
+                item.is_sliding_fixed = '0';
+            }
+        });
+    }
+}
 
 const styles = reactive(props.tabStyle);
 // 颜色主题切换

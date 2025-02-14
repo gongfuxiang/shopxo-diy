@@ -1,39 +1,41 @@
 <template>
     <div :class="`flex-row gap-10 align-c ${ form.justification == 'center' ? 'jc-c' : form.justification == 'right' ? 'jc-e': 'jc-sb' }`">
-        <div class="tabs flex-row oh" :style="`column-gap: ${new_style.tabs_spacing}px;height: ${tabs_height}`">
+        <div class="tabs flex-row oh" :style="`height: ${tabs_height}`">
             <template v-for="(item, index) in form.tabs_list" :key="index">
-                <div class="item nowrap ma-auto" :class="tabs_theme + (index == activeIndex ? ' active' : '') + ((tabs_theme_index == '0' && tabs_theme_1_style) || tabs_theme_index == '1' || tabs_theme_index == '2' ? ' pb-0' : '')" style="flex:0 0 auto;">
-                    <template v-if="!isEmpty(item.img)">
-                        <image-empty v-model="item.img[0]" class="img re z-deep" :style="top_img_style('data')" fit="contain" error-img-style="width:3.9rem;height:3.9rem;"></image-empty>
-                    </template>
-                    <template v-else>
-                        <image-empty class="img re z-deep" :style="top_img_style('noData')" fit="contain" error-img-style="width:3.9rem;height:3.9rem;"></image-empty>
-                    </template>
-                    <template v-if="item.tabs_type == '1'">
-                        <template v-if="!isEmpty(item.tabs_icon)">
-                            <div :class="['title re ', tabs_theme_index == '4' ? 'z-i' : 'z-deep']" :style="title_icon_style(index, 'icon') + (index == activeIndex ? '' : padding_bottom)">
-                                <el-icon :class="`iconfont ${ 'icon-' + item.tabs_icon}`" :style="icon_style(index)" />
-                            </div>
+                <div class="item nowrap flex-col jc-c align-c" :class="tabs_theme + (index == activeIndex ? ' active' : '') + ((tabs_theme_index == '0' && tabs_theme_1_style) || tabs_theme_index == '1' || tabs_theme_index == '2' ? ' pb-0' : '')" :style="'flex:0 0 auto;' + item_style(index, item.is_sliding_fixed)">
+                    <div class="nowrap ma-auto">
+                        <template v-if="!isEmpty(item.img)">
+                            <image-empty v-model="item.img[0]" class="img re z-deep" :style="top_img_style('data')" fit="contain" error-img-style="width:3.9rem;height:3.9rem;"></image-empty>
                         </template>
                         <template v-else>
-                            <div :class="['title re ', tabs_theme_index == '4' ? 'z-i' : 'z-deep']" :style="title_icon_style(index, 'img') + (index == activeIndex ? '' : padding_bottom)">
-                                <image-empty v-model="item.tabs_img[0]" fit="contain" :style="img_style()" error-img-style="width: 2rem;height: 2rem;" />
-                            </div>
+                            <image-empty class="img re z-deep" :style="top_img_style('noData')" fit="contain" error-img-style="width:3.9rem;height:3.9rem;"></image-empty>
                         </template>
-                    </template>
-                    <template v-else>
-                        <div :class="['title re ', tabs_theme_index == '4' ? 'z-i' : 'z-deep']" :style="title_style(index) + (index == activeIndex ? '' : padding_bottom)">{{ item.title }}</div>
-                    </template>
-                    <div class="desc w re z-i" :style="tabs_sign_spacing + (tabs_theme_index == '1' && index == activeIndex ? tabs_check : '')">{{ item.desc }}</div>
-                    <template v-if="tabs_theme_index == '3' && index == activeIndex">
-                        <template v-if="!isEmpty(form.tabs_adorn_icon)">
-                            <icon :name="form.tabs_adorn_icon" class="icon re z-i" :style="icon_tabs_check() + tabs_sign_spacing" :size="new_style.tabs_adorn_icon_size + ''"></icon>
+                        <template v-if="item.tabs_type == '1'">
+                            <template v-if="!isEmpty(item.tabs_icon)">
+                                <div :class="['title re ', tabs_theme_index == '4' ? 'z-i' : 'z-deep']" :style="title_icon_style(index, 'icon') + (index == activeIndex ? '' : padding_bottom)">
+                                    <el-icon :class="`iconfont ${ 'icon-' + item.tabs_icon}`" :style="icon_style(index)" />
+                                </div>
+                            </template>
+                            <template v-else>
+                                <div :class="['title re ', tabs_theme_index == '4' ? 'z-i' : 'z-deep']" :style="title_icon_style(index, 'img') + (index == activeIndex ? '' : padding_bottom)">
+                                    <image-empty v-model="item.tabs_img[0]" fit="contain" :style="img_style()" error-img-style="width: 2rem;height: 2rem;" />
+                                </div>
+                            </template>
                         </template>
                         <template v-else>
-                            <image-empty v-model="form.tabs_adorn_img[0]" fit="contain" class="re z-i" :style="tabs_adorn_img_style + tabs_sign_spacing" error-img-style="width: 2rem;height: 2rem;" />
+                            <div :class="['title re ', tabs_theme_index == '4' ? 'z-i' : 'z-deep']" :style="title_style(index) + (index == activeIndex ? '' : padding_bottom)">{{ item.title }}</div>
                         </template>
-                    </template>
-                    <div class="bottom_line re z-i" :class="tabs_bottom_line_theme" :style="tabs_check + tabs_sign_spacing"></div>
+                        <div class="desc w re z-i" :style="tabs_sign_spacing + (tabs_theme_index == '1' && index == activeIndex ? tabs_check : '')">{{ item.desc }}</div>
+                        <template v-if="tabs_theme_index == '3' && index == activeIndex">
+                            <template v-if="!isEmpty(form.tabs_adorn_icon)">
+                                <icon :name="form.tabs_adorn_icon" class="icon re z-i" :style="icon_tabs_check() + tabs_sign_spacing" :size="new_style.tabs_adorn_icon_size + ''"></icon>
+                            </template>
+                            <template v-else>
+                                <image-empty v-model="form.tabs_adorn_img[0]" fit="contain" class="re z-i" :style="tabs_adorn_img_style + tabs_sign_spacing" error-img-style="width: 2rem;height: 2rem;" />
+                            </template>
+                        </template>
+                        <div class="bottom_line re z-i" :class="tabs_bottom_line_theme" :style="tabs_check + tabs_sign_spacing"></div>
+                    </div>
                 </div>
             </template>
         </div>
@@ -59,6 +61,10 @@ const props = defineProps({
         type: Number,
         default: 0,
     },
+    tabsSlidingFixedBg: {
+        type: String,
+        default: '',
+    }
 });
 // const tabs = ref(props.value);
 // 用于页面判断显示
@@ -82,6 +88,11 @@ const tabs_theme = computed(() => {
         tabs_theme = 'tabs-style-1';
     }
     return tabs_theme;
+});
+const item_style = computed(() => {
+    return (index: number, is_sliding_fixed: string) => {
+        return `padding-left: ${ index == 0 ? '0' : new_style.value.tabs_spacing / 2}px;padding-right:${ index - 1 == form.value.tabs_list.length ? '0' : new_style.value.tabs_spacing / 2 }px;${ is_sliding_fixed == '1' ? props.tabsSlidingFixedBg : ''}`
+    }
 });
 const tabs_bottom_line_theme = computed(() => {
     return new_style.value.tabs_one_theme == '1' ? 'tabs-bottom-line-theme' : '';

@@ -10,6 +10,7 @@ interface articleTabsList {
     tabs_type: string;
     tabs_img: uploadList[];
     tabs_icon: string;
+    is_sliding_fixed: string,
     title: string;
     img: uploadList[];
     desc: string;
@@ -152,10 +153,10 @@ const defaultProductList: DefaultProductList = {
         tabs_top_up: '0',
         // 选项卡数据
         tabs_list: [
-            { id: '1', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '热门推荐', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(goods_default_parameter) },
-            { id: '2', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试一', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(goods_default_parameter) },
-            { id: '3', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试二', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(goods_default_parameter) },
-            { id: '4', tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试三', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(goods_default_parameter) },
+            { id: '1', tabs_type: '0', tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '热门推荐', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(goods_default_parameter) },
+            { id: '2', tabs_type: '0', tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '测试一', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(goods_default_parameter) },
+            { id: '3', tabs_type: '0', tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '测试二', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(goods_default_parameter) },
+            { id: '4', tabs_type: '0', tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '测试三', img: [], desc: '简介', data_type: '0', tabs_data_type: 'goods', tabs_name: 'content', goods_config: cloneDeep(goods_default_parameter) },
         ],
         // 选中的内容索引
         tabs_active_index: 0,
