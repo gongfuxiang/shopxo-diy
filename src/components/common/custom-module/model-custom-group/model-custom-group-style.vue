@@ -115,6 +115,14 @@ watch(
     .el-tabs__active-bar{
         width: 100%;
     }
+    .card-container {
+        padding: 3rem !important;
+    }
+    .data-tabs-line {
+        height: 0.8rem !important;
+        margin-top: 0;
+        margin-bottom: 0;
+    }
 }
 .custom-button {
   position: -webkit-sticky;
