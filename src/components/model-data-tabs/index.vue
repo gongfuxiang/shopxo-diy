@@ -23,7 +23,7 @@
                         </div>
                     </template>
                     <template v-else-if="tabs_data_type == 'custom'">
-                        <model-custom :value="tabs_list" :outer_container_padding="outer_container_width" :is-common-style="false"></model-custom>
+                        <model-custom :value="tabs_list" :outer-container-padding="outer_container_width" :is-common-style="false"></model-custom>
                     </template>
                 </div>
             </div>
