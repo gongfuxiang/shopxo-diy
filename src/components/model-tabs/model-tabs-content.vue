@@ -33,12 +33,20 @@
                         <icon name="miaosha-hdgz" size="12" color="#999"></icon>
                     </el-tooltip>
                 </el-form-item>
-                <el-form-item v-if="is_general_safe_distance && !isCommon" label="安全距离">
-                    <el-switch v-model="form.is_tabs_safe_distance" class="mr-10" active-value="1" inactive-value="0" />
-                    <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>选项卡是否支持安全距离</span>" raw-content placement="top">
-                        <icon name="miaosha-hdgz" size="12" color="#999"></icon>
-                    </el-tooltip>
-                </el-form-item>
+                <template v-if="!isCommon">
+                    <el-form-item v-if="is_general_safe_distance" label="安全距离">
+                        <el-switch v-model="form.is_tabs_safe_distance" class="mr-10" active-value="1" inactive-value="0" />
+                        <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>选项卡是否支持安全距离</span>" raw-content placement="top">
+                            <icon name="miaosha-hdgz" size="12" color="#999"></icon>
+                        </el-tooltip>
+                    </el-form-item>
+                    <el-form-item label="轮播背景">
+                        <el-switch v-model="form.rotating_background" class="mr-10" active-value="1" inactive-value="0" />
+                        <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>1.关闭的时候,如果没有选项卡背景会使用通用背景.<br/>2.打开的时候,如果没有选项卡背景会使用轮播背景,都没有的时候会使用通用背景.</span>" raw-content placement="top">
+                            <icon name="miaosha-hdgz" size="12" color="#999"></icon>
+                        </el-tooltip>
+                    </el-form-item>
+                </template>
             </card-container>
             <div class="divider-line"></div>
             <card-container>

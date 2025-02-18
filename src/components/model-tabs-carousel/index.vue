@@ -2,8 +2,8 @@
     <div class="re" :style="style_container + swiper_bg_style">
         <div class="abs z-i top-0 w h" :style="swiper_bg_img_style"></div>
         <div class="flex-col oh" :style="style_img_container + (!isEmpty(swiper_bg_img_style) ? `background-image: url('');` : '')">
-            <div class="oh z-deep re" :style="tabs_container + swiper_bg_style">
-                <div class="abs z-i top-0 w h" :style="swiper_bg_img_style"></div>
+            <div class="oh z-deep re" :style="tabs_container + (is_rotating_background ? swiper_bg_style : '')">
+                <div v-if="is_rotating_background" class="abs z-i top-0 w h" :style="swiper_bg_img_style"></div>
                 <div class="oh z-deep" :style="tabs_img_container">
                     <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true" :active-index="tabs_active_index" :tabs-sliding-fixed-bg="tabs_sliding_fixed_bg"></tabs-view>
                 </div>
@@ -41,11 +41,12 @@ const carousel_container = ref('');
 const carousel_img_container = ref('');
 // 打开滑动固定开关之后，显示的样式
 const tabs_sliding_fixed_bg = ref('');
+const is_rotating_background = ref(false);
 watch(
     props.value,
     (val) => {
         let new_data = cloneDeep(val);
-        const { home_data, is_tabs_safe_distance = '0' } = new_data.content;
+        const { home_data, is_tabs_safe_distance = '0', rotating_background } = new_data.content;
         const new_style = new_data?.style;
         // 选项卡背景设置
         const tabs_data = {
@@ -60,6 +61,9 @@ watch(
             ...new_style.tabs_padding,
             padding_top: (new_style.tabs_padding?.padding_top || 0) + (is_general_safe_distance ? common_store.header_height : 0),
         }
+        // 是否开启轮播图背景设置
+        is_rotating_background.value = rotating_background == '1';
+        // 选项卡滑动固定背景
         tabs_sliding_fixed_bg.value = gradient_computer(tabs_data);
         tabs_container.value = gradient_computer(tabs_data) + radius_computer(new_style.tabs_radius) + margin_computer(new_style.tabs_margin) + box_shadow_computer(new_style.tabs_content) + border_computer(new_style.tabs_content) + `margin-top: ${ new_style.tabs_margin.margin_top - (is_general_safe_distance ? common_store.header_height : 0) }px;`;
         tabs_img_container.value = background_computer(tabs_data) + padding_computer(new_tabs_padding);

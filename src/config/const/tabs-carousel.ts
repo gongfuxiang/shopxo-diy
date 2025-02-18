@@ -33,6 +33,7 @@ interface defaultTabs {
     content: {
         content_top: object;
         justification: string,
+        rotating_background: string;
         show_more: string,
         tabs_theme: string;
         tabs_adorn_icon: string;
@@ -131,6 +132,7 @@ const defaultTabs: defaultTabs = {
         show_more: '1',
         // 选项卡风格
         tabs_theme: '0',
+        rotating_background: '0',
         // 选中装饰图标
         tabs_adorn_icon: 'checked-smooth',
         tabs_adorn_img: [],
