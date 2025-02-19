@@ -89,6 +89,8 @@ const save_event = () => {
         setTimeout(() => {
             save_disabled.value = false;
         }, 500);
+    }).catch((err) => {
+        save_disabled.value = false;
     });
 };
 //#endregion 顶部导航回调方法 ---------------------end

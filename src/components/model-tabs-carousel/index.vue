@@ -4,7 +4,7 @@
         <div class="flex-col oh" :style="style_img_container + (!isEmpty(swiper_bg_img_style) ? `background-image: url('');` : '')">
             <div class="oh z-deep re" :style="tabs_container + (is_rotating_background ? swiper_bg_style : '')">
                 <div v-if="is_rotating_background" class="abs z-i top-0 w h" :style="swiper_bg_img_style"></div>
-                <div class="oh z-deep" :style="tabs_img_container">
+                <div class="oh re z-deep" :style="tabs_img_container">
                     <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true" :active-index="tabs_active_index" :tabs-sliding-fixed-bg="tabs_sliding_fixed_bg"></tabs-view>
                 </div>
             </div>
