@@ -11,10 +11,16 @@
 </template>
 
 <script lang="ts" setup>
-const data_location = defineModel({ type: Object, default: () => ({ x: 0, y: 0 }) });
+const data_location = defineModel({ type: Object, default: () => ({ x: 0, y: 0, staging_y: 0 }) });
 const emit = defineEmits(['operation_end']);
 // 失去焦点时触发事件
 const operation_end = () => {
     emit('operation_end');
 };
+// 监听y轴
+watch(() => data_location.value.y, (val) => {
+    if (val !== data_location.value.staging_y) {
+        data_location.value.staging_y = val;
+    }
+});
 </script>
