@@ -21,6 +21,9 @@ const text_com_data = {
         middle: '',
         right: '',
     },
+    is_width_auto: '0',
+    is_height_auto: '0',
+    data_follow: { follow_type: 'none', follow_id: '', follow_spacing: 0 },
     is_rich_text: '0',
     is_up_down: '1',
     text_color: '#000',
@@ -77,6 +80,7 @@ const img_com_data = {
         id: '',
         option: {}
     },
+    data_follow: { follow_type: 'none', follow_id: '', follow_spacing: 0 },
     img_radius: {
         radius: 0,
         radius_top_left: 0,
@@ -125,6 +129,7 @@ const line_com_data = {
         type: '', // 条件类型
         value: '', // 值
     },
+    data_follow: { follow_type: 'none', follow_id: '', follow_spacing: 0 },
     animation_style: {
         type: 'none',
         number: 'infinite',
@@ -147,6 +152,7 @@ const icon_com_data = {
         id: '',
         option: {}
     },
+    data_follow: { follow_type: 'none', follow_id: '', follow_spacing: 0 },
     is_rich_icon: '0',
     is_up_down: '1',
     icon_color: '#000',
@@ -197,6 +203,7 @@ const panel_com_data = {
         id: '',
         option: {}
     },
+    data_follow: { follow_type: 'none', follow_id: '', follow_spacing: 0 },
     icon_rotate: 0,
     background_img_style: '2',
     background_img: [],
@@ -234,6 +241,7 @@ const custom_group_com_data = {
         id: '',
         option: []
     },
+    data_follow: { follow_type: 'none', follow_id: '', follow_spacing: 0 },
     // 条件判断
     condition: {
         field: '', // 字段id

@@ -205,7 +205,8 @@ const set_count = () => {
     if (props.isDisplayPanel) {
         return '';
     } else {
-        return `width: ${ form.value.com_width }px; height: ${ form.value.com_height }px;`;
+        const { com_width = 0, com_height = 0, is_width_auto = '0', is_height_auto = '0'} = form.value;
+        return `${ is_width_auto == '1' ? `width:100%;max-width: ${ com_width }px;` : `width:${ com_width }px;`}${ is_height_auto == '1' ? `height:100%;max-height: ${ com_height }px;` : `height: ${ com_height }px;` }`;
     }
 };
 </script>

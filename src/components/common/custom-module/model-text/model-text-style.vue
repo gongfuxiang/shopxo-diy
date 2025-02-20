@@ -1,6 +1,6 @@
 <template>
     <div class="w h bg-f">
-        <el-form :model="form" label-width="70">
+        <el-form :model="form" label-width="80">
             <custom-location v-model="diy_data.location" @operation_end="operation_end"></custom-location>
             <div class="bg-f5 divider-line" />
             <card-container>
@@ -86,10 +86,16 @@
             <div class="bg-f5 divider-line" />
             <card-container>
                 <div class="mb-12">容器设置</div>
-                <el-form-item label="容器宽度">
+                <el-form-item label="宽度自适应">
+                    <el-switch v-model="form.is_width_auto" active-value="1" inactive-value="0" @change="operation_end"/>
+                </el-form-item>
+                <el-form-item :label="form.is_width_auto == '1' ? '最大宽度' : '容器宽度'">
                     <slider v-model="form.com_width" :max="1000" @operation_end="operation_end"></slider>
                 </el-form-item>
-                <el-form-item label="容器高度">
+                <el-form-item label="高度自适应">
+                    <el-switch v-model="form.is_height_auto" active-value="1" inactive-value="0" @change="operation_end"/>
+                </el-form-item>
+                <el-form-item :label="form.is_width_auto == '1' ? '最大高度' : '容器宽度'">
                     <slider v-model="form.com_height" :max="1000" @operation_end="operation_end"></slider>
                 </el-form-item>
                 <el-form-item label="背景颜色">
