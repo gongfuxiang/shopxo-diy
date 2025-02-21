@@ -1,7 +1,7 @@
 <template>
     <div class="w h bg-f">
         <el-form :model="form" label-width="70">
-            <custom-location v-model="diy_data.location" @operation_end="operation_end"></custom-location>
+            <custom-location v-model="diy_data.location" v-model:follow="form.data_follow" :component-options="componentOptions" @operation_end="operation_end"></custom-location>
             <div class="bg-f5 divider-line" />
             <card-container class="">
                 <div class="mb-12">线条设置</div>
@@ -57,6 +57,10 @@ const props = defineProps({
         type: Array<any>,
         default: () => [],
     },
+    componentOptions: {
+        type: Array<any>,
+        default: () => [],
+    }
 });
 // 默认值
 const state = reactive({

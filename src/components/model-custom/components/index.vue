@@ -68,7 +68,7 @@
                         <div class="w h" @mousedown.prevent="start_drag" @mousemove.prevent="move_drag" @mouseup.prevent="end_drag">
                             <DraggableContainer v-if="draggable_container" style="z-index:0" :reference-line-visible="true" :disabled="false" reference-line-color="#f00f00" @selectstart.prevent @contextmenu.prevent @dragstart.prevent>
                                 <!-- @mouseover="on_choose(index)" -->
-                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="[`${ animation_class(item.com_data) } `, {'plug-in-show-component-line': is_show_component_line, 'plug-in-show-tabs': item.show_tabs == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1' }]" :style="[`${ item.com_data.is_width_auto == '1' ? 'width: auto;' : '' }${ item.com_data.is_height_auto == '1' ? 'height: auto;' : '' }`, { 'z-index': (diy_data.length - 1) - index }]" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index, 'resizing')" @resize-end="resizingHandle($event, item.key, index, 'resizeEnd')">
+                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id + item.location.x + item.location.y" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="[`${ animation_class(item.com_data) } `, {'plug-in-show-component-line': is_show_component_line, 'plug-in-show-tabs': item.show_tabs == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1' }]" :style="[`${ item.com_data.is_width_auto == '1' ? 'width: auto;' : '' }${ item.com_data.is_height_auto == '1' ? 'height: auto;' : '' }`, { 'z-index': (diy_data.length - 1) - index }]" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index, 'resizing')" @resize-end="resizingHandle($event, item.key, index, 'resizeEnd')">
                                     <div :class="['main-content flex-row', { 'plug-in-border': item.show_tabs == '1' }]">
                                         <template v-if="item.key == 'text'">
                                             <model-text :key="item.id" :value="item.com_data" :source-list="props.sourceList" :config-loop="configLoop" :is-custom="isCustom" :is-custom-group="isCustomGroup" :custom-group-field-id="customGroupFieldId" :title-params="showData?.data_name || 'name'" @container_change="(...value: [number,  number]) => container_change(...value, index)"></model-text>
@@ -323,7 +323,7 @@ const del = (index: null | number) => {
                     }
                     set_show_tabs(new_index);
                 } else {
-                    emits('rightUpdate', {});
+                    emits('rightUpdate', {}, diy_data.value);
                 }
             } else {
                 diy_data.value.splice(index, 1);
@@ -391,7 +391,7 @@ const set_show_tabs = (index: number) => {
             item.show_tabs = '1';
             // 滚动到指定位置
             scroll();
-            emits('rightUpdate', item);
+            emits('rightUpdate', item, diy_data.value);
         }
     });
 };
@@ -427,7 +427,7 @@ const cancel = () => {
         item.show_tabs = '0';
     });
     select_index.value = null;
-    emits('rightUpdate', {});
+    emits('rightUpdate', {}, diy_data.value);
 };
 //#endregion
 //#region 文本开启自适应时的处理
@@ -488,7 +488,7 @@ watch(() => center_height.value, () => {
             },
         }));
         // 容器高度变化时，组件不绑定右侧数据
-        emits('rightUpdate', {});
+        emits('rightUpdate', {}, diy_data.value);
         draggable_container.value = true;
     });
 },{ immediate:true, deep: true });
@@ -552,8 +552,36 @@ const drop = (event: any) => {
 //#endregion
 //#region 区域内拖拽显示
 const dragEndHandle = (item: any, index: number) => {
-    const old_location = diy_data.value[index].location;
-    const new_location = { x: item.x, y: item.y, record_x: item.x, record_y: item.y, staging_y: item.y };
+    const old_location = cloneDeep(diy_data.value[index].location);
+    const { data_follow, com_width, com_height} = diy_data.value[index].com_data;
+    let new_x = old_location.x;
+    let new_y = old_location.y;
+    // 如果是跟随的模版,根据选中的内容 x或者y不变
+    if (data_follow.id != '') {
+        if (data_follow.type == 'left') {
+            new_y = item.y;
+        } else if (data_follow.type == 'top') {
+            new_x = item.x;
+        }
+    } else {
+        diy_data.value.forEach((item1: any) => {
+            const { id = '', type = 'left', spacing = 0 } = item1.com_data.data_follow;
+            // 判断当前组件是否被其他组件跟随
+            if (item.id == id) {
+                const new_location_x = old_location.x + com_width + spacing;
+                const new_location_y = old_location.y + com_height + spacing;
+                if (type =='left') {
+                    item1.location.x = new_location_x;
+                    item1.location.record_x = new_location_x;
+                } else if (type =='top') {
+                    item1.location.y = new_location_y;
+                    item1.location.record_y = new_location_y;
+                    item1.location.staging_y = new_location_y;
+                }
+            }
+        });
+    }
+    const new_location = { x: new_x, y: new_y, record_x: new_x, record_y: new_y, staging_y: new_y };
     diy_data.value[index].location = new_location;
     // 对数组进行比较，确定跟之前的是否有变化
     if (!isEqual(old_location, new_location)) {
@@ -658,7 +686,7 @@ const end_drag = (event: MouseEvent) => {
         });
         // 清除选中
         select_index.value = null;
-        emits('rightUpdate', {});
+        emits('rightUpdate', {}, diy_data.value);
     }
     rect_start.value = { x: 0, y: 0, width: 0, height: 0 };
     rect_end.value = { x: 0, y: 0, width: 0, height: 0 };

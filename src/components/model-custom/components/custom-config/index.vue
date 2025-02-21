@@ -6,22 +6,22 @@
             <!-- 右侧配置区域 -->
             <div class="settings">
                 <template v-if="diy_data.key === 'img'">
-                    <model-image-style :key="key" v-model:height="center_height" :options="configLoop == '1' ? options : []" :value="diy_data" @operation_end="operation_end"></model-image-style>
+                    <model-image-style :key="key" v-model:height="center_height" :options="configLoop == '1' ? options : []" :value="diy_data" :component-options='all_diy_data' @operation_end="operation_end"></model-image-style>
                 </template>
                 <template v-else-if="diy_data.key == 'text'">
-                    <model-text-style :key="key" v-model:height="center_height" :options="configLoop == '1' ? options : []" :value="diy_data" @operation_end="operation_end"></model-text-style>
+                    <model-text-style :key="key" v-model:height="center_height" :options="configLoop == '1' ? options : []" :value="diy_data" :component-options='all_diy_data' @operation_end="operation_end"></model-text-style>
                 </template>
                 <template v-else-if="diy_data.key == 'auxiliary-line'">
-                    <model-lines-style :key="key" v-model:height="center_height" :options="configLoop == '1' ? options : []" :value="diy_data" @operation_end="operation_end"></model-lines-style>
+                    <model-lines-style :key="key" v-model:height="center_height" :options="configLoop == '1' ? options : []" :value="diy_data" :component-options='all_diy_data' @operation_end="operation_end"></model-lines-style>
                 </template>
                 <template v-else-if="diy_data.key == 'icon'">
-                    <model-icon-style :key="key" v-model:height="center_height" :options="configLoop == '1' ? options : []" :value="diy_data" @operation_end="operation_end"></model-icon-style>
+                    <model-icon-style :key="key" v-model:height="center_height" :options="configLoop == '1' ? options : []" :value="diy_data" :component-options='all_diy_data' @operation_end="operation_end"></model-icon-style>
                 </template>
                 <template v-else-if="diy_data.key == 'panel'">
-                    <model-panel-style :key="key" v-model:height="center_height" :options="configLoop == '1' ? options : []" :value="diy_data" @operation_end="operation_end"></model-panel-style>
+                    <model-panel-style :key="key" v-model:height="center_height" :options="configLoop == '1' ? options : []" :value="diy_data" :component-options='all_diy_data' @operation_end="operation_end"></model-panel-style>
                 </template>
                 <template v-else-if="diy_data.key == 'custom-group' && configType == 'custom'">
-                    <model-custom-group-style :key="key" v-model:height="center_height" :config-loop="configLoop" :options="configLoop == '1' ? options : []" :value="diy_data" @custom_edit="custom_edit" @operation_end="operation_end"></model-custom-group-style>
+                    <model-custom-group-style :key="key" v-model:height="center_height" :config-loop="configLoop" :options="configLoop == '1' ? options : []" :value="diy_data" :component-options='all_diy_data' @custom_edit="custom_edit" @operation_end="operation_end"></model-custom-group-style>
                 </template>
                 <template v-else>
                     <div class="w h flex align-c bg-f">
@@ -113,6 +113,7 @@ const dialogVisible = defineModel('visible', { type: Boolean, default: false });
 //#region 自定义编辑的内部处理逻辑
 const diy_data = ref<diy>({
     key: '',
+    id: '',
     location: {
         x: 0,
         y: 0,
@@ -124,10 +125,13 @@ const diy_data = ref<diy>({
 });
 // 唯一标识
 const key = ref('');
-const right_update = (item: any) => {
+const all_diy_data = ref<Array<any>>([]);
+const right_update = (item: any, all_diy: Array<any>) => {
     diy_data.value = item;
     // 生成随机id
     key.value = Math.random().toString(36).substring(2);
+    // 不是当前组件，并且没有跟随过其他组件的可以被跟随
+    all_diy_data.value = all_diy.filter(item1 => item.id !== item1.id && item1.com_data.data_follow.id == '');
 };
 const draglist = ref<diy_data | null>(null);
 const emits = defineEmits(['accomplish', 'custom_edit']);
