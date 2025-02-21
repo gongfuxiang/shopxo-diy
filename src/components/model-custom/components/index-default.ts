@@ -23,6 +23,8 @@ const text_com_data = {
     },
     is_width_auto: '0',
     is_height_auto: '0',
+    max_width: 150,
+    max_height: 17,
     data_follow: { follow_type: 'none', follow_id: '', follow_spacing: 0 },
     is_rich_text: '0',
     is_up_down: '1',

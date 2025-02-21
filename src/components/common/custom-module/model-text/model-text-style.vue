@@ -87,15 +87,21 @@
             <card-container>
                 <div class="mb-12">容器设置</div>
                 <el-form-item label="宽度自适应">
-                    <el-switch v-model="form.is_width_auto" active-value="1" inactive-value="0" @change="operation_end"/>
+                    <el-switch v-model="form.is_width_auto" active-value="1" inactive-value="0" @change="is_width_auto_change"/>
                 </el-form-item>
-                <el-form-item :label="form.is_width_auto == '1' ? '最大宽度' : '容器宽度'">
+                <el-form-item v-if="form.is_width_auto == '1'" label="最大宽度">
+                    <slider v-model="form.max_width" :max="1000" @operation_end="operation_end"></slider>
+                </el-form-item>
+                <el-form-item v-else label="容器宽度">
                     <slider v-model="form.com_width" :max="1000" @operation_end="operation_end"></slider>
                 </el-form-item>
                 <el-form-item label="高度自适应">
-                    <el-switch v-model="form.is_height_auto" active-value="1" inactive-value="0" @change="operation_end"/>
+                    <el-switch v-model="form.is_height_auto" active-value="1" inactive-value="0" @change="is_height_auto_change"/>
                 </el-form-item>
-                <el-form-item :label="form.is_width_auto == '1' ? '最大高度' : '容器宽度'">
+                <el-form-item v-if="form.is_height_auto == '1'" label="最大高度">
+                    <slider v-model="form.max_height" :max="1000" @operation_end="operation_end"></slider>
+                </el-form-item>
+                <el-form-item v-else label="容器高度">
                     <slider v-model="form.com_height" :max="1000" @operation_end="operation_end"></slider>
                 </el-form-item>
                 <el-form-item label="背景颜色">
@@ -211,6 +217,16 @@ const copy_field = () => {
 const emit = defineEmits(['operation_end']);
 const operation_end = () => {
     emit('operation_end', get_history_name(diy_data.value));
+};
+const is_width_auto_change = (val: string | number | boolean) => {
+    if (val == '1') {
+        form.value.max_width = form.value.com_width;
+    }
+};
+const is_height_auto_change = (val: string | number | boolean) => {
+    if (val == '1') {
+        form.value.max_height = form.value.com_height;
+    }
 };
 // #region 位置计算
 // 监听数据变化

@@ -71,7 +71,7 @@
                                 <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="[`${ animation_class(item.com_data) } `, {'plug-in-show-component-line': is_show_component_line, 'plug-in-show-tabs': item.show_tabs == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1' }]" :style="[`${ item.com_data.is_width_auto == '1' ? 'width: auto;' : '' }${ item.com_data.is_height_auto == '1' ? 'height: auto;' : '' }`, { 'z-index': (diy_data.length - 1) - index }]" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index, 'resizing')" @resize-end="resizingHandle($event, item.key, index, 'resizeEnd')">
                                     <div :class="['main-content flex-row', { 'plug-in-border': item.show_tabs == '1' }]">
                                         <template v-if="item.key == 'text'">
-                                            <model-text :key="item.id" :value="item.com_data" :source-list="props.sourceList" :config-loop="configLoop" :is-custom="isCustom" :is-custom-group="isCustomGroup" :custom-group-field-id="customGroupFieldId" :title-params="showData?.data_name || 'name'"></model-text>
+                                            <model-text :key="item.id" :value="item.com_data" :source-list="props.sourceList" :config-loop="configLoop" :is-custom="isCustom" :is-custom-group="isCustomGroup" :custom-group-field-id="customGroupFieldId" :title-params="showData?.data_name || 'name'" @container_change="(...value: [number,  number]) => container_change(...value, index)"></model-text>
                                         </template>
                                         <template v-else-if="item.key == 'img'">
                                             <model-image :key="item.id" :value="item.com_data" :source-list="props.sourceList" :config-loop="configLoop" :is-custom="isCustom" :is-custom-group="isCustomGroup" :custom-group-field-id="customGroupFieldId" :img-params="showData?.data_logo || ''"></model-image>
@@ -116,6 +116,7 @@ import { get_math, adjustPosition, getPlatform, get_history_name } from '@/utils
 import { defaultComData, isRectangleIntersecting } from "./index-default";
 import { SortableEvent, VueDraggable } from 'vue-draggable-plus';
 import { commonStore, DataSourceStore } from '@/store';
+import { ItemProps } from 'element-plus';
 const common_store = commonStore();
 // 删除
 const app = getCurrentInstance();
@@ -429,6 +430,16 @@ const cancel = () => {
     emits('rightUpdate', {});
 };
 //#endregion
+//#region 文本开启自适应时的处理
+const container_change = (width: number, height: number, index: number,) => {
+    diy_data.value.forEach((item, index1) => {
+        if (index == index1) {
+            item.com_data.com_width = width;
+            item.com_data.com_height = height;
+        }
+    });
+}
+//#endregion
 //#region 容器高度发生变化时的处理，拖拽组件高度变化时数据需要重新赋值，避免拖拽不到新高度的区域
 const center_height = defineModel('height', { type: Number, default: 0 });
 const center_width = defineModel('width', { type: Number, default: 390 });
@@ -461,6 +472,7 @@ watch(() => center_height.value, () => {
                 // 规整历史数据，避免有新增字段不存在导致报错
                 ...Object.assign({}, cloneDeep((defaultComData as any)[`${item.key}_com_data`]), item.com_data),
                 com_height: item.com_data.staging_height,
+                ...(item.key == 'text' ? { max_height:item.com_data.staging_height } : {}),
                 data_source_field: {
                     ...item.com_data?.data_source_field ?? { id: item.key == 'text' ? [] : '', option: item.key == 'text' ? [] : {} },
                     id: !isEmpty(item.com_data?.data_source_field?.id || '') ? item.com_data.data_source_field.id : item.key == 'text' ? [] : '',
@@ -559,6 +571,10 @@ const resizingHandle = (new_location: any, key: string, index: number, type: str
     com_data.com_width = w;
     com_data.com_height = h;
     com_data.staging_height = h;
+    if (key == 'text') {
+        com_data.max_width = w;
+        com_data.max_height = w;
+    }
     // 图片和线的宽高需要重新计算
     if (key == 'img') {
         const { img_width, img_height } = handleImg(com_data, w, h);

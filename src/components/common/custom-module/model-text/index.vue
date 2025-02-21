@@ -1,5 +1,5 @@
 <template>
-    <div v-if="is_show" class="img-outer w h re oh" :style="com_style">
+    <div v-if="is_show" ref="modelText" class="img-outer w h re oh" :style="com_style">
         <div :style="text_style" class="text-word-break">
             <template v-if="form.is_rich_text == '1'">
                 <div class="rich-text-content" :innerHTML="text_title"></div>
@@ -205,14 +205,37 @@ const set_count = () => {
     if (props.isDisplayPanel) {
         return '';
     } else {
-        const { com_width = 0, com_height = 0, is_width_auto = '0', is_height_auto = '0'} = form.value;
-        return `${ is_width_auto == '1' ? `width:100%;max-width: ${ com_width }px;` : `width:${ com_width }px;`}${ is_height_auto == '1' ? `height:100%;max-height: ${ com_height }px;` : `height: ${ com_height }px;` }`;
+        const { com_width = 0, com_height = 0, is_width_auto = '0', is_height_auto = '0', max_width = 0, max_height = 0} = form.value;
+        const new_max_width = max_width > 0 ? `max-width: ${ max_width }px;` : 'white-space: nowrap;';
+        const new_max_height = max_height > 0 ? `max-height: ${ max_height }px;` : '';
+        return `${ is_width_auto == '1' ? `width:100%;${ new_max_width }` : `width:${ com_width }px;`}${ is_height_auto == '1' ? `height:100%;${ new_max_height }` : `height: ${ com_height }px;` }`;
     }
 };
+const emits = defineEmits(['container_change']);
+// 开启自定义的时候重新计算高度和宽度
+const modelText = ref<HTMLElement | null>(null);
+watch(() => form.value, (value) => {
+    const { is_width_auto = '0', is_height_auto = '0', max_width = 0, max_height = 0 , com_width = 0, com_height = 0} = form.value;
+    let new_width = com_width;
+    let new_height = com_height;
+    // 宽度自适应时 获取当前容器的宽度
+    if (is_width_auto == '1') {
+        new_width = modelText.value?.clientWidth || 0;
+    }
+    // 高度自适应时时 获取当前容器的高度
+    if (is_height_auto == '1') {
+        new_height = modelText.value?.clientHeight || 0;
+    }
+    // 如果跟历史的宽度或者高度不同，则更新
+    if (new_width !== com_width && new_height !== com_height) {
+        emits('container_change', new_width, new_height)
+    }
+}, { deep: true });
+
 </script>
 <style lang="scss" scoped>
 .rich-text-content {
-    white-space: normal;
+    // white-space: normal;
     word-break:break-all;
     * {
         max-width: 100%;
