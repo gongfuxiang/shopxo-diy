@@ -25,7 +25,8 @@ const text_com_data = {
     is_height_auto: '0',
     max_width: 150,
     max_height: 17,
-    data_follow: { type: 'left', id: '', spacing: 0, is_disable_x: false, is_disable_y: false },
+    data_follow: { type: 'left', id: '', spacing: 0 },
+    is_data_update: false,
     is_rich_text: '0',
     is_up_down: '1',
     text_color: '#000',
@@ -82,7 +83,8 @@ const img_com_data = {
         id: '',
         option: {}
     },
-    data_follow: { type: 'left', id: '', spacing: 0, is_disable_x: false, is_disable_y: false },
+    data_follow: { type: 'left', id: '', spacing: 0 },
+    is_data_update: false,
     img_radius: {
         radius: 0,
         radius_top_left: 0,
@@ -131,7 +133,8 @@ const line_com_data = {
         type: '', // 条件类型
         value: '', // 值
     },
-    data_follow: { type: 'left', id: '', spacing: 0, is_disable_x: false, is_disable_y: false },
+    data_follow: { type: 'left', id: '', spacing: 0 },
+    is_data_update: false,
     animation_style: {
         type: 'none',
         number: 'infinite',
@@ -154,7 +157,8 @@ const icon_com_data = {
         id: '',
         option: {}
     },
-    data_follow: { type: 'left', id: '', spacing: 0, is_disable_x: false, is_disable_y: false },
+    data_follow: { type: 'left', id: '', spacing: 0 },
+    is_data_update: false,
     is_rich_icon: '0',
     is_up_down: '1',
     icon_color: '#000',
@@ -205,7 +209,8 @@ const panel_com_data = {
         id: '',
         option: {}
     },
-    data_follow: { type: 'left', id: '', spacing: 0, is_disable_x: false, is_disable_y: false },
+    data_follow: { type: 'left', id: '', spacing: 0 },
+    is_data_update: false,
     icon_rotate: 0,
     background_img_style: '2',
     background_img: [],
@@ -233,7 +238,7 @@ const panel_com_data = {
         number: 'infinite',
     }
 }
-
+// 自定义组件的默认值
 const custom_group_com_data = {
     // 容器高度
     com_width: 100,
@@ -243,7 +248,8 @@ const custom_group_com_data = {
         id: '',
         option: []
     },
-    data_follow: { type: 'left', id: '', spacing: 0, is_disable_x: false, is_disable_y: false },
+    data_follow: { type: 'left', id: '', spacing: 0 },
+    is_data_update: false,
     // 条件判断
     condition: {
         field: '', // 字段id

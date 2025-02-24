@@ -205,7 +205,7 @@ const set_count = () => {
     if (props.isDisplayPanel) {
         return '';
     } else {
-        const { com_width = 0, com_height = 0, is_width_auto = '0', is_height_auto = '0', max_width = 0, max_height = 0} = form.value;
+        const { com_width = 0, com_height = 0, is_width_auto = '0', is_height_auto = '0', max_width = 0, max_height = 0 } = form.value;
         const new_max_width = max_width > 0 ? `max-width: ${ max_width }px;` : 'white-space: nowrap;';
         const new_max_height = max_height > 0 ? `max-height: ${ max_height }px;` : '';
         return `${ is_width_auto == '1' ? `width:100%;${ new_max_width }` : `width:${ com_width }px;`}${ is_height_auto == '1' ? `height:100%;${ new_max_height }` : `height: ${ com_height }px;` }`;
@@ -214,8 +214,9 @@ const set_count = () => {
 const emits = defineEmits(['container_change']);
 // 开启自定义的时候重新计算高度和宽度
 const modelText = ref<HTMLElement | null>(null);
-watch(() => form.value, (value) => {
+watch(() => form.value, async (value) => {
     const { is_width_auto = '0', is_height_auto = '0', max_width = 0, max_height = 0 , com_width = 0, com_height = 0} = form.value;
+    await nextTick();
     let new_width = com_width;
     let new_height = com_height;
     // 宽度自适应时 获取当前容器的宽度
@@ -227,10 +228,10 @@ watch(() => form.value, (value) => {
         new_height = modelText.value?.clientHeight || 0;
     }
     // 如果跟历史的宽度或者高度不同，则更新
-    if (new_width !== com_width && new_height !== com_height) {
+    if (new_width !== com_width || new_height !== com_height) {
         emits('container_change', new_width, new_height)
     }
-}, { deep: true });
+}, { immediate: true, deep: true });
 
 </script>
 <style lang="scss" scoped>

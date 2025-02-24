@@ -68,7 +68,7 @@
                         <div class="w h" @mousedown.prevent="start_drag" @mousemove.prevent="move_drag" @mouseup.prevent="end_drag">
                             <DraggableContainer v-if="draggable_container" style="z-index:0" :reference-line-visible="true" :disabled="false" reference-line-color="#f00f00" @selectstart.prevent @contextmenu.prevent @dragstart.prevent>
                                 <!-- @mouseover="on_choose(index)" -->
-                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id + item.location.x + item.location.y" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="[`${ animation_class(item.com_data) } `, {'plug-in-show-component-line': is_show_component_line, 'plug-in-show-tabs': item.show_tabs == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1' }]" :style="[`${ item.com_data.is_width_auto == '1' ? 'width: auto;' : '' }${ item.com_data.is_height_auto == '1' ? 'height: auto;' : '' }`, { 'z-index': (diy_data.length - 1) - index }]" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index, 'resizing')" @resize-end="resizingHandle($event, item.key, index, 'resizeEnd')">
+                                <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id + item.com_data.is_data_update" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="[`${ animation_class(item.com_data) } `, {'plug-in-show-component-line': is_show_component_line, 'plug-in-show-tabs': item.show_tabs == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1' }]" :style="[`${ item.com_data.is_width_auto == '1' ? 'width: auto;' : '' }${ item.com_data.is_height_auto == '1' ? 'height: auto;' : '' }`, { 'z-index': (diy_data.length - 1) - index }]" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index, 'resizing')" @resize-end="resizingHandle($event, item.key, index, 'resizeEnd')">
                                     <div :class="['main-content flex-row', { 'plug-in-border': item.show_tabs == '1' }]">
                                         <template v-if="item.key == 'text'">
                                             <model-text :key="item.id" :value="item.com_data" :source-list="props.sourceList" :config-loop="configLoop" :is-custom="isCustom" :is-custom-group="isCustomGroup" :custom-group-field-id="customGroupFieldId" :title-params="showData?.data_name || 'name'" @container_change="(...value: [number,  number]) => container_change(...value, index)"></model-text>
@@ -112,11 +112,10 @@
 </template>
 <script setup lang="ts">
 import { cloneDeep, isEmpty, property, isEqual } from 'lodash';
-import { get_math, adjustPosition, getPlatform, get_history_name } from '@/utils';
+import { get_math, adjustPosition, getPlatform, get_history_name, diy_data_handle, new_location_handle } from '@/utils';
 import { defaultComData, isRectangleIntersecting } from "./index-default";
 import { SortableEvent, VueDraggable } from 'vue-draggable-plus';
 import { commonStore, DataSourceStore } from '@/store';
-import { ItemProps } from 'element-plus';
 const common_store = commonStore();
 // 删除
 const app = getCurrentInstance();
@@ -311,6 +310,13 @@ const del = (index: null | number) => {
             });
             const show_tabs_index = diy_data.value.findIndex((item: any) => item.show_tabs == '1');
             const new_name = get_history_name(cloneDeep(diy_data.value[show_tabs_index == -1 ? 0 : show_tabs_index]));
+            // 删除的时候修改跟随组件的内容显示内容
+            const old_id = diy_data.value[index].id;
+            diy_data.value.forEach(item => {
+                if (item.com_data?.data_follow?.id === old_id) {
+                    item.com_data.data_follow.id = '';
+                }
+            });
             // 删除的是当前的这个数据
             if (show_tabs_index == index) {
                 // 调用删除接口，然后，更新数据
@@ -431,13 +437,15 @@ const cancel = () => {
 };
 //#endregion
 //#region 文本开启自适应时的处理
-const container_change = (width: number, height: number, index: number,) => {
+const container_change = (width: number, height: number, index: number) => {
+    console.log('1454545');
     diy_data.value.forEach((item, index1) => {
         if (index == index1) {
             item.com_data.com_width = width;
             item.com_data.com_height = height;
         }
     });
+    console.log(diy_data.value, '12145');
 }
 //#endregion
 //#region 容器高度发生变化时的处理，拖拽组件高度变化时数据需要重新赋值，避免拖拽不到新高度的区域
@@ -470,7 +478,7 @@ watch(() => center_height.value, () => {
             },
             com_data: {
                 // 规整历史数据，避免有新增字段不存在导致报错
-                ...Object.assign({}, cloneDeep((defaultComData as any)[`${item.key}_com_data`]), item.com_data),
+                ...Object.assign({}, cloneDeep((defaultComData as any)[`${ ['custom-group', 'auxiliary-line'].includes(item.key) ? (item.key == 'custom-group'? 'custom_group' : 'line'): item.key }_com_data`]), item.com_data),
                 com_height: item.com_data.staging_height,
                 ...(item.key == 'text' ? { max_height:item.com_data.staging_height } : {}),
                 data_source_field: {
@@ -551,50 +559,46 @@ const drop = (event: any) => {
 };
 //#endregion
 //#region 区域内拖拽显示
-const dragEndHandle = (item: any, index: number) => {
-    const old_location = cloneDeep(diy_data.value[index].location);
-    const { data_follow, com_width, com_height} = diy_data.value[index].com_data;
-    let new_x = old_location.x;
-    let new_y = old_location.y;
-    // 如果是跟随的模版,根据选中的内容 x或者y不变
-    if (data_follow.id != '') {
-        if (data_follow.type == 'left') {
-            new_y = item.y;
-        } else if (data_follow.type == 'top') {
-            new_x = item.x;
+const dragEndHandle = (new_val: any, index: number) => {
+    const { location: old_location, com_data, id: old_id } = cloneDeep(diy_data.value[index])
+    const { data_follow = {}, com_width, com_height, is_data_update } = com_data;
+    // 处理后的x、y坐标
+    const { new_x, new_y } = new_location_handle(old_location, data_follow, new_val);
+    if (data_follow?.id == '') {
+        // 如果有跟随的模版，则需要更新跟随的模版的位置
+        const index = diy_data.value.findIndex(item => old_id == item.com_data?.data_follow?.id);
+        if (index != -1) {
+            diy_data.value = diy_data_handle(diy_data.value, old_id, new_val, com_width, com_height);
         }
-    } else {
-        diy_data.value.forEach((item1: any) => {
-            const { id = '', type = 'left', spacing = 0 } = item1.com_data.data_follow;
-            // 判断当前组件是否被其他组件跟随
-            if (item.id == id) {
-                const new_location_x = old_location.x + com_width + spacing;
-                const new_location_y = old_location.y + com_height + spacing;
-                if (type =='left') {
-                    item1.location.x = new_location_x;
-                    item1.location.record_x = new_location_x;
-                } else if (type =='top') {
-                    item1.location.y = new_location_y;
-                    item1.location.record_y = new_location_y;
-                    item1.location.staging_y = new_location_y;
-                }
-            }
-        });
     }
     const new_location = { x: new_x, y: new_y, record_x: new_x, record_y: new_y, staging_y: new_y };
     diy_data.value[index].location = new_location;
+    // 拖拽结束的时候组件不会更新xy，需要添加一个唯一key值，避免出现没更新的问题
+    diy_data.value[index].com_data.is_data_update = !is_data_update;
     // 对数组进行比较，确定跟之前的是否有变化
     if (!isEqual(old_location, new_location)) {
         operation_end(get_history_name(diy_data.value[index]));
     }
 };
-// 拖拽结束时触发的事件 {x: number, y: number, w: number, h: number}
+// 拖拽放大缩小结束时触发的事件 {x: number, y: number, w: number, h: number}
 const resizingHandle = (new_location: any, key: string, index: number, type: string) => {
-    const { x, y, w, h } = new_location;
-    // 对应位置的定位修改为当前更新的位置
-    diy_data.value[index].location = { x, y, record_x: x, record_y: y, staging_y: y };
+    const { location: old_location, id: old_id } = cloneDeep(diy_data.value[index]);
     // 获取到当前更新的内容
     const com_data = diy_data.value[index].com_data;
+    const { data_follow } = com_data;
+    const { w, h } = new_location;
+    // 处理后的x、y坐标
+    const { new_x, new_y } = new_location_handle(old_location, data_follow, new_location);
+    if (data_follow.id == '') {
+        // 如果有跟随的模版，则需要更新跟随的模版的位置
+        const index = diy_data.value.findIndex(item => old_id == item.com_data.data_follow.id);
+        if (index != -1) {
+            diy_data.value = diy_data_handle(diy_data.value, old_id, new_location, w, h);
+        }
+    }
+    // 对应位置的定位修改为当前更新的位置
+    diy_data.value[index].location = { x: new_x, y: new_y, record_x: new_x, record_y: new_y, staging_y: new_y };
+    // const com_data = diy_data.value[index].com_data;
     // 更新组件的宽高
     com_data.com_width = w;
     com_data.com_height = h;

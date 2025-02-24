@@ -1,7 +1,7 @@
 <template>
     <div class="w h bg-f">
         <el-form :model="form" label-width="80">
-            <custom-location v-model="diy_data.location" v-model:follow="form.data_follow" :component-options="componentOptions" @operation_end="operation_end"></custom-location>
+            <custom-location v-model="diy_data.location" v-model:follow="form.data_follow" :is-follow="!followName.includes(diy_data.id)" :component-options="componentOptions" @operation_end="operation_end"></custom-location>
             <div class="bg-f5 divider-line" />
             <card-container>
                 <div class="mb-12">文本设置</div>
@@ -156,7 +156,11 @@ const props = defineProps({
     componentOptions: {
         type: Array<any>,
         default: () => [],
-    }
+    },
+    followName: {
+        type: Array<string>,
+        default: [],
+    },
 });
 // 默认值
 const state = reactive({
@@ -237,11 +241,11 @@ const is_height_auto_change = (val: string | number | boolean) => {
 watch(
     diy_data,
     (val) => {
-        // diy_data.value.location.x = location_compute(form.value.com_width, val.location.x, 390);
-        // diy_data.value.location.y = location_compute(form.value.com_height, val.location.y, center_height.value);
-        // diy_data.value.location.record_x = location_compute(form.value.com_width, val.location.record_x, 390);
-        // diy_data.value.location.record_y = location_compute(form.value.com_height, val.location.record_y, center_height.value);
-        // diy_data.value.location.staging_y = location_compute(form.value.com_height, val.location.staging_y, center_height.value);
+        diy_data.value.location.x = location_compute(form.value.com_width, val.location.x, 390);
+        diy_data.value.location.y = location_compute(form.value.com_height, val.location.y, center_height.value);
+        diy_data.value.location.record_x = location_compute(form.value.com_width, val.location.record_x, 390);
+        diy_data.value.location.record_y = location_compute(form.value.com_height, val.location.record_y, center_height.value);
+        diy_data.value.location.staging_y = location_compute(form.value.com_height, val.location.staging_y, center_height.value);
         form.value.staging_height = form.value.com_height;
     },
     { immediate: true, deep: true }

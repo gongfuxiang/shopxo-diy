@@ -880,3 +880,72 @@ export function formatDate(format: string = 'YYYY-MM-DD HH:mm:ss'): string {
         .replace('mm', minutes)
         .replace('ss', seconds);
 }
+
+type Location = {
+    x: number;
+    y: number;
+}
+type DataFollow = {
+    id: string;
+    type: string;
+}
+export const new_location_handle = (old_location: Location, data_follow: DataFollow, location: Location) => {
+    let new_x = old_location.x;
+    let new_y = old_location.y;
+    const { x, y } = location;
+    // 如果是跟随的模版,根据选中的内容 x或者y不变
+    if (data_follow.id != '') {
+        if (data_follow.type == 'left') {
+            if (old_location.x !== x) {
+                ElMessage.info('当前组件已经左跟随其他组件，x轴不允许修改');
+            }
+            new_y = y;
+        } else if (data_follow.type == 'top') {
+            if (old_location.y !== y) {
+                ElMessage.info('当前组件已经上跟随其他组件，y轴不允许修改');
+            }
+            new_x = x;
+        }
+    } else {
+        new_x = x;
+        new_y = y;
+    }
+    return { new_x, new_y }
+}
+
+/**
+ * 自定义数据处理函数
+ * 该函数用于处理组件数据，根据旧组件的ID更新新组件的位置
+ * @param data 组件数据数组
+ * @param old_id 旧组件的ID
+ * @param new_val 新组件的值，包含位置信息
+ * @param com_width 组件宽度
+ * @param com_height 组件高度
+ * @returns 返回更新后的新组件数据数组
+ */
+export const diy_data_handle = (data: any, old_id: string, new_val: any, com_width: number, com_height: number): any => {
+    // 遍历每个组件项
+    data.forEach((item: any) => {
+        // 解构获取组件跟随的配置信息，如果没有则使用默认值
+        const { id = '', type = 'left', spacing = 0 } = item?.com_data?.data_follow || { id: '', type: 'left', spacing: 0 };
+        // 判断当前组件是否被其他组件跟随
+        if (old_id == id && id !== '') {
+            // 根据新组件的位置和尺寸计算新的跟随位置
+            const new_location_x = new_val.x + com_width + spacing;
+            const new_location_y = new_val.y + com_height + spacing;
+            // 根据跟随类型更新组件位置
+            if (type =='left') {
+                // 更新组件的横向位置
+                item.location.x = new_location_x;
+                item.location.record_x = new_location_x;
+            } else if (type =='top') {
+                // 更新组件的纵向位置
+                item.location.y = new_location_y;
+                item.location.record_y = new_location_y;
+                item.location.staging_y = new_location_y;
+            }
+        }
+    });
+    // 返回更新后的组件数据数组
+    return data;
+}

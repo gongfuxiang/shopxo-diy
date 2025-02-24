@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <template v-else>
-                        <div class="w h" :style="style_chunk_container">
+                        <div :style="style_chunk_container">
                             <div class="w h oh" :style="style_chunk_img_container">
                                 <data-rendering :custom-list="form.custom_list" :data-height="dataHeight" :scale="custom_scale" :is-custom-group="true" :is-custom="isCustom" :config-loop="configLoop !== '1' ? form.is_use_parent_data : '1'"></data-rendering>
                             </div>

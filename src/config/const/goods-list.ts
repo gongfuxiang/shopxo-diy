@@ -200,8 +200,8 @@ const defaultProductList: DefaultProductList = {
         content_spacing: 10,
         // 商品高度
         content_outer_height: 232,
-        content_img_width: undefined,
-        content_img_height: undefined,
+        content_img_width: 110,
+        content_img_height: 120,
         // 是否滚动
         is_roll: '1',
         interval_time: 3,

@@ -1,7 +1,7 @@
 <template>
     <card-container>
         <div class="mb-12">定位设置</div>
-        <el-form-item label="跟随组件">
+        <el-form-item v-if="isFollow" label="跟随组件">
             <el-select v-model="data_follow.id" clearable filterable placeholder="请选择跟随的组件" size="default" class="flex-1" @change="operation_end">
                 <el-option v-for="item in componentOptions" :key="item.id" :label="!isEmpty(item.new_name) ? item.new_name : item.name" :value="item.id" />
             </el-select>
@@ -33,6 +33,10 @@ const props = defineProps({
         type: Array<any>,
         default: () => [],
     },
+    isFollow: {
+        type: Boolean,
+        default: true
+    }
 });
 // 跟随内容
 const data_follow = defineModel('follow', { type: Object, default: { follow_type: 'none', follow_id: '', follow_spacing: 0, is_disable_x: false, is_disable_y: false }});
@@ -49,39 +53,28 @@ const location_x_change = (val: number) => {
 }
 // y轴变化时，更新记录的位置
 const location_y_change = (val: number) => { 
-    console.log(val);
     data_location.value.record_y = val;
     data_location.value.staging_y = val
 };
 
 // 跟随id发生变化时的处理
 watch(() => data_follow.value, (val) => {
-    const { spacing = 0, type = 'left', id = '' } = data_follow.value;
+    const { spacing = 0, type = 'left', id = '' } = val;
     props.componentOptions.forEach((item: any) => {
         if (item.id == id) {
             const { location, com_data } = item;
             const new_x = location.x + com_data.com_width + spacing;
             const new_y = location.y + com_data.com_height + spacing;
-            // // 先解除不可移动的处理 is_disable_x true 为不可移动，false为可以拖动
+            // // 先解除不可移动的处理 is_disable_x true 为不可移动，false为可以拖动, 频繁切换会导致引用的组件报错，暂时使用当前内容
             // data_follow.value.is_disable_x = false;
             // data_follow.value.is_disable_y = false;
             if (type =='left') {
                 data_location.value.x = new_x;
                 data_location.value.record_x = new_x;
-                // setTimeout(() => {
-                // //     // 等赋值完成之后再放开定位处理
-                //     data_follow.value.is_disable_x = true;
-                //     data_follow.value.is_disable_y = false;
-                // }, 0);
             } else if (type =='top') {
                 data_location.value.y = new_y;
                 data_location.value.record_y = new_y;
                 data_location.value.staging_y = new_y
-                // setTimeout(() => {
-                // //     // 等赋值完成之后再添加禁止移动处理
-                //     data_follow.value.is_disable_x = false;
-                //     data_follow.value.is_disable_y = true;
-                // }, 0);
             }
         }
     });
