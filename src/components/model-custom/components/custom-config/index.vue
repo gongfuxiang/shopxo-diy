@@ -132,6 +132,7 @@ const right_update = (item: any, all_diy: Array<any>) => {
     // 生成随机id
     key.value = Math.random().toString(36).substring(2);
     // 筛选出所有已经被跟随过的组件
+    follow_name.value = [];
     all_diy.forEach(item1 => {
         if (item1.com_data?.data_follow?.id && item1.com_data.data_follow.id !== '' && !follow_name.value.includes(item1.com_data.data_follow.id)) {
             follow_name.value.push(item1.com_data.data_follow.id);
@@ -139,7 +140,6 @@ const right_update = (item: any, all_diy: Array<any>) => {
     });
     // 不是当前组件，并且没有跟随过其他组件的可以被跟随
     all_diy_data.value = all_diy.filter(item1 => item.id !== item1.id && item1.com_data?.data_follow?.id == '');
-    console.log(all_diy_data.value);
 };
 const draglist = ref<diy_data | null>(null);
 const emits = defineEmits(['accomplish', 'custom_edit']);

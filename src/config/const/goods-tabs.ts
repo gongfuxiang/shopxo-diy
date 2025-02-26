@@ -30,6 +30,7 @@ interface DefaultProductList {
         tabs_theme: string;
         tabs_adorn_icon: string;
         tabs_adorn_img: uploadList[];
+        is_general_safe_distance: string;
         tabs_top_up: string;
         theme: string;
         carousel_col: number;
@@ -161,6 +162,7 @@ const defaultProductList: DefaultProductList = {
         tabs_theme: '0',
         // 选中装饰图标
         tabs_adorn_icon: 'checked-smooth',
+        is_general_safe_distance: '0',
         tabs_adorn_img: [],
         // 是否置顶
         tabs_top_up: '0',

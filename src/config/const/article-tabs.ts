@@ -33,6 +33,7 @@ interface DefaultArticleTabs {
         tabs_theme: string;
         tabs_adorn_icon: string;
         tabs_adorn_img: uploadList[];
+        is_general_safe_distance: string;
         tabs_top_up: string;
         article_theme: string;
         article_carousel_col: string;
@@ -143,6 +144,7 @@ const defaultArticleTabs: DefaultArticleTabs = {
         // 对齐方式
         justification: 'left',
         tabs_theme: '0',
+        is_general_safe_distance: '0',
         // 选中装饰图标
         tabs_adorn_icon: 'checked-smooth',
         tabs_adorn_img: [],

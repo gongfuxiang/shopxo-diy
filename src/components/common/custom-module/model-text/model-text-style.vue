@@ -143,7 +143,6 @@
 </template>
 <script setup lang="ts">
 import { location_compute, get_data_fields, get_history_name } from '@/utils';
-import { isEmpty } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,

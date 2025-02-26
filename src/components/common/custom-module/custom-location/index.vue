@@ -2,7 +2,7 @@
     <card-container>
         <div class="mb-12">定位设置</div>
         <el-form-item v-if="isFollow" label="跟随组件">
-            <el-select v-model="data_follow.id" clearable filterable placeholder="请选择跟随的组件" size="default" class="flex-1" @change="operation_end">
+            <el-select v-model="data_follow.id" clearable filterable placeholder="请选择跟随的组件" size="default" class="flex-1" @change="data_follow_id_change">
                 <el-option v-for="item in componentOptions" :key="item.id" :label="!isEmpty(item.new_name) ? item.new_name : item.name" :value="item.id" />
             </el-select>
         </el-form-item>
@@ -55,6 +55,14 @@ const location_x_change = (val: number) => {
 const location_y_change = (val: number) => { 
     data_location.value.record_y = val;
     data_location.value.staging_y = val
+};
+// 数据源id变化时，更新记录的数据，避免出现清空之后为undefined的情况
+const data_follow_id_change = (val: string) => {
+    if (!isEmpty(val)) {
+        data_follow.value.id = val;
+    } else {
+        data_follow.value.id = '';
+    }
 };
 
 // 跟随id发生变化时的处理

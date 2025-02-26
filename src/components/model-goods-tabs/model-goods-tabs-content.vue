@@ -20,6 +20,16 @@
                         </el-tooltip>
                     </div>
                 </el-form-item>
+                <template v-if="form.tabs_top_up == '1' && !is_not_general_safe_distance">
+                    <el-form-item label="安全距离">
+                        <div class="flex-row align-c gap-10">
+                            <el-switch v-model="form.is_general_safe_distance" active-value="1" inactive-value="0" />
+                            <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>选项卡置顶是否需要安全距离</span>" raw-content placement="top">
+                                <icon name="miaosha-hdgz" size="12" color="#999"></icon>
+                            </el-tooltip>
+                        </div>
+                    </el-form-item>
+                </template>
                 <el-form-item label="选项卡风格">
                     <el-radio-group v-model="form.tabs_theme" @change="tabs_theme_change">
                         <el-radio v-for="item in base_list.tabs_style_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
@@ -316,12 +326,13 @@ const is_revise = ref(false);
 const change_shop_type = () => {
     is_revise.value = true;
 };
-// const is_immersion_model = computed(() => common_store.is_immersion_model);
-// watchEffect(() => {
-//     if (is_immersion_model.value) {
-//         form.value.tabs_top_up = '0';
-//     }
-// });
+// 是否设置安全距离
+const is_not_general_safe_distance = computed(() => common_store.is_immersion_model && !common_store.is_general_safe_distance);
+watchEffect(() => {
+    if (is_not_general_safe_distance.value) {
+        form.value.is_general_safe_distance = '0';
+    }
+});
 </script>
 <style lang="scss" scoped>
 .content {

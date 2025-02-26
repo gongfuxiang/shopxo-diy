@@ -31,5 +31,8 @@ const props = defineProps({
     }
 });
 const form = ref(props.value);
+watch(() => props.value, (val) => {
+    form.value = val;
+}, {immediate: true, deep: true});
 const is_text = computed(() => form.value.subscript_type == 'text');
 </script>

@@ -214,24 +214,27 @@ const set_count = () => {
 const emits = defineEmits(['container_change']);
 // 开启自定义的时候重新计算高度和宽度
 const modelText = ref<HTMLElement | null>(null);
-watch(() => form.value, async (value) => {
-    const { is_width_auto = '0', is_height_auto = '0', max_width = 0, max_height = 0 , com_width = 0, com_height = 0} = form.value;
-    await nextTick();
-    let new_width = com_width;
-    let new_height = com_height;
-    // 宽度自适应时 获取当前容器的宽度
-    if (is_width_auto == '1') {
-        new_width = modelText.value?.clientWidth || 0;
+watch(() => props.value, (value) => {
+    if (!props.isDisplayPanel) {
+        const { is_width_auto = '0', is_height_auto = '0', max_width = 0, max_height = 0, com_width = 0, com_height = 0 } = value;
+        nextTick(() => {
+            let new_width = com_width;
+            let new_height = com_height;
+            // 宽度自适应时 获取当前容器的宽度
+            if (is_width_auto == '1') {
+                new_width = modelText.value?.clientWidth || 0;
+            }
+            // 高度自适应时时 获取当前容器的高度
+            if (is_height_auto == '1') {
+                new_height = modelText.value?.clientHeight || 0;
+            }
+            // 如果跟历史的宽度或者高度不同，则更新
+            // if (new_width !== com_width || new_height !== com_height) {
+            emits('container_change', new_width, new_height);
+            // }
+        });
     }
-    // 高度自适应时时 获取当前容器的高度
-    if (is_height_auto == '1') {
-        new_height = modelText.value?.clientHeight || 0;
-    }
-    // 如果跟历史的宽度或者高度不同，则更新
-    if (new_width !== com_width || new_height !== com_height) {
-        emits('container_change', new_width, new_height)
-    }
-}, { immediate: true, deep: true });
+}, { deep: true });
 
 </script>
 <style lang="scss" scoped>

@@ -110,6 +110,9 @@ const props = defineProps({
 });
 
 const form = ref(props.value);
+watch(() => props.value, (val) => {
+    form.value = val;
+}, {immediate: true, deep: true});
 let clone_form = cloneDeep(props.value);
 
 const base_list = {

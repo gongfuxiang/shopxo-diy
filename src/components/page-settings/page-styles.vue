@@ -171,12 +171,12 @@ const header_background_type_change_event = (val: any) => {
         // 沉浸模式关闭的时候，安全距离关闭
         form.value.general_safe_distance_value = '0';
         common_store.set_is_general_safe_distance(false);
-        // common_store.set_is_immersion_model(false);
+        common_store.set_is_immersion_model(false);
     } else {
         // 没有tabs的情况下，默认开启沉浸模式
         // if (!common_store.is_have_tabs) {
         form.value.immersive_style = '1';
-        // common_store.set_is_immersion_model(true);
+        common_store.set_is_immersion_model(true);
         // }
     }
 };
@@ -202,13 +202,13 @@ const change_immersive_style = (val: string | number | boolean) => {
         // 沉浸模式关闭的时候，安全距离关闭
         form.value.general_safe_distance_value = '0';
         common_store.set_is_general_safe_distance(false);
-        // common_store.set_is_immersion_model(false);
+        common_store.set_is_immersion_model(false);
     } else {
         // 沉浸模式开启的时候，安全距离打开
         form.value.general_safe_distance_value = '1';
         common_store.set_is_general_safe_distance(true);
     }
-    // common_store.set_is_immersion_model(true);
+    common_store.set_is_immersion_model(true);
 };
 
 const general_safe_distance_value_change = (val: string | number | boolean) => {

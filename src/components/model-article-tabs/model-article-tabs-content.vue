@@ -20,6 +20,16 @@
                         </el-tooltip>
                     </div>
                 </el-form-item>
+                <template v-if="form.tabs_top_up == '1' && !is_not_general_safe_distance">
+                    <el-form-item label="安全距离">
+                        <div class="flex-row align-c gap-10">
+                            <el-switch v-model="form.is_general_safe_distance" active-value="1" inactive-value="0" />
+                            <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>选项卡置顶是否需要安全距离</span>" raw-content placement="top">
+                                <icon name="miaosha-hdgz" size="12" color="#999"></icon>
+                            </el-tooltip>
+                        </div>
+                    </el-form-item>
+                </template>
                 <el-form-item label="选项卡风格">
                     <el-radio-group v-model="form.tabs_theme" @change="tabs_theme_change">
                         <el-radio v-for="item in base_list.tabs_theme_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
@@ -343,14 +353,13 @@ const styles = reactive(props.tabStyle);
 const tabs_theme_change = (val: string | number | boolean | undefined): void => {
     styles.tabs_color_checked = tabs_style(styles.tabs_color_checked, val);
 };
-// // 监听是否开启沉浸式
-// const is_immersion_model = computed(() => common_store.is_immersion_model);
-// // 监听沉浸式开启
-// watchEffect(() => {
-//     if (is_immersion_model.value) {
-//         form.tabs_top_up = '0';
-//     }
-// });
+// 沉浸模式下是否设置安全距离
+const is_not_general_safe_distance = computed(() => common_store.is_immersion_model && !common_store.is_general_safe_distance);
+watchEffect(() => {
+    if (is_not_general_safe_distance.value) {
+        form.value.is_general_safe_distance = '0';
+    }
+});
 // 标题浮起之后文章标题的颜色和字体更新
 const switch_chage = (val: string | number | boolean) => {
     if (val == '1') {

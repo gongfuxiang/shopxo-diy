@@ -125,7 +125,7 @@ const clear_data_event = () => {
     form.value.tabs_data = [];
     form.value.diy_data = [];
     // 数据清空之后，将公共沉浸模式判断为false
-    // common_store.set_is_immersion_model(false);
+    common_store.set_is_immersion_model(false);
     common_store.set_is_general_safe_distance(false);
     diy_data_item.value = new_tem_form.header;
 };
@@ -147,9 +147,13 @@ const init = () => {
                 
                 data.diy_data = data_merge(data.diy_data);
                 data.tabs_data = data_merge(data.tabs_data);
-                // 判断默认数据是否开启沉浸式,并且开启了安全距离
-                if (data.header.com_data.style.immersive_style == '1' && data.header.com_data.style.general_safe_distance_value == '1') {
-                    common_store.set_is_general_safe_distance(true);
+                // 判断默认数据是否开启沉浸式
+                if (data.header.com_data.style.immersive_style === '1') {
+                    common_store.set_is_immersion_model(true);
+                    // 判断默认数据是否开启沉浸式,并且开启了安全距离
+                    if (data.header.com_data.style.general_safe_distance_value == '1') {
+                        common_store.set_is_general_safe_distance(true);
+                    }
                 }
                 form.value = data;
             } else {

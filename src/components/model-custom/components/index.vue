@@ -71,7 +71,7 @@
                                 <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id + item.com_data.is_data_update" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="[`${ animation_class(item.com_data) } `, {'plug-in-show-component-line': is_show_component_line, 'plug-in-show-tabs': item.show_tabs == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1' }]" :style="[`${ item.com_data.is_width_auto == '1' ? 'width: auto;' : '' }${ item.com_data.is_height_auto == '1' ? 'height: auto;' : '' }`, { 'z-index': (diy_data.length - 1) - index }]" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index, 'resizing')" @resize-end="resizingHandle($event, item.key, index, 'resizeEnd')">
                                     <div :class="['main-content flex-row', { 'plug-in-border': item.show_tabs == '1' }]">
                                         <template v-if="item.key == 'text'">
-                                            <model-text :key="item.id" :value="item.com_data" :source-list="props.sourceList" :config-loop="configLoop" :is-custom="isCustom" :is-custom-group="isCustomGroup" :custom-group-field-id="customGroupFieldId" :title-params="showData?.data_name || 'name'" @container_change="(...value: [number,  number]) => container_change(...value, index)"></model-text>
+                                            <model-text :key="item.id" :value="item.com_data" :source-list="props.sourceList" :config-loop="configLoop" :is-custom="isCustom" :is-custom-group="isCustomGroup" :custom-group-field-id="customGroupFieldId" :title-params="showData?.data_name || 'name'" @container_change="(...value: [number,  number]) => container_change(...value, index, item.id)"></model-text>
                                         </template>
                                         <template v-else-if="item.key == 'img'">
                                             <model-image :key="item.id" :value="item.com_data" :source-list="props.sourceList" :config-loop="configLoop" :is-custom="isCustom" :is-custom-group="isCustomGroup" :custom-group-field-id="customGroupFieldId" :img-params="showData?.data_logo || ''"></model-image>
@@ -112,7 +112,7 @@
 </template>
 <script setup lang="ts">
 import { cloneDeep, isEmpty, property, isEqual } from 'lodash';
-import { get_math, adjustPosition, getPlatform, get_history_name, diy_data_handle, new_location_handle } from '@/utils';
+import { get_math, adjustPosition, getPlatform, get_history_name, diy_data_handle, new_location_handle, location_compute } from '@/utils';
 import { defaultComData, isRectangleIntersecting } from "./index-default";
 import { SortableEvent, VueDraggable } from 'vue-draggable-plus';
 import { commonStore, DataSourceStore } from '@/store';
@@ -437,15 +437,26 @@ const cancel = () => {
 };
 //#endregion
 //#region 文本开启自适应时的处理
-const container_change = (width: number, height: number, index: number) => {
-    console.log('1454545');
-    diy_data.value.forEach((item, index1) => {
-        if (index == index1) {
-            item.com_data.com_width = width;
-            item.com_data.com_height = height;
+const container_change = (width: number, height: number, index: number, id: string) => {
+    let location = { x: 0, y: 0 };
+    // 确保 index 是有效的
+    if (index >= 0 && index < diy_data.value.length) {
+        // 使用 for 循环并在找到目标索引后立即退出
+        for (let i = 0; i < diy_data.value.length; i++) {
+            if (i === index) {
+                diy_data.value[i].com_data.com_width = width;
+                diy_data.value[i].com_data.com_height = height;
+                location = diy_data.value[i].location;
+                break; // 找到目标索引后退出循环
+            }
         }
-    });
-    console.log(diy_data.value, '12145');
+    }
+    setTimeout(() => {
+        const filter_index = diy_data.value.findIndex(item => id == item.com_data?.data_follow?.id);
+        if (filter_index != -1) {
+            diy_data_handle(diy_data.value, id, location, width, height);
+        }
+    }, 0);
 }
 //#endregion
 //#region 容器高度发生变化时的处理，拖拽组件高度变化时数据需要重新赋值，避免拖拽不到新高度的区域
@@ -456,7 +467,20 @@ const drag_area_height = computed(() => center_height.value + 'px');
 const drag_area_width = computed(() => center_width.value + 'px');
 // 头部页面显示内容
 const drag_area_top_width = computed(() => center_width.value > 170 ? center_width.value + 'px' : '170px');
-
+// 跟随的x，y重新计算
+const location_handle = (item: any, location: number, type: string) => {
+    if (item?.com_data?.data_follow?.id != '') {
+        let size = item.com_data.com_height;
+        let max_size = center_height.value;
+        if (type == 'width') {
+            size = item.com_data.com_width;
+            max_size = center_width.value;
+        }
+        return location_compute(size, location, max_size);
+    } else {
+        return location;
+    }
+};
 const draggable_container = ref(true);
 let data = reactive<diy_content[]>([]);
 // 拖拽组件高度变化时数据需要重新赋值，避免拖拽不到新高度的区域
@@ -466,15 +490,15 @@ watch(() => center_height.value, () => {
     draggable_container.value = false;
     nextTick(() => {
         // 在 DOM 中添加组件
-        diy_data.value = data.map((item, index) => ({
+        diy_data.value = data.map((item) => ({
             ...item,
             show_tabs: '0',
             location: {
-                x: item.location.x,
-                y: item.location.staging_y,
-                record_x: item.location.x,
-                record_y: item.location.staging_y,
-                staging_y: item.location.staging_y,
+                x: location_handle(item, item.location.x, 'width'),
+                y: location_handle(item, item.location.staging_y, 'height'),
+                record_x: location_handle(item, item.location.x, 'width'),
+                record_y: location_handle(item, item.location.staging_y, 'height'),
+                staging_y: location_handle(item, item.location.staging_y, 'height'),
             },
             com_data: {
                 // 规整历史数据，避免有新增字段不存在导致报错
@@ -568,7 +592,7 @@ const dragEndHandle = (new_val: any, index: number) => {
         // 如果有跟随的模版，则需要更新跟随的模版的位置
         const index = diy_data.value.findIndex(item => old_id == item.com_data?.data_follow?.id);
         if (index != -1) {
-            diy_data.value = diy_data_handle(diy_data.value, old_id, new_val, com_width, com_height);
+            diy_data_handle(diy_data.value, old_id, new_val, com_width, com_height);
         }
     }
     const new_location = { x: new_x, y: new_y, record_x: new_x, record_y: new_y, staging_y: new_y };
@@ -593,7 +617,7 @@ const resizingHandle = (new_location: any, key: string, index: number, type: str
         // 如果有跟随的模版，则需要更新跟随的模版的位置
         const index = diy_data.value.findIndex(item => old_id == item.com_data.data_follow.id);
         if (index != -1) {
-            diy_data.value = diy_data_handle(diy_data.value, old_id, new_location, w, h);
+            diy_data_handle(diy_data.value, old_id, new_location, w, h);
         }
     }
     // 对应位置的定位修改为当前更新的位置

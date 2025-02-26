@@ -946,6 +946,4 @@ export const diy_data_handle = (data: any, old_id: string, new_val: any, com_wid
             }
         }
     });
-    // 返回更新后的组件数据数组
-    return data;
 }
