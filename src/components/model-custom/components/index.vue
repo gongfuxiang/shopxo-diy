@@ -1092,12 +1092,13 @@ const handleKeyUp = (e: KeyboardEvent) => {
         diy_data.value.forEach(item => {
             // 只更新选中的数据
             if (item.show_tabs == '1') {
+                const { id = '', type = 'left' } = item.com_data?.data_follow || { id: '', type: 'left' };
                 // x 轴不小于0 并且不大于容器宽度
-                if (isWithinBounds(item.location.x + x, item.com_data.com_width, 390)) {
+                if (isWithinBounds(item.location.x + x, item.com_data.com_width, 390) && (id === '' || (id != '' && type == 'top'))) {
                     item.location.x += x;
                 }
                 // Y轴不小于0 并且不大于容器高度
-                if (isWithinBounds(item.location.y + y, item.com_data.com_height, center_height.value)) {
+                if (isWithinBounds(item.location.y + y, item.com_data.com_height, center_height.value) && (id === '' || (id != '' && type == 'left'))) {
                     item.location.y += y;
                     item.location.staging_y += y;
                 }
