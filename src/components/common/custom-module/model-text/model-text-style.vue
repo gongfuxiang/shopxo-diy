@@ -248,11 +248,13 @@ const size_location_change = (location: { x: number, y: number, record_x: number
 // 组件大小变化触发事件
 const container_size_change = () => {
     const { spacing = 0, type = 'left', id = '' } = form.value.data_follow;
-    // 获取新的位置
-    const { x: new_x, y: new_y } = get_container_location(props.componentOptions, id, type, spacing, diy_data.value.location.x, diy_data.value.location.y);
-    // 重新更新位置信息
-    diy_data.value.location = { x: new_x, y: new_y, record_x: new_x, record_y: new_y, staging_y: new_y };
-    size_location_change(diy_data.value.location);
+    if (id != '') {
+        // 获取新的位置
+        const { x: new_x, y: new_y } = get_container_location(props.componentOptions, id, type, spacing, diy_data.value.location.x, diy_data.value.location.y);
+        // 重新更新位置信息
+        diy_data.value.location = { x: new_x, y: new_y, record_x: new_x, record_y: new_y, staging_y: new_y };
+        size_location_change(diy_data.value.location);
+    }
     operation_end();
 }
 // 监听数据变化
