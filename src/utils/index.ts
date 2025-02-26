@@ -891,7 +891,7 @@ type DataFollow = {
     id: string;
     type: string;
 }
-export const new_location_handle = (old_location: Location, data_follow: DataFollow, location: Location, com_width: number, com_height: number) => {
+export const new_location_handle = (old_location: Location, data_follow: DataFollow, location: Location, com_width: number, com_height: number, is_show_message: boolean) => {
     let new_x = old_location.x;
     let new_y = old_location.y;
     let new_w = com_width;
@@ -900,13 +900,13 @@ export const new_location_handle = (old_location: Location, data_follow: DataFol
     // 如果是跟随的模版,根据选中的内容 x或者y不变
     if (data_follow.id != '') {
         if (data_follow.type == 'left') {
-            if (old_location.x !== x) {
+            if (old_location.x !== x && is_show_message) {
                 is_show_message_warning('当前组件已经左跟随其他组件，x轴不允许修改');
             }
             new_y = y;
             new_h = location?.h || com_height;
         } else if (data_follow.type == 'top') {
-            if (old_location.y !== y) {
+            if (old_location.y !== y && is_show_message) {
                 is_show_message_warning('当前组件已经上跟随其他组件，y轴不允许修改');
             }
             new_x = x;

@@ -587,7 +587,7 @@ const dragEndHandle = (new_val: any, index: number) => {
     const { location: old_location, com_data, id: old_id } = cloneDeep(diy_data.value[index])
     const { data_follow = {}, com_width, com_height, is_data_update } = com_data;
     // 处理后的x、y坐标
-    const { new_x, new_y } = new_location_handle(old_location, data_follow, new_val, 0, 0);
+    const { new_x, new_y } = new_location_handle(old_location, data_follow, new_val, 0, 0, true);
     if (data_follow?.id == '') {
         // 如果有跟随的模版，则需要更新跟随的模版的位置
         const index = diy_data.value.findIndex(item => old_id == item.com_data?.data_follow?.id);
@@ -611,7 +611,7 @@ const resizingHandle = (new_location: any, key: string, index: number, type: str
     const com_data = diy_data.value[index].com_data;
     const { data_follow } = com_data;
     // 处理后的x、y坐标，宽度和高度
-    const { new_x, new_y, new_w, new_h} = new_location_handle(old_location, data_follow, new_location, old_com_data.com_width, old_com_data.com_height);
+    const { new_x, new_y, new_w, new_h} = new_location_handle(old_location, data_follow, new_location, old_com_data.com_width, old_com_data.com_height, false);
     if (data_follow.id == '') {
         // 如果有跟随的模版，则需要更新跟随的模版的位置
         const index = diy_data.value.findIndex(item => old_id == item.com_data.data_follow.id);
