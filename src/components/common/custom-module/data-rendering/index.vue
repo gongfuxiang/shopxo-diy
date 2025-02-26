@@ -104,7 +104,7 @@ const updateLocation = (targetItem: HTMLElement, data_follow: { spacing: number 
         const locationValue = parseFloat(locationValueStr);
         if (isNaN(locationValue) || scale <= 0 || (isX ? targetItem.clientWidth < 0 : targetItem.clientHeight < 0)) return 0;
 
-        return ((locationValue + data_follow.spacing) * scale) + (isX ? targetItem.clientWidth : targetItem.clientHeight);
+        return ((locationValue + (data_follow?.spacing || 0)) * scale) + (isX ? targetItem.clientWidth : targetItem.clientHeight);
     } catch (error) {
         return 0;
     }
@@ -187,7 +187,7 @@ watch(() => props.customList, async (val) => {
  const percentage_count = (val: number, data_follow: { id: string, type: string }, type: string, is_auto?: string, max_size?: number) => {
     // 检查类型是否为'left'或'top'，如果是，则根据跟随数据计算样式
     if (['left', 'top'].includes(type)) {
-        const { id = '', type: follow_type = 'left' } = data_follow;
+        const { id = '', type: follow_type = 'left' } = data_follow || { id: '', type: 'left' };
         // 如果id不为空且follow_type与type匹配，则返回原始值的字符串表示
         if (id !== '' && follow_type === type) {
             return `${val}px`;
