@@ -1136,14 +1136,14 @@ const handleKeyUp = (e: KeyboardEvent) => {
                 if (isWithinBounds(item.location.x + x, item.com_data.com_width, 390) && (id === '' || (id != '' && type == 'top'))) {
                     item.location.x += x;
                 } else if (id != '' && type == 'left' && x !== 0) {
-                    ElMessage.info('当前组件已经左跟随其他组件，x轴不允许修改');
+                    ElMessage.warning('当前组件已经左跟随其他组件，x轴不允许修改');
                 }
                 // Y轴不小于0 并且不大于容器高度
                 if (isWithinBounds(item.location.y + y, item.com_data.com_height, center_height.value) && (id === '' || (id != '' && type == 'left'))) {
                     item.location.y += y;
                     item.location.staging_y += y;
                 } else if (id != '' && type == 'top' && y !== 0) {
-                    ElMessage.info('当前组件已经上跟随其他组件，y轴不允许修改');
+                    ElMessage.warning('当前组件已经上跟随其他组件，y轴不允许修改');
                 }
                 operation_end(get_history_name(item));
             }

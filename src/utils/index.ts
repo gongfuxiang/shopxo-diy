@@ -897,12 +897,12 @@ export const new_location_handle = (old_location: Location, data_follow: DataFol
     if (data_follow.id != '') {
         if (data_follow.type == 'left') {
             if (old_location.x !== x) {
-                ElMessage.info('当前组件已经左跟随其他组件，x轴不允许修改');
+                ElMessage.warning('当前组件已经左跟随其他组件，x轴不允许修改');
             }
             new_y = y;
         } else if (data_follow.type == 'top') {
             if (old_location.y !== y) {
-                ElMessage.info('当前组件已经上跟随其他组件，y轴不允许修改');
+                ElMessage.warning('当前组件已经上跟随其他组件，y轴不允许修改');
             }
             new_x = x;
         }
