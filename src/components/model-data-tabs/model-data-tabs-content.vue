@@ -20,7 +20,7 @@
                         </el-tooltip>
                     </div>
                 </el-form-item>
-                <template v-if="form.tabs_top_up == '1' && !is_not_general_safe_distance">
+                <template v-if="form.tabs_top_up == '1' && is_not_general_safe_distance">
                     <el-form-item label="安全距离">
                         <div class="flex-row align-c gap-10">
                             <el-switch v-model="form.is_general_safe_distance" active-value="1" inactive-value="0" />
@@ -347,7 +347,7 @@ const tabs_theme_change = (val: string | number | boolean | undefined): void => 
 // 沉浸模式下是否设置安全距离
 const is_not_general_safe_distance = computed(() => common_store.is_immersion_model && !common_store.is_general_safe_distance);
 watchEffect(() => {
-    if (is_not_general_safe_distance.value) {
+    if (!is_not_general_safe_distance.value) {
         form.value.is_general_safe_distance = '0';
     }
 });

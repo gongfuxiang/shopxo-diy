@@ -724,6 +724,8 @@ const area_box_point = ref({ x: 0, y: 0 });
 const dbl_drag_event = (item: hotListData, index: number) => {
     hot_list_index.value = index;
 };
+// 定义 followerMap 的类型
+type FollowerMap = { [key: string]: any };
 // 开始拖拽生成的热区时候
 const start_drag_area_box = (index: number, event: MouseEvent) => {
     hot_list_index.value = index;
@@ -771,12 +773,31 @@ const start_drag_area_box = (index: number, event: MouseEvent) => {
             // 计算鼠标移动的距离
             const move_x = new_coordinate.x - clone_drag_start.x;
             const move_y = new_coordinate.y - clone_drag_start.y;
+            // 构建被跟随组件的 ID 集合
+            const followerIds = new Set(diy_data.value.filter(item => item.is_hot !== '1' && item.com_data?.data_follow?.id !== '').map(item => item.com_data?.data_follow?.id));
+            // 初始化 followerMap 时指定类型
+            const followerMap: FollowerMap = {};
+            // 外层取出对应的数据，避免里边循环影响性能
+            diy_data.value.forEach(item => {
+                if (item.com_data?.data_follow?.id !== '') {
+                    followerMap[item.com_data.data_follow.id] = item;
+                }
+            });
             // 遍历对象,包裹在区域内部的拖拽距离更新
             diy_data.value.forEach(item => {
                 if (item.is_hot == '1') { // 只更新交集和包裹中的数据
-                    let { record_x, record_y } = cloneDeep(item.location);
+                    let { record_x, record_y } = item.location || {};
                     item.location.x = Math.max(0, record_x + move_x);
                     item.location.y = Math.max(0, record_y + move_y);
+                    // 符合没有跟随条件的时候，使用内容
+                    if (followerIds.has(item.id)) {
+                        const followerItem = followerMap[item.id];
+                        if (followerItem && followerItem.location) {
+                            const location_2 = followerItem.location || {};
+                            const { record_x: record_x_2 = 0, record_y: record_y_2 = 0 } = location_2;
+                            followerItem.location = { ...location_2, x: Math.max(0, record_x_2 + move_x), y: Math.max(0, record_y_2 + move_y)};
+                        }
+                    }
                 }
             });
             hot_list.data[hot_list_index.value].drag_start.x = new_coordinate.x;
@@ -788,13 +809,31 @@ const start_drag_area_box = (index: number, event: MouseEvent) => {
     document.onmouseup = () => {
         is_draggable.value = true;
         drag_box_bool.value = false;
+        // 构建被跟随组件的 ID 集合
+        const followerIds = new Set(diy_data.value.filter(item => item.is_hot !== '1' && item.com_data?.data_follow?.id !== '').map(item => item.com_data?.data_follow?.id));
+        const followerMap: FollowerMap = {};
+        // 外层取出对应的数据，避免里边循环影响性能
+        diy_data.value.forEach(item => {
+            if (item.com_data?.data_follow?.id !== '') {
+                followerMap[item.com_data.data_follow.id] = item;
+            }
+        });
         // 鼠标抬起的时候将默认值重置为当前x、y坐标
         diy_data.value.forEach(item => {
             if (item.is_hot == '1') {
-                const { x, y } = cloneDeep(item.location);
+                const { x, y } = item.location;
                 item.location.record_x = x;
                 item.location.record_y = y;
                 item.location.staging_y = y;
+                // 符合没有跟随条件的时候，使用内容
+                if (followerIds.has(item.id)) {
+                    const followerItem = followerMap[item.id];
+                    if (followerItem && followerItem.location) {
+                        const location_2 = followerItem.location || {};
+                        const { x: record_x = 0, y: record_y = 0 } = location_2;
+                        followerItem.location = { ...location_2, record_x: record_x, record_y: record_y, staging_y: record_y };
+                    }
+                }
             }
         });
         if (hot_list?.data.length > 0) {
@@ -1096,11 +1135,15 @@ const handleKeyUp = (e: KeyboardEvent) => {
                 // x 轴不小于0 并且不大于容器宽度
                 if (isWithinBounds(item.location.x + x, item.com_data.com_width, 390) && (id === '' || (id != '' && type == 'top'))) {
                     item.location.x += x;
+                } else if (id != '' && type == 'left' && x !== 0) {
+                    ElMessage.info('当前组件已经左跟随其他组件，x轴不允许修改');
                 }
                 // Y轴不小于0 并且不大于容器高度
                 if (isWithinBounds(item.location.y + y, item.com_data.com_height, center_height.value) && (id === '' || (id != '' && type == 'left'))) {
                     item.location.y += y;
                     item.location.staging_y += y;
+                } else if (id != '' && type == 'top' && y !== 0) {
+                    ElMessage.info('当前组件已经上跟随其他组件，y轴不允许修改');
                 }
                 operation_end(get_history_name(item));
             }
