@@ -112,7 +112,7 @@
 </template>
 <script setup lang="ts">
 import { cloneDeep, isEmpty, property, isEqual } from 'lodash';
-import { get_math, adjustPosition, getPlatform, get_history_name, diy_data_handle, new_location_handle, location_compute } from '@/utils';
+import { get_math, adjustPosition, getPlatform, get_history_name, diy_data_handle, new_location_handle, location_compute, is_show_message_warning, get_container_location } from '@/utils';
 import { defaultComData, isRectangleIntersecting } from "./index-default";
 import { SortableEvent, VueDraggable } from 'vue-draggable-plus';
 import { commonStore, DataSourceStore } from '@/store';
@@ -587,7 +587,7 @@ const dragEndHandle = (new_val: any, index: number) => {
     const { location: old_location, com_data, id: old_id } = cloneDeep(diy_data.value[index])
     const { data_follow = {}, com_width, com_height, is_data_update } = com_data;
     // 处理后的x、y坐标
-    const { new_x, new_y } = new_location_handle(old_location, data_follow, new_val);
+    const { new_x, new_y } = new_location_handle(old_location, data_follow, new_val, 0, 0);
     if (data_follow?.id == '') {
         // 如果有跟随的模版，则需要更新跟随的模版的位置
         const index = diy_data.value.findIndex(item => old_id == item.com_data?.data_follow?.id);
@@ -606,38 +606,37 @@ const dragEndHandle = (new_val: any, index: number) => {
 };
 // 拖拽放大缩小结束时触发的事件 {x: number, y: number, w: number, h: number}
 const resizingHandle = (new_location: any, key: string, index: number, type: string) => {
-    const { location: old_location, id: old_id } = cloneDeep(diy_data.value[index]);
+    const { location: old_location, id: old_id, com_data: old_com_data } = cloneDeep(diy_data.value[index]);
     // 获取到当前更新的内容
     const com_data = diy_data.value[index].com_data;
     const { data_follow } = com_data;
-    const { w, h } = new_location;
-    // 处理后的x、y坐标
-    const { new_x, new_y } = new_location_handle(old_location, data_follow, new_location);
+    // 处理后的x、y坐标，宽度和高度
+    const { new_x, new_y, new_w, new_h} = new_location_handle(old_location, data_follow, new_location, old_com_data.com_width, old_com_data.com_height);
     if (data_follow.id == '') {
         // 如果有跟随的模版，则需要更新跟随的模版的位置
         const index = diy_data.value.findIndex(item => old_id == item.com_data.data_follow.id);
         if (index != -1) {
-            diy_data_handle(diy_data.value, old_id, new_location, w, h);
+            diy_data_handle(diy_data.value, old_id, new_location, new_w, new_h);
         }
     }
     // 对应位置的定位修改为当前更新的位置
     diy_data.value[index].location = { x: new_x, y: new_y, record_x: new_x, record_y: new_y, staging_y: new_y };
     // const com_data = diy_data.value[index].com_data;
     // 更新组件的宽高
-    com_data.com_width = w;
-    com_data.com_height = h;
-    com_data.staging_height = h;
+    com_data.com_width = new_w;
+    com_data.com_height = new_h;
+    com_data.staging_height = new_h;
     if (key == 'text') {
-        com_data.max_width = w;
-        com_data.max_height = w;
+        com_data.max_width = new_w;
+        com_data.max_height = new_w;
     }
     // 图片和线的宽高需要重新计算
     if (key == 'img') {
-        const { img_width, img_height } = handleImg(com_data, w, h);
+        const { img_width, img_height } = handleImg(com_data, new_w, new_h);
         com_data.img_width = img_width;
         com_data.img_height = img_height;
     } else if (key == 'auxiliary-line') {
-        const { line_width, line_size } = handleAuxiliaryLine(com_data, w, h);
+        const { line_width, line_size } = handleAuxiliaryLine(com_data, new_w, new_h);
         com_data.line_width = line_width;
         com_data.line_size = line_size;
     }
@@ -1112,16 +1111,21 @@ const handleKeyUp = (e: KeyboardEvent) => {
         // 遍历自定义数据，更新组件位置
         diy_data.value.forEach(item => {
             const rect2 = { x: item.location.x, y: item.location.y, width: item.com_data.com_width, height: item.com_data.com_height };
+            const { id = '', type = 'left' } = item.com_data?.data_follow || { id: '', type: 'left' };
             // 如果交集或者包裹，返回为1，否则为0
             if (isRectangleIntersecting(rect1, rect2) == '1') {
                 // x 轴不小于0 并且不大于容器宽度
-                if (isWithinBounds(item.location.x + x, item.com_data.com_width, 390)) {
+                if (isWithinBounds(item.location.x + x, item.com_data.com_width, 390) && (id === '' || (id != '' && type == 'top'))) {
                     item.location.x += x;
+                } else if (id != '' && type == 'left' && x !== 0) {
+                    is_show_message_warning('当前组件已经左跟随其他组件，x轴不允许修改');
                 }
                 // Y轴不小于0 并且不大于容器高度
-                if (isWithinBounds(item.location.y + y, item.com_data.com_height, center_height.value)) {
+                if (isWithinBounds(item.location.y + y, item.com_data.com_height, center_height.value) && (id === '' || (id != '' && type == 'left'))) {
                     item.location.y += y;
                     item.location.staging_y += y;
+                } else if (id != '' && type == 'top' && y !== 0) {
+                    is_show_message_warning('当前组件已经上跟随其他组件，y轴不允许修改');
                 }
             }
         });
@@ -1136,14 +1140,14 @@ const handleKeyUp = (e: KeyboardEvent) => {
                 if (isWithinBounds(item.location.x + x, item.com_data.com_width, 390) && (id === '' || (id != '' && type == 'top'))) {
                     item.location.x += x;
                 } else if (id != '' && type == 'left' && x !== 0) {
-                    ElMessage.warning('当前组件已经左跟随其他组件，x轴不允许修改');
+                    is_show_message_warning('当前组件已经左跟随其他组件，x轴不允许修改');
                 }
                 // Y轴不小于0 并且不大于容器高度
                 if (isWithinBounds(item.location.y + y, item.com_data.com_height, center_height.value) && (id === '' || (id != '' && type == 'left'))) {
                     item.location.y += y;
                     item.location.staging_y += y;
                 } else if (id != '' && type == 'top' && y !== 0) {
-                    ElMessage.warning('当前组件已经上跟随其他组件，y轴不允许修改');
+                    is_show_message_warning('当前组件已经上跟随其他组件，y轴不允许修改');
                 }
                 operation_end(get_history_name(item));
             }
