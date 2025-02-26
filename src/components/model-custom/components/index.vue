@@ -641,6 +641,8 @@ const resizingHandle = (new_location: any, key: string, index: number, type: str
         com_data.line_size = line_size;
     }
     if (type == 'resizeEnd') {
+        // 拖拽结束的时候组件不会更新xy，需要添加一个唯一key值，避免出现没更新的问题
+        com_data.is_data_update = !com_data.is_data_update;
         operation_end(get_history_name(diy_data.value[index]));
     }
 };
