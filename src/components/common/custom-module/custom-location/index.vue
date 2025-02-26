@@ -27,6 +27,7 @@
 </template>
 
 <script lang="ts" setup>
+import { get_container_location } from '@/utils';
 import { isEmpty } from 'lodash';
 const props = defineProps({
     componentOptions: {
@@ -68,23 +69,9 @@ const data_follow_id_change = (val: string) => {
 // 跟随id发生变化时的处理
 watch(() => data_follow.value, (val) => {
     const { spacing = 0, type = 'left', id = '' } = val;
-    props.componentOptions.forEach((item: any) => {
-        if (item.id == id) {
-            const { location, com_data } = item;
-            const new_x = location.x + com_data.com_width + spacing;
-            const new_y = location.y + com_data.com_height + spacing;
-            // // 先解除不可移动的处理 is_disable_x true 为不可移动，false为可以拖动, 频繁切换会导致引用的组件报错，暂时使用当前内容
-            // data_follow.value.is_disable_x = false;
-            // data_follow.value.is_disable_y = false;
-            if (type =='left') {
-                data_location.value.x = new_x;
-                data_location.value.record_x = new_x;
-            } else if (type =='top') {
-                data_location.value.y = new_y;
-                data_location.value.record_y = new_y;
-                data_location.value.staging_y = new_y
-            }
-        }
-    });
+    // 获取新的位置
+    const { x: new_x, y: new_y } = get_container_location(props.componentOptions, id, type, spacing, data_location.value.x, data_location.value.y);
+    // 更新位置
+    data_location.value = { x: new_x, y: new_y, record_x: new_x, record_y: new_y, staging_y: new_y };
 }, {immediate: true, deep: true });
 </script>

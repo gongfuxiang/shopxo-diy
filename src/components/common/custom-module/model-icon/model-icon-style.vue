@@ -54,10 +54,10 @@
             <card-container>
                 <div class="mb-12">容器设置</div>
                 <el-form-item label="容器宽度">
-                    <slider v-model="form.com_width" :max="1000" @operation_end="operation_end"></slider>
+                    <slider v-model="form.com_width" :max="1000" @operation_end="container_size_change"></slider>
                 </el-form-item>
                 <el-form-item label="容器高度">
-                    <slider v-model="form.com_height" :max="1000" @operation_end="operation_end"></slider>
+                    <slider v-model="form.com_height" :max="1000" @operation_end="container_size_change"></slider>
                 </el-form-item>
                 <el-form-item label="背景颜色">
                     <mult-color-picker :value="form.color_list" :type="form.direction" @update:value="mult_color_picker_event"></mult-color-picker>
@@ -96,7 +96,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { get_data_fields, get_history_name, location_compute } from '@/utils';
+import { get_container_location, get_data_fields, get_history_name, location_compute } from '@/utils';
 import { pick, isEmpty } from 'lodash';
 const props = defineProps({
     value: {
@@ -158,20 +158,30 @@ const operation_end = () => {
     emit('operation_end', get_history_name(diy_data.value));
 };
 //#region 位置计算
-// 监听数据变化
-watch(
-    diy_data,
-    (val) => {
-        diy_data.value.location.x = location_compute(form.value.com_width, val.location.x, 390);
-        diy_data.value.location.y = location_compute(form.value.com_height, val.location.y, center_height.value);
-        diy_data.value.location.record_x = location_compute(form.value.com_width, val.location.record_x, 390);
-        diy_data.value.location.record_y = location_compute(form.value.com_height, val.location.record_y, center_height.value);
-        diy_data.value.location.staging_y = location_compute(form.value.com_height, val.location.staging_y, center_height.value);
+const size_location_change = (location: { x: number, y: number, record_x: number, record_y: number, staging_y: number }) => {
+    diy_data.value.location.x = location_compute(form.value.com_width, location.x, 390);
+    diy_data.value.location.y = location_compute(form.value.com_height, location.y, center_height.value);
+    diy_data.value.location.record_x = location_compute(form.value.com_width, location.record_x, 390);
+    diy_data.value.location.record_y = location_compute(form.value.com_height, location.record_y, center_height.value);
+    diy_data.value.location.staging_y = location_compute(form.value.com_height, location.staging_y, center_height.value);
+    form.value.staging_height = form.value.com_height;
+}
 
-        form.value.staging_height = form.value.com_height;
-    },
-    { immediate: true, deep: true }
-);
+// 组件大小变化触发事件
+const container_size_change = () => {
+    const { spacing = 0, type = 'left', id = '' } = form.value.data_follow;
+    // 获取新的位置
+    const { x: new_x, y: new_y } = get_container_location(props.componentOptions, id, type, spacing, diy_data.value.location.x, diy_data.value.location.y);
+    // 重新更新位置信息
+    diy_data.value.location = { x: new_x, y: new_y, record_x: new_x, record_y: new_y, staging_y: new_y };
+    size_location_change(diy_data.value.location);
+    operation_end();
+}
+
+// 监听数据变化
+watch(() => diy_data.value, (val) => {
+    size_location_change(val.location);
+},{ immediate: true, deep: true });
 // #endregion
 </script>
 <style lang="scss" scoped>

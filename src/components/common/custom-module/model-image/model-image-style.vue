@@ -25,10 +25,10 @@
                     <radius :value="form.img_radius" @operation_end="operation_end"></radius>
                 </el-form-item>
                 <el-form-item label="图片宽度">
-                    <slider v-model="form.img_width" :max="1000" @operation_end="operation_end"></slider>
+                    <slider v-model="form.img_width" :max="1000" @operation_end="img_size_change"></slider>
                 </el-form-item>
                 <el-form-item label="图片高度">
-                    <slider v-model="form.img_height" :max="1000" @operation_end="operation_end"></slider>
+                    <slider v-model="form.img_height" :max="1000" @operation_end="img_size_change"></slider>
                 </el-form-item>
                 <el-form-item label="旋转角度">
                     <slider v-model="form.img_rotate" :max="1000" @operation_end="operation_end"></slider>
@@ -62,7 +62,7 @@
                         <radius :value="form.border_radius" @operation_end="operation_end"></radius>
                     </el-form-item>
                     <el-form-item label="边框粗细">
-                        <slider v-model="form.border_size" :max="100" @operation_end="operation_end"></slider>
+                        <slider v-model="form.border_size" :max="100" @operation_end="img_size_change"></slider>
                     </el-form-item>
                 </template>
             </card-container>
@@ -70,7 +70,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { get_data_fields, get_history_name, location_compute } from '@/utils';
+import { get_container_location, get_data_fields, get_history_name, location_compute } from '@/utils';
 import { isEmpty } from 'lodash';
 const props = defineProps({
     value: {
@@ -123,30 +123,39 @@ const emit = defineEmits(['operation_end']);
 const operation_end = () => {
     emit('operation_end', get_history_name(diy_data.value));
 };
+
+const size_location_change = (location: { x: number, y: number, record_x: number, record_y: number, staging_y: number }) => {
+    let width = form.value.img_width;
+    let height = form.value.img_height;
+    if (form.value.border_show == '1') {
+        width += form.value.border_size * 2;
+        height += form.value.border_size * 2;
+    }
+    diy_data.value.location.x = location_compute(width, location.x, 390);
+    diy_data.value.location.y = location_compute(height, location.y, center_height.value);
+    diy_data.value.location.record_x = location_compute(width, location.record_x, 390);
+    diy_data.value.location.record_y = location_compute(height, location.record_y, center_height.value);
+    diy_data.value.location.staging_y = location_compute(height, location.staging_y, center_height.value);
+
+    form.value.com_width = width;
+    form.value.com_height = height;
+    form.value.staging_height = height;
+}
+
+const img_size_change = () => {
+    const { spacing = 0, type = 'left', id = '' } = form.value.data_follow;
+    // 获取新的位置
+    const { x: new_x, y: new_y } = get_container_location(props.componentOptions, id, type, spacing, diy_data.value.location.x, diy_data.value.location.y);
+    // 重新更新位置信息
+    diy_data.value.location = { x: new_x, y: new_y, record_x: new_x, record_y: new_y, staging_y: new_y };
+    size_location_change(diy_data.value.location);
+    operation_end();
+}
 //#region 位置计算
 // 监听数据变化
-watch(
-    diy_data,
-    (val) => {
-        let width = form.value.img_width;
-        let height = form.value.img_height;
-        if (form.value.border_show == '1') {
-            width += form.value.border_size * 2;
-            height += form.value.border_size * 2;
-        }
-
-        diy_data.value.location.x = location_compute(width, val.location.x, 390);
-        diy_data.value.location.y = location_compute(height, val.location.y, center_height.value);
-        diy_data.value.location.record_x = location_compute(width, val.location.record_x, 390);
-        diy_data.value.location.record_y = location_compute(height, val.location.record_y, center_height.value);
-        diy_data.value.location.staging_y = location_compute(height, val.location.staging_y, center_height.value);
-
-        form.value.com_width = width;
-        form.value.com_height = height;
-        form.value.staging_height = height;
-    },
-    { immediate: true, deep: true }
-);
+watch(() => diy_data.value, (val) => {
+    size_location_change(val.location);
+},{ immediate: true, deep: true });
 // #endregion
 </script>
 <style lang="scss" scoped>

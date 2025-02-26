@@ -947,3 +947,53 @@ export const diy_data_handle = (data: any, old_id: string, new_val: any, com_wid
         }
     });
 }
+
+/**
+ * 接口Item定义了具有特定属性的项的结构
+ * 包含项的唯一标识id，项的位置location，以及项的组件数据com_data
+ */
+interface Item {
+    id: string;
+    location: { x: number; y: number };
+    com_data: { com_width: number; com_height: number };
+}
+
+/**
+ * 计算容器的位置
+ * 根据提供的项列表、特定项的ID、位置类型、间距以及初始位置坐标，计算出新容器的位置
+ * 
+ * @param list 项的列表，每个项都符合Item接口的结构
+ * @param id 需要计算位置的项的ID
+ * @param type 定义了计算位置的类型，可以是'left'（计算左侧位置）或'top'（计算顶部位置）
+ * @param spacing 项之间的间距
+ * @param locationx 容器的初始x轴位置
+ * @param locationy 容器的初始y轴位置
+ * @returns 返回一个包含新x和y坐标的对象，根据type参数的不同，相应的坐标将被计算更新
+ */
+export const get_container_location = (list: Item[], id: string, type: 'left' | 'top', spacing: number, locationx: number, locationy: number) => {
+    let x = locationx;
+    let y = locationy;
+
+    // 遍历项列表，寻找匹配给定ID的项
+    for (const item of list) {
+        if (item.id === id) {
+            // 解构获取项的位置和组件数据，如果没有提供则使用默认值
+            const { location = { x: 0, y: 0 }, com_data = { com_width: 0, com_height: 0 } } = item;
+            // 计算新的x和y坐标，根据组件的宽度/高度和间距
+            const new_x = location.x + com_data.com_width + spacing;
+            const new_y = location.y + com_data.com_height + spacing;
+
+            // 根据type参数更新x或y坐标
+            if (type === 'left') {
+                x = new_x;
+            } else if (type === 'top') {
+                y = new_y;
+            }
+
+            break; // 找到匹配项后即停止遍历
+        }
+    }
+
+    // 返回更新后的坐标
+    return { x, y };
+}
