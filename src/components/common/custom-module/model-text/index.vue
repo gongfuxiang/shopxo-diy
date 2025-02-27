@@ -1,6 +1,6 @@
 <template>
     <div v-if="is_show" ref="modelText" class="img-outer w h re oh" :style="com_style">
-        <div :style="text_style" class="text-word-break">
+        <div :style="text_style" :class="`text-word-break text-line-${ form?.width_omit_num == '0' || form.is_rich_text == '1' ? '' : form?.width_omit_num || '' }`">
             <template v-if="form.is_rich_text == '1'">
                 <div class="rich-text-content" :innerHTML="text_title"></div>
             </template>

@@ -86,6 +86,14 @@
             <div class="bg-f5 divider-line" />
             <card-container>
                 <div class="mb-12">容器设置</div>
+                <el-form-item v-if="form.is_rich_text !== '1'" label="行宽省略">
+                    <el-radio-group v-model="form.width_omit_num" @change="operation_end">
+                        <el-radio value="0">不限制</el-radio>
+                        <el-radio value="1">一行</el-radio>
+                        <el-radio value="2">两行</el-radio>
+                        <el-radio value="3">三行</el-radio>
+                    </el-radio-group>
+                </el-form-item>
                 <el-form-item label="宽度自适应">
                     <el-switch v-model="form.is_width_auto" active-value="1" inactive-value="0" @change="is_width_auto_change"/>
                 </el-form-item>
