@@ -587,7 +587,7 @@ const dragEndHandle = (new_val: any, index: number) => {
     const { location: old_location, com_data, id: old_id } = cloneDeep(diy_data.value[index])
     const { data_follow = {}, com_width, com_height, is_data_update } = com_data;
     // 处理后的x、y坐标
-    const { new_x, new_y } = new_location_handle(old_location, data_follow, new_val, 0, 0, true);
+    const { new_x, new_y } = new_location_handle(old_location, data_follow, new_val);
     if (data_follow?.id == '') {
         // 如果有跟随的模版，则需要更新跟随的模版的位置
         const index = diy_data.value.findIndex(item => old_id == item.com_data?.data_follow?.id);
@@ -606,12 +606,11 @@ const dragEndHandle = (new_val: any, index: number) => {
 };
 // 拖拽放大缩小结束时触发的事件 {x: number, y: number, w: number, h: number}
 const resizingHandle = (new_location: any, key: string, index: number, type: string) => {
-    const { location: old_location, id: old_id, com_data: old_com_data } = cloneDeep(diy_data.value[index]);
+    const { location: old_location, id: old_id } = cloneDeep(diy_data.value[index]);
     // 获取到当前更新的内容
     const com_data = diy_data.value[index].com_data;
-    const { data_follow } = com_data;
-    // 处理后的x、y坐标，宽度和高度
-    const { new_x, new_y, new_w, new_h} = new_location_handle(old_location, data_follow, new_location, old_com_data.com_width, old_com_data.com_height, false);
+    const { data_follow, is_data_update } = com_data;
+    const { w: new_w, h: new_h, x: new_x, y: new_y } = new_location;
     if (data_follow.id == '') {
         // 如果有跟随的模版，则需要更新跟随的模版的位置
         const index = diy_data.value.findIndex(item => old_id == item.com_data.data_follow.id);
@@ -621,7 +620,6 @@ const resizingHandle = (new_location: any, key: string, index: number, type: str
     }
     // 对应位置的定位修改为当前更新的位置
     diy_data.value[index].location = { x: new_x, y: new_y, record_x: new_x, record_y: new_y, staging_y: new_y };
-    // const com_data = diy_data.value[index].com_data;
     // 更新组件的宽高
     com_data.com_width = new_w;
     com_data.com_height = new_h;
@@ -641,8 +639,18 @@ const resizingHandle = (new_location: any, key: string, index: number, type: str
         com_data.line_size = line_size;
     }
     if (type == 'resizeEnd') {
-        // 拖拽结束的时候组件不会更新xy，需要添加一个唯一key值，避免出现没更新的问题
-        com_data.is_data_update = !com_data.is_data_update;
+        // 拖拽结束之后,如果有跟随的模版，则需要更新跟随的模版的位置
+        if (data_follow.id != '') {
+            // 获取新的位置
+            const { x, y } = get_container_location(diy_data.value, data_follow.id, data_follow.type, data_follow.spacing, old_location.x, old_location.y);
+            // 处理后的x y轴坐标，避免超出容器范围
+            const new_x = location_compute(com_data.com_width, x, center_width.value);
+            const new_y = location_compute(com_data.com_height, y, center_height.value);
+            // 重新更新位置信息
+            diy_data.value[index].location = { x: new_x, y: new_y, record_x: new_x, record_y: new_y, staging_y: new_y };
+            // 拖拽结束的时候组件不会更新xy，需要添加一个唯一key值，避免出现没更新的问题
+            diy_data.value[index].com_data.is_data_update = !is_data_update;
+        }
         operation_end(get_history_name(diy_data.value[index]));
     }
 };
@@ -780,7 +788,7 @@ const start_drag_area_box = (index: number, event: MouseEvent) => {
             const followerMap: FollowerMap = {};
             // 外层取出对应的数据，避免里边循环影响性能
             diy_data.value.forEach(item => {
-                if (item.com_data?.data_follow?.id !== '') {
+                if (item.com_data?.data_follow?.id !== '' && item.is_hot !== '1') {
                     followerMap[item.com_data.data_follow.id] = item;
                 }
             });
@@ -815,7 +823,7 @@ const start_drag_area_box = (index: number, event: MouseEvent) => {
         const followerMap: FollowerMap = {};
         // 外层取出对应的数据，避免里边循环影响性能
         diy_data.value.forEach(item => {
-            if (item.com_data?.data_follow?.id !== '') {
+            if (item.com_data?.data_follow?.id !== '' && item.is_hot !== '1') {
                 followerMap[item.com_data.data_follow.id] = item;
             }
         });

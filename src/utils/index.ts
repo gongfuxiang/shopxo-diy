@@ -884,41 +884,33 @@ export function formatDate(format: string = 'YYYY-MM-DD HH:mm:ss'): string {
 type Location = {
     x: number;
     y: number;
-    w?: number;
-    h?: number;
 }
 type DataFollow = {
     id: string;
     type: string;
 }
-export const new_location_handle = (old_location: Location, data_follow: DataFollow, location: Location, com_width: number, com_height: number, is_show_message: boolean) => {
+export const new_location_handle = (old_location: Location, data_follow: DataFollow, location: Location) => {
     let new_x = old_location.x;
     let new_y = old_location.y;
-    let new_w = com_width;
-    let new_h = com_height;
-    const { x, y, w = com_width, h = com_height } = location;
+    const { x, y } = location;
     // 如果是跟随的模版,根据选中的内容 x或者y不变
     if (data_follow.id != '') {
         if (data_follow.type == 'left') {
-            if (old_location.x !== x && is_show_message) {
+            if (old_location.x !== x) {
                 is_show_message_warning('当前组件已经左跟随其他组件，x轴不允许修改');
             }
             new_y = y;
-            new_h = location?.h || com_height;
         } else if (data_follow.type == 'top') {
-            if (old_location.y !== y && is_show_message) {
+            if (old_location.y !== y) {
                 is_show_message_warning('当前组件已经上跟随其他组件，y轴不允许修改');
             }
             new_x = x;
-            new_w = location?.w || com_width;
         }
     } else {
         new_x = x;
         new_y = y;
-        new_w = w;
-        new_h = h;
     }
-    return { new_x, new_y, new_w, new_h }
+    return { new_x, new_y }
 }
 
 /**
