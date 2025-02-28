@@ -9,6 +9,8 @@ import defaultAuxiliaryBlank from '@/config/const/auxiliary-blank';
 import defaultRichText from '@/config/const/rich-text';
 import defaultArticleList from '@/config/const/article-list';
 import defaultArticleTabs from '@/config/const/article-tabs';
+import defaultBlogList from '@/config/const/blog-list';
+import defaultBlogTabs from '@/config/const/blog-tabs';
 import defaultCarousel from '@/config/const/carousel';
 import defaultNotice from '@/config/const/notice';
 import defaultTitle from '@/config/const/title';
@@ -33,6 +35,8 @@ interface DefaultSettings {
     user_info: object;
     article_list: object;
     article_tabs: object;
+    blog_list: object;
+    blog_tabs: object;
     row_line: object;
     auxiliary_blank: object;
     rich_text: object;
@@ -62,6 +66,8 @@ const defaultSettings: DefaultSettings = {
     user_info: defaultUserInfo,
     article_list: defaultArticleList,
     article_tabs: defaultArticleTabs,
+    blog_list: defaultBlogList,
+    blog_tabs: defaultBlogTabs,
     row_line: defaultRowLine,
     auxiliary_blank: defaultAuxiliaryBlank,
     rich_text: defaultRichText,

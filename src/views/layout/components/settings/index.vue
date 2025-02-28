@@ -94,6 +94,14 @@
             <template v-else-if="value.key == 'seckill'">
                 <model-seckill-setting :type="radio" :value="value.com_data"></model-seckill-setting>
             </template>
+            <!-- 博客列表 -->
+            <template v-else-if="value.key == 'blog'">
+                <model-blog-list-setting :type="radio" :value="value.com_data"></model-blog-list-setting>
+            </template>
+            <!-- 博客选项卡 -->
+            <template v-else-if="value.key == 'blog-tabs'">
+                <model-blog-tabs-setting :type="radio" :value="value.com_data"></model-blog-tabs-setting>
+            </template>
             <!-- 工具组件 -->
             <!-- 辅助空白 -->
             <template v-else-if="value.key == 'auxiliary-blank'">
