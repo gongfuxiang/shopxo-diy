@@ -120,7 +120,7 @@ watch(() => props.customList, async (val) => {
     const new_val = cloneDeep(val);
     list.value = new_val;
     // 判断是否有跟随的数据
-    const follow_list = new_val.filter(item => item.com_data?.data_follow?.id !== '');
+    const follow_list = new_val.filter(item => item.com_data.data_follow && item.com_data?.data_follow?.id !== '');
     if (follow_list.length > 0) {
         await nextTick();
         // 获取当前容器的宽度

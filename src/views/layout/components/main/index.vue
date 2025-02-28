@@ -527,6 +527,19 @@ onMounted(async () => {
         const interval = setInterval(() => {
             // 获取分类
             if (common_store.common.module_list.length > 0) {
+                common_store.common.module_list.forEach((item) => {
+                    if (item.key == 'plugins') {
+                        const data = [
+                            { key: "blog", name: "博客" },
+                            { key: "blog-tabs", name: "博客选项卡" },
+                            { key: "binding", name: "组合搭配" },
+                            { key: "realstore", name: "多门店" },
+                            { key: "shop", name: "多商户" },
+                            { key: "salerecords", name: "销售记录" },
+                        ]
+                        item.data = item.data.concat(data);
+                    }
+                });
                 components.value = common_store.common.module_list;
                 clearInterval(interval);
             }

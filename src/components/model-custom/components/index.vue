@@ -819,11 +819,11 @@ const start_drag_area_box = (index: number, event: MouseEvent) => {
         is_draggable.value = true;
         drag_box_bool.value = false;
         // 构建被跟随组件的 ID 集合
-        const followerIds = new Set(diy_data.value.filter(item => item.is_hot !== '1' && item.com_data?.data_follow?.id !== '').map(item => item.com_data?.data_follow?.id));
+        const followerIds = new Set(diy_data.value.filter(item => item.is_hot !== '1' && item.com_data.data_follow && item.com_data.data_follow.id !== '').map(item => item.com_data?.data_follow?.id));
         const followerMap: FollowerMap = {};
         // 外层取出对应的数据，避免里边循环影响性能
         diy_data.value.forEach(item => {
-            if (item.com_data?.data_follow?.id !== '' && item.is_hot !== '1') {
+            if (item.com_data.data_follow && item.com_data?.data_follow?.id !== '' && item.is_hot !== '1') {
                 followerMap[item.com_data.data_follow.id] = item;
             }
         });
