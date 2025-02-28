@@ -336,11 +336,11 @@ const url_value_dialog_call_back = (item: any[]) => {
  */
  const sliding_fixed_change = (val: string | number | boolean, index: number) => {
     // 查找除当前标签页外，其他标签页中是否已有滑动固定的
-    const tabs_list_is_sliding_fixed = form.value.tabs_list.findIndex((item: any, index1: number) => item.is_sliding_fixed == '1' && index != index1);
+    const tabs_list_is_sliding_fixed = form.tabs_list.findIndex((item: any, index1: number) => item.is_sliding_fixed == '1' && index != index1);
     // 如果当前标签页的滑动固定状态为'1'，且已存在其他滑动固定的标签页
     if (val == '1' && tabs_list_is_sliding_fixed != -1) {
         // 遍历所有标签页，将其他标签页的滑动固定状态设置为'0'
-        form.value.tabs_list.forEach((item: any, index1: number) => {
+        form.tabs_list.forEach((item: any, index1: number) => {
             if (index != index1) {
                 item.is_sliding_fixed = '0';
             }
@@ -357,7 +357,7 @@ const tabs_theme_change = (val: string | number | boolean | undefined): void => 
 const is_not_general_safe_distance = computed(() => common_store.is_immersion_model && !common_store.is_general_safe_distance);
 watchEffect(() => {
     if (!is_not_general_safe_distance.value) {
-        form.value.is_general_safe_distance = '0';
+        form.is_general_safe_distance = '0';
     }
 });
 // 标题浮起之后文章标题的颜色和字体更新
