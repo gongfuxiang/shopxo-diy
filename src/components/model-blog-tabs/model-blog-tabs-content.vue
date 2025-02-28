@@ -38,7 +38,7 @@
                 <el-form-item v-if="form.tabs_theme == '3'" label="选中图标">
                     <upload v-model="form.tabs_adorn_img" v-model:icon-value="form.tabs_adorn_icon" is-icon :limit="1" size="50"></upload>
                 </el-form-item>
-                <el-form-item label="文章风格">
+                <el-form-item label="博客风格">
                     <el-radio-group v-model="form.blog_theme" @change="blog_theme_change">
                         <el-radio v-for="item in base_list.blog_theme_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
@@ -119,7 +119,7 @@ import { get_math, tabs_style } from '@/utils';
 import { commonStore } from '@/store';
 const common_store = commonStore();
 /**
- * @description: 文章选项卡列表 （内容）
+ * @description: 博客选项卡列表 （内容）
  * @param value{Object} 内容数据
  * @param tabsStyle{Object} tabs样式数据
  * @param defaultConfig{Object} 默认配置
@@ -164,11 +164,11 @@ const base_list = reactive({
         { name: '四列展示', value: '3' },
     ],
     data_type_list: [
-        { name: '选择文章', value: '0' },
-        { name: '筛选文章', value: '1' },
+        { name: '选择博客', value: '0' },
+        { name: '筛选博客', value: '1' },
     ],
     field_show_list: [
-        { name: '文章标题', value: '3' },
+        { name: '博客标题', value: '3' },
         { name: '日期时间', value: '0' },
         { name: '浏览量', value: '1' },
         { name: '描述', value: '2' },
@@ -280,7 +280,7 @@ const tabs_add = () => {
     // emit('update:value', form);
 };
 
-// 指定文章
+// 指定博客
 const data_list_remove = (index: number, blog_index: number) => {
     form.tabs_list[blog_index].data_list.splice(index, 1);
 };
@@ -301,7 +301,7 @@ const data_list_replace = (index: number, row_index: number) => {
 };
 
 const blog_index = ref(0);
-// 添加文章
+// 添加博客
 const blog_add = (index: number) => {
     url_value_multiple_bool.value = true;
     url_value_dialog_visible.value = true;
@@ -360,7 +360,7 @@ watchEffect(() => {
         form.value.is_general_safe_distance = '0';
     }
 });
-// 标题浮起之后文章标题的颜色和字体更新
+// 标题浮起之后博客标题的颜色和字体更新
 const switch_chage = (val: string | number | boolean) => {
     if (val == '1') {
         styles.name_color = '#fff';

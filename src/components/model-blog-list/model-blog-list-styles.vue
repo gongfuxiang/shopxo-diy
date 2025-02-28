@@ -3,10 +3,10 @@
         <el-form :model="form" label-width="70">
             <card-container class="card-container">
                 <div class="mb-12">列表样式</div>
-                <el-form-item v-if="theme != '3'" label="文章背景">
+                <el-form-item v-if="theme != '3'" label="博客背景">
                     <background-common v-model:color_list="form.blog_color_list" v-model:direction="form.blog_direction" v-model:img_style="form.blog_background_img_style" v-model:img="form.blog_background_img" @mult_color_picker_event="mult_color_picker_event" />
                 </el-form-item>
-                <el-form-item label="文章名称">
+                <el-form-item label="博客名称">
                     <color-text-size-group v-model:color="form.name_color" v-model:typeface="form.name_weight" v-model:size="form.name_size" :label-width="data.theme == '4' && data.name_float == '1' ? 60 : 40">
                         <template v-if="data.theme == '4' && data.name_float == '1'">
                             <el-form-item label="背景" label-width="60" class="mb-0 w form-item-child-label">
@@ -24,7 +24,7 @@
                         </template>
                     </color-text-size-group>
                 </el-form-item>
-                <el-form-item label="文章描述">
+                <el-form-item label="博客描述">
                     <color-text-size-group v-model:color="form.desc_color" v-model:size="form.desc_size" :type-list="['color', 'size']">
                         <el-form-item label="间距" label-width="40" class="mb-0 w form-item-child-label">
                             <slider v-model="form.name_desc_space" :max="100"></slider>
@@ -49,7 +49,7 @@
                     </el-form-item>
                 </template>
                 <template v-if="theme != '3'">
-                    <el-form-item label="文章间距">
+                    <el-form-item label="博客间距">
                         <slider v-model="form.blog_spacing"></slider>
                     </el-form-item>
                 </template>
@@ -165,12 +165,12 @@ if (theme.value == '0') {
         form.value.img_radius.radius_top_right = props.defaultConfig.img_radius_1;
     }
 }
-// 文章背景渐变设置
+// 博客背景渐变设置
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.blog_color_list = arry;
     form.value.blog_direction = type.toString();
 };
-// 文章标题浮起显示设置
+// 博客标题浮起显示设置
 const name_bg_mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.name_bg_color_list = arry;
     form.value.name_bg_direction = type.toString();

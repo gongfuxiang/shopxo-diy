@@ -38,7 +38,7 @@
             </el-form-item>
         </div>
     </template>
-    <template v-else-if="type === 'article'">
+    <template v-else-if="type === 'article' || type === 'blog'">
         <el-form-item label="读取方式">
             <el-radio-group v-model="form.data_type">
                 <el-radio v-for="item in baseList.data_type_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
@@ -52,9 +52,14 @@
             <el-form-item label="关键字">
                 <el-input v-model="keywords" placeholder="请输入文章关键字" clearable @blur="keyword_blur"></el-input>
             </el-form-item>
-            <el-form-item label="文章分类">
+            <el-form-item :label="`${ type === 'article' ? '文章' : '博客' }分类`">
                 <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择文章分类">
-                    <el-option v-for="item in common_store.common.article_category" :key="item.id" :label="item.name" :value="item.id" />
+                    <template v-if="type === 'article'">
+                        <el-option v-for="item in common_store.common.article_category" :key="item.id" :label="item.name" :value="item.id" />
+                    </template>
+                    <template v-else>
+                        <el-option v-for="item in common_store.common.blog_category" :key="item.id" :label="item.name" :value="item.id" />
+                    </template>
                 </el-select>
             </el-form-item>
             <el-form-item label="显示数量">
@@ -62,7 +67,12 @@
             </el-form-item>
             <el-form-item label="排序类型">
                 <el-radio-group v-model="form.order_by_type">
-                    <el-radio v-for="item in common_store.common.article_order_by_type_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                    <template v-if="type === 'article'">
+                        <el-radio v-for="item in common_store.common.article_order_by_type_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                    </template>
+                    <template v-else>
+                        <el-radio v-for="item in common_store.common.blog_order_by_type_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                    </template>
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="排序规则">

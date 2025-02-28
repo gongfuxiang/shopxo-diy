@@ -23,8 +23,6 @@ import { Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
 import defaultConfigSetting from '@/config/setting';
 import defaultConfigConst from '@/config/const/index';
-import { article_default_parameter, goods_default_parameter } from '@/config/const/data-tabs';
-import defaultCustom from '@/config/const/custom';
 import { cloneDeep, isEmpty, omit } from 'lodash';
 import DiyAPI, { diyData, headerAndFooter, diyConfig } from '@/api/diy';
 import CommonAPI from '@/api/common';

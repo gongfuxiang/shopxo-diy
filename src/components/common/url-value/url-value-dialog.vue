@@ -34,6 +34,10 @@
                 <template v-else-if="link_select == 'article'">
                     <link-articles v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent"></link-articles>
                 </template>
+                <!-- 博客页面 -->
+                <template v-else-if="link_select == 'blog'">
+                    <link-blog v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent"></link-blog>
+                </template>
                 <!-- diy页面/页面设计/自定义页面  -->
                 <template v-else-if="link_select == 'diy' || link_select == 'design' || link_select == 'custom-view'">
                     <link-table :key="link_select" v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :type="link_select" :reset="reset_compontent"></link-table>
@@ -72,7 +76,7 @@ const app = getCurrentInstance();
  * @param modelValue{Object} 默认值
  * @param dialogVisible {Boolean} 弹窗显示
  * @param type{String} 链接类型为空数组则表示无限制，全部可用，传过来则表示传的值可用
- * @param multiple{Boolean} 是否多选 默认单选 只生效 商品页面 goods/ 文章页面 article/ DIY页面 diy/ 设计页面 design/ 自定义页面 custom-view/ 品牌页面 brand
+ * @param multiple{Boolean} 是否多选 默认单选 只生效 商品页面 goods/ 文章页面 article/ 博客页面 blog / DIY页面 diy/ 设计页面 design/ 自定义页面 custom-view/ 品牌页面 brand
  * @return {*} update:modelValue
  */
 const props = defineProps({
@@ -142,6 +146,8 @@ const dialog_title = computed(() => {
             name = '商品';
         } else if (props.type[0] == 'article') {
             name = '文章';
+        } else if (props.type[0] == 'blog') {
+            name = '博客';
         } else if (props.type[0] == 'diy') {
             name = 'DIY';
         } else if (props.type[0] == 'design') {

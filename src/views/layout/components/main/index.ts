@@ -35,7 +35,7 @@ interface DefaultSettings {
     user_info: object;
     article_list: object;
     article_tabs: object;
-    blog_list: object;
+    blog: object;
     blog_tabs: object;
     row_line: object;
     auxiliary_blank: object;
@@ -66,7 +66,7 @@ const defaultSettings: DefaultSettings = {
     user_info: defaultUserInfo,
     article_list: defaultArticleList,
     article_tabs: defaultArticleTabs,
-    blog_list: defaultBlogList,
+    blog: defaultBlogList,
     blog_tabs: defaultBlogTabs,
     row_line: defaultRowLine,
     auxiliary_blank: defaultAuxiliaryBlank,
