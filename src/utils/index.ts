@@ -1,7 +1,13 @@
 import CommonAPI from '@/api/common';
+import { isEmpty } from 'lodash';
 // 定义一组预定义的颜色数组，用于在各种场景中轻松引用这些颜色
 // 这些颜色包括从白色到黑色的不同灰度，以及一些鲜艳的颜色，格式有十六进制、RGB、RGBA、HSV、HSL等
 export const predefine_colors = ['#fff', '#ddd', '#ccc', '#999', '#666', '#333', '#000', '#ff4500', '#ff8c00', '#ffd700', '#90ee90', '#00ced1', '#c71585', 'rgba(255, 69, 0, 0.68)', 'rgb(255, 120, 0)', 'hsv(51, 100, 98)', 'hsva(120, 40, 94, 0.5)', 'hsl(181, 100%, 37%)', '#1F93FF', '#c7158577'];
+// 数据的默认值，避免没有值的时候报错
+export const old_radius = { radius: 0, radius_top_left: 0, radius_top_right: 0, radius_bottom_left: 0, radius_bottom_right: 0 };
+export const old_padding = { padding: 0, padding_top: 0, padding_bottom: 0, padding_left: 0, padding_right: 0 };
+export const old_margin = { margin: 0, margin_top: 0, margin_bottom: 0, margin_left: 0, margin_right: 0 };
+export const old_border_and_box_shadow = { border_is_show: '0', border_color: '#FF3F3F', border_style: 'solid',border_size: { padding: 1, padding_top: 1, padding_right: 1, padding_bottom: 1, padding_left: 1, }, box_shadow_color: '', box_shadow_x: 0, box_shadow_y: 0, box_shadow_blur: 0, box_shadow_spread: 0 };
 /**
  * 判断一个对象是否为空。
  *
@@ -24,6 +30,21 @@ export function is_number(val: string | number): boolean {
     return typeof val == 'number' && !isNaN(val);
 }
 
+
+export const get_history_name = (components: any) => {
+    // 输入验证
+    if (!components || typeof components !== 'object' || !('name' in components)) {
+        return '';
+    }
+    try {
+        // 确保 new_name 是字符串或 undefined
+        const newName = typeof components.new_name === 'string' ? components.new_name : '';
+        // 返回 new_name 如果它不为空，否则返回 name
+        return !isEmpty(newName) ? newName : components.name;
+    } catch (error) {
+        return '';
+    }
+}
 /**
  * 获取嵌套对象的属性值
  * 
@@ -128,6 +149,271 @@ export function convert_strings_to_numbers(obj: any, maxDepth: number = 100, cur
         // 非对象类型直接返回
         return obj;
     }
+}
+
+type PaddingStyle = { padding_left: number; padding_right: number;};
+
+type BorderStyle = { border_is_show: string; border_size?: PaddingStyle; };
+
+export const border_width = (style: BorderStyle): number => {
+    if (!style) { return 0; }
+    if (style.border_is_show == '1') {
+        const { padding_left = 0, padding_right = 0 } = style.border_size || {};
+        return padding_left + padding_right; 
+    } else { 
+        return 0;
+    }
+}
+
+/**
+ * 接口字段数据处理函数
+ * 根据提供的列表和类型，处理并返回一个包含默认值或历史值的对象
+ * @param {any} list - 包含多项配置的列表，用于处理数据
+ * @param {string} type - 数据类型标识符，决定是否使用历史数据
+ * @param {any} data_source_content - 历史数据
+ * @returns {any} - 处理后的数据对象
+ */
+export const interface_field_processing = (list: any, type: string, data_source_content: any) => {
+    // 初始化一个空对象来存储处理后的数据
+    const staging_data: any = {};
+    // 如果列表不一样0，则遍历列表处理每一项
+    if (!isEmpty(list)) {
+        list.forEach((item: any) => {
+            // 初始化值变量，根据不同的类型将被赋予不同的默认值
+            let value : number | string | Array<any> = '';
+            // 处理多选类型，默认值为空数组
+            if (item.type == 'checkbox' || (item.type == 'select' && +item?.config?.is_multiple == 1)) {
+                value = item?.config?.default ?? [];
+            } else if ((item.type == 'input' && item?.config?.type == 'number') || item.type == 'switch') {
+                // 处理数字或开关类型，默认值为0
+                value = Number(item?.config?.default ?? 0);
+            } else {
+                // 其他情况，默认值为空字符串
+                value = item?.config?.default ?? '';
+            }
+            // 如果是历史数据，且历史数据存在，则使用历史数据；否则使用默认值
+            if (type == 'old') {
+                staging_data[item.form_name] = data_source_content[item.form_name] == null ? value : data_source_content[item.form_name];
+            } else {
+                // 如果不是历史数据，直接使用默认值
+                staging_data[item.form_name] = value;
+            }
+        })
+    }
+    // 返回处理后的数据对象
+    return staging_data;
+}
+
+/**
+ * 根据指定的条件类型和值，判断字段值是否满足条件
+ * @param fieldValue 字段值，可以是任何类型
+ * @param type 条件类型，如'contains', 'is-empty', 'greater-than'等
+ * @param value 用于比较的值，可以是数字或字符串
+ * @returns 返回一个布尔值，表示字段值是否满足指定的条件
+ */
+export const custom_condition_judg = (fieldValue: any, type: string, value: number | string): boolean => {
+    // 处理 null 或 undefined 的情况
+    if (fieldValue == null) {
+        return true;
+    }
+
+    // 提前计算并缓存转换结果
+    const stringValue = String(fieldValue);
+    const valueStr = String(value);
+    const numberValue = Number(value);
+    switch (type) {
+        case 'contains':
+        case 'does-not-contain':
+            // 处理包含和不包含的逻辑, 如果值为空，直接返回为空
+            if (!isEmpty(valueStr)) {
+                const result = stringValue.includes(valueStr);
+                return type === 'contains' ? result : !result;
+            } else {
+                return true;
+            }
+        case 'is-empty':
+        case 'is-not-empty':
+            // 处理为空和不为空的逻辑
+            const is_Empty = ['', '{}', '[]'].includes(stringValue.trim()) || (Array.isArray(fieldValue) && fieldValue.length === 0);
+            return type === 'is-empty' ? is_Empty : !is_Empty;
+        case 'greater-than':
+        case 'less-than':
+        case 'equal':
+            // 根据字段值的类型，进行数字间的比较
+            if (typeof fieldValue === 'number') {
+                return compare_numbers(fieldValue, numberValue, type);
+            } else if (Array.isArray(fieldValue) || typeof fieldValue === 'string') {
+                // 如果字段值是数组或字符串，比较数组长度和指定值
+                const valueLength = fieldValue?.length || 0;
+                return compare_numbers(valueLength, numberValue, type);
+            } else if (typeof fieldValue === 'object') {
+                // 如果字段值是对象，比较对象的属性值
+                const numericFieldValue = Object.keys(fieldValue)?.length || 0;
+                return compare_numbers(numericFieldValue, numberValue, type);
+            }
+        default:
+            return true;
+    }
+}
+
+/**
+ * 比较两个数字的大小
+ * @param a 第一个数字
+ * @param b 第二个数字
+ * @param type 比较类型，如'greater-than', 'less-than', 'equal'等
+ * @returns 根据比较类型返回比较结果
+ */
+const compare_numbers = (a: number, b: number, type: string): boolean => {
+    switch (type) {
+        case 'greater-than': return a > b;
+        case 'less-than': return a < b;
+        case 'equal': return a === b;
+        default: return false;
+    }
+}
+
+
+/**
+ * 根据新的样式对象计算指示器的位置样式
+ * 
+ * 此函数根据指示器的新位置和当前位置以及底部距离来生成相应的CSS样式
+ * 它处理的是一个包含指示器位置信息的对象，并返回一个字符串形式的CSS样式
+ * 
+ * @param new_style 包含指示器新位置和当前位置及底部距离的样式对象
+ * @returns 返回计算出的指示器位置CSS样式字符串
+ */
+type indicator_data = { indicator_new_location: string, indicator_location: string, indicator_bottom: number }
+export const get_indicator_location = (new_style: indicator_data) => {
+    // 解构指示器的位置信息
+    const { indicator_new_location = '',  indicator_location = '', indicator_bottom = 0 } = new_style;
+    let styles = '';
+    // 根据指示器的新位置是水平方向（left或right）还是垂直方向（默认）来决定如何设置样式
+    if (['left', 'right'].includes(indicator_new_location)) {
+        // 如果是水平方向，根据指示器的当前位置设置top、center或bottom样式
+        if (indicator_location == 'flex-start') {
+            styles += `top: 0px;`;
+        } else if (indicator_location == 'center') {
+            styles += `top: 50%; transform: translateY(-50%);`;
+        } else {
+            styles += `bottom: 0px;`;
+        }
+    } else {
+        // 如果是垂直方向，根据指示器的当前位置设置left、center或right样式
+        if (indicator_location == 'flex-start') {
+            styles += `left: 0px;`;
+        } else if (indicator_location == 'center') {
+            styles += `left: 50%; transform: translateX(-50%);`;
+        } else {
+            styles += `right: 0px;`;
+        }
+    }
+    // 如果有位置的处理，就使用指示器的位置处理，否则的话就用下边距处理
+    styles += `${ !isEmpty(indicator_new_location) ? `${indicator_new_location}: ${ indicator_bottom }px;` : `bottom: ${ indicator_bottom }px;` }`;
+    // 返回计算出的指示器位置样式
+    return styles;
+}
+
+/**
+ * 判断给定条件是否符合资格，主要用于自定义内部各个组件是否符合显示条件
+ * @param field_list 字段列表，包含各个字段的数据
+ * @param condition 条件数据，包括字段、类型和值
+ * @param props 额外属性，包含自定义组和数据源等信息
+ * @returns 返回一个布尔值，表示是否符合条件
+ */
+type condition_data = { field: string, type: string, value: string  };
+export const get_is_eligible = (field_list: any[], condition: condition_data, props: any) => {
+    try {
+        // 条件加特殊标识，避免选择的时候出现重复的
+        let new_field = condition.field;
+        if (condition.field.includes('{|}')) {
+            new_field = condition.field.split('{|}')[0];
+        }
+        // 获取对应条件字段的字段数据
+        let option: any = {};
+        if (field_list) {
+            // 判断是否是自定义组并且 自定义组选则了对应的数据源
+            if (props.isCustomGroup && !isEmpty(props.customGroupFieldId)) {
+                // 取出对应自定义组的内容
+                const group_option_list = field_list.find((item: any) => item.field === props.customGroupFieldId);
+                // 取出自定义组内部数据源参数的详细数据
+                const new_field_list = group_option_list?.data || [];
+                // 通过对应条件，筛选出对应的数据
+                option = new_field_list.find((item: any) => item.field === new_field);
+            } else {
+                option = field_list.find((item: any) => item.field === new_field);
+            }
+        }
+        // 找不到对应的字段，就直接返回为成功，条件不存在
+        if (!isEmpty(option)) {
+            // 获取到字段的真实数据, option的使用主要是为了获取的他的中间参数和前缀，后缀等拼接在一起
+            const field_value = custom_condition_data(new_field || '', option || {}, props.sourceList, props.isCustom);
+            // 判断条件字段是否为空并且是显示面板才会生效，则直接返回true
+            if (!isEmpty(new_field) && !isEmpty(condition.type) && props.isDisplayPanel) {
+                return custom_condition_judg(field_value, condition.type, condition.value);
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    } catch (error) {
+        return true; // 或者根据业务需求返回适当的默认值
+    }
+}
+
+/**
+ * 根据数据源ID和配置选项来处理和返回特定格式的数据
+ * 
+ * @param data_source_id 数据源ID字符串，可以包含多个用分号分隔的ID
+ * @param option 配置选项，包含数据处理的额外参数
+ * @param sourceList 数据源列表，用于查找和处理数据
+ * @param isCustom 是否为自定义模式，用于确定数据处理的方式
+ * @returns 返回处理后的数据字符串
+ */
+export const custom_condition_data = (data_source_id: string, option: any, sourceList: any, isCustom: boolean) => {
+    let data_value = '';
+    if (data_source_id.includes(';')) {
+        // 当数据源ID包含多个用分号分隔的ID时
+        // 取出所有的字段，使用;分割
+        const ids = data_source_id.split(';');
+        let text = '';
+        // 遍历每个ID，处理数据并合并
+        ids.forEach((item: string, index: number) => {
+            text += data_handling(item, sourceList, isCustom) + (index != ids.length - 1 ? (option?.join || '') : '');
+        });
+        data_value = text;
+    } else {
+        // 不输入商品， 文章和品牌时，从外层处理数据
+        // 当数据源ID不包含分号时，直接处理数据
+        data_value = data_handling(data_source_id, sourceList, isCustom);
+    }
+    // 如果数据是undefined或者null，则设置为空字符串
+    if (data_value == null) {
+        data_value = '';
+    }
+    // 根据配置选项，添加前缀和后缀到处理后的数据
+    return Array.isArray(data_value) || typeof data_value === "object" ? data_value : ((option?.first || '') + data_value + (option?.last || ''));
+}
+
+/**
+ * 数据处理函数
+ * 该函数根据数据源ID和一个数据对象，返回对应的图标路径
+ * 主要用于从复杂的数据结构中提取图标信息，根据是否是自定义图标，
+ * 从不同的数据层级中获取信息
+ * 
+ * @param data_source_id 数据源ID，用于定位图标在数据结构中的位置
+ * @param sourceList 包含图标数据的对象，可以是多层嵌套结构
+ * @param isCustom 布尔值，指示是否为自定义图标，影响数据获取的方式
+ * @returns 返回找到的图标路径，如果没有找到或数据为空，则返回空值
+ */
+const data_handling = (data_source_id: string, sourceList: any, isCustom: boolean) => {
+    // 不输入商品， 文章和品牌时，从外层处理数据
+    let new_data = get_nested_property(sourceList, data_source_id);
+    // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
+    if (!isEmpty(sourceList.data) && isCustom) {
+        new_data = get_nested_property(sourceList.data, data_source_id);
+    }
+    return new_data;
 }
 
 /**
@@ -293,6 +579,14 @@ export function background_computer(new_style: backgroundImgUrlStyle) {
         return '';
     }
 }
+
+export const border_computer = (new_style: border_style) => {
+    const { border_is_show = '0', border_color = '', border_style = 'solid', border_size = { padding: 0, padding_bottom: 0, padding_left: 0, padding_right: 0, padding_top: 0 } } = new_style;
+    if (border_is_show == '1') {
+       return `border-width: ${border_size.padding_top}px ${border_size.padding_right}px ${border_size.padding_bottom}px ${border_size.padding_left}px;border-style: ${ border_style };border-color: ${border_color};`
+    }
+    return '';
+};
 /**
  * 计算并组合组件的常用样式。
  *
@@ -303,7 +597,7 @@ export function background_computer(new_style: backgroundImgUrlStyle) {
  * @returns 返回一个字符串，包含了计算后的样式定义，可以被直接应用于组件的样式属性。
  */
 export function common_styles_computer(new_style: componentsCommonCommonStyle) {
-    return gradient_computer(new_style) + margin_computer(new_style) + radius_computer(new_style) + box_shadow_computer(new_style) + `overflow:hidden;`;
+    return gradient_computer(new_style) + margin_computer(new_style) + radius_computer(new_style) + box_shadow_computer(new_style) + border_computer(new_style) + `overflow:hidden;`;
 }
 
 export function common_img_computer(new_style: componentsCommonCommonStyle) {
@@ -507,5 +801,205 @@ export const online_url = async (directory: string = '') => {
             });
         }
         return attachemnt_host + directory;
+    }
+};
+
+/**
+ * 调整元素的位置，使其保持在指定的最大宽度和高度范围内
+ * @param x 元素的初始横坐标
+ * @param y 元素的初始纵坐标
+ * @param width 元素的宽度
+ * @param height 元素的高度
+ * @param maxWidth 屏幕的最大宽度
+ * @param maxHeight 屏幕的最大高度
+ * @returns 返回调整后的元素位置坐标
+ */
+export const adjustPosition = (x: number, y: number, width:number, height:number, maxWidth:number, maxHeight:number) => {
+    // 计算元素的半宽度和半高度，用于后续计算元素的最终位置
+    const halfWidth = width / 2;
+    const halfHeight = height / 2;
+
+    // 确保元素不会超出屏幕范围
+    // 对于横坐标x，使用Math.max和Math.min函数限制其值在0到(maxWidth - width)之间
+    // 对于纵坐标y，使用Math.max和Math.min函数限制其值在0到(maxHeight - height)之间
+    x = Math.max(0, Math.min(maxWidth - width, x - halfWidth));
+    y = Math.max(0, Math.min(maxHeight - height, y - halfHeight));
+
+    // 返回调整后的元素位置坐标
+    return { x, y };
+}
+
+
+export const getPlatform = () => {
+    // 检查 navigator.platform 是否存在且不为空
+    if (!navigator || !navigator.platform) {
+        return 'Unknown';
+    }
+
+    const platform = navigator.platform.toLowerCase();
+    
+    // 使用正则表达式进行平台匹配
+    const platformMap = [
+        { regex: /^win/, name: 'Windows' },
+        { regex: /^mac/, name: 'Mac' },
+        { regex: /^linux/, name: 'Linux' },
+        { regex: /android/, name: 'Android' },
+        { regex: /ios/, name: 'iOS' }
+    ];
+
+    for (const { regex, name } of platformMap) {
+        if (regex.test(platform)) {
+            return name;
+        }
+    }
+
+    return 'Unknown';
+}
+
+/**
+ * 格式化日期为指定格式的时间字符串
+ * 
+ * @param date 日期对象
+ * @param format 格式化字符串，默认为 'YYYY-MM-DD HH:mm:ss'
+ * @returns 格式化后的时间字符串
+ */
+export function formatDate(format: string = 'YYYY-MM-DD HH:mm:ss'): string {
+    const date = new Date();
+    const year = String(date.getFullYear());
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    return format
+        .replace('YYYY', year)
+        .replace('MM', month)
+        .replace('DD', day)
+        .replace('HH', hours)
+        .replace('mm', minutes)
+        .replace('ss', seconds);
+}
+
+type Location = {
+    x: number;
+    y: number;
+}
+type DataFollow = {
+    id: string;
+    type: string;
+}
+export const new_location_handle = (old_location: Location, data_follow: DataFollow, location: Location) => {
+    let new_x = old_location.x;
+    let new_y = old_location.y;
+    const { x, y } = location;
+    // 如果是跟随的模版,根据选中的内容 x或者y不变
+    if (data_follow.id != '') {
+        if (data_follow.type == 'left') {
+            if (old_location.x !== x) {
+                is_show_message_warning('当前组件已经左跟随其他组件，x轴不允许修改');
+            }
+            new_y = y;
+        } else if (data_follow.type == 'top') {
+            if (old_location.y !== y) {
+                is_show_message_warning('当前组件已经上跟随其他组件，y轴不允许修改');
+            }
+            new_x = x;
+        }
+    } else {
+        new_x = x;
+        new_y = y;
+    }
+    return { new_x, new_y }
+}
+
+/**
+ * 自定义数据处理函数
+ * 该函数用于处理组件数据，根据旧组件的ID更新新组件的位置
+ * @param data 组件数据数组
+ * @param old_id 旧组件的ID
+ * @param new_val 新组件的值，包含位置信息
+ * @param com_width 组件宽度
+ * @param com_height 组件高度
+ * @returns 返回更新后的新组件数据数组
+ */
+export const diy_data_handle = (data: any, old_id: string, new_val: any, com_width: number, com_height: number): any => {
+    // 遍历每个组件项
+    data.forEach((item: any) => {
+        // 解构获取组件跟随的配置信息，如果没有则使用默认值
+        const { id = '', type = 'left', spacing = 0 } = item?.com_data?.data_follow || { id: '', type: 'left', spacing: 0 };
+        // 判断当前组件是否被其他组件跟随
+        if (old_id == id && id !== '') {
+            // 根据新组件的位置和尺寸计算新的跟随位置
+            const new_location_x = new_val.x + com_width + spacing;
+            const new_location_y = new_val.y + com_height + spacing;
+            // 根据跟随类型更新组件位置
+            if (type =='left') {
+                // 更新组件的横向位置
+                item.location.x = new_location_x;
+                item.location.record_x = new_location_x;
+            } else if (type =='top') {
+                // 更新组件的纵向位置
+                item.location.y = new_location_y;
+                item.location.record_y = new_location_y;
+                item.location.staging_y = new_location_y;
+            }
+        }
+    });
+}
+
+/**
+ * 接口Item定义了具有特定属性的项的结构
+ * 包含项的唯一标识id，项的位置location，以及项的组件数据com_data
+ */
+interface Item {
+    id: string;
+    location: { x: number; y: number };
+    com_data: { com_width: number; com_height: number };
+}
+
+/**
+ * 计算容器的位置
+ * 根据提供的项列表、特定项的ID、位置类型、间距以及初始位置坐标，计算出新容器的位置
+ * 
+ * @param list 项的列表，每个项都符合Item接口的结构
+ * @param id 需要计算位置的项的ID
+ * @param type 定义了计算位置的类型，可以是'left'（计算左侧位置）或'top'（计算顶部位置）
+ * @param spacing 项之间的间距
+ * @param locationx 容器的初始x轴位置
+ * @param locationy 容器的初始y轴位置
+ * @returns 返回一个包含新x和y坐标的对象，根据type参数的不同，相应的坐标将被计算更新
+ */
+export const get_container_location = (list: Item[], id: string, type: 'left' | 'top', spacing: number, locationx: number, locationy: number) => {
+    let x = locationx;
+    let y = locationy;
+
+    // 遍历项列表，寻找匹配给定ID的项
+    for (const item of list) {
+        if (item.id === id) {
+            // 解构获取项的位置和组件数据，如果没有提供则使用默认值
+            const { location = { x: 0, y: 0 }, com_data = { com_width: 0, com_height: 0 } } = item;
+            // 计算新的x和y坐标，根据组件的宽度/高度和间距
+            const new_x = location.x + com_data.com_width + spacing;
+            const new_y = location.y + com_data.com_height + spacing;
+
+            // 根据type参数更新x或y坐标
+            if (type === 'left') {
+                x = new_x;
+            } else if (type === 'top') {
+                y = new_y;
+            }
+
+            break; // 找到匹配项后即停止遍历
+        }
+    }
+
+    // 返回更新后的坐标
+    return { x, y };
+}
+// 只有没有其他提示warning的时候才提示
+export const is_show_message_warning = (message: string) => {
+    if (document.querySelectorAll(".el-message.el-message--warning").length < 3) {
+        ElMessage.warning(message);
     }
 };

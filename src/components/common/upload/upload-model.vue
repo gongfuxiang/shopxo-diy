@@ -3,7 +3,7 @@
     <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body :close-on-click-modal="false" @close="close_dialog">
         <template #header>
             <div class="title center re">
-                <div class="tc size-16 fw">{{ upload_type_name }}上传</div>
+                <div class="tc size-16 fw-b">{{ upload_type_name }}上传</div>
             </div>
         </template>
         <div class="upload-content pa-20" @paste="handle_paste">
@@ -87,7 +87,7 @@
                                 <el-upload ref="fileUpload2" v-model:file-list="file_list" class="upload-2" :accept="exts_text" multiple action="#" :auto-upload="false" :show-file-list="false" :on-change="upload_change" :before-upload="before_upload" :limit="limit" :on-exceed="handle_exceed">
                                     <div class="flex-col jc-c align-c">
                                         <icon name="add" size="60" color="#dbeef6"></icon>
-                                        <p class="size-18 cr-c fw">请将需要上传的文件/文件夹拖到此处或粘贴</p>
+                                        <p class="size-18 cr-c fw-b">请将需要上传的文件/文件夹拖到此处或粘贴</p>
                                     </div>
                                 </el-upload>
                             </div>
@@ -202,7 +202,7 @@ const upload_type_name = computed(() => {
     return props.type === 'img' ? '图片' : props.type === 'video' ? '视频' : '文件';
 });
 // 格式限制
-const exts_text = ref(props.exts.join(','));
+const exts_text = computed(() => props.exts.join(','));
 const file_list = ref<UploadUserFile[]>([]);
 interface fileData {
     file: File;

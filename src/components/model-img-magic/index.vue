@@ -5,34 +5,54 @@
                 <!-- 风格3 -->
                 <template v-if="form.style_actived == 2">
                     <div class="flex-row align-c jc-c style-size">
-                        <div v-for="(item, index) in form.img_magic_list" :key="index" class="three img-spacing-border">
-                            <image-empty v-model="item.img[0]" :style="content_img_radius" :fit="form.img_fit"></image-empty>
+                        <div v-for="(item, index) in form.img_magic_list" :key="index" class="three img-spacing-border flex-row">
+                            <div class="w flex-row" :style="content_img_container">
+                                <div class="flex-1" :style="content_img_style_container">
+                                    <image-empty v-model="item.img[0]" :style="content_img_radius" :fit="form.img_fit"></image-empty>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </template>
                 <!-- 风格9 -->
                 <template v-else-if="form.style_actived == 8">
                     <div class="flex-row align-c jc-c style-size flex-wrap">
-                        <div v-for="(item, index) in form.img_magic_list" :key="index" :class="['img-spacing-border', { 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index) }]">
-                            <image-empty v-model="item.img[0]" :style="content_img_radius" :fit="form.img_fit"></image-empty>
+                        <div v-for="(item, index) in form.img_magic_list" :key="index" :class="['img-spacing-border flex-row', { 'style9-top': [0, 1].includes(index), 'style9-bottom': ![0, 1].includes(index) }]">
+                            <div class="w flex-row" :style="content_img_container">
+                                <div class="flex-1" :style="content_img_style_container">
+                                    <image-empty v-model="item.img[0]" :style="content_img_radius" :fit="form.img_fit"></image-empty>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </template>
                 <template v-else-if="form.style_actived == 10">
                     <template v-if="form.limit_size == '0'">
-                        <div v-for="(item, index) in form.img_magic_list" :key="index" :class="['img-spacing-border', { 'h': item.img.length > 0, 'style_actived_10': item.img.length == 0 }]" :style="selected_style(item)">
-                            <image-empty v-model="item.img[0]" :style="content_img_radius" fit="contain"></image-empty>
+                        <div v-for="(item, index) in form.img_magic_list" :key="index" :class="['img-spacing-border flex-row', { 'h': item.img.length > 0, 'style_actived_10': item.img.length == 0 }]" :style="selected_style(item)">
+                            <div class="w flex-row" :style="content_img_container">
+                                <div class="flex-1" :style="content_img_style_container">
+                                    <image-empty v-model="item.img[0]" :style="content_img_radius" fit="contain"></image-empty>
+                                </div>
+                            </div>
                         </div>
                     </template>
                     <template v-else>
-                        <div v-for="(item, index) in form.img_magic_list" :key="index" class="img-spacing-border" :style="`${ selected_style(item) };height: ${ form.image_height }px;`">
-                            <image-empty v-model="item.img[0]" :style="content_img_radius" :fit="form.img_fit"></image-empty>
+                        <div v-for="(item, index) in form.img_magic_list" :key="index" class="img-spacing-border flex-row" :style="`${ selected_style(item) };height: ${ form.image_height }px;`">
+                            <div class="w flex-row" :style="content_img_container">
+                                <div class="flex-1" :style="content_img_style_container">
+                                    <image-empty v-model="item.img[0]" :style="content_img_radius" :fit="form.img_fit"></image-empty>
+                                </div>
+                            </div>
                         </div>
                     </template>
                 </template>
                 <template v-else>
-                    <div v-for="(item, index) in form.img_magic_list" :key="index" class="cube-selected img-spacing-border" :style="selected_style(item)">
-                        <image-empty v-model="item.img[0]" :style="content_img_radius" :fit="form.img_fit"></image-empty>
+                    <div v-for="(item, index) in form.img_magic_list" :key="index" class="cube-selected img-spacing-border flex-row" :style="selected_style(item)">
+                        <div class="w flex-row" :style="content_img_container">
+                            <div class="flex-1" :style="content_img_style_container">
+                                <image-empty v-model="item.img[0]" :style="content_img_radius" :fit="form.img_fit"></image-empty>
+                            </div>
+                        </div>
                     </div>
                 </template>
             </div>
@@ -40,7 +60,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_img_computer, common_styles_computer, radius_computer, is_number } from '@/utils';
+import { common_img_computer, common_styles_computer, radius_computer, is_number, margin_computer, padding_computer, box_shadow_computer, border_computer } from '@/utils';
 
 const props = defineProps({
     value: {
@@ -116,6 +136,8 @@ const percentage = (num: number) => {
     return marks.toFixed(4) + '%';
 };
 //#endregion
+const content_img_container = computed(() => common_styles_computer(new_style.value) + margin_computer(new_style.value.margin));
+const content_img_style_container = computed(() => common_img_computer(new_style.value) + padding_computer(new_style.value.padding));
 // 公共样式
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));
 const style_img_container = computed(() => common_img_computer(new_style.value.common_style));

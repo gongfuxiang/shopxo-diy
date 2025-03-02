@@ -1,7 +1,8 @@
 import { get_math } from "@/utils";
-
+import commonTop from './common-top';
 interface defaultSearch {
     content: {
+        content_top: object;
         button_jump: string;
         button_img: uploadList[];
         button_link: object;
@@ -16,6 +17,9 @@ interface defaultSearch {
 }
 const defaultSearch: defaultSearch = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         // 跳转方式
         button_jump: 'link',
         // 图片信息

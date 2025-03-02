@@ -1,10 +1,11 @@
 <template>
     <div class="re" :style="style_container + swiper_bg_style">
-        <div class="abs top-0 w h" :style="swiper_bg_img_style"></div>
+        <div class="abs z-i top-0 w h" :style="swiper_bg_img_style"></div>
         <div class="flex-col oh" :style="style_img_container + (!isEmpty(swiper_bg_img_style) ? `background-image: url('');` : '')">
-            <div class="oh" :style="tabs_container">
-                <div class="oh" :style="tabs_img_container">
-                    <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true" :active-index="tabs_active_index"></tabs-view>
+            <div class="oh z-deep re" :style="tabs_container + (is_rotating_background ? swiper_bg_style : '')">
+                <div v-if="is_rotating_background" class="abs z-i top-0 w h" :style="swiper_bg_img_style"></div>
+                <div class="oh re z-deep" :style="tabs_img_container">
+                    <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true" :active-index="tabs_active_index" :tabs-sliding-fixed-bg="tabs_sliding_fixed_bg"></tabs-view>
                 </div>
             </div>
             <div class="oh" :style="carousel_container">
@@ -16,8 +17,11 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, common_img_computer, padding_computer, gradient_computer, background_computer, margin_computer, radius_computer } from '@/utils';
+import { common_styles_computer, common_img_computer, padding_computer, gradient_computer, background_computer, margin_computer, radius_computer, box_shadow_computer, border_computer } from '@/utils';
 import { cloneDeep, isEmpty } from 'lodash';
+import { commonStore } from '@/store';
+const common_store = commonStore();
+
 const props = defineProps({
     value: {
         type: Object,
@@ -35,11 +39,14 @@ const tabs_img_container = ref('');
 // 轮播区域背景设置
 const carousel_container = ref('');
 const carousel_img_container = ref('');
+// 打开滑动固定开关之后，显示的样式
+const tabs_sliding_fixed_bg = ref('');
+const is_rotating_background = ref(false);
 watch(
     props.value,
     (val) => {
         let new_data = cloneDeep(val);
-        const { home_data } = new_data.content;
+        const { home_data, is_tabs_safe_distance = '0', rotating_background } = new_data.content;
         const new_style = new_data?.style;
         // 选项卡背景设置
         const tabs_data = {
@@ -48,8 +55,18 @@ watch(
             background_img_style: new_style.tabs_bg_background_img_style,
             background_img: new_style.tabs_bg_background_img,
         }
-        tabs_container.value = gradient_computer(tabs_data) + radius_computer(new_style.tabs_radius);
-        tabs_img_container.value = background_computer(tabs_data) + padding_computer(new_style.tabs_padding);
+        // 选项卡是否开启了安全距离
+        const is_general_safe_distance = common_store.is_general_safe_distance && is_tabs_safe_distance == '1';
+        const new_tabs_padding = {
+            ...new_style.tabs_padding,
+            padding_top: (new_style.tabs_padding?.padding_top || 0) + (is_general_safe_distance ? common_store.header_height : 0),
+        }
+        // 是否开启轮播图背景设置
+        is_rotating_background.value = rotating_background == '1';
+        // 选项卡滑动固定背景
+        tabs_sliding_fixed_bg.value = gradient_computer(tabs_data);
+        tabs_container.value = gradient_computer(tabs_data) + radius_computer(new_style.tabs_radius) + margin_computer(new_style.tabs_margin) + box_shadow_computer(new_style.tabs_content) + border_computer(new_style.tabs_content) + `margin-top: ${ new_style.tabs_margin.margin_top - (is_general_safe_distance ? common_store.header_height : 0) }px;`;
+        tabs_img_container.value = background_computer(tabs_data) + padding_computer(new_tabs_padding);
         // 轮播区域背景设置
         const carousel_content_data = {
             color_list: new_style.carousel_content_color_list,
@@ -57,7 +74,7 @@ watch(
             background_img_style: new_style.carousel_content_background_img_style,
             background_img: new_style.carousel_content_background_img,
         }
-        carousel_container.value = gradient_computer(carousel_content_data) + margin_computer(new_style.carousel_content_margin) + radius_computer(new_style.carousel_content_radius);
+        carousel_container.value = gradient_computer(carousel_content_data) + margin_computer(new_style.carousel_content_margin) + radius_computer(new_style.carousel_content_radius) + box_shadow_computer(new_style.carousel_content) + border_computer(new_style.carousel_content);
         carousel_img_container.value = background_computer(carousel_content_data) + padding_computer(new_style.carousel_content_padding);
         // 处理数据
         new_data.content.tabs_list = [home_data, ...new_data.content.tabs_list];

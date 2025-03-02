@@ -22,7 +22,8 @@ const isLogoutModalShown = ref(true);
 
 // 用于存储每个请求的CancelToken
 const pendingRequests = new Map();
-
+// 不需要认证的接口
+const release_url = ['diyapi/attachmentupload'];
 // 创建 axios 实例
 const index = window.location.href.lastIndexOf('?s=');
 const pro_url = window.location.href.substring(0, index);
@@ -46,17 +47,20 @@ service.interceptors.request.use(
                 config.url = config.url + '&token=' + (JSON.parse(cookie) !== 'null' ? JSON.parse(cookie)?.token : '');
             }
         }
-        // 检查是否有相同请求正在进行，如果有则取消, 防止重复请求导致返回数据有误
-        if (pendingRequests.has(config.url)) {
-            const cancelToken = pendingRequests.get(config.url);
-            cancelToken.cancel('canceled');
-            pendingRequests.delete(config.url);
+        // 判断是否是包含不需要认证的接口
+        const release_list = release_url.filter(item => config.url?.includes(item));
+        if (release_list.length === 0) {
+            // 检查是否有相同请求正在进行，如果有则取消, 防止重复请求导致返回数据有误
+            if (pendingRequests.has(config.url)) {
+                const cancelToken = pendingRequests.get(config.url);
+                cancelToken.cancel('canceled');
+                pendingRequests.delete(config.url);
+            }
+            // 创建一个新的 CancelToken
+            const source = axios.CancelToken.source();
+            config.cancelToken = source.token;
+            pendingRequests.set(config.url, source);
         }
-        // 创建一个新的 CancelToken
-        const source = axios.CancelToken.source();
-        config.cancelToken = source.token;
-        pendingRequests.set(config.url, source);
-
         return config;
     },
     (error: any) => {

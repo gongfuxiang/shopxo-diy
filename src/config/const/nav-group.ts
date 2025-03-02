@@ -1,6 +1,7 @@
 import { get_math } from '@/utils';
 import defaultCommon from './index';
 import subscriptStyle from './subscript-style';
+import commonTop from './common-top';
 interface subscript_type {
     content: {
         seckill_subscript_show: string,
@@ -21,6 +22,7 @@ interface nav_group {
 }
 interface defaultSearch {
     content: {
+        content_top: object;
         nav_style: string;
         single_line: number;
         display_style: string;
@@ -58,6 +60,9 @@ interface defaultSearch {
 
 const defaultSearch: defaultSearch = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         // 展示样式
         display_style: 'fixed',
         // 导航样式

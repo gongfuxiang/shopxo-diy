@@ -2,7 +2,7 @@
     <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body :close-on-click-modal="false" :top="dialogPositionTop ? dialogPositionTop + 'px' : ''" @close="close_event">
         <template #header>
             <div class="title center re">
-                <div class="tc size-16 fw">{{ dialog_title }}</div>
+                <div class="tc size-16 fw-b">{{ dialog_title }}</div>
             </div>
         </template>
         <div class="url-value-content pa-20 flex-row">

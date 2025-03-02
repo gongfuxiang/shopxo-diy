@@ -1,4 +1,5 @@
 import defaultCommon from "./index";
+import commonTop from './common-top';
 export const source_list = {
     goods: {
         // 存放手动输入的id
@@ -10,7 +11,7 @@ export const source_list = {
         // 商品类型
         data_type: 0,
         // 关键字
-        keyword: '',
+        keywords: '',
         // 商品分类
         category_ids: [],
         // 品牌
@@ -31,7 +32,7 @@ export const source_list = {
         data_auto_list: [],
         data_type: 0,
         // 关键字
-        keyword: '',
+        keywords: '',
         number: 4,
         order_by_type: '0',
         order_by_rule: '0',
@@ -50,7 +51,7 @@ export const source_list = {
         // 商品类型
         data_type: 0,
         // 关键字
-        keyword: '',
+        keywords: '',
         // 商品分类
         category_ids: [],
         // 显示数量
@@ -76,14 +77,17 @@ interface content {
 }
 interface defaultSearch {
     content: {
+        content_top: object;
         height: number;
         is_custom_data: string;
         show_data: object;
         data_source: string;
         data_source_content: content;
+        data_source_is_loop: string;
         data_source_direction: string;
         data_source_carousel_col: number;
         custom_list: string[];
+        field_list: string[];
     };
     style: {
         is_roll: string;
@@ -108,8 +112,12 @@ interface defaultSearch {
 }
 const defaultSearch: defaultSearch = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         // 自定义内容高度
         height: 390,
+        data_source_is_loop: '1',
         // 数据源内容
         data_source_content: {
             // 存放手动输入的id
@@ -133,7 +141,9 @@ const defaultSearch: defaultSearch = {
         // 滑动时的显示 轮播数量
         data_source_carousel_col: 1,
         // 自定义内容列表
-        custom_list: []
+        custom_list: [],
+        // 存放所有的数据字段
+        field_list: [],
     },
     style: {
         is_roll: '1',
@@ -176,6 +186,23 @@ const defaultSearch: defaultSearch = {
             margin_bottom: 0,
             margin_left: 0,
             margin_right: 0,
+            // 边框样式
+            border_is_show: '0',
+            border_color: '#FF3F3F',
+            border_style: 'solid',
+            border_size: {
+                padding: 1,
+                padding_top: 1,
+                padding_right: 1,
+                padding_bottom: 1,
+                padding_left: 1,
+            },
+            // 阴影
+            box_shadow_color: '',
+            box_shadow_x: 0,
+            box_shadow_y: 0,
+            box_shadow_blur: 0,
+            box_shadow_spread: 0,
         },
         data_content_style: {
             color_list: [{ color: '', color_percentage: undefined }],
@@ -197,6 +224,23 @@ const defaultSearch: defaultSearch = {
             margin_bottom: 0,
             margin_left: 0,
             margin_right: 0,
+            // 边框样式
+            border_is_show: '0',
+            border_color: '#FF3F3F',
+            border_style: 'solid',
+            border_size: {
+                padding: 1,
+                padding_top: 1,
+                padding_right: 1,
+                padding_bottom: 1,
+                padding_left: 1,
+            },
+            // 阴影
+            box_shadow_color: '',
+            box_shadow_x: 0,
+            box_shadow_y: 0,
+            box_shadow_blur: 0,
+            box_shadow_spread: 0,
         },
         row_gap: 0,
         column_gap: 0,

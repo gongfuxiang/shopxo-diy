@@ -17,12 +17,17 @@
                 <icon name="arrow-bottom" size="14" color="f" />
             </div>
         </div>
-        <div class="plug-in-name">
-            <div class="re w h">
-                {{ item.name }}
-                <div v-if="!isEmpty(item.mark_name)" class="plug-in-mark-name mark-name-style">{{ item.mark_name }}</div>
+        <el-tooltip effect="dark" :show-after="200" :hide-after="200" :content="`<span>开始时间: ${ !isEmpty(new_date_value(item)) ? new_date_value(item)[0] : '' }</span><br/><span>结束时间: ${ !isEmpty(new_date_value(item)[1]) ? new_date_value(item)[1] : '' }</span>`" raw-content placement="top" :disabled="isEmpty(new_date_value(item))">
+            <div class="plug-in-name">
+                <div class="re w h">
+                    <div class="flex-row gap-5 align-c jc-c">
+                        {{ item.name }}
+                        <div v-if="!isEmpty(new_date_value(item))" class="plug-in-name-tips"></div>
+                    </div>
+                    <div v-if="!isEmpty(item.mark_name)" class="plug-in-mark-name mark-name-style">{{ item.mark_name }}</div>
+                </div>
             </div>
-        </div>
+        </el-tooltip>
         <div class="main-content" :class="{ 'plug-in-close': item.is_enable != '1' }" :style="mainContentStyle">
             <!-- 基础组件 -->
             <!-- 视频 -->
@@ -72,6 +77,10 @@
             <!-- 商品选项卡 -->
             <template v-else-if="item.key == 'goods-tabs'">
                 <model-goods-tabs :key="item.com_data" :value="item.com_data"></model-goods-tabs>
+            </template>
+            <!-- 数据选项卡 -->
+            <template v-else-if="item.key == 'data-tabs'">
+                <model-data-tabs :key="item.com_data" :value="item.com_data"></model-data-tabs>
             </template>
             <!-- 图片魔方 -->
             <template v-else-if="item.key == 'img-magic'">
@@ -148,6 +157,12 @@ watch(
     },
     { immediate: true, deep: true }
 );
+
+const new_date_value = computed(() => {
+    return (item: any) => {
+        return item.com_data?.content?.content_top?.time_value || [];
+    }
+});
 
 // 模块的class
 const model_class = computed(() => {
@@ -326,7 +341,7 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
     top: 0;
     background: #fff;
     left: -10rem;
-    width: 8.6rem;
+    width: 9rem;
     height: 3.2rem;
     text-align: center;
     line-height: 3.2rem;
@@ -345,6 +360,12 @@ const float_bottom_change = (val: { bottom: string; location: string }, id: stri
         right: -0.5rem;
         margin-top: -0.5rem;
     }
+}
+.plug-in-name-tips {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: #e22c08;
 }
 .plug-in-mark-name {
     position: absolute;

@@ -80,6 +80,10 @@ declare global {
         background_img_style: string;
     };
 
+    type border_style = { border_is_show: string, border_color: string, border_style: string, border_size: paddingStyle };
+    type componentsTopStyle = {
+        time_value: any;
+    };
     /**
      * 通用样式参数
      */
@@ -90,6 +94,10 @@ declare global {
         floating_up: number;
         module_z_index: number;
         padding_top_safe_value: number;
+        border_is_show: string,
+        border_color: string,
+        border_style: string,
+        border_size: paddingStyle,
         padding: number;
         padding_top: number;
         padding_bottom: number;

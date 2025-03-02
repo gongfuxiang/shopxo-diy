@@ -37,32 +37,34 @@
                 </div>
                 <div v-else class="oh" :class="article_theme_class">
                     <swiper :key="carousel_key" class="w flex" direction="horizontal" :loop="true" :autoplay="autoplay" :slides-per-view="Number(carousel_col) + 1" :slides-per-group="slides_per_group" :allow-touch-move="false" :space-between="new_style.article_spacing" :pause-on-mouse-enter="true" :modules="modules">
-                        <swiper-slide v-for="(item, index) in data_list" :key="index" class="item oh" :style="article_style">
-                            <div class="h oh flex-col" :style="article_img_style">
-                                <div class="oh re h">
-                                    <template v-if="item.new_cover.length > 0">
-                                        <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
-                                    </template>
-                                    <template v-else>
-                                        <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
-                                    </template>
-                                    <template v-if="field_show.includes('3') && new_content.name_float == '1'">
-                                        <div class="text-line-1" :style="article_name + float_name_style">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
-                                    </template>
-                                    <!-- 角标设置 -->
-                                    <subscript-index :value="props.value"></subscript-index>
-                                </div>
-                                <div v-if="field_show.includes('0') || field_show.includes('1') || field_show.includes('2') || (field_show.includes('3') && new_content.name_float == '0')" class="jc-sb flex-1 flex-col" :style="article_theme != '0' ? content_padding : ''">
-                                    <div class="flex-col" :style="'gap:' + new_style.name_desc_space + 'px;'">
-                                        <div v-if="field_show.includes('3') && new_content.name_float == '0'" class="title text-line-2" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
-                                        <div v-if="field_show.includes('2')" :class="'desc ' + field_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="article_desc">{{ item.data.describe || '' }}</div>
+                        <swiper-slide v-for="(item, index) in data_list" :key="index">
+                            <div class="item oh" :style="article_style">
+                                <div class="h oh flex-col" :style="article_img_style">
+                                    <div class="oh re h">
+                                        <template v-if="item.new_cover.length > 0">
+                                            <image-empty v-model="item.new_cover[0].url" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
+                                        </template>
+                                        <template v-else>
+                                            <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
+                                        </template>
+                                        <template v-if="field_show.includes('3') && new_content.name_float == '1'">
+                                            <div class="text-line-1" :style="article_name + float_name_style">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                                        </template>
+                                        <!-- 角标设置 -->
+                                        <subscript-index :value="props.value"></subscript-index>
                                     </div>
-                                    <div :class="[ 'flex-row jc-sb gap-8 align-e', { 'mt-10': (field_show.includes('3') && new_content.name_float == '0') || field_show.includes('2') }] ">
-                                        <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
-                                        <div v-show="field_show.includes('1')" class="flex-row align-c gap-3" :style="article_page_view">
-                                            <icon name="eye"></icon>
-                                            <div>
-                                                {{ item.data.access_count ? item.data.access_count : '16' }}
+                                    <div v-if="field_show.includes('0') || field_show.includes('1') || field_show.includes('2') || (field_show.includes('3') && new_content.name_float == '0')" class="jc-sb flex-1 flex-col" :style="article_theme != '0' ? content_padding : ''">
+                                        <div class="flex-col" :style="'gap:' + new_style.name_desc_space + 'px;'">
+                                            <div v-if="field_show.includes('3') && new_content.name_float == '0'" class="title text-line-2" :style="article_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                                            <div v-if="field_show.includes('2')" :class="'desc ' + field_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="article_desc">{{ item.data.describe || '' }}</div>
+                                        </div>
+                                        <div :class="[ 'flex-row jc-sb gap-8 align-e', { 'mt-10': (field_show.includes('3') && new_content.name_float == '0') || field_show.includes('2') }] ">
+                                            <div :style="article_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
+                                            <div v-show="field_show.includes('1')" class="flex-row align-c gap-3" :style="article_page_view">
+                                                <icon name="eye"></icon>
+                                                <div>
+                                                    {{ item.data.access_count ? item.data.access_count : '16' }}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -76,7 +78,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, padding_computer, radius_computer, get_math, is_obj_empty, common_img_computer, background_computer, gradient_handle, gradient_computer, margin_computer } from '@/utils';
+import { common_styles_computer, padding_computer, radius_computer, get_math, is_obj_empty, common_img_computer, background_computer, gradient_handle, gradient_computer, margin_computer, box_shadow_computer, border_computer, old_radius, old_padding, old_margin } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 import ArticleAPI from '@/api/article';
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -154,9 +156,9 @@ const new_content = computed(() => props.value?.content || {});
 const new_style = computed(() => props.value?.style || {});
 // 获取自动数据
 const get_auto_data_list = async () => {
-    const { category_ids, number, order_by_type, order_by_rule, is_cover, keyword } = new_content.value;
+    const { category_ids, number, order_by_type, order_by_rule, is_cover, keywords } = new_content.value;
     const new_data = {
-        article_keywords: keyword,
+        article_keywords: keywords,
         article_category_ids: category_ids.join(','),
         article_order_by_type: order_by_type,
         article_order_by_rule: order_by_rule,
@@ -204,8 +206,8 @@ onMounted(() => {
 });
 // 监听new_content指定的数据变化
 const data_list_computer = computed(() => {
-    const { data_type, category_ids, number, order_by_type, order_by_rule, is_cover, data_list, keyword } = new_content.value;
-    return { data_type, category_ids, number, order_by_type, order_by_rule, is_cover, data_list, keyword };
+    const { data_type, category_ids, number, order_by_type, order_by_rule, is_cover, data_list, keywords } = new_content.value;
+    return { data_type, category_ids, number, order_by_type, order_by_rule, is_cover, data_list, keywords };
 });
 // 监听new_content指定的数据的变化，来获取最新数据
 watch(
@@ -226,13 +228,15 @@ watch(
     },
     { deep: true }
 );
-// 轮播宽度
-const multicolumn_columns_width = computed(() => {
-    const { carousel_col } = toRefs(new_content.value);
-    // 计算间隔的空间。(gap * gap数量) / 模块数量
-    let gap = carousel_col.value != '0' ? (new_style.value.article_spacing * carousel_col.value) / (Number(carousel_col.value) + 1) : '0';
-    return `calc(${100 / (Number(carousel_col.value) + 1)}% - ${gap}px)`;
-});
+
+// // 轮播宽度
+// const multicolumn_columns_width = computed(() => {
+//     const { carousel_col } = toRefs(new_content.value);
+//     const new_num = Number(carousel_col.value);
+//     // 计算间隔的空间。(gap * gap数量) / 模块数量
+//     let gap = (new_style.value.article_spacing * (new_num - 1)) + (article_left_right_width_margin.value * new_num) / new_num;
+//     return `calc(${100 / new_num}% - ${gap}px)`;
+// });
 // 文章内容高度
 const article_name_height_computer = computed(() => {
     return new_style.value.name_size * 2.4 + 'px';
@@ -285,10 +289,7 @@ const carousel_col = ref('2');
 const carousel_key = ref('0');
 const autoplay = ref<boolean | object>(false);
 const slides_per_group = ref(1);
-// 数据的默认值，避免没有值的时候报错
-const old_radius = { radius: 0, radius_top_left: 0, radius_top_right: 0, radius_bottom_left: 0, radius_bottom_right: 0 };
-const old_padding = { padding: 0, padding_top: 0, padding_bottom: 0, padding_left: 0, padding_right: 0 };
-const old_margin = { margin: 0, margin_top: 0, margin_bottom: 0, margin_left: 0, margin_right: 0 };
+
 // 文章名称浮动样式
 const float_name_style = computed(() => {
     const { name_bg_color_list = [], name_bg_direction = '180deg', name_bg_radius = old_radius, name_bg_padding = old_padding, name_bg_margin = old_margin } = new_style.value;
@@ -300,6 +301,10 @@ const float_name_style = computed(() => {
     return gradient_computer(data) + radius_computer(name_bg_radius) + padding_computer(name_bg_padding) + margin_computer(name_bg_margin) + location;
 });
 const field_desc_row = ref('1');
+const article_left_right_width_margin = computed(() => {
+    const { margin = old_margin } = new_style.value;
+    return margin.margin_left + margin.margin_right;
+});
 // 监听value数据变化
 watch(
     () => props.value,
@@ -337,16 +342,16 @@ watch(
             background_img: new_style.article_background_img,
         }
         style.value = '';
-        // 渐变效果
-        const gradient = gradient_handle(new_style.article_color_list, new_style.article_direction);
+        // 样式处理
+        const all_style = gradient_handle(new_style.article_color_list, new_style.article_direction) + margin_computer(new_style.margin) + box_shadow_computer(new_style) + border_computer(new_style);
         if (article_theme.value == '0') {
-            article_style.value += content_radius.value + gradient;
+            article_style.value += content_radius.value + all_style;
             article_img_style.value = content_spacing.value + content_padding.value + background_computer(article_data);
         } else if (article_theme.value == '1') {
-            article_style.value += `width: calc(50% - ${new_style.article_spacing / 2}px);` + content_radius.value + gradient;
+            article_style.value += `width: calc(50% - ${(new_style.article_spacing + article_left_right_width_margin.value * 2) / 2}px);` + content_radius.value + all_style;
             article_img_style.value = background_computer(article_data);
         } else if (article_theme.value == '2') {
-            article_style.value += content_radius.value + gradient;
+            article_style.value += content_radius.value + all_style;
             article_img_style.value = background_computer(article_data);
         } else if (article_theme.value == '3') {
             style.value = `padding: 0 ${new_style.content_spacing}px;background:#fff;` + content_radius.value;
@@ -370,7 +375,7 @@ watch(
             // 判断是平移还是整屏滚动
             slides_per_group.value = new_style.rolling_fashion == 'translation' ? 1 : Number(new_content.carousel_col) + 1;
             article_item_height.value = `${new_style.article_height}px`;
-            article_style.value += content_radius.value + gradient;
+            article_style.value += content_radius.value + all_style;
             article_img_style.value = background_computer(article_data);
         }
         if (new_style.common_style && props.isCommonStyle) {
@@ -399,7 +404,6 @@ const article_theme_class = computed(() => {
 <style lang="scss" scoped>
 .style1 {
     .item {
-        width: 100%;
         .img {
             height: v-bind(article_img_height);
             width: v-bind(article_img_width);
@@ -408,7 +412,6 @@ const article_theme_class = computed(() => {
 }
 .style2 {
     .item {
-        width: calc(50% - 0.5rem);
         .img {
             height: v-bind(article_img_height);
         }
@@ -416,7 +419,6 @@ const article_theme_class = computed(() => {
 }
 .style3 {
     .item {
-        width: 100%;
         .img {
             width: 100%;
             height: v-bind(article_img_height);
@@ -425,7 +427,6 @@ const article_theme_class = computed(() => {
 }
 .style4 {
     .item {
-        width: 100%;
         &:not(:last-child) {
             border-bottom: 0.1rem solid #eee;
         }
@@ -433,8 +434,6 @@ const article_theme_class = computed(() => {
 }
 .style5 {
     .item {
-        width: v-bind(multicolumn_columns_width);
-        min-width: v-bind(multicolumn_columns_width);
         height: v-bind(carousel_height_computer);
         .img {
             width: 100%;

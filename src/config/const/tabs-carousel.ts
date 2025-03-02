@@ -1,10 +1,12 @@
 import { get_math } from '@/utils';
 import defaultCommon from './index';
+import commonTop from './common-top';
 interface tabs_page {
     id: string;
     tabs_type: string;
     tabs_img: uploadList[];
     tabs_icon: string;
+    is_sliding_fixed: string,
     title: string;
     desc: string;
     data_type: string;
@@ -29,8 +31,15 @@ interface carousel_list {
 }
 interface defaultTabs {
     content: {
+        content_top: object;
+        justification: string,
+        rotating_background: string;
+        show_more: string,
         tabs_theme: string;
+        tabs_adorn_icon: string;
+        tabs_adorn_img: uploadList[];
         tabs_top_up: string;
+        is_tabs_safe_distance: string;
         home_data: tabs_page;
         tabs_list: tabs_page[];
         carousel_type: string;
@@ -43,6 +52,10 @@ interface defaultTabs {
     style: {
         tabs_one_theme: string;
         tabs_checked: color_list[];
+        is_tabs_adorn_img_background: string;
+        tabs_adorn_icon_size: number,
+        tabs_adorn_img_radius: radiusStyle,
+        tabs_adorn_img_height: number,
         tabs_direction: string;
         tabs_weight_checked: string;
         tabs_size_checked: number;
@@ -64,7 +77,9 @@ interface defaultTabs {
         tabs_bg_background_img_style: string,
         tabs_bg_background_img: string[],
         tabs_radius: radiusStyle;
+        tabs_margin: marginStyle;
         tabs_padding: paddingStyle;
+        tabs_content: object;
         carousel_content_direction: string;
         carousel_content_color_list: color_list[];
         carousel_content_background_img_style: string;
@@ -72,6 +87,7 @@ interface defaultTabs {
         carousel_content_radius: radiusStyle;
         carousel_content_margin: marginStyle;
         carousel_content_padding: paddingStyle;
+        carousel_content: object;
         more_icon_class: string;
         more_icon_color: string;
         more_icon_size: number;
@@ -109,16 +125,27 @@ interface defaultTabs {
 }
 const defaultTabs: defaultTabs = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
+        justification: 'left',
+        show_more: '1',
         // 选项卡风格
         tabs_theme: '0',
+        rotating_background: '0',
+        // 选中装饰图标
+        tabs_adorn_icon: 'checked-smooth',
+        tabs_adorn_img: [],
         // 是否置顶
         tabs_top_up: '0',
+        // 是否支持安全距离
+        is_tabs_safe_distance: '0',
         // 选项卡数据
-        home_data: { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', title: '首页', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
+        home_data: { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '首页', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
         tabs_list: [
-            { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '',  title: '热门推荐', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
-            { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试一', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
-            { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', title: '测试二', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
+            { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '',  is_sliding_fixed: '0', title: '热门推荐', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
+            { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '测试一', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
+            { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '测试二', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
         ],
         // 轮播类型
         carousel_type: 'inherit',
@@ -196,11 +223,21 @@ const defaultTabs: defaultTabs = {
             { color: '#FF2222', color_percentage: undefined },
             { color: '#FF9898', color_percentage: undefined },
         ],
+        is_tabs_adorn_img_background: '0',
+        tabs_adorn_icon_size: 15,
+        tabs_adorn_img_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+        },
+        tabs_adorn_img_height: 10,
         tabs_direction: '90deg',
-        tabs_weight_checked: '500',
+        tabs_weight_checked: 'bold',
         tabs_size_checked: 14,
         tabs_color_checked: 'rgba(51,51,51,1)',
-        tabs_weight: '500',
+        tabs_weight: 'bold',
         tabs_size: 14,
         tabs_color: 'rgba(51,51,51,1)',
         tabs_icon_color_checked: 'rgba(51,51,51,1)',
@@ -230,12 +267,38 @@ const defaultTabs: defaultTabs = {
             radius_bottom_left: 0,
             radius_bottom_right: 0,
         },
+        tabs_margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
+        },
         tabs_padding: {
             padding: 10,
             padding_top: 10,
             padding_bottom: 10,
             padding_left: 10,
             padding_right: 10,
+        },
+        tabs_content: {
+            // 边框样式
+            border_is_show: '0',
+            border_color: '#FF3F3F',
+            border_style: 'solid',
+            border_size: {
+                padding: 1,
+                padding_top: 1,
+                padding_right: 1,
+                padding_bottom: 1,
+                padding_left: 1,
+            },
+            // 阴影
+            box_shadow_color: '',
+            box_shadow_x: 0,
+            box_shadow_y: 0,
+            box_shadow_blur: 0,
+            box_shadow_spread: 0,
         },
         // 轮播内间距设置
         carousel_content_direction: '90deg',
@@ -262,6 +325,25 @@ const defaultTabs: defaultTabs = {
             padding_bottom: 10,
             padding_left: 10,
             padding_right: 10,
+        },
+        carousel_content: {
+            // 边框样式
+            border_is_show: '0',
+            border_color: '#FF3F3F',
+            border_style: 'solid',
+            border_size: {
+                padding: 1,
+                padding_top: 1,
+                padding_right: 1,
+                padding_bottom: 1,
+                padding_left: 1,
+            },
+            // 阴影
+            box_shadow_color: '',
+            box_shadow_x: 0,
+            box_shadow_y: 0,
+            box_shadow_blur: 0,
+            box_shadow_spread: 0,
         },
         // 更多设置
         more_icon_class: 'category-more',

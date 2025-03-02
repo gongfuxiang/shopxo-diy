@@ -2,7 +2,7 @@
     <el-dialog v-model="dialog_visible" class="radius-lg" width="1168" draggable append-to-body :close-on-click-modal="false" @close="close_event">
         <template #header>
             <div class="title center re">
-                <div class="tc size-16 fw">主题选择</div>
+                <div class="tc size-16 fw-b">主题选择</div>
             </div>
         </template>
         <div class="content pa-20 flex-row">

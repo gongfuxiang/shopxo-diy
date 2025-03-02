@@ -3,7 +3,7 @@
         <div class="flex-col" :style="style_img_container">
             <div class="oh" :style="tabs_container">
                 <div class="oh" :style="tabs_img_container">
-                    <tabs-view ref="tabs" :value="article_tabs" :active-index="tabs_active_index"></tabs-view>
+                    <tabs-view ref="tabs" :value="article_tabs" :active-index="tabs_active_index" :tabs-sliding-fixed-bg="tabs_sliding_fixed_bg"></tabs-view>
                 </div>
             </div>
             <div class="oh" :style="article_container">
@@ -15,7 +15,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, common_img_computer, common_styles_computer, gradient_computer, margin_computer, padding_computer, radius_computer } from '@/utils';
+import { background_computer, border_computer, box_shadow_computer, common_img_computer, common_styles_computer, gradient_computer, margin_computer, padding_computer, radius_computer } from '@/utils';
 import { cloneDeep } from 'lodash';
 /**
  * @description: 文章选项卡列表 （渲染）
@@ -37,6 +37,8 @@ const tabs_img_container = ref('');
 // 区域内边距
 const article_container = ref('');
 const article_img_container = ref('');
+// 打开滑动固定开关之后，显示的样式
+const tabs_sliding_fixed_bg = ref('');
 watch(
     () => props.value,
     (val) => {
@@ -51,7 +53,8 @@ watch(
             background_img_style: new_style.tabs_bg_background_img_style,
             background_img: new_style.tabs_bg_background_img,
         }
-        tabs_container.value = gradient_computer(tabs_data) + radius_computer(new_style.tabs_radius);
+        tabs_sliding_fixed_bg.value = gradient_computer(tabs_data);
+        tabs_container.value = gradient_computer(tabs_data) + radius_computer(new_style.tabs_radius) + margin_computer(new_style.tabs_margin) + border_computer(new_style.tabs_content) + box_shadow_computer(new_style.tabs_content);
         tabs_img_container.value = background_computer(tabs_data) + padding_computer(new_style.tabs_padding);
         // 文章区域背景设置
         const article_content_data = {
@@ -60,12 +63,12 @@ watch(
             background_img_style: new_style.article_content_background_img_style,
             background_img: new_style.article_content_background_img,
         }
-        article_container.value = gradient_computer(article_content_data) + margin_computer(new_style.article_content_margin) + radius_computer(new_style.article_content_radius);
+        article_container.value = gradient_computer(article_content_data) + margin_computer(new_style.article_content_margin) + radius_computer(new_style.article_content_radius) + border_computer(new_style.article_content) + box_shadow_computer(new_style.article_content);
         article_img_container.value = background_computer(article_content_data) + padding_computer(new_style.article_content_padding);
         //文章内容设置
         new_data.content.theme = new_data.content.article_theme;
         new_data.content.data_type = new_data.content.tabs_list[tabs_active_index.value].data_type;
-        new_data.content.keyword = new_data.content.tabs_list[tabs_active_index.value].keyword;
+        new_data.content.keywords = new_data.content.tabs_list[tabs_active_index.value].keywords;
         new_data.content.category_ids = new_data.content.tabs_list[tabs_active_index.value].category_ids;
         new_data.content.carousel_col = new_data.content.article_carousel_col;
         new_data.content.data_list = new_data.content.tabs_list[tabs_active_index.value].data_list;

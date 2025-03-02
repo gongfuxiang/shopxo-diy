@@ -1,6 +1,8 @@
 import defaultCommon from './index';
+import commonTop from './common-top';
 interface DefaultRowLine {
     content: {
+        content_top: object;
         styles: string;
     };
     style: {
@@ -11,6 +13,9 @@ interface DefaultRowLine {
 }
 const defaultRowLine: DefaultRowLine = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         // 线条样式
         styles: 'solid',
     },

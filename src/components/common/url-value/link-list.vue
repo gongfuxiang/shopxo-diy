@@ -15,7 +15,7 @@
                 <div class="flex-col gap-30">
                     <template v-if="new_base_data.length > 0">
                         <div v-for="item in new_base_data" :key="item.type">
-                            <div class="fw mb-15">{{ item.name }}</div>
+                            <div class="fw-b mb-15">{{ item.name }}</div>
                             <div class="flex-row flex-wrap gap-15">
                                 <div v-for="(child, index) in item.data" :key="index" class="item" :class="menu_active == child.page ? 'active' : ''" @click="menu_link_event(child)">
                                     {{ child.name }}

@@ -16,6 +16,7 @@ import defaultFloatWindow from '@/config/const/float-window';
 import defaultTabs from '@/config/const/tabs';
 import defaultGoodsList from '@/config/const/goods-list';
 import defaultGoodsTabs from '@/config/const/goods-tabs';
+import defaultDataTabs from '@/config/const/data-tabs';
 import defaultImgMagic from '@/config/const/img-magic';
 import defaultHotZone from '@/config/const/hot-zone';
 import defaultCustom from '@/config/const/custom';
@@ -44,6 +45,7 @@ interface DefaultSettings {
     tabs: object;
     goods_list: object;
     goods_tabs: object;
+    data_tabs: object;
     img_magic: object;
     data_magic: object;
     hot_zone: object;
@@ -72,6 +74,7 @@ const defaultSettings: DefaultSettings = {
     tabs: defaultTabs,
     goods_list: defaultGoodsList,
     goods_tabs: defaultGoodsTabs,
+    data_tabs: defaultDataTabs,
     img_magic: defaultImgMagic,
     data_magic: defaultDataMagic,
     hot_zone: defaultHotZone,

@@ -7,7 +7,7 @@
                     <el-radio-button value="1">本地导入</el-radio-button>
                     <el-radio-button value="2">模版市场</el-radio-button>
                 </el-radio-group>
-                <div class="middle size-16 fw">模版导入</div>
+                <div class="middle size-16 fw-b">模版导入</div>
             </div>
         </template>
         <div class="url-value-content ptb-16 flex-col gap-16">
@@ -21,7 +21,7 @@
                         </template>
                     </el-upload>
                     <div v-if="file_list.length > 0" class="upload-file-tips mt-10 size-12 flex-row gap-5 jc-c align-e">
-                        <span class="fw">{{ upload_file.name }}</span>
+                        <span class="fw-b">{{ upload_file.name }}</span>
                         <span class="cr-9">({{ annex_size_to_unit(upload_file.size) }})</span>
                     </div>
                     <div class="cr-c size-12 flex-col gap-10 mt-10">
@@ -70,7 +70,7 @@
                                     <div class="flex-1 flex-col pa-10 gap-10">
                                         <div class="title text-line-2">{{ item.title }}</div>
                                         <div class="flex-row jc-sb align-c gap-3">
-                                            <p class="cr-error fw size-14">{{ item.price_data.value }}</p>
+                                            <p class="cr-error fw-b size-14">{{ item.price_data.value }}</p>
                                             <el-button :type="item.buy_data.status == 1 ? 'success' : 'primary'" :disabled="item.buy_data.status == 2" @click="buy_event(item, item.buy_data.status)">{{ item.buy_data.title }}</el-button>
                                         </div>
                                         <div class="cr-9 size-12 flex-row jc-sb align-c">

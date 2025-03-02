@@ -7,9 +7,11 @@ interface location {
 }
 interface diy {
     key: string,
+    id: string,
     location: location,
     com_data: any,
 }
+type follow = { id: string, type: string, spacing: number }
 interface diy_content extends diy{
     com_width: number,
     com_height: number,
@@ -19,7 +21,8 @@ interface diy_content extends diy{
     is_enable: string,
     src: string,
     is_hot: string,
-    id: string
+    id: string,
+    data_follow: follow
 }
 
 interface expose {

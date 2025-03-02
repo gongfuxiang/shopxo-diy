@@ -5,45 +5,30 @@
             <el-form :model="form" label-width="70">
                 <div class="mb-12">通用</div>
                 <el-form-item label="底部背景">
-                    <background-common v-if="isMultBackground" v-model:color_list="form.color_list" v-model:direction="form.direction" v-model:img_style="form.background_img_style" v-model:img="form.background_img" @mult_color_picker_event="mult_color_picker_event" />
+                    <background-common v-if="isMultBackground" v-model:color_list="form.color_list" v-model:direction="form.direction" v-model:img_style="form.background_img_style" v-model:img="form.background_img" @mult_color_picker_event="mult_color_picker_event" @operation_end="operation_end" />
                     <div v-else>
-                        <color-picker v-model="form.color_list[0].color"></color-picker>
+                        <color-picker v-model="form.color_list[0].color" @operation_end="operation_end"></color-picker>
                     </div>
                 </el-form-item>
                 <el-form-item v-if="isFloatingUp" label="组件上浮">
-                    <slider v-model="form.floating_up" :min="0" :max="500"></slider>
+                    <slider v-model="form.floating_up" :min="0" :max="500" @operation_end="operation_end"></slider>
                 </el-form-item>
                 <el-form-item v-if="isFloatingUp" label="组件层级">
-                    <slider v-model="form.module_z_index" :min="0" :max="10"></slider>
+                    <slider v-model="form.module_z_index" :min="0" :max="10" @operation_end="operation_end"></slider>
                 </el-form-item>
                 <el-form-item label="内边距">
-                    <padding :value="form" :is-up-down="isUpDown" @update:value="padding_change"></padding>
+                    <padding :value="form" :is-up-down="isUpDown" @operation_end="operation_end"></padding>
                 </el-form-item>
                 <el-form-item v-if="isMargin" label="外边距">
-                    <margin :value="form" @update:value="margin_change"></margin>
+                    <margin :value="form" @operation_end="operation_end"></margin>
                 </el-form-item>
                 <el-form-item v-if="isRadius" label="圆角">
-                    <radius :value="form" @update:value="radius_change"></radius>
+                    <radius :value="form" @operation_end="operation_end"></radius>
                 </el-form-item>
-                <el-form-item v-if="isShadow" label="阴影设置">
-                    <div class="flex-col gap-10 w">
-                        <el-form-item label="颜色" label-width="45">
-                            <color-picker v-model="form.box_shadow_color"></color-picker>
-                        </el-form-item>
-                        <el-form-item label="X轴" label-width="45">
-                            <slider v-model="form.box_shadow_x" :min="-20" :max="20"></slider>
-                        </el-form-item>
-                        <el-form-item label="Y轴" label-width="45">
-                            <slider v-model="form.box_shadow_y" :min="-20" :max="20"></slider>
-                        </el-form-item>
-                        <el-form-item label="模糊" label-width="45">
-                            <slider v-model="form.box_shadow_blur"></slider>
-                        </el-form-item>
-                        <el-form-item label="扩展" label-width="45">
-                            <slider v-model="form.box_shadow_spread"></slider>
-                        </el-form-item>
-                    </div>
-                </el-form-item>
+                <!-- 边框处理 -->
+                <border-config v-if="isShowBorder" v-model:show="form.border_is_show" v-model:color="form.border_color" v-model:style="form.border_style" v-model:size="form.border_size" @operation_end="operation_end"></border-config>
+                <!-- 阴影配置 -->
+                <shadow-config v-if="isShadow" v-model="form" @operation_end="operation_end"></shadow-config>
             </el-form>
         </div>
     </card-container>
@@ -60,6 +45,18 @@ const props = defineProps({
             background_img_style: '0',
             floating_up: 0,
             is_bottom_up: '0',
+            border: {
+                is_show: '0',
+                color: '#FF3F3F',
+                style: 'solid',
+                size: {
+                    padding: 1,
+                    padding_top: 1,
+                    padding_right: 1,
+                    padding_bottom: 1,
+                    padding_left: 1,
+                },
+            },
             padding: 0,
             padding_top: 0,
             padding_bottom: 0,
@@ -105,32 +102,23 @@ const props = defineProps({
     isUpDown: {
         type: Boolean,
         default: true,
-    }
+    },
+    isShowBorder: {
+        type: Boolean,
+        default: true,
+    },
 });
 // value 和初始化数据合并数据
 let form = ref(props.value);
-const emit = defineEmits(['update:value']);
+const emit = defineEmits(['update:value', 'operation_end']);
 
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.color_list = arry;
     form.value.direction = type.toString();
 };
-const background_img_style_change = (style: any) => {
-    form.value.background_img_style = style;
-};
-const background_img_change = (arry: uploadList[]) => {
-    form.value.background_img = arry;
-};
-const radius_change = (radius: any) => {
-    form.value = Object.assign(form.value, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
-};
-
-const margin_change = (margin: any) => {
-    form.value = Object.assign(form.value, pick(margin, ['margin', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right']));
-};
-
-const padding_change = (padding: any) => {
-    form.value = Object.assign(form.value, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
+// 操作结束
+const operation_end = () => {
+    emit('operation_end');
 };
 </script>
 <style lang="scss" scoped>

@@ -1,6 +1,8 @@
 <template>
     <div class="w h">
         <el-form :model="form" label-width="80">
+            <common-content-top :value="form.content_top"></common-content-top>
+            <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">展示风格</div>
                 <el-form-item label="选择风格" label-width="60">
@@ -72,10 +74,43 @@ const props = defineProps({
 const style_list = ['heng2', 'shu2', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2', 'a-4x4'];
 // 每个小模块独立的样式
 const data_style = {
+    chunk_padding: {
+        padding: 0,
+        padding_top: 20, 
+        padding_bottom: 20, 
+        padding_left: 15,
+        padding_right: 15,
+    },
+    chunk_margin: {
+        margin: 0,
+        margin_bottom: 0,
+        margin_left: 0,
+        margin_right: 0,
+        margin_top: 0
+    },
     color_list: [{ color: '#FFD9C3', color_percentage: 0 }, { color: '#FFECE2', color_percentage: 12 }, { color: '#FFFFFF', color_percentage: 30 }],
     direction: '180deg',
     background_img_style: '2',
     background_img: [],
+    data_common_style: {
+        // 边框样式
+        border_is_show: '0',
+        border_color: '#FF3F3F',
+        border_style: 'solid',
+        border_size: {
+            padding: 1,
+            padding_top: 1,
+            padding_right: 1,
+            padding_bottom: 1,
+            padding_left: 1,
+        },
+        // 阴影
+        box_shadow_color: '',
+        box_shadow_x: 0,
+        box_shadow_y: 0,
+        box_shadow_blur: 0,
+        box_shadow_spread: 0,
+    },
     carouselKey: get_math(),
     is_roll: '0',
     rolling_fashion: 'cut-screen',
@@ -90,16 +125,24 @@ const data_style = {
     subtitle_color: '#FF852A',
     subtitle_typeface: '400',
     subtitle_size: 14,
-    goods_title_typeface: '500',
+    subtitle_img_height: 28,
+    goods_title_typeface: 'bold',
     goods_title_size: 14,    
     goods_title_color: "#333333",
-    goods_price_typeface: '500',
+    goods_price_typeface: 'bold',
     goods_price_size: 18,
     goods_price_color: "#EA3323;",
     goods_color_list: [{ color: '', color_percentage: undefined }],
     goods_direction: '180deg',
     goods_background_img_style: '2',
     goods_background_img: [],
+    goods_chunk_margin: {
+        margin: 0,
+        margin_top: 0,
+        margin_bottom: 0,
+        margin_left: 0,
+        margin_right: 0,
+    },
     goods_chunk_padding: {
         padding: 0,
         padding_top: 0, 
@@ -113,13 +156,6 @@ const data_style = {
         radius_top_right: 4,
         radius_bottom_left: 4,
         radius_bottom_right: 4,
-    },
-    chunk_padding: {
-        padding: 0,
-        padding_top: 20, 
-        padding_bottom: 20, 
-        padding_left: 15,
-        padding_right: 15,
     },
     goods_price_symbol_size: 9,
     goods_price_symbol_color: "#EA3323;",
@@ -151,6 +187,23 @@ const data_style = {
         radius_bottom_left: 4,
         radius_bottom_right: 4,
     },
+    // 边框样式
+    border_is_show: '0',
+    border_color: '#FF3F3F',
+    border_style: 'solid',
+    border_size: {
+        padding: 1,
+        padding_top: 1,
+        padding_right: 1,
+        padding_bottom: 1,
+        padding_left: 1,
+    },
+    // 阴影
+    box_shadow_color: '',
+    box_shadow_x: 0,
+    box_shadow_y: 0,
+    box_shadow_blur: 0,
+    box_shadow_spread: 0,
     // 图片圆角
     img_radius: {
         radius: 4,
@@ -206,6 +259,42 @@ const data_style = {
         margin_bottom: 0,
         margin_left: 0,
         margin_right: 0,
+        // 边框样式
+        border_is_show: '0',
+        border_color: '#FF3F3F',
+        border_style: 'solid',
+        border_size: {
+            padding: 1,
+            padding_top: 1,
+            padding_right: 1,
+            padding_bottom: 1,
+            padding_left: 1,
+        },
+        // 阴影
+        box_shadow_color: '',
+        box_shadow_x: 0,
+        box_shadow_y: 0,
+        box_shadow_blur: 0,
+        box_shadow_spread: 0,
+    },
+    data_pattern: {
+        // 边框样式
+        border_is_show: '0',
+        border_color: '#FF3F3F',
+        border_style: 'solid',
+        border_size: {
+            padding: 1,
+            padding_top: 1,
+            padding_right: 1,
+            padding_bottom: 1,
+            padding_left: 1,
+        },
+        // 阴影
+        box_shadow_color: '',
+        box_shadow_x: 0,
+        box_shadow_y: 0,
+        box_shadow_blur: 0,
+        box_shadow_spread: 0,
     },
     column_gap: 0,
     row_gap: 0,
@@ -232,7 +321,9 @@ const data_content = {
     heading_title_type: 'text',
     heading_title: '主标题',
     heading_title_img: [],
+    subtitle_title_type:'text',
     subtitle: '副标题',
+    subtitle_title_img: [],
     // 商品数据处理
     goods_list:[],
     goods_ids: '',
@@ -254,6 +345,7 @@ const data_content = {
     height: 150,
     // 容器基础的宽度
     width: 0,
+    data_source_is_loop: '1',
     // 手动模式下的唯一标识
     show_data: {
         data_key: 'id',
@@ -279,6 +371,8 @@ const data_content = {
     custom_mark_name: '',
     // 自定义内容列表
     custom_list: [],
+    // 存放所有的数据字段
+    field_list: [],
     //视频信息
     video: [],
     video_img: [],
@@ -315,6 +409,7 @@ onBeforeMount(() => {
         // 历史数据处理一下，避免有新增字段导致报错
         form.value.data_magic_list.forEach((item: any) => {
             item.data_style = Object.assign({}, cloneDeep(data_style), item.data_style);
+            item.data_style.data_content_style = Object.assign({}, cloneDeep(data_style.data_content_style), item.data_style.data_content_style);
             item.data_content = Object.assign({}, cloneDeep(data_content), item.data_content);
         });
     }

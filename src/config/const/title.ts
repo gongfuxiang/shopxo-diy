@@ -1,5 +1,6 @@
 import { get_math, padding_computer } from '@/utils';
 import defaultCommon from './index';
+import commonTop from './common-top';
 
 interface carousel_list {
     id: string;
@@ -9,6 +10,7 @@ interface carousel_list {
 }
 interface defaultSearch {
     content: {
+        content_top: object;
         title: string;
         title_link: object;
         img_src: uploadList[];
@@ -42,6 +44,9 @@ interface defaultSearch {
 }
 const defaultSearch: defaultSearch = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         // 左侧图片或icon
         img_src: [],
         icon_class: '',

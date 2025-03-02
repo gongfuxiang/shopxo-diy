@@ -6,7 +6,7 @@
                     <div class="flex-1 flex-row align-c gap-12">
                         <img class="round" :src="avatar_image" :width="base_data.user_avatar_size" :height="base_data.user_avatar_size" />
                         <div class="flex-col gap-8">
-                            <div class="size-16 fw" :style="user_name_style">昵称</div>
+                            <div class="size-16 fw-b" :style="user_name_style">昵称</div>
                             <div v-if="id_bool" class="plr-6 ptb-1 radius-sm" :style="number_code_style">ID:88888888</div>
                         </div>
                     </div>
@@ -20,7 +20,7 @@
                 <div class="flex-row jc-sa align-c">
                     <template v-for="(item, index) in stats_list" :key="index">
                         <div v-if="config.includes(item.id)" class="tc">
-                            <div class="size-16 fw mb-6" :style="stats_number_style">{{ item.value }}</div>
+                            <div class="size-16 fw-b mb-6" :style="stats_number_style">{{ item.value }}</div>
                             <div class="size-12" :style="stats_name_style">{{ item.name }}</div>
                         </div>
                     </template>
@@ -73,7 +73,7 @@ const base_data = reactive({
     // 用户名颜色
     user_name_color: 'rgba(0, 0, 0, 1)',
     // 用户名样式
-    user_name_weight: '500',
+    user_name_weight: 'bold',
     // 用户名字号
     user_name_size: 16,
     // 用户ID颜色
@@ -102,7 +102,7 @@ const base_data = reactive({
     // 统计数字颜色
     stats_number_color: 'rgba(0, 0, 0, 1)',
     // 统计数字样式
-    stats_number_weight: '500',
+    stats_number_weight: 'bold',
     // 统计数字字号
     stats_number_size: 16,
 });

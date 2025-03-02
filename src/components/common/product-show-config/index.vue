@@ -1,5 +1,5 @@
 <template>
-    <card-container>
+    <card-container class="card-container">
         <div class="mb-12">显示内容</div>
         <el-form-item label="是否显示">
             <el-checkbox-group v-model="form.is_show">
@@ -15,8 +15,8 @@
             <el-switch v-model="form.is_price_solo" active-value="1" inactive-value="0"></el-switch>
         </el-form-item>
     </card-container>
-    <div class="bg-f5 divider-line" />
-    <card-container>
+    <div class="divider-line data-tabs-line" />
+    <card-container class="card-container">
         <div class="mb-12">购物车设置</div>
         <el-form-item label="是否显示">
             <el-switch v-model="form.is_shop_show" active-value="1" inactive-value="0" ></el-switch>
@@ -109,7 +109,7 @@ const change_shop_type = () => {
         display: flex;
         align-items: flex-end;
         justify-content: center;
-        font-weight: 700;
+        font-weight: bold;
     }
 }
 :deep(.el-checkbox-group .el-checkbox){

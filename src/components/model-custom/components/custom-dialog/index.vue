@@ -2,11 +2,11 @@
     <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body :close-on-click-modal="false" :top="dialogPositionTop ? dialogPositionTop + 'px' : ''" @close="close_event">
         <template #header>
             <div class="title center re">
-                <div class="tc size-16 fw">{{ config?.popup_title || '数据选择' }}</div>
+                <div class="tc size-16 fw-b">{{ config?.popup_title || '数据选择' }}</div>
             </div>
         </template>
         <div class="flex-col gap-20 w h pa-20 oh">
-            <filter-form v-if="dialogVisible && !isEmpty(config?.filter_form_config)" :filter-data="config.filter_form_config" direction="horizontal" :data-interface="default_data" @form-change="filter_form_change"></filter-form>
+            <filter-form v-if="dialogVisible && !isEmpty(config?.search_filter_form_config)" :filter-data="config.search_filter_form_config" direction="horizontal" :data-interface="default_data" @form-change="filter_form_change"></filter-form>
             <!-- 表格头部如果传输了数据，就渲染表格, 否则就不渲染 -->
             <template v-if="!isEmpty(config?.header)">
                 <table-config v-loading="loading" :table-data="tableData" :multiple="multiple" :table-column-list="config.header" :table-row-class-list="tableRowClassList" @select="table_select"></table-config>
@@ -25,8 +25,9 @@
 </template>
 
 <script lang="ts" setup>
+import { interface_field_processing } from '@/utils';
 import request from '@/utils/request';
-import { isEmpty } from 'lodash';
+import { isEmpty, pick } from 'lodash';
 
 const props = defineProps({
     type: {
@@ -38,6 +39,10 @@ const props = defineProps({
         default: () => '',
     },
     config: {
+        type: Object as PropType<any>,
+        default: () => {},
+    },
+    extraSearchData: {
         type: Object as PropType<any>,
         default: () => {},
     },
@@ -69,9 +74,10 @@ const table_select = (val: any) => {
     }
     select_data.value = val;
 };
-const emit = defineEmits(['confirm_event']);
+const emit = defineEmits(['confirm_event', 'close_event']);
 const close_event = () => {
     dialogVisible.value = false;
+    emit('close_event');
 };
 const confirm_event = () => {
     if (init_data()) {
@@ -118,28 +124,13 @@ const pagination_data = ref({
 watchEffect(() => {
     if (!isEmpty(props.config) && dialogVisible.value) {
         // 处理数据
-        const staging_data : any = {};
         pagination_data.value = {
             page: 1,
             page_size: props?.config?.page_size || undefined,
             data_total: 0,
         }
-        const filter_form_config = props?.config?.filter_form_config || [];
         // 将数据赋值给默认数据
-        if (filter_form_config.length > 0) {
-             // 根据不同的类型，初始化不同的数据, 并将对象处理成对应的值
-             filter_form_config.forEach((item: any) => {
-                let value : number | string | Array<any> = '';
-                if (item.type == 'checkbox' || item.type == 'select' && +item?.config?.is_multiple == 1) { // 多选
-                    value = item?.config?.default ?? [];
-                } else if ((item.type == 'input' && item?.config?.type == 'number') || item.type == 'switch') { // 数字/开关
-                    value = Number(item?.config?.default ?? 0);
-                } else { // 其他
-                    value = item?.config?.default ?? '';
-                }
-                staging_data[item.form_name] = value;
-            })
-        }
+        const staging_data = interface_field_processing(props?.config?.search_filter_form_config || [], 'new', {});
         // 循环完之后赋值，避免多次赋值，传递给子组件出现多次调用和回调问题
         default_data.value = staging_data;
     }
@@ -162,12 +153,19 @@ const get_table_list = (val: any) => {
     tableData.value = [];
     // 判断是否有数据和配置和请求地址
     if (!isEmpty(props.config) && !isEmpty(props.config.data_url)) {
+        // 取出自动模式所有的字段
+        const filter_data = interface_field_processing(props?.config?.filter_form_config, 'new', {}) || {};
+        // 取出所有字段的key
+        const filter_key = Object.keys(filter_data);
+        // 移除不需要的数据
+        const extraSearchData = pick(props?.extraSearchData || {}, filter_key) || {};
         // 发送请求，获取数据
         const data = {
             ...val,
+            ...extraSearchData,
             page: pagination_data.value.page,
             page_size: pagination_data.value.page_size,
-        }
+        };
         loading.value = true;
         request({
             url: props.config.data_url, // 请求地址

@@ -3,7 +3,7 @@
         <div class="flex-col" :style="style_img_container">
             <div class="oh" :style="tabs_container">
                 <div class="oh" :style="tabs_img_container">
-                    <tabs-view ref="tabs" :value="props.value" :active-index="tabs_active_index"></tabs-view>
+                    <tabs-view ref="tabs" :value="props.value" :active-index="tabs_active_index" :tabs-sliding-fixed-bg="tabs_sliding_fixed_bg"></tabs-view>
                 </div>
             </div>
             <div class="oh" :style="shop_container">
@@ -15,7 +15,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, common_img_computer, common_styles_computer, gradient_computer, margin_computer, padding_computer, radius_computer } from '@/utils';
+import { background_computer, border_computer, box_shadow_computer, common_img_computer, common_styles_computer, gradient_computer, margin_computer, padding_computer, radius_computer } from '@/utils';
 import { cloneDeep } from 'lodash';
 
 const props = defineProps({
@@ -37,6 +37,8 @@ const tabs_img_container = ref('');
 // 商品区域样式设置
 const shop_container = ref('');
 const shop_img_container = ref('');
+// 打开滑动固定开关之后，显示的样式
+const tabs_sliding_fixed_bg = ref('');
 watch(
     () => props.value,
     (val) => {
@@ -51,7 +53,8 @@ watch(
             background_img_style: new_style.tabs_bg_background_img_style,
             background_img: new_style.tabs_bg_background_img,
         }
-        tabs_container.value = gradient_computer(tabs_data) + radius_computer(new_style.tabs_radius);
+        tabs_sliding_fixed_bg.value = gradient_computer(tabs_data);
+        tabs_container.value = gradient_computer(tabs_data) + radius_computer(new_style.tabs_radius) + margin_computer(new_style.tabs_margin) + border_computer(new_style.tabs_content) + box_shadow_computer(new_style.tabs_content);
         tabs_img_container.value = background_computer(tabs_data) + padding_computer(new_style.tabs_padding);
         // 商品区域背景设置
         const shop_content_data = {
@@ -60,11 +63,11 @@ watch(
             background_img_style: new_style.shop_content_background_img_style,
             background_img: new_style.shop_content_background_img,
         }
-        shop_container.value = gradient_computer(shop_content_data) + margin_computer(new_style.shop_content_margin) + radius_computer(new_style.shop_content_radius);
+        shop_container.value = gradient_computer(shop_content_data) + margin_computer(new_style.shop_content_margin) + radius_computer(new_style.shop_content_radius) + border_computer(new_style.shop_content) + box_shadow_computer(new_style.shop_content);
         shop_img_container.value = background_computer(shop_content_data) + padding_computer(new_style.shop_content_padding);
         // 产品的值
         new_data.content.data_type = new_data.content.tabs_list[tabs_active_index.value].data_type;
-        new_data.content.keyword = new_data.content.tabs_list[tabs_active_index.value].keyword;
+        new_data.content.keywords = new_data.content.tabs_list[tabs_active_index.value].keywords;
         new_data.content.category_ids = new_data.content.tabs_list[tabs_active_index.value].category_ids;
         new_data.content.brand_ids = new_data.content.tabs_list[tabs_active_index.value].brand_ids;
         new_data.content.number = new_data.content.tabs_list[tabs_active_index.value].number;

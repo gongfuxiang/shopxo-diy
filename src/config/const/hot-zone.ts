@@ -1,6 +1,8 @@
 import defaultCommon from './index';
+import commonTop from './common-top';
 interface DefaultHotZone {
     content: {
+        content_top: object;
         img: uploadList[];
         hot: hotData;
     };
@@ -11,6 +13,9 @@ interface DefaultHotZone {
 
 const defaultHotZone: DefaultHotZone = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         // { id: 1, url: '/src/assets/images/components/model-user-info/avatar.png', original: '头像1', title: '头像1', ext: '.png', type: 'img' }
         img: [],
         hot: {

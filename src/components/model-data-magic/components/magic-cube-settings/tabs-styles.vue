@@ -25,7 +25,7 @@
                 </template>
             </template>
             <el-form-item v-if="tabs_content.data_type != 'custom'" :label="tabs_content.data_type != 'video' ? '图片圆角' : '视频圆角'">
-                <radius :key="form.carouselKey" :value="form.img_radius" @update:value="img_radius_change"></radius>
+                <radius :key="form.carouselKey" :value="form.img_radius"></radius>
             </el-form-item>
         </card-container>
         <div class="bg-f5 divider-line" />
@@ -50,7 +50,14 @@
                 </template>
             </el-form-item>
             <el-form-item label="副标题">
-                <color-text-size-group v-model:color="form.subtitle_color" v-model:typeface="form.subtitle_typeface" v-model:size="form.subtitle_size" default-color="#000000"></color-text-size-group>
+                <template v-if="tabs_content.subtitle_title_type == 'text'">
+                    <color-text-size-group v-model:color="form.subtitle_color" v-model:typeface="form.subtitle_typeface" v-model:size="form.subtitle_size" default-color="#000000"></color-text-size-group>
+                </template>
+                <template v-else>
+                    <el-form-item label="图片高度" label-width="60" class="w form-item-child-label">
+                        <slider v-model="form.subtitle_img_height" :min="1" :max="200"></slider>
+                    </el-form-item>
+                </template>
             </el-form-item>
             <el-form-item label="标题内间距">
                 <slider v-model="form.title_gap" :min="0" :max="100"></slider>
@@ -70,14 +77,14 @@
             <el-form-item label="背景">
                 <background-common :key="form.carouselKey" v-model:color_list="form.data_color_list" v-model:direction="form.data_direction" v-model:img_style="form.data_background_img_style" v-model:img="form.data_background_img" @mult_color_picker_event="data_mult_color_picker_event" />
             </el-form-item>
-            <el-form-item v-if="tabs_content.data_type == 'custom'" label="外间距">
-                <margin :key="form.carouselKey" :value="form.data_chunk_margin" @update:value="data_chunk_margin_change"></margin>
+            <el-form-item label="外间距">
+                <margin :key="form.carouselKey" :value="form.data_chunk_margin"></margin>
             </el-form-item>
             <el-form-item label="内间距">
-                <padding :key="form.carouselKey" :value="form.data_chunk_padding" @update:value="data_chunk_padding_change"></padding>
+                <padding :key="form.carouselKey" :value="form.data_chunk_padding"></padding>
             </el-form-item>
             <el-form-item label="圆角">
-                <radius :key="form.carouselKey" :value="form.data_radius" @update:value="data_radius_change"></radius>
+                <radius :key="form.carouselKey" :value="form.data_radius"></radius>
             </el-form-item>
             <el-form-item v-if="tabs_content.data_type == 'custom'" label="数据间距">
                 <div class="flex-col w h gap-10">
@@ -92,6 +99,10 @@
             <el-form-item v-if="tabs_content.data_type == 'goods'" label="数据间距">
                 <slider v-model="form.data_goods_gap" :min="0" :max="50"></slider>
             </el-form-item>
+            <!-- 边框处理 -->
+            <border-config v-model:show="form.data_pattern.border_is_show" v-model:color="form.data_pattern.border_color" v-model:style="form.data_pattern.border_style" v-model:size="form.data_pattern.border_size"></border-config>
+            <!-- 阴影配置 -->
+            <shadow-config v-model="form.data_pattern"></shadow-config>
         </card-container>
         <div class="bg-f5 divider-line" />
         <template v-if="tabs_content.data_type == 'custom'">
@@ -100,7 +111,7 @@
                 <el-form-item label="背景">
                     <background-common :key="form.carouselKey" v-model:color_list="form.data_content_style.color_list" v-model:direction="form.data_content_style.direction" v-model:img_style="form.data_content_style.background_img_style" v-model:img="form.data_content_style.background_img" @mult_color_picker_event="data_content_mult_color_picker_event" />
                 </el-form-item>
-                <el-form-item v-if="tabs_content.data_type == 'custom'" label="外间距">
+                <el-form-item label="外间距">
                     <margin :key="form.carouselKey" :value="form.data_content_style"></margin>
                 </el-form-item>
                 <el-form-item label="内间距">
@@ -109,6 +120,10 @@
                 <el-form-item label="圆角">
                     <radius :key="form.carouselKey" :value="form.data_content_style"></radius>
                 </el-form-item>
+                <!-- 边框处理 -->
+                <border-config v-model:show="form.data_content_style.border_is_show" v-model:color="form.data_content_style.border_color" v-model:style="form.data_content_style.border_style" v-model:size="form.data_content_style.border_size"></border-config>
+                <!-- 阴影配置 -->
+                <shadow-config v-model="form.data_content_style"></shadow-config>
             </card-container>
             <div class="bg-f5 divider-line" />
         </template>
@@ -165,12 +180,19 @@
             <el-form-item label="背景">
                 <background-common :key="form.carouselKey" v-model:color_list="form.goods_color_list" v-model:direction="form.goods_direction" v-model:img_style="form.goods_background_img_style" v-model:img="form.goods_background_img" @mult_color_picker_event="goods_mult_color_picker_event" />
             </el-form-item>
+            <el-form-item label="外间距">
+                <margin :key="form.carouselKey" :value="form.goods_chunk_margin"></margin>
+            </el-form-item>
             <el-form-item label="内间距">
-                <padding :key="form.carouselKey" :value="form.goods_chunk_padding" @update:value="goods_chunk_padding_change"></padding>
+                <padding :key="form.carouselKey" :value="form.goods_chunk_padding"></padding>
             </el-form-item>
             <el-form-item label="圆角">
-                <radius :key="form.carouselKey" :value="form.goods_radius" @update:value="goods_radius_change"></radius>
+                <radius :key="form.carouselKey" :value="form.goods_radius"></radius>
             </el-form-item>
+            <!-- 边框处理 -->
+            <border-config v-model:show="form.border_is_show" v-model:color="form.border_color" v-model:style="form.border_style" v-model:size="form.border_size"></border-config>
+            <!-- 阴影配置 -->
+            <shadow-config v-model="form"></shadow-config>
         </card-container>
         <div class="bg-f5 divider-line" />
     </template>
@@ -179,9 +201,16 @@
         <el-form-item label="底部背景">
             <background-common :key="form.carouselKey" v-model:color_list="form.color_list" v-model:direction="form.direction" v-model:img_style="form.background_img_style" v-model:img="form.background_img" @mult_color_picker_event="mult_color_picker_event" />
         </el-form-item>
-        <el-form-item v-if="tabs_content.data_type != 'custom'" label="内间距">
-            <padding :key="form.carouselKey" :value="form.chunk_padding" @update:value="chunk_padding_change"></padding>
+        <el-form-item label="外间距">
+            <margin :key="form.carouselKey" :value="form.chunk_margin"></margin>
         </el-form-item>
+        <el-form-item label="内间距">
+            <padding :key="form.carouselKey" :value="form.chunk_padding"></padding>
+        </el-form-item>
+        <!-- 边框处理 -->
+        <border-config v-model:show="form.data_common_style.border_is_show" v-model:color="form.data_common_style.border_color" v-model:style="form.data_common_style.border_style" v-model:size="form.data_common_style.border_size"></border-config>
+        <!-- 阴影配置 -->
+        <shadow-config v-model="form.data_common_style"></shadow-config>
     </card-container>
 </template>
 <script setup lang="ts">
@@ -204,20 +233,6 @@ const mult_color_picker_event = (arry: string[], type: number) => {
     form.value.color_list = arry;
     form.value.direction = type.toString();
 };
-const chunk_padding_change = (padding: paddingStyle) => {
-    form.value.chunk_padding = Object.assign(form.value.chunk_padding, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
-};
-// 内容圆角
-const img_radius_change = (radius: radiusStyle) => {
-    const data = !isEmpty(form.value.img_radius) ? form.value.img_radius : { radius: 4, radius_top_left: 4, radius_top_right: 4, radius_bottom_left: 4, radius_bottom_right: 4 };
-    form.value.img_radius = Object.assign(data, pick(radius, [
-        'radius',
-        'radius_top_left',
-        'radius_top_right',
-        'radius_bottom_left',
-        'radius_bottom_right',
-    ]));
-}
 // 内容底板颜色
 const data_content_mult_color_picker_event = (arry: string[], type: number) => {
     form.value.data_content_style.color_list = arry;
@@ -228,45 +243,11 @@ const data_mult_color_picker_event = (arry: string[], type: number) => {
     form.value.data_color_list = arry;
     form.value.data_direction = type.toString();
 }
-const data_chunk_padding_change = (padding: paddingStyle) => {
-    form.value.data_chunk_padding = Object.assign(form.value.data_chunk_padding, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
-};
-
-const data_chunk_margin_change = (margin: marginStyle) => {
-    form.value.data_chunk_margin = Object.assign(form.value.data_chunk_margin, pick(margin, ['margin', 'margin_top', 'margin_bottom', 'margin_left', 'margin_right']));
-};
-// 内容圆角
-const data_radius_change = (radius: radiusStyle) => {
-    const data = !isEmpty(form.value.data_radius) ? form.value.data_radius : { radius: 4, radius_top_left: 4, radius_top_right: 4, radius_bottom_left: 4, radius_bottom_right: 4 };
-    form.value.data_radius = Object.assign(data, pick(radius, [
-        'radius',
-        'radius_top_left',
-        'radius_top_right',
-        'radius_bottom_left',
-        'radius_bottom_right',
-    ]));
-}
-
 // 商品底部颜色
 const goods_mult_color_picker_event = (arry: string[], type: number) => {
     form.value.goods_color_list = arry;
     form.value.goods_direction = type.toString();
 }
-const goods_chunk_padding_change = (padding: paddingStyle) => {
-    form.value.goods_chunk_padding = Object.assign(form.value.goods_chunk_padding, pick(padding, ['padding', 'padding_top', 'padding_bottom', 'padding_left', 'padding_right']));
-};
-// 内容圆角
-const goods_radius_change = (radius: radiusStyle) => {
-    const data = !isEmpty(form.value.goods_radius) ? form.value.goods_radius : { radius: 4, radius_top_left: 4, radius_top_right: 4, radius_bottom_left: 4, radius_bottom_right: 4 };
-    form.value.goods_radius = Object.assign(data, pick(radius, [
-        'radius',
-        'radius_top_left',
-        'radius_top_right',
-        'radius_bottom_left',
-        'radius_bottom_right',
-    ]));
-}
-
 // 商品价格底部颜色
 const goods_price_mult_color_picker_event = (arry: string[], type: number) => {
     form.value.goods_price_color_list = arry;

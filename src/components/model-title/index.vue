@@ -60,8 +60,8 @@ const title_style = computed(() => {
     let common_styles = '';
     if (new_style.value.title_weight == 'italic') {
         common_styles += `font-style: italic`;
-    } else if (new_style.value.title_weight == '500') {
-        common_styles += `font-weight: 500`;
+    } else if (['bold', '500'].includes(new_style.value.title_weight)) {
+        common_styles += `font-weight: bold;`;
     }
     return `color:${new_style.value.title_color}; font-size: ${new_style.value.title_size}px; ${common_styles}`;
 });
@@ -70,8 +70,8 @@ const subtitle_style = computed(() => {
     let common_styles = '';
     if (new_style.value.subtitle_weight == 'italic') {
         common_styles += `font-style: italic`;
-    } else if (new_style.value.subtitle_weight == '500') {
-        common_styles += `font-weight: 500`;
+    } else if (['bold', '500'].includes(new_style.value.subtitle_weight)) {
+        common_styles += `font-weight: bold;`;
     }
     return `color:${new_style.value.subtitle_color}; font-size: ${new_style.value.subtitle_size}px; ${common_styles}`;
 });

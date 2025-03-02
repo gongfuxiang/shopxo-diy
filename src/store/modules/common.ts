@@ -4,7 +4,8 @@ export const commonStore = defineStore('common', () => {
     // 链接是否需要调接口判断
     const is_common_api = ref(false);
     const is_immersion_model = ref(false);
-    const is_have_tabs = ref(false);
+    const is_general_safe_distance = ref(false);
+    const is_tabs_0_up = ref(false);
     const header_height = ref(0);
     const common = ref({
         article_category: [] as any[], //---- 文章分类
@@ -48,9 +49,13 @@ export const commonStore = defineStore('common', () => {
     const set_is_immersion_model = (bool: boolean) => {
         is_immersion_model.value = bool;
     };
+    
+    const set_is_general_safe_distance =  (bool: boolean) => {
+        is_general_safe_distance.value = bool;
+    };
 
-    const set_is_have_tabs = (bool: boolean) => {
-        is_have_tabs.value = bool;
+    const set_is_tabs_0_up = (bool: boolean) => {
+        is_tabs_0_up.value = bool;
     };
 
     const set_header_height = (height: number) => {
@@ -61,12 +66,14 @@ export const commonStore = defineStore('common', () => {
         common,
         is_common_api,
         is_immersion_model,
-        is_have_tabs,
+        is_tabs_0_up,
         header_height,
+        is_general_safe_distance,
         set_common,
         set_is_common_api,
         set_is_immersion_model,
-        set_is_have_tabs,
+        set_is_general_safe_distance,
+        set_is_tabs_0_up,
         set_header_height,
     };
 });

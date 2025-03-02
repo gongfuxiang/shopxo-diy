@@ -2,10 +2,13 @@
     <div class="common-content-height">
         <el-tabs v-model="tabs_name" class="content-tabs" @tab-change="change_tab_event">
             <el-tab-pane label="选项卡" name="tabs">
-                <model-tabs-content :value="form" :tab-style="styles"></model-tabs-content>
+                <model-tabs-content :value="form" :tab-style="styles" :is-common="false"></model-tabs-content>
             </el-tab-pane>
             <el-tab-pane label="轮播" name="carousel">
-                <model-carousel-content :value="form"></model-carousel-content>
+                <model-carousel-content :value="form" :is-common="false"></model-carousel-content>
+            </el-tab-pane>
+            <el-tab-pane label="公共" name="common">
+                <common-content-top :value="form.content_top"></common-content-top>
             </el-tab-pane>
         </el-tabs>
     </div>

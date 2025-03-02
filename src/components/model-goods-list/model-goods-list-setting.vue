@@ -1,7 +1,7 @@
 <template>
     <div class="auxiliary-line-setting">
         <template v-if="type == '1'">
-            <model-goods-list-content :value="form.content" :styles="form.style" :default-config="data_config" @theme_change="theme_change"></model-goods-list-content>
+            <model-goods-list-content :value="form.content" :styles="form.style" :default-config="data_config"></model-goods-list-content>
         </template>
         <template v-if="type == '2'">
             <model-goods-list-styles :value="form.style" :content="form.content" :default-config="data_config"></model-goods-list-styles>
@@ -25,10 +25,6 @@ const data_config = reactive({
     img_radius_1: 0,
 });
 const form = ref(props.value);
-const theme_change = (width: number, height: number) => {
-    form.value.style.content_img_width = width;
-    form.value.style.content_img_height = height;
-};
 </script>
 <style lang="scss" scoped>
 .auxiliary-line-setting {

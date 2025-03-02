@@ -110,7 +110,7 @@ const props = defineProps({
     },
 });
 const font_weight = reactive([
-    { name: '加粗', value: '500' },
+    { name: '加粗', value: 'bold' },
     { name: '正常', value: '400' },
 ]);
 // 默认值

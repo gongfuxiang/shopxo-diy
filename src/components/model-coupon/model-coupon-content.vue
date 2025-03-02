@@ -1,6 +1,8 @@
 <template>
     <div class="content">
         <el-form :model="form" label-width="70" class="m-h">
+            <common-content-top :value="form.content_top"></common-content-top>
+            <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选择风格">

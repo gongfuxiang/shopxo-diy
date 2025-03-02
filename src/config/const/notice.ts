@@ -1,5 +1,6 @@
 import { get_math } from '@/utils';
 import defaultCommon from './index';
+import commonTop from './common-top';
 
 interface carousel_list {
     id: string;
@@ -9,6 +10,7 @@ interface carousel_list {
 }
 interface defaultSearch {
     content: {
+        content_top: object;
         notice_style: string;
         title_type: string;
         title: string;
@@ -46,6 +48,9 @@ interface defaultSearch {
 }
 const defaultSearch: defaultSearch = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         // 风格
         notice_style: 'inherit',
         // 标题类型

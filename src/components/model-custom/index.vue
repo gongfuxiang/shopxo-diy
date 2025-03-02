@@ -3,42 +3,58 @@
         <div :style="style_img_container">
             <div :style="style_content_container">
                 <div class="w h re" :style="style_content_img_container">
-                    <template v-if="data_source_content_list.length > 0 && form.data_source_direction == 'vertical'">
-                        <div class="flex-row flex-wrap" :style="`row-gap: ${ new_style.row_gap }px;column-gap: ${ new_style.column_gap }px;`">
-                            <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="`width: ${ gap_width }`">
-                                <div :style="style_chunk_container">
-                                    <div class="w h oh" :style="style_chunk_img_container">
-                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="form.height" :scale="scale" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }"></data-rendering>
+                    <template v-if="!isEmpty(form.data_source) && form.data_source_is_loop !== '0'">
+                        <template v-if="data_source_content_list.length > 0 && form.data_source_direction == 'vertical'">
+                            <div class="flex-row flex-wrap" :style="`row-gap: ${ new_style.row_gap }px;column-gap: ${ new_style.column_gap }px;`">
+                                <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="`width: ${ gap_width }`">
+                                    <div :style="style_chunk_container">
+                                        <div class="w h oh" :style="style_chunk_img_container">
+                                            <data-rendering :custom-list="form.custom_list" :source-list="item1" :config-loop="form?.data_source_is_loop || '1'" :group-source-list="data_source_content_list" :data-height="form.height" :scale="scale" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }"></data-rendering>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        </template>
+                        <div v-else-if="data_source_content_list.length > 0 && ['vertical-scroll', 'horizontal'].includes(form.data_source_direction)" class="oh" :style="form.data_source_direction == 'horizontal' ? `height:100%;` : `height: ${ swiper_height }px;`">
+                            <swiper :key="carouselKey" class="w flex" :direction="form.data_source_direction == 'horizontal' ? 'horizontal': 'vertical'" :height="swiper_height" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="slides_per_group" :space-between="space_between" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
+                                <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
+                                    <div :style="style_chunk_container">
+                                        <div class="w h oh" :style="style_chunk_img_container">
+                                            <data-rendering :custom-list="form.custom_list" :source-list="item1" :config-loop="form?.data_source_is_loop || '1'" :group-source-list="data_source_content_list" :data-height="form.height" :scale="scale" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }"></data-rendering>
+                                        </div>
+                                    </div>
+                                </swiper-slide>
+                            </swiper>
+                            <div v-if="new_style.is_show == '1' && dot_list.length > 1" :class="['left', 'right'].includes(new_style.indicator_new_location) ? 'indicator_up_down_location' : 'indicator_about_location'" :style="indicator_location_style">
+                                <template v-if="new_style.indicator_style == 'num'">
+                                    <div :style="indicator_style" class="dot-item">
+                                        <span class="num-active">{{ actived_index + 1 }}</span><span>/{{ dot_list.length }}</span>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div v-for="(item, index) in dot_list" :key="index" :style="indicator_style" :class="{ 'dot-item': true, active: actived_index == index }" />
+                                </template>
+                            </div>
+                        </div>
+                        <template v-else>
+                            <div class="h" :style="style_chunk_container">
+                                <div class="w h oh" :style="style_chunk_img_container">
+                                    <data-rendering :custom-list="form.custom_list" :config-loop="form?.data_source_is_loop || '1'" :data-height="form.height" :scale="scale"></data-rendering>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                    <template v-else-if="!isEmpty(form.data_source) && form.data_source_is_loop == '0'">
+                        <div class="h" :style="style_chunk_container">
+                            <div class="w h oh" :style="style_chunk_img_container">
+                                <data-rendering :custom-list="form.custom_list" :source-list="{}" :config-loop="form?.data_source_is_loop || '1'" :group-source-list="data_source_content_list" :data-height="form.height" :scale="scale" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }"></data-rendering>
+                            </div>
                         </div>
                     </template>
-                    <div v-else-if="data_source_content_list.length > 0 && ['vertical-scroll', 'horizontal'].includes(form.data_source_direction)" class="oh" :style="form.data_source_direction == 'horizontal' ? `height:100%;` : `height: ${ swiper_height }px;`">
-                        <swiper :key="carouselKey" class="w flex" :direction="form.data_source_direction == 'horizontal' ? 'horizontal': 'vertical'" :height="swiper_height" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="slides_per_group" :space-between="space_between" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
-                            <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
-                                <div :style="style_chunk_container">
-                                    <div class="w h oh" :style="style_chunk_img_container">
-                                        <data-rendering :custom-list="form.custom_list" :source-list="item1" :data-height="form.height" :scale="scale" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }"></data-rendering>
-                                    </div>
-                                </div>
-                            </swiper-slide>
-                        </swiper>
-                        <div v-if="new_style.is_show == '1' && dot_list.length > 1" :class="['left', 'right'].includes(new_style.indicator_new_location) ? 'indicator_up_down_location' : 'indicator_about_location'" :style="indicator_location_style">
-                            <template v-if="new_style.indicator_style == 'num'">
-                                <div :style="indicator_style" class="dot-item">
-                                    <span class="num-active">{{ actived_index + 1 }}</span><span>/{{ dot_list.length }}</span>
-                                </div>
-                            </template>
-                            <template v-else>
-                                <div v-for="(item, index) in dot_list" :key="index" :style="indicator_style" :class="{ 'dot-item': true, active: actived_index == index }" />
-                            </template>
-                        </div>
-                    </div>
                     <template v-else>
-                        <div :style="style_chunk_container">
+                        <div class="h" :style="style_chunk_container">
                             <div class="w h oh" :style="style_chunk_img_container">
-                                <data-rendering :custom-list="form.custom_list" :data-height="form.height" :scale="scale"></data-rendering>
+                                <data-rendering :custom-list="form.custom_list" :config-loop="form?.data_source_is_loop || '1'" :data-height="form.height" :scale="scale"></data-rendering>
                             </div>
                         </div>
                     </template>
@@ -49,7 +65,7 @@
 </template>
 <script setup lang="ts">
 import { isEmpty, cloneDeep } from 'lodash';
-import { common_img_computer, common_styles_computer, get_math, radius_computer } from '@/utils';
+import { border_width, common_img_computer, common_styles_computer, get_indicator_location, get_math, radius_computer } from '@/utils';
 import { source_list } from '@/config/const/custom';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
@@ -62,18 +78,22 @@ const props = defineProps({
             return {};
         },
     },
+    isCommonStyle: {
+        type: Boolean,
+        default: true,
+    },
     outerContainerPadding: {
         type: Number,
         default: 0,
     }
 });
+
 // 用于页面判断显示
-const state = reactive({
-    form: props.value.content,
-    new_style: props.value.style,
-});
-// 如果需要解构，确保使用toRefs
-const { form, new_style } = toRefs(state);
+const form = computed(() => props.value?.content || {});
+const new_style = computed(() => props.value?.style || {});
+
+// 将顶级的字段暴露给孙子组件, 避免传递层级太深
+provide('field_list', computed(() => form.value?.field_list || []));
 onBeforeMount(() => {
     // 历史数据处理
     if (!Object.keys(form.value.data_source_content).includes('data_auto_list') && !Object.keys(form.value.data_source_content).includes('data_list')) {
@@ -95,22 +115,25 @@ const gap_width = computed(() => {
 const scale = ref(1);
 // 计算整体宽度和比例
 watchEffect(() => {
-    const { common_style, data_style, data_content_style } = new_style.value;
+    const { common_style, data_style, data_content_style, column_gap } = new_style.value;
     // 外层左右间距
-    const outer_spacing = common_style.margin_left + common_style.margin_right + common_style.padding_left + common_style.padding_right;
+    const outer_spacing = common_style.margin_left + common_style.margin_right + common_style.padding_left + common_style.padding_right + border_width(common_style);
     // 内容左右间距
-    const content_spacing = data_content_style.margin_left + data_content_style.margin_right + data_content_style.padding_left + data_content_style.padding_right;
+    const content_spacing = data_content_style.margin_left + data_content_style.margin_right + data_content_style.padding_left + data_content_style.padding_right + border_width(data_content_style);
     // 数据左右间距
-    const internal_spacing = data_style.margin_left + data_style.margin_right + data_style.padding_left + data_style.padding_right;
+    const internal_spacing = data_style.margin_left + data_style.margin_right + data_style.padding_left + data_style.padding_right + border_width(data_style);
+    // 数据间距
+    const data_spacing = ['vertical', 'horizontal'].includes(form.value.data_source_direction) ? column_gap * (form.value.data_source_carousel_col - 1) : 0;
     // 根据容器宽度来计算内部大小
-    const width = 390 - outer_spacing - internal_spacing - content_spacing - props.outerContainerPadding;
+    const width = 390 - outer_spacing - internal_spacing - content_spacing - data_spacing - props.outerContainerPadding;
     // 获得对应宽度的比例
-    scale.value = width / 390;
+    const scale_number = width / 390;
+    scale.value = scale_number > 0 ? scale_number : 0;
 });
 //#endregion
 // 公共样式
-const style_container = computed(() => common_styles_computer(new_style.value.common_style));
-const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
+const style_container = computed(() => props.isCommonStyle ? common_styles_computer(new_style.value.common_style) : '');
+const style_img_container = computed(() => props.isCommonStyle ? common_img_computer(new_style.value.common_style) : '');
 // 内容样式
 const style_content_container = computed(() => common_styles_computer(new_style.value.data_content_style));
 const style_content_img_container = computed(() => common_img_computer(new_style.value.data_content_style));
@@ -119,7 +142,7 @@ const style_chunk_container = computed(() => common_styles_computer(new_style.va
 const style_chunk_img_container = computed(() => common_img_computer(new_style.value.data_style));
 
 // 数据来源的内容
-let data_source_content_list = computed(() => {
+const data_source_content_list = computed(() => {
     // 是自定义数据类型的时候，显示自定义数据，否则显示数据来源的数据
     if (form.value.is_custom_data == '1') {
         if (Number(form.value.data_source_content.data_type) === 0) {
@@ -163,9 +186,6 @@ watchEffect(() => {
     const data_source_carousel_col = Number(form.value.data_source_carousel_col);
     // 判断是平移还是整屏滚动
     slides_per_group.value = new_style.value.rolling_fashion == 'translation' ? 1 : Number(data_source_carousel_col);
-    // 商品数量大于列数的时候，高度是列数，否则是当前的数量
-    const col = data_source_content_list.value.length > Number(data_source_carousel_col) ? Number(data_source_carousel_col) : data_source_content_list.value.length;
-    slides_per_view.value = col;
     let num = 0;
     // 轮播图数量
     if (!isEmpty(data_source_content_list.value)) {
@@ -175,8 +195,12 @@ watchEffect(() => {
     // 轮播图高度控制
     if (form.value.data_source_direction == 'horizontal') {
         swiper_height.value = form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top;
+        slides_per_view.value = Number(data_source_carousel_col);
     } else {
+        // 商品数量大于列数的时候，高度是列数，否则是当前的数量
+        const col = data_source_content_list.value.length > Number(data_source_carousel_col) ? Number(data_source_carousel_col) : data_source_content_list.value.length;
         swiper_height.value = (form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top) * col + ((data_source_carousel_col - 1) * space_between.value);
+        slides_per_view.value = col;
     }
     dot_list.value = Array(num);
     // 更新轮播图的key，确保更换时能重新更新轮播图
@@ -189,7 +213,7 @@ const indicator_style = computed(() => {
     if (!isEmpty(new_style.value.indicator_radius)) {
         indicator_styles += radius_computer(new_style.value.indicator_radius);
     }
-    const size = new_style.value?.indicator_size || 5;
+    const size = new_style.value.indicator_size;
     if (new_style.value.indicator_style == 'num') {
         indicator_styles += `color: ${new_style.value?.color || '#DDDDDD'};`;
         indicator_styles += `font-size: ${size}px;`;
@@ -214,30 +238,7 @@ const slideChange = (swiper: { realIndex: number }) => {
 //#endregion
 //#region 指示器位置
 // 根据指示器的位置来处理 对齐方式的处理
-const indicator_location_style = computed(() => {
-    const { indicator_new_location,  indicator_location, indicator_bottom } = new_style.value;
-    let styles = '';
-    if (['left', 'right'].includes(indicator_new_location)) {
-        if (indicator_location == 'flex-start') {
-            styles += `top: 0px;`;
-        } else if (indicator_location == 'center') {
-            styles += `top: 50%; transform: translateY(-50%);`;
-        } else {
-            styles += `bottom: 0px;`;
-        }
-    } else {
-        if (indicator_location == 'flex-start') {
-            styles += `left: 0px;`;
-        } else if (indicator_location == 'center') {
-            styles += `left: 50%; transform: translateX(-50%);`;
-        } else {
-            styles += `right: 0px;`;
-        }
-    }
-    // 如果有位置的处理，就使用指示器的位置处理，否则的话就用下边距处理
-    styles += `${ !isEmpty(indicator_new_location) ? `${indicator_new_location}: ${ indicator_bottom }px;` : `bottom: ${ indicator_bottom }px;` }`;
-    return styles;
-});
+const indicator_location_style = computed(() => get_indicator_location(new_style.value));
 //#endregion
 </script>
 <style lang="scss" scoped>

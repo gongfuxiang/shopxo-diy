@@ -4,8 +4,8 @@
             <el-radio-group v-model="form.data_type">
                 <el-radio value="goods">商品</el-radio>
                 <el-radio value="images">图片</el-radio>
-                <el-radio value="custom">自定义</el-radio>
                 <el-radio value="video">视频</el-radio>
+                <el-radio value="custom">自定义</el-radio>
             </el-radio-group>
         </el-form-item>
         <template v-if="form.data_type === 'goods'">
@@ -24,7 +24,18 @@
                 </div>
             </el-form-item>
             <el-form-item label="副标题">
-                <el-input v-model="form.subtitle" placeholder="请输入副标题" clearable></el-input>
+                <div class="flex-col gap-10 w">
+                    <el-radio-group v-model="form.subtitle_title_type">
+                        <el-radio value="text">文字</el-radio>
+                        <el-radio value="image">图片</el-radio>
+                    </el-radio-group>
+                    <template v-if="form.subtitle_title_type == 'text'">
+                        <el-input v-model="form.subtitle" placeholder="请输入副标题" clearable></el-input>
+                    </template>
+                    <template v-else>
+                        <upload v-model="form.subtitle_title_img" :limit="1" size="50"></upload>
+                    </template>
+                </div>
             </el-form-item>
             <el-form-item label="商品排列">
                 <el-radio-group v-model="form.goods_outerflex">
@@ -94,7 +105,7 @@
     </template>
     <template v-else-if="form.data_type == 'custom'">
         <div class="bg-f5 divider-line" />
-        <model-custom-content :key="key" :value="form" :magic-width="form.width" @data_source_change="data_source_change"></model-custom-content>
+        <model-custom-content :key="key" :value="form" :magic-width="form.width" :is-subcomponent="true" @data_source_change="data_source_change"></model-custom-content>
     </template>
     <template v-else>
         <div class="bg-f5 divider-line" />

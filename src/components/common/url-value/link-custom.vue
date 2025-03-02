@@ -29,7 +29,7 @@
                             <p>3. 示例：shortlink://#小程序://ShopXO系统/WxblCyRUmDqGpcz</p>
                             <p class="title">拨打电话</p>
                             <p>1. 以tel://开头</p>
-                            <p>2. 例如：tel://wx13222222222</p>
+                            <p>2. 例如：tel://13222222222</p>
                             <p class="title">跳转原生地图查看指定位置</p>
                             <p>1. 以map://开头</p>
                             <p>2. 例如：map://名称|地址|经度|纬度</p>

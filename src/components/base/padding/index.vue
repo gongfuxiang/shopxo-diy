@@ -1,7 +1,7 @@
 <template>
     <div class="flex-col w">
         <div class="flex-row gap-10 align-c">
-            <slider v-model="form.padding" :max="200" type="retract" @update:model-value="padding_event"></slider>
+            <slider v-model="form.padding" :max="200" type="retract" @update:model-value="padding_event" @operation_end="operation_end"></slider>
             <el-tooltip effect="dark" :show-after="200" :hide-after="200" :content="icon_data.title" raw-content placement="top">
                 <div class="flex-1 type-icon flex" @click="icon_event(icon_data.name)">
                     <icon :name="icon_data.name" size="24"></icon>
@@ -11,17 +11,17 @@
         <div class="type-icon-animation flex-row flex-wrap gap-x-20 oh" :style="`${ icon_data.name == 'alone' ? 'margin-top:20px;height: 100%;transform: scale(1);' : 'height:0px;transform: scale(0);margin-top:0px;'}`">
             <template v-if="isUpDown">
                 <div class="flex-width-half pr-10">
-                    <input-number v-model="form.padding_top" :max="200" icon-name="enter-t" @update:model-value="pt_event"></input-number>
+                    <input-number v-model="form.padding_top" :max="200" icon-name="enter-t" @update:model-value="pt_event" @operation_end="operation_end"></input-number>
                 </div>
                 <div class="flex-width-half pl-10">
-                    <input-number v-model="form.padding_bottom" :max="200" icon-name="enter-b" @update:model-value="pb_event"></input-number>
+                    <input-number v-model="form.padding_bottom" :max="200" icon-name="enter-b" @update:model-value="pb_event" @operation_end="operation_end"></input-number>
                 </div>
             </template>
             <div class="flex-width-half pr-10">
-                <input-number v-model="form.padding_left" :max="200" icon-name="enter-l" @update:model-value="pl_event"></input-number>
+                <input-number v-model="form.padding_left" :max="200" icon-name="enter-l" @update:model-value="pl_event" @operation_end="operation_end"></input-number>
             </div>
             <div class="flex-width-half pl-10">
-                <input-number v-model="form.padding_right" :max="200" icon-name="enter-r" @update:model-value="pr_event"></input-number>
+                <input-number v-model="form.padding_right" :max="200" icon-name="enter-r" @update:model-value="pr_event" @operation_end="operation_end"></input-number>
             </div>
         </div>
     </div>
@@ -45,8 +45,11 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form } = toRefs(state);
 
-const emit = defineEmits(['update:value']);
-
+const emit = defineEmits(['update:value', 'operation_end']);
+// 失去焦点时触发事件
+const operation_end = () => {
+    emit('operation_end');
+};
 const padding_event = (val: number | undefined) => {
     form.value.padding = Number(val);
     form.value.padding_top = Number(val);

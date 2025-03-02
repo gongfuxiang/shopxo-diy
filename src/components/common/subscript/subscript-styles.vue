@@ -1,5 +1,5 @@
 <template>
-    <card-container>
+    <card-container class="card-container">
         <div v-if="props.type != 'nav-group'" class="mb-12">角标设置</div>
         <el-form-item label="角标位置">
             <div class="flex-col gap-10">
@@ -110,6 +110,9 @@ const props = defineProps({
 });
 
 const form = ref(props.value);
+watch(() => props.value, (val) => {
+    form.value = val;
+}, {immediate: true, deep: true});
 let clone_form = cloneDeep(props.value);
 
 const base_list = {

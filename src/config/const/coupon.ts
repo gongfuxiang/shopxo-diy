@@ -1,9 +1,11 @@
 import defaultCommon from './index';
 import defaultSetting from '../setting/index';
+import commonTop from './common-top';
 import { online_url } from '@/utils';
 const new_url = await online_url('/static/plugins/coupon/images/diy/').then((res) => res);
 interface DefaultCoupon {
     content: {
+        content_top: object;
         theme: string;
         data_type: string;
         type: string[];
@@ -40,6 +42,9 @@ interface DefaultCoupon {
 }
 const defaultCoupoin: DefaultCoupon = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         theme: '1',
         data_type: '0',
         type: defaultSetting.coupon_ids,

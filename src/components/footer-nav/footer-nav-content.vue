@@ -28,7 +28,7 @@
                 </div>
                 <div class="size-12 cr-c mb-20">图片建议宽高80*80,鼠标拖拽左侧圆点可调整导航顺序</div>
                 <div class="nav-list">
-                    <drag :data="form.nav_content" type="card" :space-col="20" @remove="nav_content_remove" @on-sort="on_sort">
+                    <drag :data="form.nav_content" type="card" model-type="footer" :space-col="20" @remove="nav_content_remove" @on-sort="on_sort">
                         <template #default="{ row }">
                             <div class="w">
                                 <el-form-item label="图标" label-width="45">

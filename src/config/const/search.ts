@@ -1,5 +1,6 @@
 import { get_math } from "@/utils";
 import defaultCommon from "./index";
+import commonTop from './common-top';
 interface hot_word_list {
     id: string;
     value: string;
@@ -7,6 +8,7 @@ interface hot_word_list {
 }
 interface defaultSearch {
     content: {
+        content_top: object;
         is_center: string;
         is_icon_show: string;
         icon_link: object;
@@ -16,6 +18,10 @@ interface defaultSearch {
         search_botton_icon: string;
         is_tips_show: string;
         tips: string;
+        is_right_icon_show: string,
+        right_icon_link: object,
+        right_icon_img: uploadList[],
+        right_icon_class: string,
         is_search_show: string;
         search_type: string;
         search_tips: string;
@@ -24,12 +30,19 @@ interface defaultSearch {
     };
     style: {
         icon_color: string;
+        right_icon_color: string;
         button_inner_color: string;
         search_botton_color_list: color_list[];
         search_botton_direction: string;
         search_botton_background_img_style: string;
         search_botton_background_img: uploadList[];
         search_button_radius: object;
+        search_botton_padding: paddingStyle;
+        search_botton_margin: marginStyle,
+        search_botton_border_show: string,
+        search_botton_border_color: string,
+        search_botton_border_style: string,
+        search_botton_border_size: paddingStyle;
         search_padding_left: number;
         tips_color: string;
         hot_words_color: string;
@@ -43,6 +56,9 @@ interface defaultSearch {
 }
 const defaultSearch: defaultSearch = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         // 搜索提示是否居中
         is_center: '0',
         // 是否显示左侧icon
@@ -53,6 +69,11 @@ const defaultSearch: defaultSearch = {
         // 搜索提示信息
         is_tips_show: '1',
         tips: '请输入搜索内容',
+        // 是否显示右侧icon
+        is_right_icon_show: '0',
+        right_icon_link: {},
+        right_icon_img: [],
+        right_icon_class: '',
         // 搜索按钮显示逻辑
         search_botton_img: [],
         search_botton_icon: '',
@@ -67,6 +88,7 @@ const defaultSearch: defaultSearch = {
     style: {
         // 搜索图标颜色
         icon_color: '#ccc',
+        right_icon_color: '#ccc',
         // 搜索按钮显示样式
         button_inner_color: '#fff',
         search_botton_color_list: [{ color: '#FF973D', color_percentage: undefined }, { color: '#FF3131', color_percentage: undefined }],
@@ -80,6 +102,30 @@ const defaultSearch: defaultSearch = {
             radius_bottom_left: 16,
             radius_bottom_right: 16,
         },
+        search_botton_padding: {
+            padding: 0,
+            padding_top: 3,
+            padding_left: 16,
+            padding_right: 16,
+            padding_bottom: 3,
+        },
+        search_botton_margin: {
+            margin: 0,
+            margin_top: 2,
+            margin_right: 2,
+            margin_bottom: 2,
+            margin_left: 0,
+        },
+        search_botton_border_size: {
+            padding: 0,
+            padding_top: 0,
+            padding_right: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+        },
+        search_botton_border_show: '0',
+        search_botton_border_color: '#FF3F3F',
+        search_botton_border_style: 'solid',
         // 搜索提示颜色
         tips_color: '#ccc',
         // 搜索热词颜色

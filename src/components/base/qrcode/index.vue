@@ -84,7 +84,7 @@ onMounted(() => {
         inset: 0;
         z-index: 1;
         color: #fff;
-        font-weight: 500;
+        font-weight: bold;
         display: flex;
         align-items: center;
         justify-content: center;

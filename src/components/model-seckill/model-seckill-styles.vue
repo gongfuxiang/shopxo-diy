@@ -25,12 +25,39 @@
                     <el-form-item label="圆角">
                         <radius :value="form.seckill_head_radius"></radius>
                     </el-form-item>
+                    <el-form-item label="外间距">
+                        <margin :value="form.seckill_head_margin"></margin>
+                    </el-form-item>
                     <el-form-item label="内间距">
                         <padding :value="form.seckill_head_padding"></padding>
                     </el-form-item>
+                    <!-- 边框处理 -->
+                    <border-config v-model:show="form.seckill_head_style.border_is_show" v-model:color="form.seckill_head_style.border_color" v-model:style="form.seckill_head_style.border_style" v-model:size="form.seckill_head_style.border_size"></border-config>
+                    <!-- 阴影配置 -->
+                    <shadow-config v-model="form.seckill_head_style"></shadow-config>
                 </card-container>
                 <div class="divider-line"></div>
             </template>
+            <card-container>
+                <div class="mb-12">内容样式</div>
+                <el-form-item label="内容背景">
+                    <background-common v-model:color_list="form.shop_content_color_list" v-model:direction="form.shop_content_direction" v-model:img_style="form.shop_content_background_img_style" v-model:img="form.shop_content_background_img" @mult_color_picker_event="shop_content_mult_color_picker_event" />
+                </el-form-item>
+                <el-form-item label="圆角">
+                    <radius :value="form.shop_content_radius"></radius>
+                </el-form-item>
+                <el-form-item label="外间距">
+                    <margin :value="form.shop_content_margin"></margin>
+                </el-form-item>
+                <el-form-item label="内间距">
+                    <padding :value="form.shop_content_padding"></padding>
+                </el-form-item>
+                <!-- 边框处理 -->
+                <border-config v-model:show="form.shop_content.border_is_show" v-model:color="form.shop_content.border_color" v-model:style="form.shop_content.border_style" v-model:size="form.shop_content.border_size"></border-config>
+                <!-- 阴影配置 -->
+                <shadow-config v-model="form.shop_content"></shadow-config>
+            </card-container>
+            <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">商品样式</div>
                 <el-form-item label="商品背景">
@@ -76,6 +103,9 @@
                         <slider v-model="form.content_outer_height" :max="1000"></slider>
                     </el-form-item>
                 </template>
+                <el-form-item label="外间距">
+                    <margin :value="form.shop_margin"></margin>
+                </el-form-item>
                 <el-form-item label="内间距">
                     <padding :value="form.shop_padding"></padding>
                 </el-form-item>
@@ -88,6 +118,10 @@
                 <el-form-item label="图片圆角">
                     <radius :value="form.shop_img_radius"></radius>
                 </el-form-item>
+                <!-- 边框处理 -->
+                <border-config v-model:show="form.shop_style.border_is_show" v-model:color="form.shop_style.border_color" v-model:style="form.shop_style.border_style" v-model:size="form.shop_style.border_size"></border-config>
+                <!-- 阴影配置 -->
+                <shadow-config v-model="form.shop_style"></shadow-config>
                 <template v-if="data.shop_style_type !== '3'">
                     <el-form-item v-if="data.shop_style_type == '1'" label="图片宽度">
                         <slider v-model="form.content_img_width" :max="1000"></slider>
@@ -215,14 +249,14 @@ const countdown_color_picker_event = (arry: color_list[], type: number) => {
     form.value.countdown_bg_color_list = arry;
     form.value.countdown_direction = type.toString();
 };
+const shop_content_mult_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.shop_content_color_list = arry;
+    form.value.shop_content_direction = type.toString();
+};
 // 商品背景渐变设置
 const shop_mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.shop_color_list = arry;
     form.value.shop_direction = type.toString();
-};
-// 商品背景图片设置
-const shop_background_img_change = (arry: uploadList[]) => {
-    form.value.shop_background_img = arry;
 };
 // 进度条选中的设置
 // const progress_color_picker_event = (arry: color_list[], type: number) => {

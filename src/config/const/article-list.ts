@@ -1,4 +1,5 @@
 import defaultCommon from './index';
+import commonTop from './common-top';
 import defaultSetting from '../setting/index';
 import subscriptStyle from './subscript-style';
 
@@ -10,11 +11,12 @@ interface ArticleList {
 }
 interface DefaultArticleList {
     content: {
+        content_top: object;
         // 风格
         theme: string;
         carousel_col: string;
         data_type: string;
-        keyword: string;
+        keywords: string;
         category_ids: string[];
         data_list: ArticleList[];
         data_ids: string;
@@ -56,7 +58,18 @@ interface DefaultArticleList {
         page_view_color: string;
         content_radius: radiusStyle;
         img_radius: radiusStyle;
+        margin: marginStyle;    
         padding: paddingStyle;
+        border_is_show: string;
+        border_color: string;
+        border_style: string;
+        border_size: paddingStyle;
+        // 阴影
+        box_shadow_color: string;
+        box_shadow_x: number;
+        box_shadow_y: number;
+        box_shadow_blur: number;
+        box_shadow_spread: number;
         article_spacing: number;
         content_spacing: number;
         article_height: number;
@@ -71,10 +84,13 @@ interface DefaultArticleList {
 }
 const defaultArticleList: DefaultArticleList = {
     content: {
+        content_top: {
+            ...commonTop
+        },
         theme: '0',
         carousel_col: '2',
         data_type: '0',
-        keyword: '',
+        keywords: '',
         category_ids: defaultSetting.category_ids,
         data_list: [],
         data_ids: '',
@@ -98,7 +114,7 @@ const defaultArticleList: DefaultArticleList = {
         article_color_list: [{ color: '#fff', color_percentage: undefined }],
         article_background_img_style: '0',
         article_background_img: [],
-        name_weight: '500',
+        name_weight: 'bold',
         name_size: 14,
         name_color: '#333',
         name_bg_color_list: [{ color: 'rgba(0, 0, 0, 0.7)', color_percentage: undefined }],
@@ -149,6 +165,13 @@ const defaultArticleList: DefaultArticleList = {
             radius_bottom_left: 4,
             radius_bottom_right: 4,
         },
+        margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
+        },
         // 内间距
         padding: {
             padding: 10,
@@ -157,11 +180,28 @@ const defaultArticleList: DefaultArticleList = {
             padding_left: 10,
             padding_right: 10,
         },
+        // 边框样式
+        border_is_show: '0',
+        border_color: '#FF3F3F',
+        border_style: 'solid',
+        border_size: {
+            padding: 1,
+            padding_top: 1,
+            padding_right: 1,
+            padding_bottom: 1,
+            padding_left: 1,
+        },
+        // 阴影
+        box_shadow_color: '',
+        box_shadow_x: 0,
+        box_shadow_y: 0,
+        box_shadow_blur: 0,
+        box_shadow_spread: 0,
         content_spacing: 10, // 内容间距
         article_spacing: 10, // 文章间距
         article_height: 155, // 文章高度
-        content_img_width: undefined,
-        content_img_height: undefined,
+        content_img_width: 110,
+        content_img_height: 83,
         interval_time: 3, //滚动时间
         is_roll: 1, // 是否轮播
         rolling_fashion: 'translation', // 滚动方式  translation 平移 cut-screen 切屏

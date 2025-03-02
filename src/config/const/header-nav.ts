@@ -1,6 +1,7 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import { commonStore } from '@/store';
+import commonTop from './common-top';
 import App from '@/App.vue';
 const app = createApp(App);
 const pinia = createPinia();
@@ -16,6 +17,7 @@ interface hot_word_list {
 }
 interface DefaultFooterNav {
     content: {
+        content_top: object;
         theme: string;
         logo: uploadList[];
         title: string;
@@ -41,6 +43,10 @@ interface DefaultFooterNav {
         search_botton_icon: string;
         is_tips_show: string;
         tips: string;
+        is_right_icon_show: string,
+        right_icon_link: object,
+        right_icon_img: uploadList[],
+        right_icon_class: string,
         is_search_show: string;
         search_type: string;
         search_tips: string;
@@ -67,12 +73,19 @@ interface DefaultFooterNav {
         up_slide_background_img: uploadList[];
         left_back_btn_color: string;
         icon_color: string;
+        right_icon_color: string,
         button_inner_color: string;
         search_botton_color_list: color_list[];
         search_botton_direction: string;
         search_botton_background_img_style: string;
         search_botton_background_img: uploadList[];
         search_button_radius: object;
+        search_botton_padding: paddingStyle;
+        search_botton_margin: marginStyle,
+        search_botton_border_show: string,
+        search_botton_border_color: string,
+        search_botton_border_style: string,
+        search_botton_border_size: paddingStyle;
         location_direction: string;
         location_color_list: color_list[],
         location_background_img_style: string,
@@ -101,6 +114,9 @@ interface DefaultFooterNav {
 }
 const defaultFooterNav: DefaultFooterNav = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         // 页面设置的风格
         theme: '1',
         logo: [],
@@ -134,6 +150,11 @@ const defaultFooterNav: DefaultFooterNav = {
         icon_class: 'search',
         // 搜索提示信息
         tips: '请输入搜索内容',
+        // 是否显示右侧icon
+        is_right_icon_show: '0',
+        right_icon_link: {},
+        right_icon_img: [],
+        right_icon_class: '',
         // 搜索按钮右侧搜索内容
         is_search_show: '0',
         search_botton_img: [],
@@ -154,7 +175,7 @@ const defaultFooterNav: DefaultFooterNav = {
         header_background_img_style: '2',
         header_background_img: [],
         header_background_title_color: '#333',
-        header_background_title_typeface: '500',
+        header_background_title_typeface: 'bold',
         header_background_title_size: 14,
         // 换行间距
         data_alone_row_space: 5,
@@ -174,6 +195,7 @@ const defaultFooterNav: DefaultFooterNav = {
         // 左侧返回按钮颜色
         left_back_btn_color: '#333',
         icon_color: '#ccc',
+        right_icon_color: '#ccc',
         // 定位设置
         location_direction: '90deg',
         location_color_list: [{ color: '', color_percentage: undefined }],
@@ -232,6 +254,30 @@ const defaultFooterNav: DefaultFooterNav = {
             radius_bottom_left: 16,
             radius_bottom_right: 16,
         },
+        search_botton_padding: {
+            padding: 0,
+            padding_top: 3,
+            padding_left: 12,
+            padding_right: 12,
+            padding_bottom: 3,
+        },
+        search_botton_margin: {
+            margin: 0,
+            margin_top: 2,
+            margin_right: 2,
+            margin_bottom: 2,
+            margin_left: 0,
+        },
+        search_botton_border_size: {
+            padding: 0,
+            padding_top: 0,
+            padding_right: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+        },
+        search_botton_border_show: '0',
+        search_botton_border_color: '#FF3F3F',
+        search_botton_border_style: 'solid',
         // 搜索按钮显示样式
         button_inner_color: '#fff',
         search_botton_color_list: [

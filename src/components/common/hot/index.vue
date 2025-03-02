@@ -3,7 +3,7 @@
     <el-dialog v-model="dialog_visible" fullscreen :close-on-click-modal="false" @close="close_event">
         <template #header>
             <div class="title re">
-                <div class="tc size-16 fw">编辑热区</div>
+                <div class="tc size-16 fw-b">编辑热区</div>
             </div>
         </template>
         <el-scrollbar class="content-scrollbar">
@@ -38,7 +38,7 @@
                     </el-scrollbar>
                 </div>
                 <div class="right-content flex-1 pa-20">
-                    <div class="size-16 fw mb-10">图片热区</div>
+                    <div class="size-16 fw-b mb-10">图片热区</div>
                     <div class="flex-col gap-20 item">
                         <div v-for="(item, index) in hot_list.data" :key="index" class="flex-row align-c gap-10">
                             <el-input v-model="item.name" class="name" placeholder="名称" clearable></el-input>
@@ -60,7 +60,7 @@
     <el-dialog v-model="hot_dialog_visible" width="560" append-to-body draggable :close-on-click-modal="false" @close="hot_close_event">
         <template #header>
             <div class="title re">
-                <div class="tc size-16 fw">设置热区</div>
+                <div class="tc size-16 fw-b">设置热区</div>
             </div>
         </template>
         <div class="content">

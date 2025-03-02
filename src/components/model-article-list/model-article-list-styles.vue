@@ -1,7 +1,7 @@
 <template>
     <div class="styles">
         <el-form :model="form" label-width="70">
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12">列表样式</div>
                 <el-form-item v-if="theme != '3'" label="文章背景">
                     <background-common v-model:color_list="form.article_color_list" v-model:direction="form.article_direction" v-model:img_style="form.article_background_img_style" v-model:img="form.article_background_img" @mult_color_picker_event="mult_color_picker_event" />
@@ -37,6 +37,9 @@
                 <el-form-item label="浏览量">
                     <color-text-size-group v-model:color="form.page_view_color" v-model:typeface="form.page_view_weight" v-model:size="form.page_view_size"></color-text-size-group>
                 </el-form-item>
+                <el-form-item v-if="theme != '3'" label="外间距">
+                    <margin :value="form.margin"></margin>
+                </el-form-item>
                 <el-form-item label="内间距">
                     <padding :value="form.padding"></padding>
                 </el-form-item>
@@ -62,6 +65,10 @@
                     <el-form-item label="图片圆角">
                         <radius :value="form.img_radius"></radius>
                     </el-form-item>
+                    <!-- 边框处理 -->
+                    <border-config v-model:show="form.border_is_show" v-model:color="form.border_color" v-model:style="form.border_style" v-model:size="form.border_size"></border-config>
+                    <!-- 阴影配置 -->
+                    <shadow-config v-model="form"></shadow-config>
                 </template>
                 <template v-if="!['3', '4'].includes(theme)">
                     <el-form-item v-if="['0'].includes(theme)" label="图片宽度">
@@ -73,8 +80,8 @@
                 </template>
             </card-container>
             <template v-if="theme == '4'">
-                <div class="divider-line"></div>
-                <card-container>
+                <div class="divider-line data-tabs-line"></div>
+                <card-container class="card-container">
                     <div class="mb-12">轮播设置</div>
                     <el-form-item label="自动轮播">
                         <el-switch v-model="form.is_roll" :active-value="1" :inactive-value="0" />
@@ -94,12 +101,14 @@
             </template>
             <!-- 角标 -->
             <template v-if="data.seckill_subscript_show == '1'">
-                <div class="divider-line"></div>
+                <div class="divider-line data-tabs-line"></div>
                 <subscript-styles :value="form.subscript_style" :data="data"></subscript-styles>
             </template>
         </el-form>
-        <div class="divider-line"></div>
-        <common-styles :value="form.common_style" @update:value="common_style_update" />
+        <template v-if="isCommonStyle">
+            <div class="divider-line data-tabs-line"></div>
+            <common-styles :value="form.common_style" @update:value="common_style_update" />
+        </template>
     </div>
 </template>
 <script setup lang="ts">
@@ -117,6 +126,10 @@ const props = defineProps({
     content: {
         type: Object,
         default: () => ({}),
+    },
+    isCommonStyle: {
+        type: Boolean,
+        default: true,
     },
     defaultConfig: {
         type: Object,
@@ -156,10 +169,6 @@ if (theme.value == '0') {
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.article_color_list = arry;
     form.value.article_direction = type.toString();
-};
-// 文章背景图片设置
-const background_img_change = (arry: uploadList[]) => {
-    form.value.article_background_img = arry;
 };
 // 文章标题浮起显示设置
 const name_bg_mult_color_picker_event = (arry: color_list[], type: number) => {

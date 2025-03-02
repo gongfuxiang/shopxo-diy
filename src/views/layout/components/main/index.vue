@@ -23,21 +23,33 @@
     </div>
     <div class="drawer-container" :style="`width: ${drawer_selected ? '12.8rem' : '0px'}`">
         <div class="drawer-content pt-5" :style="{ left: drawer_selected ? '0' : '-100%' }">
-            <div class="size-14 cr-3 fw pl-12 drawer-title" :style="{ opacity: drawer_selected ? '1' : '0' }">已选组件({{ diy_data.length }})</div>
+            <div class="size-14 cr-3 fw-b pl-12 drawer-title" :style="{ opacity: drawer_selected ? '1' : '0' }">已选组件({{ diy_data.length }})</div>
             <div ref="left_scrollTop" class="drawer-drag-area">
                 <div v-for="(item, index) in tabs_data" :key="index" :class="['flex ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-drag-bg': item.show_tabs == '1' }]" @click="set_tabs_event(true)">
                     <el-icon class="iconfont icon-jinzhi size-16 cr-d" />
-                    <span class="size-12 cr-6">{{ item.name }}</span>
+                    <el-tooltip effect="dark" :show-after="200" :hide-after="200" :content="`<span>开始时间: ${ !isEmpty(new_date_value(item)) ? new_date_value(item)[0] : '' }</span><br/><span>结束时间: ${ !isEmpty(new_date_value(item)[1]) ? new_date_value(item)[1] : '' }</span>`" raw-content placement="top" :disabled="isEmpty(new_date_value(item))">
+                        <span class="size-12 cr-6 re">
+                            <div class="flex-row gap-5 align-c jc-c">
+                                {{ item.name }}
+                                <div v-if="!isEmpty(new_date_value(item))" class="plug-in-name-tips"></div>
+                            </div>
+                        </span>
+                    </el-tooltip>
                     <el-icon class="iconfont icon-close-round-o size-16 abs" :style="[item.show_tabs == '1' ? '' : 'display:none']" @click.stop="del(index, true)" />
                 </div>
                 <VueDraggable v-model="diy_data" :animation="400" target=".sort-target" :scroll="true" :on-sort="on_sort">
                     <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col">
                         <li v-for="(item, index) in diy_data" :key="index" :class="['flex ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-drag-bg': item.show_tabs == '1' }]" @click="on_choose(index, item.show_tabs)">
                             <el-icon class="iconfont icon-drag size-16 cr-d" />
-                            <span class="size-12 cr-6 re">
-                                {{ item.name }}
-                                <div v-if="!isEmpty(item.mark_name)" class="plug-drawer-mark-name mark-name-style">{{ item.mark_name }}</div>
-                            </span>
+                            <el-tooltip effect="dark" :show-after="200" :hide-after="200" :content="`<span>开始时间: ${ !isEmpty(new_date_value(item)) ? new_date_value(item)[0] : '' }</span><br/><span>结束时间: ${ !isEmpty(new_date_value(item)[1]) ? new_date_value(item)[1] : '' }</span>`" raw-content placement="top" :disabled="isEmpty(new_date_value(item))">
+                                <span class="size-12 cr-6 re">
+                                    <div class="flex-row gap-5 align-c jc-c">
+                                        {{ item.name }}
+                                        <div v-if="!isEmpty(new_date_value(item))" class="plug-in-name-tips"></div>
+                                    </div>
+                                    <div v-if="!isEmpty(item.mark_name)" class="plug-drawer-mark-name mark-name-style">{{ item.mark_name }}</div>
+                                </span>
+                            </el-tooltip>
                             <el-icon class="iconfont icon-close-round-o size-16 abs" :style="[item.show_tabs == '1' ? '' : 'display:none']" @click.stop="del(index, false)" />
                         </li>
                     </TransitionGroup>
@@ -117,6 +129,13 @@ const props = defineProps({
         default: () => {},
     },
 });
+// 时间处理
+const new_date_value = computed(() => {
+    return (item: any) => {
+        return item.com_data?.content?.content_top?.time_value || [];
+    }
+});
+
 const diy_data = ref(props.diyData);
 const tabs_data = ref(props.tabsData);
 const page_data = ref(props.header);
@@ -165,7 +184,9 @@ const set_padding_top_value = () => {
         });
         // 处理另外一个数组的时候，将所有的padding_top_safe_value设置为0
         diy_data.value.forEach((item: any) => {
-            item.com_data.style.common_style.padding_top_safe_value = 0;
+            if (item.key !== 'float-window') {
+                item.com_data.style.common_style.padding_top_safe_value = 0;
+            }
         });
     } else if (diy_data.value.length > 0) {
         // 处理另外一个数组的时候，将所有的padding_top_safe_value设置为0
@@ -302,12 +323,6 @@ const draggable_click = (item: componentsData) => {
         }
     }
 };
-// watchEffect(() => {
-//     if (tabs_data.value.length <= 0) {
-//         common_store.set_is_have_tabs(false);
-//     }
-// });
-
 // 复制
 const clone_item_com_data = (item: commonComponentData) => {
     return {

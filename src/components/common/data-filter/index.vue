@@ -11,7 +11,7 @@
         </div>
         <div v-show="form.data_type === '1'" class="w h">
             <el-form-item label="关键字">
-                <el-input v-model="keyword" placeholder="请输入商品关键字" clearable @blur="keyword_blur"></el-input>
+                <el-input v-model="keywords" placeholder="请输入商品关键字" clearable @blur="keyword_blur"></el-input>
             </el-form-item>
             <el-form-item label="商品分类">
                 <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择商品分类">
@@ -50,7 +50,7 @@
         </div>
         <div v-show="form.data_type === '1'" class="w h">
             <el-form-item label="关键字">
-                <el-input v-model="keyword" placeholder="请输入文章关键字" clearable @blur="keyword_blur"></el-input>
+                <el-input v-model="keywords" placeholder="请输入文章关键字" clearable @blur="keyword_blur"></el-input>
             </el-form-item>
             <el-form-item label="文章分类">
                 <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择文章分类">
@@ -87,7 +87,7 @@
         </div>
         <div v-show="form.data_type === '1'" class="w h">
             <el-form-item label="关键字">
-                <el-input v-model="keyword" placeholder="请输入品牌关键字" clearable @blur="keyword_blur"></el-input>
+                <el-input v-model="keywords" placeholder="请输入品牌关键字" clearable @blur="keyword_blur"></el-input>
             </el-form-item>
             <el-form-item label="品牌分类">
                 <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择品牌分类">
@@ -133,12 +133,12 @@
             default: 'goods',
         }
     });
-    const keyword = ref(props.value.keyword);
+    const keywords = ref(props.value.keywords);
     const form = ref(props.value);
     const drag_list = ref(props.list);
     // 更新数据，避免子组件数据不刷新
     watchEffect(() => {
-        keyword.value = props.value.keyword;
+        keywords.value = props.value.keywords;
         form.value = props.value;
         // 历史数据转成数字类型
         form.value.order_by_type = Number(props.value?.order_by_type || 0); 
@@ -146,7 +146,7 @@
         drag_list.value = props.list;
     });
     const keyword_blur = () => {
-        form.value.keyword = keyword.value;
+        form.value.keywords = keywords.value;
     }
     const emits = defineEmits(['data_list_sort', 'data_list_remove', 'data_list_replace', 'add']);
     // 数组顺序更新时触发事件

@@ -1,11 +1,14 @@
 <template>
     <div>
         <el-form :model="form" label-width="70">
-            <template v-if="search_content.is_icon_show == '1'">
+            <template v-if="search_content.is_icon_show == '1' || search_content.is_right_icon_show == '1'">
                 <card-container>
-                    <div class="mb-12">左侧图标</div>
-                    <el-form-item label="图标">
+                    <div class="mb-12">搜索图标</div>
+                    <el-form-item v-if="search_content.is_icon_show == '1'" label="左侧图标">
                         <color-picker v-model="form.icon_color" default-color="#CCCCCC"></color-picker>
+                    </el-form-item>
+                    <el-form-item v-if="search_content.is_right_icon_show == '1'" label="右侧图标">
+                        <color-picker v-model="form.right_icon_color" default-color="#CCCCCC"></color-picker>
                     </el-form-item>
                 </card-container>
                 <div class="bg-f5 divider-line" />
@@ -20,8 +23,16 @@
                         <background-common v-model:color_list="form.search_botton_color_list" v-model:direction="form.search_botton_direction" v-model:img_style="form.search_botton_background_img_style" v-model:img="form.search_botton_background_img" @mult_color_picker_event="mult_color_picker_event" />
                     </el-form-item>
                     <el-form-item label="按钮圆角">
-                        <radius :value="form.search_button_radius" @update:value="button_radius_change"></radius>
+                        <radius :value="form.search_button_radius"></radius>
                     </el-form-item>
+                    <el-form-item label="内间距">
+                        <padding :value="form.search_botton_padding"></padding>
+                    </el-form-item>
+                    <el-form-item label="外边距">
+                        <margin :value="form.search_botton_margin"></margin>
+                    </el-form-item>
+                    <!-- 边框处理 -->
+                    <border-config v-model:show="form.search_botton_border_show" v-model:color="form.search_botton_border_color" v-model:style="form.search_botton_border_style" v-model:size="form.search_botton_border_size" :type-list="['color', 'style', 'size']" default-color="#FF3F3F"></border-config>
                 </card-container>
                 <div class="bg-f5 divider-line" />
             </template>
@@ -42,7 +53,7 @@
                     <color-picker v-model="form.search_bg_color" default-color="#fff"></color-picker>
                 </el-form-item>
                 <el-form-item label="框体圆角">
-                    <radius :value="form.search_border_radius" @update:value="border_radius_change"></radius>
+                    <radius :value="form.search_border_radius"></radius>
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
@@ -66,7 +77,6 @@
     </div>
 </template>
 <script setup lang="ts">
-import { isEmpty, pick } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
@@ -95,16 +105,6 @@ const emit = defineEmits(['update:value']);
 const common_styles_update = (val: Object) => {
     form.value.common_style = val;
 };
-
-// 按钮圆角
-const button_radius_change = (radius: any) => {
-    form.value.search_button_radius = Object.assign(form.value.search_button_radius, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
-};
-// 搜索框圆角
-const border_radius_change = (radius: any) => {
-    form.value.search_border_radius = Object.assign(form.value.search_border_radius, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
-};
-
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.search_botton_color_list = arry;
     form.value.search_botton_direction = type.toString();

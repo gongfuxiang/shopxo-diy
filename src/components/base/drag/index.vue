@@ -5,9 +5,23 @@
                 <icon name="drag" size="16" class="cursor-move" />
                 <slot :row="item" :index="index" />
                 <!-- 底部第一个不显示删除按钮 -->
-                <div v-if="!(props.modelType === 'footer' && index === 0)" class="abs c-pointer top-de-6 right-de-6 remove-icon" @click.stop="remove(index)">
-                    <icon v-if="type == 'card'" name="close-fillup" size="18" color="c" />
-                </div>
+                <template v-if="!multipleIcons">
+                    <div v-if="!(props.modelType === 'footer' && index === 0)" class="abs c-pointer top-de-6 right-de-6 remove-icon" @click.stop="remove(index)">
+                        <icon v-if="type == 'card'" name="close-fillup" size="18" color="c" />
+                    </div>
+                </template>
+                <template v-else>
+                    <div class="abs top-0 right-0">
+                        <div class="w h multiple-icon-class">
+                            <div class="c-pointer multiple-icon" @click.stop="copy(index)">
+                                <icon v-if="type == 'card'" name="copy" size="18" color="c" />
+                            </div>
+                            <div v-if="!(props.modelType === 'footer' && index === 0)" class="c-pointer multiple-icon" @click.stop="remove(index)">
+                                <icon v-if="type == 'card'" name="close-fillup" size="18" color="c" />
+                            </div>
+                        </div>
+                    </div>
+                </template>
                 <div class="c-pointer do-not-trigger" @click.stop="remove(index)">
                     <icon v-if="type == 'line'" name="delete-o" size="18" color="6" />
                 </div>
@@ -27,7 +41,7 @@
 
 <script setup lang="ts">
 import { VueDraggable } from 'vue-draggable-plus';
-const emits = defineEmits(['click', 'remove', 'edit', 'onSort', 'replace']);
+const emits = defineEmits(['click', 'remove', 'edit', 'onSort', 'replace', 'copy']);
 
 interface Props {
     data: any; // 拖拽列表数据
@@ -37,6 +51,7 @@ interface Props {
     isShowEdit?: boolean;
     modelType?: string;
     modelIndex?: number;
+    multipleIcons?: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {
     type: () => 'line',
@@ -45,6 +60,7 @@ const props = withDefaults(defineProps<Props>(), {
     iconPosition: 'center',
     modelType: 'outer',
     modelIndex: 0,
+    multipleIcons: false,
 });
 const className = ref('');
 if (props.type == 'card') {
@@ -75,6 +91,10 @@ const on_click = (item: any, index: number) => {
 // 删除
 const remove = (index: number) => {
     emits('remove', index);
+};
+// 复制
+const copy = (index: number) => {
+    emits('copy', index);
 };
 // 编辑
 const edit = (index: number) => {
@@ -110,5 +130,19 @@ const on_sort = () => {
 .nav-index-select {
     box-shadow: 0rem 0 0rem 0.1rem #409eff;
     /* border: 1px solid #409eff; */
+}
+.multiple-icon-class {
+    padding: 0.5rem 1rem;
+    background: #f7f7f7;
+    border-bottom-left-radius: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+.multiple-icon {
+    display: flex;
+    border-radius: 100%;
+    line-height: 1.8rem;
 }
 </style>

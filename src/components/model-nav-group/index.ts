@@ -19,6 +19,7 @@ interface nav_group {
 }
 
 interface nav_group_content {
+    content_top: object;
     nav_style: string;
     single_line: number;
     display_style: string;

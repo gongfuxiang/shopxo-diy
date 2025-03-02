@@ -9,7 +9,7 @@
                     <el-radio-button value="video" :disabled="!(const_upload_type == 'video') && isCheckConfirm">视频</el-radio-button>
                     <el-radio-button value="file" :disabled="!(const_upload_type == 'file') && isCheckConfirm">文件</el-radio-button>
                 </el-radio-group>
-                <div class="middle size-16 fw">附件管理</div>
+                <div class="middle size-16 fw-b">附件管理</div>
             </div>
         </template>
         <div class="upload-content pa-20">
@@ -220,7 +220,7 @@
     </template>
     <!-- 图片预览 -->
     <el-image-viewer v-if="preview_switch_img && upload_type == 'img'" class="123123" :z-index="999999" :url-list="[preview_url]" teleported :hide-on-click-modal="true" @close="preview_close"></el-image-viewer>
-    <upload-model v-model="upload_model_visible" :type="upload_type" :exts="props.type == 'img' ? ext_img_name_list : props.type == 'video' ? ext_video_name_list : ext_file_name_list" @close-all="close_all_upload_model" @close="close_upload_model"></upload-model>
+    <upload-model v-model="upload_model_visible" :type="upload_type" :exts="upload_type == 'img' ? ext_img_name_list : upload_type == 'video' ? ext_video_name_list : ext_file_name_list" @close-all="close_all_upload_model" @close="close_upload_model"></upload-model>
     <form-upload-category v-model="upload_category_model_visible" :value="upload_category_model" :type="upload_category_type" :category-id="upload_category_id" :category-pid="upload_category_pid" @confirm="upload_category_confirm"></form-upload-category>
 </template>
 <script lang="ts" setup>
@@ -631,7 +631,7 @@ const del_icon_event = () => {
     icon_value.value = '';
 };
 //#endregion 图标 ----------------------------------------------------------end
-const emit = defineEmits(['update:icon']);
+const emit = defineEmits(['update:icon', 'operation_end']);
 // 确认
 const confirm_event = () => {
     dialog_visible.value = false;
@@ -661,6 +661,11 @@ const confirm_event = () => {
     search_filter.value = '';
     is_replace.value = false;
     replace_index.value = -1;
+    operation_end();
+};
+// 操作结束触发事件
+const operation_end = () => {
+    emit('operation_end');
 };
 // 替换标识
 const is_replace = ref(false);

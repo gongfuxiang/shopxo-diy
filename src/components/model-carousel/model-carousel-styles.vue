@@ -16,13 +16,17 @@
                     <el-form-item label="内间距">
                         <padding :value="form.carousel_content_padding"></padding>
                     </el-form-item>
+                    <!-- 边框处理 -->
+                    <border-config v-model:show="form.carousel_content.border_is_show" v-model:color="form.carousel_content.border_color" v-model:style="form.carousel_content.border_style" v-model:size="form.carousel_content.border_size"></border-config>
+                    <!-- 阴影配置 -->
+                    <shadow-config v-model="form.carousel_content"></shadow-config>
                 </card-container>
                 <div class="divider-line"></div>
             </template>
             <card-container>
                 <div class="mb-12">图片设置</div>
                 <el-form-item label="圆角">
-                    <radius :value="form" @update:value="radius_change"></radius>
+                    <radius :value="form"></radius>
                 </el-form-item>
             </card-container>
             <template v-if="['oneDragOne', 'twoDragOne'].includes(new_content.carousel_type)">
@@ -126,21 +130,11 @@ const { form, new_content } = toRefs(state);
 
 const is_video = computed(() => new_content.value.carousel_list.length > 0 && (new_content.value.carousel_list.findIndex((item: any) => item.carousel_video.length > 0)) != -1);
 
-// 图片圆角
-const radius_change = (radius: any) => {
-    form.value = Object.assign(form.value, pick(radius, ['radius', 'radius_top_left', 'radius_top_right', 'radius_bottom_left', 'radius_bottom_right']));
-};
-
 // 内容区域背景渐变设置
 const carousel_content_mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.carousel_content_color_list = arry;
     form.value.carousel_content_direction = type.toString();
 };
-// 内容区域背景图片设置
-const carousel_content_background_img_change = (arry: uploadList[]) => {
-    form.value.carousel_content_background_img = arry;
-};
-
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.video_color_list = arry;
     form.value.video_direction = type.toString();

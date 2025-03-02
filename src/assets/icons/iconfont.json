@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "43200286",
+      "name": "照相机",
+      "font_class": "camera",
+      "unicode": "e7bb",
+      "unicode_decimal": 59323
+    },
+    {
+      "icon_id": "43087330",
+      "name": "箭头左",
+      "font_class": "left-arrow",
+      "unicode": "e7b4",
+      "unicode_decimal": 59316
+    },
+    {
+      "icon_id": "43087331",
+      "name": "历史记录",
+      "font_class": "historical-records",
+      "unicode": "e7b9",
+      "unicode_decimal": 59321
+    },
+    {
+      "icon_id": "43087329",
+      "name": "箭头右",
+      "font_class": "right-arrow",
+      "unicode": "e7ba",
+      "unicode_decimal": 59322
+    },
+    {
+      "icon_id": "42958997",
+      "name": "编组",
+      "font_class": "grouping",
+      "unicode": "e7d6",
+      "unicode_decimal": 59350
+    },
+    {
       "icon_id": "42773571",
       "name": "更多四块",
       "font_class": "more-four-pieces",

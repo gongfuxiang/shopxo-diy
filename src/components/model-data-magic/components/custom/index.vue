@@ -1,32 +1,48 @@
 <template>
     <div :style="style_content_container">
         <div :style="style_content_img_container">
-            <template v-if="data_source_content_list.length > 0 && form.data_source_direction == 'vertical'">
-                <div class="flex-row flex-wrap" :style="`row-gap: ${ new_style.row_gap }px;column-gap: ${ new_style.column_gap }px;`">
-                    <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="`width: ${ gap_width }`">
-                        <div :style="style_container">
-                            <div class="w h oh" :style="style_img_container">
-                                <data-rendering :custom-list="form.custom_list" :source-list="item1" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :data-height="form.height" :scale="scale"></data-rendering>
+            <template v-if="!isEmpty(form.data_source) && form.data_source_is_loop !== '0'">
+                <template v-if="data_source_content_list.length > 0 && form.data_source_direction == 'vertical'">
+                    <div class="flex-row flex-wrap" :style="`row-gap: ${ new_style.row_gap }px;column-gap: ${ new_style.column_gap }px;`">
+                        <div v-for="(item1, index1) in data_source_content_list" :key="index1" :style="`width: ${ gap_width }`">
+                            <div :style="style_container">
+                                <div class="w h oh" :style="style_img_container">
+                                    <data-rendering :custom-list="form.custom_list" :source-list="item1" :config-loop="form?.data_source_is_loop || '1'" :group-source-list="data_source_content_list" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :data-height="form.height" :scale="scale"></data-rendering>
+                                </div>
                             </div>
                         </div>
                     </div>
+                </template>
+                <div v-else-if="data_source_content_list.length > 0 && ['vertical-scroll', 'horizontal'].includes(form.data_source_direction)" class="oh" :style="form.data_source_direction == 'horizontal' ? `height:100%;` : `height: ${ swiper_height }px;`">
+                    <swiper :key="carouselKey" class="w flex" :direction="form.data_source_direction == 'horizontal' ? 'horizontal': 'vertical'" :height="swiper_height" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="slides_per_group" :space-between="space_between" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
+                        <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
+                            <div :style="style_container">
+                                <div class="w h oh" :style="style_img_container">
+                                    <data-rendering :custom-list="form.custom_list" :source-list="item1" :config-loop="form?.data_source_is_loop || '1'" :group-source-list="data_source_content_list" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :data-height="form.height" :scale="scale"></data-rendering>
+                                </div>
+                            </div>
+                        </swiper-slide>
+                    </swiper>
+                </div>
+                <template v-else>
+                    <div class="oh" :style="style_container">
+                        <div class="w h oh" :style="style_img_container">
+                            <data-rendering :custom-list="form.custom_list" :config-loop="form?.data_source_is_loop || '1'" :data-height="form.height" :scale="scale"></data-rendering>
+                        </div>
+                    </div>
+                </template>
+            </template>
+            <template v-else-if="!isEmpty(form.data_source) && form.data_source_is_loop == '0'">
+                <div :style="style_container">
+                    <div class="w h oh" :style="style_img_container">
+                        <data-rendering :custom-list="form.custom_list" :source-list="{}" :config-loop="form?.data_source_is_loop || '1'" :group-source-list="data_source_content_list" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :data-height="form.height" :scale="scale"></data-rendering>
+                    </div>
                 </div>
             </template>
-            <div v-else-if="data_source_content_list.length > 0 && ['vertical-scroll', 'horizontal'].includes(form.data_source_direction)" class="oh" :style="form.data_source_direction == 'horizontal' ? `height:100%;` : `height: ${ swiper_height }px;`">
-                <swiper :key="carouselKey" class="w flex" :direction="form.data_source_direction == 'horizontal' ? 'horizontal': 'vertical'" :height="swiper_height" :loop="true" :autoplay="autoplay" :slides-per-view="slides_per_view" :slides-per-group="slides_per_group" :space-between="space_between" :allow-touch-move="false" :pause-on-mouse-enter="true" :modules="modules" @slide-change="slideChange">
-                    <swiper-slide v-for="(item1, index1) in data_source_content_list" :key="index1">
-                        <div :style="style_container">
-                            <div class="w h oh" :style="style_img_container">
-                                <data-rendering :custom-list="form.custom_list" :source-list="item1" :is-custom="form.is_custom_data == '1'" :show-data="form?.show_data || { data_key: 'id', data_name: 'name' }" :data-height="form.height" :scale="scale"></data-rendering>
-                            </div>
-                        </div>
-                    </swiper-slide>
-                </swiper>
-            </div>
             <template v-else>
                 <div class="oh" :style="style_container">
                     <div class="w h oh" :style="style_img_container">
-                        <data-rendering :custom-list="form.custom_list" :data-height="form.height" :scale="scale"></data-rendering>
+                        <data-rendering :custom-list="form.custom_list" :config-loop="form?.data_source_is_loop || '1'" :data-height="form.height" :scale="scale"></data-rendering>
                     </div>
                 </div>
             </template>
@@ -34,7 +50,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, common_img_computer, common_styles_computer, get_math, gradient_computer, margin_computer, padding_computer, radius_computer } from '@/utils';
+import { background_computer, border_computer, border_width, box_shadow_computer, common_img_computer, common_styles_computer, get_math, gradient_computer, margin_computer, old_border_and_box_shadow, old_margin, old_padding, old_radius, padding_computer, radius_computer } from '@/utils';
 import { isEmpty } from "lodash";
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
@@ -64,6 +80,7 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form, new_style } = toRefs(state);
 const scale = ref(1);
+provide('field_list', computed(() => form.value.field_list));
 // 数据来源的内容
 let data_source_content_list = computed(() => {
     if (form.value.is_custom_data == '1') {
@@ -128,23 +145,22 @@ const style_content_img_container = computed(() => {
         return common_img_computer(defalt_style);
     }
 });
-
 // 用于样式显示
 const style_container = computed(() => {
     if (!isEmpty(new_style.value)) {
-        const { data_color_list = [], data_direction = '180deg', data_radius = { radius: 0, radius_top_left: 0, radius_top_right: 0, radius_bottom_left: 0, radius_bottom_right: 0 }, data_chunk_margin = { margin: 0, margin_top: 0, margin_bottom: 0, margin_left: 0, margin_right: 0 }} = new_style.value;
+        const { data_color_list = [], data_direction = '180deg', data_radius = old_radius, data_chunk_margin = old_margin, data_pattern = old_border_and_box_shadow } = new_style.value;
         const data = {
             color_list: data_color_list,
             direction: data_direction,
         }
-        return gradient_computer(data) + radius_computer(data_radius) + margin_computer(data_chunk_margin);
+        return gradient_computer(data) + radius_computer(data_radius) + margin_computer(data_chunk_margin) + box_shadow_computer(data_pattern) + border_computer(data_pattern);
     } else {
         return '';
     }
 });
 const style_img_container = computed(() => {
     if (!isEmpty(new_style.value)) {
-        const { data_background_img = [], data_background_img_style = '2', data_chunk_padding = { padding: 0, padding_top: 0, padding_bottom: 0, padding_left: 0, padding_right: 0 }} = new_style.value;
+        const { data_background_img = [], data_background_img_style = '2', data_chunk_padding = old_padding } = new_style.value;
         const data = {
             background_img: data_background_img,
             background_img_style: data_background_img_style,
@@ -159,13 +175,27 @@ watchEffect(() => {
     // 重新赋值
     form.value = props.value.data_content;
     new_style.value = props.value.data_style;
-
+    const old_width = form.value.width * props.magicScale;
+    // 数据样式
     const { padding_left, padding_right } = new_style.value.data_chunk_padding;
     const { margin_left, margin_right } = new_style.value.data_chunk_margin;
+    const data_style = padding_left + padding_right + margin_left + margin_right + border_width(new_style.value.data_pattern);
+    // 通用样式
+    const common_border = new_style.value?.data_common_style || {};
+    const chunk_padding = new_style.value?.chunk_padding || old_padding;
+    const chunk_margin = new_style.value?.chunk_margin || old_margin;
+    const common_styles = (chunk_margin?.margin_left || 0) + (chunk_margin?.margin_right || 0) + (chunk_padding?.padding_left || 0) + (chunk_padding?.padding_right || 0) + border_width(common_border);
+    // 内容左右间距
+    const data_content_style = new_style.value?.data_content_style || {};
+    const content_spacing = (data_content_style?.margin_left || 0) + (data_content_style?.margin_right || 0) + (data_content_style?.padding_left || 0) + (data_content_style?.padding_right || 0) + border_width(data_content_style);
+    // 数据间距
+    const data_spacing = ['vertical', 'horizontal'].includes(form.value.data_source_direction) ? new_style.value.column_gap * (form.value.data_source_carousel_col - 1) : 0;
     // 当前容器的宽度 减去 左右两边的padding值 再减去 数据间距的一半 再除以 容器的宽度 得到比例 再乘以数据魔方的比例
-    const width = form.value.width - padding_left - padding_right - margin_left - margin_right - (props.dataSpacing / 2);
-    scale.value = (width / form.value.width) * props.magicScale;
+    const width = old_width - data_style - content_spacing - common_styles - data_spacing - (props.dataSpacing / 2);
+    const scale_number = width / form.value.width;
+    scale.value = scale_number > 0 ? scale_number : 0;
 })
+
 // 计算纵向显示的宽度
 const gap_width = computed(() => {
     const model_number = Number(form.value.data_source_carousel_col);
@@ -199,17 +229,18 @@ watchEffect(() => {
     const carousel_col = Number(form.value?.data_source_carousel_col) || 1;
     // 判断是平移还是整屏滚动
     slides_per_group.value = new_style.value.rolling_fashion == 'translation' ? 1 : carousel_col;
-    // 商品数量大于列数的时候，高度是列数，否则是当前的数量
-    const col = data_source_content_list.value.length > carousel_col ? carousel_col : data_source_content_list.value.length;
-    // 一屏显示的数量
-    slides_per_view.value = col;
     const { margin_bottom, margin_top } = new_style.value.data_chunk_margin;
     const { padding_top, padding_bottom } = new_style.value.data_chunk_padding;
     // 轮播图高度控制
-    if (form.value.data_source_direction == '2') {
+    if (form.value.data_source_direction == 'horizontal') {
         swiper_height.value = form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top;
+        slides_per_view.value = Number(carousel_col);
     } else {
+        // 商品数量大于列数的时候，高度是列数，否则是当前的数量
+        const col = data_source_content_list.value.length > carousel_col ? carousel_col : data_source_content_list.value.length;
         swiper_height.value = (form.value.height * scale.value + padding_top + padding_bottom + margin_bottom + margin_top) * col + ((carousel_col - 1) * space_between.value);
+        // 一屏显示的数量
+        slides_per_view.value = col;
     }
     // 更新轮播图的key，确保更换时能重新更新轮播图
     carouselKey.value = get_math();

@@ -1,7 +1,7 @@
 <template>
     <div class="w">
         <el-form :model="form" label-width="70">
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12">商品样式</div>
                 <el-form-item v-if="theme != '6'" label="商品背景">
                     <background-common v-model:color_list="form.shop_color_list" v-model:direction="form.shop_direction" v-model:img_style="form.shop_background_img_style" v-model:img="form.shop_background_img" @mult_color_picker_event="mult_color_picker_event" />
@@ -50,6 +50,9 @@
                     <color-picker v-model="form.shop_score_color" default-color="#000000"></color-picker>
                 </el-form-item> -->
                 <template v-if="theme != '6'">
+                    <el-form-item label="外间距">
+                        <margin :value="form.shop_margin"></margin>
+                    </el-form-item>
                     <el-form-item label="内间距">
                         <padding :value="form.shop_padding"></padding>
                     </el-form-item>
@@ -64,6 +67,10 @@
                     <radius :value="form.shop_radius"></radius>
                 </el-form-item>
                 <template v-if="theme != '6'">
+                    <!-- 边框处理 -->
+                    <border-config v-model:show="form.border_is_show" v-model:color="form.border_color" v-model:style="form.border_style" v-model:size="form.border_size"></border-config>
+                    <!-- 阴影配置 -->
+                    <shadow-config v-model="form"></shadow-config>
                     <template v-if="theme == '5'">
                         <el-form-item label="内容高度">
                             <slider v-model="form.content_outer_height" :max="1000"></slider>
@@ -82,9 +89,9 @@
                     </template>
                 </template>
             </card-container>
-            <div class="divider-line"></div>
             <template v-if="theme == '5'">
-                <card-container>
+                <div class="divider-line data-tabs-line"></div>
+                <card-container class="card-container">
                     <div class="mb-12">轮播设置</div>
                     <el-form-item label="自动轮播">
                         <el-switch v-model="form.is_roll" active-value="1" inactive-value="0" />
@@ -101,15 +108,15 @@
                         </el-form-item>
                     </template>
                 </card-container>
-                <div class="divider-line"></div>
             </template>
             <!-- 秒杀角标 -->
             <template v-if="data.seckill_subscript_show == '1'">
+                <div class="divider-line data-tabs-line"></div>
                 <subscript-styles :value="form.subscript_style" :data="data"></subscript-styles>
-                <div class="divider-line"></div>
             </template>
             <template v-if="data.is_shop_show == '1'">
-                <card-container>
+                <div class="divider-line data-tabs-line"></div>
+                <card-container class="card-container">
                     <div class="mb-12">购物车按钮</div>
                     <el-form-item label="按钮颜色" class="topic">
                         <flex-gradients-create :color-list="form.shop_button_color" default-color="#FF3D53"></flex-gradients-create>
@@ -125,10 +132,12 @@
                         </el-form-item>
                     </template>
                 </card-container>
-                <div class="divider-line"></div>
             </template>
         </el-form>
-        <common-styles :value="form.common_style" @update:value="common_style_update" />
+        <template v-if="isCommonStyle">
+            <div class="divider-line data-tabs-line"></div>
+            <common-styles :value="form.common_style" @update:value="common_style_update" />
+        </template>
     </div>
 </template>
 <script setup lang="ts">
@@ -140,6 +149,10 @@ const props = defineProps({
     content: {
         type: Object,
         default: () => ({}),
+    },
+    isCommonStyle: {
+        type: Boolean,
+        default: true,
     },
     defaultConfig: {
         type: Object,
@@ -185,10 +198,6 @@ const common_style_update = (value: any) => {
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.shop_color_list = arry;
     form.value.shop_direction = type.toString();
-};
-// 商品背景图片设置
-const background_img_change = (arry: uploadList[]) => {
-    form.value.shop_background_img = arry;
 };
 </script>
 <style lang="scss" scoped>

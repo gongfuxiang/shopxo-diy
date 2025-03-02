@@ -1,10 +1,10 @@
-import { id } from "element-plus/es/locale"
-
+import defaultCustom from '@/config/const/custom';
 // 文本的默认值
 const text_com_data = {
     com_width: 150,
     com_height: 17,
     staging_height: 17,
+    text_captions: '',
     text_title: '文本',
     data_source_field: {
         id: [],
@@ -16,6 +16,18 @@ const text_com_data = {
         id: '',
         option: {}
     },
+    data_split: {
+        left: '',
+        middle: '',
+        right: '',
+    },
+    is_width_auto: '0',
+    is_height_auto: '0',
+    width_omit_num: '0',
+    max_width: 150,
+    max_height: 17,
+    data_follow: { type: 'left', id: '', spacing: 0 },
+    is_data_update: false,
     is_rich_text: '0',
     is_up_down: '1',
     text_color: '#000',
@@ -45,7 +57,16 @@ const text_com_data = {
     border_size: 1,
     direction: '90deg',
     color_list: [{ color: '', color_percentage: undefined }],
-    z_index: 0
+    // 条件判断
+    condition: {
+        field: '', // 字段id
+        type: '', // 条件类型
+        value: '', // 值
+    },
+    animation_style: {
+        type: 'none',
+        number: 'infinite',
+    }
 }
 // 图片的默认值
 const img_com_data = {
@@ -63,6 +84,8 @@ const img_com_data = {
         id: '',
         option: {}
     },
+    data_follow: { type: 'left', id: '', spacing: 0 },
+    is_data_update: false,
     img_radius: {
         radius: 0,
         radius_top_left: 0,
@@ -84,7 +107,16 @@ const img_com_data = {
         radius_bottom_right: 0,
     },
     border_size: 1,
-    z_index: 0
+    // 条件判断
+    condition: {
+        field: '', // 字段id
+        type: '', // 条件类型
+        value: '', // 值
+    },
+    animation_style: {
+        type: 'none',
+        number: 'infinite',
+    }
 }
 // 线条的默认值
 const line_com_data = {
@@ -96,7 +128,18 @@ const line_com_data = {
     line_width: 306,
     line_size: 1,
     line_color: '#000',
-    z_index: 0,
+    // 条件判断
+    condition: {
+        field: '', // 字段id
+        type: '', // 条件类型
+        value: '', // 值
+    },
+    data_follow: { type: 'left', id: '', spacing: 0 },
+    is_data_update: false,
+    animation_style: {
+        type: 'none',
+        number: 'infinite',
+    }
 }
 
 // icon的默认值
@@ -105,7 +148,7 @@ const icon_com_data = {
     com_height: 36,
     staging_height: 36,
     icon_class: '',
-   data_source_field: {
+    data_source_field: {
         id: '',
         option: {}
     },
@@ -115,6 +158,8 @@ const icon_com_data = {
         id: '',
         option: {}
     },
+    data_follow: { type: 'left', id: '', spacing: 0 },
+    is_data_update: false,
     is_rich_icon: '0',
     is_up_down: '1',
     icon_color: '#000',
@@ -143,7 +188,16 @@ const icon_com_data = {
     border_size: 1,
     direction: '90deg',
     color_list: [{ color: '', color_percentage: undefined }],
-    z_index: 0
+    // 条件判断
+    condition: {
+        field: '', // 字段id
+        type: '', // 条件类型
+        value: '', // 值
+    },
+    animation_style: {
+        type: 'none',
+        number: 'infinite',
+    }
 }
 
 // 面板的默认值
@@ -156,6 +210,8 @@ const panel_com_data = {
         id: '',
         option: {}
     },
+    data_follow: { type: 'left', id: '', spacing: 0 },
+    is_data_update: false,
     icon_rotate: 0,
     background_img_style: '2',
     background_img: [],
@@ -172,9 +228,49 @@ const panel_com_data = {
     border_size: 1,
     direction: '90deg',
     color_list: [{ color: '#fff', color_percentage: undefined }],
-    z_index: 0
+    // 条件判断
+    condition: {
+        field: '', // 字段id
+        type: '', // 条件类型
+        value: '', // 值
+    },
+    animation_style: {
+        type: 'none',
+        number: 'infinite',
+    }
 }
-
+// 自定义组件的默认值
+const custom_group_com_data = {
+    // 容器高度
+    com_width: 100,
+    com_height: 100,
+    staging_height: 100,
+    data_source_field: {
+        id: '',
+        option: []
+    },
+    data_follow: { type: 'left', id: '', spacing: 0 },
+    is_data_update: false,
+    // 条件判断
+    condition: {
+        field: '', // 字段id
+        type: '', // 条件类型
+        value: '', // 值
+    },
+    custom_list: [], // 自定义内容处理
+    custom_height: 100, // 自定义高度
+    is_use_parent_data: '1',
+    data_source_direction: 'vertical', // 铺满方式
+    data_source_carousel_col: 1, // 铺满数量
+    is_scroll_bar: false,   // 是否需要滚动条
+    data_style: {
+        ...defaultCustom.style
+    },
+    animation_style: {
+        type: 'none',
+        number: 'infinite',
+    }
+}
 // 判断两个矩形是否有交集或者被包裹
 export const isRectangleIntersecting = (rect1: react1, rect2: react1) => {
     // 矩形的格式为 { x, y, width, height }
@@ -199,5 +295,6 @@ export const defaultComData = {
     img_com_data,
     line_com_data,
     icon_com_data,
-    panel_com_data
+    panel_com_data,
+    custom_group_com_data
 }

@@ -76,7 +76,7 @@
 
 <script setup lang="ts">
 import { isEmpty } from 'lodash';
-import { gradient_computer, radius_computer, padding_computer, background_computer, margin_computer } from "@/utils";
+import { gradient_computer, radius_computer, padding_computer, background_computer, margin_computer, border_computer, box_shadow_computer, old_radius, old_margin, old_padding } from "@/utils";
 
 interface Props {
     value: Array<any>;
@@ -100,6 +100,7 @@ interface new_style {
     goods_color_list: color_list[];
     goods_direction: string; 
     goods_radius: radiusStyle;
+    goods_chunk_margin: marginStyle;
     goods_chunk_padding: paddingStyle;
     goods_background_img: uploadList[];
     goods_background_img_style: string;
@@ -109,15 +110,32 @@ interface new_style {
     goods_price_padding: paddingStyle;
     goods_price_margin: marginStyle;
     goods_price_location: string;
+    border_is_show: string;
+    border_color: string;
+    border_style: string;
+    border_size: paddingStyle;
+    // 阴影
+    box_shadow_color: string;
+    box_shadow_x: number;
+    box_shadow_y: number;
+    box_shadow_blur: number;
+    box_shadow_spread: number;
 }
-// 数据的默认值，避免没有值的时候报错
-const old_radius = { radius: 0, radius_top_left: 0, radius_top_right: 0, radius_bottom_left: 0, radius_bottom_right: 0 };
-const old_padding = { padding: 0, padding_top: 0, padding_bottom: 0, padding_left: 0, padding_right: 0 };
-const old_margin = { margin: 0, margin_top: 0, margin_bottom: 0, margin_left: 0, margin_right: 0 };
-
+const shop_left_right_width_margin = computed(() => {
+    const { goods_chunk_margin = old_margin } = props.goodStyle;
+    return goods_chunk_margin.margin_left + goods_chunk_margin.margin_right;
+});
+const shop_top_bottom_width_margin = computed(() => {
+    const { goods_chunk_margin = old_margin } = props.goodStyle;
+    return goods_chunk_margin.margin_top + goods_chunk_margin.margin_bottom;
+});
 const block_size = computed(() => {
     const total_gap: number = props.goodStyle.data_goods_gap * (split_list.value.length - 1);
-    return props.outerflex == 'row' ? 'height:100%;width:calc((100% - ' + total_gap + 'px) / ' + props.num  + ');' : 'width: 100%;height:calc((100% - ' + total_gap + 'px) / ' + props.num  + ');';
+    // 总的宽度
+    const all_width: number = total_gap + (shop_left_right_width_margin.value * props.num);
+    // 总的高度
+    const all_height: number = total_gap + (shop_top_bottom_width_margin.value * props.num);
+    return props.outerflex == 'row' ? 'height:calc(100% - ' +  shop_top_bottom_width_margin.value + 'px);width:calc((100% - ' + all_width + 'px) / ' + props.num  + ');' : 'width:calc(100% - ' +  shop_left_right_width_margin.value + 'px);height:calc((100% - ' + all_height + 'px) / ' + props.num  + ');';
 });
 // 图片显示比例
 const image_scale = computed(() => {
@@ -136,7 +154,7 @@ const float_pirce_style = computed(() => {
             color_list: goods_price_color_list,
             direction: goods_price_direction,
         }
-        let location = 'left:50%;transform:translateX(-50%);'
+        let location = 'left:50%;transform:translateX(-50%);';
         if (goods_price_location == 'left') {
             location = 'left:0;';
         } else if (goods_price_location == 'right') {
@@ -150,12 +168,12 @@ const float_pirce_style = computed(() => {
 const style_container = computed(() => {
     return (val: new_style) => {
         if (!isEmpty(val)) {
-            const { goods_color_list = [], goods_direction = '180deg', goods_radius = old_radius } = val;
+            const { goods_color_list = [], goods_direction = '180deg', goods_radius = old_radius, goods_chunk_margin = old_margin } = val;
             const data = {
                 color_list: goods_color_list,
                 direction: goods_direction,
             }
-            return gradient_computer(data) + radius_computer(goods_radius);
+            return gradient_computer(data) + radius_computer(goods_radius) + margin_computer(goods_chunk_margin) + border_computer(val) + box_shadow_computer(val);
         } else {
             return '';
         }

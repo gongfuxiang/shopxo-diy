@@ -1,13 +1,15 @@
 import defaultCommon from './index';
 import defaultSetting from '../setting/index';
 import subscriptStyle from './subscript-style';
+import commonTop from './common-top';
 import { online_url } from '@/utils';
 const new_url = await online_url('/static/app/common/').then((res) => res);
 interface DefaultProductList {
     content: {
+        content_top: object;
         theme: string;
         data_type: string;
-        keyword: string;
+        keywords: string;
         carousel_col: number;
         category_ids: string[];
         brand_ids: string[];
@@ -34,19 +36,30 @@ interface DefaultProductList {
         subscript_text: string;
     };
     style: {
-        shop_direction: string,
-        shop_color_list: color_list[],
-        shop_background_img_style: string,
-        shop_background_img: uploadList[],
+        shop_direction: string;
+        shop_color_list: color_list[];
+        shop_background_img_style: string;
+        shop_background_img: uploadList[];
         shop_padding: paddingStyle;
+        shop_margin: marginStyle;
+        border_is_show: string;
+        border_color: string;
+        border_style: string;
+        border_size: paddingStyle;
+        // 阴影
+        box_shadow_color: string;
+        box_shadow_x: number;
+        box_shadow_y: number;
+        box_shadow_blur: number;
+        box_shadow_spread: number;
         shop_img_radius: radiusStyle;
         shop_radius: radiusStyle;
         content_outer_spacing: number;
         content_outer_height: number;
         content_img_width: number | undefined;
         content_img_height: number | undefined;
-        is_roll: string,
-        interval_time: number,
+        is_roll: string;
+        interval_time: number;
         rolling_fashion: string;
         content_spacing: number;
         shop_title_typeface: string;
@@ -55,7 +68,7 @@ interface DefaultProductList {
         shop_simple_desc_typeface: string;
         shop_simple_desc_size: number;
         shop_simple_desc_color: string;
-        title_simple_desc_spacing: number,
+        title_simple_desc_spacing: number;
         shop_price_typeface: string;
         shop_price_size: number;
         shop_price_color: string;
@@ -74,21 +87,24 @@ interface DefaultProductList {
         shop_button_typeface:string;
         shop_button_size: number;
         shop_button_color: color_list[];
-        shop_button_text_color: string,
+        shop_button_text_color: string;
         shop_icon_size: number;
         shop_icon_color: string;
-        subscript_style: object,
+        subscript_style: object;
         common_style: object;
     };
 }
 const defaultProductList: DefaultProductList = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         // 商品风格
         theme: '0',
         // 商品类型
         data_type: '0',
         // 商品关键字
-        keyword: '',
+        keywords: '',
         // 轮播列数
         carousel_col: 3,
         // 商品列表
@@ -131,6 +147,23 @@ const defaultProductList: DefaultProductList = {
         shop_color_list: [{ color: '#fff', color_percentage: undefined }],
         shop_background_img_style: '0',
         shop_background_img: [],
+        // 边框样式
+        border_is_show: '0',
+        border_color: '#FF3F3F',
+        border_style: 'solid',
+        border_size: {
+            padding: 1,
+            padding_top: 1,
+            padding_right: 1,
+            padding_bottom: 1,
+            padding_left: 1,
+        },
+        // 阴影
+        box_shadow_color: '',
+        box_shadow_x: 0,
+        box_shadow_y: 0,
+        box_shadow_blur: 0,
+        box_shadow_spread: 0,
         // 商品内边距
         shop_padding: {
             padding: 10, 
@@ -138,6 +171,13 @@ const defaultProductList: DefaultProductList = {
             padding_bottom: 10, 
             padding_left: 10, 
             padding_right: 10,
+        },
+        shop_margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
         },
         // 图标圆角
         shop_img_radius: {
@@ -160,21 +200,21 @@ const defaultProductList: DefaultProductList = {
         content_spacing: 10,
         // 商品高度
         content_outer_height: 232,
-        content_img_width: undefined,
-        content_img_height: undefined,
+        content_img_width: 110,
+        content_img_height: 120,
         // 是否滚动
         is_roll: '1',
         interval_time: 3,
         rolling_fashion: 'translation', // 滚动方式  translation 平移 cut-screen 切屏
         // 商品内容大小和颜色设置
-        shop_title_typeface: '500',
+        shop_title_typeface: 'bold',
         shop_title_size: 14,    
         shop_title_color: "#333333",
         shop_simple_desc_typeface: '400',
-        shop_simple_desc_size: 12,    
+        shop_simple_desc_size: 12,
         shop_simple_desc_color: "#999",
         title_simple_desc_spacing: 4,
-        shop_price_typeface: '500',
+        shop_price_typeface: 'bold',
         shop_price_size: 18,
         shop_price_color: "#EA3323;",
         shop_price_symbol_color: '#EA3323',

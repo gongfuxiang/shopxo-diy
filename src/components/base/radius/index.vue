@@ -2,7 +2,7 @@
 <template>
     <div class="flex-col w">
         <div class="flex-row gap-10 align-c">
-            <slider v-model="form.radius" type="retract" @update:model-value="radius_event"></slider>
+            <slider v-model="form.radius" type="retract" @update:model-value="radius_event" @operation_end="operation_end"></slider>
             <el-tooltip effect="dark" :show-after="200" :hide-after="200" :content="icon_data.title" raw-content placement="top">
                 <div class="flex-1 type-icon flex" @click="icon_event(icon_data.name)">
                     <icon :name="icon_data.name" size="24"></icon>
@@ -11,16 +11,16 @@
         </div>
         <div class="type-icon-animation flex-row flex-wrap gap-x-20 oh" :style="`${ icon_data.name == 'alone' ? 'margin-top:20px;height: 100%;transform: scale(1);' : 'height:0px;transform: scale(0);margin-top:0px;'}`">
             <div class="flex-width-half pr-10">
-                <input-number v-model="form.radius_top_left" icon-name="radius-l-t" @update:model-value="rtl_event"></input-number>
+                <input-number v-model="form.radius_top_left" icon-name="radius-l-t" @update:model-value="rtl_event" @operation_end="operation_end"></input-number>
             </div>
             <div class="flex-width-half pl-10">
-                <input-number v-model="form.radius_top_right" icon-name="radius-r-t" @update:model-value="rtr_event"></input-number>
+                <input-number v-model="form.radius_top_right" icon-name="radius-r-t" @update:model-value="rtr_event" @operation_end="operation_end"></input-number>
             </div>
             <div class="flex-width-half pr-10">
-                <input-number v-model="form.radius_bottom_left" icon-name="radius-l-b" @update:model-value="rbl_event"></input-number>
+                <input-number v-model="form.radius_bottom_left" icon-name="radius-l-b" @update:model-value="rbl_event" @operation_end="operation_end"></input-number>
             </div>
             <div class="flex-width-half pl-10">
-                <input-number v-model="form.radius_bottom_right" icon-name="radius-r-b" @update:model-value="rbr_event"></input-number>
+                <input-number v-model="form.radius_bottom_right" icon-name="radius-r-b" @update:model-value="rbr_event" @operation_end="operation_end"></input-number>
             </div>
         </div>
     </div>
@@ -58,7 +58,11 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form } = toRefs(state);
 
-const emit = defineEmits(['update:value']);
+const emit = defineEmits(['update:value', 'operation_end']);
+// 失去焦点时触发事件
+const operation_end = () => {
+    emit('operation_end');
+};
 const radius_event = (val: number | undefined) => {
     form.value.radius = Number(val);
     form.value.radius_top_left = Number(val);
@@ -92,19 +96,19 @@ onBeforeMount(() => {
     // 判断是否相等，如果不相等，就展开
     const flag = areAllEqual(form.value.radius_top_left, form.value.radius_top_right, form.value.radius_bottom_left, form.value.radius_bottom_right);
     if (!flag) {
-        icon_event('unified');
+        icon_event('margin');
     }
 });
 const icon_data = reactive({
-    name: 'unified',
+    name: 'margin',
     title: '独个'
 });
 const icon_event = (name: string) => {
-    if (name == 'unified') {
+    if (name == 'margin') {
         icon_data.name = 'alone';
         icon_data.title = '统一';
     } else {
-        icon_data.name = 'unified';
+        icon_data.name = 'margin';
         icon_data.title = '独个';
     }
 }

@@ -1,5 +1,6 @@
 import { padding_computer } from "@/utils";
 import defaultCommon from "./index";
+import commonTop from './common-top';
 
 interface carousel_list {
     carousel_img: uploadList[];
@@ -17,6 +18,7 @@ interface carousel_list {
 }
 interface defaultSearch {
     content: {
+        content_top: object;
         carousel_type: string;
         carousel_list: carousel_list[];
         img_fit: string,
@@ -58,6 +60,9 @@ interface defaultSearch {
 }
 const defaultSearch: defaultSearch = {
     content: {
+        content_top: {
+            ...commonTop,
+        },
         carousel_type: 'inherit', //轮播风格
         img_fit: 'contain', //图片裁剪方式
         is_roll: '1',//是否轮播

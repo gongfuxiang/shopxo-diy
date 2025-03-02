@@ -1,14 +1,12 @@
 <template>
-    <div class="w h" :style="style_container">
-        <div class="re w h oh">
-            <template v-if="video && !video_img">
-                <video :src="video" class="w h" :style="video_style"></video>
-            </template>
-            <template v-else>
-                <image-empty v-model="video_img" :style="video_style" error-img-style="width:60px;height:60px;"></image-empty>
-            </template>
-            <img :src="video_src" class="middle box-shadow-sm round" width="50" height="50" />
-        </div>
+    <div class="re w h oh">
+        <template v-if="video && !video_img">
+            <video :src="video" class="w h" :style="video_style"></video>
+        </template>
+        <template v-else>
+            <image-empty v-model="video_img" :style="video_style" error-img-style="width:60px;height:60px;"></image-empty>
+        </template>
+        <img :src="video_src" class="middle box-shadow-sm round" width="50" height="50" />
     </div>
 </template>
 <script setup lang="ts">
@@ -46,7 +44,6 @@ const video = computed(() => {
     }
 });
 // 公共样式
-const style_container = computed(() => padding_computer(props.dataStyle.chunk_padding));
 const video_style = computed(() => radius_computer(props.dataStyle.img_radius));
 </script>
 <style lang="scss" scoped>

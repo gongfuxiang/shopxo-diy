@@ -22,6 +22,9 @@ import { is_obj, set_cookie, get_cookie } from '@/utils';
 import { Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
 import defaultConfigSetting from '@/config/setting';
+import defaultConfigConst from '@/config/const/index';
+import { article_default_parameter, goods_default_parameter } from '@/config/const/data-tabs';
+import defaultCustom from '@/config/const/custom';
 import { cloneDeep, isEmpty, omit } from 'lodash';
 import DiyAPI, { diyData, headerAndFooter, diyConfig } from '@/api/diy';
 import CommonAPI from '@/api/common';
@@ -123,6 +126,7 @@ const clear_data_event = () => {
     form.value.diy_data = [];
     // 数据清空之后，将公共沉浸模式判断为false
     common_store.set_is_immersion_model(false);
+    common_store.set_is_general_safe_distance(false);
     diy_data_item.value = new_tem_form.header;
 };
 //#region 页面初始化数据 ---------------------start
@@ -146,6 +150,10 @@ const init = () => {
                 // 判断默认数据是否开启沉浸式
                 if (data.header.com_data.style.immersive_style === '1') {
                     common_store.set_is_immersion_model(true);
+                    // 判断默认数据是否开启沉浸式,并且开启了安全距离
+                    if (data.header.com_data.style.general_safe_distance_value == '1') {
+                        common_store.set_is_general_safe_distance(true);
+                    }
                 }
                 form.value = data;
             } else {
@@ -177,6 +185,10 @@ const default_merge = (data: any, key: string) => {
         }
     } else {
         data.style = cloneDeep((defaultSettings as any)[key.replace(/-/g, '_')]).style;
+    }
+    // 兼融老数据
+    if (!isEmpty(data.style.common_style)) {
+        data.style.common_style = Object.assign({}, cloneDeep(defaultConfigConst), data.style.common_style);
     }
     if (data.content) {
         data.content = Object.assign({}, cloneDeep((defaultSettings as any)[key.replace(/-/g, '_')]).content, data.content);
@@ -254,55 +266,13 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
     const new_array_6 = ['nav-group'];
     clone_form.diy_data = clone_form.diy_data.map((item: any) => {
         if (new_array_1.includes(item.key)) {
-            if (item.com_data.content.data_type == '0') {
-                item.com_data.content.data_ids = item.com_data.content.data_list.map((item: any) => item.data.id).join(',') || '';
-                item.com_data.content.data_list = item.com_data.content.data_list.map((item1: any) => {
-                    return {
-                        ...item1,
-                        data: [],
-                        data_id: item1.data.id,
-                    };
-                });
-                item.com_data.content.category_ids = defaultConfigSetting.category_ids;
-                item.com_data.content.number = defaultConfigSetting.page_size;
-                item.com_data.content.order_by_rule = defaultConfigSetting.order_by_rule;
-                item.com_data.content.order_by_type = defaultConfigSetting.order_by_type;
-                if (item.key == new_array_1[0]) {
-                    item.com_data.content.brand_ids = defaultConfigSetting.brand_ids;
-                } else {
-                    item.com_data.content.is_cover = defaultConfigSetting.is_cover;
-                }
-            } else {
-                item.com_data.content.data_ids = '';
-                item.com_data.content.data_list = [];
-            }
-            item.com_data.content.data_auto_list = [];
+            // 商品或文章的数据处理
+            goods_or_article_data_processing(item.com_data.content, item.key == new_array_1[0]);
         } else if (new_array_2.includes(item.key)) {
             item.com_data.content.tabs_active_index = 0;
-            item.com_data.content.tabs_list.map((item0: any) => {
-                if (item0.data_type == '0') {
-                    item0.data_ids = item0.data_list.map((item1: any) => item1.data.id).join(',') || '';
-                    item0.data_list = item0.data_list.map((item2: any) => {
-                        return {
-                            ...item2,
-                            data: [],
-                            data_id: item2.data.id,
-                        };
-                    });
-                    item0.category_ids = defaultConfigSetting.category_ids;
-                    item0.number = defaultConfigSetting.page_size;
-                    item0.order_by_rule = defaultConfigSetting.order_by_rule;
-                    item0.order_by_type = defaultConfigSetting.order_by_type;
-                    if (item.key == new_array_1[0]) {
-                        item0.brand_ids = defaultConfigSetting.brand_ids;
-                    } else {
-                        item0.is_cover = defaultConfigSetting.is_cover;
-                    }
-                } else {
-                    item0.data_ids = '';
-                    item0.data_list = [];
-                }
-                item0.data_auto_list = [];
+            item.com_data.content.tabs_list.forEach((item0: any) => {
+                // 商品或文章的数据处理
+                goods_or_article_data_processing(item0, item.key == new_array_1[0]);
             });
         } else if (new_array_3.includes(item.key)) {
             item.com_data.content.data_ids = item.com_data.content.data_list.map((item: any) => item.id).join(',') || '';
@@ -313,7 +283,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                 item.com_data.content.number = defaultConfigSetting.page_size;
             }
         } else if (new_array_4.includes(item.key)) {
-            item.com_data.content.data_magic_list.map((item1: any) => {
+            item.com_data.content.data_magic_list.forEach((item1: any) => {
                 if (item1.data_content.data_type == 'goods') {
                     item1.data_content.goods_ids = item1.data_content.goods_list.map((item2: any) => item2.data.id).join(',') || '';
                     item1.data_content.goods_list = item1.data_content.goods_list.map((item3: any) => {
@@ -334,24 +304,8 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                         item1.data_content.data_source_content = { data_type: 0, data_ids: '', data_list: [], data_auto_list: []}
                     }
                 } else if (item1.data_content.data_type == 'custom') {
-                    if (item1.data_content.is_custom_data == '1' && item1.data_content.data_source_content.data_type === 0) {
-                        const data_list = cloneDeep(item1.data_content.data_source_content.data_list);
-                        // 数据改造,存放手动的id
-                        item1.data_content.data_source_content.data_ids = data_list.map((item4: any) => item4.data[item1.data_content?.show_data.data_key || 'id']).join(',') || '';
-                        // 数据改造,存放手动的清除里边的data
-                        item1.data_content.data_source_content.data_list = data_list.map((item5: any) => {
-                            return {
-                                ...item5,
-                                data: [],
-                                data_id: item5.data[item1.data_content?.show_data.data_key || 'id'],
-                            };
-                        });
-                    } else {
-                        item1.data_content.data_source_content.data_ids = [];
-                        item1.data_content.data_source_content.data_list = [];
-                    }
-                    // 自动数据清空
-                    item1.data_content.data_source_content.data_auto_list = [];
+                    // 自定义里的数据处理
+                    custom_data_processing(item1.data_content);
                     // 清除商品里的数据
                     item1.data_content.goods_ids = '';
                     item1.data_content.goods_list= [];
@@ -374,28 +328,45 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
         } else if (new_array_5.includes(item.key)) {
             // 从数据中剔除data_source_content_value字段
             item.com_data.content = omit(cloneDeep(item.com_data.content), ['data_source_content_value']);
-            // 是否是自定义数据
-            if (item.com_data.content.is_custom_data == '1' && item.com_data.content.data_source_content.data_type === 0) {
-                // 手动的数据内容
-                const data_list = cloneDeep(item.com_data.content.data_source_content.data_list);
-                // 数据改造,存放手动的id
-                item.com_data.content.data_source_content.data_ids = data_list.map((list_item: any) => list_item.data[item.com_data.content?.show_data.data_key || 'id'] || '').join(',') || '';
-                // 数据改造,存放手动的清除里边的data
-                item.com_data.content.data_source_content.data_list = data_list.map((list_item: any) => {
-                    return {
-                        ...list_item,
-                        data: [],
-                        data_id: list_item.data[item.data_content?.show_data.data_key || 'id'],
-                    };
-                });
-            } else {
-                item.com_data.content.data_source_content.data_ids = [];
-                item.com_data.content.data_source_content.data_list = [];
-            }
-            // 自动数据清空
-            item.com_data.content.data_source_content.data_auto_list = [];
+            // 自定义数据处理
+            custom_data_processing(item.com_data.content);
         } else if (new_array_6.includes(item.key)) {
             item.com_data.content.nav_content_list = item.com_data.content.nav_content_list.map((item0: any) => ({...omit(item0, 'tabs_name') }));
+        } else if (['data-tabs'].includes(item.key)) {
+            item.com_data.content.tabs_active_index = 0;
+            const new_tabs_list = item?.com_data?.content?.tabs_list || [];
+            new_tabs_list.forEach((item: any) => {
+                item.tabs_name = 'content';
+                if (item.tabs_data_type == 'goods' || item.tabs_data_type == 'article') {
+                    const new_com_data = item.tabs_data_type == 'goods' ? item.goods_config : item.article_config;
+                    // 商品或文章的数据处理
+                    goods_or_article_data_processing(new_com_data.content, item.tabs_data_type == 'goods');
+                    // 是商品的时候需要将其他的两个数据清楚掉，避免下次切换时出现问题
+                    if (item.tabs_data_type == 'goods') {
+                        // item.article_config = cloneDeep(article_default_parameter);
+                        // item.custom_config = cloneDeep(defaultCustom)
+                        delete item.article_config;
+                        delete item.custom_config;
+                    } else {
+                        // 是文章时清除掉其他的内容
+                        // item.goods_config = cloneDeep(goods_default_parameter);
+                        // item.custom_config = cloneDeep(defaultCustom)
+                        delete item.goods_config;
+                        delete item.custom_config;
+                    }
+                } else if (item.tabs_data_type == 'custom') {
+                    const new_com_data = item.custom_config;
+                    // 从数据中剔除data_source_content_value字段
+                    new_com_data.content = omit(cloneDeep(new_com_data.content), ['data_source_content_value']);
+                    // 自定义数据处理
+                    custom_data_processing(new_com_data.content);
+                    // 是自定义的时候清除掉其他的内容，避免下次点击时出现问题
+                    delete item.goods_config;
+                    delete item.article_config;
+                    // item.goods_config = cloneDeep(goods_default_parameter);
+                    // item.article_config = cloneDeep(article_default_parameter);
+                }
+            });
         }
         return {
             ...item,
@@ -440,7 +411,82 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             save_disabled.value = false;
         });
 };
+/**
+ * 商品或文章数据处理函数
+ * 该函数根据提供的数据类型和是否为商品的标志，处理数据内容的结构
+ * 主要目的是为了标准化数据处理逻辑，使得数据格式符合预期的要求
+ * 
+ * @param new_com_data_content 传入的新数据内容对象，包含需要处理的数据列表和其他相关信息
+ * @param is_goods 是否为商品的标志，用于决定数据处理的具体方式
+ */
+ const goods_or_article_data_processing = (new_com_data_content: any, is_goods: boolean) => {
+    // 判断数据类型，如果为'0'，则进行详细的数据处理
+    if (new_com_data_content.data_type == '0') {
+        // 提取数据ID列表，用于后续的数据查询或处理
+        new_com_data_content.data_ids = new_com_data_content.data_list.map((item: any) => item.data.id).join(',') || '';
+        
+        // 重构数据列表，保留原始数据结构的同时，添加或修改必要的字段
+        new_com_data_content.data_list = new_com_data_content.data_list.map((item1: any) => {
+            return {
+                ...item1,
+                data: [],
+                data_id: item1.data.id,
+            };
+        });
+        
+        // 设置分类ID、数量、排序规则等默认值，确保数据的一致性和完整性
+        new_com_data_content.category_ids = defaultConfigSetting.category_ids;
+        new_com_data_content.number = defaultConfigSetting.page_size;
+        new_com_data_content.order_by_rule = defaultConfigSetting.order_by_rule;
+        new_com_data_content.order_by_type = defaultConfigSetting.order_by_type;
+        
+        // 根据是否为商品，决定是否设置品牌ID或封面标志
+        if (is_goods) {
+            new_com_data_content.brand_ids = defaultConfigSetting.brand_ids;
+        } else {
+            new_com_data_content.is_cover = defaultConfigSetting.is_cover;
+        }
+    } else {
+        // 如果数据类型不是'0'，清空数据ID列表和数据列表，确保数据处理的一致性
+        new_com_data_content.data_ids = '';
+        new_com_data_content.data_list = [];
+    }
+    
+    // 清空自动数据列表，为后续的数据处理或展示做准备
+    new_com_data_content.data_auto_list = [];
+};
+
+/**
+ * 自定义数据处理函数
+ * 该函数用于处理新组件数据内容，根据数据是否为自定义以及数据类型，对数据进行相应的处理和格式化
+ * @param {any} new_com_data_content - 新组件的数据内容对象，包含数据源和显示数据等信息
+ */
+ const custom_data_processing = (new_com_data_content: any) => {
+    // 判断数据是否为自定义且数据类型为0（假设0代表某种特定数据类型）
+    if (new_com_data_content.is_custom_data == '1' && new_com_data_content.data_source_content.data_type === 0) {
+        // 手动的数据内容
+        const data_list = cloneDeep(new_com_data_content.data_source_content.data_list);
+        // 数据改造,存放手动的id
+        new_com_data_content.data_source_content.data_ids = data_list.map((list_item: any) => list_item.data[new_com_data_content?.show_data.data_key || 'id'] || '').join(',') || '';
+        // 数据改造,存放手动的清除里边的data
+        new_com_data_content.data_source_content.data_list = data_list.map((list_item: any) => {
+            return {
+                ...list_item,
+                data: [],
+                data_id: list_item.data[new_com_data_content?.show_data.data_key || 'id'],
+            };
+        });
+    } else {
+        // 如果数据不是自定义或数据类型不是0，清空相关数据字段
+        new_com_data_content.data_source_content.data_ids = [];
+        new_com_data_content.data_source_content.data_list = [];
+    }
+    // 自动数据清空
+    new_com_data_content.data_source_content.data_auto_list = [];
+};
 //#endregion 顶部导航回调方法 ---------------------end
+
+
 // 数据改造
 const diy_data_transfor_form_data = (clone_form: diy_data_item) => {
     return {

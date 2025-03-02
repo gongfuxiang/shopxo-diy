@@ -8,7 +8,7 @@
                 <el-radio-button class="radio-item" value="2">样式</el-radio-button>
             </el-radio-group>
         </card-container>
-        <div class="setting-content">
+        <div ref="scrollTop" class="setting-content" :style="value.key == 'custom' ? '' : 'background-color: #fff;'">
             <!-- 基础组件 -->
             <!-- 页面设置 -->
             <template v-if="value.key == 'page-settings'">
@@ -36,7 +36,7 @@
             </template>
             <!-- 导航组 -->
             <template v-else-if="value.key == 'nav-group'">
-                <model-nav-group-setting :type="radio" :value="value.com_data"></model-nav-group-setting>
+                <model-nav-group-setting :type="radio" :value="value.com_data" @set_offset_top="set_offset_top"></model-nav-group-setting>
             </template>
             <!-- 轮播图 -->
             <template v-else-if="value.key == 'carousel'">
@@ -61,6 +61,10 @@
             <!-- 商品选项卡 -->
             <template v-else-if="value.key == 'goods-tabs'">
                 <model-goods-tabs-setting :type="radio" :value="value.com_data"></model-goods-tabs-setting>
+            </template>
+            <!-- 数据选项卡 -->
+            <template v-else-if="value.key == 'data-tabs'">
+                <model-data-tabs-setting :type="radio" :value="value.com_data" @set_offset_top="set_offset_top"></model-data-tabs-setting>
             </template>
             <!-- 图片魔方 -->
             <template v-else-if="value.key == 'img-magic'">
@@ -122,6 +126,14 @@ const props = defineProps({
     },
 });
 const radio = ref('1'); // 创建一个响应式的数字变量，初始值为0
+
+const scrollTop = ref<HTMLElement | null>(null);
+const set_offset_top = (scrollY: number) => {
+    if (scrollTop.value) {
+        // 选中的滚动到指定位置
+        scrollTop.value.scrollTo({ top: scrollY - 160, behavior: 'smooth' });
+    }
+};
 </script>
 <style lang="scss" scoped>
 .settings {
@@ -133,7 +145,7 @@ const radio = ref('1'); // 创建一个响应式的数字变量，初始值为0
         height: 7.8rem;
         .title {
             font-size: 16px;
-            font-weight: 500;
+            font-weight: bold;
             color: #333;
         }
         .radio-group {
@@ -155,7 +167,6 @@ const radio = ref('1'); // 创建一个响应式的数字变量，初始值为0
     .setting-content {
         height: calc(100vh - 14.8rem);
         overflow: auto;
-        background-color: #fff;
     }
     :deep(.el-input-number) {
         width: 100%;

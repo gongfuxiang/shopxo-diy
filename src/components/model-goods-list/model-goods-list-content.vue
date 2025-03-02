@@ -1,6 +1,8 @@
 <template>
     <div class="content">
         <el-form :model="form" label-width="70" class="m-h">
+            <common-content-top :value="form.content_top"></common-content-top>
+            <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">列表设置</div>
                 <el-form-item label="选择风格">
@@ -166,7 +168,9 @@ const change_style = (val: string | number | boolean | undefined): void => {
     // 切换风格时，将对应图片的默认值宽度和高度赋值
     const list = base_list.product_style_list.filter(item => item.value == form.value.theme);
     if (list.length > 0) {
-        emits('theme_change', list[0].width, list[0].height);
+        // emits('theme_change', list[0].width, list[0].height);
+        data.value.content_img_width = list[0].width;
+        data.value.content_img_height = list[0].height;
     }
 };
 const is_revise = ref(false);

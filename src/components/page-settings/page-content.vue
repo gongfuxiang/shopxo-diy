@@ -82,7 +82,7 @@
             </template>
             <div class="bg-f5 divider-line" />
             <template v-if="['3', '5'].includes(form.theme)">
-                <model-search-content :value="form"></model-search-content>
+                <model-search-content :value="form" :is-header="true"></model-search-content>
                 <div class="bg-f5 divider-line" />
             </template>
             <card-container>

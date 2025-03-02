@@ -6,9 +6,22 @@
                 <el-form-item v-if="new_content.style_actived !== 10" label="图片间距">
                     <slider v-model="form.image_spacing" :max="100"></slider>
                 </el-form-item>
-                <el-form-item label="图片圆角">
-                    <radius :value="form" @update:value="radius_change"></radius>
+                <el-form-item label="背景设置">
+                    <background-common v-model:color_list="form.color_list" v-model:direction="form.direction" v-model:img_style="form.background_img_style" v-model:img="form.background_img" @mult_color_picker_event="mult_color_picker_event" />
                 </el-form-item>
+                <el-form-item label="外边距">
+                    <margin :value="form.margin"></margin>
+                </el-form-item>
+                <el-form-item label="内边距">
+                    <padding :value="form.padding"></padding>
+                </el-form-item>
+                <el-form-item label="圆角">
+                    <radius :value="form"></radius>
+                </el-form-item>
+                <!-- 边框处理 -->
+                <border-config v-model:show="form.border_is_show" v-model:color="form.border_color" v-model:style="form.border_style" v-model:size="form.border_size"></border-config>
+                <!-- 阴影配置 -->
+                <shadow-config v-model="form"></shadow-config>
             </card-container>
         </el-form>
         <div class="bg-f5 divider-line" />
@@ -16,7 +29,6 @@
     </div>
 </template>
 <script setup lang="ts">
-import { pick } from 'lodash';
 const props = defineProps({
     value: {
         type: Object,
@@ -40,15 +52,10 @@ const common_style_update = (value: any) => {
     form.value.common_style = value;
 };
 // 内容圆角
-const radius_change = (radius: any) => {
-    form.value = Object.assign(form.value, pick(radius, [
-        'radius',
-        'radius_top_left',
-        'radius_top_right',
-        'radius_bottom_left',
-        'radius_bottom_right',
-    ]));
-}
+const mult_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.color_list = arry;
+    form.value.direction = type.toString();
+};
 </script>
 <style lang="scss" scoped>
 .topic {
