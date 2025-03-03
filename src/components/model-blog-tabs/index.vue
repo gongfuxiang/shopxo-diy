@@ -3,12 +3,12 @@
         <div class="flex-col" :style="style_img_container">
             <div class="oh" :style="tabs_container">
                 <div class="oh" :style="tabs_img_container">
-                    <tabs-view ref="tabs" :value="article_tabs" :active-index="tabs_active_index" :tabs-sliding-fixed-bg="tabs_sliding_fixed_bg"></tabs-view>
+                    <tabs-view ref="tabs" :value="blog_tabs" :active-index="tabs_active_index" :tabs-sliding-fixed-bg="tabs_sliding_fixed_bg"></tabs-view>
                 </div>
             </div>
-            <div class="oh" :style="article_container">
-                <div class="oh" :style="article_img_container">
-                    <model-article-list :value="article_tabs" :is-common-style="false"></model-article-list>
+            <div class="oh" :style="blog_container">
+                <div class="oh" :style="blog_img_container">
+                    <model-blog-list :value="blog_tabs" :is-common-style="false"></model-blog-list>
                 </div>
             </div>
         </div>
@@ -29,14 +29,14 @@ const props = defineProps({
 });
 const style_container = ref('');
 const style_img_container = ref('');
-const article_tabs = ref({});
+const blog_tabs = ref({});
 const tabs_active_index = ref(0);
 // 选项卡独立样式
 const tabs_container = ref('');
 const tabs_img_container = ref('');
 // 区域内边距
-const article_container = ref('');
-const article_img_container = ref('');
+const blog_container = ref('');
+const blog_img_container = ref('');
 // 打开滑动固定开关之后，显示的样式
 const tabs_sliding_fixed_bg = ref('');
 watch(
@@ -57,20 +57,20 @@ watch(
         tabs_container.value = gradient_computer(tabs_data) + radius_computer(new_style.tabs_radius) + margin_computer(new_style.tabs_margin) + border_computer(new_style.tabs_content) + box_shadow_computer(new_style.tabs_content);
         tabs_img_container.value = background_computer(tabs_data) + padding_computer(new_style.tabs_padding);
         // 文章区域背景设置
-        const article_content_data = {
-            color_list: new_style.article_content_color_list,
-            direction: new_style.article_content_direction,
-            background_img_style: new_style.article_content_background_img_style,
-            background_img: new_style.article_content_background_img,
+        const blog_content_data = {
+            color_list: new_style.blog_content_color_list,
+            direction: new_style.blog_content_direction,
+            background_img_style: new_style.blog_content_background_img_style,
+            background_img: new_style.blog_content_background_img,
         }
-        article_container.value = gradient_computer(article_content_data) + margin_computer(new_style.article_content_margin) + radius_computer(new_style.article_content_radius) + border_computer(new_style.article_content) + box_shadow_computer(new_style.article_content);
-        article_img_container.value = background_computer(article_content_data) + padding_computer(new_style.article_content_padding);
+        blog_container.value = gradient_computer(blog_content_data) + margin_computer(new_style.blog_content_margin) + radius_computer(new_style.blog_content_radius) + border_computer(new_style.blog_content) + box_shadow_computer(new_style.blog_content);
+        blog_img_container.value = background_computer(blog_content_data) + padding_computer(new_style.blog_content_padding);
         //文章内容设置
-        new_data.content.theme = new_data.content.article_theme;
+        new_data.content.theme = new_data.content.blog_theme;
         new_data.content.data_type = new_data.content.tabs_list[tabs_active_index.value].data_type;
         new_data.content.keywords = new_data.content.tabs_list[tabs_active_index.value].keywords;
         new_data.content.category_ids = new_data.content.tabs_list[tabs_active_index.value].category_ids;
-        new_data.content.carousel_col = new_data.content.article_carousel_col;
+        new_data.content.carousel_col = new_data.content.blog_carousel_col;
         new_data.content.data_list = new_data.content.tabs_list[tabs_active_index.value].data_list;
         new_data.content.data_auto_list = new_data.content.tabs_list[tabs_active_index.value].data_auto_list;
         new_data.content.data_ids = new_data.content.tabs_list[tabs_active_index.value].data_ids;
@@ -79,10 +79,10 @@ watch(
         new_data.content.order_by_rule = new_data.content.tabs_list[tabs_active_index.value].order_by_rule;
         new_data.content.field_show = new_data.content.field_show;
         new_data.content.is_cover = new_data.content.tabs_list[tabs_active_index.value].is_cover;
-        article_tabs.value = new_data;
+        blog_tabs.value = new_data;
 
         style_container.value = common_styles_computer(new_style.common_style);
-        style_img_container.value = common_img_computer(new_style.common_style) + `gap: ${new_style.article_content_spacing}px;`;
+        style_img_container.value = common_img_computer(new_style.common_style) + `gap: ${new_style.blog_content_spacing}px;`;
     },
     { immediate: true, deep: true }
 );

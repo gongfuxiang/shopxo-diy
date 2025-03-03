@@ -106,6 +106,14 @@
             <template v-else-if="item.key == 'seckill'">
                 <model-seckill :key="item.com_data" :value="item.com_data"></model-seckill>
             </template>
+            <!-- 文章列表 -->
+            <template v-else-if="item.key == 'blog'">
+                <model-blog-list :key="item.com_data" :value="item.com_data"></model-blog-list>
+            </template>
+            <!-- 文章选项卡 -->
+            <template v-else-if="item.key == 'blog-tabs'">
+                <model-blog-tabs :key="item.com_data" :value="item.com_data"></model-blog-tabs>
+            </template>
             <!-- 工具组件 -->
             <!-- 辅助线 -->
             <template v-else-if="item.key == 'row-line'">

@@ -80,7 +80,7 @@
 <script setup lang="ts">
 import { common_styles_computer, padding_computer, radius_computer, get_math, is_obj_empty, common_img_computer, background_computer, gradient_handle, gradient_computer, margin_computer, box_shadow_computer, border_computer, old_radius, old_padding, old_margin } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
-// import blogAPI from '@/api/blog';
+import blogAPI from '@/api/blog';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
 const modules = [Autoplay];
@@ -147,7 +147,7 @@ const blog_img_style = ref('');
 const default_data_list: blogList = {
     id: 0,
     data: {},
-    new_title: '测试文章标题',
+    new_title: '测试博客标题',
     new_cover: [],
 };
 // 内容
@@ -165,27 +165,27 @@ const get_auto_data_list = async () => {
         blog_number: number,
         blog_is_cover: is_cover,
     };
-    // const res = await blogAPI.getAutoList(new_data);
-    // new_content.value.data_auto_list = [];
-    // if (!isEmpty(res.data)) {
-    //     data_list.value = [];
-    //     res.data.forEach((child: any) => {
-    //         data_list.value.push({
-    //             id: get_math(),
-    //             new_title: '',
-    //             new_cover: [],
-    //             data: child,
-    //         });
-    //         new_content.value.data_auto_list.push({
-    //             id: get_math(),
-    //             new_title: '',
-    //             new_cover: [],
-    //             data: child,
-    //         });
-    //     });
-    // } else {
-    //     data_list.value = Array(4).fill(default_data_list);
-    // }
+    const res = await blogAPI.getAutoList(new_data);
+    new_content.value.data_auto_list = [];
+    if (!isEmpty(res.data)) {
+        data_list.value = [];
+        res.data.forEach((child: any) => {
+            data_list.value.push({
+                id: get_math(),
+                new_title: '',
+                new_cover: [],
+                data: child,
+            });
+            new_content.value.data_auto_list.push({
+                id: get_math(),
+                new_title: '',
+                new_cover: [],
+                data: child,
+            });
+        });
+    } else {
+        data_list.value = Array(4).fill(default_data_list);
+    }
 };
 onMounted(() => {
     // 判断数据类型是选择文章且数据不为空
