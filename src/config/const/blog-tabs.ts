@@ -127,8 +127,8 @@ interface DefaultBlogTabs {
         blog_spacing: number;
         content_spacing: number;
         blog_height: number;
-        content_img_width: number | undefined;
-        content_img_height: number | undefined;
+        content_img_width: number;
+        content_img_height: number;
         interval_time: number; //滚动时间
         is_roll: number;
         rolling_fashion: string;

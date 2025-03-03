@@ -227,8 +227,8 @@ const blog_theme_change = (val: any) => {
     const list = base_list.blog_theme_list.filter(item => item.value == val);
     if (list.length > 0) {
         // emits('theme_change', list[0].width, list[0].height);
-        styles.value.content_img_width = list[0].width;
-        styles.value.content_img_height = list[0].height;
+        styles.content_img_width = list[0].width;
+        styles.content_img_height = list[0].height;
     }
 };
 
