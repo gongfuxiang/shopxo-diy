@@ -27,6 +27,7 @@ import defaultCoupon from '@/config/const/coupon';
 import defaultSeckill from '@/config/const/seckill';
 import defaultTabsCarousel from '@/config/const/tabs-carousel';
 import defaultRealstore from '@/config/const/realstore';
+import defaultShop from '@/config/const/shop';
 
 // 系统设置
 interface DefaultSettings {
@@ -59,6 +60,7 @@ interface DefaultSettings {
     seckill: object;
     tabs_carousel: object;
     realstore: object;
+    shop: object;
 }
 
 const defaultSettings: DefaultSettings = {
@@ -91,6 +93,7 @@ const defaultSettings: DefaultSettings = {
     seckill: defaultSeckill,
     tabs_carousel: defaultTabsCarousel,
     realstore: defaultRealstore,
+    shop: defaultShop,
 };
 
 export default defaultSettings;

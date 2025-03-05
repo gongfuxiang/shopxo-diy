@@ -114,9 +114,13 @@
             <template v-else-if="item.key == 'blog-tabs'">
                 <model-blog-tabs :key="item.com_data" :value="item.com_data"></model-blog-tabs>
             </template>
-            <!-- 文章列表 -->
+            <!-- 多商户 -->
             <template v-else-if="item.key == 'realstore'">
                 <model-realstore :key="item.com_data" :value="item.com_data"></model-realstore>
+            </template>
+            <!-- 多门店 -->
+            <template v-else-if="item.key == 'shop'">
+                <model-shop :key="item.com_data" :value="item.com_data"></model-shop>
             </template>
             <!-- 工具组件 -->
             <!-- 辅助线 -->
