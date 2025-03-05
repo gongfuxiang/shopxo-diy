@@ -93,7 +93,8 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, common_img_computer, get_math, gradient_handle, margin_computer, border_computer, box_shadow_computer, radius_computer, old_margin, background_computer, padding_computer } from '@/utils';
+import { common_styles_computer, common_img_computer, get_math, gradient_handle, margin_computer, border_computer, box_shadow_computer, radius_computer, background_computer, padding_computer } from '@/utils';
+import { old_margin } from "@/utils/common";
 import { isEmpty, cloneDeep } from 'lodash';
 import ShopAPI from '@/api/shop';
 import { Swiper, SwiperSlide } from 'swiper/vue';

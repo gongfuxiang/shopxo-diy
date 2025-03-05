@@ -78,7 +78,8 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_styles_computer, padding_computer, radius_computer, get_math, is_obj_empty, common_img_computer, background_computer, gradient_handle, gradient_computer, margin_computer, box_shadow_computer, border_computer, old_radius, old_padding, old_margin } from '@/utils';
+import { common_styles_computer, padding_computer, radius_computer, get_math, is_obj_empty, common_img_computer, background_computer, gradient_handle, gradient_computer, margin_computer, box_shadow_computer, border_computer } from '@/utils';
+import { old_radius, old_padding, old_margin } from "@/utils/common";
 import { isEmpty, cloneDeep } from 'lodash';
 import blogAPI from '@/api/blog';
 import { Swiper, SwiperSlide } from 'swiper/vue';
