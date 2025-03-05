@@ -4,57 +4,23 @@
             <div :class="outer_class" :style="onter_style">
                 <template v-if="!['3'].includes(theme)">
                     <div v-for="(item, index) in list" :key="index" class="re oh" :class="layout_type" :style="layout_style">
-                        <div class="flex-col" :style="layout_img_style">
-                            <div :class="['oh w h', ['0'].includes(theme) ? 'flex-row' : 'flex-col' ]">
-                                <template v-if="!isEmpty(item)">
-                                    <div class="oh re" :class="`flex-img${theme}`">
-                                        <template v-if="!isEmpty(item.new_cover)">
-                                            <image-empty v-model="item.new_cover[0]" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
-                                        </template>
-                                        <template v-else>
-                                            <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
-                                        </template>
-                                    </div>
-                                </template>
-                                <div class="flex-1 flex-col" :style="content_style">
-                                    <div class="flex-col jc-sb gap-10">
-                                        <div class="flex-row jc-sb align-c">
-                                            <span class="text-line-2" :style="trends_config('title')">{{ item.title }}</span>
-                                            <div v-if="['0', '2'].includes(theme)" class="flex-row align-c" :style="`gap: ${ new_style.phone_navigation_spacing }px;`">
-                                                <img_or_icon_or_text :value="props.value" type="phone" />
-                                                <img_or_icon_or_text :value="props.value" type="navigation" />
-                                            </div>
-                                        </div>
-                                        <div class="flex-row gap-2 align-c">
-                                            <img_or_icon_or_text :value="props.value" type="time" />
-                                            <div class="flex-1 flex-row align-c">
-                                                <span class="text-line-1" :style="trends_config('state')">{{ item.state }}</span>
-                                                <span v-if="!isEmpty(item.state) || !isEmpty(item.business_hours)" :style="'color: #ccc;' + margin_computer(new_style.realstore_business_distance)">|</span>
-                                                <span class="text-line-1" :style="trends_config('business_hours')">{{ item.business_hours }}</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <template v-if="theme !== '0' && form.is_location_show == '1' && !isEmpty(item.location)">
-                                        <div :style="border_style"></div>
-                                        <div class="flex-row jc-sb align-c gap-10">
-                                            <div class="flex-row align-c gap-2">
-                                                <img_or_icon_or_text :value="props.value" type="location" />
-                                                <span class="text-line-2 flex-1" :style="trends_config('location')">{{ item.location }}</span>
-                                            </div>
-                                            <template v-if="!['0', '2'].includes(theme)">
-                                                <img_or_icon_or_text :value="props.value" type="navigation" />
-                                            </template>
-                                        </div>
+                        <div :class="['oh w h', ['0'].includes(theme) ? 'flex-row' : 'flex-col' ]" :style="layout_img_style">
+                            <template v-if="!isEmpty(item)">
+                                <div class="oh re" :class="`flex-img${theme}`">
+                                    <template v-if="!isEmpty(item.new_cover)">
+                                        <image-empty v-model="item.new_cover[0]" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
+                                    </template>
+                                    <template v-else>
+                                        <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
                                     </template>
                                 </div>
-                            </div>
-                            <template v-if="theme == '0' && form.is_location_show == '1' && !isEmpty(item.location)">
-                                <div :style="border_style"></div>
-                                <div class="flex-row align-c gap-2">
-                                    <img_or_icon_or_text :value="props.value" type="location" />
-                                    <span class="text-line-2 flex-1" :style="trends_config('location')">{{ item.location }}</span>
-                                </div>
                             </template>
+                            <div class="flex-1 flex-row jc-sb align-c" :style="content_style">
+                                <div class="flex-col jc-sb gap-10">
+                                    <span class="text-line-2" :style="trends_config('title')">{{ item.title }}</span>
+                                    <span class="text-line-2" :style="trends_config('title')">{{ item.desc }}</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </template>
@@ -73,16 +39,6 @@
                                             </template>
                                         </div>
                                     </template>
-                                    <div class="flex-1 flex-col jc-sb gap-10" :style="content_style">
-                                        <span class="text-line-2" :style="trends_config('title')">{{ item.title }}</span>
-                                        <div class="flex-row jc-sb align-c">
-                                            <div class="flex-1 flex-row gap-2 align-c">
-                                                <img_or_icon_or_text :value="props.value" type="time" />
-                                                <span class="text-line-1" :style="trends_config('state')">{{ item.state }}</span>
-                                            </div>
-                                            <img_or_icon_or_text :value="props.value" type="navigation" />
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </swiper-slide>
@@ -142,28 +98,17 @@ const border_style = computed(() => {
     return border;
 });
 //#region 列表数据
-type plugins_icon_data = {
-    name: string;
-    bg_color: string;
-    br_color: string;
-    color: string;
-    url: string;
-}
 type data_list = {
     title: string;
     images: string;
     new_cover: string[];
-    state: string;
-    location: string;
-    business_hours: string;
+    desc: string;
 }
 const default_list = {
-    title: '测试门店标题',
-    location: '测试地址',
+    title: '测试商户标题',
+    desc: '测试商户描述',
     images: '',
     new_cover: [],
-    state: '营业中',
-    business_hours: '7:00-22:00',
 };
 const list = ref<data_list[]>([]);
 // 初始化的时候执行
@@ -231,20 +176,20 @@ watch(() => watch_data.value, (val, oldVal) => {
 // 门店间距
 const content_outer_spacing = computed(() => new_style.value.content_outer_spacing);
 // 圆角设置
-const content_radius = computed(() => radius_computer(new_style.value.realstore_radius));
+const content_radius = computed(() => radius_computer(new_style.value.shop_radius));
 // 图片圆角设置
-const content_img_radius = computed(() => radius_computer(new_style.value.realstore_img_radius));
+const content_img_radius = computed(() => radius_computer(new_style.value.shop_img_radius));
 // 内边距设置
-const content_padding = computed(() => padding_computer(new_style.value.realstore_padding));
-const realstore_left_right_width_margin = computed(() => {
-    const { realstore_margin = old_margin } = new_style.value;
-    return realstore_margin.margin_left + realstore_margin.margin_right;
+const content_padding = computed(() => padding_computer(new_style.value.shop_padding));
+const shop_left_right_width_margin = computed(() => {
+    const { shop_margin = old_margin } = new_style.value;
+    return shop_margin.margin_left + shop_margin.margin_right;
 });
 // 两列风格
-const two_columns = computed(() => content_outer_spacing.value + realstore_left_right_width_margin.value * 2 + 'px' );
+const two_columns = computed(() => content_outer_spacing.value + shop_left_right_width_margin.value * 2 + 'px' );
 // 根据传递的参数，从对象中取值
 const trends_config = (key: string, type?: string) => {
-    return style_config(new_style.value[`realstore_${key}_typeface`], new_style.value[`realstore_${key}_size`], new_style.value[`realstore_${key}_color`], type);
+    return style_config(new_style.value[`shop_${key}_typeface`], new_style.value[`shop_${key}_size`], new_style.value[`shop_${key}_color`], type);
 };
 // 根据传递的值，显示不同的内容
 const style_config = (typeface: string, size: number, color: string | object, type?: string) => {
@@ -270,7 +215,7 @@ const style_config = (typeface: string, size: number, color: string | object, ty
 };
 // 按钮渐变色处理
 const button_gradient = () => {
-    return gradient_handle(new_style.value.realstore_button_color, '180deg');
+    return gradient_handle(new_style.value.shop_button_color, '180deg');
 };
 // 不同风格下的样式
 const layout_type = computed(() => {
@@ -296,16 +241,16 @@ const layout_type = computed(() => {
 // 容器样式
 const layout_style = computed(() => {
     const radius = theme.value == '6' ? '' : content_radius.value;
-    const width = theme.value == '0' ? `width: calc(100% - ${ realstore_left_right_width_margin.value }px);` : '';
-    const gradient = gradient_handle(new_style.value.realstore_color_list, new_style.value.realstore_direction) + margin_computer(new_style.value.realstore_margin) + border_computer(new_style.value) + box_shadow_computer(new_style.value);
+    const width = theme.value == '0' ? `width: calc(100% - ${ shop_left_right_width_margin.value }px);` : '';
+    const gradient = gradient_handle(new_style.value.shop_color_list, new_style.value.shop_direction) + margin_computer(new_style.value.shop_margin) + border_computer(new_style.value) + box_shadow_computer(new_style.value);
     return `${radius} ${ gradient } ${ width }`;
 });
 // 容器图片样式
 const layout_img_style = computed(() => {
     const padding = theme.value == 0 ? content_padding.value : '';
     const data = {
-        background_img_style: new_style.value.realstore_background_img_style,
-        background_img: new_style.value.realstore_background_img,
+        background_img_style: new_style.value.shop_background_img_style,
+        background_img: new_style.value.shop_background_img,
     }
     return padding + background_computer(data);
 });
@@ -356,18 +301,18 @@ watchEffect(() => {
     carouselKey.value = get_math();
 });
 //#endregion
-const realstore_style_list = [
+const shop_style_list = [
     { name: '单列展示', value: '0', width: 50, height: 50 },
     { name: '两列展示（纵向）', value: '1', width:180, height: 180 },
     { name: '大图展示', value: '2', width:0, height: 180 },
     { name: '左右滑动展示', value: '3', width:0, height: 0 },
 ]
 // 宽度和高度为空的时候，修改默认值
-const realstore_img_width = computed(() => {
+const shop_img_width = computed(() => {
     if (typeof new_style.value.content_img_width == 'number') {
         return new_style.value.content_img_width + 'px';
     } else {
-        const list = realstore_style_list.filter(item => item.value == theme.value);
+        const list = shop_style_list.filter(item => item.value == theme.value);
         if (list.length > 0) {
             return list[0].width + 'px';
         } else {
@@ -376,11 +321,11 @@ const realstore_img_width = computed(() => {
     }
 });
 // 宽度和高度为空的时候，修改默认值
-const realstore_img_height = computed(() => {
+const shop_img_height = computed(() => {
     if (typeof new_style.value.content_img_height == 'number') {
         return new_style.value.content_img_height + 'px';
     } else {
-        const list = realstore_style_list.filter(item => item.value == theme.value);
+        const list = shop_style_list.filter(item => item.value == theme.value);
         if (list.length > 0) {
             return list[0].height + 'px';
         } else {
@@ -405,16 +350,16 @@ const content_outer_height = computed(() => new_style.value.content_outer_height
     height: v-bind(content_outer_height);
 }
 .flex-img0 {
-    height: v-bind(realstore_img_height);
-    width: v-bind(realstore_img_width);
+    height: v-bind(shop_img_height);
+    width: v-bind(shop_img_width);
 }
 .flex-img1 {
     width: 100%;
-    height: v-bind(realstore_img_height);
+    height: v-bind(shop_img_height);
 }
 .flex-img2 {
     width: 100%;
-    height: v-bind(realstore_img_height);
+    height: v-bind(shop_img_height);
 }
 .flex-img3 {
     width: 100%;

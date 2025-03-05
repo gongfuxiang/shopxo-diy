@@ -97,6 +97,7 @@ interface defaultRealstore {
         realstore_location_color: string;
         realstore_location_typeface: string;
         realstore_location_size: number;
+        realstore_default_state_color: string;
         realstore_state_color: string;
         realstore_state_typeface: string;
         realstore_state_size: number;
@@ -204,6 +205,7 @@ const defaultRealstore: defaultRealstore = {
         realstore_location_color: '#333',
         realstore_location_typeface: '400',
         realstore_location_size: 12,
+        realstore_default_state_color: '#000',
         realstore_state_color: '#52C41A',
         realstore_state_typeface: '400',
         realstore_state_size: 12,

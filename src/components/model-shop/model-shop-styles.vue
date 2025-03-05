@@ -4,33 +4,22 @@
             <card-container>
                 <div class="mb-12">内容样式</div>
                 <el-form-item label="内容背景">
-                    <background-common v-model:color_list="form.realstore_color_list" v-model:direction="form.realstore_direction" v-model:img_style="form.realstore_background_img_style" v-model:img="form.realstore_background_img" @mult_color_picker_event="mult_color_picker_event" />
+                    <background-common v-model:color_list="form.shop_color_list" v-model:direction="form.shop_direction" v-model:img_style="form.shop_background_img_style" v-model:img="form.shop_background_img" @mult_color_picker_event="mult_color_picker_event" />
                 </el-form-item>
                 <el-form-item label="内容标题">
-                    <color-text-size-group v-model:color="form.realstore_title_color" v-model:typeface="form.realstore_title_typeface" v-model:size="form.realstore_title_size" default-color="#000000"></color-text-size-group>
+                    <color-text-size-group v-model:color="form.shop_title_color" v-model:typeface="form.shop_title_typeface" v-model:size="form.shop_title_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
                 <el-form-item label="地址">
-                    <color-text-size-group v-model:color="form.realstore_location_color" v-model:typeface="form.realstore_location_typeface" v-model:size="form.realstore_location_size" default-color="#000000"></color-text-size-group>
+                    <color-text-size-group v-model:color="form.shop_location_color" v-model:typeface="form.shop_location_typeface" v-model:size="form.shop_location_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
-                <el-form-item label="营业状态">
-                    <color-text-size-group v-model:color="form.realstore_state_color" v-model:typeface="form.realstore_state_typeface" v-model:size="form.realstore_state_size" default-color="#000000"></color-text-size-group>
-                </el-form-item>
-                <template v-if="data.theme != '3'">
-                    <el-form-item label="营业间距">
-                        <margin :value="form.business_distance"></margin>
-                    </el-form-item>
-                    <el-form-item label="营业时间">
-                        <color-text-size-group v-model:color="form.realstore_business_hours_color" v-model:typeface="form.realstore_business_hours_typeface" v-model:size="form.realstore_business_hours_size" default-color="#000000"></color-text-size-group>
-                    </el-form-item>
-                </template>
                 <el-form-item label="外间距">
-                    <margin :value="form.realstore_margin"></margin>
+                    <margin :value="form.shop_margin"></margin>
                 </el-form-item>
                 <el-form-item label="内间距">
-                    <padding :value="form.realstore_padding"></padding>
+                    <padding :value="form.shop_padding"></padding>
                 </el-form-item>
                 <el-form-item label="内容圆角">
-                    <radius :value="form.realstore_radius"></radius>
+                    <radius :value="form.shop_radius"></radius>
                 </el-form-item>
                 <el-form-item v-if="data.theme == '0'" label="内容间距">
                     <slider v-model="form.content_spacing" :max="100"></slider>
@@ -52,25 +41,18 @@
                     </el-form-item>
                 </template>
                 <el-form-item label="图片圆角">
-                    <radius :value="form.realstore_img_radius"></radius>
+                    <radius :value="form.shop_img_radius"></radius>
                 </el-form-item>
                 <!-- 边框处理 -->
                 <border-config v-model:show="form.border_is_show" v-model:color="form.border_color" v-model:style="form.border_style" v-model:size="form.border_size"></border-config>
                 <!-- 阴影配置 -->
                 <shadow-config v-model="form"></shadow-config>
             </card-container>
-            <template v-if="new_tabs.length > 0">
+            <template v-if="data.is_right_show == '1'">
                 <div class="divider-line"></div>
                 <card-container>
                     <div class="mb-12">图标设置</div>
-                    <el-form-item v-if="is_phone_navigation" label="图标间距">
-                        <slider v-model="form.phone_navigation_spacing" :max="100"></slider>
-                    </el-form-item>
-                    <el-tabs v-model="tabs_name" class="content-tabs">
-                        <el-tab-pane v-for="(tab, index) in new_tabs" :key="index" :label="tab.label" :name="tab.name">
-                            <icon-style :key="index" v-model:value="form[`${ tab.name }_style`]" :type="data[`${ tab.name }_type`]" :is-icon="data[`${ tab.name }_type`] == 'img-icon' && !isEmpty(data[`${ tab.name }_icon`])" />
-                        </el-tab-pane>
-                    </el-tabs>
+                    <img-or-icon-or-text-style v-model:value="form.right_style" type="right" :is-icon="data.right_type == 'img-icon' && !isEmpty(data.right_icon)" />
                 </card-container>
             </template>
             <template v-if="theme == '3'">
@@ -156,40 +138,28 @@ const state = reactive({
 const { form, data } = toRefs(state);
 const theme = computed(() => data.value.theme);
 if (['0', '4'].includes(theme.value)) {
-    if (form.value.realstore_img_radius.radius == props.defaultConfig.img_radius_0 || (form.value.realstore_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && form.value.realstore_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && form.value.realstore_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && form.value.realstore_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
-        form.value.realstore_img_radius.radius = props.defaultConfig.img_radius_0;
-        form.value.realstore_img_radius.radius_bottom_left = props.defaultConfig.img_radius_0;
-        form.value.realstore_img_radius.radius_bottom_right = props.defaultConfig.img_radius_0;
-        form.value.realstore_img_radius.radius_top_left = props.defaultConfig.img_radius_0;
-        form.value.realstore_img_radius.radius_top_right = props.defaultConfig.img_radius_0;
+    if (form.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (form.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+        form.value.shop_img_radius.radius = props.defaultConfig.img_radius_0;
+        form.value.shop_img_radius.radius_bottom_left = props.defaultConfig.img_radius_0;
+        form.value.shop_img_radius.radius_bottom_right = props.defaultConfig.img_radius_0;
+        form.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_0;
+        form.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_0;
     }
 } else {
-    if (form.value.realstore_img_radius.radius == props.defaultConfig.img_radius_0 || (form.value.realstore_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && form.value.realstore_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && form.value.realstore_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && form.value.realstore_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
-        form.value.realstore_img_radius.radius = props.defaultConfig.img_radius_1;
-        form.value.realstore_img_radius.radius_bottom_left = props.defaultConfig.img_radius_1;
-        form.value.realstore_img_radius.radius_bottom_right = props.defaultConfig.img_radius_1;
-        form.value.realstore_img_radius.radius_top_left = props.defaultConfig.img_radius_1;
-        form.value.realstore_img_radius.radius_top_right = props.defaultConfig.img_radius_1;
+    if (form.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (form.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+        form.value.shop_img_radius.radius = props.defaultConfig.img_radius_1;
+        form.value.shop_img_radius.radius_bottom_left = props.defaultConfig.img_radius_1;
+        form.value.shop_img_radius.radius_bottom_right = props.defaultConfig.img_radius_1;
+        form.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_1;
+        form.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_1;
     }
 }
-const is_show = (val: { name: string, show: string[] }) => {
-    return data.value[`is_${ val.name }_show`] === '1' && val.show.includes(data.value.theme);
-};
-// 图标数组处理一下，确保打开的都能看到
-type tabs_type = { name: string; label: string;};
-const new_tabs = ref<tabs_type[]>([]);
-const is_phone_navigation = ref(false);
-onMounted(() => {
-    // 判断有哪些打开的图标
-    new_tabs.value = tabs.filter(item => is_show(item));
-    // 判断打开的图标中是否包含手机和导航
-    is_phone_navigation.value = new_tabs.value.filter(item => item.name == 'phone' || item.name == 'navigation').length == 2;
-});
-const tabs_name = ref('navigation');
-// 博客背景渐变设置
+
+
+// 多商户背景渐变设置
 const mult_color_picker_event = (arry: color_list[], type: number) => {
-    form.value.realstore_color_list = arry;
-    form.value.realstore_direction = type.toString();
+    form.value.shop_color_list = arry;
+    form.value.shop_direction = type.toString();
 };
 const emit = defineEmits(['update:value']);
 const common_style_update = (value: any) => {

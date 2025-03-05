@@ -13,20 +13,21 @@
                     <color-text-size-group v-model:color="form.realstore_location_color" v-model:typeface="form.realstore_location_typeface" v-model:size="form.realstore_location_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
                 <el-form-item label="营业状态">
-                    <div class="flex-col gap-10">
-                        <el-form-item label="默认颜色">
+                    <div class="flex-col gap-10 w h">
+                        <el-form-item label="默认" label-width="60" class="form-item-child-label">
+                            <color-picker v-model="form.realstore_default_state_color" default-color="#000000"></color-picker>
+                        </el-form-item>
+                        <el-form-item label="营业中" label-width="60" class="form-item-child-label">
                             <color-picker v-model="form.realstore_state_color" default-color="#000000"></color-picker>
                         </el-form-item>
-                        <el-form-item label="营业中颜色">
-                            <color-picker v-model="form.realstore_state_color" default-color="#000000"></color-picker>
-                        </el-form-item>
-                        <el-form-item label="休息中颜色">
+                        <el-form-item label="字体效果" label-width="60" class="form-item-child-label">
                             <el-radio-group v-model="form.realstore_state_typeface">
                                 <el-radio v-for="item in font_weight" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                             </el-radio-group>
                         </el-form-item>
-                        <!-- <color-picker v-model="color" :default-color="props.defaultColor"></color-picker> -->
-                        <color-text-size-group v-model:color="form.realstore_state_color" v-model:typeface="form.realstore_state_typeface" v-model:size="form.realstore_state_size" default-color="#000000"></color-text-size-group>
+                        <el-form-item label="字号" label-width="60" class="form-item-child-label">
+                            <slider v-model="form.realstore_state_size" :max="100"></slider>
+                        </el-form-item>
                     </div>
                 </el-form-item>
                 <template v-if="data.theme != '3'">
@@ -82,7 +83,7 @@
                     </el-form-item>
                     <el-tabs v-model="tabs_name" class="content-tabs">
                         <el-tab-pane v-for="(tab, index) in new_tabs" :key="index" :label="tab.label" :name="tab.name">
-                            <icon-style :key="index" v-model:value="form[`${ tab.name }_style`]" :type="data[`${ tab.name }_type`]" :is-icon="data[`${ tab.name }_type`] == 'img-icon' && !isEmpty(data[`${ tab.name }_icon`])" />
+                            <img-or-icon-or-text-style :key="index" v-model:value="form[`${ tab.name }_style`]" :type="data[`${ tab.name }_type`]" :is-icon="data[`${ tab.name }_type`] == 'img-icon' && !isEmpty(data[`${ tab.name }_icon`])" />
                         </el-tab-pane>
                     </el-tabs>
                 </card-container>
@@ -135,7 +136,7 @@ const tabs = [
   { label: "地址", name: "location", show: ['0', '1', '2' ]}
 ];
 /**
- * @description: 博客列表（样式）
+ * @description: 多门店列表（样式）
  * @param value{Object} 样式数据
  * @param content{Object} 内容数据
  * @param defaultConfig{Object} 默认配置
@@ -201,7 +202,7 @@ onMounted(() => {
     is_phone_navigation.value = new_tabs.value.filter(item => item.name == 'phone' || item.name == 'navigation').length == 2;
 });
 const tabs_name = ref('navigation');
-// 博客背景渐变设置
+// 多门店背景渐变设置
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.realstore_color_list = arry;
     form.value.realstore_direction = type.toString();

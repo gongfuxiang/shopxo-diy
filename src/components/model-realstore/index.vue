@@ -21,12 +21,12 @@
                                         <div class="flex-row jc-sb align-c">
                                             <span class="text-line-2" :style="trends_config('title')">{{ item.title }}</span>
                                             <div v-if="['0', '2'].includes(theme)" class="flex-row align-c" :style="`gap: ${ new_style.phone_navigation_spacing }px;`">
-                                                <img_or_icon_or_text :value="props.value" type="phone" />
-                                                <img_or_icon_or_text :value="props.value" type="navigation" />
+                                                <img-or-icon-or-text :value="props.value" type="phone" />
+                                                <img-or-icon-or-text :value="props.value" type="navigation" />
                                             </div>
                                         </div>
                                         <div class="flex-row gap-2 align-c">
-                                            <img_or_icon_or_text :value="props.value" type="time" />
+                                            <img-or-icon-or-text :value="props.value" type="time" />
                                             <div class="flex-1 flex-row align-c">
                                                 <span class="text-line-1" :style="trends_config('state')">{{ item.state }}</span>
                                                 <span v-if="!isEmpty(item.state) || !isEmpty(item.business_hours)" :style="'color: #ccc;' + margin_computer(new_style.realstore_business_distance)">|</span>
@@ -38,11 +38,11 @@
                                         <div :style="border_style"></div>
                                         <div class="flex-row jc-sb align-c gap-10">
                                             <div class="flex-row align-b gap-2">
-                                                <img_or_icon_or_text :value="props.value" type="location" />
+                                                <img-or-icon-or-text :value="props.value" type="location" />
                                                 <span class="text-line-2 flex-1" :style="trends_config('location')">{{ item.location }}</span>
                                             </div>
                                             <template v-if="!['0', '2'].includes(theme)">
-                                                <img_or_icon_or_text :value="props.value" type="navigation" />
+                                                <img-or-icon-or-text :value="props.value" type="navigation" />
                                             </template>
                                         </div>
                                     </template>
@@ -51,7 +51,7 @@
                             <template v-if="theme == '0' && form.is_location_show == '1' && !isEmpty(item.location)">
                                 <div :style="border_style"></div>
                                 <div class="flex-row align-b gap-2">
-                                    <img_or_icon_or_text :value="props.value" type="location" />
+                                    <img-or-icon-or-text :value="props.value" type="location" />
                                     <span class="text-line-2 flex-1" :style="trends_config('location')">{{ item.location }}</span>
                                 </div>
                             </template>
@@ -77,10 +77,10 @@
                                         <span class="text-line-2" :style="trends_config('title')">{{ item.title }}</span>
                                         <div class="flex-row jc-sb align-c">
                                             <div class="flex-1 flex-row gap-2 align-c">
-                                                <img_or_icon_or_text :value="props.value" type="time" />
+                                                <img-or-icon-or-text :value="props.value" type="time" />
                                                 <span class="text-line-1" :style="trends_config('state')">{{ item.state }}</span>
                                             </div>
-                                            <img_or_icon_or_text :value="props.value" type="navigation" />
+                                            <img-or-icon-or-text :value="props.value" type="navigation" />
                                         </div>
                                     </div>
                                 </div>
@@ -142,13 +142,6 @@ const border_style = computed(() => {
     return border;
 });
 //#region 列表数据
-type plugins_icon_data = {
-    name: string;
-    bg_color: string;
-    br_color: string;
-    color: string;
-    url: string;
-}
 type data_list = {
     title: string;
     images: string;
