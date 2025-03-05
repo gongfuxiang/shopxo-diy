@@ -13,7 +13,21 @@
                     <color-text-size-group v-model:color="form.realstore_location_color" v-model:typeface="form.realstore_location_typeface" v-model:size="form.realstore_location_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
                 <el-form-item label="营业状态">
-                    <color-text-size-group v-model:color="form.realstore_state_color" v-model:typeface="form.realstore_state_typeface" v-model:size="form.realstore_state_size" default-color="#000000"></color-text-size-group>
+                    <div class="flex-col gap-10">
+                        <el-form-item label="默认颜色">
+                            <color-picker v-model="form.realstore_state_color" default-color="#000000"></color-picker>
+                        </el-form-item>
+                        <el-form-item label="营业中颜色">
+                            <color-picker v-model="form.realstore_state_color" default-color="#000000"></color-picker>
+                        </el-form-item>
+                        <el-form-item label="休息中颜色">
+                            <el-radio-group v-model="form.realstore_state_typeface">
+                                <el-radio v-for="item in font_weight" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                        <!-- <color-picker v-model="color" :default-color="props.defaultColor"></color-picker> -->
+                        <color-text-size-group v-model:color="form.realstore_state_color" v-model:typeface="form.realstore_state_typeface" v-model:size="form.realstore_state_size" default-color="#000000"></color-text-size-group>
+                    </div>
                 </el-form-item>
                 <template v-if="data.theme != '3'">
                     <el-form-item label="营业间距">
@@ -112,6 +126,7 @@
 </template>
 <script setup lang="ts">
 import { isEmpty } from "lodash";
+import { font_weight } from '@/utils/common';
 // 动态生成 tab 配置
 const tabs = [
   { label: "导航", name: "navigation", show: ['0', '1', '2', '3']},

@@ -33,7 +33,7 @@
 </template>
 
 <script lang="ts" setup>
-import { predefine_colors } from '@/utils';
+import { predefine_colors } from '@/utils/common';
 const props = defineProps({
     type: {
         type: String,

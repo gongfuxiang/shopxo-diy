@@ -37,7 +37,7 @@
                                     <template v-if="theme !== '0' && form.is_location_show == '1' && !isEmpty(item.location)">
                                         <div :style="border_style"></div>
                                         <div class="flex-row jc-sb align-c gap-10">
-                                            <div class="flex-row align-c gap-2">
+                                            <div class="flex-row align-b gap-2">
                                                 <img_or_icon_or_text :value="props.value" type="location" />
                                                 <span class="text-line-2 flex-1" :style="trends_config('location')">{{ item.location }}</span>
                                             </div>
@@ -50,7 +50,7 @@
                             </div>
                             <template v-if="theme == '0' && form.is_location_show == '1' && !isEmpty(item.location)">
                                 <div :style="border_style"></div>
-                                <div class="flex-row align-c gap-2">
+                                <div class="flex-row align-b gap-2">
                                     <img_or_icon_or_text :value="props.value" type="location" />
                                     <span class="text-line-2 flex-1" :style="trends_config('location')">{{ item.location }}</span>
                                 </div>

@@ -177,7 +177,8 @@
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, common_styles_computer, get_math, gradient_computer, gradient_handle, padding_computer, radius_computer, common_img_computer, margin_computer, old_margin, box_shadow_computer, border_computer, old_border_and_box_shadow, old_radius, old_padding } from '@/utils';
+import { background_computer, common_styles_computer, get_math, gradient_computer, gradient_handle, padding_computer, radius_computer, common_img_computer, margin_computer, box_shadow_computer, border_computer } from '@/utils';
+import { old_margin, old_border_and_box_shadow, old_radius, old_padding } from '@/utils/common'
 import { isEmpty, throttle } from 'lodash';
 import SeckillAPI from '@/api/seckill';
 import { Swiper, SwiperSlide } from 'swiper/vue';

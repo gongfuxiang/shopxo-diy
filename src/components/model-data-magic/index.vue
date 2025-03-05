@@ -120,7 +120,8 @@
 <script setup lang="ts">
 import customIndex from './components/custom/index.vue';
 import videoIndex from './components/video/index.vue';
-import { background_computer, common_styles_computer, get_math, gradient_computer, radius_computer, padding_computer, common_img_computer, is_number, percentage_count, margin_computer, box_shadow_computer, border_computer, old_margin, old_border_and_box_shadow, border_width, get_indicator_location } from '@/utils';
+import { background_computer, common_styles_computer, get_math, gradient_computer, radius_computer, padding_computer, common_img_computer, is_number, percentage_count, margin_computer, box_shadow_computer, border_computer, border_width, get_indicator_location } from '@/utils';
+import { old_margin, old_border_and_box_shadow } from "@/utils/common";
 import { isEmpty, cloneDeep } from 'lodash';
 const props = defineProps({
     value: {

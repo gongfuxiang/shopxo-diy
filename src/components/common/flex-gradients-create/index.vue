@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { predefine_colors } from '@/utils';
+import { predefine_colors } from '@/utils/common';
 interface list_page {
     color: string;
     color_percentage: number | undefined;

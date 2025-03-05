@@ -165,7 +165,8 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_img_computer, common_styles_computer, get_math, gradient_handle, padding_computer, radius_computer, background_computer, border_computer, box_shadow_computer, margin_computer, old_margin } from '@/utils';
+import { common_img_computer, common_styles_computer, get_math, gradient_handle, padding_computer, radius_computer, background_computer, border_computer, box_shadow_computer, margin_computer } from '@/utils';
+import {  old_margin } from "@/utils/common";
 import { isEmpty, cloneDeep, throttle } from 'lodash';
 import ShopAPI from '@/api/shop';
 import { Swiper, SwiperSlide } from 'swiper/vue';
