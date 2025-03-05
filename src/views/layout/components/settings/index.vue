@@ -102,6 +102,10 @@
             <template v-else-if="value.key == 'blog-tabs'">
                 <model-blog-tabs-setting :type="radio" :value="value.com_data"></model-blog-tabs-setting>
             </template>
+            <!-- 多门店 -->
+            <template v-else-if="value.key == 'realstore'">
+                <model-realstore-setting :type="radio" :value="value.com_data"></model-realstore-setting>
+            </template>
             <!-- 工具组件 -->
             <!-- 辅助空白 -->
             <template v-else-if="value.key == 'auxiliary-blank'">

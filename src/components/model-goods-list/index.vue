@@ -188,14 +188,14 @@ const props = defineProps({
 const form = computed(() => props.value?.content || {});
 const new_style = computed(() => props.value?.style || {});
 
-interface plugins_icon_data {
+type plugins_icon_data = {
     name: string;
     bg_color: string;
     br_color: string;
     color: string;
     url: string;
 }
-interface data_list {
+type data_list = {
     title: string;
     images: string;
     new_cover: string[];

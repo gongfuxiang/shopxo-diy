@@ -26,6 +26,7 @@ import defaultDataMagic from '@/config/const/data-magic';
 import defaultCoupon from '@/config/const/coupon';
 import defaultSeckill from '@/config/const/seckill';
 import defaultTabsCarousel from '@/config/const/tabs-carousel';
+import defaultRealstore from '@/config/const/realstore';
 
 // 系统设置
 interface DefaultSettings {
@@ -57,6 +58,7 @@ interface DefaultSettings {
     coupon: object;
     seckill: object;
     tabs_carousel: object;
+    realstore: object;
 }
 
 const defaultSettings: DefaultSettings = {
@@ -88,6 +90,7 @@ const defaultSettings: DefaultSettings = {
     coupon: defaultCoupon,
     seckill: defaultSeckill,
     tabs_carousel: defaultTabsCarousel,
+    realstore: defaultRealstore,
 };
 
 export default defaultSettings;

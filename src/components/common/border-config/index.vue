@@ -16,6 +16,8 @@
         <el-form-item v-if="typeList.includes('size')" label="边框粗细">
             <padding :value="border_size" :max="100" @operation_end="operation_end"></padding>
         </el-form-item>
+        <!-- 额外的使用内容 -->
+        <slot></slot>
     </template>
 </template>
 
