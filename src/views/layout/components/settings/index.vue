@@ -110,6 +110,10 @@
             <template v-else-if="value.key == 'shop'">
                 <model-shop-setting :type="radio" :value="value.com_data"></model-shop-setting>
             </template>
+            <!-- 组合搭配 -->
+            <template v-else-if="value.key == 'binding'">
+                <model-binding-setting :type="radio" :value="value.com_data"></model-binding-setting>
+            </template>
             <!-- 工具组件 -->
             <!-- 辅助空白 -->
             <template v-else-if="value.key == 'auxiliary-blank'">

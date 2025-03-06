@@ -122,6 +122,10 @@
             <template v-else-if="item.key == 'shop'">
                 <model-shop :key="item.com_data" :value="item.com_data"></model-shop>
             </template>
+            <!-- 多门店 -->
+            <template v-else-if="item.key == 'binding'">
+                <model-binding :key="item.com_data" :value="item.com_data"></model-binding>
+            </template>
             <!-- 工具组件 -->
             <!-- 辅助线 -->
             <template v-else-if="item.key == 'row-line'">

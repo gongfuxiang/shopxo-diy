@@ -51,7 +51,7 @@
                 </el-form-item>
                 <template v-if="data.theme != '3'">
                     <el-form-item label="营业间距">
-                        <margin :value="form.business_distance"></margin>
+                        <margin :value="form.realstore_business_distance"></margin>
                     </el-form-item>
                     <el-form-item label="营业时间">
                         <color-text-size-group v-model:color="form.realstore_business_hours_color" v-model:typeface="form.realstore_business_hours_typeface" v-model:size="form.realstore_business_hours_size" default-color="#000000"></color-text-size-group>
