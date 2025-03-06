@@ -10,7 +10,7 @@ interface defaultRealstore {
         shop_desc: string;
         shop_desc_row: string;
         data_list: string[];
-        is_is_right_show: string;
+        is_right_show: string;
         right_type: string;
         right_img: uploadList[];
         right_icon: string;
@@ -30,19 +30,17 @@ interface defaultRealstore {
         content_spacing: number;
         content_outer_spacing: number;
         content_outer_height: number;
+        shop_title_img_width: number,
+        shop_title_img_height: number,
+        shop_title_img_radius: radiusStyle,
+        shop_title_img_inner_spacing: number,
+        shop_title_img_outer_spacing: number,
         shop_title_color: string;
         shop_title_typeface: string;
         shop_title_size: number;
-        shop_location_color: string;
-        shop_location_typeface: string;
-        shop_location_size: number;
-        shop_state_color: string;
-        shop_state_typeface: string;
-        shop_state_size: number;
-        shop_business_distance: marginStyle;
-        shop_business_hours_color: string;
-        shop_business_hours_typeface: string;
-        shop_business_hours_size: number;
+        shop_desc_color: string;
+        shop_desc_typeface: string;
+        shop_desc_size: number;
         right_style: object,
         is_roll: string;
         interval_time: number;
@@ -70,10 +68,10 @@ const defaultRealstore: defaultRealstore = {
         shop_desc: '1',
         shop_desc_row: '1',
         data_list: [],
-        is_is_right_show: '1',
+        is_right_show: '1',
         right_type: 'img-icon',
         right_img: [],
-        right_icon: 'send',
+        right_icon: 'arrow-right',
         right_text: '',
     },
     style: {
@@ -115,29 +113,27 @@ const defaultRealstore: defaultRealstore = {
         content_spacing: 10,
         content_outer_spacing: 10,
         content_outer_height: 204,
+        shop_title_img_width: 12,
+        shop_title_img_height: 12,
+        shop_title_img_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+        },
+        shop_title_img_inner_spacing: 5,
+        shop_title_img_outer_spacing: 5,
         shop_title_color: '#333',
         shop_title_typeface: 'bold',
         shop_title_size: 14,
-        shop_location_color: '#333',
-        shop_location_typeface: '400',
-        shop_location_size: 12,
-        shop_state_color: '#52C41A',
-        shop_state_typeface: '400',
-        shop_state_size: 12,
-        shop_business_distance: {
-            margin: 0,
-            margin_top: 0,
-            margin_bottom: 0,
-            margin_left: 5,
-            margin_right: 5,
-        },
-        shop_business_hours_color: '#333',
-        shop_business_hours_typeface: '400',
-        shop_business_hours_size: 12,
+        shop_desc_color: '#666',
+        shop_desc_typeface: '400',
+        shop_desc_size: 12,
         right_style: {
             color_list: [{ color: '', color_percentage: undefined }],
             direction: '90deg',
-            color: '#000',
+            color: '#ccc',
             size: 12,
             img_width: 14,
             img_height: 14,

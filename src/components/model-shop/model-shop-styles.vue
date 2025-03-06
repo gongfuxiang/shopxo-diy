@@ -6,11 +6,30 @@
                 <el-form-item label="内容背景">
                     <background-common v-model:color_list="form.shop_color_list" v-model:direction="form.shop_direction" v-model:img_style="form.shop_background_img_style" v-model:img="form.shop_background_img" @mult_color_picker_event="mult_color_picker_event" />
                 </el-form-item>
+                <el-form-item label="标题图标">
+                    <div class="flex-col gap-10 w h">
+                        <el-form-item label="宽度" label-width="60" class="form-item-child-label">
+                            <slider v-model="form.shop_title_img_width" :max="1000"></slider>
+                        </el-form-item>
+                        <el-form-item label="高度" label-width="60" class="form-item-child-label">
+                            <slider v-model="form.shop_title_img_height" :max="1000"></slider>
+                        </el-form-item>
+                        <el-form-item label="圆角" label-width="60" class="form-item-child-label">
+                            <radius :value="form.shop_title_img_radius"></radius>
+                        </el-form-item>
+                        <el-form-item label="图标间距" label-width="60" class="form-item-child-label">
+                            <slider v-model="form.shop_title_img_inner_spacing" :max="50"></slider>
+                        </el-form-item>
+                        <el-form-item label="距离标题" label-width="60" class="form-item-child-label">
+                            <slider v-model="form.shop_title_img_outer_spacing" :max="50"></slider>
+                        </el-form-item>
+                    </div>
+                </el-form-item>
                 <el-form-item label="内容标题">
                     <color-text-size-group v-model:color="form.shop_title_color" v-model:typeface="form.shop_title_typeface" v-model:size="form.shop_title_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
-                <el-form-item label="地址">
-                    <color-text-size-group v-model:color="form.shop_location_color" v-model:typeface="form.shop_location_typeface" v-model:size="form.shop_location_size" default-color="#000000"></color-text-size-group>
+                <el-form-item label="店铺介绍">
+                    <color-text-size-group v-model:color="form.shop_desc_color" v-model:typeface="form.shop_desc_typeface" v-model:size="form.shop_desc_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
                 <el-form-item label="外间距">
                     <margin :value="form.shop_margin"></margin>
@@ -24,7 +43,7 @@
                 <el-form-item v-if="data.theme == '0'" label="内容间距">
                     <slider v-model="form.content_spacing" :max="100"></slider>
                 </el-form-item>
-                <el-form-item label="多门店间距">
+                <el-form-item label="商户间距">
                     <slider v-model="form.content_outer_spacing" :max="100"></slider>
                 </el-form-item>
                 <template v-if="theme == '3'">
@@ -48,7 +67,7 @@
                 <!-- 阴影配置 -->
                 <shadow-config v-model="form"></shadow-config>
             </card-container>
-            <template v-if="data.is_right_show == '1'">
+            <template v-if="data.is_right_show == '1' && theme == '0'">
                 <div class="divider-line"></div>
                 <card-container>
                     <div class="mb-12">图标设置</div>
@@ -75,18 +94,6 @@
                     </template>
                 </card-container>
             </template>
-            <template v-else>
-                <div class="divider-line"></div>
-                <card-container>
-                    <div class="mb-12">内边线设置</div>
-                    <!-- 边框处理 -->
-                    <border-config v-model:show="form.content_border_is_show" v-model:color="form.content_border_color" v-model:style="form.content_border_style" v-model:size="form.content_border_size">
-                        <el-form-item label="外间距">
-                            <margin :value="form.content_border_margin"></margin>
-                        </el-form-item>
-                    </border-config>
-                </card-container>
-            </template>
         </el-form>
         <div class="divider-line"></div>
         <common-styles :value="form.common_style" @update:value="common_style_update" />
@@ -94,13 +101,6 @@
 </template>
 <script setup lang="ts">
 import { isEmpty } from "lodash";
-// 动态生成 tab 配置
-const tabs = [
-  { label: "导航", name: "navigation", show: ['0', '1', '2', '3']},
-  { label: "时间", name: "time", show: ['0', '1', '2', '3']},
-  { label: "电话", name: "phone", show: ['0', '2' ]  },
-  { label: "地址", name: "location", show: ['0', '1', '2' ]}
-];
 /**
  * @description: 博客列表（样式）
  * @param value{Object} 样式数据
@@ -115,10 +115,6 @@ const props = defineProps({
     content: {
         type: Object,
         default: () => ({}),
-    },
-    isCommonStyle: {
-        type: Boolean,
-        default: true,
     },
     defaultConfig: {
         type: Object,
@@ -161,26 +157,9 @@ const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.shop_color_list = arry;
     form.value.shop_direction = type.toString();
 };
-const emit = defineEmits(['update:value']);
 const common_style_update = (value: any) => {
     form.value.common_style = value;
 };
 </script>
 <style lang="scss" scoped>
-:deep(.el-tabs.content-tabs) {
-    .el-tabs__header.is-top {
-        background: #fff;
-        margin: 0;
-        padding-top: 0rem;
-    }
-    .el-tabs__item.is-top {
-        padding: 0;
-        align-items: center;
-        width: 9rem;
-        font-size: 1.4rem;
-    }
-    .el-tabs__active-bar{
-        width: 100%;
-    }
-}
 </style>

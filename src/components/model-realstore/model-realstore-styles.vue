@@ -6,6 +6,25 @@
                 <el-form-item label="内容背景">
                     <background-common v-model:color_list="form.realstore_color_list" v-model:direction="form.realstore_direction" v-model:img_style="form.realstore_background_img_style" v-model:img="form.realstore_background_img" @mult_color_picker_event="mult_color_picker_event" />
                 </el-form-item>
+                <el-form-item label="标题图标">
+                    <div class="flex-col gap-10 w h">
+                        <el-form-item label="宽度" label-width="60" class="form-item-child-label">
+                            <slider v-model="form.realstore_title_img_width" :max="1000"></slider>
+                        </el-form-item>
+                        <el-form-item label="高度" label-width="60" class="form-item-child-label">
+                            <slider v-model="form.realstore_title_img_height" :max="1000"></slider>
+                        </el-form-item>
+                        <el-form-item label="圆角" label-width="60" class="form-item-child-label">
+                            <radius :value="form.realstore_title_img_radius"></radius>
+                        </el-form-item>
+                        <el-form-item label="图标间距" label-width="60" class="form-item-child-label">
+                            <slider v-model="form.realstore_title_img_inner_spacing" :max="50"></slider>
+                        </el-form-item>
+                        <el-form-item label="距离标题" label-width="60" class="form-item-child-label">
+                            <slider v-model="form.realstore_title_img_outer_spacing" :max="50"></slider>
+                        </el-form-item>
+                    </div>
+                </el-form-item>
                 <el-form-item label="内容标题">
                     <color-text-size-group v-model:color="form.realstore_title_color" v-model:typeface="form.realstore_title_typeface" v-model:size="form.realstore_title_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
@@ -50,7 +69,7 @@
                 <el-form-item v-if="data.theme == '0'" label="内容间距">
                     <slider v-model="form.content_spacing" :max="100"></slider>
                 </el-form-item>
-                <el-form-item label="多门店间距">
+                <el-form-item label="门店间距">
                     <slider v-model="form.content_outer_spacing" :max="100"></slider>
                 </el-form-item>
                 <template v-if="theme == '3'">
@@ -150,10 +169,6 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
-    isCommonStyle: {
-        type: Boolean,
-        default: true,
-    },
     defaultConfig: {
         type: Object,
         default: () => ({
@@ -207,7 +222,6 @@ const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.realstore_color_list = arry;
     form.value.realstore_direction = type.toString();
 };
-const emit = defineEmits(['update:value']);
 const common_style_update = (value: any) => {
     form.value.common_style = value;
 };

@@ -34,29 +34,31 @@
                 <!-- 数据筛选组件, 根据数据源类型显示不同的筛选组件 -->
                 <data-filter type="shop" :value="form" :list="form.data_list" :base-list="base_list" @add="add" @data_list_replace="data_list_replace" @data_list_remove="data_list_remove" @data_list_sort="data_list_sort"></data-filter>
             </card-container>
-            <div class="divider-line"></div>
-            <card-container>
-                <div class="mb-12">按钮设置</div>
-                <el-form-item label="右侧按钮" class="align-s">
-                    <el-row class="w">
-                        <el-col :span="24"><el-switch v-model="form.is_right_show" active-value="1" inactive-value="0"></el-switch></el-col>
-                    </el-row>
-                    <el-row v-if="form.is_right_show == '1'" class="mt-10 w">
-                        <el-col :span="24">
-                            <el-radio-group v-model="form.right_type" class="mb-10">
-                                <el-radio value="img-icon">图片/图标</el-radio>
-                                <el-radio value="text">文字</el-radio>
-                            </el-radio-group>
-                            <template v-if="form.right_type === 'img-icon'">
-                                <upload v-model="form.right_img" v-model:icon-value="form.right_icon" is-icon :limit="1" size="50"></upload>
-                            </template>
-                            <template v-else>
-                                <el-input v-model="form.right_text" placeholder="请输入文字内容" clearable></el-input>
-                            </template>
-                        </el-col>
-                    </el-row>
-                </el-form-item>
-            </card-container>
+            <template v-if="form.theme == '0'">
+                <div class="divider-line"></div>
+                <card-container>
+                    <div class="mb-12">按钮设置</div>
+                    <el-form-item label="右侧按钮" class="align-s">
+                        <el-row class="w">
+                            <el-col :span="24"><el-switch v-model="form.is_right_show" active-value="1" inactive-value="0"></el-switch></el-col>
+                        </el-row>
+                        <el-row v-if="form.is_right_show == '1'" class="mt-10 w">
+                            <el-col :span="24">
+                                <el-radio-group v-model="form.right_type" class="mb-10">
+                                    <el-radio value="img-icon">图片/图标</el-radio>
+                                    <el-radio value="text">文字</el-radio>
+                                </el-radio-group>
+                                <template v-if="form.right_type === 'img-icon'">
+                                    <upload v-model="form.right_img" v-model:icon-value="form.right_icon" is-icon :limit="1" size="50"></upload>
+                                </template>
+                                <template v-else>
+                                    <el-input v-model="form.right_text" placeholder="请输入文字内容" clearable></el-input>
+                                </template>
+                            </el-col>
+                        </el-row>
+                    </el-form-item>
+                </card-container>
+            </template>
         </el-form>
         <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['realstore']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
     </div>
@@ -138,20 +140,20 @@ const theme_change = (val: any) => {
         form.value.field_show = ['0', '1', '3'];
     }
     if (val == '0') {
-        if (data.value.realstore_img_radius.radius == props.defaultConfig.img_radius_0 || (data.value.realstore_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && data.value.realstore_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && data.value.realstore_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && data.value.realstore_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
-            data.value.realstore_img_radius.radius = props.defaultConfig.img_radius_0;
-            data.value.realstore_img_radius.radius_bottom_left = props.defaultConfig.img_radius_0;
-            data.value.realstore_img_radius.radius_bottom_right = props.defaultConfig.img_radius_0;
-            data.value.realstore_img_radius.radius_top_left = props.defaultConfig.img_radius_0;
-            data.value.realstore_img_radius.radius_top_right = props.defaultConfig.img_radius_0;
+        if (data.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (data.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+            data.value.shop_img_radius.radius = props.defaultConfig.img_radius_0;
+            data.value.shop_img_radius.radius_bottom_left = props.defaultConfig.img_radius_0;
+            data.value.shop_img_radius.radius_bottom_right = props.defaultConfig.img_radius_0;
+            data.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_0;
+            data.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_0;
         }
     } else {
-        if (data.value.realstore_img_radius.radius == props.defaultConfig.img_radius_0 || (data.value.realstore_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && data.value.realstore_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && data.value.realstore_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && data.value.realstore_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
-            data.value.realstore_img_radius.radius = props.defaultConfig.img_radius_1;
-            data.value.realstore_img_radius.radius_bottom_left = props.defaultConfig.img_radius_1;
-            data.value.realstore_img_radius.radius_bottom_right = props.defaultConfig.img_radius_1;
-            data.value.realstore_img_radius.radius_top_left = props.defaultConfig.img_radius_1;
-            data.value.realstore_img_radius.radius_top_right = props.defaultConfig.img_radius_1;
+        if (data.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (data.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+            data.value.shop_img_radius.radius = props.defaultConfig.img_radius_1;
+            data.value.shop_img_radius.radius_bottom_left = props.defaultConfig.img_radius_1;
+            data.value.shop_img_radius.radius_bottom_right = props.defaultConfig.img_radius_1;
+            data.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_1;
+            data.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_1;
         }
     }
     // 切换风格时，将对应图片的默认值宽度和高度赋值

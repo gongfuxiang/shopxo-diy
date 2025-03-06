@@ -18,8 +18,12 @@
                                 </template>
                                 <div class="flex-1 flex-col" :style="content_style">
                                     <div class="flex-col jc-sb gap-10">
-                                        <div class="flex-row jc-sb align-c">
-                                            <span class="text-line-2" :style="trends_config('title')">{{ item.title }}</span>
+                                        <div class="flex-row jc-sb align-c gap-10">
+                                            <div class="text-line-2" :style="trends_config('title') + 'vertical-align: middle;'">
+                                                <template v-for="(item1, index1) in new_url_list(item.title_url)" :key="index1">
+                                                    <img :src="item1.url" class="title-img" :style="title_img_style(item.title_url, index1)" />
+                                                </template>{{ item.title }}
+                                            </div>
                                             <div v-if="['0', '2'].includes(theme)" class="flex-row align-c" :style="`gap: ${ new_style.phone_navigation_spacing }px;`">
                                                 <img-or-icon-or-text :value="props.value" type="phone" />
                                                 <img-or-icon-or-text :value="props.value" type="navigation" />
@@ -34,7 +38,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <template v-if="theme !== '0' && form.is_location_show == '1' && !isEmpty(item.location)">
+                                    <template v-if="theme !== '0' && ( form.is_location_show == '1' || !isEmpty(item.location))">
                                         <div :style="border_style"></div>
                                         <div class="flex-row jc-sb align-c gap-10">
                                             <div class="flex-row align-b gap-2">
@@ -48,7 +52,7 @@
                                     </template>
                                 </div>
                             </div>
-                            <template v-if="theme == '0' && form.is_location_show == '1' && !isEmpty(item.location)">
+                            <template v-if="theme == '0' && ( form.is_location_show == '1' || !isEmpty(item.location))">
                                 <div :style="border_style"></div>
                                 <div class="flex-row align-b gap-2">
                                     <img-or-icon-or-text :value="props.value" type="location" />
@@ -74,7 +78,11 @@
                                         </div>
                                     </template>
                                     <div class="flex-1 flex-col jc-sb gap-10" :style="content_style">
-                                        <span class="text-line-2" :style="trends_config('title')">{{ item.title }}</span>
+                                        <div class="text-line-2" :style="trends_config('title') + 'vertical-align: middle;'">
+                                            <template v-for="(item1, index1) in new_url_list(item.title_url)" :key="index1">
+                                                <img :src="item1.url" class="title-img" :style="title_img_style(item.title_url, index1)" />
+                                            </template>{{ item.title }}
+                                        </div>
                                         <div class="flex-row jc-sb align-c">
                                             <div class="flex-1 flex-row gap-2 align-c">
                                                 <img-or-icon-or-text :value="props.value" type="time" />
@@ -142,9 +150,13 @@ const border_style = computed(() => {
     return border;
 });
 //#region 列表数据
+type url = {
+    url: string;
+}
 type data_list = {
     title: string;
     images: string;
+    title_url: url[],
     new_cover: string[];
     state: string;
     location: string;
@@ -153,12 +165,32 @@ type data_list = {
 const default_list = {
     title: '测试门店标题',
     location: '测试地址',
+    title_url: [{ url: 'http://shopxo.com/static/diy/images/layout/siderbar/data-magic.png'}, { url: 'http://shopxo.com/static/diy/images/layout/siderbar/goods-list.png'}],
     images: '',
     new_cover: [],
     state: '营业中',
     business_hours: '7:00-22:00',
 };
 const list = ref<data_list[]>([]);
+const new_url_list = computed(() => {
+    return (title_url: url[]) => {
+        return title_url.filter(item1 => !isEmpty(item1.url));
+    }
+});
+// 标题图片样式
+const title_img_style = computed(() => {
+    return (title_url: url[], index: number) => {
+        const { realstore_title_img_width = 0, realstore_title_img_height = 0, realstore_title_img_radius, realstore_title_img_inner_spacing, realstore_title_img_outer_spacing} = new_style.value;
+        let style = `width: ${realstore_title_img_width || 0 }px;height: ${ realstore_title_img_height || 0 }px;${ radius_computer(realstore_title_img_radius) }`;
+        const list = title_url.filter(item1 => !isEmpty(item1.url));
+        if (index < list.length - 1) {
+            style += `margin-right: ${ realstore_title_img_inner_spacing || 0}px;`;
+        } else {
+            style += `margin-right: ${ realstore_title_img_outer_spacing || 0}px;`;
+        }
+        return style;
+    }
+});
 // 初始化的时候执行
 onMounted(() => {
     // 指定商品并且指定商品数组不为空
@@ -242,28 +274,12 @@ const trends_config = (key: string, type?: string) => {
 // 根据传递的值，显示不同的内容
 const style_config = (typeface: string, size: number, color: string | object, type?: string) => {
     let style = `font-weight:${typeface}; font-size: ${size}px;`;
-    if (type == 'gradient') {
-        style += button_gradient();
-    } else if (type == 'title') {
-        if (['1', '6'].includes(theme.value)) {
-            style += `line-height: ${size}px;height: ${size}px;color: ${color};`;
-        } else if (['0', '2', '3', '4', '5'].includes(theme.value)) {
-            style += `line-height: ${size > 0 ? size + 3 : 0}px;height: ${size > 0 ? (size + 3) * 2 : 0}px;color: ${color};`;
-        }
-    } else if (type == 'desc') {
-        if (form.value.simple_desc_row == '2') {
-            style += `line-height: ${size > 0 ? size + 3 : 0}px;height: ${size > 0 ? (size + 3) * 2 : 0}px;color: ${color};`;
-        } else {
-            style += `line-height: ${size}px;height: ${size}px;color: ${color};`;
-        }
+    if (type == 'title') {
+        style += `line-height: ${size > 0 ? size + 3 : 0}px;height: ${size > 0 ? (size + 3) * 2 : 0}px;color: ${color};`;
     } else {
         style += `color: ${color};`;
     }
     return style;
-};
-// 按钮渐变色处理
-const button_gradient = () => {
-    return gradient_handle(new_style.value.realstore_button_color, '180deg');
 };
 // 不同风格下的样式
 const layout_type = computed(() => {
@@ -301,20 +317,6 @@ const layout_img_style = computed(() => {
         background_img: new_style.value.realstore_background_img,
     }
     return padding + background_computer(data);
-});
-// 判断是否显示对应的内容
-const is_show = (index: string) => {
-    return form.value.is_show.includes(index);
-};
-// 超过多少行隐藏
-const text_line = computed(() => {
-    let line = '';
-    if (['1', '6'].includes(theme.value)) {
-        line = 'text-line-1';
-    } else if (['0', '2', '3', '4', '5'].includes(theme.value)) {
-        line = 'text-line-2';
-    }
-    return line;
 });
 // 内容区域的样式
 const content_style = computed(() => {
@@ -390,6 +392,9 @@ const content_outer_height = computed(() => new_style.value.content_outer_height
         width: 5rem;
         height: 5rem;
     }
+}
+.title-img {
+    object-fit: contain;
 }
 .two-columns {
     width: calc((100% - v-bind(two_columns)) / 2);

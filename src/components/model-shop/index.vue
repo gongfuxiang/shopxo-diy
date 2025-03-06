@@ -15,10 +15,17 @@
                                     </template>
                                 </div>
                             </template>
-                            <div class="flex-1 flex-row jc-sb align-c" :style="content_style">
-                                <div class="flex-col jc-sb gap-10">
-                                    <span class="text-line-2" :style="trends_config('title')">{{ item.title }}</span>
-                                    <span class="text-line-2" :style="trends_config('title')">{{ item.desc }}</span>
+                            <div class="flex-1 flex-row jc-sb gap-10" :style="content_style">
+                                <div class="flex-1 flex-col jc-sb gap-10">
+                                    <div class="text-line-2" :style="trends_config('title') + 'vertical-align: middle;'">
+                                        <template v-for="(item1, index1) in new_url_list(item.title_url)" :key="index1">
+                                            <img :src="item1.url" class="title-img" :style="title_img_style(item.title_url, index1)" />
+                                        </template>{{ item.title }}
+                                    </div>
+                                    <span :class="form.shop_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.desc }}</span>
+                                </div>
+                                <div v-if="theme == '0'" class="flex-row align-c">
+                                    <img-or-icon-or-text :value="props.value" type="right" />
                                 </div>
                             </div>
                         </div>
@@ -39,6 +46,14 @@
                                             </template>
                                         </div>
                                     </template>
+                                    <div class="flex-col jc-sb gap-10" :style="content_style">
+                                        <div class="text-line-2" :style="trends_config('title') + 'vertical-align: middle;'">
+                                            <template v-for="(item1, index1) in new_url_list(item.title_url)" :key="index1">
+                                                <img :src="item1.url" class="title-img" :style="title_img_style(item.title_url, index1)" />
+                                            </template>{{ item.title }}
+                                        </div>
+                                        <span :class="form.shop_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.desc }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </swiper-slide>
@@ -89,17 +104,13 @@ const onter_style = computed(() => {
 // 公共样式
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));
 const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
-const border_style = computed(() => {
-    const { content_border_margin, content_border_size, content_border_is_show, content_border_color, content_border_style } = new_style.value;
-    let border = ``;
-    if (content_border_is_show == '1') {
-        border += `${ margin_computer(content_border_margin) };border-width: ${content_border_size.padding_top}px ${content_border_size.padding_right}px ${content_border_size.padding_bottom}px ${content_border_size.padding_left}px;border-style: ${ content_border_style };border-color: ${content_border_color};`
-    }
-    return border;
-});
 //#region 列表数据
+type url = {
+    url: string;
+}
 type data_list = {
     title: string;
+    title_url: url[],
     images: string;
     new_cover: string[];
     desc: string;
@@ -107,10 +118,30 @@ type data_list = {
 const default_list = {
     title: '测试商户标题',
     desc: '测试商户描述',
+    title_url: [{ url: 'http://shopxo.com/static/diy/images/layout/siderbar/data-magic.png'}, { url: 'http://shopxo.com/static/diy/images/layout/siderbar/goods-list.png'}],
     images: '',
     new_cover: [],
 };
 const list = ref<data_list[]>([]);
+const new_url_list = computed(() => {
+    return (title_url: url[]) => {
+        return title_url.filter(item1 => !isEmpty(item1.url));
+    }
+});
+// 标题图片样式
+const title_img_style = computed(() => {
+    return (title_url: url[], index: number) => {
+        const { shop_title_img_width = 0, shop_title_img_height = 0, shop_title_img_radius, shop_title_img_inner_spacing, shop_title_img_outer_spacing} = new_style.value;
+        let style = `width: ${shop_title_img_width || 0 }px;height: ${ shop_title_img_height || 0 }px;${ radius_computer(shop_title_img_radius) }`;
+        const list = title_url.filter(item1 => !isEmpty(item1.url));
+        if (index < list.length - 1) {
+            style += `margin-right: ${ shop_title_img_inner_spacing || 0}px;`;
+        } else {
+            style += `margin-right: ${ shop_title_img_outer_spacing || 0}px;`;
+        }
+        return style;
+    }
+});
 // 初始化的时候执行
 onMounted(() => {
     // 指定商品并且指定商品数组不为空
@@ -193,24 +224,7 @@ const trends_config = (key: string, type?: string) => {
 };
 // 根据传递的值，显示不同的内容
 const style_config = (typeface: string, size: number, color: string | object, type?: string) => {
-    let style = `font-weight:${typeface}; font-size: ${size}px;`;
-    if (type == 'gradient') {
-        style += button_gradient();
-    } else if (type == 'title') {
-        if (['1', '6'].includes(theme.value)) {
-            style += `line-height: ${size}px;height: ${size}px;color: ${color};`;
-        } else if (['0', '2', '3', '4', '5'].includes(theme.value)) {
-            style += `line-height: ${size > 0 ? size + 3 : 0}px;height: ${size > 0 ? (size + 3) * 2 : 0}px;color: ${color};`;
-        }
-    } else if (type == 'desc') {
-        if (form.value.simple_desc_row == '2') {
-            style += `line-height: ${size > 0 ? size + 3 : 0}px;height: ${size > 0 ? (size + 3) * 2 : 0}px;color: ${color};`;
-        } else {
-            style += `line-height: ${size}px;height: ${size}px;color: ${color};`;
-        }
-    } else {
-        style += `color: ${color};`;
-    }
+    let style = `font-weight:${typeface}; font-size: ${size}px;color: ${color};`;
     return style;
 };
 // 按钮渐变色处理
@@ -253,20 +267,6 @@ const layout_img_style = computed(() => {
         background_img: new_style.value.shop_background_img,
     }
     return padding + background_computer(data);
-});
-// 判断是否显示对应的内容
-const is_show = (index: string) => {
-    return form.value.is_show.includes(index);
-};
-// 超过多少行隐藏
-const text_line = computed(() => {
-    let line = '';
-    if (['1', '6'].includes(theme.value)) {
-        line = 'text-line-1';
-    } else if (['0', '2', '3', '4', '5'].includes(theme.value)) {
-        line = 'text-line-2';
-    }
-    return line;
 });
 // 内容区域的样式
 const content_style = computed(() => {

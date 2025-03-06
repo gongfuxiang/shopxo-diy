@@ -1,10 +1,10 @@
 <template>
     <div class="setting-content">
         <template v-if="type == '1'">
-            <model-realstore-content :value="form.content" :styles="form.style" :default-config="data_config"></model-realstore-content>
+            <model-shop-content :value="form.content" :styles="form.style" :default-config="data_config"></model-shop-content>
         </template>
         <template v-else-if="type == '2'">
-            <model-realstore-styles :value="form.style" :content="form.content" :default-config="data_config"></model-realstore-styles>
+            <model-shop-styles :value="form.style" :content="form.content" :default-config="data_config"></model-shop-styles>
         </template>
     </div>
 </template>

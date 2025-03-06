@@ -29,7 +29,7 @@ type icon_style = {
 const common_icon_style: icon_style = {
     color_list: [{ color: '', color_percentage: undefined }],
     direction: '90deg',
-    color: '#000',
+    color: '#ccc',
     size: 12,
     img_width: 14,
     img_height: 14,
@@ -91,6 +91,11 @@ interface defaultRealstore {
         content_spacing: number;
         content_outer_spacing: number;
         content_outer_height: number;
+        realstore_title_img_width: number,
+        realstore_title_img_height: number,
+        realstore_title_img_radius: radiusStyle,
+        realstore_title_img_inner_spacing: number,
+        realstore_title_img_outer_spacing: number,
         realstore_title_color: string;
         realstore_title_typeface: string;
         realstore_title_size: number;
@@ -199,10 +204,21 @@ const defaultRealstore: defaultRealstore = {
         content_spacing: 10,
         content_outer_spacing: 10,
         content_outer_height: 204,
+        realstore_title_img_width: 12,
+        realstore_title_img_height: 12,
+        realstore_title_img_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+        },
+        realstore_title_img_inner_spacing: 5,
+        realstore_title_img_outer_spacing: 5,
         realstore_title_color: '#333',
         realstore_title_typeface: 'bold',
         realstore_title_size: 14,
-        realstore_location_color: '#333',
+        realstore_location_color: '#666',
         realstore_location_typeface: '400',
         realstore_location_size: 12,
         realstore_default_state_color: '#000',
@@ -216,7 +232,7 @@ const defaultRealstore: defaultRealstore = {
             margin_left: 5,
             margin_right: 5,
         },
-        realstore_business_hours_color: '#333',
+        realstore_business_hours_color: '#666',
         realstore_business_hours_typeface: '400',
         realstore_business_hours_size: 12,
         phone_navigation_spacing: 10,// 导航栏之间的间距
