@@ -165,7 +165,7 @@ type data_list = {
 const default_list = {
     title: '测试门店标题',
     location: '测试地址',
-    title_url: [{ url: 'http://shopxo.com/static/diy/images/layout/siderbar/data-magic.png'}, { url: 'http://shopxo.com/static/diy/images/layout/siderbar/goods-list.png'}],
+    title_url: [{ url: 'http://shopxo.com/static/diy/images/layout/siderbar/data-magic.png'}, { url: ''}],
     images: '',
     new_cover: [],
     state: '营业中',
