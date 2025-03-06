@@ -20,7 +20,7 @@
                         <el-form-item label="图标间距" label-width="60" class="form-item-child-label">
                             <slider v-model="form.shop_title_img_inner_spacing" :max="50"></slider>
                         </el-form-item>
-                        <el-form-item label="距离标题" label-width="60" class="form-item-child-label">
+                        <el-form-item label="标题间距" label-width="60" class="form-item-child-label">
                             <slider v-model="form.shop_title_img_outer_spacing" :max="50"></slider>
                         </el-form-item>
                     </div>
@@ -71,7 +71,7 @@
                 <div class="divider-line"></div>
                 <card-container>
                     <div class="mb-12">图标设置</div>
-                    <img-or-icon-or-text-style v-model:value="form.right_style" type="right" :is-icon="data.right_type == 'img-icon' && !isEmpty(data.right_icon)" />
+                    <img-or-icon-or-text-style v-model:value="form.right_style" :type="data.right_type" :is-icon="data.right_type == 'img-icon' && !isEmpty(data.right_icon)" />
                 </card-container>
             </template>
             <template v-if="theme == '3'">
