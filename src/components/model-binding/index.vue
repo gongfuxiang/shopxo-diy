@@ -1,7 +1,7 @@
 <template>
     <div class="oh" :style="style_container">
         <div :style="style_img_container">
-            <div class="">
+            <div v-for="(match_item, match_index) in list" :key="match_index">
                 <!-- 商品信息区域 -->
                 <div :class="outer_class" :style="onter_style">
                     <template v-if="!['3'].includes(theme)">

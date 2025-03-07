@@ -53,6 +53,18 @@
                         <shadow-config v-model="form"></shadow-config>
                     </card-container>
                     <div class="divider-line"></div>
+                    <template v-if="new_tabs.length > 0">
+                        <div class="divider-line"></div>
+                        <card-container>
+                            <div class="mb-12">图标设置</div>
+                            <el-tabs v-model="tabs_icon_name" class="content-tabs">
+                                <el-tab-pane v-for="(tab, index) in new_tabs" :key="index" :label="tab.label" :name="tab.name">
+                                    <img-or-icon-or-text-style :key="index" v-model:value="form[`${ tab.name }_style`]" :type="data[`${ tab.name }_type`]" :is-icon="data[`${ tab.name }_type`] == 'img-icon' && !isEmpty(data[`${ tab.name }_icon`])" />
+                                </el-tab-pane>
+                            </el-tabs>
+                        </card-container>
+                    </template>
+                    <div class="divider-line"></div>
                     <common-styles :value="form.common_style" @update:value="common_style_update" />
                 </el-tab-pane>
                 <el-tab-pane label="商品样式" name="goods">
@@ -96,7 +108,21 @@ const state = reactive({
 // 如果需要解构，确保使用toRefs
 const { form, data } = toRefs(state);
 const tabs_name = ref('data');
-const theme = computed(() => data.value.theme);
+// 动态生成 tab 配置
+const tabs = [
+    { label: "详情按钮", name: "details" },
+    { label: "数据优惠", name: "data_discounts" },
+    { label: "商品优惠", name: "goods_discounts" },
+];
+// 图标数组处理一下，确保打开的都能看到
+type tabs_type = { name: string; label: string;};
+const new_tabs = ref<tabs_type[]>([]);
+const tabs_icon_name = ref<string>('details');
+onMounted(() => {
+    // 判断有哪些打开的图标
+    new_tabs.value = tabs.filter(item => data.value[`is_${ item.name }_show`] === '1');
+    tabs_icon_name.value = new_tabs.value[0].name || '';
+});
 // 多商户背景渐变设置
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.data_color_list = arry;

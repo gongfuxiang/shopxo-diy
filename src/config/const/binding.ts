@@ -54,13 +54,13 @@ interface defaultRealstore {
         content_top: object;
         host_graph_theme: string;
         is_host_graph_show: string;
-        list_show_list: string[];
-        is_default_show_shop: string;
         theme: string;
         carousel_col: number;
         goods_save_price: string;
         goods_save_price_row: string;
         data_list: string[];
+        is_goods_show: string[];
+        is_default_show_goods: string;
         is_details_show: string;
         details_type: string;
         details_img: uploadList[];
@@ -161,13 +161,13 @@ const defaultRealstore: defaultRealstore = {
         },
         host_graph_theme: '0',
         is_host_graph_show: '1',
-        list_show_list: ['title', 'goods_img', 'price', 'save_price'],
-        is_default_show_shop: '1',
         theme: '0',
         carousel_col: 1,
         goods_save_price: '1',
         goods_save_price_row: '1',
         data_list: [],
+        is_goods_show: ['title', 'goods_img', 'price', 'save_price'],
+        is_default_show_goods: '1',
         is_details_show: '1',
         details_type: 'img-icon',
         details_img: [],
