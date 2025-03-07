@@ -114,10 +114,6 @@ const base_list = reactive({
         { name: '浏览量', value: '1' },
         { name: '描述', value: '2' },
     ],
-    field_desc_row: [
-        { name: '一行', value: '1' },
-        { name: '两行', value: '2' }
-    ]
 });
 
 const emits = defineEmits(['theme_change']);

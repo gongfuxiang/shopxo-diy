@@ -5,6 +5,11 @@
             <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">展示设置</div>
+                <el-form-item label="主图风格">
+                    <el-radio-group v-model="form.host_graph_theme" @change="host_graph_theme_change">
+                        <el-radio v-for="item in base_list.host_graph_theme_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                    </el-radio-group>
+                </el-form-item>
                 <el-form-item label="选择风格">
                     <el-radio-group v-model="form.theme" @change="theme_change">
                         <el-radio v-for="item in base_list.theme_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
@@ -18,47 +23,38 @@
                         <el-radio :value="4">四列展示</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item label="店铺介绍">
-                    <el-switch v-model="form.shop_desc" active-value="1" inactive-value="0"></el-switch>
-                </el-form-item>
-                <el-form-item v-if="form.shop_desc == '1'" label="介绍行数">
-                    <el-radio-group v-model="form.shop_desc_row">
-                        <el-radio value="1">一行</el-radio>
-                        <el-radio value="2">两行</el-radio>
-                    </el-radio-group>
+                <el-form-item v-if="form.host_graph_theme == '1'" label="主图显示">
+                    <el-switch v-model="form.is_host_graph_show" active-value="1" inactive-value="0"></el-switch>
                 </el-form-item>
             </card-container>
             <div class="divider-line"></div>
             <card-container class="card-container-br">
-                <div class="mb-12">商户设置</div>
+                <div class="mb-12">组合搭配设置</div>
                 <!-- 数据筛选组件, 根据数据源类型显示不同的筛选组件 -->
-                <data-filter type="shop" :value="form" :list="form.data_list" :base-list="base_list" @add="add" @data_list_replace="data_list_replace" @data_list_remove="data_list_remove" @data_list_sort="data_list_sort"></data-filter>
+                <data-filter type="binding" :value="form" :list="form.data_list" :base-list="base_list" @add="add" @data_list_replace="data_list_replace" @data_list_remove="data_list_remove" @data_list_sort="data_list_sort"></data-filter>
             </card-container>
-            <template v-if="form.theme == '0'">
-                <div class="divider-line"></div>
-                <card-container>
-                    <div class="mb-12">按钮设置</div>
-                    <el-form-item label="右侧按钮" class="align-s">
-                        <el-row class="w">
-                            <el-col :span="24"><el-switch v-model="form.is_right_show" active-value="1" inactive-value="0"></el-switch></el-col>
-                        </el-row>
-                        <el-row v-if="form.is_right_show == '1'" class="mt-10 w">
-                            <el-col :span="24">
-                                <el-radio-group v-model="form.right_type" class="mb-10">
-                                    <el-radio value="img-icon">图片/图标</el-radio>
-                                    <el-radio value="text">文字</el-radio>
-                                </el-radio-group>
-                                <template v-if="form.right_type === 'img-icon'">
-                                    <upload v-model="form.right_img" v-model:icon-value="form.right_icon" is-icon :limit="1" size="50"></upload>
-                                </template>
-                                <template v-else>
-                                    <el-input v-model="form.right_text" placeholder="请输入文字内容" clearable></el-input>
-                                </template>
-                            </el-col>
-                        </el-row>
-                    </el-form-item>
-                </card-container>
-            </template>
+            <div class="divider-line"></div>
+            <card-container>
+                <div class="mb-12">显示内容</div>
+                <el-form-item label="商品显示">
+                    <el-checkbox-group v-model="form.is_goods_show">
+                        <el-checkbox v-for="item in base_list.list_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
+                    </el-checkbox-group>
+                </el-form-item>
+                <el-form-item label="是否展开">
+                    <el-switch v-model="form.is_default_show_goods" active-value="1" inactive-value="0"></el-switch>
+                </el-form-item>
+            </card-container>
+            <div class="divider-line"></div>
+            <card-container>
+                <el-tabs v-model="tabs_name" class="content-tabs">
+                    <el-tab-pane v-for="(tab, index) in base_list.tabs" :key="index" :label="tab.label" :name="tab.name">
+                        <el-form-item :label="tab.label">
+                            <img-or-icon-or-text-content v-model:value="form" :type="tab.name" />
+                        </el-form-item>
+                    </el-tab-pane>
+                </el-tabs>
+            </card-container>
         </el-form>
         <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['realstore']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
     </div>
@@ -97,7 +93,13 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, data } = toRefs(state);
+
+const tabs_name = ref('details');
 const base_list = reactive({
+    host_graph_theme_list: [
+        { name: '单列展示', value: '0', width: 128, height: 128 },
+        { name: '大图展示', value: '1', width: 0, height: 221 },
+    ],
     theme_list: [
         { name: '单列展示', value: '0', width: 50, height: 50 },
         { name: '两列展示（纵向）', value: '1', width:180, height: 180 },
@@ -105,18 +107,19 @@ const base_list = reactive({
         { name: '左右滑动展示', value: '3', width:0, height: 0 },
     ],
     data_type_list: [
-        { name: '指定门店', value: '0' },
-        { name: '筛选门店', value: '1' },
+        { name: '指定组合搭配', value: '0' },
+        { name: '筛选组合搭配', value: '1' },
     ],
-    field_show_list: [
-        { name: '博客标题', value: '3' },
-        { name: '日期时间', value: '0' },
-        { name: '浏览量', value: '1' },
-        { name: '描述', value: '2' },
+    list_show_list: [
+        { name: '商品名称', value: 'title'},
+        { name: '商品图片', value: 'goods_img' },
+        { name: '商品售价', value: 'price' },
+        { name: '商品节省价', value: 'save_price' },
     ],
-    field_desc_row: [
-        { name: '一行', value: '1' },
-        { name: '两行', value: '2' }
+    tabs: [
+        { label: "详情按钮", name: "details" },
+        { label: "数据优惠", name: "data_discounts" },
+        { label: "商品优惠", name: "goods_discounts" },
     ]
 });
 
@@ -132,6 +135,14 @@ onMounted(() => {
         }
     }
 });
+const host_graph_theme_change = () => {
+    // 切换风格时，将对应图片的默认值宽度和高度赋值
+    const list = base_list.host_graph_theme_list.filter(item => item.value == form.value.theme);
+    if (list.length > 0) {
+        data.value.host_graph_img_width = list[0].width;
+        data.value.host_graph_img_height = list[0].height;
+    }
+}
 // 主题改变
 const theme_change = (val: any) => {
     if (val == '3' || val == '4') {
@@ -140,20 +151,20 @@ const theme_change = (val: any) => {
         form.value.field_show = ['0', '1', '3'];
     }
     if (val == '0') {
-        if (data.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (data.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
-            data.value.shop_img_radius.radius = props.defaultConfig.img_radius_0;
-            data.value.shop_img_radius.radius_bottom_left = props.defaultConfig.img_radius_0;
-            data.value.shop_img_radius.radius_bottom_right = props.defaultConfig.img_radius_0;
-            data.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_0;
-            data.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_0;
+        if (data.value.goods_img_radius.radius == props.defaultConfig.img_radius_0 || (data.value.goods_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && data.value.goods_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && data.value.goods_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && data.value.goods_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+            data.value.goods_img_radius.radius = props.defaultConfig.img_radius_0;
+            data.value.goods_img_radius.radius_bottom_left = props.defaultConfig.img_radius_0;
+            data.value.goods_img_radius.radius_bottom_right = props.defaultConfig.img_radius_0;
+            data.value.goods_img_radius.radius_top_left = props.defaultConfig.img_radius_0;
+            data.value.goods_img_radius.radius_top_right = props.defaultConfig.img_radius_0;
         }
     } else {
-        if (data.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (data.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
-            data.value.shop_img_radius.radius = props.defaultConfig.img_radius_1;
-            data.value.shop_img_radius.radius_bottom_left = props.defaultConfig.img_radius_1;
-            data.value.shop_img_radius.radius_bottom_right = props.defaultConfig.img_radius_1;
-            data.value.shop_img_radius.radius_top_left = props.defaultConfig.img_radius_1;
-            data.value.shop_img_radius.radius_top_right = props.defaultConfig.img_radius_1;
+        if (data.value.goods_img_radius.radius == props.defaultConfig.img_radius_0 || (data.value.goods_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && data.value.goods_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && data.value.goods_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && data.value.goods_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
+            data.value.goods_img_radius.radius = props.defaultConfig.img_radius_1;
+            data.value.goods_img_radius.radius_bottom_left = props.defaultConfig.img_radius_1;
+            data.value.goods_img_radius.radius_bottom_right = props.defaultConfig.img_radius_1;
+            data.value.goods_img_radius.radius_top_left = props.defaultConfig.img_radius_1;
+            data.value.goods_img_radius.radius_top_right = props.defaultConfig.img_radius_1;
         }
     }
     // 切换风格时，将对应图片的默认值宽度和高度赋值
@@ -218,16 +229,20 @@ const switch_chage = (val: string | number | boolean) => {
 };
 </script>
 <style lang="scss" scoped>
-.content {
-    width: 100%;
-}
-.img {
-    width: 4rem;
-    height: 4rem;
-}
-.number-show {
-    :deep(.el-input__wrapper .el-input__inner) {
-        text-align: left;
+:deep(.el-tabs.content-tabs) {
+    .el-tabs__header.is-top {
+        background: #fff;
+        margin: 0;
+        padding-top: 0rem;
+    }
+    .el-tabs__item.is-top {
+        padding: 0;
+        align-items: center;
+        width: 10rem;
+        font-size: 1.4rem;
+    }
+    .el-tabs__active-bar{
+        width: 100%;
     }
 }
 </style>
