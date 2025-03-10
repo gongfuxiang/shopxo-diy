@@ -2,7 +2,7 @@
     <div class="re" :style="style_container + swiper_bg_style">
         <div class="abs top-0 w h" :style="swiper_bg_img_style"></div>
         <div class="re" :style="style_img_container + (!isEmpty(swiper_bg_img_style) ? `background-image: url('');` : '')">
-            <div ref="swiperSize" class="swiper-container w h oh">
+            <div ref="swiperSize" class="swiper-container w h oh" :style="swiper_img_style">
                 <swiper
                     :key="carouselKey"
                     :class="[`swiper-right-${swiper_style.slidesPerView}`, {'swiper-card': interval_types}]"
@@ -100,7 +100,8 @@ const style_img_container = computed(() => props.isCommon ? common_img_computer(
 
 const autoplay = ref<boolean | object>(false)
 // 图片的设置
-const img_style = computed(() => radius_computer(new_style.value) );
+const img_style = computed(() => form.value.carousel_type == 'inherit' ? '' : radius_computer(new_style.value) );
+const swiper_img_style = computed(() => form.value.carousel_type == 'inherit' ? radius_computer(new_style.value) : '');
 //#region 指示器处理
 // 指示器选中样式
 const actived_color = computed(() => new_style.value?.actived_color || '#2A94FF' );
