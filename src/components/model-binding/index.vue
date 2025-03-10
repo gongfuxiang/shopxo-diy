@@ -2,68 +2,65 @@
     <div class="oh" :style="style_container">
         <div :style="style_img_container">
             <div v-for="(match_item, match_index) in list" :key="match_index">
-                <div>
-
-                </div>
-                <!-- 商品信息区域 -->
-                <div :class="outer_class" :style="onter_style">
-                    <template v-if="!['3'].includes(theme)">
-                        <div v-for="(item, index) in list" :key="index" class="re oh" :class="layout_type" :style="layout_style">
-                            <div :class="['oh w h', ['0'].includes(theme) ? 'flex-row' : 'flex-col' ]" :style="layout_img_style">
-                                <template v-if="!isEmpty(item)">
-                                    <div class="oh re" :class="`flex-img${theme}`">
-                                        <template v-if="!isEmpty(item.new_cover)">
-                                            <image-empty v-model="item.new_cover[0]" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
-                                        </template>
-                                        <template v-else>
-                                            <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
-                                        </template>
-                                    </div>
+                <div class="flex-col">
+                    <div class="flex-col">
+                        <template v-if="!isEmpty(match_item)">
+                            <div class="oh re" :class="`flex-img${theme}`">
+                                <template v-if="!isEmpty(match_item.new_cover)">
+                                    <image-empty v-model="match_item.new_cover[0]" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
                                 </template>
-                                <div class="flex-1 flex-row jc-sb gap-10" :style="content_style">
-                                    <div class="flex-1 flex-col jc-sb gap-10">
-                                        <div class="text-line-2" :style="trends_config('title') + 'vertical-align: middle;'">
-                                            <template v-for="(item1, index1) in new_url_list(item.title_url)" :key="index1">
-                                                <img :src="item1.url" class="title-img" :style="title_img_style(item.title_url, index1)" />
-                                            </template>{{ item.title }}
-                                        </div>
-                                        <span :class="form.goods_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.desc }}</span>
-                                    </div>
-                                    <div v-if="theme == '0'" class="flex-row align-c">
-                                        <img-or-icon-or-text :value="props.value" type="right" />
-                                    </div>
-                                </div>
+                                <template v-else>
+                                    <image-empty v-model="match_item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
+                                </template>
                             </div>
-                        </div>
-                    </template>
-                    <template v-else>
-                        <swiper :key="carouselKey" class="w flex" direction="horizontal" :loop="true" :autoplay="autoplay" :slides-per-view="form.carousel_col" :slides-per-group="slides_per_group" :allow-touch-move="false" :space-between="content_outer_spacing" :pause-on-mouse-enter="true" :modules="modules">
-                            <swiper-slide v-for="(item, index) in list" :key="index">
-                                <div :class="layout_type" :style="layout_style">
-                                    <div :class="['oh w h', ['0', '4'].includes(theme) ? 'flex-row' : 'flex-col' ]" :style="layout_img_style">
+                        </template>
+                        <!-- 商品信息区域 -->
+                        <div :class="outer_class" :style="onter_style">
+                            <template v-if="!['3'].includes(theme)">
+                                <div v-for="(item, index) in match_item.good_list" :key="index" class="re oh" :class="layout_type" :style="layout_style">
+                                    <div :class="['oh w h', ['0'].includes(theme) ? 'flex-row' : 'flex-col' ]" :style="layout_img_style">
                                         <template v-if="!isEmpty(item)">
                                             <div class="oh re" :class="`flex-img${theme}`">
-                                                <template v-if="!isEmpty(item.new_cover)">
-                                                    <image-empty v-model="item.new_cover[0]" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
-                                                </template>
-                                                <template v-else>
-                                                    <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
-                                                </template>
+                                                <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
                                             </div>
                                         </template>
-                                        <div class="flex-col jc-sb gap-10" :style="content_style">
-                                            <div class="text-line-2" :style="trends_config('title') + 'vertical-align: middle;'">
-                                                <template v-for="(item1, index1) in new_url_list(item.title_url)" :key="index1">
-                                                    <img :src="item1.url" class="title-img" :style="title_img_style(item.title_url, index1)" />
-                                                </template>{{ item.title }}
+                                        <div class="flex-1 flex-row jc-sb gap-10" :style="content_style">
+                                            <div class="flex-1 flex-col jc-sb gap-10">
+                                                <div class="text-line-2" :style="trends_config('title')">
+                                                    {{ item.title }}
+                                                </div>
+                                                <!-- <span :class="form.goods_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.desc }}</span> -->
                                             </div>
-                                            <span :class="form.goods_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.desc }}</span>
+                                            <div v-if="theme == '0'" class="flex-row align-c">
+                                                <img-or-icon-or-text :value="props.value" type="right" />
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </swiper-slide>
-                        </swiper>
-                    </template>
+                            </template>
+                            <template v-else>
+                                <swiper :key="carouselKey" class="w flex" direction="horizontal" :loop="true" :autoplay="autoplay" :slides-per-view="form.carousel_col" :slides-per-group="slides_per_group" :allow-touch-move="false" :space-between="content_outer_spacing" :pause-on-mouse-enter="true" :modules="modules">
+                                    <swiper-slide v-for="(item, index) in match_item.good_list" :key="index">
+                                        <div :class="layout_type" :style="layout_style">
+                                            <div :class="['oh w h', ['0', '4'].includes(theme) ? 'flex-row' : 'flex-col' ]" :style="layout_img_style">
+                                                <template v-if="!isEmpty(item)">
+                                                    <div class="oh re" :class="`flex-img${theme}`">
+                                                        <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
+                                                    </div>
+                                                </template>
+                                                <div class="flex-col jc-sb gap-10" :style="content_style">
+                                                    <div class="text-line-2" :style="trends_config('title')">
+                                                        {{ item.title }}
+                                                    </div>
+                                                    <!-- <span :class="form.goods_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.desc }}</span> -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </swiper-slide>
+                                </swiper>
+                            </template>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -110,43 +107,60 @@ const onter_style = computed(() => {
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));
 const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
 //#region 列表数据
-type url = {
-    url: string;
+type goods_list = {
+    title: string,
+    min_original_price: string,
+    show_original_price_symbol: string,
+    min_price: string,
+    show_price_symbol: string,
+    sales_count: string,
+    images: string,
 }
 type data_list = {
-    title: string;
-    title_url: url[],
-    images: string;
-    new_cover: string[];
-    desc: string;
+    title: string,
+    pice: string,
+    save_pice: string,
+    images: string,
+    new_cover: string[],
+    good_list: goods_list[]
 }
 const default_list = {
-    title: '测试商户标题',
+    title: '测试组合搭配标题',
     pice: '￥0.00',
     save_pice: '￥0.00',
     images: 'http://shopxo.com/static/diy/images/layout/siderbar/data-magic.png',
     new_cover: [],
+    good_list: [
+        {
+            title: '测试商品标题',
+            min_original_price: '41.2',
+            show_original_price_symbol: '￥',
+            min_price: '51',
+            show_price_symbol: '￥',
+            sales_count: '1000',
+            images: '',
+        },
+        {
+            title: '测试商品标题',
+            min_original_price: '41.2',
+            show_original_price_symbol: '￥',
+            min_price: '51',
+            show_price_symbol: '￥',
+            sales_count: '1000',
+            images: '',
+        },
+        {
+            title: '测试商品标题',
+            min_original_price: '41.2',
+            show_original_price_symbol: '￥',
+            min_price: '51',
+            show_price_symbol: '￥',
+            sales_count: '1000',
+            images: '',
+        }
+    ]
 };
 const list = ref<data_list[]>([]);
-const new_url_list = computed(() => {
-    return (title_url: url[]) => {
-        return title_url.filter(item1 => !isEmpty(item1.url));
-    }
-});
-// 标题图片样式
-const title_img_style = computed(() => {
-    return (title_url: url[], index: number) => {
-        const { goods_title_img_width = 0, goods_title_img_height = 0, goods_title_img_radius, goods_title_img_inner_spacing, goods_title_img_outer_spacing} = new_style.value;
-        let style = `width: ${goods_title_img_width || 0 }px;height: ${ goods_title_img_height || 0 }px;${ radius_computer(goods_title_img_radius) }`;
-        const list = title_url.filter(item1 => !isEmpty(item1.url));
-        if (index < list.length - 1) {
-            style += `margin-right: ${ goods_title_img_inner_spacing || 0}px;`;
-        } else {
-            style += `margin-right: ${ goods_title_img_outer_spacing || 0}px;`;
-        }
-        return style;
-    }
-});
 // 初始化的时候执行
 onMounted(() => {
     // 指定商品并且指定商品数组不为空
@@ -232,10 +246,6 @@ const style_config = (typeface: string, size: number, color: string | object, ty
     let style = `font-weight:${typeface}; font-size: ${size}px;color: ${color};`;
     return style;
 };
-// 按钮渐变色处理
-const button_gradient = () => {
-    return gradient_handle(new_style.value.goods_button_color, '180deg');
-};
 // 不同风格下的样式
 const layout_type = computed(() => {
     let class_type = '';
@@ -258,6 +268,17 @@ const layout_type = computed(() => {
     return class_type;
 });
 // 容器样式
+const match_layout_style = computed(() => { return gradient_handle(new_style.value.data_color_list, new_style.value.goods_direction) + margin_computer(new_style.value.goods_margin) + radius_computer(new_style.value) + border_computer(new_style.value) + box_shadow_computer(new_style.value); });
+// 容器图片样式
+const match_layout_img_style = computed(() => {
+    const padding = theme.value == 0 ? content_padding.value : '';
+    const data = {
+        background_img_style: new_style.value.goods_background_img_style,
+        background_img: new_style.value.goods_background_img,
+    }
+    return padding + background_computer(data);
+});
+// 容器样式
 const layout_style = computed(() => {
     const radius = theme.value == '6' ? '' : content_radius.value;
     const width = theme.value == '0' ? `width: calc(100% - ${ goods_left_right_width_margin.value }px);` : '';
@@ -273,6 +294,10 @@ const layout_img_style = computed(() => {
     }
     return padding + background_computer(data);
 });
+
+const layout_handle = (type: string) => {
+    return gradient_handle(new_style.value.data_color_list, new_style.value.goods_direction) + margin_computer(new_style.value.goods_margin) + border_computer(new_style.value) + box_shadow_computer(new_style.value);
+};
 // 内容区域的样式
 const content_style = computed(() => {
     const spacing_value = new_style.value.content_spacing;
