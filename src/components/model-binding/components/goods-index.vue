@@ -1,6 +1,6 @@
 <template>
     <card-container>
-        <div class="mb-12">内容样式</div>
+        <div class="mb-12">商品样式</div>
         <el-form-item label="内容背景">
             <background-common v-model:color_list="form.goods_color_list" v-model:direction="form.goods_direction" v-model:img_style="form.goods_background_img_style" v-model:img="form.goods_background_img" @mult_color_picker_event="mult_color_picker_event" />
         </el-form-item>
@@ -29,31 +29,31 @@
             <radius :value="form.goods_radius"></radius>
         </el-form-item>
         <el-form-item v-if="data.theme == '0'" label="内容间距">
-            <slider v-model="form.content_spacing" :max="100"></slider>
+            <slider v-model="form.goods_content_spacing" :max="100"></slider>
         </el-form-item>
         <el-form-item label="商户间距">
-            <slider v-model="form.content_outer_spacing" :max="100"></slider>
+            <slider v-model="form.goods_content_outer_spacing" :max="100"></slider>
         </el-form-item>
         <template v-if="theme == '3'">
             <el-form-item label="内容高度">
-                <slider v-model="form.content_outer_height" :max="1000"></slider>
+                <slider v-model="form.goods_content_outer_height" :max="1000"></slider>
             </el-form-item>
         </template>
         <template v-else>
             <el-form-item v-if="data.theme == '0'" label="图片宽度">
-                <slider v-model="form.content_img_width" :max="1000"></slider>
+                <slider v-model="form.goods_content_img_width" :max="1000"></slider>
             </el-form-item>
             <el-form-item label="图片高度">
-                <slider v-model="form.content_img_height" :max="1000"></slider>
+                <slider v-model="form.goods_content_img_height" :max="1000"></slider>
             </el-form-item>
         </template>
         <el-form-item label="图片圆角">
             <radius :value="form.goods_img_radius"></radius>
         </el-form-item>
         <!-- 边框处理 -->
-        <border-config v-model:show="form.goods_border_is_show" v-model:color="form.goods_border_color" v-model:style="form.goods_border_style" v-model:size="form.goods_border_size"></border-config>
+        <border-config v-model:show="form.goods_border_box.border_is_show" v-model:color="form.goods_border_box.border_color" v-model:style="form.goods_border_box.border_style" v-model:size="form.goods_border_box.border_size"></border-config>
         <!-- 阴影配置 -->
-        <shadow-config v-model="form"></shadow-config>
+        <shadow-config v-model="form.goods_border_box"></shadow-config>
     </card-container>
     <template v-if="theme == '3'">
         <div class="divider-line"></div>
@@ -75,6 +75,28 @@
             </template>
         </card-container>
     </template>
+    <card-container class="card-container">
+        <div class="mb-12">内容样式</div>
+        <el-form-item label="背景">
+            <background-common v-model:color_list="form.goods_content_style.color_list" v-model:direction="form.goods_content_style.direction" v-model:img_style="form.goods_content_style.background_img_style" v-model:img="form.goods_content_style.background_img" @mult_color_picker_event="mult_color_picker_event" />
+        </el-form-item>
+        <el-form-item label="组合间距">
+            <margin :value="form.goods_content_style.outer_margin"></margin>
+        </el-form-item>
+        <el-form-item label="外间距">
+            <margin :value="form.goods_content_style"></margin>
+        </el-form-item>
+        <el-form-item label="内间距">
+            <padding :value="form.goods_content_style"></padding>
+        </el-form-item>
+        <el-form-item label="圆角">
+            <radius :value="form.goods_content_style"></radius>
+        </el-form-item>
+        <!-- 边框处理 -->
+        <border-config v-model:show="form.goods_content_style.border_is_show" v-model:color="form.goods_content_style.border_color" v-model:style="form.goods_content_style.border_style" v-model:size="form.goods_content_style.border_size"></border-config>
+        <!-- 阴影配置 -->
+        <shadow-config v-model="form.goods_content_style"></shadow-config>
+    </card-container>
 </template>
 
 <script lang="ts" setup>

@@ -1,64 +1,119 @@
 <template>
     <div class="oh" :style="style_container">
         <div :style="style_img_container">
-            <div v-for="(match_item, match_index) in list" :key="match_index">
-                <div class="flex-col">
-                    <div class="flex-col">
-                        <template v-if="!isEmpty(match_item)">
-                            <div class="oh re" :class="`flex-img${theme}`">
-                                <template v-if="!isEmpty(match_item.new_cover)">
-                                    <image-empty v-model="match_item.new_cover[0]" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
-                                </template>
-                                <template v-else>
-                                    <image-empty v-model="match_item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
-                                </template>
-                            </div>
-                        </template>
-                        <!-- 商品信息区域 -->
-                        <div :class="outer_class" :style="onter_style">
-                            <template v-if="!['3'].includes(theme)">
-                                <div v-for="(item, index) in match_item.good_list" :key="index" class="re oh" :class="layout_type" :style="layout_style">
-                                    <div :class="['oh w h', ['0'].includes(theme) ? 'flex-row' : 'flex-col' ]" :style="layout_img_style">
-                                        <template v-if="!isEmpty(item)">
-                                            <div class="oh re" :class="`flex-img${theme}`">
-                                                <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
-                                            </div>
+            <div class="oh flex-col" :style="`gap: ${ new_style.data_content_outer_spacing }px;`">
+                <div v-for="(match_item, match_index) in list" :key="match_index">
+                    <div :style="match_layout_style">
+                        <div class="flex-col" :style="match_layout_img_style">
+                            <div :class="['oh w h', ['0'].includes(host_graph_theme) ? 'flex-row' : 'flex-col' ]">
+                                <template v-if="!isEmpty(match_item)">
+                                    <div class="oh re" :class="`flex-match-img${host_graph_theme}`">
+                                        <template v-if="!isEmpty(match_item.new_cover)">
+                                            <image-empty v-model="match_item.new_cover[0]" :class="`flex-match-img${host_graph_theme}`" :style="data_content_img_radius"></image-empty>
                                         </template>
-                                        <div class="flex-1 flex-row jc-sb gap-10" :style="content_style">
-                                            <div class="flex-1 flex-col jc-sb gap-10">
-                                                <div class="text-line-2" :style="trends_config('title')">
-                                                    {{ item.title }}
+                                        <template v-else>
+                                            <image-empty v-model="match_item.images" :class="`flex-match-img${host_graph_theme}`" :style="data_content_img_radius"></image-empty>
+                                        </template>
+                                    </div>
+                                </template>
+                                <div class="flex-1 flex-col jc-sb gap-6" :style="data_content_style">
+                                    <div class="flex-col gap-6">
+                                        <span class="text-line-1" :style="trends_config('title', 'data')">{{ match_item.title }}</span>
+                                        <div class="flex-row align-c jc-sb">
+                                            <div class="flex-col gap-6">
+                                                <div class="flex-row align-c">
+                                                    <span :style="trends_config('price_symbol', 'data')">{{ match_item.price_symbol }}</span>
+                                                    <span :style="trends_config('price', 'data')">{{ match_item.price }}</span>
                                                 </div>
-                                                <!-- <span :class="form.goods_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.desc }}</span> -->
+                                                <div class="flex-row align-c gap-3">
+                                                    <img-or-icon-or-text :value="props.value" type="data_discounts" />
+                                                    <div>
+                                                        <span :style="trends_config('save_price_symbol', 'data')">{{ match_item.price_symbol }}</span>
+                                                        <span :style="trends_config('save_price', 'data')">{{ match_item.price }}</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div v-if="theme == '0'" class="flex-row align-c">
-                                                <img-or-icon-or-text :value="props.value" type="right" />
+                                            <div v-if="host_graph_theme !== '0'" class="flex-row align-c jc-e">
+                                                <img-or-icon-or-text :value="props.value" type="details" />
                                             </div>
                                         </div>
                                     </div>
+                                    <div v-if="host_graph_theme == '0'" class="flex-row align-c jc-e">
+                                        <img-or-icon-or-text :value="props.value" type="details" />
+                                    </div>
                                 </div>
-                            </template>
-                            <template v-else>
-                                <swiper :key="carouselKey" class="w flex" direction="horizontal" :loop="true" :autoplay="autoplay" :slides-per-view="form.carousel_col" :slides-per-group="slides_per_group" :allow-touch-move="false" :space-between="content_outer_spacing" :pause-on-mouse-enter="true" :modules="modules">
-                                    <swiper-slide v-for="(item, index) in match_item.good_list" :key="index">
-                                        <div :class="layout_type" :style="layout_style">
-                                            <div :class="['oh w h', ['0', '4'].includes(theme) ? 'flex-row' : 'flex-col' ]" :style="layout_img_style">
-                                                <template v-if="!isEmpty(item)">
-                                                    <div class="oh re" :class="`flex-img${theme}`">
-                                                        <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
+                            </div>
+                            <!-- 商品信息区域 -->
+                            <div class="oh" :style="margin_computer(new_style.goods_content_style.outer_margin)">
+                                <div :style="goods_content_style">
+                                    <div :style="goods_content_img_style">
+                                        <div :class="outer_class" :style="onter_style">
+                                            <template v-if="!['3'].includes(theme)">
+                                                <div v-for="(item, index) in match_item.good_list" :key="index" class="re oh" :class="layout_type" :style="layout_style">
+                                                    <div :class="['oh w h', ['0' , '2'].includes(theme) ? 'flex-row' : 'flex-col' ]" :style="layout_img_style">
+                                                        <template v-if="!isEmpty(item)">
+                                                            <div class="oh re" :class="`flex-img${theme}`">
+                                                                <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="goods_content_img_radius"></image-empty>
+                                                            </div>
+                                                        </template>
+                                                        <div class="flex-1 flex-row jc-sb" :style="content_style">
+                                                            <div class="flex-1 flex-col jc-sb">
+                                                                <div :class="theme == '0' ? 'text-line-2' : 'text-line-1'" :style="trends_config('title', 'goods')">
+                                                                    {{ item.title }}
+                                                                </div>
+                                                                <div class="flex-row align-c text-line-1">
+                                                                    <span :style="trends_config('price_symbol', 'goods')">{{ match_item.price_symbol }}</span>
+                                                                    <span :style="trends_config('price', 'goods')">{{ match_item.price }}</span>
+                                                                </div>
+                                                                <div class="flex-row align-c gap-3">
+                                                                    <img-or-icon-or-text :value="props.value" type="goods_discounts" />
+                                                                    <div class="flex-1 text-line-1">
+                                                                        <span :style="trends_config('save_price_symbol', 'goods')">{{ match_item.price_symbol }}</span>
+                                                                        <span :style="trends_config('save_price', 'goods')">{{ match_item.price }}</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </template>
-                                                <div class="flex-col jc-sb gap-10" :style="content_style">
-                                                    <div class="text-line-2" :style="trends_config('title')">
-                                                        {{ item.title }}
-                                                    </div>
-                                                    <!-- <span :class="form.goods_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.desc }}</span> -->
                                                 </div>
-                                            </div>
+                                            </template>
+                                            <template v-else>
+                                                <swiper :key="carouselKey" class="w flex" direction="horizontal" :loop="true" :autoplay="autoplay" :slides-per-view="form.carousel_col" :slides-per-group="slides_per_group" :allow-touch-move="false" :space-between="goods_content_outer_spacing" :pause-on-mouse-enter="true" :modules="modules">
+                                                    <swiper-slide v-for="(item, index) in match_item.good_list" :key="index">
+                                                        <div :class="layout_type" :style="layout_style">
+                                                            <div :class="['oh w h', ['0', '2'].includes(theme) ? 'flex-row' : 'flex-col' ]" :style="layout_img_style">
+                                                                <template v-if="!isEmpty(item)">
+                                                                    <div class="oh re" :class="`flex-img${theme}`">
+                                                                        <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="goods_content_img_radius"></image-empty>
+                                                                    </div>
+                                                                </template>
+                                                                <div class="flex-1 flex-row jc-sb" :style="content_style">
+                                                                    <div class="flex-1 flex-col jc-sb">
+                                                                        <div :class="theme == '0' ? 'text-line-2' : 'text-line-1'" :style="trends_config('title', 'goods')">
+                                                                            {{ item.title }}
+                                                                        </div>
+                                                                        <div class="flex-row align-c text-line-1">
+                                                                            <span :style="trends_config('price_symbol', 'goods')">{{ match_item.price_symbol }}</span>
+                                                                            <span :style="trends_config('price', 'goods')">{{ match_item.price }}</span>
+                                                                        </div>
+                                                                        <div class="flex-row align-c gap-3">
+                                                                            <img-or-icon-or-text :value="props.value" type="goods_discounts" />
+                                                                            <div class="flex-1 text-line-1">
+                                                                                <span :style="trends_config('save_price_symbol', 'goods')">{{ match_item.price_symbol }}</span>
+                                                                                <span :style="trends_config('save_price', 'goods')">{{ match_item.price }}</span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </swiper-slide>
+                                                </swiper>
+                                            </template>
                                         </div>
-                                    </swiper-slide>
-                                </swiper>
-                            </template>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -91,21 +146,6 @@ const props = defineProps({
 });
 const form = computed(() => props.value?.content || {});
 const new_style = computed(() => props.value?.style || {});
-// 选择的风格
-const theme = computed(() => form.value.theme);
-// 最外层不同风格下的显示
-const outer_class = computed(() => {
-    const flex = ['0', '2' ].includes(theme.value) ? 'flex-col ' : 'flex-row ';
-    const wrap = theme.value == '3' ? '' : 'flex-wrap ';
-    return flex + wrap + 'oh';
-});
-const onter_style = computed(() => {
-    const radius = `gap: ${new_style.value.content_outer_spacing + 'px'};`;
-    return `${radius}`;
-});
-// 公共样式
-const style_container = computed(() => common_styles_computer(new_style.value.common_style));
-const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
 //#region 列表数据
 type goods_list = {
     title: string,
@@ -118,7 +158,9 @@ type goods_list = {
 }
 type data_list = {
     title: string,
-    pice: string,
+    price_symbol: string;
+    price: string,
+    save_price_symbol: string,
     save_pice: string,
     images: string,
     new_cover: string[],
@@ -126,9 +168,11 @@ type data_list = {
 }
 const default_list = {
     title: '测试组合搭配标题',
-    pice: '￥0.00',
-    save_pice: '￥0.00',
-    images: 'http://shopxo.com/static/diy/images/layout/siderbar/data-magic.png',
+    price_symbol: '￥',
+    price: '8970.00-9200.00',
+    save_price_symbol: '￥',
+    save_pice: '8970.00-9200.00',
+    images: '',
     new_cover: [],
     good_list: [
         {
@@ -223,28 +267,82 @@ watch(() => watch_data.value, (val, oldVal) => {
     }
 }, { deep: true });
 //#endregion
-// 门店间距
-const content_outer_spacing = computed(() => new_style.value.content_outer_spacing);
-// 圆角设置
-const content_radius = computed(() => radius_computer(new_style.value.goods_radius));
-// 图片圆角设置
-const content_img_radius = computed(() => radius_computer(new_style.value.goods_img_radius));
+//#region 数据样式
+// 选择的风格
+const host_graph_theme = computed(() => form.value.host_graph_theme);
+const data_content_img_radius = computed(() => radius_computer(new_style.value.data_img_radius));
 // 内边距设置
-const content_padding = computed(() => padding_computer(new_style.value.goods_padding));
+const data_content_padding = computed(() => padding_computer(new_style.value.data_padding));
+// 容器样式
+const match_layout_style = computed(() => { 
+    return layout_handle('data') + radius_computer(new_style.value.data_radius);
+});
+// 容器图片样式
+const match_layout_img_style = computed(() => {
+    const padding = data_content_padding.value;
+    return padding + layout_img_handle('data');
+});
+// 内容区域的样式
+const data_content_style = computed(() => {
+    const spacing_value = new_style.value.data_content_spacing;
+    let spacing = '';
+    if (['0'].includes(host_graph_theme.value)) {
+        spacing = `margin-left: ${spacing_value}px;`;
+    } else {
+        spacing = data_content_padding.value;
+    }
+    return `${spacing}`;
+});
+const data_style_list = [
+    { name: '单列展示', value: '0', width: 128, height: 128 },
+    { name: '大图展示', value: '1', width: 0, height: 221 },
+]
+// 宽度和高度为空的时候，修改默认值
+const data_img_width = computed(() => {
+    return size_handle('data', 'width');
+});
+// 宽度和高度为空的时候，修改默认值
+const data_img_height = computed(() => {
+    return size_handle('data', 'height');
+});
+// 商品内容样式
+const goods_content_style = computed(() => common_styles_computer(new_style.value.goods_content_style));
+const goods_content_img_style = computed(() => common_img_computer(new_style.value.goods_content_style));
+//#endregion
+//#region 商品样式
+// 选择的风格
+const theme = computed(() => form.value.theme);
+// 最外层不同风格下的显示
+const outer_class = computed(() => {
+    const flex = ['0'].includes(theme.value) ? 'flex-col ' : 'flex-row ';
+    const wrap = theme.value == '3' ? '' : 'flex-wrap ';
+    return flex + wrap + 'oh';
+});
+const onter_style = computed(() => {
+    const radius = `gap: ${ new_style.value.goods_content_outer_spacing + 'px'};`;
+    return `${radius}`;
+});
+// 门店间距
+const goods_content_outer_spacing = computed(() => new_style.value.goods_content_outer_spacing);
+// 圆角设置
+const goods_content_radius = computed(() => radius_computer(new_style.value.goods_radius));
+// 图片圆角设置
+const goods_content_img_radius = computed(() => radius_computer(new_style.value.goods_img_radius));
+// 内边距设置
+const goods_content_padding = computed(() => padding_computer(new_style.value.goods_padding));
 const goods_left_right_width_margin = computed(() => {
     const { goods_margin = old_margin } = new_style.value;
     return goods_margin.margin_left + goods_margin.margin_right;
 });
 // 两列风格
-const two_columns = computed(() => content_outer_spacing.value + goods_left_right_width_margin.value * 2 + 'px' );
+const two_columns = computed(() => goods_content_outer_spacing.value + goods_left_right_width_margin.value * 2 + 'px' );
 // 根据传递的参数，从对象中取值
-const trends_config = (key: string, type?: string) => {
-    return style_config(new_style.value[`goods_${key}_typeface`], new_style.value[`goods_${key}_size`], new_style.value[`goods_${key}_color`], type);
+const trends_config = (key: string, type: string) => {
+    return style_config(new_style.value[`${ type }_${key}_typeface`], new_style.value[`${ type }_${key}_size`], new_style.value[`${ type }_${key}_color`]);
 };
 // 根据传递的值，显示不同的内容
-const style_config = (typeface: string, size: number, color: string | object, type?: string) => {
-    let style = `font-weight:${typeface}; font-size: ${size}px;color: ${color};`;
-    return style;
+const style_config = (typeface: string, size: number, color: string | object) => {
+    return `font-weight:${typeface}; font-size: ${size}px;color: ${color};`;
 };
 // 不同风格下的样式
 const layout_type = computed(() => {
@@ -257,7 +355,7 @@ const layout_type = computed(() => {
             class_type = `two-columns oh`;
             break;
         case '2':
-            class_type = `oh`;
+            class_type = `two-columns oh`;
             break;
         case '3':
             class_type = `multicolumn-columns oh`;
@@ -268,47 +366,68 @@ const layout_type = computed(() => {
     return class_type;
 });
 // 容器样式
-const match_layout_style = computed(() => { return gradient_handle(new_style.value.data_color_list, new_style.value.goods_direction) + margin_computer(new_style.value.goods_margin) + radius_computer(new_style.value) + border_computer(new_style.value) + box_shadow_computer(new_style.value); });
-// 容器图片样式
-const match_layout_img_style = computed(() => {
-    const padding = theme.value == 0 ? content_padding.value : '';
-    const data = {
-        background_img_style: new_style.value.goods_background_img_style,
-        background_img: new_style.value.goods_background_img,
-    }
-    return padding + background_computer(data);
-});
-// 容器样式
 const layout_style = computed(() => {
-    const radius = theme.value == '6' ? '' : content_radius.value;
+    const radius = theme.value == '6' ? '' : goods_content_radius.value;
     const width = theme.value == '0' ? `width: calc(100% - ${ goods_left_right_width_margin.value }px);` : '';
-    const gradient = gradient_handle(new_style.value.goods_color_list, new_style.value.goods_direction) + margin_computer(new_style.value.goods_margin) + border_computer(new_style.value) + box_shadow_computer(new_style.value);
+    const gradient = layout_handle('goods');
     return `${radius} ${ gradient } ${ width }`;
 });
 // 容器图片样式
 const layout_img_style = computed(() => {
-    const padding = theme.value == 0 ? content_padding.value : '';
-    const data = {
-        background_img_style: new_style.value.goods_background_img_style,
-        background_img: new_style.value.goods_background_img,
-    }
-    return padding + background_computer(data);
+    const padding = [ '0', '2'].includes(theme.value) ? goods_content_padding.value : '';
+    return padding + layout_img_handle('goods');
 });
-
 const layout_handle = (type: string) => {
-    return gradient_handle(new_style.value.data_color_list, new_style.value.goods_direction) + margin_computer(new_style.value.goods_margin) + border_computer(new_style.value) + box_shadow_computer(new_style.value);
+    return gradient_handle(new_style.value[`${ type }_color_list`], new_style.value[`${ type }_direction`]) + margin_computer(new_style.value[`${ type }_margin`]) + border_computer(new_style.value[`${ type }_border_box`]) + box_shadow_computer(new_style.value[`${ type }_border_box`]);
+};
+const layout_img_handle = (type: string) => {
+    const data = {
+        background_img_style: new_style.value[`${ type }_background_img_style`],
+        background_img: new_style.value[`${ type }_background_img`],
+    }
+    return background_computer(data);
 };
 // 内容区域的样式
 const content_style = computed(() => {
-    const spacing_value = new_style.value.content_spacing;
+    const spacing_value = new_style.value.goods_content_spacing;
     let spacing = '';
-    if (['0'].includes(theme.value)) {
+    if (['0', '2'].includes(theme.value)) {
         spacing = `margin-left: ${spacing_value}px;`;
     } else {
-        spacing = content_padding.value;
+        spacing = goods_content_padding.value;
     }
     return `${spacing}`;
 });
+const goods_style_list = [
+    { name: '单列展示', value: '0', width: 50, height: 50 },
+    { name: '两列展示（纵向）', value: '1', width:180, height: 180 },
+    { name: '两列展示（横向）', value: '2', width:50, height: 50 },
+    { name: '左右滑动展示', value: '3', width:0, height: 0 },
+]
+// 宽度和高度为空的时候，修改默认值
+const goods_img_width = computed(() => {
+    return size_handle('goods', 'width');
+});
+// 宽度和高度为空的时候，修改默认值
+const goods_img_height = computed(() => {
+    return size_handle('goods', 'height');
+});
+const size_handle = (type: string, location: 'width' | 'height') => {
+    if (typeof new_style.value[`${ type }_content_${ location }`] == 'number') {
+        return new_style.value[`${ type }_content_${ location }`] + 'px';
+    } else {
+        const list = type == 'goods' ? goods_style_list.filter(item => item.value == theme.value) : data_style_list.filter(item => item.value == host_graph_theme.value);
+        if (list.length > 0) {
+            return list[0][location] + 'px';
+        } else {
+            return 'auto';
+        }
+    }
+}
+const content_outer_height = computed(() => new_style.value.goods_content_outer_height + 'px');
+const style_container = computed(() => common_styles_computer(new_style.value.common_style));
+const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
+//#endregion 
 //#region 轮播设置
 // 轮播图key值
 const carouselKey = ref('0');
@@ -331,39 +450,6 @@ watchEffect(() => {
     carouselKey.value = get_math();
 });
 //#endregion
-const goods_style_list = [
-    { name: '单列展示', value: '0', width: 50, height: 50 },
-    { name: '两列展示（纵向）', value: '1', width:180, height: 180 },
-    { name: '大图展示', value: '2', width:0, height: 180 },
-    { name: '左右滑动展示', value: '3', width:0, height: 0 },
-]
-// 宽度和高度为空的时候，修改默认值
-const goods_img_width = computed(() => {
-    if (typeof new_style.value.content_img_width == 'number') {
-        return new_style.value.content_img_width + 'px';
-    } else {
-        const list = goods_style_list.filter(item => item.value == theme.value);
-        if (list.length > 0) {
-            return list[0].width + 'px';
-        } else {
-            return 'auto';
-        }
-    }
-});
-// 宽度和高度为空的时候，修改默认值
-const goods_img_height = computed(() => {
-    if (typeof new_style.value.content_img_height == 'number') {
-        return new_style.value.content_img_height + 'px';
-    } else {
-        const list = goods_style_list.filter(item => item.value == theme.value);
-        if (list.length > 0) {
-            return list[0].height + 'px';
-        } else {
-            return 'auto';
-        }
-    }
-});
-const content_outer_height = computed(() => new_style.value.content_outer_height + 'px');
 </script>
 <style lang="scss" scoped>
 :deep(.el-image) {
@@ -373,6 +459,15 @@ const content_outer_height = computed(() => new_style.value.content_outer_height
         height: 5rem;
     }
 }
+.flex-match-img0 {
+    height: v-bind(data_img_height);
+    width: v-bind(data_img_width);
+}
+.flex-match-img1 {
+    height: v-bind(data_img_height);
+    width: 100%;
+}
+
 .two-columns {
     width: calc((100% - v-bind(two_columns)) / 2);
 }
@@ -388,7 +483,7 @@ const content_outer_height = computed(() => new_style.value.content_outer_height
     height: v-bind(goods_img_height);
 }
 .flex-img2 {
-    width: 100%;
+    width: v-bind(goods_img_width);
     height: v-bind(goods_img_height);
 }
 .flex-img3 {

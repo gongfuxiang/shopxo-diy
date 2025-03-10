@@ -261,7 +261,7 @@ const layout_style = computed(() => {
 });
 // 容器图片样式
 const layout_img_style = computed(() => {
-    const padding = theme.value == 0 ? content_padding.value : '';
+    const padding = theme.value == '0' ? content_padding.value : '';
     const data = {
         background_img_style: new_style.value.shop_background_img_style,
         background_img: new_style.value.shop_background_img,

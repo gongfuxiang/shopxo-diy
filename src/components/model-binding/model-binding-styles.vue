@@ -32,25 +32,25 @@
                         <el-form-item label="内容圆角">
                             <radius :value="form.data_radius"></radius>
                         </el-form-item>
-                        <el-form-item v-if="data.theme == '0'" label="内容间距">
-                            <slider v-model="form.content_spacing" :max="100"></slider>
+                        <el-form-item label="内容间距">
+                            <slider v-model="form.data_content_spacing" :max="100"></slider>
                         </el-form-item>
-                        <el-form-item label="商户间距">
-                            <slider v-model="form.content_outer_spacing" :max="100"></slider>
+                        <el-form-item label="组合间距">
+                            <slider v-model="form.data_content_outer_spacing" :max="100"></slider>
                         </el-form-item>
                         <el-form-item v-if="data.theme == '0'" label="图片宽度">
-                            <slider v-model="form.content_img_width" :max="1000"></slider>
+                            <slider v-model="form.data_content_img_width" :max="1000"></slider>
                         </el-form-item>
                         <el-form-item label="图片高度">
-                            <slider v-model="form.content_img_height" :max="1000"></slider>
+                            <slider v-model="form.data_content_img_height" :max="1000"></slider>
                         </el-form-item>
                         <el-form-item label="图片圆角">
                             <radius :value="form.data_img_radius"></radius>
                         </el-form-item>
                         <!-- 边框处理 -->
-                        <border-config v-model:show="form.border_is_show" v-model:color="form.border_color" v-model:style="form.border_style" v-model:size="form.border_size"></border-config>
+                        <border-config v-model:show="form.data_border_box.border_is_show" v-model:color="form.data_border_box.border_color" v-model:style="form.data_border_box.border_style" v-model:size="form.data_border_box.border_size"></border-config>
                         <!-- 阴影配置 -->
-                        <shadow-config v-model="form"></shadow-config>
+                        <shadow-config v-model="form.data_border_box"></shadow-config>
                     </card-container>
                     <div class="divider-line"></div>
                     <template v-if="new_tabs.length > 0">
@@ -112,7 +112,7 @@ const tabs_name = ref('data');
 const tabs = [
     { label: "详情按钮", name: "details" },
     { label: "数据优惠", name: "data_discounts" },
-    { label: "商品优惠", name: "goods_discounts" },
+    { label: "商品优惠", name: "data_discounts" },
 ];
 // 图标数组处理一下，确保打开的都能看到
 type tabs_type = { name: string; label: string;};
