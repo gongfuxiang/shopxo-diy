@@ -15,18 +15,14 @@
                 <el-form-item label="置顶">
                     <div class="flex-row align-c gap-10">
                         <el-switch v-model="form.tabs_top_up" active-value="1" inactive-value="0" />
-                        <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>滑动置顶仅手机端有效</span>" raw-content placement="top">
-                            <icon name="miaosha-hdgz" size="12" color="#999"></icon>
-                        </el-tooltip>
+                        <tooltip content="1.滑动置顶仅手机端有效<br/>2.滑动置顶后通用的圆角不生效"></tooltip>
                     </div>
                 </el-form-item>
                 <template v-if="form.tabs_top_up == '1' && is_not_general_safe_distance">
                     <el-form-item label="安全距离">
                         <div class="flex-row align-c gap-10">
                             <el-switch v-model="form.is_general_safe_distance" active-value="1" inactive-value="0" />
-                            <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>选项卡置顶是否需要安全距离</span>" raw-content placement="top">
-                                <icon name="miaosha-hdgz" size="12" color="#999"></icon>
-                            </el-tooltip>
+                            <tooltip content="选项卡置顶是否需要安全距离"></tooltip>
                         </div>
                     </el-form-item>
                 </template>

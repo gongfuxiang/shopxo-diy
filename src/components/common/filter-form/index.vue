@@ -9,9 +9,7 @@
                             <div class="flex-row gap-10">
                                 <el-cascader v-model="new_dataInterface[item.form_name]" :placeholder="placeholder_config(item, 'select')" :show-all-levels="false" filterable clearable class="w h" collapse-tags popper-class="filter-form-cascader" :placement="+item?.config?.is_level == 1 && props.direction == 'vertical' ? 'left' : 'bottom'" :props="{'multiple': +item?.config?.is_multiple == 1, 'checkStrictly': true, 'emitPath': false, 'value': item?.data_key || 'id', 'label': item?.data_name || 'name', 'children': item?.config?.children || '' }" :options="selectData(item)" /> 
                                 <template v-if="+item?.config?.is_multiple == 1">
-                                    <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="父级选中包含所有子级" raw-content placement="top">
-                                        <icon name="miaosha-hdgz" size="12" color="#999"></icon>
-                                    </el-tooltip>
+                                    <tooltip content="父级选中包含所有子级"></tooltip>
                                 </template>
                             </div>
                         </template>
