@@ -51,21 +51,21 @@
                                             <template v-if="!['3'].includes(theme)">
                                                 <div v-for="(item, index) in match_item.good_list" :key="index" class="re oh" :class="layout_type" :style="layout_style">
                                                     <div :class="['oh w h', ['0' , '2'].includes(theme) ? 'flex-row' : 'flex-col' ]" :style="layout_img_style">
-                                                        <template v-if="!isEmpty(item)">
+                                                        <template v-if="!isEmpty(item) && is_show('goods_img')">
                                                             <div class="oh re" :class="`flex-img${theme}`">
                                                                 <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="goods_content_img_radius"></image-empty>
                                                             </div>
                                                         </template>
-                                                        <div class="flex-1 flex-row jc-sb" :style="content_style">
+                                                        <div v-if="is_show('title') || is_show('price') || is_show('save_price')" class="flex-1 flex-row jc-sb" :style="content_style">
                                                             <div class="flex-1 flex-col jc-sb">
-                                                                <div :class="theme == '0' ? 'text-line-2' : 'text-line-1'" :style="trends_config('title', 'goods')">
+                                                                <div v-if="is_show('title')" :class="theme == '0' ? 'text-line-2' : 'text-line-1'" :style="trends_config('title', 'goods')">
                                                                     {{ item.title }}
                                                                 </div>
-                                                                <div class="flex-row align-c text-line-1">
+                                                                <div v-if="is_show('price')" class="flex-row align-c text-line-1">
                                                                     <span :style="trends_config('price_symbol', 'goods')">{{ match_item.price_symbol }}</span>
                                                                     <span :style="trends_config('price', 'goods')">{{ match_item.price }}</span>
                                                                 </div>
-                                                                <div class="flex-row align-c gap-3">
+                                                                <div v-if="is_show('save_price')" class="flex-row align-c gap-3">
                                                                     <img-or-icon-or-text :value="props.value" type="goods_discounts" />
                                                                     <div class="flex-1 text-line-1">
                                                                         <span :style="trends_config('save_price_symbol', 'goods')">{{ match_item.price_symbol }}</span>
@@ -82,21 +82,21 @@
                                                     <swiper-slide v-for="(item, index) in match_item.good_list" :key="index">
                                                         <div :class="layout_type" :style="layout_style">
                                                             <div :class="['oh w h', ['0', '2'].includes(theme) ? 'flex-row' : 'flex-col' ]" :style="layout_img_style">
-                                                                <template v-if="!isEmpty(item)">
+                                                                <template v-if="!isEmpty(item) && is_show('goods_img')">
                                                                     <div class="oh re" :class="`flex-img${theme}`">
                                                                         <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="goods_content_img_radius"></image-empty>
                                                                     </div>
                                                                 </template>
-                                                                <div class="flex-1 flex-row jc-sb" :style="content_style">
+                                                                <div v-if="is_show('title') || is_show('price') || is_show('save_price')" class="flex-1 flex-row jc-sb" :style="content_style">
                                                                     <div class="flex-1 flex-col jc-sb">
-                                                                        <div :class="theme == '0' ? 'text-line-2' : 'text-line-1'" :style="trends_config('title', 'goods')">
+                                                                        <div v-if="is_show('title')" :class="theme == '0' ? 'text-line-2' : 'text-line-1'" :style="trends_config('title', 'goods')">
                                                                             {{ item.title }}
                                                                         </div>
-                                                                        <div class="flex-row align-c text-line-1">
+                                                                        <div v-if="is_show('price')" class="flex-row align-c text-line-1">
                                                                             <span :style="trends_config('price_symbol', 'goods')">{{ match_item.price_symbol }}</span>
                                                                             <span :style="trends_config('price', 'goods')">{{ match_item.price }}</span>
                                                                         </div>
-                                                                        <div class="flex-row align-c gap-3">
+                                                                        <div v-if="is_show('save_price')" class="flex-row align-c gap-3">
                                                                             <img-or-icon-or-text :value="props.value" type="goods_discounts" />
                                                                             <div class="flex-1 text-line-1">
                                                                                 <span :style="trends_config('save_price_symbol', 'goods')">{{ match_item.price_symbol }}</span>
@@ -365,6 +365,10 @@ const layout_type = computed(() => {
     }
     return class_type;
 });
+// 判断是否显示对应的内容
+const is_show = (index: string) => {
+    return form.value.is_goods_show.includes(index);
+};
 // 容器样式
 const layout_style = computed(() => {
     const radius = theme.value == '6' ? '' : goods_content_radius.value;
@@ -413,8 +417,8 @@ const goods_img_height = computed(() => {
     return size_handle('goods', 'height');
 });
 const size_handle = (type: string, location: 'width' | 'height') => {
-    if (typeof new_style.value[`${ type }_content_${ location }`] == 'number') {
-        return new_style.value[`${ type }_content_${ location }`] + 'px';
+    if (typeof new_style.value[`${ type }_content_img_${ location }`] == 'number') {
+        return new_style.value[`${ type }_content_img_${ location }`] + 'px';
     } else {
         const list = type == 'goods' ? goods_style_list.filter(item => item.value == theme.value) : data_style_list.filter(item => item.value == host_graph_theme.value);
         if (list.length > 0) {

@@ -137,10 +137,10 @@ onMounted(() => {
 });
 const host_graph_theme_change = () => {
     // 切换风格时，将对应图片的默认值宽度和高度赋值
-    const list = base_list.host_graph_theme_list.filter(item => item.value == form.value.theme);
+    const list = base_list.host_graph_theme_list.filter(item => item.value == form.value.host_graph_theme);
     if (list.length > 0) {
-        data.value.host_graph_img_width = list[0].width;
-        data.value.host_graph_img_height = list[0].height;
+        data.value.data_content_img_width = list[0].width;
+        data.value.data_content_img_height = list[0].height;
     }
 }
 // 主题改变

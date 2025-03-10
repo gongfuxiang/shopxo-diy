@@ -38,7 +38,7 @@
                         <el-form-item label="组合间距">
                             <slider v-model="form.data_content_outer_spacing" :max="100"></slider>
                         </el-form-item>
-                        <el-form-item v-if="data.theme == '0'" label="图片宽度">
+                        <el-form-item v-if="data.host_graph_theme == '0'" label="图片宽度">
                             <slider v-model="form.data_content_img_width" :max="1000"></slider>
                         </el-form-item>
                         <el-form-item label="图片高度">

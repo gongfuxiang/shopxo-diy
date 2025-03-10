@@ -40,7 +40,7 @@
             </el-form-item>
         </template>
         <template v-else>
-            <el-form-item v-if="data.theme == '0'" label="图片宽度">
+            <el-form-item v-if="['0', '2'].includes(data.theme)" label="图片宽度">
                 <slider v-model="form.goods_content_img_width" :max="1000"></slider>
             </el-form-item>
             <el-form-item label="图片高度">

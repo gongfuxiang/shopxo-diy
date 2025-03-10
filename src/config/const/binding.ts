@@ -182,8 +182,8 @@ const defaultRealstore: defaultRealstore = {
         goods_discounts_text: '节省',
     },
     style: {
-        data_content_img_width: 50,
-        data_content_img_height: 50,
+        data_content_img_width: 128,
+        data_content_img_height: 128,
         data_content_spacing: 10,
         data_content_outer_spacing: 10,
         data_color_list: [{ color: '#fff', color_percentage: undefined }],
