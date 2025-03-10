@@ -19,9 +19,7 @@
                                 <el-radio value="1">是</el-radio>
                                 <el-radio value="0">否</el-radio>
                             </el-radio-group>
-                            <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="1. 是的情况下，第一层自定义自动循环动态数据，编组可以使用循环项数据或其中的列表数据。<br/>2. 否的情况下，第一层自定义不能使用当前动态数据，只能在编组里面选择使用。" raw-content placement="top">
-                                <icon name="miaosha-hdgz" size="12" color="#999"></icon>
-                            </el-tooltip>
+                            <tooltip content="1. 是的情况下，第一层自定义自动循环动态数据，编组可以使用循环项数据或其中的列表数据。<br/>2. 否的情况下，第一层自定义不能使用当前动态数据，只能在编组里面选择使用。"></tooltip>
                         </div>
                     </el-form-item>
                 </template>
