@@ -2,6 +2,9 @@
     <div class="oh" :style="style_container">
         <div :style="style_img_container">
             <div v-for="(match_item, match_index) in list" :key="match_index">
+                <div>
+
+                </div>
                 <!-- 商品信息区域 -->
                 <div :class="outer_class" :style="onter_style">
                     <template v-if="!['3'].includes(theme)">
@@ -103,7 +106,6 @@ const onter_style = computed(() => {
     const radius = `gap: ${new_style.value.content_outer_spacing + 'px'};`;
     return `${radius}`;
 });
-
 // 公共样式
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));
 const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
@@ -120,9 +122,9 @@ type data_list = {
 }
 const default_list = {
     title: '测试商户标题',
-    desc: '测试商户描述',
-    title_url: [{ url: 'http://shopxo.com/static/diy/images/layout/siderbar/data-magic.png'}, { url: 'http://shopxo.com/static/diy/images/layout/siderbar/goods-list.png'}],
-    images: '',
+    pice: '￥0.00',
+    save_pice: '￥0.00',
+    images: 'http://shopxo.com/static/diy/images/layout/siderbar/data-magic.png',
     new_cover: [],
 };
 const list = ref<data_list[]>([]);
