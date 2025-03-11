@@ -149,6 +149,11 @@ interface defaultRealstore {
         interval_time: number;
         rolling_fashion: string;
         goods_content_style: object,
+        bottom_button_color: string,
+        bottom_button_typeface: string,
+        bottom_button_size: number,
+        bottom_button_icon_color: string,
+        bottom_button_icon_size: number,
         bottom_button_style: object,
         common_style: object;  
     };
@@ -416,14 +421,12 @@ const defaultRealstore: defaultRealstore = {
             box_shadow_y: 0,
             box_shadow_blur: 0,
             box_shadow_spread: 0,
-            // outer_margin: {
-            //     margin: 0,
-            //     margin_top: 10,
-            //     margin_bottom: 10,
-            //     margin_left: 0,
-            //     margin_right: 0,
-            // }
         },
+        bottom_button_color: '#999999',
+        bottom_button_typeface: '400',
+        bottom_button_size: 12,
+        bottom_button_icon_color: '#999999',
+        bottom_button_icon_size: 12,
         bottom_button_style: {
             color_list: [{ color: '#fff', color_percentage: undefined }],
             direction: '180deg',

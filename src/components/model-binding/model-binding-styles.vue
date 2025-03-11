@@ -74,6 +74,12 @@
                     <div class="divider-line"></div>
                     <card-container class="card-container">
                         <div class="mb-12">底部按钮样式</div>
+                        <el-form-item label="文字">
+                            <color-text-size-group v-model:color="form.bottom_button_color" v-model:typeface="form.bottom_button_typeface" v-model:size="form.bottom_button_size" default-color="#999"></color-text-size-group>
+                        </el-form-item>
+                        <el-form-item label="图标">
+                            <color-text-size-group v-model:color="form.bottom_button_icon_color" v-model:size="form.bottom_button_icon_size" default-color="#999" :type-list="['color', 'size']"></color-text-size-group>
+                        </el-form-item>
                         <el-form-item label="背景">
                             <background-common v-model:color_list="form.bottom_button_style.color_list" v-model:direction="form.bottom_button_style.direction" v-model:img_style="form.bottom_button_style.background_img_style" v-model:img="form.bottom_button_style.background_img" @mult_color_picker_event="bottom_button_mult_color_picker_event" />
                         </el-form-item>

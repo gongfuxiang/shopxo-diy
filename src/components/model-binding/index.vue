@@ -65,7 +65,6 @@
                                     </div>
                                 </div>
                                 <!-- 商品信息区域 -->
-                                <!-- <div  class="oh" :style="margin_computer(new_style.goods_content_style.outer_margin)"> -->
                                 <div v-if="form.is_default_show_goods == '1'" :style="goods_content_style">
                                     <div :style="goods_content_img_style">
                                         <div :class="outer_class" :style="onter_style">
@@ -134,12 +133,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- </div> -->
                                  <!-- 底部展开收起按钮区域 -->
                                 <div :style="bottom_button_style">
                                     <div class="flex-row align-c jc-sb" :style="bottom_button_img_style">
-                                        <span class="expand-retract">{{ form.is_default_show_goods == '1' ? '收起' : '展开'}}组合商品</span>
-                                        <icon :name="form.is_default_show_goods == '1' ? 'arrow-top' : 'arrow-bottom'" color="#999" size="12"></icon>
+                                        <span :style="trends_config('button', 'bottom')">{{ form.is_default_show_goods == '1' ? '收起' : '展开'}}组合商品</span>
+                                        <icon :name="form.is_default_show_goods == '1' ? 'arrow-top' : 'arrow-bottom'" :color="new_style.bottom_button_icon_color" :size="new_style.bottom_button_icon_size"></icon>
                                     </div>
                                 </div>
                             </div>
@@ -524,13 +522,5 @@ watchEffect(() => {
 .flex-img3 {
     width: 100%;
     height: 100%;
-}
-.expand-retract {
-    font-weight: 400;
-    font-size: 12px;
-    color: #999999;
-    line-height: 17px;
-    text-align: left;
-    font-style: normal;
 }
 </style>

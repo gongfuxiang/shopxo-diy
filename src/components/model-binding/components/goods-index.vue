@@ -81,9 +81,6 @@
         <el-form-item label="背景">
             <background-common v-model:color_list="form.goods_content_style.color_list" v-model:direction="form.goods_content_style.direction" v-model:img_style="form.goods_content_style.background_img_style" v-model:img="form.goods_content_style.background_img" @mult_color_picker_event="mult_color_picker_event" />
         </el-form-item>
-        <!-- <el-form-item label="组合间距">
-            <margin :value="form.goods_content_style.outer_margin"></margin>
-        </el-form-item> -->
         <el-form-item label="外间距">
             <margin :value="form.goods_content_style"></margin>
         </el-form-item>
