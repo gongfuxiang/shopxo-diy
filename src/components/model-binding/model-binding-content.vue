@@ -102,7 +102,7 @@ const base_list = reactive({
     ],
     theme_list: [
         { name: '单列展示', value: '0', width: 50, height: 50 },
-        { name: '两列展示（纵向）', value: '1', width:180, height: 180 },
+        { name: '两列展示（纵向）', value: '1', width:156, height: 156 },
         { name: '两列展示（横向）', value: '2', width:50, height: 50 },
         { name: '左右滑动展示', value: '3', width:0, height: 0 },
     ],
@@ -171,8 +171,8 @@ const theme_change = (val: any) => {
     const list = base_list.theme_list.filter(item => item.value == form.value.theme);
     if (list.length > 0) {
         // emits('theme_change', list[0].width, list[0].height);
-        data.value.content_img_width = list[0].width;
-        data.value.content_img_height = list[0].height;
+        data.value.goods_content_img_width = list[0].width;
+        data.value.goods_content_img_height = list[0].height;
     }
 };
 // 移除

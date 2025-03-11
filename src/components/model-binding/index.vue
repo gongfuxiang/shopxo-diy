@@ -5,8 +5,8 @@
                 <div v-for="(match_item, match_index) in list" :key="match_index">
                     <div :style="match_layout_style">
                         <div class="flex-col" :style="match_layout_img_style">
-                            <div :class="['oh w h', ['0'].includes(host_graph_theme) ? 'flex-row' : 'flex-col' ]">
-                                <template v-if="!isEmpty(match_item)">
+                            <div :class="['oh w h', host_graph_theme == '0' ? 'flex-row' : 'flex-col' ]" :style="host_graph_theme == '0' ? `margin-bottom: ${ new_style.data_content_bottom_spacing }px;` : ''">
+                                <template v-if="!isEmpty(match_item) && ((host_graph_theme == '1' && form.is_host_graph_show == '1') || host_graph_theme == '0')">
                                     <div class="oh re" :class="`flex-match-img${host_graph_theme}`">
                                         <template v-if="!isEmpty(match_item.new_cover)">
                                             <image-empty v-model="match_item.new_cover[0]" :class="`flex-match-img${host_graph_theme}`" :style="data_content_img_radius"></image-empty>
@@ -16,7 +16,8 @@
                                         </template>
                                     </div>
                                 </template>
-                                <div class="flex-1 flex-col jc-sb gap-6" :style="data_content_style">
+                                <!-- 主图单列显示时的显示 -->
+                                <div v-if="host_graph_theme == '0'" class="flex-1 flex-col jc-sb gap-6" :style="data_content_style">
                                     <div class="flex-col gap-6">
                                         <span class="text-line-1" :style="trends_config('title', 'data')">{{ match_item.title }}</span>
                                         <div class="flex-row align-c jc-sb">
@@ -33,19 +34,39 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div v-if="host_graph_theme !== '0'" class="flex-row align-c jc-e">
-                                                <img-or-icon-or-text :value="props.value" type="details" />
-                                            </div>
                                         </div>
                                     </div>
-                                    <div v-if="host_graph_theme == '0'" class="flex-row align-c jc-e">
+                                    <div class="flex-row align-c jc-e">
                                         <img-or-icon-or-text :value="props.value" type="details" />
                                     </div>
                                 </div>
                             </div>
-                            <!-- 商品信息区域 -->
-                            <div class="oh" :style="margin_computer(new_style.goods_content_style.outer_margin)">
-                                <div :style="goods_content_style">
+                            <div class="flex-col" :style="host_graph_theme !== '0' ? data_content_style : ''">
+                                <!-- 主图大图模式时的显示 -->
+                                <div v-if="host_graph_theme !== '0'"  class="flex-col gap-6" :style="`margin-bottom: ${ new_style.data_content_bottom_spacing }px;`">
+                                    <span class="text-line-1" :style="trends_config('title', 'data')">{{ match_item.title }}</span>
+                                    <div class="flex-row align-c jc-sb">
+                                        <div class="flex-col gap-6">
+                                            <div class="flex-row align-c">
+                                                <span :style="trends_config('price_symbol', 'data')">{{ match_item.price_symbol }}</span>
+                                                <span :style="trends_config('price', 'data')">{{ match_item.price }}</span>
+                                            </div>
+                                            <div class="flex-row align-c gap-3">
+                                                <img-or-icon-or-text :value="props.value" type="data_discounts" />
+                                                <div>
+                                                    <span :style="trends_config('save_price_symbol', 'data')">{{ match_item.price_symbol }}</span>
+                                                    <span :style="trends_config('save_price', 'data')">{{ match_item.price }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex-row align-c jc-e">
+                                            <img-or-icon-or-text :value="props.value" type="details" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 商品信息区域 -->
+                                <!-- <div  class="oh" :style="margin_computer(new_style.goods_content_style.outer_margin)"> -->
+                                <div v-if="form.is_default_show_goods == '1'" :style="goods_content_style">
                                     <div :style="goods_content_img_style">
                                         <div :class="outer_class" :style="onter_style">
                                             <template v-if="!['3'].includes(theme)">
@@ -111,6 +132,14 @@
                                                 </swiper>
                                             </template>
                                         </div>
+                                    </div>
+                                </div>
+                                <!-- </div> -->
+                                 <!-- 底部展开收起按钮区域 -->
+                                <div :style="bottom_button_style">
+                                    <div class="flex-row align-c jc-sb" :style="bottom_button_img_style">
+                                        <span class="expand-retract">{{ form.is_default_show_goods == '1' ? '收起' : '展开'}}组合商品</span>
+                                        <icon :name="form.is_default_show_goods == '1' ? 'arrow-top' : 'arrow-bottom'" color="#999" size="12"></icon>
                                     </div>
                                 </div>
                             </div>
@@ -279,7 +308,7 @@ const match_layout_style = computed(() => {
 });
 // 容器图片样式
 const match_layout_img_style = computed(() => {
-    const padding = data_content_padding.value;
+    const padding = host_graph_theme.value == '0' ? data_content_padding.value : '';
     return padding + layout_img_handle('data');
 });
 // 内容区域的样式
@@ -308,6 +337,9 @@ const data_img_height = computed(() => {
 // 商品内容样式
 const goods_content_style = computed(() => common_styles_computer(new_style.value.goods_content_style));
 const goods_content_img_style = computed(() => common_img_computer(new_style.value.goods_content_style));
+// 底部展开收起按钮样式
+const bottom_button_style = computed(() => common_styles_computer(new_style.value.bottom_button_style));
+const bottom_button_img_style = computed(() => common_img_computer(new_style.value.bottom_button_style));
 //#endregion
 //#region 商品样式
 // 选择的风格
@@ -404,7 +436,7 @@ const content_style = computed(() => {
 });
 const goods_style_list = [
     { name: '单列展示', value: '0', width: 50, height: 50 },
-    { name: '两列展示（纵向）', value: '1', width:180, height: 180 },
+    { name: '两列展示（纵向）', value: '1', width:156, height: 156 },
     { name: '两列展示（横向）', value: '2', width:50, height: 50 },
     { name: '左右滑动展示', value: '3', width:0, height: 0 },
 ]
@@ -471,7 +503,6 @@ watchEffect(() => {
     height: v-bind(data_img_height);
     width: 100%;
 }
-
 .two-columns {
     width: calc((100% - v-bind(two_columns)) / 2);
 }
@@ -493,5 +524,13 @@ watchEffect(() => {
 .flex-img3 {
     width: 100%;
     height: 100%;
+}
+.expand-retract {
+    font-weight: 400;
+    font-size: 12px;
+    color: #999999;
+    line-height: 17px;
+    text-align: left;
+    font-style: normal;
 }
 </style>

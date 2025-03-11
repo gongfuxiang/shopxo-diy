@@ -81,6 +81,7 @@ interface defaultRealstore {
         data_content_img_width: number;
         data_content_img_height: number;
         data_content_spacing: number;
+        data_content_bottom_spacing: number;
         data_content_outer_spacing: number;
         data_color_list: color_list[];
         data_direction: string;
@@ -148,6 +149,7 @@ interface defaultRealstore {
         interval_time: number;
         rolling_fashion: string;
         goods_content_style: object,
+        bottom_button_style: object,
         common_style: object;  
     };
 }
@@ -185,6 +187,7 @@ const defaultRealstore: defaultRealstore = {
         data_content_img_width: 128,
         data_content_img_height: 128,
         data_content_spacing: 10,
+        data_content_bottom_spacing: 10,
         data_content_outer_spacing: 10,
         data_color_list: [{ color: '#fff', color_percentage: undefined }],
         data_direction: '90deg',
@@ -413,13 +416,51 @@ const defaultRealstore: defaultRealstore = {
             box_shadow_y: 0,
             box_shadow_blur: 0,
             box_shadow_spread: 0,
-            outer_margin: {
-                margin: 0,
-                margin_top: 10,
-                margin_bottom: 10,
-                margin_left: 0,
-                margin_right: 0,
-            }
+            // outer_margin: {
+            //     margin: 0,
+            //     margin_top: 10,
+            //     margin_bottom: 10,
+            //     margin_left: 0,
+            //     margin_right: 0,
+            // }
+        },
+        bottom_button_style: {
+            color_list: [{ color: '#fff', color_percentage: undefined }],
+            direction: '180deg',
+            background_img_style: '2',
+            background_img: [],
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+            padding: 0,
+            padding_top: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+            padding_right: 0,
+            margin: 0,
+            margin_top: 10,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
+            // 边框样式
+            border_is_show: '0',
+            border_color: '#FF3F3F',
+            border_style: 'solid',
+            border_size: {
+                padding: 1,
+                padding_top: 1,
+                padding_right: 1,
+                padding_bottom: 1,
+                padding_left: 1,
+            },
+            // 阴影
+            box_shadow_color: '',
+            box_shadow_x: 0,
+            box_shadow_y: 0,
+            box_shadow_blur: 0,
+            box_shadow_spread: 0,
         },
         // 公共样式
         common_style: {

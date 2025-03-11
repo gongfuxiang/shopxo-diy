@@ -33,7 +33,14 @@
                             <radius :value="form.data_radius"></radius>
                         </el-form-item>
                         <el-form-item label="内容间距">
-                            <slider v-model="form.data_content_spacing" :max="100"></slider>
+                            <div class="flex-col gap-10 w h">
+                                <el-form-item v-if="data.host_graph_theme == '0'" label="图片标题" label-width="60" class="form-item-child-label">
+                                    <slider v-model="form.data_content_spacing" :max="100"></slider>
+                                </el-form-item>
+                                <el-form-item label="内容商品" label-width="60" class="form-item-child-label">
+                                    <slider v-model="form.data_content_bottom_spacing" :max="100"></slider>
+                                </el-form-item>
+                            </div>
                         </el-form-item>
                         <el-form-item label="组合间距">
                             <slider v-model="form.data_content_outer_spacing" :max="100"></slider>
@@ -64,6 +71,26 @@
                             </el-tabs>
                         </card-container>
                     </template>
+                    <div class="divider-line"></div>
+                    <card-container class="card-container">
+                        <div class="mb-12">底部按钮样式</div>
+                        <el-form-item label="背景">
+                            <background-common v-model:color_list="form.bottom_button_style.color_list" v-model:direction="form.bottom_button_style.direction" v-model:img_style="form.bottom_button_style.background_img_style" v-model:img="form.bottom_button_style.background_img" @mult_color_picker_event="bottom_button_mult_color_picker_event" />
+                        </el-form-item>
+                        <el-form-item label="外间距">
+                            <margin :value="form.bottom_button_style"></margin>
+                        </el-form-item>
+                        <el-form-item label="内间距">
+                            <padding :value="form.bottom_button_style"></padding>
+                        </el-form-item>
+                        <el-form-item label="圆角">
+                            <radius :value="form.bottom_button_style"></radius>
+                        </el-form-item>
+                        <!-- 边框处理 -->
+                        <border-config v-model:show="form.bottom_button_style.border_is_show" v-model:color="form.bottom_button_style.border_color" v-model:style="form.bottom_button_style.border_style" v-model:size="form.bottom_button_style.border_size"></border-config>
+                        <!-- 阴影配置 -->
+                        <shadow-config v-model="form.bottom_button_style"></shadow-config>
+                    </card-container>
                     <div class="divider-line"></div>
                     <common-styles :value="form.common_style" @update:value="common_style_update" />
                 </el-tab-pane>
@@ -127,6 +154,11 @@ onMounted(() => {
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.data_color_list = arry;
     form.value.data_direction = type.toString();
+};
+// 底部按钮的显示逻辑
+const bottom_button_mult_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.bottom_button_style.color_list = arry;
+    form.value.bottom_button_style.direction = type.toString();
 };
 const common_style_update = (value: any) => {
     form.value.common_style = value;
