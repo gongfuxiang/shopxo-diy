@@ -45,7 +45,7 @@ interface defaultSalerecords {
         time_size: number;
         content_color_list: color_list[];
         content_direction: number;
-        content_background_img_style: number;
+        content_background_img_style: string;
         content_background_img: string[];
         data_spacing: number;
         content_padding: paddingStyle;
@@ -104,7 +104,7 @@ const defaultSalerecords: defaultSalerecords = {
         time_size: 14,
         content_color_list: [{ color: '#F4F4F4', color_percentage: undefined }],
         content_direction: 0,
-        content_background_img_style: 0,
+        content_background_img_style: '2',
         content_background_img: [],
         data_spacing: 10,
         content_padding: {
