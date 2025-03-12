@@ -137,7 +137,7 @@
                                 <div :style="bottom_button_style">
                                     <div class="flex-row align-c jc-sb" :style="bottom_button_img_style">
                                         <span :style="trends_config('button', 'bottom')">{{ form.is_default_show_goods == '1' ? '收起' : '展开'}}组合商品</span>
-                                        <icon :name="form.is_default_show_goods == '1' ? 'arrow-top' : 'arrow-bottom'" :color="new_style.bottom_button_icon_color" :size="new_style.bottom_button_icon_size"></icon>
+                                        <icon :name="form.is_default_show_goods == '1' ? 'arrow-top' : 'arrow-bottom'" :color="new_style.bottom_button_icon_color" :size="new_style.bottom_button_icon_size + ''"></icon>
                                     </div>
                                 </div>
                             </div>

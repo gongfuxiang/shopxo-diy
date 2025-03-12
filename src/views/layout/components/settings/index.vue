@@ -114,6 +114,10 @@
             <template v-else-if="value.key == 'binding'">
                 <model-binding-setting :type="radio" :value="value.com_data"></model-binding-setting>
             </template>
+            <!-- 销售记录 -->
+            <template v-else-if="value.key == 'salerecords'">
+                <model-salerecords-setting :type="radio" :value="value.com_data"></model-salerecords-setting>
+            </template>
             <!-- 工具组件 -->
             <!-- 辅助空白 -->
             <template v-else-if="value.key == 'auxiliary-blank'">

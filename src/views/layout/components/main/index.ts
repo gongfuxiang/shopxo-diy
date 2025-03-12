@@ -29,6 +29,7 @@ import defaultTabsCarousel from '@/config/const/tabs-carousel';
 import defaultRealstore from '@/config/const/realstore';
 import defaultShop from '@/config/const/shop';
 import defaultBinding from '@/config/const/binding';
+import defaultSalerecords from '@/config/const/salerecords';
 
 // 系统设置
 interface DefaultSettings {
@@ -63,6 +64,7 @@ interface DefaultSettings {
     realstore: object;
     shop: object;
     binding: object;
+    salerecords: object;
 }
 
 const defaultSettings: DefaultSettings = {
@@ -97,6 +99,7 @@ const defaultSettings: DefaultSettings = {
     realstore: defaultRealstore,
     shop: defaultShop,
     binding: defaultBinding,
+    salerecords: defaultSalerecords
 };
 
 export default defaultSettings;
