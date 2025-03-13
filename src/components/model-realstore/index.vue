@@ -19,9 +19,9 @@
                                 <div class="flex-1 flex-col" :style="content_style">
                                     <div class="flex-col jc-sb gap-10">
                                         <div class="flex-row jc-sb align-c gap-10">
-                                            <div class="text-line-2" :style="trends_config('title') + 'vertical-align: middle;'">
+                                            <div class="text-line-2" :style="trends_config('title')">
                                                 <template v-for="(item1, index1) in new_url_list(item.title_url)" :key="index1">
-                                                    <img :src="item1.url" class="title-img" :style="title_img_style(item.title_url, index1)" />
+                                                    <img :src="item1.url" class="title-img" :style="title_img_style(item.title_url, index1) + 'vertical-align: middle;'" />
                                                 </template>{{ item.title }}
                                             </div>
                                             <div v-if="['0', '2'].includes(theme)" class="flex-row align-c" :style="`gap: ${ new_style.phone_navigation_spacing }px;`">
@@ -78,9 +78,9 @@
                                         </div>
                                     </template>
                                     <div class="flex-1 flex-col jc-sb gap-10" :style="content_style">
-                                        <div class="text-line-2" :style="trends_config('title') + 'vertical-align: middle;'">
+                                        <div class="text-line-2" :style="trends_config('title')">
                                             <template v-for="(item1, index1) in new_url_list(item.title_url)" :key="index1">
-                                                <img :src="item1.url" class="title-img" :style="title_img_style(item.title_url, index1)" />
+                                                <img :src="item1.url" class="title-img" :style="title_img_style(item.title_url, index1) + 'vertical-align: middle;'" />
                                             </template>{{ item.title }}
                                         </div>
                                         <div class="flex-row jc-sb align-c">

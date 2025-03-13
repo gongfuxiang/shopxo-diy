@@ -17,12 +17,12 @@
                             </template>
                             <div class="flex-1 flex-row jc-sb gap-10" :style="content_style">
                                 <div class="flex-1 flex-col jc-sb gap-10">
-                                    <div class="text-line-2" :style="trends_config('title') + 'vertical-align: middle;'">
+                                    <div class="text-line-2" :style="trends_config('title')">
                                         <template v-for="(item1, index1) in new_url_list(item.title_url)" :key="index1">
-                                            <img :src="item1.url" class="title-img" :style="title_img_style(item.title_url, index1)" />
+                                            <img :src="item1.url" class="title-img" :style="title_img_style(item.title_url, index1) + 'vertical-align: middle;'" />
                                         </template>{{ item.title }}
                                     </div>
-                                    <span :class="form.shop_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.desc }}</span>
+                                    <span v-if="form.shop_desc == '1'" :class="form.shop_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.desc }}</span>
                                 </div>
                                 <div v-if="theme == '0'" class="flex-row align-c">
                                     <img-or-icon-or-text :value="props.value" type="right" />
@@ -47,12 +47,12 @@
                                         </div>
                                     </template>
                                     <div class="flex-col jc-sb gap-10" :style="content_style">
-                                        <div class="text-line-2" :style="trends_config('title') + 'vertical-align: middle;'">
+                                        <div class="text-line-2" :style="trends_config('title')">
                                             <template v-for="(item1, index1) in new_url_list(item.title_url)" :key="index1">
-                                                <img :src="item1.url" class="title-img" :style="title_img_style(item.title_url, index1)" />
+                                                <img :src="item1.url" class="title-img" :style="title_img_style(item.title_url, index1) + 'vertical-align: middle;'" />
                                             </template>{{ item.title }}
                                         </div>
-                                        <span :class="form.shop_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.desc }}</span>
+                                        <span v-if="form.shop_desc == '1'" :class="form.shop_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.desc }}</span>
                                     </div>
                                 </div>
                             </div>
