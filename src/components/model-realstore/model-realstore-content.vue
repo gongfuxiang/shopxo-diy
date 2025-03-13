@@ -29,84 +29,20 @@
             <card-container>
                 <div class="mb-12">按钮设置</div>
                 <el-form-item label="导航按钮" class="align-s">
-                    <el-row class="w">
-                        <el-col :span="24"><el-switch v-model="form.is_navigation_show" active-value="1" inactive-value="0"></el-switch></el-col>
-                    </el-row>
-                    <el-row v-if="form.is_navigation_show == '1'" class="mt-10 w">
-                        <el-col :span="24">
-                            <el-radio-group v-model="form.navigation_type" class="mb-10">
-                                <el-radio value="img-icon">图片/图标</el-radio>
-                                <el-radio value="text">文字</el-radio>
-                            </el-radio-group>
-                            <template v-if="form.navigation_type === 'img-icon'">
-                                <upload v-model="form.navigation_img" v-model:icon-value="form.navigation_icon" is-icon :limit="1" size="50"></upload>
-                            </template>
-                            <template v-else>
-                                <el-input v-model="form.navigation_text" placeholder="请输入文字内容" clearable></el-input>
-                            </template>
-                        </el-col>
-                    </el-row>
+                    <img-or-icon-or-text-content :value="form" type="navigation"></img-or-icon-or-text-content>
                 </el-form-item>
                 <el-form-item v-if="['0', '2'].includes(form.theme)" label="电话按钮" class="align-s">
-                    <el-row class="w">
-                        <el-col :span="24"><el-switch v-model="form.is_phone_show" active-value="1" inactive-value="0"></el-switch></el-col>
-                    </el-row>
-                    <el-row v-if="form.is_phone_show == '1'" class="mt-10 w">
-                        <el-col :span="24">
-                            <el-radio-group v-model="form.phone_type" class="mb-10">
-                                <el-radio value="img-icon">图片/图标</el-radio>
-                                <el-radio value="text">文字</el-radio>
-                            </el-radio-group>
-                            <template v-if="form.phone_type === 'img-icon'">
-                                <upload v-model="form.phone_img" v-model:icon-value="form.phone_icon" is-icon :limit="1" size="50"></upload>
-                            </template>
-                            <template v-else>
-                                <el-input v-model="form.phone_text" placeholder="请输入文字内容" clearable></el-input>
-                            </template>
-                        </el-col>
-                    </el-row>
+                    <img-or-icon-or-text-content :value="form" type="phone"></img-or-icon-or-text-content>
                 </el-form-item>
             </card-container>
             <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">图标设置</div>
                 <el-form-item label="时间图标" class="align-s">
-                    <el-row class="w">
-                        <el-col :span="24"><el-switch v-model="form.is_time_show" active-value="1" inactive-value="0"></el-switch></el-col>
-                    </el-row>
-                    <el-row v-if="form.is_time_show == '1'" class="mt-10 w">
-                        <el-col :span="24">
-                            <el-radio-group v-model="form.time_type" class="mb-10">
-                                <el-radio value="img-icon">图片/图标</el-radio>
-                                <el-radio value="text">文字</el-radio>
-                            </el-radio-group>
-                            <template v-if="form.time_type === 'img-icon'">
-                                <upload v-model="form.time_img" v-model:icon-value="form.time_icon" is-icon :limit="1" size="50"></upload>
-                            </template>
-                            <template v-else>
-                                <el-input v-model="form.time_text" placeholder="请输入文字内容" clearable></el-input>
-                            </template>
-                        </el-col>
-                    </el-row>
+                    <img-or-icon-or-text-content :value="form" type="time"></img-or-icon-or-text-content>
                 </el-form-item>
                 <el-form-item v-if="form.theme != '3'" label="地址图标" class="align-s">
-                    <el-row class="w">
-                        <el-col :span="24"><el-switch v-model="form.is_location_show" active-value="1" inactive-value="0"></el-switch></el-col>
-                    </el-row>
-                    <el-row v-if="form.is_location_show == '1'" class="mt-10 w">
-                        <el-col :span="24">
-                            <el-radio-group v-model="form.location_type" class="mb-10">
-                                <el-radio value="img-icon">图片/图标</el-radio>
-                                <el-radio value="text">文字</el-radio>
-                            </el-radio-group>
-                            <template v-if="form.location_type === 'img-icon'">
-                                <upload v-model="form.location_img" v-model:icon-value="form.location_icon" is-icon :limit="1" size="50"></upload>
-                            </template>
-                            <template v-else>
-                                <el-input v-model="form.location_text" placeholder="请输入文字内容" clearable></el-input>
-                            </template>
-                        </el-col>
-                    </el-row>
+                    <img-or-icon-or-text-content :value="form" type="location"></img-or-icon-or-text-content>
                 </el-form-item>
             </card-container>
         </el-form>
