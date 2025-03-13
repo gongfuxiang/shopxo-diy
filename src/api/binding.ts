@@ -4,7 +4,7 @@ class BlogAPI {
     /** 博客自动数据 */
     static getAutoList(data: any) {
         return api_request({
-            url: `?s=plugins/index/pluginsname/blog/pluginscontrol/diyblog/pluginsaction/autobloglist`,
+            url: `?s=plugins/index/pluginsname/binding/pluginscontrol/diybinding/pluginsaction/index.html`,
             method: 'post',
             data,
         });

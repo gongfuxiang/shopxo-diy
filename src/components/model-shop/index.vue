@@ -171,13 +171,13 @@ const get_products = () => {
     };
     list.value = Array(4).fill(default_list);
     // 获取商品列表
-    // ShopAPI.getShopLists(params).then((res: any) => {
-    //     if (!isEmpty(res.data)) {
-    //         list.value = res.data;
-    //     } else {
-    //         list.value = Array(4).fill(default_list);
-    //     }
-    // });
+    ShopAPI.getShopList(params).then((res: any) => {
+        if (!isEmpty(res.data)) {
+            list.value = res.data;
+        } else {
+            list.value = Array(4).fill(default_list);
+        }
+    });
 };
 // 取出监听的数据
 const watch_data = computed(() => {

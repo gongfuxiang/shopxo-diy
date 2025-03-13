@@ -16,7 +16,14 @@ class ShopAPI {
             data,
         });
     }
-    
+    // 获取多商户的数据
+    static getShopList(data: any) {
+        return request({
+            url: `plugins/index/pluginsname/shop/pluginscontrol/diyshop/pluginsaction/index`,
+            method: 'post',
+            data,
+        });
+    }
 }
 
 export default ShopAPI;

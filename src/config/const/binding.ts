@@ -58,7 +58,15 @@ interface defaultRealstore {
         carousel_col: number;
         goods_save_price: string;
         goods_save_price_row: string;
+        data_type: string;
         data_list: string[];
+        data_auto_list: string[],
+        keywords: string,
+        binding_type: string[],
+        number: number,
+        order_by_type: string,
+        order_by_rule: string,
+        is_home_show: string,
         is_goods_show: string[];
         is_default_show_goods: string;
         is_details_show: string;
@@ -169,7 +177,15 @@ const defaultRealstore: defaultRealstore = {
         carousel_col: 1,
         goods_save_price: '1',
         goods_save_price_row: '1',
+        data_type: '0',
         data_list: [],
+        data_auto_list: [],
+        keywords: '',
+        binding_type: [],
+        number: 4,
+        order_by_type: '',
+        order_by_rule: '',
+        is_home_show: '',
         is_goods_show: ['title', 'goods_img', 'price', 'save_price'],
         is_default_show_goods: '1',
         is_details_show: '1',

@@ -56,7 +56,7 @@
                 </el-tabs>
             </card-container>
         </el-form>
-        <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['realstore']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
+        <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['binding']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
     </div>
 </template>
 <script setup lang="ts">

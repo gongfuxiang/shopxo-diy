@@ -27,6 +27,8 @@ interface DefaultBlogList {
         field_show: string[];
         field_desc_row: string,
         is_cover: string;
+        is_recommended: string;
+        is_hot: string;
         seckill_subscript_show: string;
         subscript_type: string;
         subscript_img_src: uploadList[];
@@ -101,6 +103,8 @@ const defaultBlogList: DefaultBlogList = {
         field_show: ['0', '1', '3'],
         field_desc_row: '1',
         is_cover: defaultSetting.is_cover,
+        is_recommended: '0',
+        is_hot: '0',
         // 角标配置
         seckill_subscript_show: '0',
         subscript_type: 'text',

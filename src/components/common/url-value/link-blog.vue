@@ -2,7 +2,7 @@
     <!-- 商品分类 -->
     <div class="container">
         <div class="flex-row jc-e gap-20 mb-20">
-            <el-select v-model="category_ids" class="search-w" placeholder="请选择" filterable clearable @change="handle_search">
+            <el-select v-model="category_ids" class="search-w" placeholder="请选择博客分类" filterable clearable @change="handle_search">
                 <el-option v-for="item in article_category_list" :key="item.id" :label="item.name" :value="item.id" />
             </el-select>
             <el-input v-model="search_value" placeholder="请输入搜索内容" class="search-w" @change="handle_search">
@@ -95,7 +95,7 @@ const template_selection = ref('');
 // 当前页
 const page = ref(1);
 // 每页数量
-const page_size = ref(30);
+const page_size = ref(10);
 // 总数量
 const data_total = ref(0);
 // 查询文件
@@ -107,7 +107,7 @@ const get_list = (new_page: number) => {
         page_size: page_size.value,
     };
     loading.value = true;
-    UrlValueAPI.getArticleList(new_data).then((res: any) => {
+    UrlValueAPI.getblogList(new_data).then((res: any) => {
         tableData.value = res.data.data_list;
         data_total.value = res.data.data_total;
         page.value = res.data.page;
@@ -122,7 +122,7 @@ const row_click = (row: any) => {
         const new_table_data = JSON.parse(JSON.stringify(tableData.value));
         template_selection.value = new_table_data.findIndex((item: pageLinkList) => item.id == row.id).toString();
         if (props.selectIsUrl) {
-            const page = '/pages/article-detail/article-detail?id=' + row.id;
+            const page = '/pages/plugins/blog/detail/detail?id=' + row.id;
             const new_row = {
                 id: row.id,
                 name: row.name || row.title || page,
@@ -138,7 +138,7 @@ const handle_select = (selection: any) => {
     if (props.selectIsUrl) {
         // 遍历数组selection
         const new_selection = selection.map((item: any) => {
-            const page = '/pages/article-detail/article-detail?id=' + item.id;
+            const page = '/pages/plugins/blog/detail/detail?id=' + item.id;
             return {
                 id: item.id,
                 name: item.name || item.title || page,

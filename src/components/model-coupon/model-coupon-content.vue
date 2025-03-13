@@ -32,7 +32,7 @@
                 <template v-else>
                     <el-form-item label="类型">
                         <el-select v-model="form.type" multiple collapse-tags filterable placeholder="请选择优惠券类型">
-                            <el-option v-for="item in base_list.coupon_type_list" :key="item.value" :label="item.name" :value="item.value" />
+                            <el-option v-for="item in base_list.type_list" :key="item.value" :label="item.name" :value="item.value" />
                         </el-select>
                     </el-form-item>
                     <el-form-item label="展示数量">
@@ -89,7 +89,7 @@ const base_list = reactive({
         name: `风格${index + 1}`,
         url: `${new_url.value}theme-${index + 1}.png`,
     })),
-    coupon_type_list: [] as select_2[],
+    type_list: [] as select_2[],
 });
 onMounted(async () => {
     // 获取图片地址
@@ -100,8 +100,8 @@ onMounted(async () => {
     });
     nextTick(() => {
         // 定时获取common_store.common.article_category的数据，直到拿到值或者关闭页面为止
-        if (!is_obj_empty(common_store.common.plugins) && !is_obj_empty(common_store.common.plugins.coupon) && common_store.common.plugins.coupon.coupon_type_list.length > 0) {
-            base_list.coupon_type_list = common_store.common.plugins.coupon.coupon_type_list;
+        if (!is_obj_empty(common_store.common.plugins) && !is_obj_empty(common_store.common.plugins.coupon) && common_store.common.plugins.coupon.type_list.length > 0) {
+            base_list.type_list = common_store.common.plugins.coupon.type_list;
         }
     });
 });

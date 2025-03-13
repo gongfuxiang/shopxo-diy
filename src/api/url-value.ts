@@ -1,4 +1,5 @@
 import request from '@/utils/request';
+import api_request from '@/utils/api-request';
 
 class UrlValueAPI {
     /**  获取商品列表 */
@@ -58,6 +59,23 @@ class UrlValueAPI {
             data,
         });
     }
+
+    /** 博客指定数据 */
+    static getblogList(data: any) {
+        return api_request({
+            url: `?s=plugins/index/pluginsname/blog/pluginscontrol/diyblog/pluginsaction/index.html`,
+            method: 'post',
+            data,
+        });
+    }
+    /** 组合搭配指定数据 */
+     static getBindingList(data: any) {
+        return api_request({
+            url: `?s=plugins/index/pluginsname/binding/pluginscontrol/diybinding/pluginsaction/autobindinglist.html`,
+            method: 'post',
+            data,
+        });
+    }   
 }
 
 export default UrlValueAPI;

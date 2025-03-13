@@ -1,9 +1,9 @@
 <template>
-    <!-- 优惠券 -->
+    <!-- 商品分类 -->
     <div class="container">
         <div class="flex-row jc-e gap-20 mb-20">
-            <el-select v-model="type" class="search-w" placeholder="请选择" filterable clearable @change="handle_search">
-                <el-option v-for="item in coupon_type_list" :key="item.value" :label="item.name" :value="item.value" />
+            <el-select v-model="binding_type" class="search-w" placeholder="请选择组合搭配类型" filterable clearable @change="handle_search">
+                <el-option v-for="item in article_category_list" :key="item.id" :label="item.name" :value="item.id" />
             </el-select>
             <el-input v-model="search_value" placeholder="请输入搜索内容" class="search-w" @change="handle_search">
                 <template #suffix>
@@ -20,17 +20,17 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="id" label="ID" width="80" type="" />
-                <el-table-column prop="name" label="名称"></el-table-column>
-                <el-table-column prop="type_name" label="类型"></el-table-column>
-                <el-table-column prop="cover" label="优惠信息">
+                <el-table-column prop="images" label="封面">
                     <template #default="scope">
-                        <div class="flex-row align-c gap-3">
-                            <div>{{ scope.row.type == '0' ? '减' : '打' }}</div>
-                            <div>{{ scope.row.discount_value }}</div>
-                            <div>{{ scope.row.type_unit }}</div>
+                        <div class="flex-row align-c gap-10">
+                            <image-empty v-if="scope.row.images" v-model="scope.row.images" class="img"></image-empty>
+                            <!-- <div class="flex-1">{{ scope.row.title }}</div> -->
                         </div>
                     </template>
                 </el-table-column>
+                <el-table-column prop="title" label="标题"></el-table-column>
+                <el-table-column prop="describe" label="描述"></el-table-column>
+                <el-table-column prop="type_name" label="类型"></el-table-column>
                 <template #empty>
                     <no-data></no-data>
                 </template>
@@ -42,7 +42,6 @@
     </div>
 </template>
 <script lang="ts" setup>
-import { is_obj_empty } from '@/utils';
 import UrlValueAPI from '@/api/url-value';
 import { commonStore } from '@/store';
 const common_store = commonStore();
@@ -55,6 +54,11 @@ const props = defineProps({
     multiple: {
         type: Boolean,
         default: () => false,
+    },
+    // 判断是否返回链接地址
+    selectIsUrl: {
+        type: Boolean,
+        default: false,
     },
 });
 watch(
@@ -74,23 +78,21 @@ const search_value = ref('');
 const loading = ref(false);
 const init = () => {
     template_selection.value = '';
-    type.value = '';
+    binding_type.value = '';
     search_value.value = '';
-    if (!is_obj_empty(common_store.common.plugins) && !is_obj_empty(common_store.common.plugins.coupon) && common_store.common.plugins.coupon.type_list.length > 0) {
-        coupon_type_list.value = common_store.common.plugins.coupon.type_list;
-    }
+    article_category_list.value = common_store.common.article_category;
     get_list(1);
 };
 const handle_search = () => {
     get_list(1);
 };
-const type = ref('');
-interface couponType {
-    value: string;
+const binding_type = ref('');
+interface articleCategory {
+    id: string;
     name: string;
-    checked?: boolean;
+    url: string;
 }
-const coupon_type_list = ref<couponType[]>([]);
+const article_category_list = ref<articleCategory[]>([]);
 const template_selection = ref('');
 //#region 分页 -----------------------------------------------start
 // 当前页
@@ -104,14 +106,14 @@ const get_list = (new_page: number) => {
     let new_data = {
         page: new_page,
         keywords: search_value.value,
-        type: type.value,
+        type: binding_type.value,
         page_size: page_size.value,
     };
     loading.value = true;
-    UrlValueAPI.getCouponList(new_data).then((res: any) => {
-        tableData.value = res.data.data_list;
-        data_total.value = res.data.data_total;
-        page.value = res.data.page;
+    UrlValueAPI.getBindingList(new_data).then((res: any) => {
+        tableData.value = res.data;
+        data_total.value = res.data.length - 1;
+        page.value = new_page;
         setTimeout(() => {
             loading.value = false;
         }, 500);
@@ -122,11 +124,34 @@ const row_click = (row: any) => {
     if (!props.multiple) {
         const new_table_data = JSON.parse(JSON.stringify(tableData.value));
         template_selection.value = new_table_data.findIndex((item: pageLinkList) => item.id == row.id).toString();
-        modelValue.value = [row];
+        if (props.selectIsUrl) {
+            const page = '/pages/plugins/binding/detail/detail?id=' + row.id;
+            const new_row = {
+                id: row.id,
+                name: row.name || row.title || page,
+                page: page,
+            };
+            modelValue.value = [new_row];
+        } else {
+            modelValue.value = [row];
+        }
     }
 };
 const handle_select = (selection: any) => {
-    modelValue.value = selection;
+    if (props.selectIsUrl) {
+        // 遍历数组selection
+        const new_selection = selection.map((item: any) => {
+            const page = '/pages/plugins/binding/detail/detail?id=' + item.id;
+            return {
+                id: item.id,
+                name: item.name || item.title || page,
+                page: page,
+            };
+        });
+        modelValue.value = new_selection;
+    } else {
+        modelValue.value = selection;
+    }
 };
 </script>
 <style lang="scss" scoped>

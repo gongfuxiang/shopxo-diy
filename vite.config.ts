@@ -39,6 +39,12 @@ export default defineConfig(({ mode }: ConfigEnv): UserConfig => {
                     changeOrigin: true,
                     rewrite: (path) => path.replace(new RegExp('^' + env.VITE_APP_BASE_API), ''), // 替换 /dev-api 为 target 接口地址
                 },
+                // 反向代理解决跨域
+                [env.VITE_APP_BASE_API_PHP]: {
+                    target: env.VITE_APP_BASE_API_PHP_URL, // 接口地址
+                    changeOrigin: true,
+                    rewrite: (path) => path.replace(new RegExp('^' + env.VITE_APP_BASE_API_PHP), ''), // 替换 /dev-api 为 target 接口地址
+                },
             },
         },
         plugins: [

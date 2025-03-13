@@ -24,14 +24,14 @@
                                         <div class="flex-row align-c jc-sb">
                                             <div class="flex-col gap-6">
                                                 <div class="flex-row align-c">
-                                                    <span :style="trends_config('price_symbol', 'data')">{{ match_item.price_symbol }}</span>
-                                                    <span :style="trends_config('price', 'data')">{{ match_item.price }}</span>
+                                                    <span :style="trends_config('price_symbol', 'data')">￥</span>
+                                                    <span :style="trends_config('price', 'data')">{{ match_item.estimate_price }}</span>
                                                 </div>
                                                 <div class="flex-row align-c gap-3">
                                                     <img-or-icon-or-text :value="props.value" type="data_discounts" />
                                                     <div>
-                                                        <span :style="trends_config('save_price_symbol', 'data')">{{ match_item.price_symbol }}</span>
-                                                        <span :style="trends_config('save_price', 'data')">{{ match_item.price }}</span>
+                                                        <span :style="trends_config('save_price_symbol', 'data')">￥</span>
+                                                        <span :style="trends_config('save_price', 'data')">{{ match_item.estimate_discount_price || 0 }}</span>
                                                     </div>
                                                 </div>
                                             </div>
@@ -49,14 +49,14 @@
                                     <div class="flex-row align-c jc-sb">
                                         <div class="flex-col gap-6">
                                             <div class="flex-row align-c">
-                                                <span :style="trends_config('price_symbol', 'data')">{{ match_item.price_symbol }}</span>
-                                                <span :style="trends_config('price', 'data')">{{ match_item.price }}</span>
+                                                <span :style="trends_config('price_symbol', 'data')">￥</span>
+                                                <span :style="trends_config('price', 'data')">{{ match_item.estimate_price }}</span>
                                             </div>
                                             <div class="flex-row align-c gap-3">
                                                 <img-or-icon-or-text :value="props.value" type="data_discounts" />
                                                 <div>
-                                                    <span :style="trends_config('save_price_symbol', 'data')">{{ match_item.price_symbol }}</span>
-                                                    <span :style="trends_config('save_price', 'data')">{{ match_item.price }}</span>
+                                                    <span :style="trends_config('save_price_symbol', 'data')">￥</span>
+                                                    <span :style="trends_config('save_price', 'data')">{{ match_item.estimate_discount_price || 0 }}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -70,7 +70,7 @@
                                     <div :style="goods_content_img_style">
                                         <div :class="outer_class" :style="onter_style">
                                             <template v-if="!['3'].includes(theme)">
-                                                <div v-for="(item, index) in match_item.good_list" :key="index" class="re oh" :class="layout_type" :style="layout_style">
+                                                <div v-for="(item, index) in match_item.goods" :key="index" class="re oh" :class="layout_type" :style="layout_style">
                                                     <div :class="['oh w h', ['0' , '2'].includes(theme) ? 'flex-row' : 'flex-col' ]" :style="layout_img_style">
                                                         <template v-if="!isEmpty(item) && is_show('goods_img')">
                                                             <div class="oh re" :class="`flex-img${theme}`">
@@ -83,14 +83,14 @@
                                                                     {{ item.title }}
                                                                 </div>
                                                                 <div v-if="is_show('price')" class="flex-row align-c text-line-1">
-                                                                    <span :style="trends_config('price_symbol', 'goods')">{{ match_item.price_symbol }}</span>
-                                                                    <span :style="trends_config('price', 'goods')">{{ match_item.price }}</span>
+                                                                    <span :style="trends_config('price_symbol', 'goods')">{{ item.show_price_symbol }}</span>
+                                                                    <span :style="trends_config('price', 'goods')">{{ item.price }}</span>
                                                                 </div>
                                                                 <div v-if="is_show('save_price')" class="flex-row align-c gap-3">
                                                                     <img-or-icon-or-text :value="props.value" type="goods_discounts" />
                                                                     <div class="flex-1 text-line-1">
-                                                                        <span :style="trends_config('save_price_symbol', 'goods')">{{ match_item.price_symbol }}</span>
-                                                                        <span :style="trends_config('save_price', 'goods')">{{ match_item.price }}</span>
+                                                                        <span :style="trends_config('save_price_symbol', 'goods')">{{ item.show_price_symbol }}</span>
+                                                                        <span :style="trends_config('save_price', 'goods')">{{ item.discount_price || 0 }}</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -100,7 +100,7 @@
                                             </template>
                                             <template v-else>
                                                 <swiper :key="carouselKey" class="w flex" direction="horizontal" :loop="true" :autoplay="autoplay" :slides-per-view="form.carousel_col" :slides-per-group="slides_per_group" :allow-touch-move="false" :space-between="goods_content_outer_spacing" :pause-on-mouse-enter="true" :modules="modules">
-                                                    <swiper-slide v-for="(item, index) in match_item.good_list" :key="index">
+                                                    <swiper-slide v-for="(item, index) in match_item.goods" :key="index">
                                                         <div :class="layout_type" :style="layout_style">
                                                             <div :class="['oh w h', ['0', '2'].includes(theme) ? 'flex-row' : 'flex-col' ]" :style="layout_img_style">
                                                                 <template v-if="!isEmpty(item) && is_show('goods_img')">
@@ -114,14 +114,14 @@
                                                                             {{ item.title }}
                                                                         </div>
                                                                         <div v-if="is_show('price')" class="flex-row align-c text-line-1">
-                                                                            <span :style="trends_config('price_symbol', 'goods')">{{ match_item.price_symbol }}</span>
-                                                                            <span :style="trends_config('price', 'goods')">{{ match_item.price }}</span>
+                                                                            <span :style="trends_config('price_symbol', 'goods')">{{ item.show_price_symbol }}</span>
+                                                                            <span :style="trends_config('price', 'goods')">{{ item.price }}</span>
                                                                         </div>
                                                                         <div v-if="is_show('save_price')" class="flex-row align-c gap-3">
                                                                             <img-or-icon-or-text :value="props.value" type="goods_discounts" />
                                                                             <div class="flex-1 text-line-1">
-                                                                                <span :style="trends_config('save_price_symbol', 'goods')">{{ match_item.price_symbol }}</span>
-                                                                                <span :style="trends_config('save_price', 'goods')">{{ match_item.price }}</span>
+                                                                                <span :style="trends_config('save_price_symbol', 'goods')">{{ item.show_price_symbol }}</span>
+                                                                                <span :style="trends_config('save_price', 'goods')">{{ item.discount_price || 0 }}</span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -137,7 +137,7 @@
                                  <!-- 底部展开收起按钮区域 -->
                                 <div :style="bottom_button_style">
                                     <div class="flex-row align-c jc-sb" :style="bottom_button_img_style">
-                                        <span :style="trends_config('button', 'bottom')">{{ form.is_default_show_goods == '1' ? '收起' : '展开'}}组合商品</span>
+                                        <span :style="trends_config('button', 'bottom')">{{ form.is_default_show_goods == '1' ? '收起' : '展开'}}{{ match_item.type_name }}商品</span>
                                         <icon :name="form.is_default_show_goods == '1' ? 'arrow-top' : 'arrow-bottom'" :color="new_style.bottom_button_icon_color" :size="new_style.bottom_button_icon_size + ''"></icon>
                                     </div>
                                 </div>
@@ -153,7 +153,7 @@
 import { common_styles_computer, common_img_computer, get_math, gradient_handle, margin_computer, border_computer, box_shadow_computer, radius_computer, background_computer, padding_computer } from '@/utils';
 import { old_margin } from "@/utils/common";
 import { isEmpty, cloneDeep } from 'lodash';
-import ShopAPI from '@/api/shop';
+import BindingAPI from '@/api/binding';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
 const modules = [Autoplay];
@@ -177,57 +177,51 @@ const new_style = computed(() => props.value?.style || {});
 //#region 列表数据
 type goods_list = {
     title: string,
-    min_original_price: string,
+    discount_price: string,
     show_original_price_symbol: string,
-    min_price: string,
+    price: string,
     show_price_symbol: string,
-    sales_count: string,
     images: string,
 }
 type data_list = {
     title: string,
-    price_symbol: string;
-    price: string,
-    save_price_symbol: string,
-    save_pice: string,
+    estimate_price: string,
+    estimate_discount_price: string,
     images: string,
+    type_name: string;
     new_cover: string[],
-    good_list: goods_list[]
+    goods: goods_list[]
 }
 const default_list = {
     title: '测试组合搭配标题',
-    price_symbol: '￥',
-    price: '8970.00-9200.00',
-    save_price_symbol: '￥',
-    save_pice: '8970.00-9200.00',
+    estimate_price: '8970.00-9200.00',
+    estimate_discount_price: '8970.00-9200.00',
+    type_name: '组合',
     images: '',
     new_cover: [],
-    good_list: [
+    goods: [
         {
             title: '测试商品标题',
-            min_original_price: '41.2',
+            discount_price: '41.2',
             show_original_price_symbol: '￥',
-            min_price: '51',
+            price: '51',
             show_price_symbol: '￥',
-            sales_count: '1000',
             images: '',
         },
         {
             title: '测试商品标题',
-            min_original_price: '41.2',
+            discount_price: '41.2',
             show_original_price_symbol: '￥',
-            min_price: '51',
+            price: '51',
             show_price_symbol: '￥',
-            sales_count: '1000',
             images: '',
         },
         {
             title: '测试商品标题',
-            min_original_price: '41.2',
+            discount_price: '41.2',
             show_original_price_symbol: '￥',
-            min_price: '51',
+            price: '51',
             show_price_symbol: '￥',
-            sales_count: '1000',
             images: '',
         }
     ]
@@ -250,30 +244,30 @@ onMounted(() => {
     }
 });
 
-const get_products = () => {
-    const { category_ids, brand_ids, number, order_by_type, order_by_rule, keywords } = form.value;
+const get_binding = () => {
+    const { keywords, binding_type, number, order_by_type, order_by_rule, is_home_show } = form.value;
     const params = {
-        goods_keywords: keywords,
-        goods_category_ids: category_ids,
-        goods_brand_ids: brand_ids,
-        goods_order_by_type: order_by_type,
-        goods_order_by_rule: order_by_rule,
-        goods_number: number,
+        binding_keywords: keywords,
+        binding_type: binding_type,
+        binding_order_by_type: order_by_type,
+        binding_order_by_rule: order_by_rule,
+        binding_number: number,
+        binding_is_home_show: is_home_show,
     };
     list.value = Array(4).fill(default_list);
-    // 获取商品列表
-    // ShopAPI.getShopLists(params).then((res: any) => {
-    //     if (!isEmpty(res.data)) {
-    //         list.value = res.data;
-    //     } else {
-    //         list.value = Array(4).fill(default_list);
-    //     }
-    // });
+    //获取商品列表
+    BindingAPI.getAutoList(params).then((res: any) => {
+        if (!isEmpty(res.data.data_list)) {
+            list.value = res.data.data_list;
+        } else {
+            list.value = Array(4).fill(default_list);
+        }
+    });
 };
 // 取出监听的数据
 const watch_data = computed(() => {
-    const { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, data_list, keywords } = form.value;
-    return { category_ids: category_ids, brand_ids: brand_ids, number: number, order_by_type: order_by_type, order_by_rule: order_by_rule, data_type: data_type, data_list: data_list, keyword: keywords };
+    const { keywords, binding_type, number, order_by_type, order_by_rule, is_home_show, data_type, data_list } = form.value;
+    return { keywords, binding_type, number, order_by_type, order_by_rule, is_home_show, data_type, data_list };
 })
 // 初始化的时候不执行, 监听数据变化
 watch(() => watch_data.value, (val, oldVal) => {
@@ -290,7 +284,7 @@ watch(() => watch_data.value, (val, oldVal) => {
                 list.value = Array(4).fill(default_list);
             }
         } else {
-            get_products();
+            get_binding();
         }
     }
 }, { deep: true });

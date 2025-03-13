@@ -54,6 +54,10 @@
                 <template v-else-if="link_select == 'coupon'">
                     <link-coupon v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-coupon>
                 </template>
+                <!-- 组合搭配 -->
+                <template v-else-if="link_select == 'binding'">
+                    <link-binding v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-binding>
+                </template>
             </div>
         </div>
         <template #footer>

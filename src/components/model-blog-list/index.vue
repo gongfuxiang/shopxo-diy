@@ -157,7 +157,7 @@ const new_content = computed(() => props.value?.content || {});
 const new_style = computed(() => props.value?.style || {});
 // 获取自动数据
 const get_auto_data_list = async () => {
-    const { category_ids, number, order_by_type, order_by_rule, is_cover, keywords } = new_content.value;
+    const { category_ids, number, order_by_type, order_by_rule, is_cover, keywords, is_recommended, is_hot } = new_content.value;
     const new_data = {
         blog_keywords: keywords,
         blog_category_ids: category_ids.join(','),
@@ -165,6 +165,8 @@ const get_auto_data_list = async () => {
         blog_order_by_rule: order_by_rule,
         blog_number: number,
         blog_is_cover: is_cover,
+        blog_is_recommended: is_recommended,
+        blog_is_hot: is_hot,
     };
     const res = await blogAPI.getAutoList(new_data);
     new_content.value.data_auto_list = [];
@@ -207,8 +209,8 @@ onMounted(() => {
 });
 // 监听new_content指定的数据变化
 const data_list_computer = computed(() => {
-    const { data_type, category_ids, number, order_by_type, order_by_rule, is_cover, data_list, keywords } = new_content.value;
-    return { data_type, category_ids, number, order_by_type, order_by_rule, is_cover, data_list, keywords };
+    const { data_type, category_ids, number, order_by_type, order_by_rule, is_cover, data_list, keywords, is_recommended, is_hot } = new_content.value;
+    return { data_type, category_ids, number, order_by_type, order_by_rule, is_cover, data_list, keywords, is_recommended, is_hot };
 });
 // 监听new_content指定的数据的变化，来获取最新数据
 watch(

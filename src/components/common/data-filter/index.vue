@@ -1,14 +1,15 @@
 <template>
+    <el-form-item label="读取方式">
+        <el-radio-group v-model="form.data_type">
+            <el-radio v-for="item in option_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+        </el-radio-group>
+    </el-form-item>
+    <div v-show="form.data_type === '0'" class="nav-list">
+        <drag-group :list="drag_list" :img-params="img_params" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
+        <el-button class="mt-20 w" @click="add">+添加</el-button>
+    </div>
+    <!-- 商品 -->
     <template v-if="type === 'goods'">
-        <el-form-item label="读取方式">
-            <el-radio-group v-model="form.data_type">
-                <el-radio v-for="item in baseList.product_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-            </el-radio-group>
-        </el-form-item>
-        <div v-show="form.data_type === '0'" class="nav-list">
-            <drag-group :list="drag_list" img-params="images" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
-            <el-button class="mt-20 w" @click="add">+添加</el-button>
-        </div>
         <div v-show="form.data_type === '1'" class="w h">
             <el-form-item label="关键字">
                 <el-input v-model="keywords" placeholder="请输入商品关键字" clearable @blur="keyword_blur"></el-input>
@@ -38,22 +39,14 @@
             </el-form-item>
         </div>
     </template>
-    <template v-else-if="type === 'article' || type === 'blog'">
-        <el-form-item label="读取方式">
-            <el-radio-group v-model="form.data_type">
-                <el-radio v-for="item in baseList.data_type_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-            </el-radio-group>
-        </el-form-item>
-        <div v-show="form.data_type === '0'" class="nav-list">
-            <drag-group :list="drag_list" img-params="cover" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
-            <el-button class="mtb-20 w" @click="add">+添加</el-button>
-        </div>
+    <!-- 文章 博客 博客选项卡-->
+    <template v-else-if="type === 'article' || ['blog', 'blog-tabs'].includes(type)">
         <div v-show="form.data_type === '1'" class="w h">
             <el-form-item label="关键字">
                 <el-input v-model="keywords" placeholder="请输入文章关键字" clearable @blur="keyword_blur"></el-input>
             </el-form-item>
             <el-form-item :label="`${ type === 'article' ? '文章' : '博客' }分类`">
-                <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择文章分类">
+                <el-select v-model="form.category_ids" multiple collapse-tags filterable :placeholder="`请选择${ type === 'article' ? '文章' : '博客' }分类`">
                     <template v-if="type === 'article'">
                         <el-option v-for="item in common_store.common.article_category" :key="item.id" :label="item.name" :value="item.id" />
                     </template>
@@ -83,18 +76,46 @@
             <el-form-item label="封面图片">
                 <el-switch v-model="form.is_cover" active-value="1" inactive-value="0" />
             </el-form-item>
+            <template v-if="['blog', 'blog-tabs'].includes(type)">
+                <el-form-item label="是否推荐">
+                    <el-switch v-model="form.is_recommended" active-value="1" inactive-value="0" />
+                </el-form-item>
+                <el-form-item label="是否热门">
+                    <el-switch v-model="form.is_hot" active-value="1" inactive-value="0" />
+                </el-form-item>
+            </template>
+        </div>
+    </template>
+    <!-- 组合搭配 -->
+    <template v-else-if="type == 'binding'">
+        <div v-show="form.data_type === '1'" class="w h">
+            <el-form-item label="关键字">
+                <el-input v-model="keywords" placeholder="请输入组合搭配关键字" clearable @blur="keyword_blur"></el-input>
+            </el-form-item>
+            <el-form-item label="类型">
+                <el-select v-model="form.binding_type" multiple collapse-tags filterable placeholder="请选择类型">
+                    <el-option v-for="item in common_store.common.brand_list" :key="item.id" :label="item.name" :value="item.id" />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="显示数量">
+                <el-input-number v-model="form.number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
+            </el-form-item>
+            <el-form-item label="排序类型">
+                <el-radio-group v-model="form.order_by_type">
+                    <el-radio v-for="item in common_store.common.brand_order_by_type_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="排序规则">
+                <el-radio-group v-model="form.order_by_rule">
+                    <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="是否推荐">
+                <el-switch v-model="form.is_recommended" active-value="1" inactive-value="0" />
+            </el-form-item>
         </div>
     </template>
     <template v-else>
-        <el-form-item label="读取方式">
-            <el-radio-group v-model="form.data_type">
-                <el-radio v-for="item in baseList.brand_data_type_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-            </el-radio-group>
-        </el-form-item>
-        <div v-show="form.data_type === '0'" class="nav-list">
-            <drag-group :list="drag_list" img-params="logo" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
-            <el-button class="mt-20 w" @click="add">+添加</el-button>
-        </div>
         <div v-show="form.data_type === '1'" class="w h">
             <el-form-item label="关键字">
                 <el-input v-model="keywords" placeholder="请输入品牌关键字" clearable @blur="keyword_blur"></el-input>
@@ -146,8 +167,28 @@
     const keywords = ref(props.value.keywords);
     const form = ref(props.value);
     const drag_list = ref(props.list);
+    type option = {
+        name: string,
+        value: string,
+    }
+    const option_list = ref<option[]>([]);
+    const img_params = ref('logo');
     // 更新数据，避免子组件数据不刷新
     watchEffect(() => {
+        if (props.type === 'goods') {
+            option_list.value = props.baseList.product_list;
+            img_params.value = 'images';
+        } else if (props.type === 'article' || ['blog', 'blog-tabs'].includes(props.type)) {
+            option_list.value = props.baseList.data_type_list;
+            img_params.value = 'cover';
+        } else if (props.type === 'binding') {
+            option_list.value = props.baseList.data_type_list;
+            img_params.value = 'images';
+        } else {
+            option_list.value = props.baseList.brand_data_type_list;
+            img_params.value = 'logo';
+        }
+        // 关键字信息
         keywords.value = props.value.keywords;
         form.value = props.value;
         // 历史数据转成数字类型
