@@ -28,7 +28,7 @@
                                                     <span :style="trends_config('price', 'data')">{{ match_item.estimate_price }}</span>
                                                 </div>
                                                 <div class="flex-row align-c gap-3">
-                                                    <img-or-icon-or-text :value="props.value" type="data_discounts" />
+                                                    <img-or-icon-or-text class="discount-icon" style="background-size: 400%;" :value="props.value" type="data_discounts" />
                                                     <div>
                                                         <span :style="trends_config('save_price_symbol', 'data')">￥</span>
                                                         <span :style="trends_config('save_price', 'data')">{{ match_item.estimate_discount_price || 0 }}</span>
@@ -53,7 +53,7 @@
                                                 <span :style="trends_config('price', 'data')">{{ match_item.estimate_price }}</span>
                                             </div>
                                             <div class="flex-row align-c gap-3">
-                                                <img-or-icon-or-text :value="props.value" type="data_discounts" />
+                                                <img-or-icon-or-text class="discount-icon" style="background-size: 400%;" :value="props.value" type="data_discounts" />
                                                 <div>
                                                     <span :style="trends_config('save_price_symbol', 'data')">￥</span>
                                                     <span :style="trends_config('save_price', 'data')">{{ match_item.estimate_discount_price || 0 }}</span>
@@ -518,5 +518,19 @@ watchEffect(() => {
 .flex-img3 {
     width: 100%;
     height: 100%;
+}
+.discount-icon {
+    animation: gradient 5s ease infinite;
+}
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 </style>

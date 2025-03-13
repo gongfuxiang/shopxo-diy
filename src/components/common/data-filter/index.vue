@@ -113,7 +113,7 @@
             <el-form-item label="首页显示">
                 <div class="flex-row align-c gap-10">
                     <el-switch v-model="form.is_home_show" active-value="1" inactive-value="0" />
-                    <tooltip content="开启仅读取开启首页显示的数据，否则显示全部"></tooltip>
+                    <tooltip content="开启仅读取开启首页显示的数据，则全部"></tooltip>
                 </div>
             </el-form-item>
         </div>
