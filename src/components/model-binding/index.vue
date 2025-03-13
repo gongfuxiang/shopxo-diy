@@ -6,6 +6,7 @@
                     <div :style="match_layout_style">
                         <div class="flex-col" :style="match_layout_img_style">
                             <div :class="['oh w h', host_graph_theme == '0' ? 'flex-row' : 'flex-col' ]" :style="host_graph_theme == '0' ? `margin-bottom: ${ new_style.data_content_bottom_spacing }px;` : ''">
+                                <!-- 主图大图模式和主图单列时的显示，并且图片是有值的 -->
                                 <template v-if="!isEmpty(match_item) && ((host_graph_theme == '1' && form.is_host_graph_show == '1') || host_graph_theme == '0')">
                                     <div class="oh re" :class="`flex-match-img${host_graph_theme}`">
                                         <template v-if="!isEmpty(match_item.new_cover)">

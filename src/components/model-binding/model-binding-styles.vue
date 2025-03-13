@@ -59,7 +59,6 @@
                         <!-- 阴影配置 -->
                         <shadow-config v-model="form.data_border_box"></shadow-config>
                     </card-container>
-                    <div class="divider-line"></div>
                     <template v-if="new_tabs.length > 0">
                         <div class="divider-line"></div>
                         <card-container>
@@ -145,7 +144,7 @@ const tabs_name = ref('data');
 const tabs = [
     { label: "详情按钮", name: "details" },
     { label: "数据优惠", name: "data_discounts" },
-    { label: "商品优惠", name: "data_discounts" },
+    { label: "商品优惠", name: "goods_discounts" },
 ];
 // 图标数组处理一下，确保打开的都能看到
 type tabs_type = { name: string; label: string;};
@@ -176,7 +175,6 @@ const common_style_update = (value: any) => {
         background: #fff;
         margin: 0;
         padding-top: 0rem;
-        padding-bottom: 0rem;
     }
     .el-tabs__item.is-top {
         padding: 0;

@@ -21,7 +21,7 @@
         <el-form-item label="内间距">
             <padding :value="form"></padding>
         </el-form-item>
-        <el-form-item label="内容圆角">
+        <el-form-item label="圆角">
             <radius :value="form"></radius>
         </el-form-item>
     </card-container>

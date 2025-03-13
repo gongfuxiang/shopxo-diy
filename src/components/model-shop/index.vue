@@ -227,10 +227,6 @@ const style_config = (typeface: string, size: number, color: string | object, ty
     let style = `font-weight:${typeface}; font-size: ${size}px;color: ${color};`;
     return style;
 };
-// 按钮渐变色处理
-const button_gradient = () => {
-    return gradient_handle(new_style.value.shop_button_color, '180deg');
-};
 // 不同风格下的样式
 const layout_type = computed(() => {
     let class_type = '';

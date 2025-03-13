@@ -176,7 +176,7 @@ const defaultRealstore: defaultRealstore = {
         details_type: 'text',
         details_img: [],
         details_icon: '',
-        details_text: '搭配购买',
+        details_text: '详情',
         is_data_discounts_show: '1',
         data_discounts_type: 'text',
         data_discounts_img: [],
