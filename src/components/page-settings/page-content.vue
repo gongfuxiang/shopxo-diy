@@ -57,6 +57,12 @@
                         <el-checkbox v-for="item in base_list.list_show_list.filter((item) => item.type.includes(form.theme))" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
+                <el-form-item label="返回按钮">
+                    <div class="flex-row align-c gap-10">
+                        <el-switch v-model="form.is_left_back_btn_show" active-value="1" inactive-value="0"></el-switch>
+                        <tooltip content="当从其他页面进入时有效"></tooltip>
+                    </div>
+                </el-form-item>
             </card-container>
             <template v-if="['4', '5'].includes(form.theme)">
                 <div class="bg-f5 divider-line" />
