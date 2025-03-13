@@ -41,6 +41,7 @@
 <script lang="ts" setup>
 import UrlValueAPI from '@/api/url-value';
 import { commonStore } from '@/store';
+import { get_data_list } from '@/utils';
 const common_store = commonStore();
 const props = defineProps({
     // 重置
@@ -77,7 +78,7 @@ const init = () => {
     template_selection.value = '';
     category_ids.value = '';
     search_value.value = '';
-    article_category_list.value = common_store.common.article_category;
+    article_category_list.value = get_data_list(common_store.common.plugins, 'blog.category_list');
     get_list(1);
 };
 const handle_search = () => {

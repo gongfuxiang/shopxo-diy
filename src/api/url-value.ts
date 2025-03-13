@@ -71,7 +71,7 @@ class UrlValueAPI {
     /** 组合搭配指定数据 */
      static getBindingList(data: any) {
         return api_request({
-            url: `?s=plugins/index/pluginsname/binding/pluginscontrol/diybinding/pluginsaction/autobindinglist.html`,
+            url: `?s=plugins/index/pluginsname/binding/pluginscontrol/diybinding/pluginsaction/index.html`,
             method: 'post',
             data,
         });

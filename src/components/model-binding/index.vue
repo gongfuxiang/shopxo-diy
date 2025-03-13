@@ -254,14 +254,15 @@ const get_binding = () => {
         binding_number: number,
         binding_is_home_show: is_home_show,
     };
-    list.value = Array(4).fill(default_list);
     //获取商品列表
     BindingAPI.getAutoList(params).then((res: any) => {
-        if (!isEmpty(res.data.data_list)) {
-            list.value = res.data.data_list;
+        if (!isEmpty(res.data)) {
+            list.value = res.data;
         } else {
             list.value = Array(4).fill(default_list);
         }
+    }).catch(() => {
+        list.value = Array(4).fill(default_list);
     });
 };
 // 取出监听的数据

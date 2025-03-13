@@ -169,7 +169,6 @@ const get_products = () => {
         goods_order_by_rule: order_by_rule,
         goods_number: number,
     };
-    list.value = Array(4).fill(default_list);
     // 获取商品列表
     ShopAPI.getShopList(params).then((res: any) => {
         if (!isEmpty(res.data)) {
@@ -177,6 +176,8 @@ const get_products = () => {
         } else {
             list.value = Array(4).fill(default_list);
         }
+    }).catch(() => {
+        list.value = Array(4).fill(default_list);
     });
 };
 // 取出监听的数据

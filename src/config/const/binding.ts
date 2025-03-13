@@ -64,8 +64,8 @@ interface defaultRealstore {
         keywords: string,
         binding_type: string[],
         number: number,
-        order_by_type: string,
-        order_by_rule: string,
+        order_by_type: number,
+        order_by_rule: number,
         is_home_show: string,
         is_goods_show: string[];
         is_default_show_goods: string;
@@ -183,9 +183,9 @@ const defaultRealstore: defaultRealstore = {
         keywords: '',
         binding_type: [],
         number: 4,
-        order_by_type: '',
-        order_by_rule: '',
-        is_home_show: '',
+        order_by_type: 0,
+        order_by_rule: 0,
+        is_home_show: '0',
         is_goods_show: ['title', 'goods_img', 'price', 'save_price'],
         is_default_show_goods: '1',
         is_details_show: '1',

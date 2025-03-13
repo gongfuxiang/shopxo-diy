@@ -51,7 +51,7 @@
                         <el-option v-for="item in common_store.common.article_category" :key="item.id" :label="item.name" :value="item.id" />
                     </template>
                     <template v-else>
-                        <el-option v-for="item in common_store.common.blog_category" :key="item.id" :label="item.name" :value="item.id" />
+                        <el-option v-for="item in get_data_list(common_store.common.plugins, 'blog.category_list')" :key="item.id" :label="item.name" :value="item.id" />
                     </template>
                 </el-select>
             </el-form-item>
@@ -64,7 +64,7 @@
                         <el-radio v-for="item in common_store.common.article_order_by_type_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                     </template>
                     <template v-else>
-                        <el-radio v-for="item in common_store.common.blog_order_by_type_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                        <el-radio v-for="item in get_data_list(common_store.common.plugins, 'blog.order_by_type_list')" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                     </template>
                 </el-radio-group>
             </el-form-item>
@@ -94,7 +94,7 @@
             </el-form-item>
             <el-form-item label="类型">
                 <el-select v-model="form.binding_type" multiple collapse-tags filterable placeholder="请选择类型">
-                    <el-option v-for="item in common_store.common.brand_list" :key="item.id" :label="item.name" :value="item.id" />
+                    <el-option v-for="item in get_data_list(common_store.common.plugins, 'binding.type_list')" :key="item.value" :label="item.name" :value="item.value" />
                 </el-select>
             </el-form-item>
             <el-form-item label="显示数量">
@@ -102,7 +102,7 @@
             </el-form-item>
             <el-form-item label="排序类型">
                 <el-radio-group v-model="form.order_by_type">
-                    <el-radio v-for="item in common_store.common.brand_order_by_type_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                    <el-radio v-for="item in get_data_list(common_store.common.plugins, 'binding.order_by_type_list')" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="排序规则">
@@ -110,8 +110,11 @@
                     <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                 </el-radio-group>
             </el-form-item>
-            <el-form-item label="是否推荐">
-                <el-switch v-model="form.is_recommended" active-value="1" inactive-value="0" />
+            <el-form-item label="首页显示">
+                <div class="flex-row align-c gap-10">
+                    <el-switch v-model="form.is_home_show" active-value="1" inactive-value="0" />
+                    <tooltip content="开启仅读取开启首页显示的数据，否则显示全部"></tooltip>
+                </div>
             </el-form-item>
         </div>
     </template>
@@ -144,6 +147,7 @@
 
 <script lang="ts" setup>
     import { commonStore } from '@/store';
+    import { get_data_list } from '@/utils';
     const common_store = commonStore();
     // 定义组件的属性和事件
     const props = defineProps({

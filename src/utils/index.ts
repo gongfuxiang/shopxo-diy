@@ -37,6 +37,19 @@ export const get_history_name = (components: any) => {
         return '';
     }
 }
+
+export const get_data_list = (common_store: any, value: any): any[] => {
+    if (!isEmpty(common_store)) {
+        const data = get_nested_property(common_store, value);
+        if (Array.isArray(data)) {
+            return data;
+        } else {
+            return [];
+        }
+    } else {
+        return [];
+    }
+}
 /**
  * 获取嵌套对象的属性值
  * 
@@ -47,7 +60,7 @@ export const get_history_name = (components: any) => {
  * @param {string} path - 属性路径，使用点号分隔的字符串表示
  * @returns {string} - 返回指定路径的属性值，如果路径无效则返回空字符串
  */
-export function get_nested_property(obj: any, path: string): string {
+export function get_nested_property(obj: any, path: string): string | string[] {
     // 检查路径参数是否为字符串且非空，若不满足条件则返回空字符串
     if (typeof path !== 'string' || !path) return '';
     
@@ -404,6 +417,10 @@ const data_handling = (data_source_id: string, sourceList: any, isCustom: boolea
     // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
     if (!isEmpty(sourceList.data) && isCustom) {
         new_data = get_nested_property(sourceList.data, data_source_id);
+    }
+    if (Array.isArray(new_data)) {
+        // 如果是数组，将其拼接为字符串
+        new_data = new_data.join(';');
     }
     return new_data;
 }

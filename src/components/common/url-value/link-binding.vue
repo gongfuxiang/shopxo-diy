@@ -3,7 +3,7 @@
     <div class="container">
         <div class="flex-row jc-e gap-20 mb-20">
             <el-select v-model="binding_type" class="search-w" placeholder="请选择组合搭配类型" filterable clearable @change="handle_search">
-                <el-option v-for="item in article_category_list" :key="item.id" :label="item.name" :value="item.id" />
+                <el-option v-for="item in article_category_list" :key="item.value" :label="item.name" :value="item.value" />
             </el-select>
             <el-input v-model="search_value" placeholder="请输入搜索内容" class="search-w" @change="handle_search">
                 <template #suffix>
@@ -44,6 +44,7 @@
 <script lang="ts" setup>
 import UrlValueAPI from '@/api/url-value';
 import { commonStore } from '@/store';
+import { get_data_list } from '@/utils';
 const common_store = commonStore();
 const props = defineProps({
     // 重置
@@ -80,7 +81,7 @@ const init = () => {
     template_selection.value = '';
     binding_type.value = '';
     search_value.value = '';
-    article_category_list.value = common_store.common.article_category;
+    article_category_list.value = get_data_list(common_store.common.plugins, 'binding.type_list');
     get_list(1);
 };
 const handle_search = () => {
@@ -88,9 +89,8 @@ const handle_search = () => {
 };
 const binding_type = ref('');
 interface articleCategory {
-    id: string;
     name: string;
-    url: string;
+    value: string;
 }
 const article_category_list = ref<articleCategory[]>([]);
 const template_selection = ref('');
