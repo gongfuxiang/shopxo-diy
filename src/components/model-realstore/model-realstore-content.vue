@@ -192,16 +192,6 @@ const url_value_dialog_call_back = (item: any[]) => {
         };
     }
 };
-// 标题浮起之后博客标题的颜色和字体更新
-const switch_chage = (val: string | number | boolean) => {
-    if (val == '1') {
-        data.value.name_color = '#fff';
-        data.value.name_weight = '400';
-    } else {
-        data.value.name_color = '#333';
-        data.value.name_weight = 'bold';
-    }
-};
 </script>
 <style lang="scss" scoped>
 .content {

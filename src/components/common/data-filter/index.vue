@@ -5,7 +5,7 @@
         </el-radio-group>
     </el-form-item>
     <div v-show="form.data_type === '0'" class="nav-list">
-        <drag-group :list="drag_list" :img-params="img_params" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
+        <drag-group :list="drag_list" :img-params="img_params" :titleParams="title_params" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
         <el-button class="mt-20 w" @click="add">+添加</el-button>
     </div>
     <!-- 商品 -->
@@ -39,8 +39,8 @@
             </el-form-item>
         </div>
     </template>
-    <!-- 文章 博客 博客选项卡-->
-    <template v-else-if="type === 'article' || ['blog', 'blog-tabs'].includes(type)">
+    <!-- 文章 博客-->
+    <template v-else-if="['blog', 'article'].includes(type)">
         <div v-show="form.data_type === '1'" class="w h">
             <el-form-item label="关键字">
                 <el-input v-model="keywords" placeholder="请输入文章关键字" clearable @blur="keyword_blur"></el-input>
@@ -118,6 +118,45 @@
             </el-form-item>
         </div>
     </template>
+    <!-- 多商户 | 多门店 -->
+    <template v-else-if="['realstore', 'merchant'].includes(type)">
+        <div v-show="form.data_type === '1'" class="w h">
+            <el-form-item label="关键字">
+                <el-input v-model="keywords" placeholder="请输入组合搭配关键字" clearable @blur="keyword_blur"></el-input>
+            </el-form-item>
+            <el-form-item label="店铺分类">
+                <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择类型">
+                    <template v-if="type === 'realstore'">
+                        <el-option v-for="item in get_data_list(common_store.common.plugins, 'realstore.category_list')" :key="item.id" :label="item.name" :value="item.id" />
+                    </template>
+                    <template v-else>
+                        <el-option v-for="item in get_data_list(common_store.common.plugins, 'shop.category_list')" :key="item.id" :label="item.name" :value="item.id" />
+                    </template>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="显示数量">
+                <el-input-number v-model="form.number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
+            </el-form-item>
+            <el-form-item label="排序类型">
+                <el-radio-group v-model="form.order_by_type">
+                    <template v-if="type === 'realstore'">
+                        <el-radio v-for="item in get_data_list(common_store.common.plugins, 'realstore.order_by_type_list')" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                    </template>
+                    <template v-else>
+                        <el-radio v-for="item in get_data_list(common_store.common.plugins, 'shop.order_by_type_list')" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                    </template>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="排序规则">
+                <el-radio-group v-model="form.order_by_rule">
+                    <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="读取商品">
+                <el-switch v-model="form.is_goods_list" active-value="1" inactive-value="0" />
+            </el-form-item>
+        </div>
+    </template>
     <template v-else>
         <div v-show="form.data_type === '1'" class="w h">
             <el-form-item label="关键字">
@@ -177,20 +216,33 @@
     }
     const option_list = ref<option[]>([]);
     const img_params = ref('logo');
+    const title_params = ref('title');
     // 更新数据，避免子组件数据不刷新
     watchEffect(() => {
+        // 商品
         if (props.type === 'goods') {
             option_list.value = props.baseList.product_list;
             img_params.value = 'images';
-        } else if (props.type === 'article' || ['blog', 'blog-tabs'].includes(props.type)) {
+            title_params.value = 'title';
+        } else if (['blog', 'article'].includes(props.type)) {
+            // 文章 博客选项卡 博客
             option_list.value = props.baseList.data_type_list;
             img_params.value = 'cover';
+            title_params.value = 'title';
         } else if (props.type === 'binding') {
+            // 组合搭配
             option_list.value = props.baseList.data_type_list;
             img_params.value = 'images';
+            title_params.value = 'title';
+        } else if (['realstore', 'merchant'].includes(props.type)) {
+            // 多商户 多门店
+            option_list.value = props.baseList.data_type_list;
+            img_params.value = 'logo';
+            title_params.value = 'name';
         } else {
             option_list.value = props.baseList.brand_data_type_list;
             img_params.value = 'logo';
+            title_params.value = 'title';
         }
         // 关键字信息
         keywords.value = props.value.keywords;

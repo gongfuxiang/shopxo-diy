@@ -32,7 +32,7 @@
             <card-container class="card-container-br">
                 <div class="mb-12">商户设置</div>
                 <!-- 数据筛选组件, 根据数据源类型显示不同的筛选组件 -->
-                <data-filter type="shop" :value="form" :list="form.data_list" :base-list="base_list" @add="add" @data_list_replace="data_list_replace" @data_list_remove="data_list_remove" @data_list_sort="data_list_sort"></data-filter>
+                <data-filter type="merchant" :value="form" :list="form.data_list" :base-list="base_list" @add="add" @data_list_replace="data_list_replace" @data_list_remove="data_list_remove" @data_list_sort="data_list_sort"></data-filter>
             </card-container>
             <template v-if="form.theme == '0'">
                 <div class="divider-line"></div>
@@ -60,7 +60,7 @@
                 </card-container>
             </template>
         </el-form>
-        <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['realstore']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
+        <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['merchant']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
     </div>
 </template>
 <script setup lang="ts">

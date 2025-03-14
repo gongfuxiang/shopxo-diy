@@ -69,9 +69,25 @@ class UrlValueAPI {
         });
     }
     /** 组合搭配指定数据 */
-     static getBindingList(data: any) {
+    static getBindingList(data: any) {
         return api_request({
             url: `?s=plugins/index/pluginsname/binding/pluginscontrol/diybinding/pluginsaction/index.html`,
+            method: 'post',
+            data,
+        });
+    }   
+    /** 多商户指定数据 */
+    static getShopList(data: any) {
+        return api_request({
+            url: `?s=plugins/index/pluginsname/shop/pluginscontrol/diyshop/pluginsaction/index.html`,
+            method: 'post',
+            data,
+        });
+    }   
+    /** 多商户指定数据 */
+    static getRealstoreList(data: any) {
+        return api_request({
+            url: `?s=plugins/index/pluginsname/realstore/pluginscontrol/diyrealstore/pluginsaction/index.html`,
             method: 'post',
             data,
         });

@@ -54,7 +54,14 @@ interface defaultRealstore {
     content: {
         content_top: object;
         theme: string;
-        data_list: string[];
+        data_type: string, 
+        data_list: string[],
+        data_auto_list: string[],
+        category_ids: string[],
+        number: number, 
+        order_by_type: number, 
+        order_by_rule: number, 
+        keywords: string,
         carousel_col: number;
         is_navigation_show: string;
         navigation_type: string;
@@ -142,7 +149,14 @@ const defaultRealstore: defaultRealstore = {
             ...commonTop,
         },
         theme: '0',
+        data_type: '0', 
         data_list: [],
+        data_auto_list: [],
+        category_ids: [],
+        number: 4, 
+        order_by_type: 0, 
+        order_by_rule: 0, 
+        keywords: '',
         carousel_col: 1,
         is_navigation_show: '1',
         navigation_type: 'img-icon',

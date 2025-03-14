@@ -11,7 +11,7 @@
                                         <image-empty v-model="item.new_cover[0]" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
                                     </template>
                                     <template v-else>
-                                        <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
+                                        <image-empty v-model="item.logo" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
                                     </template>
                                 </div>
                             </template>
@@ -19,10 +19,10 @@
                                 <div class="flex-1 flex-col jc-sb gap-10">
                                     <div class="text-line-2" :style="trends_config('title')">
                                         <template v-for="(item1, index1) in new_url_list(item.title_url)" :key="index1">
-                                            <img :src="item1.url" class="title-img" :style="title_img_style(item.title_url, index1) + 'vertical-align: middle;'" />
-                                        </template>{{ item.title }}
+                                            <img :src="item1.icon_url" class="title-img" :style="title_img_style(item.title_url, index1) + 'vertical-align: middle;'" />
+                                        </template>{{ item.name }}
                                     </div>
-                                    <span v-if="form.shop_desc == '1'" :class="form.shop_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.desc }}</span>
+                                    <span v-if="form.shop_desc == '1'" :class="form.shop_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.describe }}</span>
                                 </div>
                                 <div v-if="theme == '0'" class="flex-row align-c">
                                     <img-or-icon-or-text :value="props.value" type="right" />
@@ -42,17 +42,17 @@
                                                 <image-empty v-model="item.new_cover[0]" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
                                             </template>
                                             <template v-else>
-                                                <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
+                                                <image-empty v-model="item.logo" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
                                             </template>
                                         </div>
                                     </template>
                                     <div class="flex-col jc-sb gap-10" :style="content_style">
                                         <div class="text-line-2" :style="trends_config('title')">
                                             <template v-for="(item1, index1) in new_url_list(item.title_url)" :key="index1">
-                                                <img :src="item1.url" class="title-img" :style="title_img_style(item.title_url, index1) + 'vertical-align: middle;'" />
-                                            </template>{{ item.title }}
+                                                <img :src="item1.icon_url" class="title-img" :style="title_img_style(item.title_url, index1) + 'vertical-align: middle;'" />
+                                            </template>{{ item.name }}
                                         </div>
-                                        <span v-if="form.shop_desc == '1'" :class="form.shop_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.desc }}</span>
+                                        <span v-if="form.shop_desc == '1'" :class="form.shop_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.describe }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -106,26 +106,26 @@ const style_container = computed(() => common_styles_computer(new_style.value.co
 const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
 //#region 列表数据
 type url = {
-    url: string;
+    icon_url: string;
 }
 type data_list = {
-    title: string;
+    name: string;
     title_url: url[],
-    images: string;
+    logo: string;
     new_cover: string[];
-    desc: string;
+    describe: string;
 }
 const default_list = {
-    title: '测试商户标题',
-    desc: '测试商户描述',
-    title_url: [{ url: 'http://shopxo.com/static/diy/images/layout/siderbar/data-magic.png'}, { url: ''}],
-    images: '',
+    name: '测试商户标题',
+    describe: '测试商户描述',
+    title_url: [{ icon_url: 'http://shopxo.com/static/diy/images/layout/siderbar/data-magic.png'}, { icon_url: ''}],
+    logo: '',
     new_cover: [],
 };
 const list = ref<data_list[]>([]);
 const new_url_list = computed(() => {
     return (title_url: url[]) => {
-        return title_url.filter(item1 => !isEmpty(item1.url));
+        return title_url.filter(item1 => !isEmpty(item1.icon_url));
     }
 });
 // 标题图片样式
@@ -133,7 +133,7 @@ const title_img_style = computed(() => {
     return (title_url: url[], index: number) => {
         const { shop_title_img_width = 0, shop_title_img_height = 0, shop_title_img_radius, shop_title_img_inner_spacing, shop_title_img_outer_spacing} = new_style.value;
         let style = `width: ${shop_title_img_width || 0 }px;height: ${ shop_title_img_height || 0 }px;${ radius_computer(shop_title_img_radius) }`;
-        const list = title_url.filter(item1 => !isEmpty(item1.url));
+        const list = title_url.filter(item1 => !isEmpty(item1.icon_url));
         if (index < list.length - 1) {
             style += `margin-right: ${ shop_title_img_inner_spacing || 0}px;`;
         } else {
@@ -146,33 +146,52 @@ const title_img_style = computed(() => {
 onMounted(() => {
     // 指定商品并且指定商品数组不为空
     if (!isEmpty(form.value.data_list) && form.value.data_type == '0') {
-        list.value = form.value.data_list.map((item: any) => ({
+        const new_list = form.value.data_list.map((item: any) => ({
             ...item.data,
             title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
             new_cover: item.new_cover,
         }));
+        list.value = list_handle(new_list);
     } else if (!isEmpty(form.value.data_auto_list) && form.value.data_type == '1') {
         // 筛选商品并且筛选商品数组不为空
-        list.value = form.value.data_auto_list;
+        list.value = list_handle(form.value.data_auto_list);
     } else {
         list.value = Array(4).fill(default_list);
     }
 });
+const list_handle = (list: any[]) => {
+    list.forEach((item: any) => {
+        item.title_url = [];
+        if ((item.is_enable_auth || 0) == 1) {
+            if (item.auth_type != -1 && (item.auth_type_msg || null) != null) {
+                if (item.auth_type == 0) {
+                    item.title_url.push({ icon_url: new_style.value.shop_auth_personal_icon });
+                } else if (item.auth_type == 1) {
+                    item.title_url.push({ icon_url: new_style.value.shop_auth_company_icon });
+                }
+                if ((item.bond_status || 0) == 1 && (item.bond_status_msg || null) != null) {
+                    item.title_url.push({ icon_url: new_style.value.shop_auth_bond_icon });
+                }
+            }
+        }
+    });
+    return list;
+};
 
-const get_products = () => {
-    const { category_ids, brand_ids, number, order_by_type, order_by_rule, keywords } = form.value;
+const get_shops = () => {
+    const { category_ids, number, order_by_type, order_by_rule, keywords, is_goods_list } = form.value;
     const params = {
-        goods_keywords: keywords,
-        goods_category_ids: category_ids,
-        goods_brand_ids: brand_ids,
-        goods_order_by_type: order_by_type,
-        goods_order_by_rule: order_by_rule,
-        goods_number: number,
+        shop_keywords: keywords,
+        shop_category_ids: category_ids,
+        shop_order_by_type: order_by_type,
+        shop_order_by_rule: order_by_rule,
+        shop_number: number,
+        shop_is_goods_list: is_goods_list,
     };
     // 获取商品列表
     ShopAPI.getShopList(params).then((res: any) => {
         if (!isEmpty(res.data)) {
-            list.value = res.data;
+            list.value = list_handle(res.data);
         } else {
             list.value = Array(4).fill(default_list);
         }
@@ -182,8 +201,8 @@ const get_products = () => {
 };
 // 取出监听的数据
 const watch_data = computed(() => {
-    const { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, data_list, keywords } = form.value;
-    return { category_ids: category_ids, brand_ids: brand_ids, number: number, order_by_type: order_by_type, order_by_rule: order_by_rule, data_type: data_type, data_list: data_list, keyword: keywords };
+    const { category_ids, number, order_by_type, order_by_rule, data_type, data_list, keywords } = form.value;
+    return { category_ids, number, order_by_type, order_by_rule, data_type, data_list, keywords };
 })
 // 初始化的时候不执行, 监听数据变化
 watch(() => watch_data.value, (val, oldVal) => {
@@ -193,14 +212,14 @@ watch(() => watch_data.value, (val, oldVal) => {
             if (!isEmpty(val.data_list)) {
                 list.value = cloneDeep(val.data_list).map((item: any) => ({
                     ...item.data,
-                    title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
+                    name: !isEmpty(item.new_title) ? item.new_title : item.data.name,
                     new_cover: item.new_cover,
                 }));
             } else {
                 list.value = Array(4).fill(default_list);
             }
         } else {
-            get_products();
+            get_shops();
         }
     }
 }, { deep: true });
@@ -339,6 +358,9 @@ const content_outer_height = computed(() => new_style.value.content_outer_height
         width: 5rem;
         height: 5rem;
     }
+}
+.title-img {
+    object-fit: contain;
 }
 .two-columns {
     width: calc((100% - v-bind(two_columns)) / 2);

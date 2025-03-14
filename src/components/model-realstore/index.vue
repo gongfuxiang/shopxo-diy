@@ -12,18 +12,14 @@
                                             <image-empty v-model="item.new_cover[0]" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
                                         </template>
                                         <template v-else>
-                                            <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
+                                            <image-empty v-model="item.logo" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
                                         </template>
                                     </div>
                                 </template>
                                 <div class="flex-1 flex-col" :style="content_style">
                                     <div class="flex-col jc-sb gap-10">
                                         <div class="flex-row jc-sb align-c gap-10">
-                                            <div class="text-line-2" :style="trends_config('title')">
-                                                <template v-for="(item1, index1) in new_url_list(item.title_url)" :key="index1">
-                                                    <img :src="item1.url" class="title-img" :style="title_img_style(item.title_url, index1) + 'vertical-align: middle;'" />
-                                                </template>{{ item.title }}
-                                            </div>
+                                            <div class="text-line-2" :style="trends_config('title')">{{ item.name }}</div>
                                             <div v-if="['0', '2'].includes(theme)" class="flex-row align-c" :style="`gap: ${ new_style.phone_navigation_spacing }px;`">
                                                 <img-or-icon-or-text :value="props.value" type="phone" />
                                                 <img-or-icon-or-text :value="props.value" type="navigation" />
@@ -32,18 +28,21 @@
                                         <div class="flex-row gap-2 align-c">
                                             <img-or-icon-or-text :value="props.value" type="time" />
                                             <div class="flex-1 flex-row align-c">
-                                                <span class="text-line-1" :style="trends_config('state')">{{ item.state }}</span>
-                                                <span v-if="!isEmpty(item.state) || !isEmpty(item.business_hours)" :style="'color: #ccc;' + margin_computer(new_style.realstore_business_distance)">|</span>
-                                                <span class="text-line-1" :style="trends_config('business_hours')">{{ item.business_hours }}</span>
+                                                <span class="text-line-1" :style="trends_config('state') + `color: ${ item.status_info.status == 1 ? new_style.realstore_state_color : new_style.realstore_default_state_color }`">{{ item.status_info.msg }}</span>
+                                                <span v-if="!isEmpty(item.status_info.msg) || !isEmpty(item.status_info.time)" :style="'color: #ccc;' + margin_computer(new_style.realstore_business_distance)">|</span>
+                                                <span class="text-line-1" :style="trends_config('business_hours')">{{ item.status_info.time }}</span>
                                             </div>
                                         </div>
                                     </div>
-                                    <template v-if="theme !== '0' && ( form.is_location_show == '1' || !isEmpty(item.location))">
+                                    <template v-if="theme !== '0' && form.is_location_show == '1'">
                                         <div :style="border_style"></div>
                                         <div class="flex-row jc-sb align-c gap-10">
-                                            <div class="flex-row align-b gap-2">
-                                                <img-or-icon-or-text :value="props.value" type="location" />
-                                                <span class="text-line-2 flex-1" :style="trends_config('location')">{{ item.location }}</span>
+                                            <div class="flex-row align-c jc-sb">
+                                                <div class="flex-1 flex-row align-b gap-2">
+                                                    <img-or-icon-or-text :value="props.value" type="location" />
+                                                    <span class="text-line-2 flex-1" :style="trends_config('location')">{{ item.province_name }}{{ item.city_name }}{{ item.county_name }}{{ item.address }}</span>
+                                                </div>
+                                                <span v-if="!isEmpty(item.distance) && theme != '1'" :style="trends_config('location')">距您{{ item.distance }}</span>
                                             </div>
                                             <template v-if="!['0', '2'].includes(theme)">
                                                 <img-or-icon-or-text :value="props.value" type="navigation" />
@@ -52,11 +51,14 @@
                                     </template>
                                 </div>
                             </div>
-                            <template v-if="theme == '0' && ( form.is_location_show == '1' || !isEmpty(item.location))">
+                            <template v-if="theme == '0' && form.is_location_show == '1'">
                                 <div :style="border_style"></div>
-                                <div class="flex-row align-b gap-2">
-                                    <img-or-icon-or-text :value="props.value" type="location" />
-                                    <span class="text-line-2 flex-1" :style="trends_config('location')">{{ item.location }}</span>
+                                <div class="flex-row align-c jc-sb">
+                                    <div class="flex-1 flex-row align-b gap-2">
+                                        <img-or-icon-or-text :value="props.value" type="location" />
+                                        <span class="text-line-2 flex-1" :style="trends_config('location')">{{ item.province_name }}{{ item.city_name }}{{ item.county_name }}{{ item.address }}</span>
+                                    </div>
+                                    <span v-if="!isEmpty(item.distance)" :style="trends_config('location')">距您{{ item.distance }}</span>
                                 </div>
                             </template>
                         </div>
@@ -73,20 +75,16 @@
                                                 <image-empty v-model="item.new_cover[0]" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
                                             </template>
                                             <template v-else>
-                                                <image-empty v-model="item.images" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
+                                                <image-empty v-model="item.logo" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
                                             </template>
                                         </div>
                                     </template>
                                     <div class="flex-1 flex-col jc-sb gap-10" :style="content_style">
-                                        <div class="text-line-2" :style="trends_config('title')">
-                                            <template v-for="(item1, index1) in new_url_list(item.title_url)" :key="index1">
-                                                <img :src="item1.url" class="title-img" :style="title_img_style(item.title_url, index1) + 'vertical-align: middle;'" />
-                                            </template>{{ item.title }}
-                                        </div>
+                                        <div class="text-line-2" :style="trends_config('title')">{{ item.name }}</div>
                                         <div class="flex-row jc-sb align-c">
                                             <div class="flex-1 flex-row gap-2 align-c">
                                                 <img-or-icon-or-text :value="props.value" type="time" />
-                                                <span class="text-line-1" :style="trends_config('state')">{{ item.state }}</span>
+                                                <span class="text-line-1" :style="trends_config('state') + `color: ${ item.status_info.status == 1 ? new_style.realstore_state_color : new_style.realstore_default_state_color }`">{{ item.status_info.msg }}</span>
                                             </div>
                                             <img-or-icon-or-text :value="props.value" type="navigation" />
                                         </div>
@@ -104,7 +102,7 @@
 import { common_styles_computer, common_img_computer, get_math, gradient_handle, margin_computer, border_computer, box_shadow_computer, radius_computer, background_computer, padding_computer } from '@/utils';
 import { old_margin } from "@/utils/common";
 import { isEmpty, cloneDeep } from 'lodash';
-import ShopAPI from '@/api/shop';
+import RealstoreAPI from '@/api/realstore';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
 const modules = [Autoplay];
@@ -150,47 +148,42 @@ const border_style = computed(() => {
     return border;
 });
 //#region 列表数据
-type url = {
-    url: string;
+type info = {
+    msg: string;
+    time: string;
+    status: number;
+    type: number;
 }
 type data_list = {
-    title: string;
-    images: string;
-    title_url: url[],
+    name: string;
+    logo: string;
     new_cover: string[];
-    state: string;
-    location: string;
-    business_hours: string;
+    msg: string;
+    province_name: string;
+    city_name: string;
+    county_name: string;
+    address: string;
+    distance: string,
+    time: string;
+    status_info: info;
 }
 const default_list = {
-    title: '测试门店标题',
-    location: '测试地址',
-    title_url: [{ url: 'http://shopxo.com/static/diy/images/layout/siderbar/data-magic.png'}, { url: ''}],
-    images: '',
+    name: '测试门店标题',
+    province_name: '测试地址',
+    city_name: '',
+    county_name: '',
+    address: '',
+    logo: '',
     new_cover: [],
-    state: '营业中',
-    business_hours: '7:00-22:00',
+    distance: '12km',
+    status_info: {
+        msg: '营业中',
+        time: '7:00-22:00',
+        status: 1,
+        type: 0,
+    },
 };
 const list = ref<data_list[]>([]);
-const new_url_list = computed(() => {
-    return (title_url: url[]) => {
-        return title_url.filter(item1 => !isEmpty(item1.url));
-    }
-});
-// 标题图片样式
-const title_img_style = computed(() => {
-    return (title_url: url[], index: number) => {
-        const { realstore_title_img_width = 0, realstore_title_img_height = 0, realstore_title_img_radius, realstore_title_img_inner_spacing, realstore_title_img_outer_spacing} = new_style.value;
-        let style = `width: ${realstore_title_img_width || 0 }px;height: ${ realstore_title_img_height || 0 }px;${ radius_computer(realstore_title_img_radius) }`;
-        const list = title_url.filter(item1 => !isEmpty(item1.url));
-        if (index < list.length - 1) {
-            style += `margin-right: ${ realstore_title_img_inner_spacing || 0}px;`;
-        } else {
-            style += `margin-right: ${ realstore_title_img_outer_spacing || 0}px;`;
-        }
-        return style;
-    }
-});
 // 初始化的时候执行
 onMounted(() => {
     // 指定商品并且指定商品数组不为空
@@ -209,29 +202,30 @@ onMounted(() => {
 });
 
 const get_products = () => {
-    const { category_ids, brand_ids, number, order_by_type, order_by_rule, keywords } = form.value;
+    const { category_ids, is_goods_list, number, order_by_type, order_by_rule, keywords } = form.value;
     const params = {
-        goods_keywords: keywords,
-        goods_category_ids: category_ids,
-        goods_brand_ids: brand_ids,
-        goods_order_by_type: order_by_type,
-        goods_order_by_rule: order_by_rule,
-        goods_number: number,
+        realstore_keywords: keywords,
+        realstore_category_ids: category_ids,
+        realstore_order_by_type: order_by_type,
+        realstore_order_by_rule: order_by_rule,
+        realstore_number: number,
+        realstore_is_goods_list: is_goods_list,
     };
-    list.value = Array(4).fill(default_list);
-    // 获取商品列表
-    // ShopAPI.getShopLists(params).then((res: any) => {
-    //     if (!isEmpty(res.data)) {
-    //         list.value = res.data;
-    //     } else {
-    //         list.value = Array(4).fill(default_list);
-    //     }
-    // });
+    // 获取商户列表
+    RealstoreAPI.getAutoList(params).then((res: any) => {
+        if (!isEmpty(res.data)) {
+            list.value = res.data;
+        } else {
+            list.value = Array(4).fill(default_list);
+        }
+    }).catch(() => {
+        list.value = Array(4).fill(default_list);
+    });
 };
 // 取出监听的数据
 const watch_data = computed(() => {
-    const { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, data_list, keywords } = form.value;
-    return { category_ids: category_ids, brand_ids: brand_ids, number: number, order_by_type: order_by_type, order_by_rule: order_by_rule, data_type: data_type, data_list: data_list, keyword: keywords };
+    const { category_ids, number, order_by_type, order_by_rule, data_type, data_list, keywords, is_goods_list } = form.value;
+    return { category_ids, number, order_by_type, order_by_rule, data_type, data_list, keywords, is_goods_list };
 })
 // 初始化的时候不执行, 监听数据变化
 watch(() => watch_data.value, (val, oldVal) => {
@@ -241,7 +235,7 @@ watch(() => watch_data.value, (val, oldVal) => {
             if (!isEmpty(val.data_list)) {
                 list.value = cloneDeep(val.data_list).map((item: any) => ({
                     ...item.data,
-                    title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
+                    name: !isEmpty(item.new_title) ? item.new_title : item.data.name,
                     new_cover: item.new_cover,
                 }));
             } else {

@@ -111,9 +111,9 @@ const get_list = (new_page: number) => {
     };
     loading.value = true;
     UrlValueAPI.getBindingList(new_data).then((res: any) => {
-        tableData.value = res.data;
-        data_total.value = res.data.length - 1;
-        page.value = new_page;
+        tableData.value = res.data?.data_list || [];
+        data_total.value = res.data?.data_total || 1;
+        page.value = res.data?.page || new_page;
         setTimeout(() => {
             loading.value = false;
         }, 500);

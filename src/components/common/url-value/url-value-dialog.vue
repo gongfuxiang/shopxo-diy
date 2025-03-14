@@ -58,6 +58,14 @@
                 <template v-else-if="link_select == 'binding'">
                     <link-binding v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-binding>
                 </template>
+                <!-- 多商户 -->
+                <template v-else-if="link_select == 'merchant'">
+                    <link-shop v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-shop>
+                </template>
+                <!-- 多门店 -->
+                <template v-else-if="link_select == 'realstore'">
+                    <link-realstore v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-realstore>
+                </template>
             </div>
         </div>
         <template #footer>
@@ -166,6 +174,12 @@ const dialog_title = computed(() => {
             name = '插件';
         } else if (props.type[0] == 'coupon') {
             name = '优惠券';
+        } else if (props.type[0] == 'binding') {
+            name = '组合搭配';
+        } else if (props.type[0] == 'merchant') {
+            name = '多商户';
+        } else if (props.type[0] == 'realstore') {
+            name = '多门店';
         }
         return name + '选择';
     } else {

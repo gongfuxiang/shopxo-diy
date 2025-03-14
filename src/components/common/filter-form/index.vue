@@ -4,10 +4,10 @@
             <div v-if="!isEmpty(item.form_name) && !isEmpty(new_dataInterface) && !isEmpty(item.type)" class="filter-style flex-row gap-12">
                 <div v-if="!isEmpty(item.title)" :class="['title text-line-1', props.direction == 'vertical' ? '' : 'horizontal-title']" :style="`width: ${ Number(props.titleWidth) > 0 ? props.titleWidth + 'px;' : '100%' }`">{{ item.title }}</div>
                 <div class="w h flex-1 vertical-style">
-                    <div class="flex-row align-c gap-10">
+                    <div class="flex-row align-c gap-10 w h">
                         <template v-if="item.type == 'select'">
                             <template v-if="+item?.config?.is_level == 1">
-                                <div class="flex-row gap-10">
+                                <div class="flex-row gap-10 w h">
                                     <el-cascader v-model="new_dataInterface[item.form_name]" :placeholder="placeholder_config(item, 'select')" :show-all-levels="false" filterable clearable class="w h" collapse-tags popper-class="filter-form-cascader" :placement="+item?.config?.is_level == 1 && props.direction == 'vertical' ? 'left' : 'bottom'" :props="{'multiple': +item?.config?.is_multiple == 1, 'checkStrictly': true, 'emitPath': false, 'value': item?.data_key || 'id', 'label': item?.data_name || 'name', 'children': item?.config?.children || '' }" :options="selectData(item)" /> 
                                     <template v-if="+item?.config?.is_multiple == 1">
                                         <tooltip content="父级选中包含所有子级"></tooltip>
