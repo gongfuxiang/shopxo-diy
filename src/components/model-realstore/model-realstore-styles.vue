@@ -6,22 +6,28 @@
                 <el-form-item label="内容背景">
                     <background-common v-model:color_list="form.realstore_color_list" v-model:direction="form.realstore_direction" v-model:img_style="form.realstore_background_img_style" v-model:img="form.realstore_background_img" @mult_color_picker_event="mult_color_picker_event" />
                 </el-form-item>
-                <el-form-item label="标题图标">
+                <el-form-item label="别名">
                     <div class="flex-col gap-10 w h">
-                        <el-form-item label="宽度" label-width="60" class="form-item-child-label">
-                            <slider v-model="form.realstore_title_img_width" :max="1000"></slider>
+                        <el-form-item label="字体颜色" label-width="60" class="form-item-child-label">
+                            <color-picker v-model="form.shop_lable_color" default-color="#000"></color-picker>
                         </el-form-item>
-                        <el-form-item label="高度" label-width="60" class="form-item-child-label">
-                            <slider v-model="form.realstore_title_img_height" :max="1000"></slider>
+                        <el-form-item label="字体大小" label-width="60" class="form-item-child-label">
+                            <slider v-model="form.shop_lable_size" :max="100"></slider>
+                        </el-form-item>
+                        <el-form-item label="内边距" label-width="60" class="form-item-child-label">
+                            <padding :value="form.shop_lable_padding"></padding>
                         </el-form-item>
                         <el-form-item label="圆角" label-width="60" class="form-item-child-label">
-                            <radius :value="form.realstore_title_img_radius"></radius>
+                            <radius :value="form.shop_lable_radius"></radius>
                         </el-form-item>
-                        <el-form-item label="图标间距" label-width="60" class="form-item-child-label">
-                            <slider v-model="form.realstore_title_img_inner_spacing" :max="50"></slider>
+                        <el-form-item label="背景" label-width="60" class="form-item-child-label">
+                            <mult-color-picker :value="form.shop_lable_color_list" :type="form.shop_lable_direction" @update:value="shop_lable_mult_color_picker_event"></mult-color-picker>
                         </el-form-item>
-                        <el-form-item label="距离标题" label-width="60" class="form-item-child-label">
-                            <slider v-model="form.realstore_title_img_outer_spacing" :max="50"></slider>
+                        <el-form-item label="边框颜色" label-width="60" class="form-item-child-label">
+                            <color-picker v-model="form.shop_lable_border_color" default-color="#000"></color-picker>
+                        </el-form-item>
+                        <el-form-item label="边框粗细" label-width="60" class="form-item-child-label">
+                            <slider v-model="form.shop_lable_border_size" :max="100"></slider>
                         </el-form-item>
                     </div>
                 </el-form-item>
@@ -30,6 +36,9 @@
                 </el-form-item>
                 <el-form-item label="地址">
                     <color-text-size-group v-model:color="form.realstore_location_color" v-model:typeface="form.realstore_location_typeface" v-model:size="form.realstore_location_size" default-color="#000000"></color-text-size-group>
+                </el-form-item>
+                <el-form-item v-if="['0', '2'].includes(theme)" label="距离提示">
+                    <color-text-size-group v-model:color="form.realstore_distance_color" v-model:typeface="form.realstore_distance_typeface" v-model:size="form.realstore_distance_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
                 <el-form-item label="营业状态">
                     <div class="flex-col gap-10 w h">
@@ -217,6 +226,11 @@ onMounted(() => {
     is_phone_navigation.value = new_tabs.value.filter(item => item.name == 'phone' || item.name == 'navigation').length == 2;
 });
 const tabs_name = ref('navigation');
+// 多门店背景渐变设置
+const shop_lable_mult_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.shop_lable_color_list = arry;
+    form.value.shop_lable_direction = type.toString();
+};
 // 多门店背景渐变设置
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.realstore_color_list = arry;

@@ -5,7 +5,7 @@
         </el-radio-group>
     </el-form-item>
     <div v-show="form.data_type === '0'" class="nav-list">
-        <drag-group :list="drag_list" :img-params="img_params" :titleParams="title_params" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
+        <drag-group :list="drag_list" :img-params="img_params" :title-params="title_params" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
         <el-button class="mt-20 w" @click="add">+添加</el-button>
     </div>
     <!-- 商品 -->

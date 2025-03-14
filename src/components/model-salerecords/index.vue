@@ -1,32 +1,34 @@
 <template>
     <div class="oh" :style="style_container">
-        <div class="swiper-free-mode" :style="style_img_container + `height: ${ swiper_outer_height }px;`">
-            <template v-if="form.rotation_direction == 'vertical'">
-                <swiper :key="carouselKey" class="w flex" :style="`height: ${ swiper_height }px;`" direction="vertical" :loop="true" :speed="swiper_speed" :autoplay="autoplay" :slides-per-view="slides_per_view" :space-between="space_between" :modules="modules">
-                    <swiper-slide v-for="(item, index) in list" :key="index">
-                        <div class="flex-row align-c gap-5">
-                            <template v-if="!isEmpty(item) && is_show('head')">
-                                <div class="oh re">
-                                    <template v-if="!isEmpty(item.new_cover)">
-                                        <image-empty v-model="item.new_cover[0]" :style="heading_img_radius"></image-empty>
-                                    </template>
-                                    <template v-else>
-                                        <image-empty v-model="item.head_img" :style="heading_img_radius"></image-empty>
-                                    </template>
-                                </div>
-                            </template>
-                            <span v-if="is_show('nick_name')" class="flex-1 text-line-1" :style="trends_config('nick_name')">{{ item.nick_name }}</span>
-                            <template v-if="is_show('goods_image')">
-                                <image-empty v-model="item.goods_images" :style="goods_image_radius"></image-empty>
-                            </template>
-                            <span v-if="is_show('goods_title')" class="flex-1 text-line-1" :style="trends_config('goods_title')">{{ item.goods_title }}</span>
-                            <span v-if="is_show('time')" class="nowarp" :style="trends_config('time')">{{ item.time }}</span>
-                        </div>
-                    </swiper-slide>
-                </swiper>
+        <div :style="style_img_container + `height: ${ swiper_outer_height }px;`">
+            <template v-if="['translation', 'vertical'].includes(form.rotation_direction)">
+                <div :class="form.rotation_direction == 'vertical' ? 'swiper-free-mode' : ''" :style="`height: ${ swiper_height }px;`">
+                    <swiper :key="carouselKey" class="w flex" :style="`height: ${ swiper_height }px;`" direction="vertical" :loop="true" :speed="swiper_speed" :autoplay="autoplay" :slides-per-view="slides_per_view" :space-between="space_between" :modules="modules">
+                        <swiper-slide v-for="(item, index) in list" :key="index">
+                            <div class="flex-row align-c gap-5">
+                                <template v-if="!isEmpty(item) && is_show('head')">
+                                    <div class="oh re">
+                                        <template v-if="!isEmpty(item.new_cover)">
+                                            <image-empty v-model="item.new_cover[0]" :style="heading_img_radius"></image-empty>
+                                        </template>
+                                        <template v-else>
+                                            <image-empty v-model="item.head_img" :style="heading_img_radius"></image-empty>
+                                        </template>
+                                    </div>
+                                </template>
+                                <span v-if="is_show('nick_name')" class="flex-1 text-line-1" :style="trends_config('nick_name')">{{ item.nick_name }}</span>
+                                <template v-if="is_show('goods_image')">
+                                    <image-empty v-model="item.goods_images" :style="goods_image_radius"></image-empty>
+                                </template>
+                                <span v-if="is_show('goods_title')" class="flex-1 text-line-1" :style="trends_config('goods_title')">{{ item.goods_title }}</span>
+                                <span v-if="is_show('time')" class="nowarp" :style="trends_config('time')">{{ item.time }}</span>
+                            </div>
+                        </swiper-slide>
+                    </swiper>
+                </div>
             </template>
             <template v-else>
-                <div class="swiper-horizontal-free-mode" :style="`height: ${ swiper_height }px;`">
+                <div class="swiper-free-mode swiper-horizontal-free-mode" :style="`height: ${ swiper_height }px;`">
                     <div v-for="(item, index) in new_list" :key="index" :style="`margin-bottom: ${ index < new_list.length - 1 ? space_between : 0 }px;`">
                         <swiper :key="carouselKey + index" class="w flex" :style="`height: ${ new_swiper_height }px;`" direction="horizontal" :loop="true" :slides-offset-before="slides_offset_before" :speed="swiper_speed + (1000 * index)" :autoplay="autoplay" slides-per-view="auto" :space-between="space_between" :modules="modules">
                             <swiper-slide v-for="(item1, index1) in item.split_list" :key="index1">
@@ -219,11 +221,11 @@ const size_handle = (val: number, type: string) => {
 };
 // 内容参数的集合
 watchEffect(() => {
-    const { rotation_direction, interval_time, show_number = 1, is_roll, is_show } = form.value;
+    const { rotation_direction, interval_time, show_number = 1, is_roll } = form.value;
     // 是否滚动
-    if (is_roll == '1' && list.value.length > 0) {
+    if ((is_roll == '1' || rotation_direction == 'horizontal') && list.value.length > 0) {
         autoplay.value = {
-            delay: 0,
+            delay: rotation_direction == 'translation' ? interval_time * 1000 : 0,
             waitForTransition: true,
             pauseOnMouseEnter: true,
         };
@@ -236,10 +238,10 @@ watchEffect(() => {
     const show_num = show_number || 1;
     slides_per_view.value = show_num;
     // 轮播图速度
-    swiper_speed.value = interval_time * 1000;
+    swiper_speed.value = rotation_direction == 'translation' ? 1000 : interval_time * 1000;
     // 轮播图高度
     const { heading_img_height, nick_name_size, goods_img_height, goods_title_size, time_size, data_spacing, common_style, content_padding } = new_style.value;
-    if (rotation_direction == 'vertical') {
+    if (['translation', 'vertical'].includes(rotation_direction)) {
         swiper_height.value = Math.max(size_handle(heading_img_height, 'head'), size_handle(nick_name_size, 'nick_name'), size_handle(goods_img_height, 'goods_image'), size_handle(goods_title_size, 'goods_title'), size_handle(time_size, 'time')) * show_num + (data_spacing * (show_num - 1));
     } else {
         // 设置初始偏移量

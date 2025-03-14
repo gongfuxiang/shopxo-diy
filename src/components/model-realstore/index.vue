@@ -19,7 +19,10 @@
                                 <div class="flex-1 flex-col" :style="content_style">
                                     <div class="flex-col jc-sb gap-10">
                                         <div class="flex-row jc-sb align-c gap-10">
-                                            <div class="text-line-2" :style="trends_config('title')">{{ item.name }}</div>
+                                            <div class="flex-row align-c gap-3">
+                                                <div v-if="(item.alias || null) != null" :style="shop_label_style">{{ item.alias }}</div>
+                                                <div class="text-line-2" :style="trends_config('title')">{{ item.name }}</div>
+                                            </div>
                                             <div v-if="['0', '2'].includes(theme)" class="flex-row align-c" :style="`gap: ${ new_style.phone_navigation_spacing }px;`">
                                                 <img-or-icon-or-text :value="props.value" type="phone" />
                                                 <img-or-icon-or-text :value="props.value" type="navigation" />
@@ -34,15 +37,15 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <template v-if="theme !== '0' && form.is_location_show == '1'">
+                                    <template v-if="theme !== '0' && (form.is_location_show == '1' || form.is_location_distance_show == '1' || form.is_location_title_show == '1')">
                                         <div :style="border_style"></div>
                                         <div class="flex-row jc-sb align-c gap-10">
-                                            <div class="flex-row align-c jc-sb">
+                                            <div class="flex-1 flex-row align-c jc-sb">
                                                 <div class="flex-1 flex-row align-b gap-2">
                                                     <img-or-icon-or-text :value="props.value" type="location" />
-                                                    <span class="text-line-2 flex-1" :style="trends_config('location')">{{ item.province_name }}{{ item.city_name }}{{ item.county_name }}{{ item.address }}</span>
+                                                    <span v-if="form.is_location_title_show == '1'" class="text-line-2 flex-1" :style="trends_config('location')">{{ item.province_name }}{{ item.city_name }}{{ item.county_name }}{{ item.address }}</span>
                                                 </div>
-                                                <span v-if="!isEmpty(item.distance) && theme != '1'" :style="trends_config('location')">距您{{ item.distance }}</span>
+                                                <span v-if="!isEmpty(item.distance) && theme != '1' && form.is_location_distance_show == '1'" :style="trends_config('distance')">距您{{ item.distance || '0km' }}</span>
                                             </div>
                                             <template v-if="!['0', '2'].includes(theme)">
                                                 <img-or-icon-or-text :value="props.value" type="navigation" />
@@ -51,14 +54,14 @@
                                     </template>
                                 </div>
                             </div>
-                            <template v-if="theme == '0' && form.is_location_show == '1'">
+                            <template v-if="theme == '0' && (form.is_location_show == '1' || form.is_location_distance_show == '1' || form.is_location_title_show == '1')">
                                 <div :style="border_style"></div>
                                 <div class="flex-row align-c jc-sb">
                                     <div class="flex-1 flex-row align-b gap-2">
                                         <img-or-icon-or-text :value="props.value" type="location" />
-                                        <span class="text-line-2 flex-1" :style="trends_config('location')">{{ item.province_name }}{{ item.city_name }}{{ item.county_name }}{{ item.address }}</span>
+                                        <span v-if="form.is_location_title_show == '1'" class="text-line-2 flex-1" :style="trends_config('location')">{{ item.province_name }}{{ item.city_name }}{{ item.county_name }}{{ item.address }}</span>
                                     </div>
-                                    <span v-if="!isEmpty(item.distance)" :style="trends_config('location')">距您{{ item.distance }}</span>
+                                    <span v-if="form.is_location_distance_show == '1'" :style="trends_config('distance')">距您{{ item.distance || '0km' }}</span>
                                 </div>
                             </template>
                         </div>
@@ -80,7 +83,10 @@
                                         </div>
                                     </template>
                                     <div class="flex-1 flex-col jc-sb gap-10" :style="content_style">
-                                        <div class="text-line-2" :style="trends_config('title')">{{ item.name }}</div>
+                                        <div class="flex-row align-c gap-3">
+                                            <div v-if="(item.alias || null) != null" :style="shop_label_style">{{ item.alias }}</div>
+                                            <div class="text-line-2" :style="trends_config('title')">{{ item.name }}</div>
+                                        </div>
                                         <div class="flex-row jc-sb align-c">
                                             <div class="flex-1 flex-row gap-2 align-c">
                                                 <img-or-icon-or-text :value="props.value" type="time" />
@@ -135,6 +141,11 @@ const onter_style = computed(() => {
     const radius = `gap: ${new_style.value.content_outer_spacing + 'px'};`;
     return `${radius}`;
 });
+// 标签显示
+const shop_label_style = computed(() => {
+    const { shop_lable_color, shop_lable_size, shop_lable_padding, shop_lable_radius, shop_lable_color_list, shop_lable_direction, shop_lable_border_color, shop_lable_border_size } = new_style.value;
+    return `color: ${ shop_lable_color };font-size: ${ shop_lable_size }px;${ padding_computer(shop_lable_padding) };${ radius_computer(shop_lable_radius) };${ gradient_handle(shop_lable_color_list, shop_lable_direction) };border: ${ shop_lable_border_size }px solid ${ shop_lable_border_color };` 
+});
 
 // 公共样式
 const style_container = computed(() => common_styles_computer(new_style.value.common_style));
@@ -158,6 +169,7 @@ type data_list = {
     name: string;
     logo: string;
     new_cover: string[];
+    alias: string;
     msg: string;
     province_name: string;
     city_name: string;
@@ -170,6 +182,7 @@ type data_list = {
 const default_list = {
     name: '测试门店标题',
     province_name: '测试地址',
+    alias: '上海门店',
     city_name: '',
     county_name: '',
     address: '',

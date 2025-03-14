@@ -79,6 +79,8 @@ interface defaultRealstore {
         time_icon: string;
         time_text: string;
         is_location_show: string;
+        is_location_title_show: string;
+        is_location_distance_show: string;
         location_type: string;
         location_img: uploadList[];
         location_icon: string;
@@ -98,17 +100,23 @@ interface defaultRealstore {
         content_spacing: number;
         content_outer_spacing: number;
         content_outer_height: number;
-        realstore_title_img_width: number,
-        realstore_title_img_height: number,
-        realstore_title_img_radius: radiusStyle,
-        realstore_title_img_inner_spacing: number,
-        realstore_title_img_outer_spacing: number,
+        shop_lable_color: string;
+        shop_lable_size: number;
+        shop_lable_padding: paddingStyle;
+        shop_lable_radius: radiusStyle;
+        shop_lable_color_list: color_list[];
+        shop_lable_direction: string;
+        shop_lable_border_color: string;
+        shop_lable_border_size: number;
         realstore_title_color: string;
         realstore_title_typeface: string;
         realstore_title_size: number;
         realstore_location_color: string;
         realstore_location_typeface: string;
         realstore_location_size: number;
+        realstore_distance_color: string,
+        realstore_distance_typeface: string,
+        realstore_distance_size: number,
         realstore_default_state_color: string;
         realstore_state_color: string;
         realstore_state_typeface: string;
@@ -174,6 +182,8 @@ const defaultRealstore: defaultRealstore = {
         time_icon: 'time',
         time_text: '',
         is_location_show: '1',
+        is_location_title_show: '1',
+        is_location_distance_show: '1',
         location_type: 'img-icon',
         location_img: [],
         location_icon: 'location',
@@ -218,23 +228,35 @@ const defaultRealstore: defaultRealstore = {
         content_spacing: 10,
         content_outer_spacing: 10,
         content_outer_height: 204,
-        realstore_title_img_width: 12,
-        realstore_title_img_height: 12,
-        realstore_title_img_radius: {
-            radius: 0,
-            radius_top_left: 0,
-            radius_top_right: 0,
-            radius_bottom_left: 0,
-            radius_bottom_right: 0,
+        shop_lable_color: '#ff0036',
+        shop_lable_size: 12,
+        shop_lable_padding: {
+            padding: 3,
+            padding_top: 3,
+            padding_left: 3,
+            padding_right: 3,
+            padding_bottom: 3,
         },
-        realstore_title_img_inner_spacing: 5,
-        realstore_title_img_outer_spacing: 5,
+        shop_lable_radius: {
+            radius: 4,
+            radius_top_left: 4,
+            radius_top_right: 4,
+            radius_bottom_left: 4,
+            radius_bottom_right: 4,
+        },
+        shop_lable_color_list: [{ color: '', color_percentage: undefined }],
+        shop_lable_direction: '90deg',
+        shop_lable_border_color: '#ff0036',
+        shop_lable_border_size: 1,
         realstore_title_color: '#333',
         realstore_title_typeface: 'bold',
         realstore_title_size: 14,
         realstore_location_color: '#666',
         realstore_location_typeface: '400',
         realstore_location_size: 12,
+        realstore_distance_color: '#666',
+        realstore_distance_typeface: '400',
+        realstore_distance_size: 12,
         realstore_default_state_color: '#000',
         realstore_state_color: '#52C41A',
         realstore_state_typeface: '400',

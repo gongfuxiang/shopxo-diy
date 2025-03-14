@@ -5,14 +5,15 @@
             <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">展示设置</div>
-                <el-form-item label="自动轮播">
-                    <el-switch v-model="form.is_roll" active-value="1" inactive-value="0" />
-                </el-form-item>
-                <el-form-item label="轮播方向">
+                <el-form-item label="动画风格">
                     <el-radio-group v-model="form.rotation_direction">
-                        <el-radio value="vertical">纵向</el-radio>
-                        <el-radio value="horizontal">横向</el-radio>
+                        <el-radio value="vertical">上下</el-radio>
+                        <el-radio value="horizontal">左右</el-radio>
+                        <el-radio value="translation">平移</el-radio>
                     </el-radio-group>
+                </el-form-item>
+                <el-form-item v-if="form.rotation_direction != 'horizontal'" label="自动轮播">
+                    <el-switch v-model="form.is_roll" active-value="1" inactive-value="0" />
                 </el-form-item>
                 <el-form-item label="间隔时间">
                     <slider v-model="form.interval_time" :min="1" :max="50"></slider>

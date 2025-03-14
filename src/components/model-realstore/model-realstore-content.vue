@@ -41,10 +41,22 @@
                 <el-form-item label="时间图标" class="align-s">
                     <img-or-icon-or-text-content :value="form" type="time"></img-or-icon-or-text-content>
                 </el-form-item>
-                <el-form-item v-if="form.theme != '3'" label="地址图标" class="align-s">
-                    <img-or-icon-or-text-content :value="form" type="location"></img-or-icon-or-text-content>
-                </el-form-item>
             </card-container>
+            <template v-if="form.theme != '3'">
+                <div class="divider-line"></div>
+                <card-container>
+                    <div class="mb-12">地址设置</div>
+                    <el-form-item label="左侧图标" class="align-s">
+                        <img-or-icon-or-text-content :value="form" type="location"></img-or-icon-or-text-content>
+                    </el-form-item>
+                    <el-form-item label="地址" class="align-s">
+                        <el-switch v-model="form.is_location_title_show" active-value="1" inactive-value="0"></el-switch>
+                    </el-form-item>
+                    <el-form-item v-if="['0', '2'].includes(form.theme)" label="地址距离" class="align-s">
+                        <el-switch v-model="form.is_location_distance_show" active-value="1" inactive-value="0"></el-switch>
+                    </el-form-item>
+                </card-container>
+            </template>
         </el-form>
         <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['realstore']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
     </div>
