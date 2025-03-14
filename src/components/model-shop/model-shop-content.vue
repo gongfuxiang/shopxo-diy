@@ -105,8 +105,8 @@ const base_list = reactive({
         { name: '左右滑动展示', value: '3', width:0, height: 0 },
     ],
     data_type_list: [
-        { name: '指定门店', value: '0' },
-        { name: '筛选门店', value: '1' },
+        { name: '指定商户', value: '0' },
+        { name: '筛选商户', value: '1' },
     ],
     field_show_list: [
         { name: '博客标题', value: '3' },
