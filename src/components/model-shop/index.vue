@@ -18,8 +18,8 @@
                             <div class="flex-1 flex-row jc-sb gap-10" :style="content_style">
                                 <div class="flex-1 flex-col jc-sb gap-10">
                                     <div class="text-line-2" :style="trends_config('title')">
-                                        <template v-for="(item1, index1) in new_url_list(item.title_url)" :key="index1">
-                                            <img :src="item1.icon_url" class="title-img" :style="title_img_style(item.title_url, index1) + 'vertical-align: middle;'" />
+                                        <template v-for="(item1, index1) in new_url_list(item.icon_list)" :key="index1">
+                                            <img :src="item1.icon" class="title-img" :style="title_img_style(item.icon_list, index1) + 'vertical-align: middle;'" />
                                         </template>{{ item.name }}
                                     </div>
                                     <span v-if="form.shop_desc == '1'" :class="form.shop_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.describe }}</span>
@@ -48,8 +48,8 @@
                                     </template>
                                     <div class="flex-col jc-sb gap-10" :style="content_style">
                                         <div class="text-line-2" :style="trends_config('title')">
-                                            <template v-for="(item1, index1) in new_url_list(item.title_url)" :key="index1">
-                                                <img :src="item1.icon_url" class="title-img" :style="title_img_style(item.title_url, index1) + 'vertical-align: middle;'" />
+                                            <template v-for="(item1, index1) in new_url_list(item.icon_list)" :key="index1">
+                                                <img :src="item1.icon" class="title-img" :style="title_img_style(item.icon_list, index1) + 'vertical-align: middle;'" />
                                             </template>{{ item.name }}
                                         </div>
                                         <span v-if="form.shop_desc == '1'" :class="form.shop_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.describe }}</span>
@@ -106,11 +106,11 @@ const style_container = computed(() => common_styles_computer(new_style.value.co
 const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
 //#region 列表数据
 type url = {
-    icon_url: string;
+    icon: string;
 }
 type data_list = {
     name: string;
-    title_url: url[],
+    icon_list: url[],
     logo: string;
     new_cover: string[];
     describe: string;
@@ -118,22 +118,22 @@ type data_list = {
 const default_list = {
     name: '测试商户标题',
     describe: '测试商户描述',
-    title_url: [{ icon_url: 'http://shopxo.com/static/diy/images/layout/siderbar/data-magic.png'}, { icon_url: ''}],
+    icon_list: [{ icon: 'http://shopxo.com/static/diy/images/layout/siderbar/data-magic.png'}, { icon: ''}],
     logo: '',
     new_cover: [],
 };
 const list = ref<data_list[]>([]);
 const new_url_list = computed(() => {
-    return (title_url: url[]) => {
-        return title_url.filter(item1 => !isEmpty(item1.icon_url));
+    return (icon_list: url[]) => {
+        return icon_list.filter(item1 => !isEmpty(item1.icon));
     }
 });
 // 标题图片样式
 const title_img_style = computed(() => {
-    return (title_url: url[], index: number) => {
+    return (icon_list: url[], index: number) => {
         const { shop_title_img_width = 0, shop_title_img_height = 0, shop_title_img_radius, shop_title_img_inner_spacing, shop_title_img_outer_spacing} = new_style.value;
         let style = `width: ${shop_title_img_width || 0 }px;height: ${ shop_title_img_height || 0 }px;${ radius_computer(shop_title_img_radius) }`;
-        const list = title_url.filter(item1 => !isEmpty(item1.icon_url));
+        const list = icon_list.filter(item1 => !isEmpty(item1.icon));
         if (index < list.length - 1) {
             style += `margin-right: ${ shop_title_img_inner_spacing || 0}px;`;
         } else {
@@ -146,37 +146,18 @@ const title_img_style = computed(() => {
 onMounted(() => {
     // 指定商品并且指定商品数组不为空
     if (!isEmpty(form.value.data_list) && form.value.data_type == '0') {
-        const new_list = form.value.data_list.map((item: any) => ({
+        list.value = form.value.data_list.map((item: any) => ({
             ...item.data,
             title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
             new_cover: item.new_cover,
         }));
-        list.value = list_handle(new_list);
     } else if (!isEmpty(form.value.data_auto_list) && form.value.data_type == '1') {
         // 筛选商品并且筛选商品数组不为空
-        list.value = list_handle(form.value.data_auto_list);
+        list.value = form.value.data_auto_list;
     } else {
         list.value = Array(4).fill(default_list);
     }
 });
-const list_handle = (list: any[]) => {
-    list.forEach((item: any) => {
-        item.title_url = [];
-        if ((item.is_enable_auth || 0) == 1) {
-            if (item.auth_type != -1 && (item.auth_type_msg || null) != null) {
-                if (item.auth_type == 0) {
-                    item.title_url.push({ icon_url: new_style.value.shop_auth_personal_icon });
-                } else if (item.auth_type == 1) {
-                    item.title_url.push({ icon_url: new_style.value.shop_auth_company_icon });
-                }
-                if ((item.bond_status || 0) == 1 && (item.bond_status_msg || null) != null) {
-                    item.title_url.push({ icon_url: new_style.value.shop_auth_bond_icon });
-                }
-            }
-        }
-    });
-    return list;
-};
 
 const get_shops = () => {
     const { category_ids, number, order_by_type, order_by_rule, keywords, is_goods_list } = form.value;
@@ -191,7 +172,7 @@ const get_shops = () => {
     // 获取商品列表
     ShopAPI.getShopList(params).then((res: any) => {
         if (!isEmpty(res.data)) {
-            list.value = list_handle(res.data);
+            list.value = res.data;
         } else {
             list.value = Array(4).fill(default_list);
         }
