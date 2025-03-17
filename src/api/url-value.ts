@@ -53,8 +53,8 @@ class UrlValueAPI {
     }
     /** 获取优惠券列表 */
     static getCouponList(data: any) {
-        return request({
-            url: `plugins/index/pluginsname/coupon/pluginscontrol/diyapi/pluginsaction/couponlist`,
+        return api_request({
+            url: `?s=plugins/index/pluginsname/coupon/pluginscontrol/diycoupon/pluginsaction/index.html`,
             method: 'post',
             data,
         });
@@ -84,7 +84,7 @@ class UrlValueAPI {
             data,
         });
     }   
-    /** 多商户指定数据 */
+    /** 多门店指定数据 */
     static getRealstoreList(data: any) {
         return api_request({
             url: `?s=plugins/index/pluginsname/realstore/pluginscontrol/diyrealstore/pluginsaction/index.html`,

@@ -29,7 +29,9 @@
                 <div class="divider-line"></div>
                 <card-container>
                     <div class="mb-12">列表设置</div>
-                    
+                    <el-checkbox-group v-model="form.is_show">
+                        <el-checkbox v-for="item in base_list.show_list.filter(item => item.show.includes(form.theme))" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
+                    </el-checkbox-group>
                 </card-container>
             </template>
         </el-form>
@@ -40,6 +42,13 @@
 import { get_math } from '@/utils';
 import { commonStore } from '@/store';
 const common_store = commonStore();
+interface form {
+    theme: string;
+    data_list: any[];
+    content_top: any;
+    is_show: string[];
+    carousel_col: number;
+}
 /**
  * @description 博客列表（内容）
  * @param value{Object} 传过来的数据，用于数据渲染
@@ -53,14 +62,6 @@ const props = defineProps({
     styles: {
         type: Object,
         default: () => ({}),
-    },
-    defaultConfig: {
-        type: Object,
-        default: () => ({
-            // 图片不同风格下的圆角
-            img_radius_0: 4,
-            img_radius_1: 0,
-        }),
     },
 });
 // 默认值
@@ -81,10 +82,10 @@ const base_list = reactive({
         { name: '筛选问答', value: '1' },
     ],
     show_list: [
-        { name: '日期时间', value: 'head', show: ['0', '1' , '2'] },
-        { name: '浏览量', value: 'nick_name', show: ['0', '1' , '2'] },
-        { name: '回复状态', value: 'goods_image', show: ['0', '1' , '2'] },
-        { name: 'TOP排名', value: 'goods_title', show: ['0'] },
+        { name: '日期时间', value: 'time', show: ['0', '1' , '2'] },
+        { name: '浏览量', value: 'page_view', show: ['0', '1' , '2'] },
+        { name: '回复状态', value: 'reply_status', show: ['0', '1' , '2'] },
+        { name: 'TOP排名', value: 'ranking', show: ['0'] },
     ]
 });
 

@@ -213,10 +213,16 @@ onMounted(() => {
 });
 // 获取优惠券列表
 const get_coupon = () => {
-    const { number, type } = form.value;
+    const { number, type, keywords, expire_type_ids, use_limit_type_ids, order_by_type, order_by_rule, is_repeat_receive } = form.value;
     const params = {
-        number: number,
-        type: type.length > 0 ? type.join(',') : '',
+        coupon_number: number,
+        coupon_type_ids: type.length > 0 ? type.join(',') : '',
+        coupon_keywords: keywords,
+        coupon_expire_type_ids: expire_type_ids.length > 0 ? expire_type_ids.join(',') : '',
+        coupon_use_limit_type_ids: use_limit_type_ids.length > 0 ? use_limit_type_ids.join(',') : '',
+        coupon_order_by_type: order_by_type,
+        coupon_order_by_rule: order_by_rule,
+        coupon_is_repeat_receive: is_repeat_receive,
     };
     // 获取商品列表
     CouponAPI.getCoupon(params).then((res: any) => {
@@ -230,8 +236,8 @@ const get_coupon = () => {
 };
 // 监听数据类型
 const data_list_computer = computed(() => {
-    const { data_type, type, number, data_list } = form.value;
-    return { data_type, type, number, data_list };
+    const { data_type, type, number, data_list, keywords, expire_type_ids, use_limit_type_ids, order_by_type, order_by_rule, is_repeat_receive } = form.value;
+    return { data_type, type, number, data_list, keywords, expire_type_ids, use_limit_type_ids, order_by_type, order_by_rule, is_repeat_receive };
 });
 // 监听数据类型变化
 watch(

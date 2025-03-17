@@ -151,7 +151,6 @@ if (['0', '4'].includes(theme.value)) {
     }
 }
 
-
 // 多商户背景渐变设置
 const mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.shop_color_list = arry;

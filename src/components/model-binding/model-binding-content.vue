@@ -46,15 +46,15 @@
                 </el-form-item>
             </card-container>
             <div class="divider-line"></div>
-            <card-container>
-                <el-tabs v-model="tabs_name" class="content-tabs">
-                    <el-tab-pane v-for="(tab, index) in base_list.tabs" :key="index" :label="tab.label" :name="tab.name">
-                        <el-form-item :label="tab.label">
-                            <img-or-icon-or-text-content v-model:value="form" :type="tab.name" />
-                        </el-form-item>
-                    </el-tab-pane>
-                </el-tabs>
-            </card-container>
+            <!-- <card-container> -->
+            <el-tabs v-model="tabs_name" class="content-tabs">
+                <el-tab-pane v-for="(tab, index) in base_list.tabs" :key="index" :label="tab.label" :name="tab.name">
+                    <el-form-item :label="tab.label">
+                        <img-or-icon-or-text-content v-model:value="form" :type="tab.name" />
+                    </el-form-item>
+                </el-tab-pane>
+            </el-tabs>
+            <!-- </card-container> -->
         </el-form>
         <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['binding']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
     </div>
@@ -203,20 +203,20 @@ const url_value_dialog_call_back = (item: any[]) => {
 };
 </script>
 <style lang="scss" scoped>
-:deep(.el-tabs.content-tabs) {
-    .el-tabs__header.is-top {
-        background: #fff;
-        margin: 0;
-        padding-top: 0rem;
-    }
-    .el-tabs__item.is-top {
-        padding: 0;
-        align-items: center;
-        width: 10rem;
-        font-size: 1.4rem;
-    }
-    .el-tabs__active-bar{
-        width: 100%;
-    }
-}
+// :deep(.el-tabs.content-tabs) {
+//     .el-tabs__header.is-top {
+//         background: #fff;
+//         margin: 0;
+//         padding-top: 0rem;
+//     }
+//     .el-tabs__item.is-top {
+//         padding: 0;
+//         align-items: center;
+//         width: 10rem;
+//         font-size: 1.4rem;
+//     }
+//     .el-tabs__active-bar{
+//         width: 100%;
+//     }
+// }
 </style>

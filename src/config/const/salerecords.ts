@@ -8,7 +8,9 @@ interface defaultSalerecords {
         is_roll: string;
         rotation_direction: string;
         interval_time: number;
-        show_number: number;
+        keywords: string,
+        show_number: number,
+        number: number;
         is_show: string[];
     };
     style: {
@@ -68,6 +70,8 @@ const defaultSalerecords: defaultSalerecords = {
         rotation_direction: 'vertical',
         interval_time: 3,
         show_number: 2,
+        keywords: '',
+        number: 4,
         is_show: ['head', 'nick_name', 'goods_image', 'goods_title', 'time'],
     },
     style: {

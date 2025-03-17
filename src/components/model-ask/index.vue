@@ -5,27 +5,17 @@
                 <template v-if="!['3'].includes(theme)">
                     <div v-for="(item, index) in list" :key="index" class="re oh" :class="layout_type" :style="layout_style">
                         <div :class="['oh w h', ['0'].includes(theme) ? 'flex-row' : 'flex-col' ]" :style="layout_img_style">
-                            <template v-if="!isEmpty(item)">
-                                <div class="oh re" :class="`flex-img${theme}`">
-                                    <template v-if="!isEmpty(item.new_cover)">
-                                        <image-empty v-model="item.new_cover[0]" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
-                                    </template>
-                                    <template v-else>
-                                        <image-empty v-model="item.logo" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
-                                    </template>
-                                </div>
-                            </template>
-                            <div class="flex-1 flex-row jc-sb gap-10" :style="content_style">
-                                <div class="flex-1 flex-col jc-sb gap-10">
-                                    <div class="text-line-2" :style="trends_config('title')">
-                                        <template v-for="(item1, index1) in new_url_list(item.icon_list)" :key="index1">
-                                            <img :src="item1.icon" class="title-img" :style="title_img_style(item.icon_list, index1) + 'vertical-align: middle;'" />
-                                        </template>{{ item.name }}
+                            <div class="flex-row jc-sb gap-10" :style="content_style">
+                                <template v-if="theme == '0'">
+
+                                </template>
+                                <div class="flex-col jc-sb gap-10">
+                                    <div class="text-line-2" :style="trends_config('title')">{{ item.name }}</div>
+                                    <div class="flex-row gap-10">
+                                        <span v-if="form.ask_desc == '1'" :style="trends_config('desc', 'desc')">{{ item.describe }}</span>
+                                        <span></span>
+                                        <span>浏览</span>
                                     </div>
-                                    <span v-if="form.shop_desc == '1'" :class="form.shop_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.describe }}</span>
-                                </div>
-                                <div v-if="theme == '0'" class="flex-row align-c">
-                                    <img-or-icon-or-text :value="props.value" type="right" />
                                 </div>
                             </div>
                         </div>
@@ -36,23 +26,13 @@
                         <swiper-slide v-for="(item, index) in list" :key="index">
                             <div :class="layout_type" :style="layout_style">
                                 <div :class="['oh w h', ['0', '4'].includes(theme) ? 'flex-row' : 'flex-col' ]" :style="layout_img_style">
-                                    <template v-if="!isEmpty(item)">
-                                        <div class="oh re" :class="`flex-img${theme}`">
-                                            <template v-if="!isEmpty(item.new_cover)">
-                                                <image-empty v-model="item.new_cover[0]" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
-                                            </template>
-                                            <template v-else>
-                                                <image-empty v-model="item.logo" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
-                                            </template>
-                                        </div>
-                                    </template>
                                     <div class="flex-col jc-sb gap-10" :style="content_style">
                                         <div class="text-line-2" :style="trends_config('title')">
                                             <template v-for="(item1, index1) in new_url_list(item.icon_list)" :key="index1">
                                                 <img :src="item1.icon" class="title-img" :style="title_img_style(item.icon_list, index1) + 'vertical-align: middle;'" />
                                             </template>{{ item.name }}
                                         </div>
-                                        <span v-if="form.shop_desc == '1'" :class="form.shop_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.describe }}</span>
+                                        <span v-if="form.ask_desc == '1'" :style="trends_config('desc', 'desc')">{{ item.describe }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -131,13 +111,13 @@ const new_url_list = computed(() => {
 // 标题图片样式
 const title_img_style = computed(() => {
     return (icon_list: url[], index: number) => {
-        const { shop_title_img_width = 0, shop_title_img_height = 0, shop_title_img_radius, shop_title_img_inner_spacing, shop_title_img_outer_spacing} = new_style.value;
-        let style = `width: ${shop_title_img_width || 0 }px;height: ${ shop_title_img_height || 0 }px;${ radius_computer(shop_title_img_radius) }`;
+        const { ask_title_img_width = 0, ask_title_img_height = 0, ask_title_img_radius, ask_title_img_inner_spacing, ask_title_img_outer_spacing} = new_style.value;
+        let style = `width: ${ask_title_img_width || 0 }px;height: ${ ask_title_img_height || 0 }px;${ radius_computer(ask_title_img_radius) }`;
         const list = icon_list.filter(item1 => !isEmpty(item1.icon));
         if (index < list.length - 1) {
-            style += `margin-right: ${ shop_title_img_inner_spacing || 0}px;`;
+            style += `margin-right: ${ ask_title_img_inner_spacing || 0}px;`;
         } else {
-            style += `margin-right: ${ shop_title_img_outer_spacing || 0}px;`;
+            style += `margin-right: ${ ask_title_img_outer_spacing || 0}px;`;
         }
         return style;
     }
@@ -162,12 +142,12 @@ onMounted(() => {
 const get_shops = () => {
     const { category_ids, number, order_by_type, order_by_rule, keywords, is_goods_list } = form.value;
     const params = {
-        shop_keywords: keywords,
-        shop_category_ids: category_ids,
-        shop_order_by_type: order_by_type,
-        shop_order_by_rule: order_by_rule,
-        shop_number: number,
-        shop_is_goods_list: is_goods_list,
+        ask_keywords: keywords,
+        ask_category_ids: category_ids,
+        ask_order_by_type: order_by_type,
+        ask_order_by_rule: order_by_rule,
+        ask_number: number,
+        ask_is_goods_list: is_goods_list,
     };
     // 获取商品列表
     ShopAPI.getShopList(params).then((res: any) => {
@@ -208,20 +188,20 @@ watch(() => watch_data.value, (val, oldVal) => {
 // 门店间距
 const content_outer_spacing = computed(() => new_style.value.content_outer_spacing);
 // 圆角设置
-const content_radius = computed(() => radius_computer(new_style.value.shop_radius));
+const content_radius = computed(() => radius_computer(new_style.value.ask_radius));
 // 图片圆角设置
-const content_img_radius = computed(() => radius_computer(new_style.value.shop_img_radius));
+const content_img_radius = computed(() => radius_computer(new_style.value.ask_img_radius));
 // 内边距设置
-const content_padding = computed(() => padding_computer(new_style.value.shop_padding));
-const shop_left_right_width_margin = computed(() => {
-    const { shop_margin = old_margin } = new_style.value;
-    return shop_margin.margin_left + shop_margin.margin_right;
+const content_padding = computed(() => padding_computer(new_style.value.ask_padding));
+const ask_left_right_width_margin = computed(() => {
+    const { ask_margin = old_margin } = new_style.value;
+    return ask_margin.margin_left + ask_margin.margin_right;
 });
 // 两列风格
-const two_columns = computed(() => content_outer_spacing.value + shop_left_right_width_margin.value * 2 + 'px' );
+const two_columns = computed(() => content_outer_spacing.value + ask_left_right_width_margin.value * 2 + 'px' );
 // 根据传递的参数，从对象中取值
 const trends_config = (key: string, type?: string) => {
-    return style_config(new_style.value[`shop_${key}_typeface`], new_style.value[`shop_${key}_size`], new_style.value[`shop_${key}_color`], type);
+    return style_config(new_style.value[`ask_${key}_typeface`], new_style.value[`ask_${key}_size`], new_style.value[`ask_${key}_color`], type);
 };
 // 根据传递的值，显示不同的内容
 const style_config = (typeface: string, size: number, color: string | object, type?: string) => {
@@ -252,16 +232,16 @@ const layout_type = computed(() => {
 // 容器样式
 const layout_style = computed(() => {
     const radius = theme.value == '6' ? '' : content_radius.value;
-    const width = theme.value == '0' ? `width: calc(100% - ${ shop_left_right_width_margin.value }px);` : '';
-    const gradient = gradient_handle(new_style.value.shop_color_list, new_style.value.shop_direction) + margin_computer(new_style.value.shop_margin) + border_computer(new_style.value) + box_shadow_computer(new_style.value);
+    const width = theme.value == '0' ? `width: calc(100% - ${ ask_left_right_width_margin.value }px);` : '';
+    const gradient = gradient_handle(new_style.value.ask_color_list, new_style.value.ask_direction) + margin_computer(new_style.value.ask_margin) + border_computer(new_style.value) + box_shadow_computer(new_style.value);
     return `${radius} ${ gradient } ${ width }`;
 });
 // 容器图片样式
 const layout_img_style = computed(() => {
     const padding = theme.value == '0' ? content_padding.value : '';
     const data = {
-        background_img_style: new_style.value.shop_background_img_style,
-        background_img: new_style.value.shop_background_img,
+        background_img_style: new_style.value.ask_background_img_style,
+        background_img: new_style.value.ask_background_img,
     }
     return padding + background_computer(data);
 });
@@ -298,18 +278,18 @@ watchEffect(() => {
     carouselKey.value = get_math();
 });
 //#endregion
-const shop_style_list = [
+const ask_style_list = [
     { name: '单列展示', value: '0', width: 50, height: 50 },
     { name: '两列展示（纵向）', value: '1', width:180, height: 180 },
     { name: '大图展示', value: '2', width:0, height: 180 },
     { name: '左右滑动展示', value: '3', width:0, height: 0 },
 ]
 // 宽度和高度为空的时候，修改默认值
-const shop_img_width = computed(() => {
+const ask_img_width = computed(() => {
     if (typeof new_style.value.content_img_width == 'number') {
         return new_style.value.content_img_width + 'px';
     } else {
-        const list = shop_style_list.filter(item => item.value == theme.value);
+        const list = ask_style_list.filter(item => item.value == theme.value);
         if (list.length > 0) {
             return list[0].width + 'px';
         } else {
@@ -318,11 +298,11 @@ const shop_img_width = computed(() => {
     }
 });
 // 宽度和高度为空的时候，修改默认值
-const shop_img_height = computed(() => {
+const ask_img_height = computed(() => {
     if (typeof new_style.value.content_img_height == 'number') {
         return new_style.value.content_img_height + 'px';
     } else {
-        const list = shop_style_list.filter(item => item.value == theme.value);
+        const list = ask_style_list.filter(item => item.value == theme.value);
         if (list.length > 0) {
             return list[0].height + 'px';
         } else {
@@ -350,16 +330,16 @@ const content_outer_height = computed(() => new_style.value.content_outer_height
     height: v-bind(content_outer_height);
 }
 .flex-img0 {
-    height: v-bind(shop_img_height);
-    width: v-bind(shop_img_width);
+    height: v-bind(ask_img_height);
+    width: v-bind(ask_img_width);
 }
 .flex-img1 {
     width: 100%;
-    height: v-bind(shop_img_height);
+    height: v-bind(ask_img_height);
 }
 .flex-img2 {
     width: 100%;
-    height: v-bind(shop_img_height);
+    height: v-bind(ask_img_height);
 }
 .flex-img3 {
     width: 100%;

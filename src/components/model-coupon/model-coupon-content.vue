@@ -30,13 +30,39 @@
                     </el-form-item>
                 </template>
                 <template v-else>
+                    <el-form-item label="关键字">
+                        <el-input v-model="keywords" placeholder="请输入优惠劵关键字" clearable @blur="keyword_blur"></el-input>
+                    </el-form-item>
                     <el-form-item label="类型">
                         <el-select v-model="form.type" multiple collapse-tags filterable placeholder="请选择优惠券类型">
                             <el-option v-for="item in base_list.type_list" :key="item.value" :label="item.name" :value="item.value" />
                         </el-select>
                     </el-form-item>
-                    <el-form-item label="展示数量">
-                        <slider v-model="form.number"></slider>
+                    <el-form-item label="到期类型">
+                        <el-select v-model="form.expire_type_ids" multiple collapse-tags filterable placeholder="请选择到期类型">
+                            <el-option v-for="item in get_data_list(common_store.common.plugins, 'coupon.expire_type_list')" :key="item.value" :label="item.name" :value="item.value" />
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="使用限制">
+                        <el-select v-model="form.use_limit_type_ids" multiple collapse-tags filterable placeholder="请选择使用限制">
+                            <el-option v-for="item in get_data_list(common_store.common.plugins, 'coupon.use_limit_type_list')" :key="item.value" :label="item.name" :value="item.value" />
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item label="显示数量">
+                        <el-input-number v-model="form.number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
+                    </el-form-item>
+                    <el-form-item label="排序类型">
+                        <el-radio-group v-model="form.order_by_type">
+                            <el-radio v-for="item in get_data_list(common_store.common.plugins, 'coupon.order_by_type_list')" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item label="排序规则">
+                        <el-radio-group v-model="form.order_by_rule">
+                            <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item label="首页显示">
+                        <el-switch v-model="form.is_repeat_receive" active-value="1" inactive-value="0" />
                     </el-form-item>
                 </template>
                 <template v-if="form.theme === '4'">
@@ -53,7 +79,7 @@
     <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['coupon']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
 </template>
 <script setup lang="ts">
-import { online_url, is_obj_empty } from '@/utils';
+import { online_url, is_obj_empty, get_data_list } from '@/utils';
 import { commonStore } from '@/store';
 const common_store = commonStore();
 /**
@@ -110,6 +136,10 @@ const emit = defineEmits(['update:change-theme']);
 const themeChange = (val: string) => {
     emit('update:change-theme', val);
 };
+const keywords = ref(form.value.keywords);
+const keyword_blur = () => {
+    form.value.keywords = keywords.value;
+}
 // 移除
 const remove = (index: number) => {
     form.value.data_list.splice(index, 1);

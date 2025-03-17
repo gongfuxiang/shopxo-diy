@@ -8,20 +8,15 @@
                             <div class="flex-row align-c gap-5">
                                 <template v-if="!isEmpty(item) && is_show('head')">
                                     <div class="oh re">
-                                        <template v-if="!isEmpty(item.new_cover)">
-                                            <image-empty v-model="item.new_cover[0]" :style="heading_img_radius"></image-empty>
-                                        </template>
-                                        <template v-else>
-                                            <image-empty v-model="item.head_img" :style="heading_img_radius"></image-empty>
-                                        </template>
+                                        <image-empty v-model="item.user.avatar" :style="heading_img_radius"></image-empty>
                                     </div>
                                 </template>
-                                <span v-if="is_show('nick_name')" class="flex-1 text-line-1" :style="trends_config('nick_name')">{{ item.nick_name }}</span>
+                                <span v-if="is_show('nick_name')" class="text-line-1" :style="trends_config('nick_name')">{{ item.user.user_name_view }}</span>
                                 <template v-if="is_show('goods_image')">
-                                    <image-empty v-model="item.goods_images" :style="goods_image_radius"></image-empty>
+                                    <image-empty v-model="item.goods_url" :style="goods_image_radius"></image-empty>
                                 </template>
-                                <span v-if="is_show('goods_title')" class="flex-1 text-line-1" :style="trends_config('goods_title')">{{ item.goods_title }}</span>
-                                <span v-if="is_show('time')" class="nowarp" :style="trends_config('time')">{{ item.time }}</span>
+                                <span v-if="is_show('goods_title')" class="flex-1 text-line-1" :style="trends_config('goods_title')">{{ item.title }}</span>
+                                <span v-if="is_show('time')" class="nowarp" :style="trends_config('time')">{{ item.add_time }}</span>
                             </div>
                         </swiper-slide>
                     </swiper>
@@ -35,10 +30,10 @@
                                 <div :style="swiper_horizontal_container + 'width: auto;'">
                                     <div class="flex-row align-c gap-5" :style="swiper_horizontal_img_container">
                                         <template v-if="is_show('goods_image')">
-                                            <image-empty v-model="item1.goods_images" :style="goods_image_radius"></image-empty>
+                                            <image-empty v-model="item1.goods_url" :style="goods_image_radius"></image-empty>
                                         </template>
-                                        <span v-if="is_show('goods_title')" class="flex-1 text-line-1" :style="trends_config('goods_title') + `max-width: ${ max_title_width }px;`">{{ item1.goods_title }}</span>
-                                        <span v-if="is_show('time')" class="nowarp" :style="trends_config('time')">{{ item1.time }}</span>
+                                        <span v-if="is_show('goods_title')" class="flex-1 text-line-1" :style="trends_config('goods_title') + `max-width: ${ max_title_width }px;`">{{ item1.title }}</span>
+                                        <span v-if="is_show('time')" class="nowarp" :style="trends_config('time')">{{ item1.add_time }}</span>
                                     </div>
                                 </div>
                             </swiper-slide>
@@ -52,6 +47,7 @@
 <script setup lang="ts">
 import { common_styles_computer, common_img_computer, get_math, gradient_handle, radius_computer, background_computer, padding_computer } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
+import SalerecordsAPI from '@/api/salerecords';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
 const modules = [Autoplay];
@@ -113,20 +109,22 @@ const style_container = computed(() => common_styles_computer(new_style.value.co
 const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
 //#region 列表数据
 type data_list = {
-    head_img: string,
-    new_cover: string[],
-    nick_name: string,
-    goods_title: string,
-    goods_images: string,
-    time: string
+    user: {
+        avatar: string,
+        user_name_view: string,
+    },
+    title: string,
+    goods_url: string,
+    add_time: string
 }
 const default_list = {
-    head_img: '',
-    new_cover: [],
-    nick_name: '测试昵称测试昵称测试昵称测试昵称',
-    goods_title: '测试商品标题测试',
-    goods_images: '',
-    time: '02-04 23:01:01'
+    user: {
+        avatar: '',
+        user_name_view: '测试昵称测试昵称测试昵称测试昵称',
+    },
+    title: '测试商品标题测试',
+    goods_url: '',
+    add_time: '02-04 23:01:01'
 };
 type split_list = {
     split_list: data_list[]
@@ -135,65 +133,42 @@ const new_list = ref<split_list[]>([]);
 const list = ref<data_list[]>([]);
 // 初始化的时候执行
 onMounted(() => {
-    // 指定商品并且指定商品数组不为空
-    if (!isEmpty(form.value.data_list) && form.value.data_type == '0') {
-        list.value = form.value.data_list.map((item: any) => ({
-            ...item.data,
-            title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
-            new_cover: item.new_cover,
-        }));
-    } else if (!isEmpty(form.value.data_auto_list) && form.value.data_type == '1') {
+    if (!isEmpty(form.value.data_auto_list) && form.value.data_type == '1') {
         // 筛选商品并且筛选商品数组不为空
         list.value = form.value.data_auto_list;
     } else {
-        list.value = Array(50).fill(default_list);
+        list.value = Array(10).fill(default_list);
     }
 });
 
 const get_products = () => {
-    const { category_ids, brand_ids, number, order_by_type, order_by_rule, keywords } = form.value;
+    const { number, keywords } = form.value;
     const params = {
-        goods_keywords: keywords,
-        goods_category_ids: category_ids,
-        goods_brand_ids: brand_ids,
-        goods_order_by_type: order_by_type,
-        goods_order_by_rule: order_by_rule,
-        goods_number: number,
+        keywords: keywords,
+        number: number,
     };
     list.value = Array(50).fill(default_list);
     // 获取商品列表
-    // ShopAPI.getShopLists(params).then((res: any) => {
-    //     if (!isEmpty(res.data)) {
-    //         list.value = res.data;
-    //     } else {
-    //         list.value = Array(4).fill(default_list);
-    //     }
-    // });
+    SalerecordsAPI.getAutoList(params).then((res: any) => {
+        if (!isEmpty(res.data)) {
+            list.value = res.data;
+        } else {
+            list.value = Array(10).fill(default_list);
+        }
+    });
 };
 // 取出监听的数据
 const watch_data = computed(() => {
-    const { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, data_list, keywords } = form.value;
-    return { category_ids: category_ids, brand_ids: brand_ids, number: number, order_by_type: order_by_type, order_by_rule: order_by_rule, data_type: data_type, data_list: data_list, keyword: keywords };
+    const { keywords, number } = form.value;
+    return { keywords, number };
 })
 // 初始化的时候不执行, 监听数据变化
 watch(() => watch_data.value, (val, oldVal) => {
     // 使用JSON.stringify()进行判断 新值和旧值是否一样 不一样就重新获取数据
     if ((JSON.stringify(val) !== JSON.stringify(oldVal)) || props.isCommonStyle) {
-        if (val.data_type == '0') {
-            if (!isEmpty(val.data_list)) {
-                list.value = cloneDeep(val.data_list).map((item: any) => ({
-                    ...item.data,
-                    title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
-                    new_cover: item.new_cover,
-                }));
-            } else {
-                list.value = Array(4).fill(default_list);
-            }
-        } else {
-            get_products();
-        }
+        get_products();
     }
-}, { deep: true });
+}, { immediate: true, deep: true });
 //#endregion
 //#region 轮播设置
 // 轮播图key值

@@ -1,10 +1,10 @@
 <template>
     <div class="setting-content">
         <template v-if="type == '1'">
-            <model-shop-content :value="form.content" :styles="form.style" :default-config="data_config"></model-shop-content>
+            <model-ask-content :value="value.content" :styles="value.style"></model-ask-content>
         </template>
         <template v-else-if="type == '2'">
-            <model-shop-styles :value="form.style" :content="form.content" :default-config="data_config"></model-shop-styles>
+            <model-ask-styles :value="value.style" :content="value.content"></model-ask-styles>
         </template>
     </div>
 </template>
@@ -24,10 +24,4 @@ const props = defineProps({
         default: () => ({}),
     },
 });
-const data_config = reactive({
-    // 图片不同风格下的圆角
-    img_radius_0: 4,
-    img_radius_1: 0,
-});
-const form = ref(props.value);
 </script>

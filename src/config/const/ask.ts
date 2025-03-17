@@ -7,8 +7,6 @@ interface defaultRealstore {
         content_top: object;
         theme: string;
         carousel_col: number;
-        shop_desc: string;
-        shop_desc_row: string;
         data_type: string, 
         data_list: string[];
         data_auto_list: string[];
@@ -17,38 +15,30 @@ interface defaultRealstore {
         order_by_type: number, 
         order_by_rule:number, 
         keywords: string;
-        is_right_show: string;
-        right_type: string;
-        right_img: uploadList[];
-        right_icon: string;
-        right_text: string;
+        is_show: string[],
     };
     style: {
-        shop_color_list: color_list[];
-        shop_direction: string;
-        shop_background_img_style: string;
-        shop_background_img: uploadList[];
-        shop_img_radius: radiusStyle;
-        shop_margin: marginStyle;
-        shop_padding: paddingStyle;
-        shop_radius: radiusStyle;
+        ask_color_list: color_list[];
+        ask_direction: string;
+        ask_background_img_style: string;
+        ask_background_img: uploadList[];
+        ask_margin: marginStyle;
+        ask_padding: paddingStyle;
+        ask_radius: radiusStyle;
         content_img_width: number;
         content_img_height: number;
         content_spacing: number;
         content_outer_spacing: number;
         content_outer_height: number;
-        shop_title_img_width: number,
-        shop_title_img_height: number,
-        shop_title_img_radius: radiusStyle,
-        shop_title_img_inner_spacing: number,
-        shop_title_img_outer_spacing: number,
-        shop_title_color: string;
-        shop_title_typeface: string;
-        shop_title_size: number;
-        shop_desc_color: string;
-        shop_desc_typeface: string;
-        shop_desc_size: number;
-        right_style: object,
+        ask_title_color: string;
+        ask_title_typeface: string;
+        ask_title_size: number;
+        ask_time_color: string;
+        ask_time_typeface: string;
+        ask_time_size: number;
+        ask_page_view_color: string;
+        ask_page_view_typeface: string;
+        ask_page_view_size: number;
         is_roll: string;
         interval_time: number;
         rolling_fashion: string;
@@ -62,6 +52,8 @@ interface defaultRealstore {
         box_shadow_y: number;
         box_shadow_blur: number;
         box_shadow_spread: number;
+        returned_style: object;
+        not_replied_yet_style: object;
         common_style: object;  
     };
 }
@@ -72,8 +64,6 @@ const defaultRealstore: defaultRealstore = {
         },
         theme: '0',
         carousel_col: 1,
-        shop_desc: '1',
-        shop_desc_row: '1',
         data_type: '0', 
         data_list: [],
         data_auto_list: [],
@@ -82,40 +72,28 @@ const defaultRealstore: defaultRealstore = {
         order_by_type: 0, 
         order_by_rule: 0, 
         keywords: '',
-        is_right_show: '1',
-        right_type: 'img-icon',
-        right_img: [],
-        right_icon: 'arrow-right',
-        right_text: '',
+        is_show: ['time', 'page_view', 'reply_status', 'ranking'],
     },
     style: {
-        shop_color_list: [{ color: '#fff', color_percentage: undefined }],
-        shop_direction: '90deg',
-        shop_background_img_style: '2',
-        shop_background_img: [],
-        // 图片圆角
-        shop_img_radius: {
-            radius: 0,
-            radius_top_left: 0,
-            radius_top_right: 0,
-            radius_bottom_left: 0,
-            radius_bottom_right: 0,
-        },
-        shop_margin: {
+        ask_color_list: [{ color: '#fff', color_percentage: undefined }],
+        ask_direction: '90deg',
+        ask_background_img_style: '2',
+        ask_background_img: [],
+        ask_margin: {
             margin: 0,
             margin_top: 0,
             margin_bottom: 0,
             margin_left: 0,
             margin_right: 0,
         },
-        shop_padding: {
+        ask_padding: {
             padding: 10,
             padding_top: 10,
             padding_bottom: 10,
             padding_left: 10,
             padding_right: 10,
         },
-        shop_radius: {
+        ask_radius: {
             radius: 8,
             radius_top_left: 8,
             radius_top_right: 8,
@@ -127,46 +105,15 @@ const defaultRealstore: defaultRealstore = {
         content_spacing: 10,
         content_outer_spacing: 10,
         content_outer_height: 204,
-        shop_title_img_width: 12,
-        shop_title_img_height: 12,
-        shop_title_img_radius: {
-            radius: 0,
-            radius_top_left: 0,
-            radius_top_right: 0,
-            radius_bottom_left: 0,
-            radius_bottom_right: 0,
-        },
-        shop_title_img_inner_spacing: 5,
-        shop_title_img_outer_spacing: 5,
-        shop_title_color: '#333',
-        shop_title_typeface: 'bold',
-        shop_title_size: 14,
-        shop_desc_color: '#666',
-        shop_desc_typeface: '400',
-        shop_desc_size: 12,
-        right_style: {
-            color_list: [{ color: '', color_percentage: undefined }],
-            direction: '90deg',
-            color: '#ccc',
-            size: 12,
-            img_width: 14,
-            img_height: 14,
-            margin: 0,
-            margin_top: 0,
-            margin_bottom: 0,
-            margin_left: 0,
-            margin_right: 0,
-            padding: 0,
-            padding_top: 0,
-            padding_bottom: 0,
-            padding_left: 0,
-            padding_right: 0,
-            radius: 0,
-            radius_top_left: 0,
-            radius_top_right: 0,
-            radius_bottom_left: 0,
-            radius_bottom_right: 0,
-        },
+        ask_title_color: '#333',
+        ask_title_typeface: 'bold',
+        ask_title_size: 14,
+        ask_time_color: '#666',
+        ask_time_typeface: '400',
+        ask_time_size: 12,
+        ask_page_view_color: '#666',
+        ask_page_view_typeface: '400',
+        ask_page_view_size: 12,
         // 是否滚动
         is_roll: '1',
         interval_time: 3,
@@ -187,6 +134,44 @@ const defaultRealstore: defaultRealstore = {
         box_shadow_y: 0,
         box_shadow_blur: 0,
         box_shadow_spread: 0,
+        returned_style: {
+            color_list: [{ color: '', color_percentage: undefined }],
+            direction: '90deg',
+            background_img_style: '2',
+            background_img: [],
+            font_color: '#ccc',
+            font_size: 12,
+            font_typeface: '400',
+            border_is_show: '0',
+            border_color: '#eee',
+            border_style: 'solid',
+            border_size: {
+                padding: 1,
+                padding_top: 1,
+                padding_right: 1,
+                padding_bottom: 1,
+                padding_left: 1,
+            },
+        },
+        not_replied_yet_style: {
+            color_list: [{ color: '', color_percentage: undefined }],
+            direction: '90deg',
+            background_img_style: '2',
+            background_img: [],
+            font_color: '#ccc',
+            font_size: 12,
+            font_typeface: '400',
+            border_is_show: '0',
+            border_color: '#eee',
+            border_style: 'solid',
+            border_size: {
+                padding: 1,
+                padding_top: 1,
+                padding_right: 1,
+                padding_bottom: 1,
+                padding_left: 1,
+            },
+        },
         // 公共样式
         common_style: {
             ...defaultCommon,

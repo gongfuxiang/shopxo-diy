@@ -22,13 +22,19 @@
             <div class="divider-line"></div>
             <card-container class="card-container-br">
                 <div class="mb-12">自动读取</div>
+                <el-form-item label="关键字">
+                    <el-input v-model="keywords" placeholder="请输入记录关键字" clearable @blur="keyword_blur"></el-input>
+                </el-form-item>
                 <el-form-item label="读取数量">
-                    <el-input-number v-model="form.show_number" :min="1" :max="50" type="number" placeholder="请输入读取数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
+                    <el-input-number v-model="form.number" :min="1" :max="50" type="number" placeholder="请输入读取数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
                 </el-form-item>
             </card-container>
             <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">显示内容</div>
+                <el-form-item label="显示数量">
+                    <el-input-number v-model="form.show_number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
+                </el-form-item>
                 <el-form-item label="商品显示">
                     <el-checkbox-group v-model="form.is_show">
                         <el-checkbox v-for="item in base_list.filter(item => item.type.includes(form.rotation_direction))" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
@@ -62,7 +68,11 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, data } = toRefs(state);
-
+// 关键字处理
+const keywords = ref(form.value.keywords);
+const keyword_blur = () => {
+    form.value.keywords = keywords.value;
+}
 const base_list = reactive([
     { name: '头像', value: 'head', type: ['vertical'] },
     { name: '昵称', value: 'nick_name', type: ['vertical'] },

@@ -170,20 +170,4 @@ const common_style_update = (value: any) => {
 };
 </script>
 <style lang="scss" scoped>
-:deep(.el-tabs.content-tabs) {
-    .el-tabs__header.is-top {
-        background: #fff;
-        margin: 0;
-        padding-top: 0rem;
-    }
-    .el-tabs__item.is-top {
-        padding: 0;
-        align-items: center;
-        width: 10rem;
-        font-size: 1.4rem;
-    }
-    .el-tabs__active-bar{
-        width: 100%;
-    }
-}
 </style>
