@@ -30,6 +30,7 @@ import defaultRealstore from '@/config/const/realstore';
 import defaultShop from '@/config/const/shop';
 import defaultBinding from '@/config/const/binding';
 import defaultSalerecords from '@/config/const/salerecords';
+import defaultAsk from '@/config/const/ask';
 
 // 系统设置
 interface DefaultSettings {
@@ -65,6 +66,7 @@ interface DefaultSettings {
     shop: object;
     binding: object;
     salerecords: object;
+    ask: object;
 }
 
 const defaultSettings: DefaultSettings = {
@@ -99,7 +101,8 @@ const defaultSettings: DefaultSettings = {
     realstore: defaultRealstore,
     shop: defaultShop,
     binding: defaultBinding,
-    salerecords: defaultSalerecords
+    salerecords: defaultSalerecords,
+    ask: defaultAsk
 };
 
 export default defaultSettings;

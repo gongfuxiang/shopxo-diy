@@ -130,6 +130,10 @@
             <template v-else-if="item.key == 'salerecords'">
                 <model-salerecords :key="item.com_data" :value="item.com_data"></model-salerecords>
             </template>
+            <!-- 问答 -->
+            <template v-else-if="item.key == 'ask'">
+                <model-ask :key="item.com_data" :value="item.com_data"></model-ask>
+            </template>
             <!-- 工具组件 -->
             <!-- 辅助线 -->
             <template v-else-if="item.key == 'row-line'">

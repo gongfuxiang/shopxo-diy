@@ -229,13 +229,13 @@ const defaultRealstore: defaultRealstore = {
         content_outer_spacing: 10,
         content_outer_height: 204,
         shop_lable_color: '#ff0036',
-        shop_lable_size: 12,
+        shop_lable_size: 10,
         shop_lable_padding: {
-            padding: 3,
-            padding_top: 3,
+            padding: 0,
+            padding_top: 1,
             padding_left: 3,
             padding_right: 3,
-            padding_bottom: 3,
+            padding_bottom: 1,
         },
         shop_lable_radius: {
             radius: 4,

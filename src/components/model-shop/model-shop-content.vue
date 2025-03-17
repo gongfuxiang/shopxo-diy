@@ -115,26 +115,8 @@ const base_list = reactive({
         { name: '描述', value: '2' },
     ],
 });
-
-const emits = defineEmits(['theme_change']);
-onMounted(() => {
-    // 如果历史数据没有操作，则修改默认值
-    const { content_img_width = '', content_img_height = '' } = data.value;
-    // 宽度和高度为空的时候，并且不是无图模式和左右滑动模式的时候，修改默认值
-    if ((typeof content_img_width != 'number' || typeof content_img_height != 'number') && !['3', '4'].includes(form.value.theme)) {
-        const list = base_list.theme_list.filter(item => item.value == form.value.theme);
-        if (list.length > 0) {
-            emits('theme_change', list[0].width, list[0].height);
-        }
-    }
-});
 // 主题改变
 const theme_change = (val: any) => {
-    if (val == '3' || val == '4') {
-        form.value.field_show = ['1', '3'];
-    } else {
-        form.value.field_show = ['0', '1', '3'];
-    }
     if (val == '0') {
         if (data.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (data.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && data.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
             data.value.shop_img_radius.radius = props.defaultConfig.img_radius_0;
@@ -200,16 +182,6 @@ const url_value_dialog_call_back = (item: any[]) => {
             new_cover: form.value.data_list[data_list_replace_index.value]?.new_cover || [],
             data: item[0],
         };
-    }
-};
-// 标题浮起之后博客标题的颜色和字体更新
-const switch_chage = (val: string | number | boolean) => {
-    if (val == '1') {
-        data.value.name_color = '#fff';
-        data.value.name_weight = '400';
-    } else {
-        data.value.name_color = '#333';
-        data.value.name_weight = 'bold';
     }
 };
 </script>
