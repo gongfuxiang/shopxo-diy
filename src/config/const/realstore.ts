@@ -55,6 +55,7 @@ interface defaultRealstore {
         content_top: object;
         theme: string;
         data_type: string, 
+        data_ids: string,
         data_list: string[],
         data_auto_list: string[],
         category_ids: string[],
@@ -62,6 +63,7 @@ interface defaultRealstore {
         order_by_type: number, 
         order_by_rule: number, 
         keywords: string,
+        is_goods_list: string;
         carousel_col: number;
         is_navigation_show: string;
         navigation_type: string;
@@ -158,6 +160,7 @@ const defaultRealstore: defaultRealstore = {
         },
         theme: '0',
         data_type: '0', 
+        data_ids: '',
         data_list: [],
         data_auto_list: [],
         category_ids: [],
@@ -165,6 +168,7 @@ const defaultRealstore: defaultRealstore = {
         order_by_type: 0, 
         order_by_rule: 0, 
         keywords: '',
+        is_goods_list: '0',
         carousel_col: 1,
         is_navigation_show: '1',
         navigation_type: 'img-icon',

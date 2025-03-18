@@ -66,6 +66,10 @@
                 <template v-else-if="link_select == 'realstore'">
                     <link-realstore v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-realstore>
                 </template>
+                <!-- 问答 -->
+                <template v-else-if="link_select == 'ask'">
+                    <link-ask v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-ask>
+                </template>
             </div>
         </div>
         <template #footer>
@@ -180,6 +184,8 @@ const dialog_title = computed(() => {
             name = '多商户';
         } else if (props.type[0] == 'realstore') {
             name = '多门店';
+        } else if (props.type[0] == 'ask') {
+            name = '问答';
         }
         return name + '选择';
     } else {

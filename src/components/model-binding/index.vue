@@ -245,10 +245,10 @@ onMounted(() => {
 });
 
 const get_binding = () => {
-    const { keywords, binding_type, number, order_by_type, order_by_rule, is_home_show } = form.value;
+    const { keywords, category_ids, number, order_by_type, order_by_rule, is_home_show } = form.value;
     const params = {
         binding_keywords: keywords,
-        binding_type: binding_type,
+        binding_type: category_ids,
         binding_order_by_type: order_by_type,
         binding_order_by_rule: order_by_rule,
         binding_number: number,
@@ -261,14 +261,12 @@ const get_binding = () => {
         } else {
             list.value = Array(4).fill(default_list);
         }
-    }).catch(() => {
-        list.value = Array(4).fill(default_list);
-    });
+    })
 };
 // 取出监听的数据
 const watch_data = computed(() => {
-    const { keywords, binding_type, number, order_by_type, order_by_rule, is_home_show, data_type, data_list } = form.value;
-    return { keywords, binding_type, number, order_by_type, order_by_rule, is_home_show, data_type, data_list };
+    const { keywords, category_ids, number, order_by_type, order_by_rule, is_home_show, data_type, data_list } = form.value;
+    return { keywords, category_ids, number, order_by_type, order_by_rule, is_home_show, data_type, data_list };
 })
 // 初始化的时候不执行, 监听数据变化
 watch(() => watch_data.value, (val, oldVal) => {

@@ -251,9 +251,9 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
 
     clone_form.footer.show_tabs = '0';
     // 字段比coupon多
-    const new_array_1 = ['goods-list', 'article-list'];
+    const new_array_1 = ['goods-list', 'article-list', 'blog', 'shop', 'realstore', 'binding'];
     // 数据比正常list多一级
-    const new_array_2 = ['goods-tabs', 'article-tabs'];
+    const new_array_2 = ['goods-tabs', 'article-tabs', 'blog-tabs'];
     // 数据格式简单
     const new_array_3 = ['coupon'];
     // 层级更深
@@ -265,12 +265,12 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
     clone_form.diy_data = clone_form.diy_data.map((item: any) => {
         if (new_array_1.includes(item.key)) {
             // 商品或文章的数据处理
-            goods_or_article_data_processing(item.com_data.content, item.key == new_array_1[0]);
+            goods_or_article_data_processing(item.com_data.content, item.key == new_array_1[0], item.key);
         } else if (new_array_2.includes(item.key)) {
             item.com_data.content.tabs_active_index = 0;
             item.com_data.content.tabs_list.forEach((item0: any) => {
                 // 商品或文章的数据处理
-                goods_or_article_data_processing(item0, item.key == new_array_1[0]);
+                goods_or_article_data_processing(item0, item.key == new_array_1[0], item.key);
             });
         } else if (new_array_3.includes(item.key)) {
             item.com_data.content.data_ids = item.com_data.content.data_list.map((item: any) => item.id).join(',') || '';
@@ -365,6 +365,8 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                     // item.article_config = cloneDeep(article_default_parameter);
                 }
             });
+        } else if (['salerecords'].includes(item.key)) {
+            item.com_data.content.data_auto_list = [];
         }
         return {
             ...item,
@@ -417,7 +419,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
  * @param new_com_data_content 传入的新数据内容对象，包含需要处理的数据列表和其他相关信息
  * @param is_goods 是否为商品的标志，用于决定数据处理的具体方式
  */
- const goods_or_article_data_processing = (new_com_data_content: any, is_goods: boolean) => {
+ const goods_or_article_data_processing = (new_com_data_content: any, is_goods: boolean, type: string = '') => {
     // 判断数据类型，如果为'0'，则进行详细的数据处理
     if (new_com_data_content.data_type == '0') {
         // 提取数据ID列表，用于后续的数据查询或处理
@@ -431,8 +433,9 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                 data_id: item1.data.id,
             };
         });
-        
+
         // 设置分类ID、数量、排序规则等默认值，确保数据的一致性和完整性
+        new_com_data_content.keywords = '';
         new_com_data_content.category_ids = defaultConfigSetting.category_ids;
         new_com_data_content.number = defaultConfigSetting.page_size;
         new_com_data_content.order_by_rule = defaultConfigSetting.order_by_rule;
@@ -442,7 +445,20 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
         if (is_goods) {
             new_com_data_content.brand_ids = defaultConfigSetting.brand_ids;
         } else {
-            new_com_data_content.is_cover = defaultConfigSetting.is_cover;
+            // 文章博客的显示
+            if (['article-list', 'article-tabs', 'blog', 'blog-tabs'].includes(type)) {
+                new_com_data_content.is_cover = defaultConfigSetting.is_cover;
+                if (['blog', 'blog-tabs'].includes(type)) {
+                    new_com_data_content.is_recommended = '0';
+                    new_com_data_content.is_hot = '0';
+                }
+            } else if (['realstore', 'shop'].includes(type)) {
+                // 多商户多门店的显示
+                new_com_data_content.is_goods_list = '0';
+            } else if (type === 'binding') {
+                // 组合搭配的显示
+                new_com_data_content.is_home_show = '0';
+            }
         }
     } else {
         // 如果数据类型不是'0'，清空数据ID列表和数据列表，确保数据处理的一致性

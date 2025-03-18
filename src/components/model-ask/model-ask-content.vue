@@ -10,7 +10,7 @@
                         <el-radio v-for="item in base_list.theme_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
-                <el-form-item v-if="form.theme == '3'" label="轮播列数">
+                <el-form-item v-if="form.theme == '2'" label="轮播列数">
                     <el-radio-group v-model="form.carousel_col">
                         <el-radio :value="1">单列展示</el-radio>
                         <el-radio :value="2">两列展示</el-radio>
@@ -25,15 +25,15 @@
                 <!-- 数据筛选组件, 根据数据源类型显示不同的筛选组件 -->
                 <data-filter type="ask" :value="form" :list="form.data_list" :base-list="base_list" @add="add" @data_list_replace="data_list_replace" @data_list_remove="data_list_remove" @data_list_sort="data_list_sort"></data-filter>
             </card-container>
-            <template v-if="form.theme == '0'">
-                <div class="divider-line"></div>
-                <card-container>
-                    <div class="mb-12">列表设置</div>
+            <div class="divider-line"></div>
+            <card-container>
+                <div class="mb-12">列表设置</div>
+                <el-form-item label="是否显示">
                     <el-checkbox-group v-model="form.is_show">
                         <el-checkbox v-for="item in base_list.show_list.filter(item => item.show.includes(form.theme))" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
                     </el-checkbox-group>
-                </card-container>
-            </template>
+                </el-form-item> 
+            </card-container>
         </el-form>
         <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['ask']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
     </div>
@@ -82,11 +82,16 @@ const base_list = reactive({
         { name: '筛选问答', value: '1' },
     ],
     show_list: [
-        { name: '日期时间', value: 'time', show: ['0', '1' , '2'] },
-        { name: '浏览量', value: 'page_view', show: ['0', '1' , '2'] },
         { name: '回复状态', value: 'reply_status', show: ['0', '1' , '2'] },
+        { name: '日期时间', value: 'time', show: ['0', '1' , '2'] },
+        { name: '浏览量', value: 'page_view', show: ['0', '1'] },
         { name: 'TOP排名', value: 'ranking', show: ['0'] },
-    ]
+    ],
+    filter_list: [
+        { name: '全部', value: '' },
+        { name: '未回', value: '0' },
+        { name: '已回', value: '1' },
+    ],
 });
 
 // 移除

@@ -11,6 +11,7 @@ interface defaultSalerecords {
         keywords: string,
         show_number: number,
         number: number;
+        data_auto_list: string[];
         is_show: string[];
     };
     style: {
@@ -71,6 +72,7 @@ const defaultSalerecords: defaultSalerecords = {
         interval_time: 3,
         show_number: 2,
         keywords: '',
+        data_auto_list: [],
         number: 4,
         is_show: ['head', 'nick_name', 'goods_image', 'goods_title', 'time'],
     },

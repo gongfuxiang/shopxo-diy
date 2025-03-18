@@ -30,7 +30,7 @@
                                         </div>
                                         <div class="flex-row gap-2 align-c">
                                             <img-or-icon-or-text :value="props.value" type="time" />
-                                            <div class="flex-1 flex-row align-c">
+                                            <div v-if="!isEmpty(item.status_info)" class="flex-1 flex-row align-c">
                                                 <span class="text-line-1" :style="trends_config('state') + `color: ${ item.status_info.status == 1 ? new_style.realstore_state_color : new_style.realstore_default_state_color }`">{{ item.status_info.msg }}</span>
                                                 <span v-if="!isEmpty(item.status_info.msg) || !isEmpty(item.status_info.time)" :style="'color: #ccc;' + margin_computer(new_style.realstore_business_distance)">|</span>
                                                 <span class="text-line-1" :style="trends_config('business_hours')">{{ item.status_info.time }}</span>
@@ -90,7 +90,7 @@
                                         <div class="flex-row jc-sb align-c">
                                             <div class="flex-1 flex-row gap-2 align-c">
                                                 <img-or-icon-or-text :value="props.value" type="time" />
-                                                <span class="text-line-1" :style="trends_config('state') + `color: ${ item.status_info.status == 1 ? new_style.realstore_state_color : new_style.realstore_default_state_color }`">{{ item.status_info.msg }}</span>
+                                                <span v-if="!isEmpty(item.status_info)" class="text-line-1" :style="trends_config('state') + `color: ${ item.status_info.status == 1 ? new_style.realstore_state_color : new_style.realstore_default_state_color }`">{{ item.status_info.msg }}</span>
                                             </div>
                                             <img-or-icon-or-text :value="props.value" type="navigation" />
                                         </div>
@@ -231,9 +231,7 @@ const get_products = () => {
         } else {
             list.value = Array(4).fill(default_list);
         }
-    }).catch(() => {
-        list.value = Array(4).fill(default_list);
-    });
+    })
 };
 // 取出监听的数据
 const watch_data = computed(() => {

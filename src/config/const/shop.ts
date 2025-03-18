@@ -10,6 +10,7 @@ interface defaultRealstore {
         shop_desc: string;
         shop_desc_row: string;
         data_type: string, 
+        data_ids: string;
         data_list: string[];
         data_auto_list: string[];
         category_ids: string[], 
@@ -17,6 +18,7 @@ interface defaultRealstore {
         order_by_type: number, 
         order_by_rule:number, 
         keywords: string;
+        is_goods_list: string,
         is_right_show: string;
         right_type: string;
         right_img: uploadList[];
@@ -75,6 +77,7 @@ const defaultRealstore: defaultRealstore = {
         shop_desc: '1',
         shop_desc_row: '1',
         data_type: '0', 
+        data_ids: '',
         data_list: [],
         data_auto_list: [],
         category_ids: [],
@@ -82,6 +85,7 @@ const defaultRealstore: defaultRealstore = {
         order_by_type: 0, 
         order_by_rule: 0, 
         keywords: '',
+        is_goods_list: '0',
         is_right_show: '1',
         right_type: 'img-icon',
         right_img: [],

@@ -59,10 +59,11 @@ interface defaultRealstore {
         goods_save_price: string;
         goods_save_price_row: string;
         data_type: string;
+        data_ids: string;
         data_list: string[];
         data_auto_list: string[],
         keywords: string,
-        binding_type: string[],
+        category_ids: string[],
         number: number,
         order_by_type: number,
         order_by_rule: number,
@@ -178,10 +179,11 @@ const defaultRealstore: defaultRealstore = {
         goods_save_price: '1',
         goods_save_price_row: '1',
         data_type: '0',
+        data_ids: '',
         data_list: [],
         data_auto_list: [],
         keywords: '',
-        binding_type: [],
+        category_ids: [],
         number: 4,
         order_by_type: 0,
         order_by_rule: 0,

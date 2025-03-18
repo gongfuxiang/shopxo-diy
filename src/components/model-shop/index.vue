@@ -176,14 +176,12 @@ const get_shops = () => {
         } else {
             list.value = Array(4).fill(default_list);
         }
-    }).catch(() => {
-        list.value = Array(4).fill(default_list);
-    });
+    })
 };
 // 取出监听的数据
 const watch_data = computed(() => {
-    const { category_ids, number, order_by_type, order_by_rule, data_type, data_list, keywords } = form.value;
-    return { category_ids, number, order_by_type, order_by_rule, data_type, data_list, keywords };
+    const { category_ids, number, order_by_type, order_by_rule, data_type, data_list, keywords, is_goods_list } = form.value;
+    return { category_ids, number, order_by_type, order_by_rule, data_type, data_list, keywords, is_goods_list };
 })
 // 初始化的时候不执行, 监听数据变化
 watch(() => watch_data.value, (val, oldVal) => {

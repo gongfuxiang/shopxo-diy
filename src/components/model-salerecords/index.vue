@@ -16,7 +16,7 @@
                                     <image-empty v-model="item.goods_url" :style="goods_image_radius"></image-empty>
                                 </template>
                                 <span v-if="is_show('goods_title')" class="flex-1 text-line-1" :style="trends_config('goods_title')">{{ item.title }}</span>
-                                <span v-if="is_show('time')" class="nowarp" :style="trends_config('time')">{{ item.add_time }}</span>
+                                <span v-if="is_show('time')" class="nowrap" :style="trends_config('time')">{{ item.add_time }}</span>
                             </div>
                         </swiper-slide>
                     </swiper>
@@ -33,7 +33,7 @@
                                             <image-empty v-model="item1.goods_url" :style="goods_image_radius"></image-empty>
                                         </template>
                                         <span v-if="is_show('goods_title')" class="flex-1 text-line-1" :style="trends_config('goods_title') + `max-width: ${ max_title_width }px;`">{{ item1.title }}</span>
-                                        <span v-if="is_show('time')" class="nowarp" :style="trends_config('time')">{{ item1.add_time }}</span>
+                                        <span v-if="is_show('time')" class="nowrap" :style="trends_config('time')">{{ item1.add_time }}</span>
                                     </div>
                                 </div>
                             </swiper-slide>
@@ -147,7 +147,6 @@ const get_products = () => {
         keywords: keywords,
         number: number,
     };
-    list.value = Array(50).fill(default_list);
     // 获取商品列表
     SalerecordsAPI.getAutoList(params).then((res: any) => {
         if (!isEmpty(res.data)) {

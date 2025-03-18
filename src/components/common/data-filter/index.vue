@@ -5,7 +5,7 @@
         </el-radio-group>
     </el-form-item>
     <div v-show="form.data_type === '0'" class="nav-list">
-        <drag-group :list="drag_list" :img-params="img_params" :title-params="title_params" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
+        <drag-group :list="drag_list" :img-params="img_params" :title-params="title_params" :type="type_params" @onsort="data_list_sort" @remove="data_list_remove" @replace="data_list_replace"></drag-group>
         <el-button class="mt-20 w" @click="add">+添加</el-button>
     </div>
     <!-- 商品 -->
@@ -93,7 +93,7 @@
                 <el-input v-model="keywords" placeholder="请输入组合搭配关键字" clearable @blur="keyword_blur"></el-input>
             </el-form-item>
             <el-form-item label="类型">
-                <el-select v-model="form.binding_type" multiple collapse-tags filterable placeholder="请选择类型">
+                <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择类型">
                     <el-option v-for="item in get_data_list(common_store.common.plugins, 'binding.type_list')" :key="item.value" :label="item.name" :value="item.value" />
                 </el-select>
             </el-form-item>
@@ -157,6 +157,37 @@
             </el-form-item>
         </div>
     </template>
+    <!-- 问答 -->
+    <template v-else-if="['ask'].includes(type)">
+        <div v-show="form.data_type === '1'" class="w h">
+            <el-form-item label="关键字">
+                <el-input v-model="keywords" placeholder="请输入问答关键字" clearable @blur="keyword_blur"></el-input>
+            </el-form-item>
+            <el-form-item label="问答分类">
+                <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择类型">
+                    <el-option v-for="item in get_data_list(common_store.common.plugins, 'ask.category_list')" :key="item.id" :label="item.name" :value="item.id" />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="显示数量">
+                <el-input-number v-model="form.number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
+            </el-form-item>
+            <el-form-item label="排序类型">
+                <el-radio-group v-model="form.order_by_type">
+                    <el-radio v-for="item in get_data_list(common_store.common.plugins, 'ask.order_by_type_list')" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="排序规则">
+                <el-radio-group v-model="form.order_by_rule">
+                    <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="回复状态">
+                <el-radio-group v-model="form.is_reply">
+                    <el-radio v-for="item in baseList.filter_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                </el-radio-group>
+            </el-form-item>
+        </div>
+    </template>
     <template v-else>
         <div v-show="form.data_type === '1'" class="w h">
             <el-form-item label="关键字">
@@ -217,8 +248,10 @@
     const option_list = ref<option[]>([]);
     const img_params = ref('logo');
     const title_params = ref('title');
+    const type_params = ref('other');
     // 更新数据，避免子组件数据不刷新
     watchEffect(() => {
+        type_params.value = 'other';
         // 商品
         if (props.type === 'goods') {
             option_list.value = props.baseList.product_list;
@@ -239,6 +272,12 @@
             option_list.value = props.baseList.data_type_list;
             img_params.value = 'logo';
             title_params.value = 'name';
+        } else if (['ask'].includes(props.type)) {
+            // 问答
+            option_list.value = props.baseList.data_type_list;
+            img_params.value = '';
+            title_params.value = 'title';
+            type_params.value = 'custom';
         } else {
             option_list.value = props.baseList.brand_data_type_list;
             img_params.value = 'logo';

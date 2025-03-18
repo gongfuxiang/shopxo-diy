@@ -284,9 +284,7 @@ const get_products = () => {
         } else {
             list.value = Array(4).fill(default_list);
         }
-    }).catch(() => {
-        list.value = Array(4).fill(default_list);
-    });
+    })
 };
 // 取出监听的数据
 const watch_data = computed(() => {

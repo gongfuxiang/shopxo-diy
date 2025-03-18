@@ -92,6 +92,15 @@ class UrlValueAPI {
             data,
         });
     }   
+
+    /** 多门店指定数据 */
+    static getAskList(data: any) {
+        return api_request({
+            url: `?s=plugins/index/pluginsname/ask/pluginscontrol/diyask/pluginsaction/index.html`,
+            method: 'post',
+            data,
+        });
+    }   
 }
 
 export default UrlValueAPI;
