@@ -134,6 +134,10 @@
             <template v-else-if="item.key == 'ask'">
                 <model-ask :key="item.com_data" :value="item.com_data"></model-ask>
             </template>
+            <!-- 问答选项卡 -->
+            <template v-else-if="item.key == 'ask-tabs'">
+                <model-ask-tabs :key="item.com_data" :value="item.com_data"></model-ask-tabs>
+            </template>
             <!-- 工具组件 -->
             <!-- 辅助线 -->
             <template v-else-if="item.key == 'row-line'">

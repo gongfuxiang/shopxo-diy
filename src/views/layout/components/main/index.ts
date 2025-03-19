@@ -31,6 +31,7 @@ import defaultShop from '@/config/const/shop';
 import defaultBinding from '@/config/const/binding';
 import defaultSalerecords from '@/config/const/salerecords';
 import defaultAsk from '@/config/const/ask';
+import defaultAskTabs from '@/config/const/ask-tabs';
 
 // 系统设置
 interface DefaultSettings {
@@ -67,6 +68,7 @@ interface DefaultSettings {
     binding: object;
     salerecords: object;
     ask: object;
+    ask_tabs: object;
 }
 
 const defaultSettings: DefaultSettings = {
@@ -102,7 +104,8 @@ const defaultSettings: DefaultSettings = {
     shop: defaultShop,
     binding: defaultBinding,
     salerecords: defaultSalerecords,
-    ask: defaultAsk
+    ask: defaultAsk,
+    ask_tabs: defaultAskTabs,
 };
 
 export default defaultSettings;

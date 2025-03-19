@@ -66,7 +66,6 @@
                     </swiper>
                 </template>
             </div>
-
         </div>
     </div>
 </template>
@@ -109,8 +108,8 @@ const onter_style = computed(() => {
 });
 
 // 公共样式
-const style_container = computed(() => common_styles_computer(new_style.value.common_style));
-const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
+const style_container = computed(() => props.isCommonStyle ? common_styles_computer(new_style.value.common_style) : '');
+const style_img_container = computed(() => props.isCommonStyle ? common_img_computer(new_style.value.common_style) : '');
 //#region 列表数据
 type data_list = {
     title: string;

@@ -8,6 +8,7 @@ interface defaultRealstore {
         theme: string;
         carousel_col: number;
         data_type: string, 
+        data_ids: string,
         data_list: string[];
         data_auto_list: string[];
         category_ids: string[], 
@@ -65,7 +66,8 @@ const defaultRealstore: defaultRealstore = {
         },
         theme: '0',
         carousel_col: 1,
-        data_type: '0', 
+        data_type: '0',
+        data_ids: '', 
         data_list: [],
         data_auto_list: [],
         category_ids: [],

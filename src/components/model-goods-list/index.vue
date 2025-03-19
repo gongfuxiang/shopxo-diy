@@ -293,6 +293,7 @@ const watch_data = computed(() => {
 })
 // 初始化的时候不执行, 监听数据变化
 watch(() => watch_data.value, (val, oldVal) => {
+    debugger;
     // 使用JSON.stringify()进行判断 新值和旧值是否一样 不一样就重新获取数据
     if ((JSON.stringify(val) !== JSON.stringify(oldVal)) || props.isCommonStyle) {
         if (val.data_type == '0') {
