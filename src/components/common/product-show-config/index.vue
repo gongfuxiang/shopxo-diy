@@ -1,6 +1,6 @@
 <template>
     <card-container class="card-container">
-        <div class="mb-12">显示内容</div>
+        <div class="mb-12">商品显示内容</div>
         <el-form-item label="是否显示">
             <el-checkbox-group v-model="form.is_show">
                 <el-checkbox v-for="item in base_list.list_show_list.filter(item => item.type.includes(form.theme))" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>

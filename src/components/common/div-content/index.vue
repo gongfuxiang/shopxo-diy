@@ -138,6 +138,10 @@
             <template v-else-if="item.key == 'ask-tabs'">
                 <model-ask-tabs :key="item.com_data" :value="item.com_data"></model-ask-tabs>
             </template>
+            <!-- 活动配置 -->
+            <template v-else-if="item.key == 'activity'">
+                <model-activity :key="item.com_data" :value="item.com_data"></model-activity>
+            </template>
             <!-- 工具组件 -->
             <!-- 辅助线 -->
             <template v-else-if="item.key == 'row-line'">

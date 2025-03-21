@@ -70,6 +70,10 @@
                 <template v-else-if="link_select == 'ask'">
                     <link-ask v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-ask>
                 </template>
+                <!-- 活动选择 -->
+                <template v-else-if="link_select == 'activity'">
+                    <link-activity v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-activity>
+                </template>
             </div>
         </div>
         <template #footer>
@@ -186,6 +190,8 @@ const dialog_title = computed(() => {
             name = '多门店';
         } else if (props.type[0] == 'ask') {
             name = '问答';
+        } else if (props.type[0] == 'activity') {
+            name = '活动';
         }
         return name + '选择';
     } else {

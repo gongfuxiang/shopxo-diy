@@ -199,7 +199,7 @@ const ask_left_right_width_margin = computed(() => {
 const two_columns = computed(() => content_outer_spacing.value + ask_left_right_width_margin.value * 2 + 'px' );
 const button_style = (flag: boolean) => {
     const style = flag ? new_style.value.not_replied_yet_style : new_style.value.returned_style;
-    return `${ gradient_computer(style)}; ${ border_computer(style) }`;
+    return `${ gradient_computer(style)}; ${ border_computer(style) } ${ radius_computer(style.font_radius)}`;
 }
 const button_img_style = (flag: boolean) => {
     const style = flag ? new_style.value.not_replied_yet_style : new_style.value.returned_style;

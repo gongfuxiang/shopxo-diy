@@ -1,7 +1,7 @@
 <template>
     <!-- 商品分类 -->
     <div class="container">
-        <div class="flex-row jc-e gap-20 mb-20">
+        <div class="flex-row jc-e gap-20 mb-20 align-c">
             <el-select v-model="category_ids" class="search-w" placeholder="请选择" filterable clearable @change="handle_search">
                 <el-option v-for="item in article_category_list" :key="item.id" :label="item.name" :value="item.id" />
             </el-select>

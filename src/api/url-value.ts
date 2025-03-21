@@ -101,6 +101,14 @@ class UrlValueAPI {
             data,
         });
     }   
+    /** 活动指定数据 */
+    static getActivityList(data: any) {
+        return api_request({
+            url: `?s=plugins/index/pluginsname/activity/pluginscontrol/diyactivity/pluginsaction/index.html`,
+            method: 'post',
+            data,
+        });
+    }   
 }
 
 export default UrlValueAPI;

@@ -5,6 +5,12 @@
     <el-form-item label="文字">
         <color-text-size-group v-model:color="form.font_color" v-model:typeface="form.font_typeface" v-model:size="form.font_size" default-color="#000000"></color-text-size-group>
     </el-form-item>
+    <el-form-item label="内边距">
+        <padding :value="form.font_padding"></padding>
+    </el-form-item>
+    <el-form-item label="圆角">
+        <radius :value="form.font_radius"></radius>
+    </el-form-item>
     <!-- 边框处理 -->
     <border-config v-model:show="form.border_is_show" v-model:color="form.border_color" v-model:style="form.border_style" v-model:size="form.border_size"></border-config>
 </template>

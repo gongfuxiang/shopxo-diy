@@ -251,7 +251,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
 
     clone_form.footer.show_tabs = '0';
     // 字段比coupon多
-    const new_array_1 = ['goods-list', 'article-list', 'blog', 'shop', 'realstore', 'binding', 'ask'];
+    const new_array_1 = ['goods-list', 'article-list', 'blog', 'shop', 'realstore', 'binding', 'ask', 'activity'];
     // 数据比正常list多一级
     const new_array_2 = ['goods-tabs', 'article-tabs', 'blog-tabs', 'ask-tabs'];
     // 数据格式简单
@@ -461,6 +461,9 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             } else if (['ask', 'ask-tabs'].includes(type)) {
                 // 组合搭配的显示
                 new_com_data_content.is_reply = '0';
+            } else if (type === 'activity') {
+                // 商品列表的显示
+                new_com_data_content.is_home = '0';
             }
         }
     } else {

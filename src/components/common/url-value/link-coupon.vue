@@ -1,7 +1,7 @@
 <template>
     <!-- 优惠券 -->
     <div class="container">
-        <div class="flex-row jc-e gap-20 mb-20">
+        <div class="flex-row jc-e gap-20 mb-20 align-c">
             <div class="filter-style flex-row gap-12">
                 <div class="title">类型</div>
                 <el-select v-model="type" class="search-w" placeholder="请选择" multiple collapse-tags filterable @change="handle_search">

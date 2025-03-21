@@ -2,7 +2,7 @@
     <!-- 商品分类 -->
     <div class="container">
         <div class="flex-row jc-e gap-20 mb-20 align-c">
-            <el-select v-model="category_ids" class="search-w" placeholder="请选择博客分类" filterable clearable @change="handle_search">
+            <el-select v-model="category_ids" class="search-w" placeholder="请选择活动类型" filterable clearable @change="handle_search">
                 <el-option v-for="item in article_category_list" :key="item.id" :label="item.name" :value="item.id" />
             </el-select>
             <el-input v-model="search_value" placeholder="请输入搜索内容" class="search-w" @change="handle_search">
@@ -20,14 +20,14 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="id" label="ID" width="80" type="" />
-                <el-table-column prop="cover" label="博客">
+                <el-table-column prop="cover" label="封面">
                     <template #default="scope">
-                        <div class="flex-row align-c gap-10">
-                            <image-empty v-if="scope.row.cover" v-model="scope.row.cover" class="img"></image-empty>
-                            <div class="flex-1">{{ scope.row.title }}</div>
-                        </div>
+                        <image-empty v-if="scope.row.cover" v-model="scope.row.cover" class="img"></image-empty>
                     </template>
                 </el-table-column>
+                <el-table-column prop="title" label="标题"></el-table-column>
+                <el-table-column prop="describe" label="描述"></el-table-column>
+                <el-table-column prop="activity_category_name" label="分类"></el-table-column>
                 <template #empty>
                     <no-data></no-data>
                 </template>
@@ -78,7 +78,7 @@ const init = () => {
     template_selection.value = '';
     category_ids.value = '';
     search_value.value = '';
-    article_category_list.value = get_data_list(common_store.common.plugins, 'blog.category_list');
+    article_category_list.value = get_data_list(common_store.common.plugins, 'activity.category_list');
     get_list(1);
 };
 const handle_search = () => {
@@ -86,9 +86,8 @@ const handle_search = () => {
 };
 const category_ids = ref('');
 interface articleCategory {
-    id: string;
     name: string;
-    url: string;
+    id: number;
 }
 const article_category_list = ref<articleCategory[]>([]);
 const template_selection = ref('');
@@ -96,7 +95,7 @@ const template_selection = ref('');
 // 当前页
 const page = ref(1);
 // 每页数量
-const page_size = ref(10);
+const page_size = ref(30);
 // 总数量
 const data_total = ref(0);
 // 查询文件
@@ -108,10 +107,10 @@ const get_list = (new_page: number) => {
         page_size: page_size.value,
     };
     loading.value = true;
-    UrlValueAPI.getblogList(new_data).then((res: any) => {
-        tableData.value = res.data.data_list;
-        data_total.value = res.data.data_total;
-        page.value = res.data.page;
+    UrlValueAPI.getActivityList(new_data).then((res: any) => {
+        tableData.value = res.data?.data_list || [];
+        data_total.value = res.data?.data_total || 1;
+        page.value = res.data?.page || new_page;
         setTimeout(() => {
             loading.value = false;
         }, 500);
@@ -123,7 +122,7 @@ const row_click = (row: any) => {
         const new_table_data = JSON.parse(JSON.stringify(tableData.value));
         template_selection.value = new_table_data.findIndex((item: pageLinkList) => item.id == row.id).toString();
         if (props.selectIsUrl) {
-            const page = '/pages/plugins/blog/detail/detail?id=' + row.id;
+            const page = '/pages/plugins/ask/detail/detail?id=' + row.id;
             const new_row = {
                 id: row.id,
                 name: row.name || row.title || page,
@@ -139,7 +138,7 @@ const handle_select = (selection: any) => {
     if (props.selectIsUrl) {
         // 遍历数组selection
         const new_selection = selection.map((item: any) => {
-            const page = '/pages/plugins/blog/detail/detail?id=' + item.id;
+            const page = '/pages/plugins/ask/detail/detail?id=' + item.id;
             return {
                 id: item.id,
                 name: item.name || item.title || page,

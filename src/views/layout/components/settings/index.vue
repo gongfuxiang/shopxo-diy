@@ -126,6 +126,10 @@
             <template v-else-if="value.key == 'ask-tabs'">
                 <model-ask-tabs-setting :type="radio" :value="value.com_data"></model-ask-tabs-setting>
             </template>
+            <!-- 活动配置 -->
+            <template v-else-if="value.key == 'activity'">
+                <model-activity-setting :type="radio" :value="value.com_data"></model-activity-setting>
+            </template>
             <!-- 工具组件 -->
             <!-- 辅助空白 -->
             <template v-else-if="value.key == 'auxiliary-blank'">

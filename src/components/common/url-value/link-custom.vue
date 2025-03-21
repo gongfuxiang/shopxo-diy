@@ -1,7 +1,7 @@
 <template>
     <!-- 自定义链接 -->
     <div class="container">
-        <div class="tabs flex-row gap-10 mb-30">
+        <div class="tabs flex-row gap-10 mb-30 align-c">
             <div v-for="item in custom_type" :key="item.id" class="item bg-f5 radius-sm" :class="custom_type_active == item.id ? 'active' : ''" @click="custom_type_event(item)">{{ item.name }}</div>
         </div>
         <div class="content">
