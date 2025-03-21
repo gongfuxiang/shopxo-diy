@@ -23,7 +23,7 @@
             <card-container class="card-container-br">
                 <div class="mb-12">自动读取</div>
                 <el-form-item label="关键字">
-                    <el-input v-model="keywords" placeholder="请输入记录关键字" clearable @blur="keyword_blur"></el-input>
+                    <el-input v-model="keywords" placeholder="请输入销售记录关键字" clearable @blur="keyword_blur"></el-input>
                 </el-form-item>
                 <el-form-item label="读取数量">
                     <el-input-number v-model="form.number" :min="1" :max="50" type="number" placeholder="请输入读取数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>

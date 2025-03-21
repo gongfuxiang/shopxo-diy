@@ -82,8 +82,8 @@
         </template>
         <!-- 组合搭配 -->
         <template v-else-if="type == 'binding'">
-            <el-form-item label="类型">
-                <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择类型">
+            <el-form-item label="分类">
+                <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择分类">
                     <el-option v-for="item in get_data_list(common_store.common.plugins, 'binding.type_list')" :key="item.value" :label="item.name" :value="item.value" />
                 </el-select>
             </el-form-item>
@@ -110,7 +110,7 @@
         <!-- 多商户 | 多门店 -->
         <template v-else-if="['realstore', 'merchant'].includes(type)">
             <el-form-item :label="`${ type === 'realstore' ? '门店' : '商户' }分类`">
-                <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择类型">
+                <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择分类">
                     <template v-if="type === 'realstore'">
                         <el-option v-for="item in get_data_list(common_store.common.plugins, 'realstore.category_list')" :key="item.id" :label="item.name" :value="item.id" />
                     </template>
@@ -144,7 +144,7 @@
         <!-- 问答 -->
         <template v-else-if="['ask'].includes(type)">
             <el-form-item label="问答分类">
-                <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择类型">
+                <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择分类">
                     <el-option v-for="item in get_data_list(common_store.common.plugins, 'ask.category_list')" :key="item.id" :label="item.name" :value="item.id" />
                 </el-select>
             </el-form-item>
@@ -170,7 +170,7 @@
         <!-- 活动分类 -->
         <template v-else-if="['activity'].includes(type)">
             <el-form-item label="活动分类">
-                <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择类型">
+                <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择分类">
                     <el-option v-for="item in get_data_list(common_store.common.plugins, 'activity.category_list')" :key="item.id" :label="item.name" :value="item.id" />
                 </el-select>
             </el-form-item>

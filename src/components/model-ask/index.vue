@@ -368,7 +368,7 @@ const content_outer_height = computed(() => new_style.value.content_outer_height
     line-height: 1.7rem;
     text-align: right;
     font-style: normal;
-    background-origin: 0.4rem;
+    border-radius: 0.4rem;
 }
 .container {
     column-count: 2;

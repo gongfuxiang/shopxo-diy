@@ -10,7 +10,7 @@
         <el-form-item label="售价符号">
             <color-text-size-group v-model:color="form.goods_price_symbol_color" v-model:size="form.goods_price_symbol_size" default-color="#000000" :type-list="['color', 'size']"></color-text-size-group>
         </el-form-item>
-        <el-form-item label="售价价">
+        <el-form-item label="售价">
             <color-text-size-group v-model:color="form.goods_price_color" v-model:typeface="form.goods_price_typeface" v-model:size="form.goods_price_size" default-color="#000000"></color-text-size-group>
         </el-form-item>
         <el-form-item label="售价单位">
