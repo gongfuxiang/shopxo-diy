@@ -242,7 +242,7 @@ const keyword_style = computed(() => {
 })
 const keyword_img_style = computed(() => {
     const style = new_style.value.activity_main?.keywords_style || {};
-    return `${ padding_computer(style.font_padding) } ${ background_computer(style) }font-weight:${style.font_typeface}; font-size: ${style.font_size}px;color: ${style.font_color};`;
+    return `${ padding_computer(style.font_padding) } ${ background_computer(style) }font-weight:${style.font_typeface}; font-size: ${style.font_size}px;line-height: 1.5;color: ${style.font_color};`;
 })
 // 内容区域的样式
 const content_style = computed(() => padding_computer(new_style.value.activity_main.activity_main_right_content));
