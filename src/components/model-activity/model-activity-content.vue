@@ -28,6 +28,9 @@
                         <el-checkbox v-for="item in base_list.show_list" :key="item.value" :value="item.value" :disabled="!item.type.includes(form.main_theme)">{{ item.name }}</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
+                <el-form-item v-if="form.main_theme == '2'" label="图片蒙层">
+                    <el-switch v-model="form.is_img_mask" active-value="1" inactive-value="0" />
+                </el-form-item>
             </card-container>
             <div class="divider-line"></div>
             <card-container>
@@ -145,6 +148,7 @@ const url_value_dialog_call_back = (item: any[]) => {
 const goods_list_sort = (new_list: any) => {
     form.value.data_list = new_list;
 };
+// 切换时更新默认配置
 const change_main_style = (val: any) => {
     form.value.is_main_show = ['img', 'title', 'desc', 'keywords'];
     const list = base_list.main_product_style.filter(item => item.value == val);
@@ -155,18 +159,28 @@ const change_main_style = (val: any) => {
         height = list[0].height;
     }
     let color = '#fff';
+    let title_color = '#000';
     let padding = { padding: 0, padding_top: 16, padding_bottom: 0, padding_left: 10, padding_right: 0 };
+    let radius = { radius: 8, radius_top_left: 8, radius_top_right: 8, radius_bottom_left: 8, radius_bottom_right: 8 }
+    let img_radius = { radius: 0, radius_top_left: 0, radius_top_right: 0, radius_bottom_left: 0, radius_bottom_right: 0 };
     if (val == '1') {
         padding = { padding: 10, padding_top: 10, padding_bottom: 10, padding_left: 10, padding_right: 10 };
     } else if (val == '2') {
+        form.value.is_img_mask = '1';
         color = '';
+        title_color = '#fff',
+        radius = { radius: 0, radius_top_left: 0, radius_top_right: 0, radius_bottom_left: 0, radius_bottom_right: 0 };
+        img_radius = { radius: 8, radius_top_left: 8, radius_top_right: 8, radius_bottom_left: 8, radius_bottom_right: 8 };
         padding = { padding: 0, padding_top: 10, padding_bottom: 0, padding_left: 0, padding_right: 0 };
     }
     data.value.activity_main = {
         ...data.value.activity_main,
+        ...radius,
+        img_radius: img_radius,
         activity_main_right_content: {
             ...padding,
         },
+        title_color: title_color,
         img_width: width,
         img_height: height,
         color_list: [{ color: color, color_percentage: undefined }],

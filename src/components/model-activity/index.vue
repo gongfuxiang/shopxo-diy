@@ -15,7 +15,10 @@
                                             <template v-else>
                                                 <image-empty v-model="activity_item.cover" :class="`flex-img${theme}`" :style="content_img_radius"></image-empty>
                                             </template>
-                                            <div v-if="theme == '2' && is_show('title')" class="theme-2-title" :style="trends_config('title')">{{ activity_item.title }}</div>
+                                            <template v-if="theme == '2'">
+                                                <div class="w h abs top-0 left-0 z-i" :style="(form.is_img_mask == '1' ? 'background: rgb(0 0 0 / 35%);' : '') + content_img_radius"></div>
+                                                <div v-if="is_show('title')" class="theme-2-title z-deep" :style="trends_config('title')">{{ activity_item.title }}</div>
+                                            </template>
                                         </div>
                                     </template>
                                     <div v-if="is_show('keywords') || is_show('desc') || (['0', '1'].includes(theme) && is_show('title'))" class="flex-col gap-10" :style="content_style">
@@ -232,8 +235,6 @@ const style_config = (typeface: string, size: number, color: string | object) =>
 };
 // 活动的图片圆角
 const content_img_radius = computed(() => radius_computer(new_style.value.activity_main.img_radius));
-// 内边距设置
-const content_padding = computed(() => padding_computer(new_style.value.activity_main));
 // 关键字的显示
 const keyword_style = computed(() => {
     const style = new_style.value.activity_main?.keywords_style || {};
@@ -314,7 +315,8 @@ const style_img_container = computed(() => common_img_computer(new_style.value.c
 .theme-2-title {
     position: absolute;
     top: 50%;
-    margin-left: 1.7rem;
-    transform: translateY(-50%);
+    left: 50%;
+    // margin-left: 1.7rem;
+    transform: translate(-50%, -50%);
 }
 </style>

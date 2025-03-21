@@ -13,6 +13,7 @@ interface DefaultProductList {
         main_theme: string;
         is_main_show: string[];
         theme: string;
+        is_img_mask: string;
         carousel_col: number;
         data_type: string;
         data_ids: string[];
@@ -117,6 +118,7 @@ const defaultProductList: DefaultProductList = {
         keywords: '',
         // 轮播列数
         carousel_col: 3,
+        is_img_mask: '1',
         // 商品类型
         data_type: '0',
         data_list: [],
@@ -164,6 +166,11 @@ const defaultProductList: DefaultProductList = {
               radius_bottom_left: 0,
               radius_bottom_right: 0,
             },
+            radius: 8,
+            radius_top_left: 8,
+            radius_top_right: 8,
+            radius_bottom_left: 8,
+            radius_bottom_right: 8,
             title_color: '#333',
             title_size: 16,
             title_typeface: 'bold',

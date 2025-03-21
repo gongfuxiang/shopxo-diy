@@ -48,7 +48,7 @@
                 <border-config v-model:show="form.activity_main.border_is_show" v-model:color="form.activity_main.border_color" v-model:style="form.activity_main.border_style" v-model:size="form.activity_main.border_size"></border-config>
                 <!-- 阴影配置 -->
                 <shadow-config v-model="form.activity_main"></shadow-config>
-                <el-form-item label="右侧内容">
+                <el-form-item label="基础内容">
                     <!-- <slider v-model="form.activity_main_content_spacing" :max="100"></slider> -->
                     <el-form-item label="内间距" label-width="50" class="mb-0 w form-item-child-label">
                         <padding :value="form.activity_main.activity_main_right_content"></padding>

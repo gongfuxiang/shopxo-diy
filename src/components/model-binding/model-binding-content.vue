@@ -115,6 +115,7 @@ const base_list = reactive({
         { name: '商品名称', value: 'title'},
         { name: '商品图片', value: 'goods_img' },
         { name: '商品售价', value: 'price' },
+        { name: '商品售价单位', value: 'price_unit' },
         { name: '商品节省价', value: 'save_price' },
     ],
     tabs: [

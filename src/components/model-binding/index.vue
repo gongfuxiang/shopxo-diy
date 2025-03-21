@@ -3,8 +3,8 @@
         <div :style="style_img_container">
             <div class="oh flex-col" :style="`gap: ${ new_style.data_content_outer_spacing }px;`">
                 <div v-for="(match_item, match_index) in list" :key="match_index">
-                    <div :style="match_layout_style">
-                        <div class="flex-col" :style="match_layout_img_style">
+                    <div class="oh" :style="match_layout_style">
+                        <div class="flex-col oh" :style="match_layout_img_style">
                             <div :class="['oh w h', host_graph_theme == '0' ? 'flex-row' : 'flex-col' ]" :style="host_graph_theme == '0' ? `margin-bottom: ${ new_style.data_content_bottom_spacing }px;` : ''">
                                 <!-- 主图大图模式和主图单列时的显示，并且图片是有值的 -->
                                 <template v-if="!isEmpty(match_item) && ((host_graph_theme == '1' && form.is_host_graph_show == '1') || host_graph_theme == '0')">
@@ -85,6 +85,7 @@
                                                                 <div v-if="is_show('price')" class="flex-row align-c text-line-1">
                                                                     <span :style="trends_config('price_symbol', 'goods')">{{ item.show_price_symbol }}</span>
                                                                     <span :style="trends_config('price', 'goods')">{{ item.price }}</span>
+                                                                    <span v-if="is_show('price_unit')" :style="trends_config('price_unit', 'goods')">{{ item.show_price_unit }}</span>
                                                                 </div>
                                                                 <div v-if="is_show('save_price')" class="flex-row align-c gap-3">
                                                                     <img-or-icon-or-text :value="props.value" type="goods_discounts" />
@@ -116,6 +117,7 @@
                                                                         <div v-if="is_show('price')" class="flex-row align-c text-line-1">
                                                                             <span :style="trends_config('price_symbol', 'goods')">{{ item.show_price_symbol }}</span>
                                                                             <span :style="trends_config('price', 'goods')">{{ item.price }}</span>
+                                                                            <span v-if="is_show('price_unit')" :style="trends_config('price_unit', 'goods')">{{ item.show_price_unit }}</span>
                                                                         </div>
                                                                         <div v-if="is_show('save_price')" class="flex-row align-c gap-3">
                                                                             <img-or-icon-or-text :value="props.value" type="goods_discounts" />
@@ -182,6 +184,7 @@ type goods_list = {
     price: string,
     show_price_symbol: string,
     images: string,
+    show_price_unit: string;
 }
 type data_list = {
     title: string,
@@ -207,6 +210,7 @@ const default_list = {
             price: '51',
             show_price_symbol: '￥',
             images: '',
+            show_price_unit: '/ 台',
         },
         {
             title: '测试商品标题',
@@ -215,6 +219,7 @@ const default_list = {
             price: '51',
             show_price_symbol: '￥',
             images: '',
+            show_price_unit: '/ 台',
         },
         {
             title: '测试商品标题',
@@ -223,6 +228,7 @@ const default_list = {
             price: '51',
             show_price_symbol: '￥',
             images: '',
+            show_price_unit: '/ 台',
         }
     ]
 };

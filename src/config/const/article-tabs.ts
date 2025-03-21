@@ -89,7 +89,7 @@ interface DefaultArticleTabs {
         article_content_padding: paddingStyle;
         article_content_spacing: number;
         article_content: object;
-        article_direction: string,
+        article_direction: string;
         article_color_list: color_list[],
         article_background_img_style: string,
         article_background_img: uploadList[],

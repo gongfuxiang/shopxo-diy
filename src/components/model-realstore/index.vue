@@ -154,7 +154,7 @@ const border_style = computed(() => {
     const { content_border_margin, content_border_size, content_border_is_show, content_border_color, content_border_style } = new_style.value;
     let border = ``;
     if (content_border_is_show == '1') {
-        border += `${ margin_computer(content_border_margin) };border-width: ${content_border_size.padding_top}px ${content_border_size.padding_right}px ${content_border_size.padding_bottom}px ${content_border_size.padding_left}px;border-style: ${ content_border_style };border-color: ${content_border_color};`
+        border += `${ margin_computer(content_border_margin) };border-width: ${content_border_size}px 0px 0px 0px;border-style: ${ content_border_style };border-color: ${content_border_color};`
     }
     return border;
 });

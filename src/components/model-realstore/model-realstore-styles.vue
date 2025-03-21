@@ -141,7 +141,7 @@
                 <card-container>
                     <div class="mb-12">内边线设置</div>
                     <!-- 边框处理 -->
-                    <border-config v-model:show="form.content_border_is_show" v-model:color="form.content_border_color" v-model:style="form.content_border_style" v-model:size="form.content_border_size">
+                    <border-config v-model:show="form.content_border_is_show" v-model:color="form.content_border_color" v-model:style="form.content_border_style" v-model:line-size="form.content_border_size" type="line">
                         <el-form-item label="外间距">
                             <margin :value="form.content_border_margin"></margin>
                         </el-form-item>

@@ -148,7 +148,7 @@ interface defaultRealstore {
         content_border_is_show: string,
         content_border_color: string,
         content_border_style: string,
-        content_border_size: paddingStyle,
+        content_border_size: number,
         content_border_margin: marginStyle,
         common_style: object;  
     };
@@ -287,7 +287,16 @@ const defaultRealstore: defaultRealstore = {
             padding_right: 4,
         },
         time_style: cloneDeep(common_icon_style),
-        phone_style: cloneDeep(common_icon_style),
+        phone_style: {
+            ...cloneDeep(common_icon_style),
+            color_list: [{ color: '#FDEFED', color_percentage: undefined }],
+            color: '#D46A50',
+            padding: 4,
+            padding_top: 4,
+            padding_bottom: 4,
+            padding_left: 4,
+            padding_right: 4,
+        },
         location_style: cloneDeep(common_icon_style),
         // 是否滚动
         is_roll: '1',
@@ -312,13 +321,7 @@ const defaultRealstore: defaultRealstore = {
         content_border_is_show: '1',
         content_border_color: '#eee',
         content_border_style: 'dashed',
-        content_border_size: {
-            padding: 0,
-            padding_top: 0,
-            padding_right: 0,
-            padding_bottom: 1,
-            padding_left: 0,
-        },
+        content_border_size: 1,
         content_border_margin: {
             margin: 0,
             margin_top: 10,

@@ -51,6 +51,7 @@ interface defaultSalerecords {
         content_background_img_style: string;
         content_background_img: string[];
         data_spacing: number;
+        content_spacing: number;
         content_padding: paddingStyle;
         content_radius: {
             radius: number;
@@ -73,7 +74,7 @@ const defaultSalerecords: defaultSalerecords = {
         show_number: 2,
         keywords: '',
         data_auto_list: [],
-        number: 4,
+        number: 10,
         is_show: ['head', 'nick_name', 'goods_image', 'goods_title', 'time'],
     },
     style: {
@@ -113,6 +114,7 @@ const defaultSalerecords: defaultSalerecords = {
         content_background_img_style: '2',
         content_background_img: [],
         data_spacing: 10,
+        content_spacing: 10,
         content_padding: {
             padding: 0,
             padding_top: 6,

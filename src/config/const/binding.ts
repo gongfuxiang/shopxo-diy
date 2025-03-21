@@ -145,6 +145,8 @@ interface defaultRealstore {
         goods_price_color: string;
         goods_price_typeface: string;
         goods_price_size: number;
+        goods_price_unit_color: string,
+        goods_price_unit_size: number,
         goods_save_price_symbol_color: string;
         goods_save_price_symbol_size: number;
         goods_save_price_color: string;
@@ -239,11 +241,11 @@ const defaultRealstore: defaultRealstore = {
             padding_right: 10,
         },
         data_radius: {
-            radius: 0,
-            radius_top_left: 0,
-            radius_top_right: 0,
-            radius_bottom_left: 0,
-            radius_bottom_right: 0,
+            radius: 8,
+            radius_top_left: 8,
+            radius_top_right: 8,
+            radius_bottom_left: 8,
+            radius_bottom_right: 8,
         },
         data_title_img_width: 12,
         data_title_img_height: 12,
@@ -344,6 +346,8 @@ const defaultRealstore: defaultRealstore = {
         goods_price_color: '#EA3323',
         goods_price_typeface: '400',
         goods_price_size: 9,
+        goods_price_unit_color: '#EA3323',
+        goods_price_unit_size: 9,
         goods_save_price_symbol_color: '#52C41A',
         goods_save_price_symbol_size: 10,
         goods_save_price_color: '#52C41A',

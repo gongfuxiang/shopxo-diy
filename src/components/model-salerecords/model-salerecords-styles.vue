@@ -52,6 +52,9 @@
                 <el-form-item v-if="data.is_show.includes('time')" label="日期时间">
                     <color-text-size-group v-model:color="form.time_color" v-model:typeface="form.time_typeface" v-model:size="form.time_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
+                <el-form-item label="内容间距">
+                    <slider v-model="form.content_spacing" :max="100"></slider>
+                </el-form-item>
                 <el-form-item label="数据间距">
                     <slider v-model="form.data_spacing" :max="100"></slider>
                 </el-form-item>

@@ -5,7 +5,7 @@
                 <div :class="form.rotation_direction == 'vertical' ? 'swiper-free-mode' : ''" :style="`height: ${ swiper_height }px;`">
                     <swiper :key="carouselKey" class="w flex" :style="`height: ${ swiper_height }px;`" direction="vertical" :loop="true" :speed="swiper_speed" :autoplay="autoplay" :slides-per-view="slides_per_view" :space-between="space_between" :modules="modules">
                         <swiper-slide v-for="(item, index) in list" :key="index">
-                            <div class="flex-row align-c gap-5">
+                            <div class="flex-row align-c" :style="`gap: ${ new_style.content_spacing }px;`">
                                 <template v-if="!isEmpty(item) && is_show('head')">
                                     <div class="oh re">
                                         <image-empty v-model="item.user.avatar" :style="heading_img_radius"></image-empty>
@@ -28,7 +28,7 @@
                         <swiper :key="carouselKey + index" class="w flex" :style="`height: ${ new_swiper_height }px;`" direction="horizontal" :loop="true" :slides-offset-before="slides_offset_before" :speed="swiper_speed + (1000 * index)" :autoplay="autoplay" slides-per-view="auto" :space-between="space_between" :modules="modules">
                             <swiper-slide v-for="(item1, index1) in item.split_list" :key="index1">
                                 <div :style="swiper_horizontal_container + 'width: auto;'">
-                                    <div class="flex-row align-c gap-5" :style="swiper_horizontal_img_container">
+                                    <div class="flex-row align-c" :style="swiper_horizontal_img_container + `gap: ${ new_style.content_spacing }px;`">
                                         <template v-if="is_show('goods_image')">
                                             <image-empty v-model="item1.goods_url" :style="goods_image_radius"></image-empty>
                                         </template>

@@ -67,15 +67,14 @@ watch(
         ask_img_container.value = background_computer(ask_content_data) + padding_computer(new_style.ask_content_padding);
         // 产品的值
         new_data.content.data_type = new_data.content.tabs_list[tabs_active_index.value].data_type;
+        new_data.content.data_list = new_data.content.tabs_list[tabs_active_index.value].data_list;
+        new_data.content.data_auto_list = new_data.content.tabs_list[tabs_active_index.value].data_auto_list;
         new_data.content.keywords = new_data.content.tabs_list[tabs_active_index.value].keywords;
         new_data.content.category_ids = new_data.content.tabs_list[tabs_active_index.value].category_ids;
-        new_data.content.brand_ids = new_data.content.tabs_list[tabs_active_index.value].brand_ids;
         new_data.content.number = new_data.content.tabs_list[tabs_active_index.value].number;
         new_data.content.order_by_type = new_data.content.tabs_list[tabs_active_index.value].order_by_type;
         new_data.content.order_by_rule = new_data.content.tabs_list[tabs_active_index.value].order_by_rule;
-        new_data.content.data_list = new_data.content.tabs_list[tabs_active_index.value].data_list;
-        new_data.content.data_auto_list = new_data.content.tabs_list[tabs_active_index.value].data_auto_list;
-
+        new_data.content.is_reply = new_data.content.tabs_list[tabs_active_index.value].is_reply;
         tabs_list.value = new_data;
         // 公共样式
         style_container.value += common_styles_computer(new_style.common_style);
