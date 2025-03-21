@@ -206,9 +206,9 @@ const defaultProductList: DefaultProductList = {
             },
             activity_main_right_content: {
                 padding: 0,
-                padding_top: 0,
+                padding_top: 16,
                 padding_bottom: 0,
-                padding_left: 0,
+                padding_left: 10,
                 padding_right: 0,
             }
         },
