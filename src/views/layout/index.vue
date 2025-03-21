@@ -277,8 +277,16 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             item.com_data.content.data_list = [];
             item.com_data.content.data_auto_list = [];
             if (item.com_data.content.data_type == '1') {
-                item.com_data.content.type = defaultConfigSetting.coupon_ids;
-                item.com_data.content.number = defaultConfigSetting.page_size;
+                item.com_data.content = {
+                    keywords: '',
+                    type: defaultConfigSetting.coupon_ids,
+                    expire_type_ids: defaultConfigSetting.coupon_ids,
+                    use_limit_type_ids: defaultConfigSetting.coupon_ids,
+                    number: defaultConfigSetting.page_size,
+                    order_by_type: 0,
+                    order_by_rule: 0,
+                    is_repeat_receive: '0',
+                }
             }
         } else if (new_array_4.includes(item.key)) {
             item.com_data.content.data_magic_list.forEach((item1: any) => {
