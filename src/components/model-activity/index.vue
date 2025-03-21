@@ -21,12 +21,12 @@
                                             </template>
                                         </div>
                                     </template>
-                                    <div v-if="is_show('keywords') || is_show('desc') || (['0', '1'].includes(theme) && is_show('title'))" class="flex-col gap-10" :style="content_style">
+                                    <div v-if="is_show('keywords') || is_show('desc') || (['0', '1'].includes(theme) && is_show('title'))" class="flex-1 flex-col gap-10" :style="content_style">
                                         <div class="flex-col" :style="`gap: ${ new_style.activity_main.desc_spacing }px;`">
                                             <div v-if="['0', '1'].includes(theme) && is_show('title')" :style="trends_config('title')">{{ activity_item.title }}</div>
                                             <div v-if="is_show('desc')" :style="trends_config('desc')">{{ activity_item.describe }}</div>
                                         </div>
-                                        <div v-if="is_show('keywords')" class="flex-row gap-10 align-c">
+                                        <div v-if="is_show('keywords')" class="flex-row gap-10 align-c flex-wrap">
                                             <div v-for="(item, index) in activity_item.keywords_arr" :key="index" :style="keyword_style">
                                                 <div class="nowrap" :style="keyword_img_style">{{ item }}</div>
                                             </div>
