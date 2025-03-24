@@ -276,7 +276,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             item.com_data.content.data_ids = item.com_data.content.data_list.map((item: any) => item.id).join(',') || '';
             item.com_data.content.data_list = [];
             item.com_data.content.data_auto_list = [];
-            if (item.com_data.content.data_type == '1') {
+            if (item.com_data.content.data_type == '0') {
                 item.com_data.content = {
                     keywords: '',
                     type: defaultConfigSetting.coupon_ids,

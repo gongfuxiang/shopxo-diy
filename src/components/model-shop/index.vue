@@ -71,6 +71,8 @@ import ShopAPI from '@/api/shop';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
 const modules = [Autoplay];
+import { commonStore } from '@/store';
+const common_store = commonStore();
 /**
  * @description: 文章列表（渲染）
  * @param value{Object} 样式数据
@@ -118,28 +120,35 @@ type data_list = {
 const default_list = {
     name: '测试商户标题',
     describe: '测试商户描述',
-    icon_list: [{ icon: 'http://shopxo.com/static/diy/images/layout/siderbar/data-magic.png'}, { icon: ''}],
+    icon_list: [{ icon: common_store.common.config.attachment_host + `/static/diy/images/components/model-shop/auth.png`}, { icon: ''}],
     logo: '',
     new_cover: [],
 };
 const list = ref<data_list[]>([]);
 const new_url_list = computed(() => {
     return (icon_list: url[]) => {
+        if (isEmpty(icon_list)) {
+            return [];
+        }
         return icon_list.filter(item1 => !isEmpty(item1.icon));
     }
 });
 // 标题图片样式
 const title_img_style = computed(() => {
     return (icon_list: url[], index: number) => {
-        const { shop_title_img_width = 0, shop_title_img_height = 0, shop_title_img_radius, shop_title_img_inner_spacing, shop_title_img_outer_spacing} = new_style.value;
-        let style = `width: ${shop_title_img_width || 0 }px;height: ${ shop_title_img_height || 0 }px;${ radius_computer(shop_title_img_radius) }`;
-        const list = icon_list.filter(item1 => !isEmpty(item1.icon));
-        if (index < list.length - 1) {
-            style += `margin-right: ${ shop_title_img_inner_spacing || 0}px;`;
+        if (isEmpty(icon_list)) {
+            return '';
         } else {
-            style += `margin-right: ${ shop_title_img_outer_spacing || 0}px;`;
+            const { shop_title_img_width = 0, shop_title_img_height = 0, shop_title_img_radius, shop_title_img_inner_spacing, shop_title_img_outer_spacing} = new_style.value;
+            let style = `width: ${shop_title_img_width || 0 }px;height: ${ shop_title_img_height || 0 }px;${ radius_computer(shop_title_img_radius) }`;
+            const list = icon_list.filter(item1 => !isEmpty(item1.icon));
+            if (index < list.length - 1) {
+                style += `margin-right: ${ shop_title_img_inner_spacing || 0}px;`;
+            } else {
+                style += `margin-right: ${ shop_title_img_outer_spacing || 0}px;`;
+            }
+            return style;
         }
-        return style;
     }
 });
 // 初始化的时候执行
