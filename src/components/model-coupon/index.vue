@@ -195,7 +195,11 @@ const theme_bg_img = ref<themeBgImg>({
 // 初始化数据
 onMounted(() => {
     if (!isEmpty(form.value.data_list) && form.value.data_type == '0') {
-        data_list.value = form.value.data_list;
+        data_list.value = form.value.data_list.map((item: any) => ({
+            ...item.data,
+            name: !isEmpty(item.new_title) ? item.new_title : item.data.name,
+            new_cover: item.new_cover,
+        }));
     } else if (form.value.data_type == '1') {
         if (!isEmpty(form.value.data_auto_list)) {
             data_list.value = form.value.data_auto_list;
@@ -247,7 +251,11 @@ watch(
             get_coupon();
         } else {
             if (!isEmpty(form.value.data_list)) {
-                data_list.value = cloneDeep(form.value.data_list);
+                data_list.value = form.value.data_list.map((item: any) => ({
+                    ...item.data,
+                    name: !isEmpty(item.new_title) ? item.new_title : item.data.name,
+                    new_cover: item.new_cover,
+                }));
             } else {
                 data_list.value = Array(4).fill(default_list);
             }

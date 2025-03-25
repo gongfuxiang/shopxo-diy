@@ -12,74 +12,15 @@
             <div class="divider-line"></div>
             <card-container class="content-height">
                 <div class="mb-12">优惠券数据</div>
-                <el-form-item label="数据来源">
-                    <el-radio-group v-model="form.data_type">
-                        <el-radio v-for="item in base_list.data_type_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                    </el-radio-group>
-                </el-form-item>
-                <template v-if="form.data_type === '0'">
-                    <el-form-item label="手动选择">
-                        <div class="flex-col gap-20 w">
-                            <drag v-if="form.data_list.length > 0" :data="form.data_list" :space-col="20" @remove="remove" @on-sort="on_sort">
-                                <template #default="{ row }">
-                                    <div class="flex-1 cr-6 size-12">{{ row.name }}</div>
-                                </template>
-                            </drag>
-                            <el-button class="w" @click="add">+添加</el-button>
-                        </div>
-                    </el-form-item>
-                </template>
-                <template v-else>
-                    <el-form-item label="关键字">
-                        <el-input v-model="keywords" placeholder="请输入优惠劵关键字" clearable @blur="keyword_blur"></el-input>
-                    </el-form-item>
-                    <el-form-item label="类型">
-                        <el-select v-model="form.type" multiple collapse-tags filterable placeholder="请选择优惠券类型">
-                            <el-option v-for="item in base_list.type_list" :key="item.value" :label="item.name" :value="item.value" />
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="到期类型">
-                        <el-select v-model="form.expire_type_ids" multiple collapse-tags filterable placeholder="请选择到期类型">
-                            <el-option v-for="item in get_data_list(common_store.common.plugins, 'coupon.expire_type_list')" :key="item.value" :label="item.name" :value="item.value" />
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="使用限制">
-                        <el-select v-model="form.use_limit_type_ids" multiple collapse-tags filterable placeholder="请选择使用限制">
-                            <el-option v-for="item in get_data_list(common_store.common.plugins, 'coupon.use_limit_type_list')" :key="item.value" :label="item.name" :value="item.value" />
-                        </el-select>
-                    </el-form-item>
-                    <el-form-item label="显示数量">
-                        <el-input-number v-model="form.number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
-                    </el-form-item>
-                    <el-form-item label="排序类型">
-                        <el-radio-group v-model="form.order_by_type">
-                            <el-radio v-for="item in get_data_list(common_store.common.plugins, 'coupon.order_by_type_list')" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                    <el-form-item label="排序规则">
-                        <el-radio-group v-model="form.order_by_rule">
-                            <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                    <el-form-item label="首页显示">
-                        <el-switch v-model="form.is_repeat_receive" active-value="1" inactive-value="0" />
-                    </el-form-item>
-                </template>
-                <template v-if="form.theme === '4'">
-                    <el-form-item label="内容标题">
-                        <el-input v-model="form.title" placeholder="请输入内容" clearable></el-input>
-                    </el-form-item>
-                    <el-form-item label="内容描述">
-                        <el-input v-model="form.desc" type="textarea" :rows="4" placeholder="请输入内容" clearable></el-input>
-                    </el-form-item>
-                </template>
+                <!-- 数据筛选组件, 根据数据源类型显示不同的筛选组件 -->
+                <data-filter type="coupon" :value="form" :list="form.data_list" :base-list="base_list" @add="add" @data_list_replace="data_list_replace" @data_list_remove="data_list_remove" @data_list_sort="data_list_sort"></data-filter>
             </card-container>
         </el-form>
     </div>
-    <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['coupon']" multiple @update:model-value="url_value_dialog_call_back"></url-value-dialog>
+    <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['coupon']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
 </template>
 <script setup lang="ts">
-import { online_url, is_obj_empty, get_data_list } from '@/utils';
+import { online_url, is_obj_empty, get_data_list, get_math } from '@/utils';
 import { commonStore } from '@/store';
 const common_store = commonStore();
 /**
@@ -136,27 +77,44 @@ const emit = defineEmits(['update:change-theme']);
 const themeChange = (val: string) => {
     emit('update:change-theme', val);
 };
-const keywords = ref(form.value.keywords);
-const keyword_blur = () => {
-    form.value.keywords = keywords.value;
-}
 // 移除
-const remove = (index: number) => {
+const data_list_remove = (index: number) => {
     form.value.data_list.splice(index, 1);
 };
 // 排序
-const on_sort = (item: any) => {
+const data_list_sort = (item: any) => {
     form.value.data_list = item;
 };
-// 新增
-const add = () => {
+const url_value_multiple_bool = ref(true);
+const data_list_replace_index = ref(0);
+const data_list_replace = (index: number) => {
+    data_list_replace_index.value = index;
+    url_value_multiple_bool.value = false;
     url_value_dialog_visible.value = true;
 };
-// 弹窗回调
+const add = () => {
+    url_value_multiple_bool.value = true;
+    url_value_dialog_visible.value = true;
+};
+// 弹出框选择的内容
 const url_value_dialog_call_back = (item: any[]) => {
-    item.forEach((child: any) => {
-        form.value.data_list.push(child);
-    });
+    if (url_value_multiple_bool.value) {
+        item.forEach((item: any) => {
+            form.value.data_list.push({
+                id: get_math(),
+                new_cover: [],
+                new_title: '',
+                data: item,
+            });
+        });
+    } else {
+        form.value.data_list[data_list_replace_index.value] = {
+            id: get_math(),
+            new_cover: form.value.data_list[data_list_replace_index.value]?.new_cover || [],
+            new_title: '',
+            data: item[0],
+        };
+    }
 };
 </script>
 <style lang="scss" scoped>

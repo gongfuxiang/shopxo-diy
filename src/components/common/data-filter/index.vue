@@ -191,6 +191,47 @@
                 <el-switch v-model="form.is_home" active-value="1" inactive-value="0" />
             </el-form-item>
         </template>
+        <template v-else-if="['coupon'].includes(type)">
+            <el-form-item label="类型">
+                <el-select v-model="form.type" multiple collapse-tags filterable placeholder="请选择优惠券类型">
+                    <el-option v-for="item in get_data_list(common_store.common.plugins, 'coupon.type_list')" :key="item.value" :label="item.name" :value="item.value" />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="到期类型">
+                <el-select v-model="form.expire_type_ids" multiple collapse-tags filterable placeholder="请选择到期类型">
+                    <el-option v-for="item in get_data_list(common_store.common.plugins, 'coupon.expire_type_list')" :key="item.value" :label="item.name" :value="item.value" />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="使用限制">
+                <el-select v-model="form.use_limit_type_ids" multiple collapse-tags filterable placeholder="请选择使用限制">
+                    <el-option v-for="item in get_data_list(common_store.common.plugins, 'coupon.use_limit_type_list')" :key="item.value" :label="item.name" :value="item.value" />
+                </el-select>
+            </el-form-item>
+            <el-form-item label="显示数量">
+                <el-input-number v-model="form.number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
+            </el-form-item>
+            <el-form-item label="排序类型">
+                <el-radio-group v-model="form.order_by_type">
+                    <el-radio v-for="item in get_data_list(common_store.common.plugins, 'coupon.order_by_type_list')" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="排序规则">
+                <el-radio-group v-model="form.order_by_rule">
+                    <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="首页显示">
+                <el-switch v-model="form.is_repeat_receive" active-value="1" inactive-value="0" />
+            </el-form-item>
+            <template v-if="form.theme === '4'">
+                <el-form-item label="内容标题">
+                    <el-input v-model="form.title" placeholder="请输入内容" clearable></el-input>
+                </el-form-item>
+                <el-form-item label="内容描述">
+                    <el-input v-model="form.desc" type="textarea" :rows="4" placeholder="请输入内容" clearable></el-input>
+                </el-form-item>
+            </template>
+        </template>
         <template v-else>
             <el-form-item label="品牌分类">
                 <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择品牌分类">
@@ -233,7 +274,7 @@
             default: () => {},
         },
         type: {
-            type: String as PropType<'goods' | 'blog' | 'article' | 'binding' | 'realstore' | 'merchant' | 'ask' | 'activity'>,
+            type: String as PropType<'goods' | 'blog' | 'article' | 'binding' | 'realstore' | 'merchant' | 'ask' | 'activity' | 'coupon'>,
             default: 'goods',
         }
     });
@@ -287,6 +328,12 @@
             optionListKey: 'data_type_list',
             imgParam: 'cover',
             titleParam: 'title',
+        },
+        coupon: {
+            optionListKey: 'data_type_list',
+            imgParam: '',
+            titleParam: 'name',
+            typeParam: 'custom',
         },
         default: {
             optionListKey: 'brand_data_type_list',

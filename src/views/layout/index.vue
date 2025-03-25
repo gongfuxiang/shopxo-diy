@@ -273,8 +273,16 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                 goods_or_article_data_processing(item0, item.key == new_array_1[0], item.key);
             });
         } else if (new_array_3.includes(item.key)) {
-            item.com_data.content.data_ids = item.com_data.content.data_list.map((item: any) => item.id).join(',') || '';
-            item.com_data.content.data_list = [];
+            // 提取数据ID列表，用于后续的数据查询或处理
+            item.com_data.content.data_ids = item.com_data.content.data_list.map((item: any) => item.data.id).join(',') || '';
+            // 重构数据列表，保留原始数据结构的同时，添加或修改必要的字段
+            item.com_data.content.data_list = item.com_data.content.data_list.map((item1: any) => {
+                return {
+                    ...item1,
+                    data: [],
+                    data_id: item1.data.id,
+                };
+            });
             item.com_data.content.data_auto_list = [];
             if (item.com_data.content.data_type == '0') {
                 item.com_data.content = {
@@ -442,7 +450,6 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                 data_id: item1.data.id,
             };
         });
-
         // 设置分类ID、数量、排序规则等默认值，确保数据的一致性和完整性
         new_com_data_content.keywords = '';
         new_com_data_content.category_ids = defaultConfigSetting.category_ids;
