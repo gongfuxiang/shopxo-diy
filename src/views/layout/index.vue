@@ -278,6 +278,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             item.com_data.content.data_auto_list = [];
             if (item.com_data.content.data_type == '0') {
                 item.com_data.content = {
+                    ...item.com_data.content,
                     keywords: '',
                     type: defaultConfigSetting.coupon_ids,
                     expire_type_ids: defaultConfigSetting.coupon_ids,
