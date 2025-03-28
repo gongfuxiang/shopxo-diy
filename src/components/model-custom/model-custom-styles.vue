@@ -11,13 +11,13 @@
                             <el-form-item label="间隔时间">
                                 <slider v-model="form.interval_time" :min="1" :max="100" @operation_end="operation_end"></slider>
                             </el-form-item>
-                            <el-form-item label="滚动方式">
-                                <el-radio-group v-model="form.rolling_fashion" @change="operation_end">
-                                    <el-radio value="translation">平移</el-radio>
-                                    <el-radio value="cut-screen">切屏</el-radio>
-                                </el-radio-group>
-                            </el-form-item>
                         </template>
+                        <el-form-item label="滚动方式">
+                            <el-radio-group v-model="form.rolling_fashion" @change="operation_end">
+                                <el-radio value="translation">平移</el-radio>
+                                <el-radio value="cut-screen">切屏</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
                 </card-container>
                 <div class="divider-line data-tabs-line" />
                 <card-container class="card-container">

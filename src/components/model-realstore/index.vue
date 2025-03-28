@@ -23,14 +23,14 @@
                                                 <div v-if="(item.alias || null) != null" :style="shop_label_style">{{ item.alias }}</div>
                                                 <div class="text-line-2" :style="trends_config('title')">{{ item.name }}</div>
                                             </div>
-                                            <div v-if="['0', '2'].includes(theme)" class="flex-row align-c" :style="`gap: ${ new_style.phone_navigation_spacing }px;`">
-                                                <img-or-icon-or-text :value="props.value" type="phone" />
-                                                <img-or-icon-or-text :value="props.value" type="navigation" />
+                                            <div v-if="['0', '2'].includes(theme) && (!isEmpty(item.service_data.service_tel) || ( item.lat != 0 && item.lng != 0 ))" class="flex-row align-c" :style="`gap: ${ new_style.phone_navigation_spacing }px;`">
+                                                <img-or-icon-or-text v-if="!isEmpty(item.service_data.service_tel)" :value="props.value" type="phone" />
+                                                <img-or-icon-or-text v-if="item.lat != 0 && item.lng != 0" :value="props.value" type="navigation" />
                                             </div>
                                         </div>
-                                        <div class="flex-row gap-2 align-c">
+                                        <div v-if="!isEmpty(item.status_info) && !isEmpty(item.status_info.time)" class="flex-row gap-2 align-c">
                                             <img-or-icon-or-text :value="props.value" type="time" />
-                                            <div v-if="!isEmpty(item.status_info)" class="flex-1 flex-row align-c">
+                                            <div class="flex-1 flex-row align-c">
                                                 <span class="text-line-1" :style="trends_config('state') + `color: ${ item.status_info.status == 1 ? new_style.realstore_state_color : new_style.realstore_default_state_color }`">{{ item.status_info.msg }}</span>
                                                 <span v-if="!isEmpty(item.status_info.msg) || !isEmpty(item.status_info.time)" :style="'color: #ccc;' + margin_computer(new_style.realstore_business_distance)">|</span>
                                                 <span class="text-line-1" :style="trends_config('business_hours')">{{ item.status_info.time }}</span>
@@ -47,7 +47,7 @@
                                                 </div>
                                                 <span v-if="!isEmpty(item.distance) && theme != '1' && form.is_location_distance_show == '1'" :style="trends_config('distance')">距您{{ item.distance || '0km' }}</span>
                                             </div>
-                                            <template v-if="!['0', '2'].includes(theme)">
+                                            <template v-if="!['0', '2'].includes(theme) && item.lat != 0 && item.lng != 0">
                                                 <img-or-icon-or-text :value="props.value" type="navigation" />
                                             </template>
                                         </div>
@@ -88,11 +88,11 @@
                                             <div class="text-line-2" :style="trends_config('title')">{{ item.name }}</div>
                                         </div>
                                         <div class="flex-row jc-sb align-c">
-                                            <div class="flex-1 flex-row gap-2 align-c">
+                                            <div v-if="!isEmpty(item.status_info) && !isEmpty(item.status_info.time)" class="flex-1 flex-row gap-2 align-c">
                                                 <img-or-icon-or-text :value="props.value" type="time" />
-                                                <span v-if="!isEmpty(item.status_info)" class="text-line-1" :style="trends_config('state') + `color: ${ item.status_info.status == 1 ? new_style.realstore_state_color : new_style.realstore_default_state_color }`">{{ item.status_info.msg }}</span>
+                                                <span class="text-line-1" :style="trends_config('state') + `color: ${ item.status_info.status == 1 ? new_style.realstore_state_color : new_style.realstore_default_state_color }`">{{ item.status_info.msg }}</span>
                                             </div>
-                                            <img-or-icon-or-text :value="props.value" type="navigation" />
+                                            <img-or-icon-or-text v-if="item.lat != 0 && item.lng != 0" :value="props.value" type="navigation" />
                                         </div>
                                     </div>
                                 </div>
@@ -177,6 +177,11 @@ type data_list = {
     address: string;
     distance: string,
     time: string;
+    lat: number,
+    lng: number,
+    service_data: {
+        service_tel: string;
+    },
     status_info: info;
 }
 const default_list = {
@@ -189,6 +194,11 @@ const default_list = {
     logo: '',
     new_cover: [],
     distance: '12km',
+    lat: 3,
+    lng: 66,
+    service_data: {
+        service_tel: '20006',
+    },
     status_info: {
         msg: '营业中',
         time: '7:00-22:00',

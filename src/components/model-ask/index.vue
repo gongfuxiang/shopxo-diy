@@ -48,7 +48,7 @@
                             <div :class="layout_type" :style="layout_style">
                                 <div class="oh w h flex-col gap-10 jc-sb" :style="layout_img_style">
                                     <div class="flex-row gap-10 align-b">
-                                        <div :style="trends_config('title')">{{ item.title }}</div>
+                                        <div :style="trends_config('title') + 'word-break: break-all;'">{{ item.title }}</div>
                                     </div>
                                     <div v-if="is_show('reply_status') || is_show('time')" class="flex-col gap-10">
                                         <span v-if="is_show('time')" :style="trends_config('time')">{{ item.add_time_date }}</span>
