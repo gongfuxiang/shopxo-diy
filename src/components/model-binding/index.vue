@@ -82,7 +82,7 @@
                                                                 <div v-if="is_show('title')" :class="theme == '0' ? 'text-line-2' : 'text-line-1'" :style="trends_config('title', 'goods')">
                                                                     {{ item.title }}
                                                                 </div>
-                                                                <div v-if="is_show('price')" class="flex-row align-c text-line-1">
+                                                                <div v-if="is_show('price')" class="text-line-1">
                                                                     <span :style="trends_config('price_symbol', 'goods')">{{ item.show_price_symbol }}</span>
                                                                     <span :style="trends_config('price', 'goods')">{{ item.price }}</span>
                                                                     <span v-if="is_show('price_unit')" :style="trends_config('price_unit', 'goods')">{{ item.show_price_unit }}</span>
@@ -114,7 +114,7 @@
                                                                         <div v-if="is_show('title')" :class="theme == '0' ? 'text-line-2' : 'text-line-1'" :style="trends_config('title', 'goods')">
                                                                             {{ item.title }}
                                                                         </div>
-                                                                        <div v-if="is_show('price')" class="flex-row align-c text-line-1">
+                                                                        <div v-if="is_show('price')" class="text-line-1">
                                                                             <span :style="trends_config('price_symbol', 'goods')">{{ item.show_price_symbol }}</span>
                                                                             <span :style="trends_config('price', 'goods')">{{ item.price }}</span>
                                                                             <span v-if="is_show('price_unit')" :style="trends_config('price_unit', 'goods')">{{ item.show_price_unit }}</span>
