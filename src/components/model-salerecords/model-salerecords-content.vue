@@ -74,11 +74,11 @@ const keyword_blur = () => {
     form.value.keywords = keywords.value;
 }
 const base_list = reactive([
-    { name: '头像', value: 'head', type: ['vertical'] },
-    { name: '昵称', value: 'nick_name', type: ['vertical'] },
-    { name: '商品图', value: 'goods_image', type: ['vertical', 'horizontal'] },
-    { name: '商品标题', value: 'goods_title', type: ['vertical', 'horizontal'] },
-    { name: '日期时间', value: 'time', type: ['vertical', 'horizontal']},
+    { name: '头像', value: 'head', type: ['vertical', 'translation'] },
+    { name: '昵称', value: 'nick_name', type: ['vertical', 'translation'] },
+    { name: '商品图', value: 'goods_image', type: ['vertical', 'horizontal', 'translation'] },
+    { name: '商品标题', value: 'goods_title', type: ['vertical', 'horizontal', 'translation'] },
+    { name: '日期时间', value: 'time', type: ['vertical', 'horizontal', 'translation']},
 ]);
 </script>
 <style lang="scss" scoped>
