@@ -13,7 +13,7 @@
                                 </template>
                                 <span v-if="is_show('nick_name')" class="text-line-1" :style="trends_config('nick_name')">{{ item.user.user_name_view }}</span>
                                 <template v-if="is_show('goods_image')">
-                                    <image-empty v-model="item.goods_url" :style="goods_image_radius"></image-empty>
+                                    <image-empty v-model="item.images" :style="goods_image_radius"></image-empty>
                                 </template>
                                 <span v-if="is_show('goods_title')" class="flex-1 text-line-1" :style="trends_config('goods_title')">{{ item.title }}</span>
                                 <span v-if="is_show('time')" class="nowrap" :style="trends_config('time')">{{ item.add_time }}</span>
@@ -25,12 +25,12 @@
             <template v-else>
                 <div class="swiper-free-mode swiper-horizontal-free-mode" :style="`height: ${ swiper_height }px;`">
                     <div v-for="(item, index) in new_list" :key="index" :style="`margin-bottom: ${ index < new_list.length - 1 ? space_between : 0 }px;`">
-                        <swiper :key="carouselKey + index" class="w flex" :style="`height: ${ new_swiper_height }px;`" direction="horizontal" :loop="true" :slides-offset-before="slides_offset_before" :speed="swiper_speed + (1000 * index)" :autoplay="autoplay" slides-per-view="auto" :space-between="space_between" :modules="modules">
+                        <swiper :key="carouselKey + index" class="w flex" :style="`height: ${ new_swiper_height }px;`" direction="horizontal" :loop="true" :slides-offset-before="slides_offset_before_list[index].is_left ? slides_offset_before : 0" :speed="swiper_speed + (1000 * index)" :autoplay="autoplay" slides-per-view="auto" :space-between="space_between" :modules="modules">
                             <swiper-slide v-for="(item1, index1) in item.split_list" :key="index1">
                                 <div :style="swiper_horizontal_container + 'width: auto;'">
                                     <div class="flex-row align-c" :style="swiper_horizontal_img_container + `gap: ${ new_style.content_spacing }px;`">
                                         <template v-if="is_show('goods_image')">
-                                            <image-empty v-model="item1.goods_url" :style="goods_image_radius"></image-empty>
+                                            <image-empty v-model="item1.images" :style="goods_image_radius"></image-empty>
                                         </template>
                                         <span v-if="is_show('goods_title')" class="flex-1 text-line-1" :style="trends_config('goods_title') + `max-width: ${ max_title_width }px;`">{{ item1.title }}</span>
                                         <span v-if="is_show('time')" class="nowrap" :style="trends_config('time')">{{ item1.add_time }}</span>
@@ -114,7 +114,7 @@ type data_list = {
         user_name_view: string,
     },
     title: string,
-    goods_url: string,
+    images: string,
     add_time: string
 }
 const default_list = {
@@ -123,7 +123,7 @@ const default_list = {
         user_name_view: '测试昵称测试昵称测试昵称测试昵称',
     },
     title: '测试商品标题测试',
-    goods_url: '',
+    images: '',
     add_time: '02-04 23:01:01'
 };
 type split_list = {
@@ -133,7 +133,7 @@ const new_list = ref<split_list[]>([]);
 const list = ref<data_list[]>([]);
 // 初始化的时候执行
 onMounted(() => {
-    if (!isEmpty(form.value.data_auto_list) && form.value.data_type == '1') {
+    if (!isEmpty(form.value.data_auto_list)) {
         // 筛选商品并且筛选商品数组不为空
         list.value = form.value.data_auto_list;
     } else {
@@ -190,9 +190,16 @@ const max_title_width = ref(0);
 const new_swiper_height = ref(0);
 // 设置初始偏移量
 const slides_offset_before = ref(0);
+type before_list = { is_left: boolean }
+const slides_offset_before_list = ref<before_list[]>([]);
 const size_handle = (val: number, type: string) => {
     return form.value.is_show.includes(type) ? val : 0;
 };
+const slideChange = (swiper: { realIndex: number }, index: number, value_length: number) => {
+    if (swiper.realIndex >= value_length - 1) {
+        slides_offset_before_list.value[index].is_left = false;
+    }
+}
 // 内容参数的集合
 watchEffect(() => {
     const { rotation_direction, interval_time, show_number = 1, is_roll } = form.value;
@@ -222,12 +229,14 @@ watchEffect(() => {
         slides_offset_before.value = 390 - common_style.margin_left + common_style.margin_right - common_style.padding_left - common_style.padding_right;
         max_title_width.value = goods_title_size * 9;
         new_list.value = [];
+        slides_offset_before_list.value = [];
         // 拆分的数量
         const split_num = Math.ceil(list.value.length / show_num);
         let new_num = show_num;
         for (let i = 0; i < show_num; i++) {
             if (!isEmpty(list.value[i * split_num])) {
                 new_list.value.push({ split_list: list.value.slice(i * split_num, (i + 1) * split_num) });
+                slides_offset_before_list.value.push({ is_left: true });
             } else {
                 new_num = i - 1;
                 break;

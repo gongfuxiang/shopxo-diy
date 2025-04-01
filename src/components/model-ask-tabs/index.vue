@@ -65,16 +65,18 @@ watch(
         }
         ask_container.value = gradient_computer(ask_content_data) + margin_computer(new_style.ask_content_margin) + radius_computer(new_style.ask_content_radius) + border_computer(new_style.ask_content) + box_shadow_computer(new_style.ask_content);
         ask_img_container.value = background_computer(ask_content_data) + padding_computer(new_style.ask_content_padding);
+        // 当前数组对应的值
+        const new_tabs_data = new_data.content.tabs_list[tabs_active_index.value] || {};
         // 产品的值
-        new_data.content.data_type = new_data.content.tabs_list[tabs_active_index.value].data_type;
-        new_data.content.data_list = new_data.content.tabs_list[tabs_active_index.value].data_list;
-        new_data.content.data_auto_list = new_data.content.tabs_list[tabs_active_index.value].data_auto_list;
-        new_data.content.keywords = new_data.content.tabs_list[tabs_active_index.value].keywords;
-        new_data.content.category_ids = new_data.content.tabs_list[tabs_active_index.value].category_ids;
-        new_data.content.number = new_data.content.tabs_list[tabs_active_index.value].number;
-        new_data.content.order_by_type = new_data.content.tabs_list[tabs_active_index.value].order_by_type;
-        new_data.content.order_by_rule = new_data.content.tabs_list[tabs_active_index.value].order_by_rule;
-        new_data.content.is_reply = new_data.content.tabs_list[tabs_active_index.value].is_reply;
+        new_data.content.data_type = new_tabs_data.data_type;
+        new_data.content.data_list = new_tabs_data.data_list;
+        new_data.content.data_auto_list = new_tabs_data.data_auto_list;
+        new_data.content.keywords = new_tabs_data.keywords;
+        new_data.content.category_ids = new_tabs_data.category_ids;
+        new_data.content.number = new_tabs_data.number;
+        new_data.content.order_by_type = new_tabs_data.order_by_type;
+        new_data.content.order_by_rule = new_tabs_data.order_by_rule;
+        new_data.content.is_reply = new_tabs_data.is_reply;
         tabs_list.value = new_data;
         // 公共样式
         style_container.value += common_styles_computer(new_style.common_style);

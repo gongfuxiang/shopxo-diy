@@ -15,9 +15,10 @@
         <!-- 商品 -->
         <template v-if="type === 'goods'">
             <el-form-item label="商品分类">
-                <el-select v-model="form.category_ids" multiple collapse-tags filterable placeholder="请选择商品分类">
-                    <el-option v-for="item in common_store.common.goods_category" :key="item.id" :label="item.name" :value="item.id" />
-                </el-select>
+                <div class="flex-row gap-10 w h">
+                    <el-cascader v-model="form.category_ids" placeholder="请选择商品分类" :show-all-levels="false" filterable clearable class="w h" collapse-tags popper-class="filter-form-cascader" placement="left" :props="{'multiple': true, 'checkStrictly': true, 'emitPath': false, 'value': 'id', 'label': 'name', 'children': 'items' }" :options="common_store.common.goods_category" /> 
+                    <tooltip content="父级选中包含所有子级"></tooltip>
+                </div>
             </el-form-item>
             <el-form-item label="指定品牌">
                 <el-select v-model="form.brand_ids" multiple collapse-tags filterable placeholder="请选择品牌">
