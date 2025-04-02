@@ -17,10 +17,11 @@
                             </template>
                             <div class="flex-1 flex-row jc-sb gap-10" :style="content_style">
                                 <div class="flex-1 flex-col jc-sb gap-10">
-                                    <div class="text-line-2" :style="trends_config('title')">
+                                    <div class="flex-row align-c" :style="trends_config('title')">
                                         <template v-for="(item1, index1) in new_url_list(item.icon_list)" :key="index1">
-                                            <img :src="item1.icon" class="title-img" :style="title_img_style(item.icon_list, index1) + 'vertical-align: middle;'" />
-                                        </template>{{ item.name }}
+                                            <img :src="item1.icon" class="title-img" :style="title_img_style(item.icon_list, index1)" />
+                                        </template>
+                                        <span class="flex-1 text-line-1">{{ item.name }}</span>
                                     </div>
                                     <span v-if="form.shop_desc == '1'" :class="form.shop_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.describe }}</span>
                                 </div>
@@ -47,10 +48,11 @@
                                         </div>
                                     </template>
                                     <div class="flex-col jc-sb gap-10" :style="content_style">
-                                        <div class="text-line-2" :style="trends_config('title')">
+                                        <div class="flex-row align-c" :style="trends_config('title')">
                                             <template v-for="(item1, index1) in new_url_list(item.icon_list)" :key="index1">
-                                                <img :src="item1.icon" class="title-img" :style="title_img_style(item.icon_list, index1) + 'vertical-align: middle;'" />
-                                            </template>{{ item.name }}
+                                                <img :src="item1.icon" class="title-img" :style="title_img_style(item.icon_list, index1)" />
+                                            </template>
+                                            <span class="flex-1 text-line-1">{{ item.name }}</span>
                                         </div>
                                         <span v-if="form.shop_desc == '1'" :class="form.shop_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('desc', 'desc')">{{ item.describe }}</span>
                                     </div>

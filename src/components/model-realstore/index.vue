@@ -19,9 +19,9 @@
                                 <div class="flex-1 flex-col" :style="content_style">
                                     <div class="flex-col jc-sb gap-10">
                                         <div class="flex-row jc-sb align-c gap-10">
-                                            <div class="flex-row align-c gap-3">
-                                                <div v-if="(item.alias || null) != null" :style="shop_label_style">{{ item.alias }}</div>
-                                                <div class="text-line-2" :style="trends_config('title')">{{ item.name }}</div>
+                                            <div class="flex-row align-b gap-3">
+                                                <div v-if="(item.alias || null) != null" class="nowrap" :style="shop_label_style">{{ item.alias }}</div>
+                                                <div class="text-line-1" :style="trends_config('title')">{{ item.name }}</div>
                                             </div>
                                             <div v-if="['0', '2'].includes(theme) && (!isEmpty(item.service_data.service_tel) || ( item.lat != 0 && item.lng != 0 ))" class="flex-row align-c" :style="`gap: ${ new_style.phone_navigation_spacing }px;`">
                                                 <img-or-icon-or-text v-if="!isEmpty(item.service_data.service_tel)" :value="props.value" type="phone" />
@@ -31,7 +31,7 @@
                                         <div v-if="!isEmpty(item.status_info) && !isEmpty(item.status_info.time)" class="flex-row gap-2 align-c">
                                             <img-or-icon-or-text :value="props.value" type="time" />
                                             <div class="flex-1 flex-row align-c">
-                                                <span class="text-line-1" :style="trends_config('state') + `color: ${ item.status_info.status == 1 ? new_style.realstore_state_color : new_style.realstore_default_state_color }`">{{ item.status_info.msg }}</span>
+                                                <span class="nowrap" :style="trends_config('state') + `color: ${ item.status_info.status == 1 ? new_style.realstore_state_color : new_style.realstore_default_state_color }`">{{ item.status_info.msg }}</span>
                                                 <span v-if="!isEmpty(item.status_info.msg) || !isEmpty(item.status_info.time)" :style="'color: #ccc;' + margin_computer(new_style.realstore_business_distance)">|</span>
                                                 <span class="text-line-1" :style="trends_config('business_hours')">{{ item.status_info.time }}</span>
                                             </div>
@@ -83,14 +83,14 @@
                                         </div>
                                     </template>
                                     <div class="flex-1 flex-col jc-sb gap-10" :style="content_style">
-                                        <div class="flex-row align-c gap-3">
-                                            <div v-if="(item.alias || null) != null" :style="shop_label_style">{{ item.alias }}</div>
-                                            <div class="text-line-2" :style="trends_config('title')">{{ item.name }}</div>
+                                        <div class="flex-row align-b gap-3">
+                                            <div v-if="(item.alias || null) != null" class="nowrap" :style="shop_label_style">{{ item.alias }}</div>
+                                            <div class="text-line-1" :style="trends_config('title')">{{ item.name }}</div>
                                         </div>
                                         <div class="flex-row jc-sb align-c">
                                             <div v-if="!isEmpty(item.status_info) && !isEmpty(item.status_info.time)" class="flex-1 flex-row gap-2 align-c">
                                                 <img-or-icon-or-text :value="props.value" type="time" />
-                                                <span class="text-line-1" :style="trends_config('state') + `color: ${ item.status_info.status == 1 ? new_style.realstore_state_color : new_style.realstore_default_state_color }`">{{ item.status_info.msg }}</span>
+                                                <span class="nowrap" :style="trends_config('state') + `color: ${ item.status_info.status == 1 ? new_style.realstore_state_color : new_style.realstore_default_state_color }`">{{ item.status_info.msg }}</span>
                                             </div>
                                             <img-or-icon-or-text v-if="item.lat != 0 && item.lng != 0" :value="props.value" type="navigation" />
                                         </div>

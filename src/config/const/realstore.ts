@@ -285,6 +285,11 @@ const defaultRealstore: defaultRealstore = {
             padding_bottom: 4,
             padding_left: 4,
             padding_right: 4,
+            radius: 4,
+            radius_top_left: 4,
+            radius_top_right: 4,
+            radius_bottom_left: 4,
+            radius_bottom_right: 4,
         },
         time_style: cloneDeep(common_icon_style),
         phone_style: {
@@ -296,6 +301,11 @@ const defaultRealstore: defaultRealstore = {
             padding_bottom: 4,
             padding_left: 4,
             padding_right: 4,
+            radius: 4,
+            radius_top_left: 4,
+            radius_top_right: 4,
+            radius_bottom_left: 4,
+            radius_bottom_right: 4,
         },
         location_style: cloneDeep(common_icon_style),
         // 是否滚动
