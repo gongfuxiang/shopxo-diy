@@ -365,31 +365,39 @@ const updateCountdown = () => {
 const list = ref<data_list[]>([]);
 // 更新倒计时函数
 onBeforeMount(() => {
-    SeckillAPI.getSeckillList({}).then((res: any) => {
-        const data = res.data;
-        if (!isEmpty(data.current)) {
-            if (!isEmpty(data.current.goods)) {
-                list.value = data.current.goods;
-            } else {
-                list.value = Array(4).fill(default_list);
-            }
-            const { status, time_first_text } = data.current.time;
-            seckill_time.value = {
-                endTime: data.current.time_end,
-                startTime: data.current.time_start,
-                status: status,
-                time_first_text: time_first_text,
-            };
-            // 先执行一次倒计时，后续的等待倒计时执行
-            setTimeout(() => {
-                updateCountdown();
-            }, 0);
-            intervalId.value = setInterval(updateCountdown, 1000);
+    if (form.value.is_left == '1') {
+        SeckillAPI.getSeckillList({}).then((res: any) => {
+            const data = res.data;
+            init(data);
+        });
+    } else {
+        init(form.value.data);
+    }
+});
+
+const init = (data: any) => {
+    if (!isEmpty(data.current)) {
+        if (!isEmpty(data.current.goods)) {
+            list.value = data.current.goods;
         } else {
             list.value = Array(4).fill(default_list);
         }
-    });
-});
+        const { status, time_first_text } = data.current.time;
+        seckill_time.value = {
+            endTime: data.current.time_end,
+            startTime: data.current.time_start,
+            status: status,
+            time_first_text: time_first_text,
+        };
+        // 先执行一次倒计时，后续的等待倒计时执行
+        setTimeout(() => {
+            updateCountdown();
+        }, 0);
+        intervalId.value = setInterval(updateCountdown, 1000);
+    } else {
+        list.value = Array(4).fill(default_list);
+    }
+}
 // 组件销毁时，清除定时器
 onUnmounted(() => {
     clearInterval(intervalId.value);

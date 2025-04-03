@@ -384,6 +384,10 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             });
         } else if (['salerecords'].includes(item.key)) {
             item.com_data.content.data_auto_list = [];
+            item.com_data.content.is_left = '0';
+        } else if (['seckill'].includes(item.key)) {
+            item.com_data.content.data = [];
+            item.com_data.content.is_left = '0';
         }
         return {
             ...item,

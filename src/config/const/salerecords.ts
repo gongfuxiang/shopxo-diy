@@ -5,6 +5,7 @@ import { cloneDeep } from "lodash";
 interface defaultSalerecords {
     content: {
         content_top: object;
+        is_left: string,
         is_roll: string;
         rotation_direction: string;
         interval_time: number;
@@ -69,6 +70,7 @@ const defaultSalerecords: defaultSalerecords = {
             ...commonTop,
         },
         is_roll: '1',
+        is_left: '1',
         rotation_direction: 'vertical',
         interval_time: 3,
         show_number: 2,

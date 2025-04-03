@@ -7,6 +7,8 @@ interface DefaultSeckill {
     content: {
         content_top: object;
         head_state: string;
+        is_left: string;
+        data: string[],
         theme: string;
         title_type: string;
         title_src: uploadList[];
@@ -111,6 +113,8 @@ const defaultSeckill: DefaultSeckill = {
         },
         // 头部状态
         head_state: '1',
+        is_left: '1',
+        data: [],
         // 主题风格配置
         theme: '1',
         title_type: 'image',

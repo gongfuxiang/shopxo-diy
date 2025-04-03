@@ -132,11 +132,6 @@ interface defaultRealstore {
         goods_margin: marginStyle;
         goods_padding: paddingStyle;
         goods_radius: radiusStyle;
-        goods_title_img_width: number,
-        goods_title_img_height: number,
-        goods_title_img_radius: radiusStyle,
-        goods_title_img_inner_spacing: number,
-        goods_title_img_outer_spacing: number,
         goods_title_color: string;
         goods_title_typeface: string;
         goods_title_size: number;
@@ -220,11 +215,11 @@ const defaultRealstore: defaultRealstore = {
         data_background_img: [],
         // 图片圆角
         data_img_radius: {
-            radius: 0,
-            radius_top_left: 0,
-            radius_top_right: 0,
-            radius_bottom_left: 0,
-            radius_bottom_right: 0,
+            radius: 8,
+            radius_top_left: 8,
+            radius_top_right: 8,
+            radius_bottom_left: 8,
+            radius_bottom_right: 8,
         },
         data_margin: {
             margin: 0,
@@ -300,11 +295,11 @@ const defaultRealstore: defaultRealstore = {
         goods_background_img: [],
         // 图片圆角
         goods_img_radius: {
-            radius: 0,
-            radius_top_left: 0,
-            radius_top_right: 0,
-            radius_bottom_left: 0,
-            radius_bottom_right: 0,
+            radius: 4,
+            radius_top_left: 4,
+            radius_top_right: 4,
+            radius_bottom_left: 4,
+            radius_bottom_right: 4,
         },
         goods_margin: {
             margin: 0,
@@ -321,23 +316,12 @@ const defaultRealstore: defaultRealstore = {
             padding_right: 10,
         },
         goods_radius: {
-            radius: 0,
-            radius_top_left: 0,
-            radius_top_right: 0,
-            radius_bottom_left: 0,
-            radius_bottom_right: 0,
+            radius: 4,
+            radius_top_left: 4,
+            radius_top_right: 4,
+            radius_bottom_left: 4,
+            radius_bottom_right: 4,
         },
-        goods_title_img_width: 12,
-        goods_title_img_height: 12,
-        goods_title_img_radius: {
-            radius: 0,
-            radius_top_left: 0,
-            radius_top_right: 0,
-            radius_bottom_left: 0,
-            radius_bottom_right: 0,
-        },
-        goods_title_img_inner_spacing: 5,
-        goods_title_img_outer_spacing: 5,
         goods_title_color: '#333',
         goods_title_typeface: '400',
         goods_title_size: 12,
@@ -411,11 +395,11 @@ const defaultRealstore: defaultRealstore = {
             direction: '180deg',
             background_img_style: '2',
             background_img: [],
-            radius: 0,
-            radius_top_left: 0,
-            radius_top_right: 0,
-            radius_bottom_left: 0,
-            radius_bottom_right: 0,
+            radius: 8,
+            radius_top_left: 8,
+            radius_top_right: 8,
+            radius_bottom_left: 8,
+            radius_bottom_right: 8,
             padding: 10,
             padding_top: 10,
             padding_bottom: 10,

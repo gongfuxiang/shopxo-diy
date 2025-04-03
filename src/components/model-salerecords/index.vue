@@ -120,7 +120,7 @@ type data_list = {
 const default_list = {
     user: {
         avatar: '',
-        user_name_view: '测试昵称测试昵称测试昵称测试昵称',
+        user_name_view: '测试昵称',
     },
     title: '测试商品标题测试',
     images: '',
@@ -133,11 +133,15 @@ const new_list = ref<split_list[]>([]);
 const list = ref<data_list[]>([]);
 // 初始化的时候执行
 onMounted(() => {
-    if (!isEmpty(form.value.data_auto_list)) {
-        // 筛选商品并且筛选商品数组不为空
-        list.value = form.value.data_auto_list;
+    if (form.value.is_left == '1') {
+        get_products();
     } else {
-        list.value = Array(10).fill(default_list);
+        if (!isEmpty(form.value.data_auto_list)) {
+            // 筛选商品并且筛选商品数组不为空
+            list.value = form.value.data_auto_list;
+        } else {
+            list.value = Array(10).fill(default_list);
+        }
     }
 });
 
@@ -145,7 +149,7 @@ const get_products = () => {
     const { number, keywords } = form.value;
     const params = {
         keywords: keywords,
-        number: number,
+        number: number || 1,
     };
     // 获取商品列表
     SalerecordsAPI.getAutoList(params).then((res: any) => {
@@ -167,7 +171,7 @@ watch(() => watch_data.value, (val, oldVal) => {
     if ((JSON.stringify(val) !== JSON.stringify(oldVal)) || props.isCommonStyle) {
         get_products();
     }
-}, { immediate: true, deep: true });
+}, { deep: true });
 //#endregion
 //#region 轮播设置
 // 轮播图key值
