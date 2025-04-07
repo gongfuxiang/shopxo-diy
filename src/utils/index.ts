@@ -248,7 +248,7 @@ export const custom_condition_judg = (fieldValue: any, type: string, value: numb
             if (typeof fieldValue === 'number' || (typeof fieldValue === 'string' && isPureNumber(fieldValue))) {
                 return compare_numbers(Number(fieldValue), numberValue, type);
             } else if (Array.isArray(fieldValue) || (typeof fieldValue === 'string' && !isPureNumber(fieldValue))) {
-                // 如果字段值是数组或字符串，比较数组长度和指定值
+                // 如果字段值是数组或字符串，比较长度
                 const valueLength = fieldValue?.length || 0;
                 return compare_numbers(valueLength, numberValue, type);
             } else if (typeof fieldValue === 'object') {
