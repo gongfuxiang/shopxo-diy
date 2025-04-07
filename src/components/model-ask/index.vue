@@ -8,7 +8,7 @@
                             <div class="oh w h flex-col jc-sb gap-10" :style="layout_img_style">
                                 <div class="flex-row gap-10 align-b">
                                     <div v-if="is_show('ranking')" :class="`top-style one${ index + 1 }`">{{ index + 1 }}</div>
-                                    <div :style="trends_config('title') + 'word-break: break-all;'">{{ item.title }}</div>
+                                    <div :class="get_title_line" :style="trends_config('title') + 'word-break: break-all;'">{{ item.title }}</div>
                                 </div>
                                 <div v-if="is_show('reply_status') || is_show('time') || is_show('page_view')" class="flex-row gap-10 align-c" :style="is_show('ranking') ? 'margin-left: 2.7rem;' : ''">
                                     <div class="flex-row">
@@ -26,7 +26,7 @@
                         <template v-else>
                             <div class="oh flex-col gap-10 jc-sb" :style="layout_img_style">
                                 <div class="flex-row gap-10 align-b">
-                                    <div :style="trends_config('title') + 'word-break: break-all;'">{{ item.title }}</div>
+                                    <div :class="get_title_line" :style="trends_config('title') + 'word-break: break-all;'">{{ item.title }}</div>
                                 </div>
                                 <div v-if="is_show('reply_status') || is_show('time')" class="flex-col gap-10">
                                     <span v-if="is_show('time')" :style="trends_config('time')">{{ item.add_time_date }}</span>
@@ -48,7 +48,7 @@
                             <div :class="layout_type" :style="layout_style">
                                 <div class="oh w h flex-col gap-10 jc-sb" :style="layout_img_style">
                                     <div class="flex-row gap-10 align-b">
-                                        <div :style="trends_config('title') + 'word-break: break-all;'">{{ item.title }}</div>
+                                        <div :class="get_title_line" :style="trends_config('title') + 'word-break: break-all;'">{{ item.title }}</div>
                                     </div>
                                     <div v-if="is_show('reply_status') || is_show('time')" class="flex-col gap-10">
                                         <span v-if="is_show('time')" :style="trends_config('time')">{{ item.add_time_date }}</span>
@@ -96,6 +96,14 @@ const form = computed(() => props.value?.content || {});
 const new_style = computed(() => props.value?.style || {});
 // 选择的风格
 const theme = computed(() => form.value.theme);
+const get_title_line = computed(() => {
+    const line = form.value.title_display_method;
+    if (line == '0') {
+        return '';
+    } else {
+        return line == '1' ? 'text-line-1' : 'text-line-2'
+    }
+});
 // 最外层不同风格下的显示
 const outer_class = computed(() => {
     const flex = ['0', '2'].includes(theme.value) ? 'flex-col ' : 'container ';
@@ -211,7 +219,7 @@ const trends_config = (key: string, type?: string) => {
 };
 // 根据传递的值，显示不同的内容
 const style_config = (typeface: string, size: number, color: string | object, type?: string) => {
-    let style = `font-weight:${typeface}; font-size: ${size}px;color: ${color};`;
+    let style = `font-weight:${typeface}; font-size: ${size}px;color: ${color};line-height: 1.5;`;
     return style;
 };
 // 不同风格下的样式

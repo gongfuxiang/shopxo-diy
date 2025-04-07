@@ -33,6 +33,11 @@
                         <el-checkbox v-for="item in base_list.show_list.filter(item => item.show.includes(form.theme))" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item> 
+                <el-form-item label="标题显示">
+                    <el-radio-group v-model="form.title_display_method">
+                        <el-radio v-for="item in base_list.display_method" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
+                    </el-radio-group>
+                </el-form-item> 
             </card-container>
         </el-form>
         <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['ask']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
@@ -91,6 +96,11 @@ const base_list = reactive({
         { name: '全部', value: '' },
         { name: '未回', value: '0' },
         { name: '已回', value: '1' },
+    ],
+    display_method: [
+        { name: '自动', value: '0' },
+        { name: '一行', value: '1' },
+        { name: '两行', value: '2' },
     ],
 });
 

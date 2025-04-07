@@ -45,6 +45,7 @@ interface defaultRealstore {
         keywords: string;
         is_reply: string;
         is_show: string[],
+        title_display_method: string,
     };
     style: {
         tabs_one_theme: string;
@@ -165,6 +166,7 @@ const defaultRealstore: defaultRealstore = {
         keywords: '',
         is_reply: '',
         is_show: ['time', 'page_view', 'reply_status', 'ranking'],
+        title_display_method: '0',
     },
     style: {
         // 选中样式风格

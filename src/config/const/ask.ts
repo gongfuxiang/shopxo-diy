@@ -18,6 +18,7 @@ interface defaultRealstore {
         keywords: string;
         is_reply: string;
         is_show: string[],
+        title_display_method: string;
     };
     style: {
         ask_color_list: color_list[];
@@ -77,6 +78,7 @@ const defaultRealstore: defaultRealstore = {
         keywords: '',
         is_reply: '',
         is_show: ['time', 'page_view', 'reply_status', 'ranking'],
+        title_display_method: '0',
     },
     style: {
         ask_color_list: [{ color: '#fff', color_percentage: undefined }],
