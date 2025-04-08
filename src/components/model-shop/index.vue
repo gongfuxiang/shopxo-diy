@@ -159,7 +159,7 @@ onMounted(() => {
     if (!isEmpty(form.value.data_list) && form.value.data_type == '0') {
         list.value = form.value.data_list.map((item: any) => ({
             ...item.data,
-            title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
+            name: !isEmpty(item.new_title) ? item.new_title : item.data.name,
             new_cover: item.new_cover,
         }));
     } else if (!isEmpty(form.value.data_auto_list) && form.value.data_type == '1') {
