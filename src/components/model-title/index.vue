@@ -69,11 +69,15 @@ const title_style = computed(() => {
 const subtitle_style = computed(() => {
     let common_styles = '';
     if (new_style.value.subtitle_weight == 'italic') {
-        common_styles += `font-style: italic`;
+        common_styles += `font-style: italic;`;
     } else if (['bold', '500'].includes(new_style.value.subtitle_weight)) {
         common_styles += `font-weight: bold;`;
     }
-    return `color:${new_style.value.subtitle_color}; font-size: ${new_style.value.subtitle_size}px; ${common_styles}`;
+    let flex = '';
+    if (form.value.is_subtitle_center == '1') {
+        flex = 'display: flex; justify-content: center;';
+    }
+    return `color:${new_style.value.subtitle_color}; font-size: ${new_style.value.subtitle_size}px; ${common_styles} ${ flex }`;
 });
 // 标题是否居中
 const title_center = computed(() => {

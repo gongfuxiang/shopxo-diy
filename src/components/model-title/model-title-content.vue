@@ -1,6 +1,6 @@
 <template>
     <div class="w h">
-        <el-form :model="form" label-width="70">
+        <el-form :model="form" label-width="80">
             <common-content-top :value="form.content_top"></common-content-top>
             <div class="divider-line"></div>
             <card-container>
@@ -11,7 +11,7 @@
                 <el-form-item label="标题链接">
                     <url-value v-model="form.title_link"></url-value>
                 </el-form-item>
-                <el-form-item label="是否居中">
+                <el-form-item label="标题居中">
                     <el-switch v-model="form.is_title_center" active-value="1" inactive-value="0"/>
                 </el-form-item>
                 <el-form-item label="图片/图标">
@@ -19,6 +19,9 @@
                 </el-form-item>
                 <el-form-item label="副标题">
                     <el-input v-model="form.subtitle" placeholder="请输入副标题" clearable></el-input>
+                </el-form-item>
+                <el-form-item label="副标题居中">
+                    <el-switch v-model="form.is_subtitle_center" active-value="1" inactive-value="0"/>
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />

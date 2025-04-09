@@ -17,6 +17,7 @@ interface defaultSearch {
         icon_class: string;
         subtitle: string;
         is_title_center: string;
+        is_subtitle_center: string;
         keyword_show: string;
         keyword_list: carousel_list[];
         right_show: string;
@@ -57,6 +58,7 @@ const defaultSearch: defaultSearch = {
         subtitle: '',
         // 内容居中
         is_title_center: '0',
+        is_subtitle_center: '0',
         // 右侧内容设置
         right_show: '1',
         right_title: '更多',
