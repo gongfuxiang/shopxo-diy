@@ -23,6 +23,9 @@
                 <el-form-item label="副标题居中">
                     <el-switch v-model="form.is_subtitle_center" active-value="1" inactive-value="0"/>
                 </el-form-item>
+                <el-form-item label="标题同行">
+                    <el-switch v-model="form.title_line" active-value="1" inactive-value="0" />
+                </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>
