@@ -32,10 +32,10 @@
                             <div v-if="new_style.video_is_show == '1' && item.carousel_video.length > 0" :class="{'x-middle': new_style.video_location == 'center', 'right-0': new_style.video_location == 'flex-end' }" class="z-deep abs oh video-class" :style="`bottom: ${new_style.video_bottom}px;`">
                                 <div class="flex-row gap-5 align-c" :style="video_style">
                                     <template v-if="new_style.video_type == 'img'">
-                                        <image-empty v-model="new_style.video_img[0]" class="video_img" error-img-style="width: 1.4rem;height: 1.4rem;" />
+                                        <image-empty v-model="new_style.video_img[0]" :style="`width:${ new_style.video_image_width }px;height: ${ new_style.video_image_height }px;`" fit="contain" error-img-style="width: 1.4rem;height: 1.4rem;" />
                                     </template>
                                     <template v-else>
-                                        <el-icon :class="`iconfont ${ !isEmpty(new_style.video_icon_class) ? 'icon-' + new_style.video_icon_class : 'icon-bofang' } size-14`" :style="`color:${new_style.video_icon_color};`" />
+                                        <el-icon :class="`iconfont ${ !isEmpty(new_style.video_icon_class) ? 'icon-' + new_style.video_icon_class : 'icon-bofang' }`" :style="`color:${new_style.video_icon_color};font-size: ${new_style.video_icon_size}px;`" />
                                     </template>
                                     <span v-if="!isEmpty(item.video_title)" :style="`color:${new_style.video_title_color};font-size: ${new_style.video_title_size}px;text-wrap: nowrap;`">{{ item.video_title }}</span>
                                 </div>
@@ -48,10 +48,10 @@
                             <div v-if="new_style.video_is_show == '1' && item.carousel_video.length > 0" :class="{'x-middle': new_style.video_location == 'center', 'right-0': new_style.video_location == 'flex-end' }" class="z-deep abs oh video-class" :style="`bottom: ${new_style.video_bottom}px;`">
                                 <div class="flex-row gap-5 align-c" :style="video_style">
                                     <template v-if="new_style.video_type == 'img'">
-                                        <image-empty v-model="new_style.video_img[0]" class="video_img" error-img-style="width: 1.4rem;height: 1.4rem;" />
+                                        <image-empty v-model="new_style.video_img[0]" :style="`width:${ new_style.video_image_width }px;height: ${ new_style.video_image_height }px;`" fit="contain" error-img-style="width: 1.4rem;height: 1.4rem;" />
                                     </template>
                                     <template v-else>
-                                        <el-icon :class="`iconfont ${ !isEmpty(new_style.video_icon_class) ? 'icon-' + new_style.video_icon_class : 'icon-bofang' } size-14`" :style="`color:${new_style.video_icon_color};`" />
+                                        <el-icon :class="`iconfont ${ !isEmpty(new_style.video_icon_class) ? 'icon-' + new_style.video_icon_class : 'icon-bofang' }`" :style="`color:${new_style.video_icon_color};font-size: ${new_style.video_icon_size}px;`" />
                                     </template>
                                     <span v-if="!isEmpty(item.video_title)" :style="`color:${new_style.video_title_color};font-size: ${new_style.video_title_size}px;text-wrap: nowrap;`">{{ item.video_title }}</span>
                                 </div>

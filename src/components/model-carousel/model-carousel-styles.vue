@@ -65,6 +65,19 @@
                                 </template>
                             </div>
                         </el-form-item>
+                        <el-form-item v-if="form.video_type == 'img'" label="图片设置">
+                            <div class="flex-col gap-10 w h">
+                                <el-form-item label="宽度" label-width="40" class="form-item-child-label">
+                                    <slider v-model="form.video_image_width" :max="300"></slider>
+                                </el-form-item>
+                                <el-form-item label="高度" label-width="40" class="form-item-child-label">
+                                    <slider v-model="form.video_image_height" :max="300"></slider>
+                                </el-form-item>
+                            </div>
+                        </el-form-item>
+                        <el-form-item v-if="form.video_type == 'icon'" label="图标大小">
+                            <slider v-model="form.video_icon_size" :max="100"></slider>
+                        </el-form-item>
                         <el-form-item label="位置">
                             <el-radio-group v-model="form.video_location" is-button>
                                 <el-tooltip content="左对齐" placement="top" effect="dark">
