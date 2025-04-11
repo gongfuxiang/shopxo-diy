@@ -199,7 +199,7 @@ const change_immersive_style = (val: string | number | boolean) => {
         common_store.set_is_immersion_model(false);
     } else {
         // 沉浸模式开启的时候，安全距离打开
-        form.value.general_safe_distance_value = '1';
+        // form.value.general_safe_distance_value = '1';
         common_store.set_is_general_safe_distance(true);
     }
     common_store.set_is_immersion_model(true);
