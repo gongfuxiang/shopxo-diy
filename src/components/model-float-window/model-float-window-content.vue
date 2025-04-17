@@ -10,6 +10,7 @@
                         <el-radio value="link">页面链接</el-radio>
                         <el-radio value="customer_service">客服入口</el-radio>
                         <el-radio value="quick_nav">快捷导航</el-radio>
+                        <el-radio value="lang">多语言</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="上传图片">
