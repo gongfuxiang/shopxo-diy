@@ -98,6 +98,10 @@
             <template v-else-if="item.key == 'custom'">
                 <model-custom :key="item.com_data" :value="item.com_data" :outer-container-padding="outerContainerPadding"></model-custom>
             </template>
+            <!-- 商品魔方 -->
+            <template v-else-if="item.key == 'goods-magic'">
+                <model-goods-magic :key="item.com_data" :value="item.com_data"></model-goods-magic>
+            </template>
             <!-- 营销组件 -->
             <!-- 优惠券 -->
             <template v-else-if="item.key == 'coupon'">

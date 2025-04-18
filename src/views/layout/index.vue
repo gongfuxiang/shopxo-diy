@@ -259,7 +259,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
     // 层级更深
     const new_array_4 = ['data-magic'];
     // 自定义数据
-    const new_array_5 = ['custom'];
+    const new_array_5 = ['custom', 'goods-magic'];
     // 导航组
     const new_array_6 = ['nav-group'];
     clone_form.diy_data = clone_form.diy_data.map((item: any) => {

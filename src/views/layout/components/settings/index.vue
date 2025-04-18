@@ -82,6 +82,10 @@
             <template v-else-if="value.key == 'custom'">
                 <model-custom-setting :type="radio" :value="value.com_data" :all-value="value"></model-custom-setting>
             </template>
+            <!-- 商品魔方 -->
+            <template v-else-if="value.key == 'goods-magic'">
+                <model-goods-magic-setting :type="radio" :value="value.com_data" :all-value="value"></model-goods-magic-setting>
+            </template>
             <!-- 底部导航 -->
             <template v-else-if="value.key == 'footer-nav'">
                 <footer-nav-setting :type="radio" :value="value.com_data"></footer-nav-setting>

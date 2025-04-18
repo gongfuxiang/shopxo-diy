@@ -33,6 +33,7 @@ import defaultSalerecords from '@/config/const/salerecords';
 import defaultAsk from '@/config/const/ask';
 import defaultAskTabs from '@/config/const/ask-tabs';
 import defaultActivity from '@/config/const/activity';
+import defaultGoodsMagic from '@/config/const/goods-magic';
 
 // 系统设置
 interface DefaultSettings {
@@ -71,6 +72,7 @@ interface DefaultSettings {
     ask: object;
     ask_tabs: object;
     activity: object;
+    goods_magic: object;
 }
 
 const defaultSettings: DefaultSettings = {
@@ -109,6 +111,7 @@ const defaultSettings: DefaultSettings = {
     ask: defaultAsk,
     ask_tabs: defaultAskTabs,
     activity: defaultActivity,
+    goods_magic: defaultGoodsMagic,
 };
 
 export default defaultSettings;

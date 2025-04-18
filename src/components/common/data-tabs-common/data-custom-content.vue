@@ -247,15 +247,18 @@ const getCustominit = () => {
         const { data_source } = res.data;
         options.value = data_source;
         data_source_store.set_data_source(data_source);
+        data_source_store.set_is_data_source_api(true);
         // 数据处理
         processing_data(form.value.data_source);
         data_processing();
+    }).catch((err) => {
+        data_source_store.set_is_data_source_api(false);
     });
 };
 
 onBeforeMount(() => {
+    // 如果没有数据源，那么就请求一次数据源
     if (!data_source_store.is_data_source_api) {
-        data_source_store.set_is_data_source_api(true);
         getCustominit();
     } else {
         options.value = data_source_store.data_source_list;
