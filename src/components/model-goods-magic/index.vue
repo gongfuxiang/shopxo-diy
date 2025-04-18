@@ -1,5 +1,5 @@
 <template>
-    <model-goods-list :value="props.value" :new-list="data_source_content_list" :is-use-auto="false" :is-common-style="false"></model-goods-list>
+    <model-goods-list :value="props.value" :new-list="data_source_content_list" :is-use-auto="false"></model-goods-list>
 </template>
 <script setup lang="ts">
 import { isEmpty } from 'lodash';
