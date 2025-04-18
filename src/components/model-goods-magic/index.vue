@@ -17,29 +17,7 @@ const props = defineProps({
 });
 
 const form = computed(() => props.value?.content || {});
-type plugins_icon_data = {
-    name: string;
-    bg_color: string;
-    br_color: string;
-    color: string;
-    url: string;
-}
-type data_list = {
-    title: string;
-    images: string;
-    new_cover: string[];
-    min_original_price: string;
-    show_original_price_symbol: string;
-    show_original_price_unit: string;
-    simple_desc: string;
-    min_price: string;
-    title_simple_desc_spacing: string;
-    show_price_symbol: string;
-    show_price_unit: string;
-    sales_count: string;
-    is_error: number;
-    plugins_view_icon_data: plugins_icon_data[];
-}
+
 const default_list = {
     title: '测试商品标题',
     min_original_price: '41.2',
