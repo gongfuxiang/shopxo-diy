@@ -50,7 +50,7 @@
                         <div class="mb-12">数据设置</div>
                         <div class="flex-col">
                             <!-- 筛选数据只有一条的时候，并且显示为true的时候才显示，否则的话不显示数据 -->
-                            <el-form-item v-if="(default_type_data.data_type.length == 1 && default_type_data.is_type_show) || default_type_data.data_type.length > 1" label="读取方式">
+                            <el-form-item v-if="(default_type_data.data_type.length == 1 && +default_type_data.is_type_show == 1) || default_type_data.data_type.length > 1" label="读取方式">
                                 <el-radio-group v-model="form.data_source_content.data_type">
                                     <el-radio v-for="(item, index) in default_type_data.data_type" :key="index" :value="item">{{ +item === 0 ? '指定数据' : '筛选数据' }}</el-radio>
                                 </el-radio-group>
@@ -287,7 +287,7 @@ const data_processing = () => {
             show_type: custom_config?.show_type || ['vertical', 'vertical-scroll', 'horizontal'],
             show_number: custom_config?.show_number || [1, 2, 3, 4],
             data_type: custom_config?.data_type || [0, 1],
-            is_type_show: custom_config?.is_type_show || true,
+            is_type_show: custom_config?.is_type_show || '1',
         };
         filter_data_handling('old');
         default_data();
@@ -418,7 +418,7 @@ const changeDataSource = (key: string) => {
             show_type: custom_config?.show_type || ['vertical', 'vertical-scroll', 'horizontal'],
             show_number: custom_config?.show_number || [1, 2, 3, 4],
             data_type: custom_config?.data_type || [0, 1],
-            is_type_show: custom_config?.is_type_show || true,
+            is_type_show: custom_config?.is_type_show || '1',
         };
         // 默认数据处理
         default_data();
