@@ -230,7 +230,8 @@ const loading_event = () => {
 //#region 顶部导航回调方法 ---------------------start
 const preview_dialog = ref(false);
 const diy_id = ref('');
-const preview_event = () => {
+const preview_event = (bool: boolean) => {
+    save_disabled.value = bool;
     save_formmat_form_data(form.value, false, false, true);
 };
 const save_disabled = ref(false);
@@ -244,6 +245,13 @@ const save_close_event = (bool: boolean) => {
 };
 // save_formmat_form_data: 保存数据， data： 数据， close： 是否关闭， is_export： 是否导出， is_preview： 是否预览
 const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_export: boolean = false, is_preview: boolean = false) => {
+    ElMessage({
+        message: '保存中',
+        type: 'success',
+        duration: 0,
+        icon: 'Loading',
+        customClass: 'message-box-custom',
+    })
     const clone_form = cloneDeep(data);
     clone_form.header.show_tabs = '1';
     // 去除位置颜色
@@ -401,10 +409,13 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             setTimeout(() => {
                 save_disabled.value = false;
             }, 500);
-            // 如果是导出或预览模式，则不显示保存成功的消息
-            if (!(is_export || is_preview)) {
-                ElMessage.success('保存成功');
-            }
+            ElMessage.closeAll();
+            setTimeout(() => {
+              // 如果是导出或预览模式，则不显示保存成功的消息
+                if (!(is_export || is_preview)) {
+                    ElMessage.success('保存成功');
+                }
+            }, 100);
             if (close) {
                 ElMessageBox.confirm('您确定要关闭本页吗？', '提示')
                     .then(() => {
