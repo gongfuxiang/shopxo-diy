@@ -440,6 +440,8 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             }
         })
         .catch((err) => {
+            // 失败的时候关闭弹出框
+            ElMessage.closeAll();
             save_disabled.value = false;
         });
 };
