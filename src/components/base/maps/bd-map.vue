@@ -87,7 +87,7 @@ export default defineComponent({
                     map.value.panTo(e.point);
                     lat.value = e.point.lat;
                     lng.value = e.point.lng;
-                    context.emit('point', lng, lat);
+                    context.emit('point', lng.value, lat.value);
                 });
 
                 // 设置标注提示信息

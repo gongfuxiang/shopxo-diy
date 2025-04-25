@@ -31,9 +31,9 @@
                     <VueDraggable v-model="diy_data" :animation="500" target=".sort-target" :scroll="true" @sort="on_sort">
                         <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col h">
                             <template v-if="!isEmpty(diy_data)">
-                                <li v-for="(item, index) in diy_data" :key="index" :class="['flex-row gap-y-8 re align-c drawer-drag', { 'drawer-custom-drag-bg': item.show_tabs == '1' }]" @click="on_choose(index, item.show_tabs)" @dblclick="double_click(index)">
+                                <li v-for="(item, index) in diy_data" :key="index" :class="['flex-row gap-y-8 re align-c drawer-drag', { 'drawer-custom-drag-bg': item.show_tabs == '1' }]" @click="on_choose(index, item.show_tabs)">
                                     <el-icon class="iconfont icon-drag size-16 cr-d" />
-                                    <div class="text-line-1 flex align-c" style="width: 60%;">
+                                    <div class="text-line-1 flex align-c" style="width: 60%;" @dblclick="double_click(index)">
                                         <template v-if="edit_index == index">
                                             <el-input v-model="item.new_name" placeholder="请输入组件别名" size="small" clearable type="textarea" class="flex-1 do-not-trigger" :rows="1" resize="none" />
                                         </template>
@@ -43,7 +43,7 @@
                                     </div>
                                     <div class="abs draggable-icon" :style="item.show_tabs == '1' ? 'opacity: 1;' : 'opacity: 0.5;'">
                                         <el-icon :class="`iconfont eye-before size-16 ${item.is_enable == '1' ? 'icon-eye' : 'icon-eye-close'}`" @click.stop="on_show_or_hidden(index)" />
-                                        <el-icon class="iconfont icon-edit size-16 cr-primary do-not-trigger two-click"  @click="on_edit(index)" />
+                                        <el-icon class="iconfont icon-edit size-16 cr-primary do-not-trigger two-click"  @click.stop="on_edit(index)" />
                                         <el-icon class="iconfont icon-close-round-o size-16" @click.stop="del(index)" />
                                     </div>
                                 </li>
@@ -72,7 +72,7 @@
                                 <Vue3DraggableResizable v-for="(item, index) in diy_data" :key="item.id + item.com_data.is_data_update" v-model:w="item.com_data.com_width" v-model:h="item.com_data.com_height" :min-w="0" :min-h="0" :class="[`${ animation_class(item.com_data) } `, {'plug-in-show-component-line': is_show_component_line && item.is_enable == '1', 'plug-in-show-tabs': item.show_tabs == '1' && item.is_enable == '1', 'vdr-handle-z-index': item.com_data.bottom_up == '1' }]" :style="[`${ item.com_data.is_width_auto == '1' ? 'width: auto;' : '' }${ item.com_data.is_height_auto == '1' ? 'height: auto;' : '' }`, { 'z-index': item.is_enable == '1' ? (diy_data.length - 1) - index : -999 }]" :init-w="item.com_data.com_width" :init-h="item.com_data.com_height" :x="item.location.x" :y="item.location.y" :parent="true" :draggable="is_draggable" @mousedown.stop="on_choose(index, item.show_tabs)" @click.stop="on_choose(index, item.show_tabs)" @drag-end="dragEndHandle($event, index)" @resizing="resizingHandle($event, item.key, index, 'resizing')" @resize-end="resizingHandle($event, item.key, index, 'resizeEnd')">
                                     <div v-if="item.is_enable == '1'" :class="['main-content flex-row', { 'plug-in-border': item.show_tabs == '1' }]">
                                         <template v-if="item.key == 'text'">
-                                            <model-text :key="item.id" :value="item.com_data" :source-list="props.sourceList" :config-loop="configLoop" :is-custom="isCustom" :is-custom-group="isCustomGroup" :custom-group-field-id="customGroupFieldId" :title-params="showData?.data_name || 'name'" @container_change="(...value: [number,  number]) => container_change(...value, index, item.id)"></model-text>
+                                            <model-text :key="item.id" :value="item.com_data" :source-list="props.sourceList" :config-loop="configLoop" :is-custom="isCustom" :is-custom-group="isCustomGroup" :custom-group-field-id="customGroupFieldId" :title-params="showData?.data_name || 'name'" :is-enable="item.is_enable" @container_change="(...value: [number,  number]) => container_change(...value, index, item.id)"></model-text>
                                         </template>
                                         <template v-else-if="item.key == 'img'">
                                             <model-image :key="item.id" :value="item.com_data" :source-list="props.sourceList" :config-loop="configLoop" :is-custom="isCustom" :is-custom-group="isCustomGroup" :custom-group-field-id="customGroupFieldId" :img-params="showData?.data_logo || ''"></model-image>
@@ -243,11 +243,23 @@ onUnmounted(() => {
 });
 
 const edit_index = ref(-1);
+// 隐藏显示的处理逻辑
 const on_show_or_hidden = (index: number) => {
-    // 获取当前点击的元素
-    const item = diy_data.value[index];
-    item.is_enable = item.is_enable == '1' ? '0' : '1';
-    operation_end(item.new_name + (item.is_enable == '1' ? '显示' : '隐藏'));
+    if (typeof index === 'number' && !isNaN(index)) {
+        // 获取当前点击的元素
+        const item = diy_data.value[index];
+        item.is_enable = item.is_enable == '1' ? '0' : '1';
+        // 隐藏之后重新计算跟随组件的位置
+        const { com_width, com_height } = item.com_data;
+        const width = item.is_enable == '0' ? 0 : com_width;
+        const height = item.is_enable == '0' ? 0 : com_height;
+        const filter_index = diy_data.value.findIndex(find_item => item.id == find_item.com_data?.data_follow?.id);
+        if (filter_index != -1) {
+            diy_data_handle(diy_data.value, item.id, item.location, width, height);
+        }
+        // 最后记录数据，避免中间数据出现缺失
+        operation_end(item.new_name + (item.is_enable == '1' ? '显示' : '隐藏'));
+    }
 }
 
 const on_edit = (index: number) => {

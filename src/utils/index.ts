@@ -967,6 +967,7 @@ export const diy_data_handle = (data: any, old_id: string, new_val: any, com_wid
  */
 interface Item {
     id: string;
+    is_enable: string;
     location: { x: number; y: number };
     com_data: { com_width: number; com_height: number };
 }
@@ -990,11 +991,13 @@ export const get_container_location = (list: Item[], id: string, type: 'left' | 
     // 遍历项列表，寻找匹配给定ID的项
     for (const item of list) {
         if (item.id === id) {
-            // 解构获取项的位置和组件数据，如果没有提供则使用默认值
-            const { location = { x: 0, y: 0 }, com_data = { com_width: 0, com_height: 0 } } = item;
+            // 解构获取项的位置和组件数据，如果没有提供则使用默认
+            const { location = { x: 0, y: 0 }, com_data = { com_width: 0, com_height: 0 }, is_enable = '0' } = item;
+            const width = is_enable == '1' ? com_data.com_width : 0;
+            const height = is_enable == '1' ? com_data.com_height : 0;
             // 计算新的x和y坐标，根据组件的宽度/高度和间距
-            const new_x = location.x + com_data.com_width + spacing;
-            const new_y = location.y + com_data.com_height + spacing;
+            const new_x = location.x + width + spacing;
+            const new_y = location.y + height + spacing;
 
             // 根据type参数更新x或y坐标
             if (type === 'left') {

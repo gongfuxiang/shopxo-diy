@@ -104,6 +104,10 @@ const data_handling = (data_source_id: string) => {
             image_url = get_nested_property(props.sourceList.data, data_source_id);
         }
     }
+    if (Array.isArray(image_url)) {
+        // 如果是数组，使用 join 方法转换为字符串
+        image_url = image_url.join(', ');
+    }
     return image_url;
 }
 // 图片的样式
