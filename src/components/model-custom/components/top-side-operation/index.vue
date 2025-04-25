@@ -16,7 +16,12 @@
         <el-dialog v-model="dialogVisible" class="history-dialog" :style="{ top: '80px', left: dialog_left + 'px' }" title="历史记录" width="220" draggable show-close :modal="false" :close-on-click-modal="false" :close-on-press-escape="false">
             <div ref="historyDialog" class="history-dialog-content flex-col gap-14">
                 <div v-for="(item, index1) in history_list" :key="index1" :class="[`history-dialog-item ${props.configType}`, {'active': records_index == index1 }]" @click="handleHistory(index1, records_index !== index1)">
-                    <div class="history-dialog-item-title flex-row gap-5"><span class="item-title text-line-1">{{ item.title }}</span>{{ item.name }}</div>
+                        <div class="history-dialog-item-title flex-row gap-5">
+                            <el-tooltip effect="dark" :disabled="item.title.length < 5" :show-after="200" :hide-after="200" :content="item.title" placement="top">
+                                <span class="item-title text-line-1">{{ item.title }}</span>
+                            </el-tooltip>
+                            {{ item.time }}
+                        </div>
                     <el-icon v-if="records_index == index1" class="iconfont icon-checked size-14" />
                 </div>
             </div>
