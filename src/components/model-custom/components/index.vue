@@ -258,7 +258,7 @@ const on_show_or_hidden = (index: number) => {
             diy_data_handle(diy_data.value, item.id, item.location, width, height);
         }
         // 最后记录数据，避免中间数据出现缺失
-        operation_end(item.new_name + (item.is_enable == '1' ? '显示' : '隐藏'));
+        operation_end((!isEmpty(item.new_name) ? item.new_name : item.name) + (item.is_enable == '1' ? '显示' : '隐藏'));
     }
 }
 
