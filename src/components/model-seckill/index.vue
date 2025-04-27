@@ -382,18 +382,20 @@ const init = (data: any) => {
         } else {
             list.value = Array(4).fill(default_list);
         }
-        const { status, time_first_text } = data.current.time;
+        const { status = '1', time_first_text = '已结束' } = data?.current?.time || {};
         seckill_time.value = {
             endTime: data.current.time_end,
             startTime: data.current.time_start,
             status: status,
             time_first_text: time_first_text,
         };
-        // 先执行一次倒计时，后续的等待倒计时执行
-        setTimeout(() => {
-            updateCountdown();
-        }, 0);
-        intervalId.value = setInterval(updateCountdown, 1000);
+        if (time_first_text !== '已结束') {
+            // 先执行一次倒计时，后续的等待倒计时执行
+            setTimeout(() => {
+                updateCountdown();
+            }, 0);
+            intervalId.value = setInterval(updateCountdown, 1000);
+        }
     } else {
         list.value = Array(4).fill(default_list);
     }

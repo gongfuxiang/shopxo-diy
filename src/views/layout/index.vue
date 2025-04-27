@@ -27,6 +27,7 @@ import { cloneDeep, isEmpty, omit } from 'lodash';
 import DiyAPI, { diyData, headerAndFooter, diyConfig } from '@/api/diy';
 import CommonAPI from '@/api/common';
 import { commonStore } from '@/store';
+import { de } from 'element-plus/es/locale';
 const common_store = commonStore();
 interface diy_data_item {
     id: string;
@@ -442,6 +443,11 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
         .catch((err) => {
             // 失败的时候关闭弹出框
             ElMessage.closeAll();
+            if (err == 'canceled') {
+                console.log('请求已取消');
+            } else {
+                ElMessage.error(err || '系统出错');
+            }
             save_disabled.value = false;
         });
 };

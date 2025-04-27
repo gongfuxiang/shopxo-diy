@@ -99,11 +99,11 @@ const defaultRealstore: defaultRealstore = {
         shop_background_img: [],
         // 图片圆角
         shop_img_radius: {
-            radius: 0,
-            radius_top_left: 0,
-            radius_top_right: 0,
-            radius_bottom_left: 0,
-            radius_bottom_right: 0,
+            radius: 4,
+            radius_top_left: 4,
+            radius_top_right: 4,
+            radius_bottom_left: 4,
+            radius_bottom_right: 4,
         },
         shop_margin: {
             margin: 0,

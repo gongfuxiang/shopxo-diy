@@ -56,27 +56,27 @@ const padding_event = (val: number | undefined) => {
     form.value.padding_bottom = Number(val);
     form.value.padding_left = Number(val);
     form.value.padding_right = Number(val);
-    emit('update:value', form);
+    emit('update:value', form.value);
 };
 const pt_event = (val: number | undefined) => {
     form.value.padding_top = Number(val);
     form.value.padding = 0;
-    emit('update:value', form);
+    emit('update:value', form.value);
 };
 const pb_event = (val: number | undefined) => {
     form.value.padding_bottom = Number(val);
     form.value.padding = 0;
-    emit('update:value', form);
+    emit('update:value', form.value);
 };
 const pl_event = (val: number | undefined) => {
     form.value.padding_left = Number(val);
     form.value.padding = 0;
-    emit('update:value', form);
+    emit('update:value', form.value);
 };
 const pr_event = (val: number | undefined) => {
     form.value.padding_right = Number(val);
     form.value.padding = 0;
-    emit('update:value', form);
+    emit('update:value', form.value);
 };
 //#region 展开收起
 onBeforeMount(() => {
