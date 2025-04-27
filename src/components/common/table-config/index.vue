@@ -8,10 +8,15 @@
         </el-table-column>
         <template v-for="(item, index) in tableColumnList" :key="index">
             <template v-if="item.field">
-                <el-table-column :prop="item.field" :label="item?.name || item.field" :width="item?.width || ''">
+                <el-table-column :prop="item.field.toString()" :label="item?.name || item.field" :width="item?.width || ''">
                     <template #default="scope">
                         <template v-if="item.type == 'images'">
                             <image-empty v-if="scope.row[item.field]" v-model="scope.row[item.field]" fit="contain" class="img"></image-empty>
+                        </template>
+                        <template v-else-if="item.type == 'array'">
+                            <template v-for="(item1, index1) in item.field" :key="index1">
+                                {{ scope.row[item1]}}
+                            </template>
                         </template>
                         <template v-else>
                             {{ scope.row[item.field] }}

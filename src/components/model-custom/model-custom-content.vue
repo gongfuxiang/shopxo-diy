@@ -19,9 +19,7 @@
                                 <el-radio value="1">是</el-radio>
                                 <el-radio value="0">否</el-radio>
                             </el-radio-group>
-                            <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="1. 是的情况下，第一层自定义自动循环动态数据，编组可以使用循环项数据或其中的列表数据。<br/>2. 否的情况下，第一层自定义不能使用当前动态数据，只能在编组里面选择使用。" raw-content placement="top">
-                                <icon name="miaosha-hdgz" size="12" color="#999"></icon>
-                            </el-tooltip>
+                            <tooltip content="1.是的情况下，第一层自定义自动循环动态数据，编组可以使用循环项数据或其中的列表数据。<br/>2.否的情况下，第一层自定义不能使用当前动态数据，只能在编组里面选择使用。"></tooltip>
                         </div>
                     </el-form-item>
                 </template>
@@ -51,7 +49,8 @@
                     <card-container class="card-container">
                         <div class="mb-12">数据设置</div>
                         <div class="flex-col">
-                            <el-form-item label="读取方式">
+                            <!-- 筛选数据只有一条的时候，并且显示为true的时候才显示，否则的话不显示数据 -->
+                            <el-form-item v-if="(default_type_data.data_type.length == 1 && +default_type_data.is_type_show == 1) || default_type_data.data_type.length > 1" label="读取方式">
                                 <el-radio-group v-model="form.data_source_content.data_type">
                                     <el-radio v-for="(item, index) in default_type_data.data_type" :key="index" :value="item">{{ +item === 0 ? '指定数据' : '筛选数据' }}</el-radio>
                                 </el-radio-group>
@@ -229,6 +228,7 @@ interface custom_config {
     show_type: string[],
     show_number: number[],
     data_type: string[],
+    is_type_show: boolean,
     filter_config: object,
     appoint_config: object,
 }
@@ -251,15 +251,20 @@ const getCustominit = () => {
         const { data_source } = res.data;
         options.value = data_source;
         data_source_store.set_data_source(data_source);
+        // 接口成功之后设置true
+        data_source_store.set_is_data_source_api(true);
         // 数据处理
         processing_data(form.value.data_source);
         data_processing();
+    }).catch((err) => {
+        // 接口成功之后设置为false，下次仍旧获取数据
+        data_source_store.set_is_data_source_api(false);
     });
 };
 
 onBeforeMount(() => {
+    // 如果没有数据源，那么就请求一次接口, 获取数据源
     if (!data_source_store.is_data_source_api) {
-        data_source_store.set_is_data_source_api(true);
         getCustominit();
     } else {
         options.value = data_source_store.data_source_list;
@@ -282,6 +287,7 @@ const data_processing = () => {
             show_type: custom_config?.show_type || ['vertical', 'vertical-scroll', 'horizontal'],
             show_number: custom_config?.show_number || [1, 2, 3, 4],
             data_type: custom_config?.data_type || [0, 1],
+            is_type_show: custom_config?.is_type_show || '1',
         };
         filter_data_handling('old');
         default_data();
@@ -339,7 +345,7 @@ const filter_data_handling = (type: string = 'old') => {
         data_type: type == 'old'? (form.value.data_source_content?.data_type ?? data_type) : data_type,
     };
     let new_data_field = {};
-    // 根据不同的数据初始化不同的内容
+    // 根据不同的数据初始化不同的内容, 两个处理看似一样，实际上是后边的覆盖前面的内容，避免老数据没有更新
     if (staging_data.data_type === 0) {
         // 如果是手动模式，就取手动模式的数据为默认数据，避免两者重复导致数据冲突
         new_data_field = {
@@ -380,6 +386,7 @@ const url_value_dialog_visible = ref(false);
 const default_type_data = ref<any>({})
 const url_value_multiple_bool = ref(true);
 const emits = defineEmits(['data_source_change']);
+// 动态数据切换时触发的逻辑
 const changeDataSource = (key: string) => {
     form.value.is_custom_data = '0';
     const type_data = options.value.filter((item) => item.type == key);
@@ -411,6 +418,7 @@ const changeDataSource = (key: string) => {
             show_type: custom_config?.show_type || ['vertical', 'vertical-scroll', 'horizontal'],
             show_number: custom_config?.show_number || [1, 2, 3, 4],
             data_type: custom_config?.data_type || [0, 1],
+            is_type_show: custom_config?.is_type_show || '1',
         };
         // 默认数据处理
         default_data();
@@ -480,6 +488,7 @@ const url_value_dialog_call_back = (item: any[]) => {
     }
     data_list_index_update();
 };
+// 更新索引, 避免添加多条时，索引不连续
 const data_list_index_update = () => {
     if (form.value.data_source_content.data_list.length > 0) {
         form.value.data_source_content.data_list.forEach((item: any, index: number) => {

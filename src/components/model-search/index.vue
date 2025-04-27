@@ -69,7 +69,8 @@
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, common_styles_computer, gradient_computer, radius_computer, common_img_computer, get_math, padding_computer, old_padding, margin_computer, old_margin } from '@/utils';
+import { background_computer, common_styles_computer, gradient_computer, radius_computer, common_img_computer, get_math, padding_computer, margin_computer } from '@/utils';
+import { old_margin, old_padding } from "@/utils/common";
 import { isEmpty } from 'lodash';
 
 const props = defineProps({

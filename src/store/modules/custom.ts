@@ -14,20 +14,33 @@ export const DataSourceStore = defineStore('dataSource', () => {
         type: string;
     };
     const is_children_custom = ref(false);
-    // 上传是否需要调接口判断
+    // 自定义是否需要调接口判断
     const is_data_source_api = ref(false);
     // 数据源
     const data_source_list = ref<data_source_content[]>([]);
+    // 自定义是否需要调接口判断
+    const is_goods_source_api = ref(false);
+    // 数据源
+    const goods_source_list = ref<data_source_content[]>([]);
     // 自定义历史记录
     const custom_records_index = ref<number>(-1);
     const custom_records = ref<any[]>([]);
     // 自定义组历史记录
     const custom_group_records_index = ref<number>(-1);
     const custom_group_records = ref<any[]>([]);
-    // 存储上传分类列表
+    // 存储自定义分类列表
     const set_data_source = (data_source_content: data_source_content[]) => {
         data_source_list.value = data_source_content;
         is_data_source_api.value = true;
+    };
+    // 如果为false 则转为true
+    const set_is_goods_source_api = (bool: boolean) => {
+        is_goods_source_api.value = bool;
+    };
+    // 存储自定义分类列表
+    const set_goods_source = (data_source_content: data_source_content[]) => {
+        goods_source_list.value = data_source_content;
+        is_goods_source_api.value = true;
     };
     // 如果为false 则转为true
     const set_is_data_source_api = (bool: boolean) => {
@@ -59,8 +72,12 @@ export const DataSourceStore = defineStore('dataSource', () => {
         is_children_custom,
         data_source_list,
         is_data_source_api,
+        goods_source_list,
+        is_goods_source_api,
         set_data_source,
         set_is_data_source_api,
+        set_goods_source,
+        set_is_goods_source_api,
         set_is_children_custom,
         set_custom_records,
         set_custom_records_index,

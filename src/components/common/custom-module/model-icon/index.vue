@@ -100,6 +100,10 @@ const data_handling = (data_source_id: string) => {
     if (!isEmpty(props.sourceList.data) && props.isCustom) {
         icon = get_nested_property(props.sourceList.data, data_source_id);
     }
+    if (Array.isArray(icon)) {
+        // 如果是数组，使用 join 方法转换为字符串
+        icon = icon.join(', ');
+    }
     return icon;
 }
 // 外层样式

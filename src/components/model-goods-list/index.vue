@@ -119,7 +119,7 @@
                                             <subscript-index :value="props.value"></subscript-index>
                                         </div>
                                     </template>
-                                    <div v-if="is_show('title') || is_show('simple_desc') || is_show('price') || is_show('plugins_view_icon') || is_show('original_price') || form.is_shop_show == '1'" class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
+                                    <div v-if="is_show('title') || is_show('simple_desc') || is_show('price') || form.is_shop_show == '1'" class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
                                         <div class="flex-col gap-10 top-title">
                                             <div v-if="is_show('title') || (['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc'))" class="flex-col" :style="`gap: ${ new_style.title_simple_desc_spacing }px;`">
                                                 <div v-if="is_show('title')" :class="text_line" :style="trends_config('title', 'title')">{{ item.title }}</div>
@@ -165,8 +165,9 @@
     </div>
 </template>
 <script setup lang="ts">
-import { common_img_computer, common_styles_computer, get_math, gradient_handle, padding_computer, radius_computer, background_computer, border_computer, box_shadow_computer, margin_computer, old_margin } from '@/utils';
-import { isEmpty, cloneDeep, throttle } from 'lodash';
+import { common_img_computer, common_styles_computer, get_math, gradient_handle, padding_computer, radius_computer, background_computer, border_computer, box_shadow_computer, margin_computer } from '@/utils';
+import {  old_margin } from "@/utils/common";
+import { isEmpty, cloneDeep } from 'lodash';
 import ShopAPI from '@/api/shop';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
@@ -179,6 +180,16 @@ const props = defineProps({
             return {};
         },
     },
+    newList: {
+        type: Array as PropType<data_list[]>,
+        default: () => {
+            return [];
+        },
+    },
+    isUseAuto: {
+        type: Boolean,
+        default: true,
+    },
     isCommonStyle: {
         type: Boolean,
         default: true,
@@ -188,14 +199,14 @@ const props = defineProps({
 const form = computed(() => props.value?.content || {});
 const new_style = computed(() => props.value?.style || {});
 
-interface plugins_icon_data {
+type plugins_icon_data = {
     name: string;
     bg_color: string;
     br_color: string;
     color: string;
     url: string;
 }
-interface data_list {
+type data_list = {
     title: string;
     images: string;
     new_cover: string[];
@@ -251,18 +262,22 @@ const default_list = {
 const list = ref<data_list[]>([]);
 // 初始化的时候执行
 onMounted(() => {
-    // 指定商品并且指定商品数组不为空
-    if (!isEmpty(form.value.data_list) && form.value.data_type == '0') {
-        list.value = form.value.data_list.map((item: any) => ({
-            ...item.data,
-            title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
-            new_cover: item.new_cover,
-        }));
-    } else if (!isEmpty(form.value.data_auto_list) && form.value.data_type == '1') {
-        // 筛选商品并且筛选商品数组不为空
-        list.value = form.value.data_auto_list;
+    if (props.isUseAuto) {
+        // 指定商品并且指定商品数组不为空
+        if (!isEmpty(form.value.data_list) && form.value.data_type == '0') {
+            list.value = form.value.data_list.map((item: any) => ({
+                ...item.data,
+                title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
+                new_cover: item.new_cover,
+            }));
+        } else if (!isEmpty(form.value.data_auto_list) && form.value.data_type == '1') {
+            // 筛选商品并且筛选商品数组不为空
+            list.value = form.value.data_auto_list;
+        } else {
+            list.value = Array(4).fill(default_list);
+        }
     } else {
-        list.value = Array(4).fill(default_list);
+        list.value = props.newList;
     }
 });
 
@@ -283,8 +298,13 @@ const get_products = () => {
         } else {
             list.value = Array(4).fill(default_list);
         }
-    });
+    })
 };
+watchEffect(() => {
+    if (!props.isUseAuto) {
+        list.value = props.newList;
+    }
+});
 // 取出监听的数据
 const watch_data = computed(() => {
     const { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, data_list, keywords } = form.value;
@@ -292,21 +312,26 @@ const watch_data = computed(() => {
 })
 // 初始化的时候不执行, 监听数据变化
 watch(() => watch_data.value, (val, oldVal) => {
-    // 使用JSON.stringify()进行判断 新值和旧值是否一样 不一样就重新获取数据
-    if ((JSON.stringify(val) !== JSON.stringify(oldVal)) || props.isCommonStyle) {
-        if (val.data_type == '0') {
-            if (!isEmpty(val.data_list)) {
-                list.value = cloneDeep(val.data_list).map((item: any) => ({
-                    ...item.data,
-                    title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
-                    new_cover: item.new_cover,
-                }));
+    // 如果使用内部数据，直接调用接口处理，否则的话就使用外部传递过来的数据
+    if (props.isUseAuto) {
+        // 使用JSON.stringify()进行判断 新值和旧值是否一样 不一样就重新获取数据
+        if ((JSON.stringify(val) !== JSON.stringify(oldVal)) || props.isCommonStyle) {
+            if (val.data_type == '0') {
+                if (!isEmpty(val.data_list)) {
+                    list.value = cloneDeep(val.data_list).map((item: any) => ({
+                        ...item.data,
+                        title: !isEmpty(item.new_title) ? item.new_title : item.data.title,
+                        new_cover: item.new_cover,
+                    }));
+                } else {
+                    list.value = Array(4).fill(default_list);
+                }
             } else {
-                list.value = Array(4).fill(default_list);
+                get_products();
             }
-        } else {
-            get_products();
         }
+    } else {
+        list.value = props.newList;
     }
 }, { deep: true });
 //#endregion

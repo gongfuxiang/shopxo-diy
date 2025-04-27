@@ -50,7 +50,8 @@
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, border_computer, border_width, box_shadow_computer, common_img_computer, common_styles_computer, get_math, gradient_computer, margin_computer, old_border_and_box_shadow, old_margin, old_padding, old_radius, padding_computer, radius_computer } from '@/utils';
+import { background_computer, border_computer, border_width, box_shadow_computer, common_img_computer, common_styles_computer, get_math, gradient_computer, margin_computer, padding_computer, radius_computer } from '@/utils';
+import { old_border_and_box_shadow, old_margin, old_padding, old_radius, } from "@/utils/common";
 import { isEmpty } from "lodash";
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';

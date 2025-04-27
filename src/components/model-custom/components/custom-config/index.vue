@@ -193,7 +193,7 @@ const custom_edit = (id: string, list: diy, width: number, height: number, data_
 };
 // 初始化的时候默认生成一条新数据，避免用户无法回到最初的记录
 onBeforeMount(() => {
-    const new_data = [{ title: '初始化', name: formatDate('HH点mm分ss秒'), height: center_height.value, value: props.customList }];
+    const new_data = [{ title: '初始化', time: formatDate('HH点mm分ss秒'), height: center_height.value, value: props.customList }];
     if (props.configType == 'custom') {
         // 传递给store进行存储
         data_source_store.set_custom_records(new_data);
@@ -233,7 +233,7 @@ const operation_end = (title:string, is_compare: boolean = true) => {
                 // 获取历史数据
                 const new_data = old_data_handle(data_source_store?.custom_records || [], data_source_store?.custom_records_index || -1);
                 // 新增一条新数据
-                new_data.unshift({ title: title, name: formatDate('HH点mm分ss秒'), height: center_height.value, value: new_compare_data });
+                new_data.unshift({ title: title, time: formatDate('HH点mm分ss秒'), height: center_height.value, value: new_compare_data });
                 // 传递给store进行存储
                 data_source_store.set_custom_records(new_data);
                 // 操作之后更新数据
@@ -242,7 +242,7 @@ const operation_end = (title:string, is_compare: boolean = true) => {
                 // 获取历史数据
                 const new_data = old_data_handle(data_source_store?.custom_group_records || [], data_source_store?.custom_group_records_index || -1);
                 // 新增一条新数据
-                new_data.unshift({ title: title, name: formatDate('HH点mm分ss秒'), height: center_height.value, value: new_compare_data });
+                new_data.unshift({ title: title, time: formatDate('HH点mm分ss秒'), height: center_height.value, value: new_compare_data });
                 // 更改自定义组的内容
                 data_source_store.set_custom_group_records(new_data);
                 // 更改自定义组的历史记录值

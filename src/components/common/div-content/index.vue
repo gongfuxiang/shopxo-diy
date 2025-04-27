@@ -98,6 +98,10 @@
             <template v-else-if="item.key == 'custom'">
                 <model-custom :key="item.com_data" :value="item.com_data" :outer-container-padding="outerContainerPadding"></model-custom>
             </template>
+            <!-- 商品魔方 -->
+            <template v-else-if="item.key == 'goods-magic'">
+                <model-goods-magic :key="item.com_data" :value="item.com_data"></model-goods-magic>
+            </template>
             <!-- 营销组件 -->
             <!-- 优惠券 -->
             <template v-else-if="item.key == 'coupon'">
@@ -105,6 +109,42 @@
             </template>
             <template v-else-if="item.key == 'seckill'">
                 <model-seckill :key="item.com_data" :value="item.com_data"></model-seckill>
+            </template>
+            <!-- 文章列表 -->
+            <template v-else-if="item.key == 'blog'">
+                <model-blog-list :key="item.com_data" :value="item.com_data"></model-blog-list>
+            </template>
+            <!-- 文章选项卡 -->
+            <template v-else-if="item.key == 'blog-tabs'">
+                <model-blog-tabs :key="item.com_data" :value="item.com_data"></model-blog-tabs>
+            </template>
+            <!-- 多商户 -->
+            <template v-else-if="item.key == 'realstore'">
+                <model-realstore :key="item.com_data" :value="item.com_data"></model-realstore>
+            </template>
+            <!-- 多门店 -->
+            <template v-else-if="item.key == 'shop'">
+                <model-shop :key="item.com_data" :value="item.com_data"></model-shop>
+            </template>
+            <!-- 组合搭配 -->
+            <template v-else-if="item.key == 'binding'">
+                <model-binding :key="item.com_data" :value="item.com_data"></model-binding>
+            </template>
+            <!-- 销售记录 -->
+            <template v-else-if="item.key == 'salerecords'">
+                <model-salerecords :key="item.com_data" :value="item.com_data"></model-salerecords>
+            </template>
+            <!-- 问答 -->
+            <template v-else-if="item.key == 'ask'">
+                <model-ask :key="item.com_data" :value="item.com_data"></model-ask>
+            </template>
+            <!-- 问答选项卡 -->
+            <template v-else-if="item.key == 'ask-tabs'">
+                <model-ask-tabs :key="item.com_data" :value="item.com_data"></model-ask-tabs>
+            </template>
+            <!-- 活动配置 -->
+            <template v-else-if="item.key == 'activity'">
+                <model-activity :key="item.com_data" :value="item.com_data"></model-activity>
             </template>
             <!-- 工具组件 -->
             <!-- 辅助线 -->

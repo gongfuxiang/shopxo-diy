@@ -15,7 +15,7 @@
         </div>
         <div class="nav-right">
             <el-button class="btn-plain" @click="upload_manage">上传管理</el-button>
-            <el-button class="btn-plain" @click="preview_event">预览</el-button>
+            <el-button class="btn-plain" :class="saveDisabled ? 'disabled' : ''" :disabled="saveDisabled" @click="preview_event">预览</el-button>
             <el-button class="btn-plain" :class="saveDisabled ? 'disabled' : ''" :disabled="saveDisabled" @click="save_event">仅保存</el-button>
             <el-button class="btn-white" :class="saveDisabled ? 'disabled' : ''" :disabled="saveDisabled" @click="save_close_event">保存关闭</el-button>
         </div>
@@ -95,7 +95,7 @@ const upload_manage = () => {
 };
 //  * 点击预览时的事件处理函数。
 const preview_event = () => {
-    emit('preview');
+    emit('preview', true);
 };
 // 点击仅保存时的事件处理函数。
 const save_event = () => {

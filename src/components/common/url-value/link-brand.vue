@@ -1,7 +1,7 @@
 <template>
     <!-- 品牌 -->
     <div class="container">
-        <div class="flex-row jc-e gap-20 mb-20">
+        <div class="flex-row jc-e gap-20 mb-20 align-c">
             <el-select v-model="brand_ids" class="search-w" placeholder="品牌" filterable clearable @change="handle_search">
                 <el-option v-for="item in brand_category" :key="item.id" :label="item.name" :value="item.id" />
             </el-select>

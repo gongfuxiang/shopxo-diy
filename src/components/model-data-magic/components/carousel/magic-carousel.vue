@@ -16,7 +16,8 @@
 </template>
 
 <script setup lang="ts">
-import { gradient_computer, radius_computer, padding_computer, background_computer, margin_computer, box_shadow_computer, border_computer, old_radius, old_margin, old_padding, old_border_and_box_shadow } from "@/utils";
+import { gradient_computer, radius_computer, padding_computer, background_computer, margin_computer, box_shadow_computer, border_computer } from "@/utils";
+import { old_radius, old_margin, old_padding, old_border_and_box_shadow } from "@/utils/common";
 import { isEmpty } from "lodash";
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';

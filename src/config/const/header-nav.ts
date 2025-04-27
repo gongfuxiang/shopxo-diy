@@ -23,6 +23,7 @@ interface DefaultFooterNav {
         title: string;
         link: object;
         data_alone_row_value: string[];
+        is_left_back_btn_show: string;
         indicator_location: string;
         bottom_navigation_show: string;
         positioning_name: string;
@@ -126,6 +127,7 @@ const defaultFooterNav: DefaultFooterNav = {
         link: {},
         // 换行内容
         data_alone_row_value: [],
+        is_left_back_btn_show: '1',
         // 对齐方式
         indicator_location: 'center',
         // 右侧图标信息

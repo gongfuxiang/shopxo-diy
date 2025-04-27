@@ -50,27 +50,27 @@ const margin_event = (val: number | undefined) => {
     form.value.margin_bottom = Number(val);
     form.value.margin_left = Number(val);
     form.value.margin_right = Number(val);
-    emit('update:value', form);
+    emit('update:value', form.value);
 };
 const pt_event = (val: number | undefined) => {
     form.value.margin_top = Number(val);
     form.value.margin = 0;
-    emit('update:value', form);
+    emit('update:value', form.value);
 };
 const pb_event = (val: number | undefined) => {
     form.value.margin_bottom = Number(val);
     form.value.margin = 0;
-    emit('update:value', form);
+    emit('update:value', form.value);
 };
 const pl_event = (val: number | undefined) => {
     form.value.margin_left = Number(val);
     form.value.margin = 0;
-    emit('update:value', form);
+    emit('update:value', form.value);
 };
 const pr_event = (val: number | undefined) => {
     form.value.margin_right = Number(val);
     form.value.margin = 0;
-    emit('update:value', form);
+    emit('update:value', form.value);
 };
 //#region 展开收起
 onBeforeMount(() => {

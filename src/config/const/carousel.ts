@@ -47,6 +47,9 @@ interface defaultSearch {
         video_img: uploadList[];
         video_icon_class: string;
         video_icon_color: string;
+        video_image_width: number;
+        video_image_height: number;
+        video_icon_size: number;
         video_location: string;
         video_bottom: number;
         video_title_color: string;
@@ -186,6 +189,9 @@ const defaultSearch: defaultSearch = {
         video_icon_class: '',
         // 视频左侧icon颜色
         video_icon_color: '#ff6868',
+        video_image_width: 14,
+        video_image_height: 14,
+        video_icon_size: 14,
         // 视频位置
         video_location: 'center',
         // 视频距离底部距离

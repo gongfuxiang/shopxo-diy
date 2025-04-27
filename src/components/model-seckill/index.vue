@@ -177,7 +177,8 @@
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, common_styles_computer, get_math, gradient_computer, gradient_handle, padding_computer, radius_computer, common_img_computer, margin_computer, old_margin, box_shadow_computer, border_computer, old_border_and_box_shadow, old_radius, old_padding } from '@/utils';
+import { background_computer, common_styles_computer, get_math, gradient_computer, gradient_handle, padding_computer, radius_computer, common_img_computer, margin_computer, box_shadow_computer, border_computer } from '@/utils';
+import { old_margin, old_border_and_box_shadow, old_radius, old_padding } from '@/utils/common'
 import { isEmpty, throttle } from 'lodash';
 import SeckillAPI from '@/api/seckill';
 import { Swiper, SwiperSlide } from 'swiper/vue';
@@ -364,31 +365,41 @@ const updateCountdown = () => {
 const list = ref<data_list[]>([]);
 // 更新倒计时函数
 onBeforeMount(() => {
-    SeckillAPI.getSeckillList({}).then((res: any) => {
-        const data = res.data;
-        if (!isEmpty(data.current)) {
-            if (!isEmpty(data.current.goods)) {
-                list.value = data.current.goods;
-            } else {
-                list.value = Array(4).fill(default_list);
-            }
-            const { status, time_first_text } = data.current.time;
-            seckill_time.value = {
-                endTime: data.current.time_end,
-                startTime: data.current.time_start,
-                status: status,
-                time_first_text: time_first_text,
-            };
+    if (form.value.is_left == '1') {
+        SeckillAPI.getSeckillList({}).then((res: any) => {
+            const data = res.data;
+            init(data);
+        });
+    } else {
+        init(form.value.data);
+    }
+});
+
+const init = (data: any) => {
+    if (!isEmpty(data.current)) {
+        if (!isEmpty(data.current.goods)) {
+            list.value = data.current.goods;
+        } else {
+            list.value = Array(4).fill(default_list);
+        }
+        const { status = '1', time_first_text = '已结束' } = data?.current?.time || {};
+        seckill_time.value = {
+            endTime: data.current.time_end,
+            startTime: data.current.time_start,
+            status: status,
+            time_first_text: time_first_text,
+        };
+        if (time_first_text !== '已结束') {
             // 先执行一次倒计时，后续的等待倒计时执行
             setTimeout(() => {
                 updateCountdown();
             }, 0);
             intervalId.value = setInterval(updateCountdown, 1000);
-        } else {
-            list.value = Array(4).fill(default_list);
         }
-    });
-});
+    } else {
+        list.value = Array(4).fill(default_list);
+    }
+}
 // 组件销毁时，清除定时器
 onUnmounted(() => {
     clearInterval(intervalId.value);

@@ -1,7 +1,7 @@
 <template>
     <!-- 商品 -->
     <div class="container">
-        <div class="flex-row jc-e gap-20 mb-20">
+        <div class="flex-row jc-e gap-20 mb-20 align-c">
             <el-cascader v-model="category_ids" :options="category_list" :props="cascader_config" placeholder="请选择" :show-all-levels="false" filterable clearable @change="cascader_change" />
             <el-select v-model="brand_ids" class="search-w" placeholder="品牌" filterable clearable @change="handle_search">
                 <el-option v-for="item in brand_list" :key="item.id" :label="item.name" :value="item.id" />

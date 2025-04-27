@@ -4,7 +4,7 @@
             <model-goods-tabs-content :value="form.content" :tab-style="form.style" :default-config="data_config"></model-goods-tabs-content>
         </template>
         <template v-if="type == '2'">
-            <model-goods-tabs-styles :value="form.style" :tabs-style="form.content.tabs_theme" :content="form.content" :default-config="data_config"></model-goods-tabs-styles>
+            <model-goods-tabs-styles :value="form.style" :content="form.content" :default-config="data_config"></model-goods-tabs-styles>
         </template>
     </div>
 </template>

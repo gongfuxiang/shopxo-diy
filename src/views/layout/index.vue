@@ -23,12 +23,11 @@ import { Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
 import defaultConfigSetting from '@/config/setting';
 import defaultConfigConst from '@/config/const/index';
-import { article_default_parameter, goods_default_parameter } from '@/config/const/data-tabs';
-import defaultCustom from '@/config/const/custom';
 import { cloneDeep, isEmpty, omit } from 'lodash';
 import DiyAPI, { diyData, headerAndFooter, diyConfig } from '@/api/diy';
 import CommonAPI from '@/api/common';
 import { commonStore } from '@/store';
+import { de } from 'element-plus/es/locale';
 const common_store = commonStore();
 interface diy_data_item {
     id: string;
@@ -232,7 +231,8 @@ const loading_event = () => {
 //#region 顶部导航回调方法 ---------------------start
 const preview_dialog = ref(false);
 const diy_id = ref('');
-const preview_event = () => {
+const preview_event = (bool: boolean) => {
+    save_disabled.value = bool;
     save_formmat_form_data(form.value, false, false, true);
 };
 const save_disabled = ref(false);
@@ -246,6 +246,13 @@ const save_close_event = (bool: boolean) => {
 };
 // save_formmat_form_data: 保存数据， data： 数据， close： 是否关闭， is_export： 是否导出， is_preview： 是否预览
 const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_export: boolean = false, is_preview: boolean = false) => {
+    ElMessage({
+        message: '保存中',
+        type: 'success',
+        duration: 0,
+        icon: 'Loading',
+        customClass: 'message-box-custom',
+    })
     const clone_form = cloneDeep(data);
     clone_form.header.show_tabs = '1';
     // 去除位置颜色
@@ -253,34 +260,51 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
 
     clone_form.footer.show_tabs = '0';
     // 字段比coupon多
-    const new_array_1 = ['goods-list', 'article-list'];
+    const new_array_1 = ['goods-list', 'article-list', 'blog', 'shop', 'realstore', 'binding', 'ask', 'activity'];
     // 数据比正常list多一级
-    const new_array_2 = ['goods-tabs', 'article-tabs'];
+    const new_array_2 = ['goods-tabs', 'article-tabs', 'blog-tabs', 'ask-tabs'];
     // 数据格式简单
     const new_array_3 = ['coupon'];
     // 层级更深
     const new_array_4 = ['data-magic'];
     // 自定义数据
-    const new_array_5 = ['custom'];
+    const new_array_5 = ['custom', 'goods-magic'];
     // 导航组
     const new_array_6 = ['nav-group'];
     clone_form.diy_data = clone_form.diy_data.map((item: any) => {
         if (new_array_1.includes(item.key)) {
             // 商品或文章的数据处理
-            goods_or_article_data_processing(item.com_data.content, item.key == new_array_1[0]);
+            goods_or_article_data_processing(item.com_data.content, item.key == new_array_1[0], item.key);
         } else if (new_array_2.includes(item.key)) {
             item.com_data.content.tabs_active_index = 0;
             item.com_data.content.tabs_list.forEach((item0: any) => {
                 // 商品或文章的数据处理
-                goods_or_article_data_processing(item0, item.key == new_array_1[0]);
+                goods_or_article_data_processing(item0, item.key == new_array_1[0], item.key);
             });
         } else if (new_array_3.includes(item.key)) {
-            item.com_data.content.data_ids = item.com_data.content.data_list.map((item: any) => item.id).join(',') || '';
-            item.com_data.content.data_list = [];
+            // 提取数据ID列表，用于后续的数据查询或处理
+            item.com_data.content.data_ids = item.com_data.content.data_list.map((item: any) => item.data.id).join(',') || '';
+            // 重构数据列表，保留原始数据结构的同时，添加或修改必要的字段
+            item.com_data.content.data_list = item.com_data.content.data_list.map((item1: any) => {
+                return {
+                    ...item1,
+                    data: [],
+                    data_id: item1.data.id,
+                };
+            });
             item.com_data.content.data_auto_list = [];
-            if (item.com_data.content.data_type == '1') {
-                item.com_data.content.type = defaultConfigSetting.coupon_ids;
-                item.com_data.content.number = defaultConfigSetting.page_size;
+            if (item.com_data.content.data_type == '0') {
+                item.com_data.content = {
+                    ...cloneDeep(item.com_data.content),
+                    keywords: '',
+                    type: defaultConfigSetting.coupon_ids,
+                    expire_type_ids: defaultConfigSetting.coupon_ids,
+                    use_limit_type_ids: defaultConfigSetting.coupon_ids,
+                    number: defaultConfigSetting.page_size,
+                    order_by_type: 0,
+                    order_by_rule: 0,
+                    is_repeat_receive: '0',
+                }
             }
         } else if (new_array_4.includes(item.key)) {
             item.com_data.content.data_magic_list.forEach((item1: any) => {
@@ -367,6 +391,12 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                     // item.article_config = cloneDeep(article_default_parameter);
                 }
             });
+        } else if (['salerecords'].includes(item.key)) {
+            item.com_data.content.data_auto_list = [];
+            item.com_data.content.is_left = '0';
+        } else if (['seckill'].includes(item.key)) {
+            item.com_data.content.data = [];
+            item.com_data.content.is_left = '0';
         }
         return {
             ...item,
@@ -380,10 +410,13 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             setTimeout(() => {
                 save_disabled.value = false;
             }, 500);
-            // 如果是导出或预览模式，则不显示保存成功的消息
-            if (!(is_export || is_preview)) {
-                ElMessage.success('保存成功');
-            }
+            ElMessage.closeAll();
+            setTimeout(() => {
+              // 如果是导出或预览模式，则不显示保存成功的消息
+                if (!(is_export || is_preview)) {
+                    ElMessage.success('保存成功');
+                }
+            }, 100);
             if (close) {
                 ElMessageBox.confirm('您确定要关闭本页吗？', '提示')
                     .then(() => {
@@ -408,6 +441,13 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             }
         })
         .catch((err) => {
+            // 失败的时候关闭弹出框
+            ElMessage.closeAll();
+            if (err == 'canceled') {
+                console.log('请求已取消');
+            } else {
+                ElMessage.error(err || '系统出错');
+            }
             save_disabled.value = false;
         });
 };
@@ -419,7 +459,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
  * @param new_com_data_content 传入的新数据内容对象，包含需要处理的数据列表和其他相关信息
  * @param is_goods 是否为商品的标志，用于决定数据处理的具体方式
  */
- const goods_or_article_data_processing = (new_com_data_content: any, is_goods: boolean) => {
+ const goods_or_article_data_processing = (new_com_data_content: any, is_goods: boolean, type: string = '') => {
     // 判断数据类型，如果为'0'，则进行详细的数据处理
     if (new_com_data_content.data_type == '0') {
         // 提取数据ID列表，用于后续的数据查询或处理
@@ -433,8 +473,8 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                 data_id: item1.data.id,
             };
         });
-        
         // 设置分类ID、数量、排序规则等默认值，确保数据的一致性和完整性
+        new_com_data_content.keywords = '';
         new_com_data_content.category_ids = defaultConfigSetting.category_ids;
         new_com_data_content.number = defaultConfigSetting.page_size;
         new_com_data_content.order_by_rule = defaultConfigSetting.order_by_rule;
@@ -444,7 +484,26 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
         if (is_goods) {
             new_com_data_content.brand_ids = defaultConfigSetting.brand_ids;
         } else {
-            new_com_data_content.is_cover = defaultConfigSetting.is_cover;
+            // 文章博客的显示
+            if (['article-list', 'article-tabs', 'blog', 'blog-tabs'].includes(type)) {
+                new_com_data_content.is_cover = defaultConfigSetting.is_cover;
+                if (['blog', 'blog-tabs'].includes(type)) {
+                    new_com_data_content.is_recommended = '0';
+                    new_com_data_content.is_hot = '0';
+                }
+            } else if (['realstore', 'shop'].includes(type)) {
+                // 多商户多门店的显示
+                new_com_data_content.is_goods_list = '0';
+            } else if (type === 'binding') {
+                // 组合搭配的显示
+                new_com_data_content.is_home_show = '0';
+            } else if (['ask', 'ask-tabs'].includes(type)) {
+                // 组合搭配的显示
+                new_com_data_content.is_reply = '0';
+            } else if (type === 'activity') {
+                // 商品列表的显示
+                new_com_data_content.is_home = '0';
+            }
         }
     } else {
         // 如果数据类型不是'0'，清空数据ID列表和数据列表，确保数据处理的一致性

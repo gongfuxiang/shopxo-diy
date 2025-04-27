@@ -1,23 +1,25 @@
 <template>
     <div ref="allSignList" class="w h re custom-other">
-        <div v-for="(item, index) in list" :key="item.id" ref="signList" :data-id="item.id" :data-location-x="item.location.x" :data-location-y="item.location.y" :class="`main-content flex-row ${ animation_class(item.com_data) }`" :style="`left: ${ percentage_count(item.location.x, item.com_data.data_follow, 'left') }; top: ${ percentage_count(item.location.y, item.com_data.data_follow, 'top') }; width: ${ percentage_count(item.com_data.com_width, item.com_data.data_follow, 'width', item.com_data.is_width_auto, item.com_data.max_width) }; height: ${ percentage_count(item.com_data.com_height, item.com_data.data_follow, 'height', item.com_data.is_height_auto, item.com_data.max_height) };z-index: ${ (list.length - 1) - index};`">
-            <template v-if="item.key == 'text'">
-                <model-text :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :config-loop="configLoop" :is-custom="isCustom" :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :title-params="showData?.data_name || 'name'" :is-display-panel="true"></model-text>
-            </template>
-            <template v-else-if="item.key == 'img'">
-                <model-image :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :config-loop="configLoop" :is-custom="isCustom" :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :img-params="showData?.data_logo || ''" :is-display-panel="true"></model-image>
-            </template>
-            <template v-else-if="item.key == 'auxiliary-line'">
-                <model-lines :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :config-loop="configLoop" :is-custom="isCustom"  :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :is-display-panel="true"></model-lines>
-            </template>
-            <template v-else-if="item.key == 'icon'">
-                <model-icon :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :config-loop="configLoop" :is-custom="isCustom"  :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :is-display-panel="true"></model-icon>
-            </template>
-            <template v-else-if="item.key == 'panel'">
-                <model-panel :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :config-loop="configLoop" :is-custom="isCustom" :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :is-display-panel="true"></model-panel>
-            </template>
-            <template v-else-if="item.key == 'custom-group'">
-                <model-custom-group :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :config-loop="configLoop" :group-source-list="groupSourceList" :show-data="showData" :data-height="item.com_data.custom_height" :data-width="item.com_data.com_width" :is-custom="isCustom" :is-display-panel="true"></model-custom-group>
+        <div v-for="(item, index) in list" :key="item.id" ref="signList" :data-id="item.id" :data-location-x="item.location.x" :data-location-y="item.location.y" :class="`main-content flex-row ${ animation_class(item.com_data) }`" :style="`left: ${ percentage_count(item.location.x, item.com_data.data_follow, 'left') }; top: ${ percentage_count(item.location.y, item.com_data.data_follow, 'top') }; width: ${ percentage_count(item.com_data.com_width, item.com_data.data_follow, 'width', item.com_data.is_width_auto, item.com_data.max_width, item.is_enable) }; height: ${ percentage_count(item.com_data.com_height, item.com_data.data_follow, 'height', item.com_data.is_height_auto, item.com_data.max_height, item.is_enable) };z-index: ${ item.is_enable == '1' ? ((list.length - 1) - index) : -999};`">
+            <template v-if="item.is_enable == '1'">
+                <template v-if="item.key == 'text'">
+                    <model-text :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :config-loop="configLoop" :is-custom="isCustom" :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :title-params="showData?.data_name || 'name'" :is-display-panel="true"></model-text>
+                </template>
+                <template v-else-if="item.key == 'img'">
+                    <model-image :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :config-loop="configLoop" :is-custom="isCustom" :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :img-params="showData?.data_logo || ''" :is-display-panel="true"></model-image>
+                </template>
+                <template v-else-if="item.key == 'auxiliary-line'">
+                    <model-lines :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :config-loop="configLoop" :is-custom="isCustom"  :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :is-display-panel="true"></model-lines>
+                </template>
+                <template v-else-if="item.key == 'icon'">
+                    <model-icon :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :config-loop="configLoop" :is-custom="isCustom"  :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :is-display-panel="true"></model-icon>
+                </template>
+                <template v-else-if="item.key == 'panel'">
+                    <model-panel :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :config-loop="configLoop" :is-custom="isCustom" :custom-group-field-id="customGroupFieldId" :is-custom-group="isCustomGroup" :is-display-panel="true"></model-panel>
+                </template>
+                <template v-else-if="item.key == 'custom-group'">
+                    <model-custom-group :key="item.id" :value="item.com_data" :scale="scale" :source-list="sourceList" :config-loop="configLoop" :group-source-list="groupSourceList" :show-data="showData" :data-height="item.com_data.custom_height" :data-width="item.com_data.com_width" :is-custom="isCustom" :is-display-panel="true"></model-custom-group>
+                </template>
             </template>
         </div>
     </div>
@@ -29,6 +31,7 @@ import { location_compute } from '@/utils';
 interface CustomItem {
     id: string | number;
     key: string;
+    is_enable: string;
     location: {
         x: number;
         y: number;
@@ -120,7 +123,7 @@ watch(() => props.customList, async (val) => {
     const new_val = cloneDeep(val);
     list.value = new_val;
     // 判断是否有跟随的数据
-    const follow_list = new_val.filter(item => item.com_data?.data_follow?.id !== '');
+    const follow_list = new_val.filter(item => item.com_data.data_follow && item.com_data?.data_follow?.id !== '');
     if (follow_list.length > 0) {
         await nextTick();
         // 获取当前容器的宽度
@@ -184,7 +187,7 @@ watch(() => props.customList, async (val) => {
  * @param {number} [max_size] - 可选参数，用于计算最大宽度或高度
  * @returns {string} - 返回一个表示百分比或特定值的字符串，用于CSS样式
  */
- const percentage_count = (val: number, data_follow: { id: string, type: string }, type: string, is_auto?: string, max_size?: number) => {
+ const percentage_count = (val: number, data_follow: { id: string, type: string }, type: string, is_auto?: string, max_size?: number, is_enable?: string) => {
     // 检查类型是否为'left'或'top'，如果是，则根据跟随数据计算样式
     if (['left', 'top'].includes(type)) {
         const { id = '', type: follow_type = 'left' } = data_follow || { id: '', type: 'left' };
@@ -210,7 +213,7 @@ watch(() => props.customList, async (val) => {
             }
         } else {
             // 如果is_auto未设置或条件不满足，则根据比例缩放val并返回
-            return `${val * props.scale}px`;
+            return is_enable == '1' ? `${val * props.scale}px` : '0px';
         }
     }
 }

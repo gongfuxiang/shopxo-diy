@@ -1,7 +1,7 @@
 <template>
     <!-- 商城 -->
     <div class="container">
-        <div class="flex-row jc-e mb-20">
+        <div class="flex-row jc-e mb-20 align-c">
             <div class="search">
                 <el-input v-model="search_value" placeholder="请输入搜索内容" class="" @change="handle_search">
                     <template #suffix>

@@ -16,7 +16,9 @@
                             <div :style="topic_style" class="pl-6 pr-6 radius-sm">{{ form.title }}</div>
                         </template>
                         <el-carousel :key="carouselKey" class="flex-1" indicator-position="none" :interval="interval_time" arrow="never" :direction="direction_type" :autoplay="true">
-                            <el-carousel-item v-for="(item, index) in notice_list" :key="index" class="text-line-1" :style="`${news_style} color: ${new_style.news_color}`">{{ item.notice_title }}</el-carousel-item>
+                            <el-carousel-item v-for="(item, index) in notice_list" :key="index" class="flex-row align-c">
+                                <div class="text-line-1" :style="`${news_style} color: ${new_style.news_color}`">{{ item.notice_title }}</div>
+                            </el-carousel-item>
                         </el-carousel>
                         <div v-if="form.is_right_button == '1'" :style="`color: ${new_style.right_button_color}; font-size: ${ new_style.right_button_size }px`">{{ form.right_title }}<icon name="arrow-right" :color="new_style.right_button_color || '#999'"></icon></div>
                     </div>

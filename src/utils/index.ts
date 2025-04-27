@@ -1,13 +1,5 @@
 import CommonAPI from '@/api/common';
 import { isEmpty } from 'lodash';
-// 定义一组预定义的颜色数组，用于在各种场景中轻松引用这些颜色
-// 这些颜色包括从白色到黑色的不同灰度，以及一些鲜艳的颜色，格式有十六进制、RGB、RGBA、HSV、HSL等
-export const predefine_colors = ['#fff', '#ddd', '#ccc', '#999', '#666', '#333', '#000', '#ff4500', '#ff8c00', '#ffd700', '#90ee90', '#00ced1', '#c71585', 'rgba(255, 69, 0, 0.68)', 'rgb(255, 120, 0)', 'hsv(51, 100, 98)', 'hsva(120, 40, 94, 0.5)', 'hsl(181, 100%, 37%)', '#1F93FF', '#c7158577'];
-// 数据的默认值，避免没有值的时候报错
-export const old_radius = { radius: 0, radius_top_left: 0, radius_top_right: 0, radius_bottom_left: 0, radius_bottom_right: 0 };
-export const old_padding = { padding: 0, padding_top: 0, padding_bottom: 0, padding_left: 0, padding_right: 0 };
-export const old_margin = { margin: 0, margin_top: 0, margin_bottom: 0, margin_left: 0, margin_right: 0 };
-export const old_border_and_box_shadow = { border_is_show: '0', border_color: '#FF3F3F', border_style: 'solid',border_size: { padding: 1, padding_top: 1, padding_right: 1, padding_bottom: 1, padding_left: 1, }, box_shadow_color: '', box_shadow_x: 0, box_shadow_y: 0, box_shadow_blur: 0, box_shadow_spread: 0 };
 /**
  * 判断一个对象是否为空。
  *
@@ -45,6 +37,19 @@ export const get_history_name = (components: any) => {
         return '';
     }
 }
+
+export const get_data_list = (common_store: any, value: any): any[] => {
+    if (!isEmpty(common_store)) {
+        const data = get_nested_property(common_store, value);
+        if (Array.isArray(data)) {
+            return data;
+        } else {
+            return [];
+        }
+    } else {
+        return [];
+    }
+}
 /**
  * 获取嵌套对象的属性值
  * 
@@ -55,7 +60,7 @@ export const get_history_name = (components: any) => {
  * @param {string} path - 属性路径，使用点号分隔的字符串表示
  * @returns {string} - 返回指定路径的属性值，如果路径无效则返回空字符串
  */
-export function get_nested_property(obj: any, path: string): string {
+export function get_nested_property(obj: any, path: string): string | string[] {
     // 检查路径参数是否为字符串且非空，若不满足条件则返回空字符串
     if (typeof path !== 'string' || !path) return '';
     
@@ -240,10 +245,10 @@ export const custom_condition_judg = (fieldValue: any, type: string, value: numb
         case 'less-than':
         case 'equal':
             // 根据字段值的类型，进行数字间的比较
-            if (typeof fieldValue === 'number') {
-                return compare_numbers(fieldValue, numberValue, type);
-            } else if (Array.isArray(fieldValue) || typeof fieldValue === 'string') {
-                // 如果字段值是数组或字符串，比较数组长度和指定值
+            if (typeof fieldValue === 'number' || (typeof fieldValue === 'string' && isPureNumber(fieldValue))) {
+                return compare_numbers(Number(fieldValue), numberValue, type);
+            } else if (Array.isArray(fieldValue) || (typeof fieldValue === 'string' && !isPureNumber(fieldValue))) {
+                // 如果字段值是数组或字符串，比较长度
                 const valueLength = fieldValue?.length || 0;
                 return compare_numbers(valueLength, numberValue, type);
             } else if (typeof fieldValue === 'object') {
@@ -254,6 +259,10 @@ export const custom_condition_judg = (fieldValue: any, type: string, value: numb
         default:
             return true;
     }
+}
+// 判断是否是纯数字
+function isPureNumber(input: string) {
+    return /^\d+$/.test(input);
 }
 
 /**
@@ -412,6 +421,10 @@ const data_handling = (data_source_id: string, sourceList: any, isCustom: boolea
     // 如果是商品,品牌，文章的图片， 其他的切换为从data中取数据
     if (!isEmpty(sourceList.data) && isCustom) {
         new_data = get_nested_property(sourceList.data, data_source_id);
+    }
+    if (Array.isArray(new_data)) {
+        // 如果是数组，将其拼接为字符串
+        new_data = new_data.join(';');
     }
     return new_data;
 }
@@ -954,6 +967,7 @@ export const diy_data_handle = (data: any, old_id: string, new_val: any, com_wid
  */
 interface Item {
     id: string;
+    is_enable: string;
     location: { x: number; y: number };
     com_data: { com_width: number; com_height: number };
 }
@@ -977,11 +991,13 @@ export const get_container_location = (list: Item[], id: string, type: 'left' | 
     // 遍历项列表，寻找匹配给定ID的项
     for (const item of list) {
         if (item.id === id) {
-            // 解构获取项的位置和组件数据，如果没有提供则使用默认值
-            const { location = { x: 0, y: 0 }, com_data = { com_width: 0, com_height: 0 } } = item;
+            // 解构获取项的位置和组件数据，如果没有提供则使用默认
+            const { location = { x: 0, y: 0 }, com_data = { com_width: 0, com_height: 0 }, is_enable = '0' } = item;
+            const width = is_enable == '1' ? com_data.com_width : 0;
+            const height = is_enable == '1' ? com_data.com_height : 0;
             // 计算新的x和y坐标，根据组件的宽度/高度和间距
-            const new_x = location.x + com_data.com_width + spacing;
-            const new_y = location.y + com_data.com_height + spacing;
+            const new_x = location.x + width + spacing;
+            const new_y = location.y + height + spacing;
 
             // 根据type参数更新x或y坐标
             if (type === 'left') {

@@ -194,9 +194,13 @@ const theme_bg_img = ref<themeBgImg>({
 });
 // 初始化数据
 onMounted(() => {
-    if (!isEmpty(form.value.data_list) && form.value.data_type == '1') {
-        data_list.value = form.value.data_list;
-    } else if (form.value.data_type == '0') {
+    if (!isEmpty(form.value.data_list) && form.value.data_type == '0') {
+        data_list.value = form.value.data_list.map((item: any) => ({
+            ...item.data,
+            name: !isEmpty(item.new_title) ? item.new_title : item.data.name,
+            new_cover: item.new_cover,
+        }));
+    } else if (form.value.data_type == '1') {
         if (!isEmpty(form.value.data_auto_list)) {
             data_list.value = form.value.data_auto_list;
         } else {
@@ -213,10 +217,16 @@ onMounted(() => {
 });
 // 获取优惠券列表
 const get_coupon = () => {
-    const { number, type } = form.value;
+    const { number, type, keywords, expire_type_ids, use_limit_type_ids, order_by_type, order_by_rule, is_repeat_receive } = form.value;
     const params = {
-        number: number,
-        type: type.length > 0 ? type.join(',') : '',
+        coupon_number: number,
+        coupon_type_ids: type.length > 0 ? type.join(',') : '',
+        coupon_keywords: keywords,
+        coupon_expire_type_ids: expire_type_ids.length > 0 ? expire_type_ids.join(',') : '',
+        coupon_use_limit_type_ids: use_limit_type_ids.length > 0 ? use_limit_type_ids.join(',') : '',
+        coupon_order_by_type: order_by_type,
+        coupon_order_by_rule: order_by_rule,
+        coupon_is_repeat_receive: is_repeat_receive,
     };
     // 获取商品列表
     CouponAPI.getCoupon(params).then((res: any) => {
@@ -230,18 +240,22 @@ const get_coupon = () => {
 };
 // 监听数据类型
 const data_list_computer = computed(() => {
-    const { data_type, type, number, data_list } = form.value;
-    return { data_type, type, number, data_list };
+    const { data_type, type, number, data_list, keywords, expire_type_ids, use_limit_type_ids, order_by_type, order_by_rule, is_repeat_receive } = form.value;
+    return { data_type, type, number, data_list, keywords, expire_type_ids, use_limit_type_ids, order_by_type, order_by_rule, is_repeat_receive };
 });
 // 监听数据类型变化
 watch(
     () => data_list_computer.value,
     (new_value) => {
-        if (new_value.data_type == '0') {
+        if (new_value.data_type == '1') {
             get_coupon();
         } else {
             if (!isEmpty(form.value.data_list)) {
-                data_list.value = cloneDeep(form.value.data_list);
+                data_list.value = form.value.data_list.map((item: any) => ({
+                    ...item.data,
+                    name: !isEmpty(item.new_title) ? item.new_title : item.data.name,
+                    new_cover: item.new_cover,
+                }));
             } else {
                 data_list.value = Array(4).fill(default_list);
             }

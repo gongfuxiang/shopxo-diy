@@ -9,6 +9,7 @@ export const commonStore = defineStore('common', () => {
     const header_height = ref(0);
     const common = ref({
         article_category: [] as any[], //---- 文章分类
+        blog_category: [] as any[], //---- 文章分类
         attachment_category: [] as any[], //---- 附件分类
         brand_category: [] as any[], //---- 品牌分类
         brand_list: [] as any[], //---- 品牌列表
@@ -17,6 +18,7 @@ export const commonStore = defineStore('common', () => {
         page_link_list: [] as any[], //---- 页面链接
         plugins: {} as any, //---- 插件
         article_order_by_type_list: [] as any[], //---- 文章排序
+        blog_order_by_type_list: [] as any[], //---- 文章排序
         goods_order_by_type_list: [] as any[],  //---- 商品排序
         data_order_by_rule_list: [] as any[],  //---- 数据排序
         brand_order_by_type_list: [] as any[],  //---- 品牌排序

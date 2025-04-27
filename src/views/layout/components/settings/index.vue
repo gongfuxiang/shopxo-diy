@@ -82,6 +82,10 @@
             <template v-else-if="value.key == 'custom'">
                 <model-custom-setting :type="radio" :value="value.com_data" :all-value="value"></model-custom-setting>
             </template>
+            <!-- 商品魔方 -->
+            <template v-else-if="value.key == 'goods-magic'">
+                <model-goods-magic-setting :type="radio" :value="value.com_data" :all-value="value"></model-goods-magic-setting>
+            </template>
             <!-- 底部导航 -->
             <template v-else-if="value.key == 'footer-nav'">
                 <footer-nav-setting :type="radio" :value="value.com_data"></footer-nav-setting>
@@ -93,6 +97,42 @@
             </template>
             <template v-else-if="value.key == 'seckill'">
                 <model-seckill-setting :type="radio" :value="value.com_data"></model-seckill-setting>
+            </template>
+            <!-- 博客列表 -->
+            <template v-else-if="value.key == 'blog'">
+                <model-blog-list-setting :type="radio" :value="value.com_data"></model-blog-list-setting>
+            </template>
+            <!-- 博客选项卡 -->
+            <template v-else-if="value.key == 'blog-tabs'">
+                <model-blog-tabs-setting :type="radio" :value="value.com_data"></model-blog-tabs-setting>
+            </template>
+            <!-- 多门店 -->
+            <template v-else-if="value.key == 'realstore'">
+                <model-realstore-setting :type="radio" :value="value.com_data"></model-realstore-setting>
+            </template>
+            <!-- 多商户 -->
+            <template v-else-if="value.key == 'shop'">
+                <model-shop-setting :type="radio" :value="value.com_data"></model-shop-setting>
+            </template>
+            <!-- 组合搭配 -->
+            <template v-else-if="value.key == 'binding'">
+                <model-binding-setting :type="radio" :value="value.com_data"></model-binding-setting>
+            </template>
+            <!-- 销售记录 -->
+            <template v-else-if="value.key == 'salerecords'">
+                <model-salerecords-setting :type="radio" :value="value.com_data"></model-salerecords-setting>
+            </template>
+            <!-- 问答 -->
+            <template v-else-if="value.key == 'ask'">
+                <model-ask-setting :type="radio" :value="value.com_data"></model-ask-setting>
+            </template>
+            <!-- 问答选项卡 -->
+            <template v-else-if="value.key == 'ask-tabs'">
+                <model-ask-tabs-setting :type="radio" :value="value.com_data"></model-ask-tabs-setting>
+            </template>
+            <!-- 活动配置 -->
+            <template v-else-if="value.key == 'activity'">
+                <model-activity-setting :type="radio" :value="value.com_data"></model-activity-setting>
             </template>
             <!-- 工具组件 -->
             <!-- 辅助空白 -->

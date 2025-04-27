@@ -4,44 +4,46 @@
             <div v-if="!isEmpty(item.form_name) && !isEmpty(new_dataInterface) && !isEmpty(item.type)" class="filter-style flex-row gap-12">
                 <div v-if="!isEmpty(item.title)" :class="['title text-line-1', props.direction == 'vertical' ? '' : 'horizontal-title']" :style="`width: ${ Number(props.titleWidth) > 0 ? props.titleWidth + 'px;' : '100%' }`">{{ item.title }}</div>
                 <div class="w h flex-1 vertical-style">
-                    <template v-if="item.type == 'select'">
-                        <template v-if="+item?.config?.is_level == 1">
-                            <div class="flex-row gap-10">
-                                <el-cascader v-model="new_dataInterface[item.form_name]" :placeholder="placeholder_config(item, 'select')" :show-all-levels="false" filterable clearable class="w h" collapse-tags popper-class="filter-form-cascader" :placement="+item?.config?.is_level == 1 && props.direction == 'vertical' ? 'left' : 'bottom'" :props="{'multiple': +item?.config?.is_multiple == 1, 'checkStrictly': true, 'emitPath': false, 'value': item?.data_key || 'id', 'label': item?.data_name || 'name', 'children': item?.config?.children || '' }" :options="selectData(item)" /> 
-                                <template v-if="+item?.config?.is_multiple == 1">
-                                    <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="父级选中包含所有子级" raw-content placement="top">
-                                        <icon name="miaosha-hdgz" size="12" color="#999"></icon>
-                                    </el-tooltip>
-                                </template>
-                            </div>
+                    <div class="flex-row align-c gap-10 w h">
+                        <template v-if="item.type == 'select'">
+                            <template v-if="+item?.config?.is_level == 1">
+                                <div class="flex-row gap-10 w h">
+                                    <el-cascader v-model="new_dataInterface[item.form_name]" :placeholder="placeholder_config(item, 'select')" :show-all-levels="false" filterable clearable class="w h" collapse-tags popper-class="filter-form-cascader" :placement="+item?.config?.is_level == 1 && props.direction == 'vertical' ? 'left' : 'bottom'" :props="{'multiple': +item?.config?.is_multiple == 1, 'checkStrictly': true, 'emitPath': false, 'value': item?.data_key || 'id', 'label': item?.data_name || 'name', 'children': item?.config?.children || '' }" :options="selectData(item)" /> 
+                                    <template v-if="+item?.config?.is_multiple == 1">
+                                        <tooltip content="父级选中包含所有子级"></tooltip>
+                                    </template>
+                                </div>
+                            </template>
+                            <template v-else>
+                                <el-select v-model="new_dataInterface[item.form_name]" :multiple="+item?.config?.is_multiple == 1" filterable collapse-tags :placeholder="placeholder_config(item, 'select')" clearable>
+                                    <el-option v-for="item1 in selectData(item)" :key="item1[item?.data_key || 'id']" :label="item1[item?.data_name || 'name']" :value="item1[item?.data_key || 'id']" />
+                                </el-select>
+                            </template>
                         </template>
-                        <template v-else>
-                            <el-select v-model="new_dataInterface[item.form_name]" :multiple="+item?.config?.is_multiple == 1" filterable collapse-tags :placeholder="placeholder_config(item, 'select')" clearable>
-                                <el-option v-for="item1 in selectData(item)" :key="item1[item?.data_key || 'id']" :label="item1[item?.data_name || 'name']" :value="item1[item?.data_key || 'id']" />
-                            </el-select>
+                        <template v-else-if="item.type == 'input'">
+                            <template v-if="item?.config?.type == 'number'">
+                                <el-input-number v-model="new_dataInterface[item.form_name]" :min="item?.config?.min || 0" :max="item?.config?.max || undefined" type="number" :placeholder="placeholder_config(item, 'input')" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
+                            </template>
+                            <template v-else>
+                                <el-input v-model="new_dataInterface[item.form_name]" :placeholder="placeholder_config(item, 'input')" clearable />
+                            </template>
                         </template>
-                    </template>
-                    <template v-else-if="item.type == 'input'">
-                        <template v-if="item?.config?.type == 'number'">
-                            <el-input-number v-model="new_dataInterface[item.form_name]" :min="item?.config?.min || 0" :max="item?.config?.max || undefined" type="number" :placeholder="placeholder_config(item, 'input')" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
+                        <template v-else-if="item.type == 'switch'">
+                            <el-switch v-model="new_dataInterface[item.form_name]" :active-value="1" :inactive-value="0" />
                         </template>
-                        <template v-else>
-                            <el-input v-model="new_dataInterface[item.form_name]" :placeholder="placeholder_config(item, 'input')" clearable />
+                        <template v-else-if="item.type =='radio'">
+                            <el-radio-group v-model="new_dataInterface[item.form_name]">
+                                <el-radio v-for="item1 in selectData(item)" :key="item1[item?.data_key || 'id']" :value="item1[item?.data_key || 'name']">{{ item1[item?.data_name || 'name'] }}</el-radio>
+                            </el-radio-group>
                         </template>
-                    </template>
-                    <template v-else-if="item.type == 'switch'">
-                        <el-switch v-model="new_dataInterface[item.form_name]" :active-value="1" :inactive-value="0" />
-                    </template>
-                    <template v-else-if="item.type =='radio'">
-                        <el-radio-group v-model="new_dataInterface[item.form_name]">
-                            <el-radio v-for="item1 in selectData(item)" :key="item1[item?.data_key || 'id']" :value="item1[item?.data_key || 'name']">{{ item1[item?.data_name || 'name'] }}</el-radio>
-                        </el-radio-group>
-                    </template>
-                    <template v-else-if="item.type =='checkbox'">
-                        <el-checkbox-group v-model="new_dataInterface[item.form_name]">
-                            <el-checkbox v-for="item1 in selectData(item)" :key="item1[item?.data_key || 'id']" :value="item1[item?.data_key || 'name']">{{ item1[item?.data_name || 'name'] }}</el-checkbox>
-                        </el-checkbox-group>
-                    </template>
+                        <template v-else-if="item.type =='checkbox'">
+                            <el-checkbox-group v-model="new_dataInterface[item.form_name]">
+                                <el-checkbox v-for="item1 in selectData(item)" :key="item1[item?.data_key || 'id']" :value="item1[item?.data_key || 'name']">{{ item1[item?.data_name || 'name'] }}</el-checkbox>
+                            </el-checkbox-group>
+                        </template>
+                        <!-- 提示信息-->
+                        <tooltip v-if="!isEmpty(item.tips)" :content="item?.tips || ''"></tooltip>
+                    </div>
                 </div>
             </div>
         </template>
@@ -58,6 +60,7 @@ interface filter {
     type: string; // 类型
     config: any;
     title: string;
+    tips?: string; // 提示
     form_name: string;
     data: any[];
     data_key: string;

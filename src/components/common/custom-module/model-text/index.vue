@@ -234,7 +234,7 @@ watch(() => props.value, (value) => {
             // }
         });
     }
-}, { deep: true });
+}, { immediate:true, deep: true });
 
 </script>
 <style lang="scss" scoped>

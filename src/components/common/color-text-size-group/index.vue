@@ -13,6 +13,7 @@
 </template>
 
 <script setup lang="ts">
+import { font_weight } from '@/utils/common';
 interface Props {
     defaultColor?: string;
     typeList?: string[]; // 默认显示3个，传递了之后按照传递的显示
@@ -37,11 +38,6 @@ const size = defineModel('size', {
     type: Number,
     default: 15,
 });
-
-const font_weight = [
-    { name: '加粗', value: 'bold' },
-    { name: '正常', value: '400' },
-];
 </script>
 
 <style lang="scss" scoped></style>

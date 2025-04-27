@@ -17,6 +17,8 @@ interface defaultSearch {
         icon_class: string;
         subtitle: string;
         is_title_center: string;
+        is_subtitle_center: string;
+        title_line: string;
         keyword_show: string;
         keyword_list: carousel_list[];
         right_show: string;
@@ -33,7 +35,6 @@ interface defaultSearch {
         subtitle_color: string;
         subtitle_size: number;
         subtitle_weight: string;
-        title_line: string;
         keyword_color: string;
         keyword_size: number;
         keyword_spacing: number;
@@ -57,6 +58,8 @@ const defaultSearch: defaultSearch = {
         subtitle: '',
         // 内容居中
         is_title_center: '0',
+        is_subtitle_center: '0',
+        title_line: '0',
         // 右侧内容设置
         right_show: '1',
         right_title: '更多',
@@ -87,7 +90,6 @@ const defaultSearch: defaultSearch = {
         subtitle_color: '#999',
         subtitle_size: 12,
         subtitle_weight: 'normal',
-        title_line: '0',
         // 关键字设置
         keyword_color: '#000',
         keyword_size: 12,

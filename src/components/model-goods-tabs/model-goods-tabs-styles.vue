@@ -4,7 +4,7 @@
             <card-container>
                 <div class="mb-12">选项卡样式</div>
                 <el-form-item label="选中装饰">
-                    <el-radio-group v-if="tabsStyle == '0'" v-model="form.tabs_one_theme">
+                    <el-radio-group v-if="data.tabs_theme == '0'" v-model="form.tabs_one_theme">
                         <el-radio value="0">样式一</el-radio>
                         <el-radio value="1">样式二</el-radio>
                     </el-radio-group>
@@ -212,13 +212,13 @@
                         <el-form-item label="间隔时间">
                             <slider v-model="form.interval_time" :min="1" :max="100"></slider>
                         </el-form-item>
-                        <el-form-item label="滚动方式">
-                            <el-radio-group v-model="form.rolling_fashion">
-                                <el-radio value="translation">平移</el-radio>
-                                <el-radio value="cut-screen">切屏</el-radio>
-                            </el-radio-group>
-                        </el-form-item>
                     </template>
+                    <el-form-item label="滚动方式">
+                        <el-radio-group v-model="form.rolling_fashion">
+                            <el-radio value="translation">平移</el-radio>
+                            <el-radio value="cut-screen">切屏</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
                 </card-container>
                 <div class="divider-line"></div>
             </template>
@@ -269,11 +269,6 @@ const props = defineProps({
             img_radius_1: 0,
         }),
     },
-    // 选项卡的风格
-    tabsStyle: {
-        type: String,
-        default: '',
-    },
 });
 
 // 默认值
@@ -285,6 +280,7 @@ const state = reactive({
 const { form, data } = toRefs(state);
 
 const theme = computed(() => data.value.theme);
+
 if (['0', '4'].includes(theme.value)) {
     if (form.value.shop_img_radius.radius == props.defaultConfig.img_radius_0 || (form.value.shop_img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_top_left == props.defaultConfig.img_radius_1 && form.value.shop_img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
         form.value.shop_img_radius.radius = props.defaultConfig.img_radius_0;

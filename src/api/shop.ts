@@ -1,5 +1,5 @@
 import request from '@/utils/request';
-
+import api_request from '@/utils/api-request';
 class ShopAPI {
     /**  分类品牌查询接口*/
     static getShop() {
@@ -16,7 +16,14 @@ class ShopAPI {
             data,
         });
     }
-    
+    // 获取多商户的数据
+    static getShopList(data: any) {
+        return api_request({
+            url: `?s=plugins/index/pluginsname/shop/pluginscontrol/diyshop/pluginsaction/autoshoplist.html`,
+            method: 'post',
+            data,
+        });
+    }
 }
 
 export default ShopAPI;

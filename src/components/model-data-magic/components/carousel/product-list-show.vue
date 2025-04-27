@@ -76,8 +76,8 @@
 
 <script setup lang="ts">
 import { isEmpty } from 'lodash';
-import { gradient_computer, radius_computer, padding_computer, background_computer, margin_computer, border_computer, box_shadow_computer, old_radius, old_margin, old_padding } from "@/utils";
-
+import { gradient_computer, radius_computer, padding_computer, background_computer, margin_computer, border_computer, box_shadow_computer } from "@/utils";
+import { old_radius, old_margin, old_padding } from "@/utils/common";
 interface Props {
     value: Array<any>;
     outerflex: string;

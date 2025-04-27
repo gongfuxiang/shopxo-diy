@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { isEmpty } from 'lodash';
-import { predefine_colors } from '@/utils';
+import { predefine_colors } from '@/utils/common';
 
 interface Props {
     defaultColor?: string;

@@ -10,6 +10,12 @@ interface DefaultCoupon {
         data_type: string;
         type: string[];
         number: number;
+        keywords: string,
+        expire_type_ids: string[],
+        use_limit_type_ids: string[],
+        order_by_type: number,
+        order_by_rule: number,
+        is_repeat_receive: string,
         title: string;
         desc: string;
         data_list: object[];
@@ -49,6 +55,12 @@ const defaultCoupoin: DefaultCoupon = {
         data_type: '0',
         type: defaultSetting.coupon_ids,
         number: defaultSetting.page_size,
+        keywords: '',
+        expire_type_ids: [],
+        use_limit_type_ids: [],
+        order_by_type: 0,
+        order_by_rule: 0,
+        is_repeat_receive: '0',
         // 只有主题4用到
         title: '先领券 再购物',
         // 只有主题4用到

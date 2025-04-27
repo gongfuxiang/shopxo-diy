@@ -1,7 +1,7 @@
 <template>
     <!-- 商品分类 -->
     <div class="container">
-        <div class="flex-row jc-e gap-20 mb-20">
+        <div class="flex-row jc-e gap-20 mb-20 align-c">
             <el-input v-model="search_value" placeholder="请输入搜索内容" class="search-w" @change="handle_search">
                 <template #suffix>
                     <icon name="search" size="16" color="9" class="c-pointer" @click="handle_search"></icon>

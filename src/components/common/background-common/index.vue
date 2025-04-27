@@ -2,9 +2,7 @@
     <div class="flex-col gap-10 w">
         <div class="size-12 flex-row gap-10">
             <span>背景色</span>
-            <el-tooltip effect="dark" :show-after="200" :hide-after="200" :content="props.tooltipContent" raw-content placement="top">
-                <icon name="miaosha-hdgz" size="12" color="#999"></icon>
-            </el-tooltip>
+            <tooltip :content="props.tooltipContent"></tooltip>
         </div>
         <mult-color-picker :value="color_list" :type="direction" @update:value="mult_color_picker_event"></mult-color-picker>
         <div class="flex-row jc-sb align-c is-newline">

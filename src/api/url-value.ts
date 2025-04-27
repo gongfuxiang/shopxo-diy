@@ -1,4 +1,5 @@
 import request from '@/utils/request';
+import api_request from '@/utils/api-request';
 
 class UrlValueAPI {
     /**  获取商品列表 */
@@ -52,12 +53,62 @@ class UrlValueAPI {
     }
     /** 获取优惠券列表 */
     static getCouponList(data: any) {
-        return request({
-            url: `plugins/index/pluginsname/coupon/pluginscontrol/diyapi/pluginsaction/couponlist`,
+        return api_request({
+            url: `?s=plugins/index/pluginsname/coupon/pluginscontrol/diycoupon/pluginsaction/index.html`,
             method: 'post',
             data,
         });
     }
+
+    /** 博客指定数据 */
+    static getblogList(data: any) {
+        return api_request({
+            url: `?s=plugins/index/pluginsname/blog/pluginscontrol/diyblog/pluginsaction/index.html`,
+            method: 'post',
+            data,
+        });
+    }
+    /** 组合搭配指定数据 */
+    static getBindingList(data: any) {
+        return api_request({
+            url: `?s=plugins/index/pluginsname/binding/pluginscontrol/diybinding/pluginsaction/index.html`,
+            method: 'post',
+            data,
+        });
+    }   
+    /** 多商户指定数据 */
+    static getShopList(data: any) {
+        return api_request({
+            url: `?s=plugins/index/pluginsname/shop/pluginscontrol/diyshop/pluginsaction/index.html`,
+            method: 'post',
+            data,
+        });
+    }   
+    /** 多门店指定数据 */
+    static getRealstoreList(data: any) {
+        return api_request({
+            url: `?s=plugins/index/pluginsname/realstore/pluginscontrol/diyrealstore/pluginsaction/index.html`,
+            method: 'post',
+            data,
+        });
+    }   
+
+    /** 多门店指定数据 */
+    static getAskList(data: any) {
+        return api_request({
+            url: `?s=plugins/index/pluginsname/ask/pluginscontrol/diyask/pluginsaction/index.html`,
+            method: 'post',
+            data,
+        });
+    }   
+    /** 活动指定数据 */
+    static getActivityList(data: any) {
+        return api_request({
+            url: `?s=plugins/index/pluginsname/activity/pluginscontrol/diyactivity/pluginsaction/index.html`,
+            method: 'post',
+            data,
+        });
+    }   
 }
 
 export default UrlValueAPI;

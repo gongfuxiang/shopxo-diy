@@ -48,7 +48,6 @@
                     <slider v-model="form.number_code_size"></slider>
                 </el-form-item>
             </card-container>
-
             <div class="divider-line"></div>
             <card-container>
                 <div class="mb-12">图标设置</div>
@@ -99,6 +98,7 @@
     </div>
 </template>
 <script setup lang="ts">
+import { font_weight } from '@/utils/common';
 /**
  * @description: 用户信息 （样式）
  * @param value{Object} 样式数据
@@ -109,10 +109,6 @@ const props = defineProps({
         default: () => {},
     },
 });
-const font_weight = reactive([
-    { name: '加粗', value: 'bold' },
-    { name: '正常', value: '400' },
-]);
 // 默认值
 let form = ref(props.value);
 // 多颜色选择器事件

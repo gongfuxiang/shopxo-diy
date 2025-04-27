@@ -31,17 +31,13 @@
                 <el-form-item v-if="form.header_background_type == 'transparent'" label="沉浸样式">
                     <div class="flex-row align-c gap-10">
                         <el-switch v-model="form.immersive_style" active-value="1" inactive-value="0" @change="change_immersive_style"></el-switch>
-                        <!-- <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>开启沉浸样式时，不可添加选项卡和选项卡轮播。<br/>并且商品选项卡和文章选项卡的选项卡置顶功能禁用</span>" raw-content placement="top">
-                            <icon name="miaosha-hdgz" size="12" color="#999"></icon>
-                        </el-tooltip> -->
+                        <!-- <tooltip content="1.开启沉浸样式时，不可添加选项卡和选项卡轮播。<br/>2.并且商品选项卡和文章选项卡的选项卡置顶功能禁用"></tooltip> -->
                     </div>
                 </el-form-item>
                 <el-form-item v-if="form.header_background_type == 'transparent' && form.immersive_style === '1'" label="安全距离">
                     <div class="flex-row align-c gap-10">
                         <el-switch v-model="form.general_safe_distance_value" active-value="1" inactive-value="0" @change="general_safe_distance_value_change"></el-switch>
-                        <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="<span>开启后第一个组件上内边距将增加顶部安全距离+导航高度</span>" raw-content placement="top">
-                            <icon name="miaosha-hdgz" size="12" color="#999"></icon>
-                        </el-tooltip>
+                        <tooltip content="开启后第一个组件上内边距将增加顶部安全距离+导航高度"></tooltip>
                     </div>
                 </el-form-item>
                 <el-form-item label="上滑展示">
@@ -57,9 +53,7 @@
                 </template>
                 <el-form-item label="返回颜色">
                     <color-picker v-model="form.left_back_btn_color" class="mr-10" default-color="#333"></color-picker>
-                    <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="打开新页面才会出现返回按钮" raw-content placement="top">
-                        <icon name="miaosha-hdgz" size="12" color="#999"></icon>
-                    </el-tooltip>
+                    <tooltip content="打开新页面才会出现返回按钮"></tooltip>
                 </el-form-item>
                 <el-form-item v-if="page_content.data_alone_row_value.length > 0" label="换行间距">
                     <slider v-model="form.data_alone_row_space" :max="100"></slider>
@@ -200,15 +194,15 @@ const location_mult_color_picker_event = (arry: color_list[], type: number) => {
 const change_immersive_style = (val: string | number | boolean) => {
     if (val === '0') {
         // 沉浸模式关闭的时候，安全距离关闭
-        form.value.general_safe_distance_value = '0';
-        common_store.set_is_general_safe_distance(false);
+        // form.value.general_safe_distance_value = '0';
+        // common_store.set_is_general_safe_distance(false);
         common_store.set_is_immersion_model(false);
     } else {
         // 沉浸模式开启的时候，安全距离打开
-        form.value.general_safe_distance_value = '1';
-        common_store.set_is_general_safe_distance(true);
+        // form.value.general_safe_distance_value = '1';
+        // common_store.set_is_general_safe_distance(true);
+        common_store.set_is_immersion_model(true);
     }
-    common_store.set_is_immersion_model(true);
 };
 
 const general_safe_distance_value_change = (val: string | number | boolean) => {

@@ -1,7 +1,7 @@
 <template>
     <!-- 自定义链接 -->
     <div class="container">
-        <div class="tabs flex-row gap-10 mb-30">
+        <div class="tabs flex-row gap-10 mb-30 align-c">
             <div v-for="item in custom_type" :key="item.id" class="item bg-f5 radius-sm" :class="custom_type_active == item.id ? 'active' : ''" @click="custom_type_event(item)">{{ item.name }}</div>
         </div>
         <div class="content">
@@ -54,10 +54,17 @@
                             <el-input v-model="form.name" class="link-input" placeholder="请输入名称" clearable />
                         </el-form-item>
                         <el-form-item label="详细地址" prop="address" :rules="address">
-                            <el-input v-model="form.address" class="link-input" placeholder="请输入地址" type="1" clearable @change="address_change" />
+                            <div class="flex-row gap-10">
+                                <el-input v-model="form.address" class="link-input" placeholder="请输入地址" type="1" clearable />
+                                <el-button type="primary" @click="address_change(form.address)">
+                                    <div class="flex-row gap-5 align-c">
+                                        <icon name="location" size="12" />定位
+                                    </div>
+                                </el-button>
+                            </div>
                         </el-form-item>
                         <el-form-item label="经纬度">
-                            <maps v-model="map_address" :type="common_map_type" @point="map_point"></maps>
+                            <maps ref="new_map" v-model="map_address" :type="common_map_type" @point="map_point"></maps>
                             <!-- <t-map v-model="map_address" @point="map_point"></t-map> -->
                             <!-- <bd-map v-model="map_address" @point="map_point"></bd-map> -->
                             <!-- <gd-map v-model="map_address" @point="map_point"></gd-map> -->
@@ -73,6 +80,7 @@
 <script lang="ts" setup>
 import type { FormInstance } from 'element-plus';
 import { commonStore } from '@/store';
+import { HtmlHTMLAttributes } from 'vue';
 const common_store = commonStore();
 const common_map_type = common_store.common.config.common_map_type || 'baidu';
 const props = defineProps({
@@ -118,10 +126,21 @@ const custom_type_active = ref(0);
 const custom_type_event = (item: any) => {
     custom_type_active.value = item.id;
 };
-
+// maps 组件暴露了 map_event 方法
+interface MapsComponent {
+    map_event: (val: string) => void;
+}
+const new_map = ref<MapsComponent | null>(null)
 const map_address = ref('');
 const address_change = (val: string) => {
-    map_address.value = val;
+    // 如果wei 为空或者与当前值不一致，则赋值，否则手动调用地图组件方法
+    if (map_address.value == '' || map_address.value != val) {
+        map_address.value = val;
+    } else {
+        if (new_map.value) {
+            new_map.value.map_event(val);
+        }
+    }
 };
 
 //#region 天地图  -----------------------------------------------start
