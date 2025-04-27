@@ -90,7 +90,7 @@ service.interceptors.response.use(
             }
         } else {
             message_error(msg || message || '系统出错');
-            return Promise.reject('Error');
+            return Promise.reject(msg || message || '系统出错');
             // return Promise.reject(new Error(msg || 'Error'));
         }
     },
@@ -103,8 +103,7 @@ service.interceptors.response.use(
         } else {
             message_error(error.message);
         }
-
-        return Promise.reject(error.message);
+        return Promise.reject(error.msg || error.message);
     }
 );
 
