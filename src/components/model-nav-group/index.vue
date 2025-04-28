@@ -58,7 +58,7 @@ const style_img_container = computed(() => common_img_computer(new_style.value.c
 // 图片的设置
 const img_style = computed(() => radius_computer(new_style.value));
 // 标题的样式
-const text_style = computed(() => `font-size: ${new_style.value.title_size || 12}px; color: ${new_style.value.title_color || '#000'};`);
+const text_style = computed(() => `font-size: ${new_style.value.title_size || 12}px; line-height: ${new_style.value.title_size || 12}px;color: ${new_style.value.title_color || '#000'};`);
 //#region 指示器处理
 // 轮播图滚动位置
 const actived_index = ref(0);
