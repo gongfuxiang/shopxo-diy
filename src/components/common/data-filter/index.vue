@@ -221,7 +221,7 @@
                     <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                 </el-radio-group>
             </el-form-item>
-            <el-form-item label="首页显示">
+            <el-form-item label="重复领取">
                 <el-switch v-model="form.is_repeat_receive" active-value="1" inactive-value="0" />
             </el-form-item>
             <template v-if="form.theme === '4'">
