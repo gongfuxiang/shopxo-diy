@@ -37,12 +37,12 @@
                         <el-form-item label="图片间距">
                             <slider v-model="form.image_spacing" :max="100"></slider>
                         </el-form-item>
-                        <el-form-item label="数据左间距">
+                        <el-form-item label="图片左间距">
                             <slider v-model="form.data_left_spacing" :max="100"></slider>
                         </el-form-item>
                     </template>
                     <template v-else>
-                        <el-form-item label="数据内边距">
+                        <el-form-item label="图片内边距">
                             <padding :value="form.data_padding"></padding>
                         </el-form-item>
                     </template>
