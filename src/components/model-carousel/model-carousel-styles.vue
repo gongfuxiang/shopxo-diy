@@ -1,6 +1,6 @@
 <template>
     <div class="common-style-height">
-        <el-form :model="form" label-width="70">
+        <el-form :model="form" label-width="75">
             <template v-if="!isCommon">
                 <card-container>
                     <div class="mb-12">内容设置</div>
@@ -29,13 +29,23 @@
                     <radius :value="form"></radius>
                 </el-form-item>
             </card-container>
-            <template v-if="['oneDragOne', 'twoDragOne'].includes(new_content.carousel_type)">
+            <template v-if="['oneDragOne', 'twoDragOne', 'inherit'].includes(new_content.carousel_type)">
                 <div class="divider-line"></div>
                 <card-container>
                     <div class="mb-12">轮播设置</div>
-                    <el-form-item label="图片间距">
-                        <slider v-model="form.image_spacing" :max="100"></slider>
-                    </el-form-item>
+                    <template v-if="['oneDragOne', 'twoDragOne'].includes(new_content.carousel_type)">
+                        <el-form-item label="图片间距">
+                            <slider v-model="form.image_spacing" :max="100"></slider>
+                        </el-form-item>
+                        <el-form-item label="数据左间距">
+                            <slider v-model="form.data_left_spacing" :max="100"></slider>
+                        </el-form-item>
+                    </template>
+                    <template v-else>
+                        <el-form-item label="数据内边距">
+                            <padding :value="form.data_padding"></padding>
+                        </el-form-item>
+                    </template>
                 </card-container>
             </template>
             <div class="divider-line"></div>
