@@ -185,9 +185,9 @@ const data_spacing = computed(() => {
         return '';
     }
 });
-
-const swiper_right_2 = computed(() => (swiper_Width.value - new_style.value.image_spacing) / 2 - new_style.value.data_left_spacing + 'px');
-const swiper_right_3 = computed(() => (swiper_Width.value - new_style.value.image_spacing) / 3 - new_style.value.data_left_spacing + 'px');
+// 模拟类似于右边固定大小的图片
+const swiper_right_2 = computed(() => (swiper_Width.value - new_style.value.image_spacing) / 2 - (new_style.value?.data_left_spacing || 0) + 'px');
+const swiper_right_3 = computed(() => (swiper_Width.value - new_style.value.image_spacing) / 3 - (new_style.value?.data_left_spacing || 0) + 'px');
 
 const negative_swiper_right_2 = computed(() => '-' + swiper_right_2.value);
 const negative_swiper_right_3 = computed(() => '-' + swiper_right_3.value);
