@@ -118,7 +118,10 @@
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="图标颜色">
-                    <color-picker v-model="form.img_color" default-color="#666"></color-picker>
+                    <div class="flex-col gap-10">
+                        <div class="flex-row gap-10"><span v-if="form.up_slide_display == '1'" class="desc-title">默认</span><color-picker v-model="form.img_color" default-color="#666"></color-picker></div>
+                        <div v-if="form.up_slide_display == '1'" class="flex-row gap-10"><span class="desc-title">上滑</span><color-picker v-model="form.up_slide_icon_color" class="mr-10"></color-picker></div>
+                    </div>
                 </el-form-item>
             </card-container>
         </el-form>
@@ -216,5 +219,9 @@ const general_safe_distance_value_change = (val: string | number | boolean) => {
 <style lang="scss" scoped>
 .styles {
     width: 100%;
+}
+.desc-title {
+    font-size: 1.2rem;
+    color: #999;
 }
 </style>

@@ -57,7 +57,7 @@
                             <div v-if="!isEmpty(form.icon_setting) && !is_icon_alone_row" class="flex-row align-c" :class="'gap-' + new_style.img_space">
                                 <div v-for="(item, index) in form.icon_setting" :key="index" :style="{ width: new_style.img_size + 'px', height: new_style.img_size + 'px' }">
                                     <image-empty v-if="item.img.length > 0" v-model="item.img[0]" fit="contain" :error-img-style="'width: ' + Number(new_style.img_size) / 2 + 'px;height:' + Number(new_style.img_size) / 2 + 'px;'"></image-empty>
-                                    <icon v-else :name="item.icon" :size="new_style.img_size + ''" :color="new_style.img_color"></icon>
+                                    <icon v-else :name="item.icon" :size="new_style.img_size + ''" :styles="up_slide_icon_style"></icon>
                                 </div>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                             <div v-if="!isEmpty(form.icon_setting) && is_icon_alone_row" class="flex-row align-c" :class="'gap-' + new_style.img_space">
                                 <div v-for="(item, index) in form.icon_setting" :key="index" :style="{ width: new_style.img_size + 'px', height: new_style.img_size + 'px' }">
                                     <image-empty v-if="item.img.length > 0" v-model="item.img[0]" fit="contain" :error-img-style="'width: ' + Number(new_style.img_size) / 2 + 'px;height:' + Number(new_style.img_size) / 2 + 'px;'"></image-empty>
-                                    <icon v-else :name="item.icon" :size="new_style.img_size + ''" :color="new_style.img_color"></icon>
+                                    <icon v-else :name="item.icon" :size="new_style.img_size + ''" :styles="up_slide_icon_style"></icon>
                                 </div>
                             </div>
                         </div>
@@ -156,6 +156,20 @@ const up_slide_style = computed(() => {
         // 渐变
         const gradient = { color_list: up_slide_background_color_list, direction: up_slide_background_direction };
         style += gradient_computer(gradient) + up_slide_opacity.value;
+    }
+    return style;
+});
+// 上滑图标更新
+const up_slide_icon_style = computed(() => {
+    let style = ``;
+    const { up_slide_display, img_color = '', up_slide_icon_color = '' } = new_style.value;
+    if (props.scollTop > 20 && up_slide_display == '1') {
+        const opacityValue = (props.scollTop - 20) / 90;
+        const opacity = opacityValue > 1 ? '1' : opacityValue.toFixed(2);
+        const numericOpacity = parseFloat(opacity); // 转换为数字
+        style += up_slide_icon_color == '' || numericOpacity <= 0 ? `color: ${ img_color };` : `color: ${ up_slide_icon_color };${ up_slide_opacity.value }`;
+    } else {
+        style += `color: ${ img_color };`;
     }
     return style;
 });

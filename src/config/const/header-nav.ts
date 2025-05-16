@@ -68,6 +68,7 @@ interface DefaultFooterNav {
         general_safe_distance_value: string;
         up_slide_logo: uploadList[];
         up_slide_display: string;
+        up_slide_icon_color: string;
         up_slide_background_color_list: color_list[];
         up_slide_background_direction: string;
         up_slide_background_img_style: string;
@@ -190,6 +191,7 @@ const defaultFooterNav: DefaultFooterNav = {
         // 上滑显示处理
         up_slide_logo: [],
         up_slide_display: '1',
+        up_slide_icon_color: '',
         up_slide_background_color_list: [{ color: '#fff', color_percentage: undefined }],
         up_slide_background_direction: '180deg',
         up_slide_background_img_style: '2',
