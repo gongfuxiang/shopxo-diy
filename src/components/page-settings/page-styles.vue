@@ -78,8 +78,8 @@
                     </el-form-item>
                     <el-form-item label="定位颜色">
                         <div class="flex-col gap-10">
-                            <div class="flex-row gap-10"><span v-if="form.up_slide_display == '1' && page_content.theme !== '5' && page_content.positioning_name_float !== '1'" class="desc-title">默认</span><color-picker v-model="form.location_color" default-color="#333"></color-picker></div>
-                            <div v-if="form.up_slide_display == '1' && page_content.theme !== '5' && page_content.positioning_name_float !== '1'" class="flex-row gap-10"><span class="desc-title">上滑</span><color-picker v-model="form.up_slide_location_color"></color-picker></div>
+                            <div class="flex-row gap-10"><span v-if="form.up_slide_display == '1' && page_content.positioning_name_float !== '1'" class="desc-title">默认</span><color-picker v-model="form.location_color" default-color="#333"></color-picker></div>
+                            <div v-if="form.up_slide_display == '1' && page_content.positioning_name_float !== '1'" class="flex-row gap-10"><span class="desc-title">上滑</span><color-picker v-model="form.up_slide_location_color"></color-picker></div>
                         </div>
                     </el-form-item>
                     <template v-if="!isEmpty(page_content.location_left_icon)">
