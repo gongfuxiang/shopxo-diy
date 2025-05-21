@@ -35,6 +35,7 @@
 </template>
 
 <script setup lang="ts">
+import { get_math } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 // interface content {
 //     data_type: string;
@@ -195,7 +196,10 @@ const onClickCubeItem = (event: any) => {
                ...cloneDeep(props.defaultContent),
                width: Math.round((props.cubeWidth / densityNum.value) * (selectingItem.end.x - selectingItem.start.x + 1))
             },
-            data_style: cloneDeep(props.defaultStyle),
+            data_style: {
+                ...cloneDeep(props.defaultStyle),
+                carouselKey: get_math(),
+            },
         };
     } else {
         selectedItem = {
