@@ -62,6 +62,9 @@
                 <el-form-item label="容器背景">
                     <background-common v-model:color_list="form.container_color_list" v-model:direction="form.container_direction" v-model:img_style="form.container_background_img_style" v-model:img="form.container_background_img" @mult_color_picker_event="mult_color_picker_event" />
                 </el-form-item>
+                <el-form-item label="容器边距">
+                    <padding :value="form.container_padding"></padding>
+                </el-form-item>
                 <el-form-item label="容器圆角">
                     <radius :value="form.container_radius"></radius>
                 </el-form-item>

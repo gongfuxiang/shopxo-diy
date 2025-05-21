@@ -43,6 +43,7 @@ interface defaultSearch {
         container_background_img_style: string,
         container_background_img: uploadList[],
         container_radius: radiusStyle,
+        container_padding: paddingStyle,
         common_style: object;
     };
 }
@@ -108,6 +109,13 @@ const defaultSearch: defaultSearch = {
         container_direction: '180deg',
         container_background_img_style: '2',
         container_background_img: [],
+        container_padding: {
+            padding: 0,
+            padding_top: 0,
+            padding_right: 10,
+            padding_bottom: 0,
+            padding_left: 10,
+        },
         container_radius: {
             radius: 0,
             radius_top_left: 0,

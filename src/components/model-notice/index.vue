@@ -52,7 +52,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { background_computer, common_img_computer, common_styles_computer, get_math, gradient_computer, gradient_handle, radius_computer } from '@/utils';
+import { background_computer, common_img_computer, common_styles_computer, get_math, gradient_computer, gradient_handle, padding_computer, radius_computer } from '@/utils';
 import { isEmpty, cloneDeep, throttle } from 'lodash';
 
 const props = defineProps({
@@ -78,22 +78,35 @@ const style_img_container = computed(() => common_img_computer(new_style.value.c
 const container_height = computed(() => new_style.value.container_height + 'px');
 // 容器背景
 const container_background_style = computed(() => {
-    const { container_color_list, container_direction, container_background_img_style, container_background_img } = new_style.value;
+    const { container_color_list, container_direction, container_background_img_style, container_background_img} = new_style.value;
     const styles = {
         color_list: container_color_list,
         direction: container_direction,
         background_img: container_background_img,
         background_img_style: container_background_img_style,
     };
+    
     return gradient_computer(styles) + radius_computer(new_style.value.container_radius) + `overflow:hidden;`;
 });
 const container_background_img_style = computed(() => {
-    const { container_background_img_style, container_background_img } = new_style.value;
+    const { container_background_img_style, container_background_img, container_padding = '' } = new_style.value;
     const styles = {
         background_img: container_background_img,
         background_img_style: container_background_img_style,
     };
-    return background_computer(styles) + `overflow:hidden;`;
+    let padding = '';
+    // 不等于空的时候使用新数据
+    if (!isEmpty(container_padding)) {
+        padding = padding_computer(container_padding);
+    } else {
+        // 为空的时候使用默认数据，兼容老数据没有这个值时的处理
+        let old_padding = { padding: 15, padding_top: 15, padding_right: 15, padding_bottom: 15, padding_left: 15 };
+        if (form.value.notice_style === 'inherit') {
+            old_padding = { padding: 0, padding_top: 0, padding_right: 10, padding_bottom: 0, padding_left: 10, }
+        }
+        padding = padding_computer(old_padding);
+    }
+    return background_computer(styles) + padding + `overflow:hidden;`;
 });
 // 图片设置
 const img_style = computed(() => `height: ${new_style.value.title_height}px; width: ${new_style.value.title_width}px`);
@@ -155,10 +168,6 @@ watchEffect(() => {
 .news-box {
     height: v-bind(container_height);
     overflow: hidden;
-    padding: 0 1rem;
-}
-.news-card {
-    padding: 1.5rem;
 }
 .num {
     padding-right: 0.7rem;
