@@ -55,17 +55,17 @@
             <card-container>
                 <div class="mb-12">容器设置</div>
                 <template v-if="substance.notice_style === 'inherit'">
-                    <el-form-item label="容器高度">
+                    <el-form-item label="高度">
                         <slider v-model="form.container_height" :max="1000"></slider>
                     </el-form-item>
                 </template>
-                <el-form-item label="容器背景">
+                <el-form-item label="背景">
                     <background-common v-model:color_list="form.container_color_list" v-model:direction="form.container_direction" v-model:img_style="form.container_background_img_style" v-model:img="form.container_background_img" @mult_color_picker_event="mult_color_picker_event" />
                 </el-form-item>
-                <el-form-item label="容器边距">
+                <el-form-item label="内边距">
                     <padding :value="form.container_padding"></padding>
                 </el-form-item>
-                <el-form-item label="容器圆角">
+                <el-form-item label="圆角">
                     <radius :value="form.container_radius"></radius>
                 </el-form-item>
             </card-container>
