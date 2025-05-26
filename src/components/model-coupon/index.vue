@@ -50,9 +50,9 @@
                                     </div>
                                 </div>
                                 <div class="right">
-                                    <div class="coupon-btn">
-                                        <text>立即领取</text>
-                                        <icon name="arrow-right-o" class="icon"></icon>
+                                    <div class="coupon-btn flex-row align-c justify-c gap-3">
+                                        <text class="nowrap">领取</text>
+                                        <icon name="arrow-right-o" class="icon" size="14"></icon>
                                     </div>
                                 </div>
                             </div>
