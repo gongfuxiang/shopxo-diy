@@ -9,38 +9,28 @@
                     <el-form-item v-if="['2', '3'].includes(form.theme)" label="logo">
                         <upload v-model="form.logo" :limit="1"></upload>
                     </el-form-item>
-                    <el-form-item v-if="['3'].includes(form.theme)" label="链接地址">
+                    <el-form-item label="链接地址">
                         <url-value v-model="form.link"></url-value>
                     </el-form-item>
-                    <template v-if="['1', '2', '3'].includes(form.theme)">
-                        <el-form-item label="页面标题">
-                            <el-input v-model="form.title" placeholder="请输入标题名称" clearable></el-input>
-                        </el-form-item>
-                    </template>
-                    <template v-if="['1', '2'].includes(form.theme)">
-                        <el-form-item label="链接地址">
-                            <url-value v-model="form.link"></url-value>
-                        </el-form-item>
-                        <el-form-item label="展示位置">
-                            <el-radio-group v-model="form.indicator_location" is-button>
-                                <el-tooltip content="左对齐" placement="top" effect="dark">
-                                    <el-radio-button value="flex-start">
-                                        <icon name="iconfont icon-left"></icon>
-                                    </el-radio-button>
-                                </el-tooltip>
-                                <el-tooltip content="居中" placement="top" effect="dark">
-                                    <el-radio-button value="center">
-                                        <icon name="iconfont icon-center"></icon>
-                                    </el-radio-button>
-                                </el-tooltip>
-                                <el-tooltip content="右对齐" placement="top" effect="dark">
-                                    <el-radio-button value="flex-end">
-                                        <icon name="iconfont icon-right"></icon>
-                                    </el-radio-button>
-                                </el-tooltip>
-                            </el-radio-group>
-                        </el-form-item>
-                    </template>
+                    <el-form-item v-if="(['3'].includes(form.theme) && form.data_alone_row_value.includes('search')) || ['1', '2'].includes(form.theme)" :label="['1', '2'].includes(form.theme) ? '展示位置' : '标题/logo'">
+                        <el-radio-group v-model="form.indicator_location" is-button>
+                            <el-tooltip content="左对齐" placement="top" effect="dark">
+                                <el-radio-button value="flex-start">
+                                    <icon name="iconfont icon-left"></icon>
+                                </el-radio-button>
+                            </el-tooltip>
+                            <el-tooltip content="居中" placement="top" effect="dark">
+                                <el-radio-button value="center">
+                                    <icon name="iconfont icon-center"></icon>
+                                </el-radio-button>
+                            </el-tooltip>
+                            <el-tooltip content="右对齐" placement="top" effect="dark">
+                                <el-radio-button value="flex-end">
+                                    <icon name="iconfont icon-right"></icon>
+                                </el-radio-button>
+                            </el-tooltip>
+                        </el-radio-group>
+                    </el-form-item>
                 </template>
                 <template v-if="['4', '5'].includes(form.theme)">
                     <el-form-item label="定位名称">
@@ -53,7 +43,7 @@
                     </template>
                 </template>
                 <el-form-item label="数据换行">
-                    <el-checkbox-group v-model="form.data_alone_row_value">
+                    <el-checkbox-group v-model="form.data_alone_row_value" @change="data_alone_row_change">
                         <el-checkbox v-for="item in base_list.list_show_list.filter((item) => item.type.includes(form.theme))" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
@@ -142,7 +132,12 @@ const base_list = reactive({
         { name: '右侧图标', value: 'icon', type: ['1', '2', '3', '4', '5'] },
     ],
 });
-
+// 搜索没有换行的时候处理为原始数据
+const data_alone_row_change = (val: any) => {
+    if (['3'].includes(form.value.theme) && !val.includes('search')) {
+        form.value.indicator_location = 'flex-start';
+    }
+};
 const icon_setting_remove = (index: number) => {
     form.value.icon_setting.splice(index, 1);
 };
