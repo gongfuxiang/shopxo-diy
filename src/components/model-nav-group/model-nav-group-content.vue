@@ -126,7 +126,7 @@ const props = withDefaults(defineProps<Props>(),{
                         subscript_type: 'text',
                         subscript_img_src: [],
                         subscript_icon_class: '',
-                        subscript_text: '',
+                        subscript_text: '角标',
                     },
                     style: {
                         ...subscriptStyle,
@@ -150,7 +150,7 @@ const props = withDefaults(defineProps<Props>(),{
                         subscript_type: 'text',
                         subscript_img_src: [],
                         subscript_icon_class: '',
-                        subscript_text: '',
+                        subscript_text: '角标',
                     },
                     style: {
                         ...subscriptStyle,
@@ -174,7 +174,7 @@ const props = withDefaults(defineProps<Props>(),{
                         subscript_type: 'text',
                         subscript_img_src: [],
                         subscript_icon_class: '',
-                        subscript_text: '',
+                        subscript_text: '角标',
                     },
                     style: {
                         ...subscriptStyle,
@@ -198,7 +198,7 @@ const props = withDefaults(defineProps<Props>(),{
                         subscript_type: 'text',
                         subscript_img_src: [],
                         subscript_icon_class: '',
-                        subscript_text: '',
+                        subscript_text: '角标',
                     },
                     style: {
                         ...subscriptStyle,
@@ -231,7 +231,7 @@ onBeforeMount(() => {
                     subscript_type: 'text',
                     subscript_img_src: [],
                     subscript_icon_class: '',
-                    subscript_text: '',
+                    subscript_text: '角标',
                 },
                 style: {
                     ...subscriptStyle,
@@ -257,7 +257,7 @@ const add = () => {
                 subscript_type: 'text',
                 subscript_img_src: [],
                 subscript_icon_class: '',
-                subscript_text: '',
+                subscript_text: '角标',
             },
             style: {
                 ...subscriptStyle,
@@ -323,7 +323,7 @@ const confirm_event = (list: categoryList[]) => {
                     subscript_type: 'text',
                     subscript_img_src: [],
                     subscript_icon_class: '',
-                    subscript_text: '',
+                    subscript_text: '角标',
                 },
                 style: {
                     ...subscriptStyle,

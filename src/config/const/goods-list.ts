@@ -140,7 +140,7 @@ const defaultProductList: DefaultProductList = {
         subscript_type: 'text',
         subscript_img_src: [],
         subscript_icon_class: '',
-        subscript_text: '',
+        subscript_text: '角标',
     },
     style: {
         shop_direction: '90deg',
