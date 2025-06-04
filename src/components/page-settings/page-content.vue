@@ -9,6 +9,9 @@
                     <el-form-item v-if="['2', '3'].includes(form.theme)" label="logo">
                         <upload v-model="form.logo" :limit="1"></upload>
                     </el-form-item>
+                    <el-form-item label="页面标题">
+                        <el-input v-model="form.title" placeholder="请输入标题名称" clearable></el-input>
+                    </el-form-item>
                     <el-form-item label="链接地址">
                         <url-value v-model="form.link"></url-value>
                     </el-form-item>
