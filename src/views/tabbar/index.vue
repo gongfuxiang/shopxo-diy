@@ -38,7 +38,7 @@ onMounted(() => {
 });
 const is_empty = ref(false);
 const init = () => {
-    DiyAPI.getTabbar({ type: 'home' })
+    DiyAPI.getTabbar({ type: get_type() })
         .then((res: any) => {
             if (res.data) {
                 let data = res.data;
@@ -78,7 +78,7 @@ const save_disabled = ref(false);
 const save_event = () => {
     const clone_form = cloneDeep(form.value);
     const new_data = {
-        type: 'home',
+        type: get_type(),
         config: clone_form,
     };
     save_disabled.value = true;
@@ -93,6 +93,26 @@ const save_event = () => {
         save_disabled.value = false;
     });
 };
+const get_type = () => {
+    let new_type = 'home';
+    if (document.location.search.indexOf('/type/') != -1) {
+        new_type = document.location.search.substring(document.location.search.indexOf('/type/') + 6);
+        // 进行3次切割选择参数内容
+        const result1 = splitAndGetFirst(new_type, '/');
+        const result2 = splitAndGetFirst(result1, '&');
+        return splitAndGetFirst(result2, '#');
+    } else {
+        return new_type;
+    }
+};
+function splitAndGetFirst(str: string, separator: string): string {
+    const data = str.split(separator);
+    if (data.length > 1) {
+      return data[0];
+    } else {
+      return str;
+    }
+}
 //#endregion 顶部导航回调方法 ---------------------end
 </script>
 
