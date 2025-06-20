@@ -23,14 +23,14 @@
                 </div>
                 <div class="filter-style flex-row gap-12">
                     <div class="title flex-1">重复领取</div>
-                    <el-select v-model="is_repeat_receive_text" multiple collapse-tags filterable placeholder="请选择是否可以重复领取" @change="handle_search">
+                    <el-select v-model="is_repeat_receive_text" filterable clearable placeholder="请选择是否可以重复领取" @change="handle_search">
                         <el-option label="否" :value="0" />
                         <el-option label="是" :value="1" />
                     </el-select>
                 </div>
                 <div class="filter-style flex-row gap-12">
                     <div class="title flex-1">公共显示</div>
-                    <el-select v-model="is_show_text" multiple collapse-tags filterable placeholder="请选择是否公共显示" @change="handle_search">
+                    <el-select v-model="is_show_text" filterable clearable placeholder="请选择是否公共显示" @change="handle_search">
                         <el-option label="否" :value="0" />
                         <el-option label="是" :value="1" />
                     </el-select>
@@ -123,8 +123,8 @@ const handle_search = () => {
 const type = ref([]);
 const expire_type_ids = ref([]);
 const use_limit_type_ids = ref([]);
-const is_repeat_receive_text = ref([]);
-const is_show_text = ref([]);
+const is_repeat_receive_text = ref('');
+const is_show_text = ref('');
 interface couponType {
     value: string;
     name: string;
@@ -147,8 +147,8 @@ const get_list = (new_page: number) => {
         type_ids: type.value.length > 0 ? type.value.join(',') : '',
         expire_type_ids: expire_type_ids.value.length > 0 ? expire_type_ids.value.join(',') : '',
         use_limit_type_ids: use_limit_type_ids.value.length > 0 ? use_limit_type_ids.value.join(',') : '',
-        is_repeat_receive: is_repeat_receive_text.value.length > 0? is_repeat_receive_text.value.join(',') : '',
-        is_show: is_show_text.value.length > 0? is_show_text.value.join(',') : '',
+        is_repeat_receive: is_repeat_receive_text.value,
+        is_show: is_show_text.value,
         page_size: page_size.value,
     };
     loading.value = true;

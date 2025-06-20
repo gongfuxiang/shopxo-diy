@@ -1,5 +1,5 @@
 <template>
-    <div :class="props.direction == 'vertical' ? 'flex-col gap-x-18' : 'w flex-row gap-y-20 jc-e'">
+    <div :class="props.direction == 'vertical' ? 'flex-col gap-x-18' : 'flex-1 flex-row gap-y-20 jc-e'">
         <template v-for="(item, index) in props.filterData" :key="index">
             <div v-if="!isEmpty(item.form_name) && !isEmpty(new_dataInterface) && !isEmpty(item.type)" class="filter-style flex-row gap-12 align-c">
                 <div v-if="!isEmpty(item.title)" :class="['title', props.direction == 'vertical' ? '' : 'horizontal-title']" :style="`width: ${ Number(props.titleWidth) > 0 ? props.titleWidth + 'px;' : '100%' }`">{{ item.title }}</div>
