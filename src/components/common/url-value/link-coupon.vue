@@ -23,14 +23,14 @@
                 </div>
                 <div class="filter-style flex-row gap-12">
                     <div class="title flex-1">重复领取</div>
-                    <el-select v-model="is_repeat_receive_text" filterable clearable placeholder="请选择是否可以重复领取" @change="handle_search">
+                    <el-select v-model="is_repeat_receive_text" filterable clearable placeholder="请选择重复领取" @change="handle_search">
                         <el-option label="否" :value="0" />
                         <el-option label="是" :value="1" />
                     </el-select>
                 </div>
                 <div class="filter-style flex-row gap-12">
                     <div class="title flex-1">公共显示</div>
-                    <el-select v-model="is_show_text" filterable clearable placeholder="请选择是否公共显示" @change="handle_search">
+                    <el-select v-model="is_show_text" filterable clearable placeholder="请选择公共显示" @change="handle_search">
                         <el-option label="否" :value="0" />
                         <el-option label="是" :value="1" />
                     </el-select>
@@ -56,6 +56,8 @@
                 <el-table-column prop="type_name" label="类型"></el-table-column>
                 <el-table-column prop="expire_type_name" label="到期类型"></el-table-column>
                 <el-table-column prop="use_limit_type_name" label="使用限制"></el-table-column>
+                <el-table-column prop="is_repeat_receive_text" label="重复领取"></el-table-column>
+                <el-table-column prop="is_show_text" label="公共显示"></el-table-column>
                 <el-table-column prop="cover" label="优惠信息">
                     <template #default="scope">
                         <div class="flex-row align-c gap-3">
