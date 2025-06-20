@@ -6,7 +6,9 @@
             </div>
         </template>
         <div class="flex-col gap-20 w h pa-20 oh">
-            <filter-form v-if="dialogVisible && !isEmpty(config?.search_filter_form_config)" :filter-data="config.search_filter_form_config" direction="horizontal" :data-interface="default_data" @form-change="filter_form_change"></filter-form>
+            <div class="w h vertical-filter">
+                <filter-form v-if="dialogVisible && !isEmpty(config?.search_filter_form_config)" :filter-data="config.search_filter_form_config" direction="horizontal" :data-interface="default_data" @form-change="filter_form_change"></filter-form>
+            </div>
             <!-- 表格头部如果传输了数据，就渲染表格, 否则就不渲染 -->
             <template v-if="!isEmpty(config?.header)">
                 <table-config v-loading="loading" :table-data="tableData" :multiple="multiple" :table-column-list="config.header" :table-row-class-list="tableRowClassList" @select="table_select"></table-config>
@@ -194,5 +196,10 @@ watch(() => default_data.value, (val) => {
 </script>
 
 <style lang="scss" scoped>
-
+.vertical-filter {
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    padding-bottom: 0.2rem;
+}
 </style>

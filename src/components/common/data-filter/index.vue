@@ -224,6 +224,9 @@
             <el-form-item label="重复领取">
                 <el-switch v-model="form.is_repeat_receive" active-value="1" inactive-value="0" />
             </el-form-item>
+            <el-form-item label="公共显示">
+                <el-switch v-model="form.is_show" active-value="1" inactive-value="0" />
+            </el-form-item>
             <template v-if="form.theme === '4'">
                 <el-form-item label="内容标题">
                     <el-input v-model="form.title" placeholder="请输入内容" clearable></el-input>

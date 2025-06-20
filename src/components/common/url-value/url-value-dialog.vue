@@ -13,7 +13,7 @@
                     </el-menu-item>
                 </el-menu>
             </div>
-            <div class="right-content flex-1">
+            <div class="right-content flex-1 w h">
                 <!-- 商城链接/插件 -->
                 <template v-if="link_select == 'shop' || link_select == 'plugins'">
                     <link-list :key="link_select" v-model="link_value" :type="link_select" :reset="reset_compontent"></link-list>
@@ -262,6 +262,7 @@ const confirm_event = () => {
 .url-value-content {
     height: 57.3rem;
     gap: 6rem;
+    overflow: hidden;
     .left-content {
         width: 22.5rem;
         .el-menu-item {
