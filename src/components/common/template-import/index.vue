@@ -24,7 +24,7 @@
                         <span class="fw-b">{{ upload_file.name }}</span>
                         <span class="cr-9">({{ annex_size_to_unit(upload_file.size) }})</span>
                     </div>
-                    <div class="cr-c size-12 flex-col gap-10 mt-10">
+                    <div class="cr-c size-12 flex-col gap-10 mt-10 align-s">
                         <p>1. 选择已下载的diy设计zip包</p>
                         <p>2. 导入将自动新增一条数据</p>
                     </div>
