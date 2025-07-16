@@ -27,7 +27,6 @@ import { cloneDeep, isEmpty, omit } from 'lodash';
 import DiyAPI, { diyData, headerAndFooter, diyConfig } from '@/api/diy';
 import CommonAPI from '@/api/common';
 import { commonStore } from '@/store';
-import { de } from 'element-plus/es/locale';
 const common_store = commonStore();
 interface diy_data_item {
     id: string;

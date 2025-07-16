@@ -12,6 +12,8 @@
 </template>
 <script setup lang="ts">
 import { get_cookie, set_cookie, get_math } from '@/utils';
+import { commonStore } from '@/store';
+const common_store = commonStore();
 const props = defineProps({
     dataId: {
         type: String,
@@ -49,7 +51,9 @@ watch(
                 uid_val = get_math();
                 set_cookie('uid_name', uid_val);
             }
-            new_link.value = (import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API_URL : pro_url) + '?s=diy/preview/id/' + props.dataId + '&system_type=default' + token.value + '&uid=' + uid_val;
+            let url = common_store.common.preview_url;
+            // 判断是否包含? 如果包含？的话就是添加参数，否则就是添加？后添加参数
+            new_link.value = url + (url.includes('?') ? '&id=' : '?id=') + props.dataId + '&system_type=default' + token.value + '&uid=' + uid_val;
         }
     }
 );

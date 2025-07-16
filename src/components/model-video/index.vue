@@ -2,11 +2,18 @@
     <div :style="style_container">
         <div :style="style_img_container">
             <div class="video re" :style="style">
-                <template v-if="video && !video_img">
-                    <video :src="video" class="w h"></video>
+                <template v-if="isEmpty(video) && isEmpty(video_img)">
+                    <image-empty v-model="video_img" fit="contain" error-img-style="width:60px;height:60px;"></image-empty>
                 </template>
                 <template v-else>
-                    <image-empty v-model="video_img" error-img-style="width:60px;height:60px;"></image-empty>
+                    <template v-if="!isEmpty(video)">
+                        <video :src="video" controls class="w h"></video>
+                    </template>
+                    <template v-if="!isEmpty(video_img)">
+                        <div class="middle w h">
+                            <image-empty v-model="video_img" fit="contain" error-img-style="width:60px;height:60px;"></image-empty>
+                        </div>
+                    </template>
                 </template>
                 <img :src="video_src" class="middle box-shadow-sm round" width="60" height="60" />
             </div>
@@ -16,6 +23,7 @@
 <script setup lang="ts">
 import { common_styles_computer, common_img_computer } from '@/utils';
 import { commonStore } from '@/store';
+import { isEmpty } from 'lodash';
 const common_store = commonStore();
 /**
  * @description: 视频 （渲染）
