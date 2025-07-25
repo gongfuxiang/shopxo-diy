@@ -178,7 +178,7 @@ const get_shops = () => {
         shop_order_by_type: order_by_type,
         shop_order_by_rule: order_by_rule,
         shop_number: number,
-        shop_is_goods_list: is_goods_list,
+        // shop_is_goods_list: is_goods_list,
     };
     // 获取商品列表
     ShopAPI.getShopList(params).then((res: any) => {
