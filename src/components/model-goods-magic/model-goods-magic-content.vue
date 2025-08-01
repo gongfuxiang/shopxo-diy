@@ -1,9 +1,11 @@
 <template>
     <div class="content">
         <el-form :model="form" label-width="70" class="m-h">
-            <common-content-top :value="form.content_top"></common-content-top>
-            <div class="divider-line"></div>
-            <card-container>
+            <template v-if="!isNest">
+                <common-content-top :value="form.content_top"></common-content-top>
+                <div class="divider-line"></div>
+            </template>
+            <card-container class="card-container">
                 <div class="mb-12">列表设置</div>
                 <el-form-item label="动态数据">
                     <el-select v-model="form.data_source" value-key="id" placeholder="请选择数据源" filterable clearable @change="changeDataSource">
@@ -54,7 +56,7 @@
             <!-- 商品显示的配置信息 -->
             <product-show-config :value="form" @change_shop_type="change_shop_type"></product-show-config>
             <div class="divider-line"></div>
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12">角标设置</div>
                 <!-- 角标设置 -->
                 <subscript-content :value="form"></subscript-content>
@@ -80,6 +82,10 @@ const props = defineProps({
     styles: {
         type: Object,
         default: () => ({}),
+    },
+    isNest: {
+        type: Boolean,
+        default: false,
     },
     defaultConfig: {
         type: Object,

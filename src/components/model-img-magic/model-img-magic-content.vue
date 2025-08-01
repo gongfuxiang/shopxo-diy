@@ -1,9 +1,11 @@
 <template>
     <div class="w h">
         <el-form :model="form" label-width="60">
-            <common-content-top :value="form.content_top"></common-content-top>
-            <div class="divider-line"></div>
-            <card-container>
+            <template v-if="!isNest">
+                <common-content-top :value="form.content_top"></common-content-top>
+                <div class="divider-line"></div>
+            </template>
+            <card-container class="card-container">
                 <div class="mb-12">展示风格</div>
                 <el-form-item label="选择风格">
                     <div class="flex align-c flex-wrap gap-10">
@@ -43,7 +45,7 @@
                 </template>
             </card-container>
             <div class="bg-f5 divider-line" />
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12 flex-row jc-sb align-c">
                     展示设置 
                     <template v-if="form.style_actived === 11">
@@ -90,7 +92,7 @@
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12">内容设置</div>
                 <template v-if="!isEmpty(form.img_magic_list[selected_active])">
                     <el-form-item label="上传图片">
@@ -110,6 +112,10 @@ const props = defineProps({
     value: {
         type: Object,
         default: () => {},
+    },
+    isNest: {
+        type: Boolean,
+        default: false,
     },
 });
 const style_list = ['heng2', 'shu2', 'shu3', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2', 'a-1ge', 'a-4x4'];

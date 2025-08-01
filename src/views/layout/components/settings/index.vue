@@ -54,6 +54,10 @@
             <template v-else-if="value.key == 'tabs-carousel'">
                 <model-tabs-carousel-setting :type="radio" :value="value.com_data"></model-tabs-carousel-setting>
             </template>
+            <!-- 选项卡魔方 -->
+            <template v-else-if="value.key == 'tabs-magic'">
+                <model-tabs-magic-setting :type="radio" :value="value.com_data"></model-tabs-magic-setting>
+            </template>
             <!-- 商品列表 -->
             <template v-else-if="value.key == 'goods-list'">
                 <model-goods-list-setting :type="radio" :value="value.com_data"></model-goods-list-setting>

@@ -24,8 +24,10 @@
                 <shadow-config v-model="form"></shadow-config>
             </card-container>
         </el-form>
-        <div class="bg-f5 divider-line" />
-        <common-styles :value="form.common_style" @update:value="common_style_update" />
+        <template v-if="isCommonStyle">
+            <div class="bg-f5 divider-line" />
+            <common-styles :value="form.common_style" @update:value="common_style_update" />
+        </template>
     </div>
 </template>
 <script setup lang="ts">
@@ -37,6 +39,10 @@ const props = defineProps({
     content: {
         type: Object,
         default: () => ({}),
+    },
+    isCommonStyle: {
+        type: Boolean,
+        default: true,
     }
 });
 

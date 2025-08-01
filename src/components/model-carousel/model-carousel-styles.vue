@@ -1,8 +1,8 @@
 <template>
     <div class="common-style-height">
         <el-form :model="form" label-width="75">
-            <template v-if="!isCommon">
-                <card-container>
+            <template v-if="!isCommonStyle">
+                <card-container class="card-container">
                     <div class="mb-12">内容设置</div>
                     <el-form-item label="内容背景">
                         <background-common v-model:color_list="form.carousel_content_color_list" v-model:direction="form.carousel_content_direction" v-model:img_style="form.carousel_content_background_img_style" v-model:img="form.carousel_content_background_img" @mult_color_picker_event="carousel_content_mult_color_picker_event" />
@@ -23,7 +23,7 @@
                 </card-container>
                 <div class="divider-line"></div>
             </template>
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12">图片设置</div>
                 <el-form-item label="圆角">
                     <radius :value="form"></radius>
@@ -31,7 +31,7 @@
             </card-container>
             <template v-if="['oneDragOne', 'twoDragOne', 'inherit'].includes(new_content.carousel_type)">
                 <div class="divider-line"></div>
-                <card-container>
+                <card-container class="card-container">
                     <div class="mb-12">轮播设置</div>
                     <template v-if="['oneDragOne', 'twoDragOne'].includes(new_content.carousel_type)">
                         <el-form-item label="图片间距">
@@ -49,12 +49,12 @@
                 </card-container>
             </template>
             <div class="divider-line"></div>
-            <card-container>
+            <card-container class="card-container">
                 <carousel-indicator :value="form"></carousel-indicator>
             </card-container>
             <template v-if="is_video">
                 <div class="divider-line"></div>
-                <card-container>
+                <card-container class="card-container">
                     <div class="mb-12">视频按钮</div>
                     <el-form-item label="是否显示">
                         <el-switch v-model="form.video_is_show" active-value="1" inactive-value="0"/>
@@ -120,15 +120,13 @@
                 </card-container>
             </template>
         </el-form>
-        <template v-if="isCommon">
+        <template v-if="isCommonStyle">
             <div class="divider-line"></div>
             <common-styles :value="form.common_style" @update:value="common_styles_update" />
         </template>
     </div>
 </template>
 <script setup lang="ts">
-import { pick } from 'lodash';
-
 const props = defineProps({
     value: {
         type: Object,
@@ -138,7 +136,7 @@ const props = defineProps({
         type: Object,
         default: () => {},
     },
-    isCommon: {
+    isCommonStyle: {
         type: Boolean,
         default: true
     }

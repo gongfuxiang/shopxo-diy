@@ -67,8 +67,10 @@
                 <subscript-styles :value="form.subscript_style" :data="data_content" type="nav-group"></subscript-styles>
             </template> -->
         </el-form>
-        <div class="divider-line"></div>
-        <common-styles :value="form.common_style" @update:value="common_styles_update" />
+        <template v-if="isCommonStyle">
+            <div class="divider-line"></div>
+            <common-styles :value="form.common_style" @update:value="common_styles_update" />
+        </template>
     </div>
 </template>
 <script setup lang="ts">
@@ -76,6 +78,7 @@ import { omit, isEmpty, pick } from 'lodash';
 interface Props {
     value: nav_group_styles;
     content: nav_group_content;
+    isCommonStyle: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {
     value: () => ({
@@ -115,6 +118,7 @@ const props = withDefaults(defineProps<Props>(), {
         subscript_style: {},
         common_style: {},
     }),
+    isCommonStyle: true,
 });
 
 const state = reactive({

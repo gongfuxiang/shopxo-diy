@@ -8,11 +8,7 @@
                     <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true" :active-index="tabs_active_index" :tabs-sliding-fixed-bg="tabs_sliding_fixed_bg"></tabs-view>
                 </div>
             </div>
-            <div class="oh" :style="carousel_container">
-                <div class="oh" :style="carousel_img_container">
-                    <model-carousel :value="value" :is-nest="true" @slide-change="slideChange"></model-carousel>
-                </div>
-            </div>
+
         </div>
     </div>
 </template>
@@ -36,9 +32,6 @@ const tabs_active_index = ref(0);
 // 选项卡内容样式
 const tabs_container = ref('');
 const tabs_img_container = ref('');
-// 轮播区域背景设置
-const carousel_container = ref('');
-const carousel_img_container = ref('');
 // 打开滑动固定开关之后，显示的样式
 const tabs_sliding_fixed_bg = ref('');
 const is_rotating_background = ref(false);
@@ -67,15 +60,6 @@ watch(
         tabs_sliding_fixed_bg.value = gradient_computer(tabs_data);
         tabs_container.value = gradient_computer(tabs_data) + radius_computer(new_style.tabs_radius) + margin_computer(new_style.tabs_margin) + box_shadow_computer(new_style.tabs_content) + border_computer(new_style.tabs_content) + `margin-top: ${ new_style.tabs_margin.margin_top - (is_general_safe_distance ? common_store.header_height : 0) }px;`;
         tabs_img_container.value = background_computer(tabs_data) + padding_computer(new_tabs_padding);
-        // 轮播区域背景设置
-        const carousel_content_data = {
-            color_list: new_style.carousel_content_color_list,
-            direction: new_style.carousel_content_direction,
-            background_img_style: new_style.carousel_content_background_img_style,
-            background_img: new_style.carousel_content_background_img,
-        }
-        carousel_container.value = gradient_computer(carousel_content_data) + margin_computer(new_style.carousel_content_margin) + radius_computer(new_style.carousel_content_radius) + box_shadow_computer(new_style.carousel_content) + border_computer(new_style.carousel_content);
-        carousel_img_container.value = background_computer(carousel_content_data) + padding_computer(new_style.carousel_content_padding);
         // 处理数据
         new_data.content.tabs_list = [home_data, ...new_data.content.tabs_list];
         tabs_list.value = new_data;
@@ -93,35 +77,35 @@ const slideChange = (index: number) => {
 };
 
 const swiper_bg_style = computed(() => {
-    const style = form.value?.carousel_list?.[actived_index.value]?.style;
-    if (style && !isEmpty(style.color_list)) {
-        const color_list = style.color_list;
-        const list = color_list.filter((item: { color: string }) => !isEmpty(item.color));
-        if (list.length > 0) {
-            try {
-                return gradient_computer(style);
-            } catch (error) {
-                return '';
-            }
-        }
-        return '';
-    }
+    // const style = form.value?.carousel_list?.[actived_index.value]?.style;
+    // if (style && !isEmpty(style.color_list)) {
+    //     const color_list = style.color_list;
+    //     const list = color_list.filter((item: { color: string }) => !isEmpty(item.color));
+    //     if (list.length > 0) {
+    //         try {
+    //             return gradient_computer(style);
+    //         } catch (error) {
+    //             return '';
+    //         }
+    //     }
+    //     return '';
+    // }
     return '';
 });
 
 const swiper_bg_img_style = computed(() => {
-    const { carousel_img, style = {} } = form.value?.carousel_list[actived_index.value] || {};
-    // 如果是自定义的图片 判断图片是否存在
-    if (!isEmpty(carousel_img) && style?.background_type == 'carousel') {
-        // 如果是使用轮播图，判断轮播图是否存在
-        const data = {
-            background_img: carousel_img,
-            background_img_style: style?.background_img_style || '2',
-        }
-        return background_computer(data) + (style.is_background_img_blur == '1' ? `filter: blur(14px);opacity: 0.6;` : '');
-    } else if (!isEmpty(style?.background_img)) {
-        return background_computer(style) + (style.is_background_img_blur == '1' ? `filter: blur(14px);opacity: 0.6;` : '');
-    }
+    // const { carousel_img, style = {} } = form.value?.carousel_list[actived_index.value] || {};
+    // // 如果是自定义的图片 判断图片是否存在
+    // if (!isEmpty(carousel_img) && style?.background_type == 'carousel') {
+    //     // 如果是使用轮播图，判断轮播图是否存在
+    //     const data = {
+    //         background_img: carousel_img,
+    //         background_img_style: style?.background_img_style || '2',
+    //     }
+    //     return background_computer(data) + (style.is_background_img_blur == '1' ? `filter: blur(14px);opacity: 0.6;` : '');
+    // } else if (!isEmpty(style?.background_img)) {
+    //     return background_computer(style) + (style.is_background_img_blur == '1' ? `filter: blur(14px);opacity: 0.6;` : '');
+    // }
     return '';
 });
 </script>

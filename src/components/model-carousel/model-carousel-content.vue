@@ -1,11 +1,11 @@
 <template>
     <div class="auxiliary-line common-content-height">
         <el-form :model="form" label-width="60">
-            <template v-if="isCommon">
+            <template v-if="!isNest">
                 <common-content-top :value="form.content_top"></common-content-top>
                 <div class="divider-line"></div>
             </template>
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="样式设置">
                     <el-radio-group v-model="form.carousel_type">
@@ -33,7 +33,7 @@
                 </el-form-item>
             </card-container>
             <div class="divider-line"></div>
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12">内容设置</div>
                 <div class="tips mt-10 mb-20 size-12">最多添加{{ carousel_list.length }}张图片，建议尺寸750*300px</div>
                 <div class="flex-col gap-20">
@@ -84,10 +84,14 @@ const props = defineProps({
         type: Object,
         default: () => {},
     },
-    isCommon: {
+    isNest: {
         type: Boolean,
-        default: true,
+        default: false,
     },
+    isTabsMagic: {
+        type: Boolean,
+        default: false,
+    }
 });
 
 const state = reactive({

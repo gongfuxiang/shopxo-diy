@@ -1,5 +1,5 @@
 <template>
-    <card-container>
+    <card-container class="card-container">
         <div class="mb-12">通用</div>
         <el-form-item label="显示时间">
             <el-date-picker

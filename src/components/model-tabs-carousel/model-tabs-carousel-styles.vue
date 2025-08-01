@@ -2,10 +2,10 @@
     <div class="w">
         <el-tabs v-model="tabs_name" class="content-tabs" @tab-change="change_tab_event">
             <el-tab-pane label="选项卡" name="tabs">
-                <model-tabs-styles :value="form" :content="new_content" :tabs-style="tabsStyle" :is-common="false"></model-tabs-styles>
+                <model-tabs-styles :value="form" :content="new_content" :tabs-style="tabsStyle" :is-common-style="false"></model-tabs-styles>
             </el-tab-pane>
             <el-tab-pane label="轮播" name="carousel">
-                <model-carousel-styles :value="form" :content="new_content" :is-common="false"></model-carousel-styles>
+                <model-carousel-styles :value="form" :content="new_content" :is-common-style="false"></model-carousel-styles>
             </el-tab-pane>
             <el-tab-pane label="公共" name="common">
                 <card-container>

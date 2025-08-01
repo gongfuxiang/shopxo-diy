@@ -1,9 +1,11 @@
 <template>
     <div class="content">
         <el-form :model="form" label-width="70" class="m-h">
-            <common-content-top :value="form.content_top"></common-content-top>
-            <div class="divider-line"></div>
-            <card-container>
+            <template v-if="!isNest">
+                <common-content-top :value="form.content_top"></common-content-top>
+                <div class="divider-line"></div>
+            </template>
+            <card-container class="card-container">
                 <div class="mb-12">列表设置</div>
                 <el-form-item label="选择风格">
                     <el-radio-group v-model="form.theme" @change="change_style">
@@ -20,7 +22,7 @@
                 </el-form-item>
             </card-container>
             <div class="divider-line"></div>
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12">商品设置</div>
                 <!-- 数据筛选组件, 根据数据源类型显示不同的筛选组件 -->
                 <data-filter type="goods" :value="form" :list="form.data_list" :base-list="base_list" @add="add" @data_list_replace="data_list_replace" @data_list_remove="goods_list_remove" @data_list_sort="goods_list_sort"></data-filter>
@@ -29,7 +31,7 @@
             <!-- 商品显示的配置信息 -->
             <product-show-config :value="form" @change_shop_type="change_shop_type"></product-show-config>
             <div class="divider-line"></div>
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12">角标设置</div>
                 <!-- 角标设置 -->
                 <subscript-content :value="form"></subscript-content>
@@ -52,6 +54,10 @@ const props = defineProps({
     styles: {
         type: Object,
         default: () => ({}),
+    },
+    isNest: {
+        type: Boolean,
+        default: false,
     },
     defaultConfig: {
         type: Object,

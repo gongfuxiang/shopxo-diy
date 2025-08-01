@@ -87,16 +87,16 @@ const props = defineProps({
             return {};
         },  
     },
-    isCommon: {
+    isNest: {
         type: Boolean,
-        default: true,
+        default: false,
     },
 });
 const form = computed(() => props.value.content);
 const new_style = computed(() => props.value.style);
 // 用于样式显示
-const style_container = computed(() => props.isCommon ? common_styles_computer(new_style.value.common_style) : '');
-const style_img_container = computed(() => props.isCommon ? common_img_computer(new_style.value.common_style) : '');
+const style_container = computed(() => !props.isNest ? common_styles_computer(new_style.value.common_style) : '');
+const style_img_container = computed(() => !props.isNest ? common_img_computer(new_style.value.common_style) : '');
 
 const autoplay = ref<boolean | object>(false)
 // 图片的设置
@@ -271,7 +271,7 @@ watch(() => new_style.value.common_style, () => {
 }, {deep: true});
 
 const swiper_bg_style = computed(() => {
-    if (!props.isCommon) {
+    if (props.isNest) {
         return '';
     }
     const style = form.value?.carousel_list?.[actived_index.value]?.style;
@@ -292,7 +292,7 @@ const swiper_bg_style = computed(() => {
 });
 
 const swiper_bg_img_style = computed(() => {
-    if (!props.isCommon) {
+    if (props.isNest) {
         return '';
     }
     const { carousel_img, style = {} } = form.value?.carousel_list[actived_index.value] || {};
@@ -321,7 +321,7 @@ const slideChange = (swiper: { realIndex: number }) => {
     } else {
         actived_index.value = swiper.realIndex;
     }
-    if (!props.isCommon) {
+    if (props.isNest) {
         emit('slideChange', actived_index.value);
     }
 }

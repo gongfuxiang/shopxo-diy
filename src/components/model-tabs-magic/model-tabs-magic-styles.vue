@@ -62,6 +62,9 @@
                 <el-form-item label="左右间距">
                     <slider v-model="form.tabs_spacing" :max="100"></slider>
                 </el-form-item>
+                <el-form-item label="数据间距">
+                    <slider v-model="form.data_spacing" :max="100"></slider>
+                </el-form-item>
                 <template v-if="!isCommonStyle">
                     <el-form-item label="选项卡背景">
                         <background-common v-model:color_list="form.tabs_bg_color_list" v-model:direction="form.tabs_bg_direction" v-model:img_style="form.tabs_bg_background_img_style" v-model:img="form.tabs_bg_background_img" @mult_color_picker_event="tabs_bg_mult_color_picker_event" />

@@ -1,9 +1,11 @@
 <template>
     <VueDraggable v-model="from" :animation="500" target=".sort-target" handle=".icon-drag" :scroll="true" :on-sort="on_sort">
         <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col gap-x-20">
-            <li v-for="(item, index) in from" :key="index" :class="[`flex gap-y-16 re ${ className }`,  props.modelType == 'nav-group' && modelIndex === index ? 'nav-index-select' : '']" @click="on_click(item, index)">
-                <icon name="drag" size="16" class="cursor-move" />
-                <slot :row="item" :index="index" />
+            <li v-for="(item, index) in from" :key="index" :class="[`flex-row re ${ className }`,  props.modelType == 'nav-group' && modelIndex === index ? 'nav-index-select' : '']" @click="on_click(item, index)">
+                <div class="flex-row gap-16">
+                    <icon name="drag" size="16" class="cursor-move" />
+                    <slot :row="item" :index="index" />
+                </div>
                 <!-- 底部第一个不显示删除按钮 -->
                 <template v-if="!multipleIcons">
                     <div v-if="!(props.modelType === 'footer' && index === 0)" class="abs c-pointer top-de-6 right-de-6 remove-icon" @click.stop="remove(index)">
