@@ -273,6 +273,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
     // 选项卡数据更新
     clone_form.tabs_data = clone_form.tabs_data.map((item: any) => { 
         if (['tabs-magic'].includes(item.key)) {
+            item.com_data.content.tabs_active_index = 0;
             // 获取所有组件名称
             const all_type = ['hot_zone', 'custom', 'img_magic', 'goods_magic', 'goods_list', 'article_list', 'nav_group', 'video', 'carousel'];
             // 将数据信息合并起来
@@ -286,17 +287,16 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                     // 自定义数据处理
                     custom_data_processing(item1[item1.magic_type].content);
                 }
-                item = Object.keys(item1)
+                item1 = Object.keys(item1)
                 .filter(key => !all_type.filter((item2: string) => item2 !== item1.magic_type).includes(key))
                 .reduce((acc: Record<string, any>, key: string) => { 
                     acc[key] = item1[key];
                     return acc;
                 }, {});
-                console.log(item);
             });
             // 处理完成之后拆分开
-            item.home_data = new_data_list.length > 0 ? new_data_list[0] : null;
-            item.tabs_list = new_data_list.slice(1, new_data_list.length);
+            item.com_data.content.home_data = new_data_list.length > 0 ? new_data_list[0] : null;
+            item.com_data.content.tabs_list = new_data_list.slice(1, new_data_list.length);
         } 
         return {
             ...item,

@@ -166,7 +166,6 @@ const swiper_bg_style = computed(() => {
 // 轮播更新背景图
 const swiper_bg_img_style = computed(() => {
     if (tabs_magic_type.value == 'carousel') {
-        console.log(tabs_magic_value.value);
         const { carousel_img, style = {} } = tabs_magic_value.value.content?.carousel_list[actived_index.value] || {};
         // 如果是自定义的图片 判断图片是否存在
         if (!isEmpty(carousel_img) && style?.background_type == 'carousel') {

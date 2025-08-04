@@ -527,7 +527,6 @@ onMounted(async () => {
         const interval = setInterval(() => {
             // 获取分类
             if (common_store.common.module_list.length > 0) {
-                console.log(common_store.common.module_list);
                 common_store.common.module_list.forEach((item, index) => {
                     if (index == 0) {
                         item.data.push({key: 'tabs-magic', name: '选项卡魔方'});
