@@ -270,6 +270,40 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
     const new_array_5 = ['custom', 'goods-magic'];
     // 导航组
     const new_array_6 = ['nav-group'];
+    // 选项卡数据更新
+    clone_form.tabs_data = clone_form.tabs_data.map((item: any) => { 
+        if (['tabs-magic'].includes(item.key)) {
+            // 获取所有组件名称
+            const all_type = ['hot_zone', 'custom', 'img_magic', 'goods_magic', 'goods_list', 'article_list', 'nav_group', 'video', 'carousel'];
+            // 将数据信息合并起来
+            const new_data_list = [item.com_data.content.home_data, ...item.com_data.content.tabs_list];
+            // 对整个数据进行处理
+            new_data_list.forEach((item1: any) => {
+                if (['goods-list', 'article-list'].includes(item1.magic_type)) {
+                    // 处理商品或者文章的数据
+                    goods_or_article_data_processing(item1[item1.magic_type], item1.magic_type == new_array_1[0], item1.magic_type);
+                } else if (new_array_5.includes(item1.magic_type)) {
+                    // 自定义数据处理
+                    custom_data_processing(item1[item1.magic_type].content);
+                }
+                item = Object.keys(item1)
+                .filter(key => !all_type.filter((item2: string) => item2 !== item1.magic_type).includes(key))
+                .reduce((acc: Record<string, any>, key: string) => { 
+                    acc[key] = item1[key];
+                    return acc;
+                }, {});
+                console.log(item);
+            });
+            // 处理完成之后拆分开
+            item.home_data = new_data_list.length > 0 ? new_data_list[0] : null;
+            item.tabs_list = new_data_list.slice(1, new_data_list.length);
+        } 
+        return {
+            ...item,
+            show_tabs: '0',
+        }
+    });
+    // 拖拽区域更新
     clone_form.diy_data = clone_form.diy_data.map((item: any) => {
         if (new_array_1.includes(item.key)) {
             // 商品或文章的数据处理

@@ -271,7 +271,7 @@ watch(() => new_style.value.common_style, () => {
 }, {deep: true});
 
 const swiper_bg_style = computed(() => {
-    if (props.isNest) {
+    if (!props.isCommonStyle) {
         return '';
     }
     const style = form.value?.carousel_list?.[actived_index.value]?.style;
@@ -292,7 +292,7 @@ const swiper_bg_style = computed(() => {
 });
 
 const swiper_bg_img_style = computed(() => {
-    if (props.isNest) {
+    if (!props.isCommonStyle) {
         return '';
     }
     const { carousel_img, style = {} } = form.value?.carousel_list[actived_index.value] || {};
@@ -321,7 +321,7 @@ const slideChange = (swiper: { realIndex: number }) => {
     } else {
         actived_index.value = swiper.realIndex;
     }
-    if (props.isNest) {
+    if (!props.isCommonStyle) {
         emit('slideChange', actived_index.value);
     }
 }
