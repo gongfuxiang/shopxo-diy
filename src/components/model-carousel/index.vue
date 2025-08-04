@@ -87,16 +87,16 @@ const props = defineProps({
             return {};
         },  
     },
-    isNest: {
+    isCommonStyle: {
         type: Boolean,
-        default: false,
+        default: true,
     },
 });
 const form = computed(() => props.value.content);
 const new_style = computed(() => props.value.style);
 // 用于样式显示
-const style_container = computed(() => !props.isNest ? common_styles_computer(new_style.value.common_style) : '');
-const style_img_container = computed(() => !props.isNest ? common_img_computer(new_style.value.common_style) : '');
+const style_container = computed(() => props.isCommonStyle ? common_styles_computer(new_style.value.common_style) : '');
+const style_img_container = computed(() => props.isCommonStyle ? common_img_computer(new_style.value.common_style) : '');
 
 const autoplay = ref<boolean | object>(false)
 // 图片的设置

@@ -104,7 +104,7 @@ const props = defineProps({
     isSubcomponent: {
         type: Boolean,
         default: false,
-    }
+    },
 });
 // 容器宽度
 const center_width = ref(props.magicWidth);

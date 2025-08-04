@@ -10,7 +10,7 @@
             </div>
             <div class="oh" :style="carousel_container">
                 <div class="oh" :style="carousel_img_container">
-                    <model-carousel :value="value" :is-nest="true" @slide-change="slideChange"></model-carousel>
+                    <model-carousel :value="value" :is-common-style="false" @slide-change="slideChange"></model-carousel>
                 </div>
             </div>
         </div>

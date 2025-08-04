@@ -9,7 +9,7 @@
     </template>
     <!-- 自定义 -->
     <template v-else-if="magicType === 'custom'"> 
-        <model-custom-content :value="form.content" :is-nest="true"></model-custom-content>
+        <model-custom-content :value="form.content" :is-subcomponent="true"></model-custom-content>
     </template>
     <!-- 商品魔方 -->
     <template v-else-if="magicType === 'goods_magic'"> 

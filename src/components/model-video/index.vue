@@ -34,6 +34,10 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    isCommonStyle: {
+        type: Boolean,
+        default: true,
+    }
 });
 const video_src = ref(common_store.common.config.attachment_host + `/static/diy/images/components/model-video/video.png`);
 const style = ref('');
@@ -41,8 +45,7 @@ const style_container = ref('');
 const style_img_container = ref('');
 const video_img = ref('');
 const video = ref('');
-watch(
-    props.value,
+watch(() => props.value,
     (newVal, oldValue) => {
         const new_content = newVal?.content || {};
         const new_style = newVal?.style || {};
@@ -60,8 +63,10 @@ watch(
             video_ratio = `height: 220px;`;
         }
         style.value = video_ratio;
-        style_container.value = common_styles_computer(new_style.common_style);
-        style_img_container.value = common_img_computer(new_style.common_style);
+        if (props.isCommonStyle) {
+            style_container.value = common_styles_computer(new_style.common_style);
+            style_img_container.value = common_img_computer(new_style.common_style);
+        }
     },
     { immediate: true, deep: true }
 );

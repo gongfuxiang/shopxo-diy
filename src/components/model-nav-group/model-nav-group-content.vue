@@ -43,8 +43,8 @@
                 <div class="nav-list">
                     <drag :data="form.nav_content_list" type="card" :space-col="27" model-type="nav-group" :model-index="tabs_active_index" @remove="remove" @on-sort="on_sort" @click="tabs_list_click">
                         <template #default="{ row, index}">
-                            <div class="flex-col gap-10">
-                                <div class="flex-row align-c jc-c w h">
+                            <div class="flex-1 flex-col gap-10">
+                                <div class="flex-row align-c jc-c w h is-newline">
                                     <upload v-model="row.img" :limit="1" size="72"></upload>
                                     <div class="flex-col flex-1 jc-c gap-20">
                                         <el-form-item label="标题" class="mb-0" label-width="50">

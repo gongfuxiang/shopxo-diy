@@ -149,14 +149,26 @@ onUnmounted(() => {
 });
 
 const handleResize = () => {
-    const height = form.value.style_actived !== 10 ? form.value.container_height : form.value.limit_size == '1' ? form.value.image_height : 390;
-    if (window.innerWidth <= 1560) {
-        const sales = 330 / 390;
-        cubeWidth.value = 330;
-        cubeHeight.value = height * sales;
+    if (!props.isNest) {
+        const height = form.value.style_actived !== 10 ? form.value.container_height : form.value.limit_size == '1' ? form.value.image_height : 390;
+        if (window.innerWidth <= 1560) {
+            const sales = 330 / 390;
+            cubeWidth.value = 330;
+            cubeHeight.value = height * sales;
+        } else {
+            cubeWidth.value = 390;
+            cubeHeight.value = height;
+        }
     } else {
-        cubeWidth.value = 390;
-        cubeHeight.value = height;
+        const height = form.value.style_actived !== 10 ? form.value.container_height : form.value.limit_size == '1' ? form.value.image_height : 296;
+        if (window.innerWidth <= 1560) {
+            const sales = 236 / 296;
+            cubeWidth.value = 236;
+            cubeHeight.value = height * sales;
+        } else {
+            cubeWidth.value = 296;
+            cubeHeight.value = height;
+        }
     }
 }
 //#endregion

@@ -1,7 +1,7 @@
 <template>
     <div class="w">
         <el-form :model="form" label-width="70">
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12">图片魔方</div>
                 <el-form-item v-if="new_content.style_actived !== 10" label="图片间距">
                     <slider v-model="form.image_spacing" :max="100"></slider>

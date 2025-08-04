@@ -19,6 +19,10 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    isCommonStyle: {
+        type: Boolean,
+        default: true,
+    }
 });
 const containerRef = ref<HTMLElement | null>(null);
 const hotRef = ref<HTMLElement | null>(null);
@@ -35,16 +39,17 @@ const container_ref_h = ref(0);
 const container_ref_w = ref(0);
 const hot_ref_w = ref(0);
 const hot_ref_h = ref(0);
-watch(
-    props.value,
+watch(() => props.value,
     (newVal, oldValue) => {
         const new_content = newVal?.content || {};
         const new_style = newVal?.style || {};
         img.value = new_content?.img[0];
         img_width.value = new_content?.hot.img_width || 1;
         img_height.value = new_content?.hot.img_height || 1;
-        style_container.value = common_styles_computer(new_style.common_style);
-        style_img_container.value = common_img_computer(new_style.common_style);
+        if (props.isCommonStyle) {
+            style_container.value = common_styles_computer(new_style.common_style);
+            style_img_container.value = common_img_computer(new_style.common_style);
+        }
         hot_data.value = new_content?.hot?.data || [];
         container_ref_h.value = containerRef.value?.clientHeight || 0;
         container_ref_w.value = containerRef.value?.clientWidth || 0;

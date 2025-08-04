@@ -94,6 +94,14 @@ interface defaultTabs {
         more_icon_color: string;
         more_icon_size: number;
         data_spacing: number;
+        magic_content_direction: string;
+        magic_content_color_list: color_list[];
+        magic_content_background_img_style: string;
+        magic_content_background_img: string[];
+        magic_content_radius: radiusStyle;
+        magic_content_margin: marginStyle;
+        magic_content_padding: paddingStyle;
+        magic_content: object;
         common_style: object;
     };
 }
@@ -157,7 +165,16 @@ export const magic_config = {
     goods_magic: cloneDeep(defaultGoodsMagic),
     img_magic: cloneDeep(defaultImgMagic),
     hot_zone: cloneDeep(defaultHotZone),
-    custom: cloneDeep(defaultCustom),
+    custom:{
+        ...cloneDeep(defaultCustom),
+        style: {
+            ...cloneDeep(defaultCustom.style),
+             data_content_style: {
+                ...cloneDeep(defaultCustom.style.data_content_style),
+                color_list: [{ color: 'rgb(244, 252, 255)', color_percentage: undefined }],
+            }
+        }
+    },
 }
 
 const defaultTabs: defaultTabs = {
@@ -337,6 +354,51 @@ const defaultTabs: defaultTabs = {
         more_icon_size: 14,
         // 选项卡与轮播之间的间距
         data_spacing: 0,
+        // 魔方内容设置
+        magic_content_direction: '90deg',
+        magic_content_color_list: [{ color: '', color_percentage: undefined }],
+        magic_content_background_img_style: '2',
+        magic_content_background_img: [],
+        magic_content_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 0,
+            radius_bottom_right: 0,
+        },
+        magic_content_margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
+        },
+        magic_content_padding: {
+            padding: 0,
+            padding_top: 0,
+            padding_bottom: 10,
+            padding_left: 10,
+            padding_right: 10,
+        },
+        magic_content: {
+            // 边框样式
+            border_is_show: '0',
+            border_color: '#FF3F3F',
+            border_style: 'solid',
+            border_size: {
+                padding: 1,
+                padding_top: 1,
+                padding_right: 1,
+                padding_bottom: 1,
+                padding_left: 1,
+            },
+            // 阴影
+            box_shadow_color: '',
+            box_shadow_x: 0,
+            box_shadow_y: 0,
+            box_shadow_blur: 0,
+            box_shadow_spread: 0,
+        },
         // 公共样式
         common_style: defaultCommon,
     },

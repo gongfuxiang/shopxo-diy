@@ -1,7 +1,7 @@
 <template>
     <div class="common-style-height">
         <el-form :model="form" label-width="80">
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12">导航组</div>
                 <el-form-item label="数据间距">
                     <slider v-model="form.space"></slider>
@@ -11,7 +11,7 @@
                 </el-form-item>
             </card-container>
             <div class="divider-line"></div>
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12">图片样式</div>
                 <el-form-item label="图片圆角">
                     <radius :value="form"></radius>
@@ -22,7 +22,7 @@
             </card-container>
             <div class="divider-line"></div>
             <template v-if="display_style_show">
-                <card-container>
+                <card-container class="card-container">
                     <div class="mb-12">轮播设置</div>
                     <el-form-item label="自动轮播">
                         <el-switch v-model="form.is_roll" active-value="1" inactive-value="0" />
@@ -40,12 +40,12 @@
                     </el-form-item>
                 </card-container>
                 <div class="divider-line"></div>
-                <card-container>
+                <card-container class="card-container">
                     <carousel-indicator :value="form"></carousel-indicator>
                 </card-container>
                 <div class="divider-line"></div>
             </template>
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12">标题样式</div>
                 <el-form-item label="标题颜色">
                     <color-picker v-model="form.title_color" default-color="#000000"></color-picker>
@@ -55,7 +55,7 @@
                 </el-form-item>
             </card-container>
             <div class="divider-line"></div>
-            <card-container>
+            <card-container class="card-container"> 
                 <div class="mb-12">数据样式</div>
                 <el-form-item label="内边距">
                     <padding :value="form.data_padding"></padding>

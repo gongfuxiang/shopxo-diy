@@ -313,5 +313,33 @@ watchEffect(() => {
             width: 8rem;
         }
     }
+    .card-background {
+        padding-left: 0.5rem;
+        .gap-16 {
+            gap: 0.5rem;
+        }
+        .card-container {
+            padding: 0rem !important;
+        }
+        .el-color-picker__trigger {
+            width: 5rem;
+        }
+        .el-color-picker__trigger .el-color-picker__color .el-color-picker__color-inner .el-icon {
+            right: -2rem;
+        }
+    }
+    .flex-row.is-newline {
+        flex-direction: column !important;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    .el-radio {
+        margin-right: 1rem;
+    }
+}
+@media screen and (max-width: 1560px) {
+    .tabs-magic-content-tabs {
+        width: 100%;
+    }
 }
 </style>
