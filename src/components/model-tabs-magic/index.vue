@@ -83,11 +83,11 @@ const tabs_magic_value = computed(() => active_tabs_value.value[tabs_magic_type.
 // 判断是否开启轮播图背景设置
 const is_rotating_background = computed(() => active_tabs_value.value.rotating_background == '1');
 // 选中的公共样式
-const style_active_container = computed(() => tabs_magic_value.value.style.magic_common.is_show == '1' ? gradient_computer(tabs_magic_value.value.style.magic_common) : '');
-const style_active_img_container = computed(() => tabs_magic_value.value.style.magic_common.is_show == '1' ? background_computer(tabs_magic_value.value.style.magic_common) : '');
+const style_active_container = computed(() => !isEmpty(tabs_magic_value.value) ? (tabs_magic_value.value.style.magic_common.is_show == '1' ? gradient_computer(tabs_magic_value.value.style.magic_common) : '') : '');
+const style_active_img_container = computed(() => !isEmpty(tabs_magic_value.value) ? (tabs_magic_value.value.style.magic_common.is_show == '1' ? background_computer(tabs_magic_value.value.style.magic_common) : '') : '');
 // 选中的内容区域样式
-const magic_container = computed(() => common_styles_computer(tabs_magic_value.value.style.magic_content));
-const magic_img_container = computed(() => common_img_computer(tabs_magic_value.value.style.magic_content));
+const magic_container = computed(() => !isEmpty(tabs_magic_value.value) ? (common_styles_computer(tabs_magic_value.value.style.magic_content)) : '');
+const magic_img_container = computed(() => !isEmpty(tabs_magic_value.value) ? (common_img_computer(tabs_magic_value.value.style.magic_content)) : '');
 //#region 图片魔方的缩放比例
 const new_style = computed(() => props.value.style);
 // 图片魔方的缩放比例
@@ -96,9 +96,11 @@ watchEffect(() => {
     // 获取公共样式的数据
     const common_data = new_style.value.common_style;
     const common_width = common_data.margin_left + common_data.margin_right + common_data.padding_left + common_data.padding_right + border_width(common_data);
-
-    const { margin_left, margin_right, padding_left, padding_right } = tabs_magic_value.value.style.magic_content;
-    const content_width = margin_left + margin_right + padding_left + padding_right + border_width(tabs_magic_value.value.style.magic_content);
+    let content_width = 0;
+    if (!isEmpty(tabs_magic_value.value)) {
+        const { margin_left, margin_right, padding_left, padding_right } = tabs_magic_value.value.style.magic_content;
+        content_width = margin_left + margin_right + padding_left + padding_right + border_width(tabs_magic_value.value.style.magic_content);
+    }
     // 根据容器宽度来计算内部大小
     const typewidth = 390 - content_width - common_width;
     // 获得对应宽度的比例

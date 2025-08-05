@@ -162,11 +162,7 @@ const add = () => {
     });
 };
 const remove = (index: number) => {
-    if (form.value.tabs_list.length > 1) {
-        form.value.tabs_list.splice(index, 1);
-    } else {
-        ElMessage.warning('至少保留一个选项卡');
-    }
+    form.value.tabs_list.splice(index, 1);
 };
 // 拖拽更新之后，更新数据
 const on_sort = (new_list: nav_group[]) => {

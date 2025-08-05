@@ -190,35 +190,7 @@ const defaultTabs: defaultTabs = {
                     background_img: [],
                     is_background_img_blur: '0',
                 }
-            },
-            {
-                carousel_img: [],
-                carousel_video: [],
-                carousel_link: {},
-                video_title: '视频名称',
-                style: {
-                    direction: '90deg',
-                    color_list: [{ color: '', color_percentage: undefined }],
-                    background_img_style: '2',
-                    background_type: 'custom',
-                    background_img: [],
-                    is_background_img_blur: '0',
-                }
-            },
-            {
-                carousel_img: [],
-                carousel_video: [],
-                carousel_link: {},
-                video_title: '视频名称',
-                style: {
-                    direction: '90deg',
-                    color_list: [{ color: '', color_percentage: undefined }],
-                    background_img_style: '2',
-                    background_type: 'custom',
-                    background_img: [],
-                    is_background_img_blur: '0',
-                }
-            },
+            }
         ],
         // 轮播高度
         height: 300,

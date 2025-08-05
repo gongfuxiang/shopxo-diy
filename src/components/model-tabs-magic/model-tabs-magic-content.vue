@@ -58,7 +58,7 @@
                             <sliding-fixed v-model="form.home_data.is_sliding_fixed" @sliding_fixed_change="sliding_fixed_change($event, 0, 'home_data')"></sliding-fixed>
                             <template v-if="form.tabs_active_index == 0">
                                 <el-form-item label="魔方内容" class="w mb-0">
-                                    <el-select v-model="form.home_data.magic_type" filterable placeholder="请选择魔方内容" size="default" @change="magic_type_change()">
+                                    <el-select v-model="form.home_data.magic_type" filterable placeholder="请选择魔方内容" size="default" clearable @change="magic_type_change()">
                                         <el-option v-for="item in magic_option" :key="item.value" :label="item.name" :value="item.value" />
                                     </el-select>
                                 </el-form-item>
@@ -66,15 +66,17 @@
                                     <el-switch v-model="form.home_data.rotating_background" class="mr-10" active-value="1" inactive-value="0" />
                                     <tooltip content="1.关闭的时候,如果没有选项卡背景会使用通用背景.<br/>2.打开的时候,如果没有选项卡背景会使用轮播背景,都没有的时候会使用通用背景"></tooltip>
                                 </el-form-item>
-                                <!-- 魔方内容设置 -->
-                                <el-tabs v-model="tabs_name" class="tabs-magic-content-tabs">
-                                    <el-tab-pane label="内容设置" name="content" class="tabs-magic-content">
-                                        <tabs-magic-content :magic-type="form.home_data.magic_type" :value="form.home_data[form.home_data.magic_type]"></tabs-magic-content>
-                                    </el-tab-pane>
-                                    <el-tab-pane label="样式设置" name="styles" class="tabs-magic-content">
-                                        <tabs-magic-styles :magic-type="form.home_data.magic_type" :value="form.home_data[form.home_data.magic_type]"></tabs-magic-styles>
-                                    </el-tab-pane>
-                                </el-tabs>
+                                <template v-if="!isEmpty(form.home_data.magic_type)">
+                                    <!-- 魔方内容设置 -->
+                                    <el-tabs v-model="tabs_name" class="tabs-magic-content-tabs">
+                                        <el-tab-pane label="内容设置" name="content" class="tabs-magic-content">
+                                            <tabs-magic-content :magic-type="form.home_data.magic_type" :value="form.home_data[form.home_data.magic_type]"></tabs-magic-content>
+                                        </el-tab-pane>
+                                        <el-tab-pane label="样式设置" name="styles" class="tabs-magic-content">
+                                            <tabs-magic-styles :magic-type="form.home_data.magic_type" :value="form.home_data[form.home_data.magic_type]"></tabs-magic-styles>
+                                        </el-tab-pane>
+                                    </el-tabs>
+                                </template>
                             </template>
                         </div>
                     </div>
@@ -113,7 +115,7 @@
                                     </el-form-item>
                                     <!-- 魔方内容显示页面 -->
                                     <el-form-item label="魔方内容" class="w mb-0">
-                                        <el-select v-model="row.magic_type" filterable placeholder="请选择魔方内容" size="default" @change="magic_type_change()">
+                                        <el-select v-model="row.magic_type" filterable placeholder="请选择魔方内容" size="default" clearable @change="magic_type_change()">
                                             <el-option v-for="item in magic_option" :key="item.value" :label="item.name" :value="item.value" />
                                         </el-select>
                                     </el-form-item>
@@ -121,15 +123,17 @@
                                         <el-switch v-model="row.rotating_background" class="mr-10" active-value="1" inactive-value="0" />
                                         <tooltip content="1.关闭的时候,如果没有选项卡背景会使用通用背景.<br/>2.打开的时候,如果没有选项卡背景会使用轮播背景,都没有的时候会使用通用背景"></tooltip>
                                     </el-form-item>
-                                    <!-- 魔方内容设置 -->
-                                    <el-tabs v-model="tabs_name" class="tabs-magic-content-tabs">
-                                        <el-tab-pane label="内容设置" name="content" class="tabs-magic-content">
-                                            <tabs-magic-content :magic-type="row.magic_type" :value="row[row.magic_type]"></tabs-magic-content>
-                                        </el-tab-pane>
-                                        <el-tab-pane label="样式设置" name="styles" class="tabs-magic-content">
-                                            <tabs-magic-styles :magic-type="row.magic_type" :value="row[row.magic_type]"></tabs-magic-styles>
-                                        </el-tab-pane>
-                                    </el-tabs>
+                                    <template v-if="!isEmpty(row.magic_type)">
+                                        <!-- 魔方内容设置 -->
+                                        <el-tabs v-model="tabs_name" class="tabs-magic-content-tabs">
+                                            <el-tab-pane label="内容设置" name="content" class="tabs-magic-content">
+                                                <tabs-magic-content :magic-type="row.magic_type" :value="row[row.magic_type]"></tabs-magic-content>
+                                            </el-tab-pane>
+                                            <el-tab-pane label="样式设置" name="styles" class="tabs-magic-content">
+                                                <tabs-magic-styles :magic-type="row.magic_type" :value="row[row.magic_type]"></tabs-magic-styles>
+                                            </el-tab-pane>
+                                        </el-tabs>
+                                    </template>
                                 </template>
                             </div>
                         </template>
@@ -216,15 +220,11 @@ const tabs_list_click = (item: any, index: number) => {
     }
 }
 const remove = (index: number) => {
-    if (form.value.tabs_list.length > 1) {
-        form.value.tabs_list.splice(index, 1);
-        if (form.value.tabs_list.length > index) {
-            form.value.tabs_active_index = index + 1;
-        } else {
-            form.value.tabs_active_index = index;
-        }
+    form.value.tabs_list.splice(index, 1);
+    if (form.value.tabs_list.length > index) {
+        form.value.tabs_active_index = index + 1;
     } else {
-        ElMessage.warning('至少保留一个选项卡');
+        form.value.tabs_active_index = index;
     }
 };
 // 拖拽更新之后，更新数据
