@@ -126,7 +126,7 @@
                                         <el-tab-pane label="内容设置" name="content" class="tabs-magic-content">
                                             <tabs-magic-content :magic-type="row.magic_type" :value="row[row.magic_type]"></tabs-magic-content>
                                         </el-tab-pane>
-                                        <el-tab-pane v-if="!['video', 'hot_zone'].includes(row.magic_type)" label="样式设置" name="styles" class="tabs-magic-content">
+                                        <el-tab-pane label="样式设置" name="styles" class="tabs-magic-content">
                                             <tabs-magic-styles :magic-type="row.magic_type" :value="row[row.magic_type]"></tabs-magic-styles>
                                         </el-tab-pane>
                                     </el-tabs>
