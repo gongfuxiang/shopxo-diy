@@ -27,6 +27,7 @@ import { clone, cloneDeep, isEmpty, omit } from 'lodash';
 import DiyAPI, { diyData, headerAndFooter, diyConfig } from '@/api/diy';
 import CommonAPI from '@/api/common';
 import { commonStore } from '@/store';
+import { magic_config } from '@/config/const/tabs-magic';
 const common_store = commonStore();
 interface diy_data_item {
     id: string;
@@ -193,6 +194,17 @@ const default_merge = (data: any, key: string) => {
     } else {
         data.content = cloneDeep((defaultSettings as any)[key.replace(/-/g, '_')]).content;
     }
+    // 选项卡魔方数据补全
+    if (key == 'tabs-magic') {
+        if (data.content.home_data) {
+            data.content.home_data = Object.assign({}, magic_config, data.content.home_data);
+        }
+        if (data.content.tabs_list.length > 0) {
+            data.content.tabs_list.forEach((item: any) => {
+                item = Object.assign({}, magic_config, item);
+            })
+        }
+    }
     return data;
 };
 
@@ -279,27 +291,24 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             // 将数据信息合并起来
             const new_data_list = cloneDeep([item.com_data.content.home_data, ...item.com_data.content.tabs_list]);
             // 对整个数据进行处理
-            let clone_data_list: any = [];
             new_data_list.forEach((item1: any) => {
-                if (['goods-list', 'article-list'].includes(item1.magic_type)) {
+                if (['goods_list', 'article_list'].includes(item1.magic_type)) {
                     // 处理商品或者文章的数据
-                    goods_or_article_data_processing(item1[item1.magic_type], item1.magic_type == new_array_1[0], item1.magic_type);
-                } else if (new_array_5.includes(item1.magic_type)) {
+                    goods_or_article_data_processing(item1[item1.magic_type].content, item1.magic_type == new_array_1[0], item1.magic_type);
+                } else if (['custom', 'goods_magic'].includes(item1.magic_type)) {
                     // 自定义数据处理
                     custom_data_processing(item1[item1.magic_type].content);
                 }
-                clone_data_list.push(
-                    Object.keys(item1)
+                item1 = Object.keys(item1)
                     .filter(key => !(all_type.filter((item2: string) => !isEmpty(item1.magic_type) ? (item2 !== item1.magic_type) : item2).includes(key)))
                     .reduce((acc: Record<string, any>, key: string) => { 
                         acc[key] = item1[key];
                         return acc;
-                    }, {})
-                );
+                    }, {});
             });
             // 处理完成之后拆分开
-            item.com_data.content.home_data = clone_data_list.length > 0 ? clone_data_list[0] : null;
-            item.com_data.content.tabs_list = clone_data_list.slice(1, clone_data_list.length);
+            item.com_data.content.home_data = new_data_list.length > 0 ? new_data_list[0] : null;
+            item.com_data.content.tabs_list = new_data_list.slice(1, new_data_list.length);
         } 
         return {
             ...item,

@@ -69,7 +69,7 @@
                                 </el-form-item>
                             </el-tab-pane>
                         </el-tabs>
-                        <el-icon class="iconfont icon-close-fillup size-16 abs cr-c top-de-5 right-de-5" @click="remove(index)" />
+                        <el-icon class="iconfont icon-close-fillup size-16 abs cr-c top-de-5 right-de-5 c-pointer" @click="remove(index)" />
                     </div>
                 </div>
                 <el-button class="mt-20 mb-20 w" @click="add">+添加</el-button>
