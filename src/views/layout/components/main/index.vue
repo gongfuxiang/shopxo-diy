@@ -527,11 +527,6 @@ onMounted(async () => {
         const interval = setInterval(() => {
             // 获取分类
             if (common_store.common.module_list.length > 0) {
-                common_store.common.module_list.forEach((item, index) => {
-                    if (index == 0) {
-                        item.data.push({key: 'tabs-magic', name: '选项卡魔方'});
-                    }
-                });
                 components.value = common_store.common.module_list;
                 clearInterval(interval);
             }
