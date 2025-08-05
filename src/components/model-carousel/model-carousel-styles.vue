@@ -1,7 +1,7 @@
 <template>
     <div class="common-style-height">
         <el-form :model="form" label-width="75">
-            <template v-if="!isCommonStyle">
+            <template v-if="!isCommonStyle && !isTabsMagic">
                 <card-container class="card-container">
                     <div class="mb-12">内容设置</div>
                     <el-form-item label="内容背景">
@@ -139,6 +139,10 @@ const props = defineProps({
     isCommonStyle: {
         type: Boolean,
         default: true
+    },
+    isTabsMagic: {
+        type: Boolean,
+        default: false
     }
 });
 

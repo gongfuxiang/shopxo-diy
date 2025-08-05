@@ -160,13 +160,13 @@ const handleResize = () => {
             cubeHeight.value = height;
         }
     } else {
-        const height = form.value.style_actived !== 10 ? form.value.container_height : form.value.limit_size == '1' ? form.value.image_height : 296;
+        const height = form.value.style_actived !== 10 ? form.value.container_height : form.value.limit_size == '1' ? form.value.image_height : 280;
         if (window.innerWidth <= 1560) {
-            const sales = 236 / 296;
-            cubeWidth.value = 236;
+            const sales = 220 / 280;
+            cubeWidth.value = 220;
             cubeHeight.value = height * sales;
         } else {
-            cubeWidth.value = 296;
+            cubeWidth.value = 280;
             cubeHeight.value = height;
         }
     }

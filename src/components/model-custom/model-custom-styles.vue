@@ -54,26 +54,28 @@
                 <!-- 阴影配置 -->
                 <shadow-config v-model="form.data_style" @operation_end="operation_end"></shadow-config>
             </card-container>
-            <div class="divider-line data-tabs-line" />
-            <card-container class="card-container">
-                <div class="mb-12">内容样式</div>
-                <el-form-item label="背景">
-                    <background-common v-model:color_list="form.data_content_style.color_list" v-model:direction="form.data_content_style.direction" v-model:img_style="form.data_content_style.background_img_style" v-model:img="form.data_content_style.background_img" @mult_color_picker_event="mult_content_color_picker_event" @operation_end="operation_end" />
-                </el-form-item>
-                <el-form-item label="外间距">
-                    <margin :value="form.data_content_style" @operation_end="operation_end"></margin>
-                </el-form-item>
-                <el-form-item label="内间距">
-                    <padding :value="form.data_content_style" @operation_end="operation_end"></padding>
-                </el-form-item>
-                <el-form-item label="圆角">
-                    <radius :value="form.data_content_style" @operation_end="operation_end"></radius>
-                </el-form-item>
-                <!-- 边框处理 -->
-                <border-config v-model:show="form.data_content_style.border_is_show" v-model:color="form.data_content_style.border_color" v-model:style="form.data_content_style.border_style" v-model:size="form.data_content_style.border_size" @operation_end="operation_end"></border-config>
-                <!-- 阴影配置 -->
-                <shadow-config v-model="form.data_content_style" @operation_end="operation_end"></shadow-config>
-            </card-container>
+            <template v-if="!isTabsMagic">
+                <div class="divider-line data-tabs-line" />
+                <card-container class="card-container">
+                    <div class="mb-12">内容样式</div>
+                    <el-form-item label="背景">
+                        <background-common v-model:color_list="form.data_content_style.color_list" v-model:direction="form.data_content_style.direction" v-model:img_style="form.data_content_style.background_img_style" v-model:img="form.data_content_style.background_img" @mult_color_picker_event="mult_content_color_picker_event" @operation_end="operation_end" />
+                    </el-form-item>
+                    <el-form-item label="外间距">
+                        <margin :value="form.data_content_style" @operation_end="operation_end"></margin>
+                    </el-form-item>
+                    <el-form-item label="内间距">
+                        <padding :value="form.data_content_style" @operation_end="operation_end"></padding>
+                    </el-form-item>
+                    <el-form-item label="圆角">
+                        <radius :value="form.data_content_style" @operation_end="operation_end"></radius>
+                    </el-form-item>
+                    <!-- 边框处理 -->
+                    <border-config v-model:show="form.data_content_style.border_is_show" v-model:color="form.data_content_style.border_color" v-model:style="form.data_content_style.border_style" v-model:size="form.data_content_style.border_size" @operation_end="operation_end"></border-config>
+                    <!-- 阴影配置 -->
+                    <shadow-config v-model="form.data_content_style" @operation_end="operation_end"></shadow-config>
+                </card-container>
+            </template>
         </el-form>
         <template v-if="isCommonStyle">
             <div class="divider-line data-tabs-line" />
@@ -98,6 +100,10 @@ const props = defineProps({
     isCommonStyle: {
         type: Boolean,
         default: true,
+    },
+    isTabsMagic: {
+        type: Boolean,
+        default: false
     }
 });
 const state = reactive({

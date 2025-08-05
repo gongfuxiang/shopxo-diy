@@ -34,6 +34,7 @@ interface tabs_page {
     micro_page_list: object;
     category_list: object;
     magic_type: string;
+    rotating_background: string,
     carousel: object;
     video: object;
     nav_group: object;
@@ -48,7 +49,6 @@ interface defaultTabs {
     content: {
         content_top: object;
         justification: string,
-        rotating_background: string;
         show_more: string,
         tabs_theme: string;
         tabs_adorn_icon: string;
@@ -94,16 +94,57 @@ interface defaultTabs {
         more_icon_color: string;
         more_icon_size: number;
         data_spacing: number;
-        magic_content_direction: string;
-        magic_content_color_list: color_list[];
-        magic_content_background_img_style: string;
-        magic_content_background_img: string[];
-        magic_content_radius: radiusStyle;
-        magic_content_margin: marginStyle;
-        magic_content_padding: paddingStyle;
-        magic_content: object;
         common_style: object;
     };
+}
+const magic_common_config = {
+    // 魔方内容设置
+    magic_content: {
+        direction: '90deg',
+        color_list: [{ color: '', color_percentage: undefined }],
+        background_img_style: '2',
+        background_img: [],
+        radius: 0,
+        radius_top_left: 0,
+        radius_top_right: 0,
+        radius_bottom_left: 0,
+        radius_bottom_right: 0,
+        margin: 0,
+        margin_top: 0,
+        margin_bottom: 0,
+        margin_left: 0,
+        margin_right: 0,
+        padding: 0,
+        padding_top: 0,
+        padding_bottom: 10,
+        padding_left: 10,
+        padding_right: 10,
+        // 边框样式
+        border_is_show: '0',
+        border_color: '#FF3F3F',
+        border_style: 'solid',
+        border_size: {
+            padding: 1,
+            padding_top: 1,
+            padding_right: 1,
+            padding_bottom: 1,
+            padding_left: 1,
+        },
+        // 阴影
+        box_shadow_color: '',
+        box_shadow_x: 0,
+        box_shadow_y: 0,
+        box_shadow_blur: 0,
+        box_shadow_spread: 0,
+    },
+    // 通用样式
+    magic_common: {
+        is_show: '0',
+        direction: '90deg',
+        color_list: [{ color: '', color_percentage: undefined }],
+        background_img_style: '2',
+        background_img: [],
+    },
 }
 // 魔方配置
 export const magic_config = {
@@ -156,20 +197,64 @@ export const magic_config = {
                 box_shadow_blur: 0,
                 box_shadow_spread: 0,
             },
+            ...cloneDeep(magic_common_config)
         }
     },
-    video: cloneDeep(defaultVideo),
-    nav_group: cloneDeep(defaultNavGroup),
-    article_list: cloneDeep(defaultArticleList),
-    goods_list: cloneDeep(defaultGoodsList),
-    goods_magic: cloneDeep(defaultGoodsMagic),
-    img_magic: cloneDeep(defaultImgMagic),
-    hot_zone: cloneDeep(defaultHotZone),
+    video: {
+        content: cloneDeep(defaultVideo.content),
+        style: {
+            ...cloneDeep(defaultVideo.style),
+            ...cloneDeep(magic_common_config)
+        }
+    },
+    nav_group: {
+        content: cloneDeep(defaultNavGroup.content),
+        style: {
+            ...cloneDeep(defaultNavGroup.style),
+            ...cloneDeep(magic_common_config)
+        }
+    },
+    article_list: {
+        content: cloneDeep(defaultArticleList.content),
+        style: {
+            ...cloneDeep(defaultArticleList.style),
+            ...cloneDeep(magic_common_config)
+        }
+    },
+    goods_list: {
+        content: cloneDeep(defaultGoodsList.content),
+        style: {
+            ...cloneDeep(defaultGoodsList.style),
+            ...cloneDeep(magic_common_config)
+        }
+    },
+    goods_magic: {
+        content: cloneDeep(defaultGoodsMagic.content),
+        style: {
+            ...cloneDeep(defaultGoodsMagic.style),
+            ...cloneDeep(magic_common_config)
+        }
+    },
+    img_magic: {
+        content: cloneDeep(defaultImgMagic.content),
+        style: {
+            ...cloneDeep(defaultImgMagic.style),
+            ...cloneDeep(magic_common_config)
+        }
+    },
+    hot_zone: {
+        content: cloneDeep(defaultHotZone.content),
+        style: {
+            ...cloneDeep(defaultHotZone.style),
+            ...cloneDeep(magic_common_config)
+        }
+    },
     custom:{
         ...cloneDeep(defaultCustom),
         style: {
             ...cloneDeep(defaultCustom.style),
-             data_content_style: {
+            ...cloneDeep(magic_common_config),
+            data_content_style: {
                 ...cloneDeep(defaultCustom.style.data_content_style),
                 color_list: [{ color: 'rgb(244, 252, 255)', color_percentage: undefined }],
             }
@@ -186,7 +271,6 @@ const defaultTabs: defaultTabs = {
         show_more: '1',
         // 选项卡风格
         tabs_theme: '0',
-        rotating_background: '0',
         // 选中装饰图标
         tabs_adorn_icon: 'checked-smooth',
         tabs_adorn_img: [],
@@ -211,6 +295,7 @@ const defaultTabs: defaultTabs = {
             micro_page_list: {}, 
             category_list: {},
             magic_type: 'carousel',
+            rotating_background: '0',
             ...cloneDeep(magic_config),
         },
         tabs_list: [
@@ -228,6 +313,7 @@ const defaultTabs: defaultTabs = {
                 micro_page_list: {},
                 category_list: {},
                 magic_type: 'carousel',
+                rotating_background: '0',
                 ...cloneDeep(magic_config),
             },
             { 
@@ -244,6 +330,7 @@ const defaultTabs: defaultTabs = {
                 micro_page_list: {}, 
                 category_list: {},
                 magic_type: 'carousel',
+                rotating_background: '0',
                 ...cloneDeep(magic_config),
             },
             { 
@@ -260,6 +347,7 @@ const defaultTabs: defaultTabs = {
                 micro_page_list: {}, 
                 category_list: {},
                 magic_type: 'carousel',
+                rotating_background: '0',
                 ...cloneDeep(magic_config),
             },
         ],
@@ -354,51 +442,6 @@ const defaultTabs: defaultTabs = {
         more_icon_size: 14,
         // 选项卡与轮播之间的间距
         data_spacing: 0,
-        // 魔方内容设置
-        magic_content_direction: '90deg',
-        magic_content_color_list: [{ color: '', color_percentage: undefined }],
-        magic_content_background_img_style: '2',
-        magic_content_background_img: [],
-        magic_content_radius: {
-            radius: 0,
-            radius_top_left: 0,
-            radius_top_right: 0,
-            radius_bottom_left: 0,
-            radius_bottom_right: 0,
-        },
-        magic_content_margin: {
-            margin: 0,
-            margin_top: 0,
-            margin_bottom: 0,
-            margin_left: 0,
-            margin_right: 0,
-        },
-        magic_content_padding: {
-            padding: 0,
-            padding_top: 0,
-            padding_bottom: 10,
-            padding_left: 10,
-            padding_right: 10,
-        },
-        magic_content: {
-            // 边框样式
-            border_is_show: '0',
-            border_color: '#FF3F3F',
-            border_style: 'solid',
-            border_size: {
-                padding: 1,
-                padding_top: 1,
-                padding_right: 1,
-                padding_bottom: 1,
-                padding_left: 1,
-            },
-            // 阴影
-            box_shadow_color: '',
-            box_shadow_x: 0,
-            box_shadow_y: 0,
-            box_shadow_blur: 0,
-            box_shadow_spread: 0,
-        },
         // 公共样式
         common_style: defaultCommon,
     },

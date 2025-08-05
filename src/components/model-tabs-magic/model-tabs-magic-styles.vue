@@ -62,9 +62,6 @@
                 <el-form-item label="左右间距">
                     <slider v-model="form.tabs_spacing" :max="100"></slider>
                 </el-form-item>
-                <el-form-item label="数据间距">
-                    <slider v-model="form.data_spacing" :max="100"></slider>
-                </el-form-item>
                 <el-form-item label="选项卡背景">
                     <background-common v-model:color_list="form.tabs_bg_color_list" v-model:direction="form.tabs_bg_direction" v-model:img_style="form.tabs_bg_background_img_style" v-model:img="form.tabs_bg_background_img" @mult_color_picker_event="tabs_bg_mult_color_picker_event" />
                 </el-form-item>
@@ -95,24 +92,12 @@
                     <slider v-model="form.more_icon_size" :max="100"></slider>
                 </el-form-item>
             </card-container>
+            <div class="divider-line"></div>
             <card-container>
-                <div class="mb-12">内容样式</div>
-                <el-form-item label="内容背景">
-                    <background-common v-model:color_list="form.magic_content_color_list" v-model:direction="form.magic_content_direction" v-model:img_style="form.magic_content_background_img_style" v-model:img="form.magic_content_background_img" @mult_color_picker_event="magic_content_mult_color_picker_event" />
+                <div class="mb-12">间距设置</div>
+                <el-form-item label="数据间距">
+                    <slider v-model="form.data_spacing" :max="100"></slider>
                 </el-form-item>
-                <el-form-item label="圆角">
-                    <radius :value="form.magic_content_radius"></radius>
-                </el-form-item>
-                <el-form-item label="外间距">
-                    <margin :value="form.magic_content_margin"></margin>
-                </el-form-item>
-                <el-form-item label="内间距">
-                    <padding :value="form.magic_content_padding"></padding>
-                </el-form-item>
-                <!-- 边框处理 -->
-                <border-config v-model:show="form.magic_content.border_is_show" v-model:color="form.magic_content.border_color" v-model:style="form.magic_content.border_style" v-model:size="form.magic_content.border_size"></border-config>
-                <!-- 阴影配置 -->
-                <shadow-config v-model="form.magic_content"></shadow-config>
             </card-container>
         </el-form>
         <div class="divider-line"></div>
@@ -158,11 +143,6 @@ const tabs_checked_event = (arry: string[], type: number) => {
 const tabs_bg_mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.tabs_bg_color_list = arry;
     form.value.tabs_bg_direction = type.toString();
-};
-// 魔方内容背景渐变设置
-const magic_content_mult_color_picker_event = (arry: color_list[], type: number) => {
-    form.value.magic_content_color_list = arry;
-    form.value.magic_content_direction = type.toString();
 };
 </script>
 <style lang="scss" scoped></style>
