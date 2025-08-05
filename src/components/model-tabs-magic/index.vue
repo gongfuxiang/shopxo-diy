@@ -5,7 +5,7 @@
             <div class="oh z-deep re" :style="tabs_container + (is_rotating_background ? swiper_bg_style : '')">
                 <div v-if="is_rotating_background" class="abs z-i top-0 w h" :style="swiper_bg_img_style"></div>
                 <div class="oh re z-deep" :style="tabs_img_container">
-                    <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true" :active-index="tabs_active_index" :tabs-sliding-fixed-bg="tabs_sliding_fixed_bg"></tabs-view>
+                    <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true" :sliding-fixed-style="is_rotating_background ? sliding_fixed_style : ''"  :active-index="tabs_active_index" :tabs-sliding-fixed-bg="tabs_sliding_fixed_bg"></tabs-view>
                 </div>
             </div>
             <div :style="magic_container">
@@ -113,6 +113,29 @@ const actived_index = ref(0);
 const slideChange = (index: number) => {
     actived_index.value = index;
 };
+// 滑动固定的背景样式
+const sliding_fixed_style = computed(() => {
+    if (tabs_magic_type.value == 'carousel') {
+        const style = tabs_magic_value.value.content?.carousel_list?.[actived_index.value]?.style;
+        if (style && !isEmpty(style.color_list)) {
+            const color_list = style.color_list;
+            const list = color_list.filter((item: { color: string }) => !isEmpty(item.color));
+            if (list.length > 0) {
+                try {
+                    if (style.background_img.length > 0) {
+                        return `background: linear-gradient(90deg, rgb(255 255 255 / 0%) 0%, rgb(255 255 255 / 0%) 0%)`;
+                    } else {
+                        return gradient_computer(style);
+                    }
+                } catch (error) {
+                    return '';
+                }
+            }
+            return '';
+        }
+    }
+    return '';
+});
 // 轮播更新背景色
 const swiper_bg_style = computed(() => {
     if (tabs_magic_type.value == 'carousel') {
