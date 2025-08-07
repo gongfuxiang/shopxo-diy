@@ -291,6 +291,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             // 将数据信息合并起来
             const new_data_list = cloneDeep([item.com_data.content.home_data, ...item.com_data.content.tabs_list]);
             // 对整个数据进行处理
+            const data_list_handle: any[] = [];
             new_data_list.forEach((item1: any) => {
                 if (['goods_list', 'article_list'].includes(item1.magic_type)) {
                     // 处理商品或者文章的数据
@@ -299,16 +300,16 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                     // 自定义数据处理
                     custom_data_processing(item1[item1.magic_type].content);
                 }
-                item1 = Object.keys(item1)
+                data_list_handle.push(Object.keys(item1)
                     .filter(key => !(all_type.filter((item2: string) => !isEmpty(item1.magic_type) ? (item2 !== item1.magic_type) : item2).includes(key)))
                     .reduce((acc: Record<string, any>, key: string) => { 
                         acc[key] = item1[key];
                         return acc;
-                    }, {});
+                    }, {}));
             });
             // 处理完成之后拆分开
-            item.com_data.content.home_data = new_data_list.length > 0 ? new_data_list[0] : null;
-            item.com_data.content.tabs_list = new_data_list.slice(1, new_data_list.length);
+            item.com_data.content.home_data = data_list_handle.length > 0 ? data_list_handle[0] : null;
+            item.com_data.content.tabs_list = data_list_handle.slice(1, data_list_handle.length);
         } 
         return {
             ...item,

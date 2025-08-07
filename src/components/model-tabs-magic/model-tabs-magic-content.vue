@@ -205,7 +205,7 @@ const add = () => {
         micro_page: '',
         micro_page_list: {},
         category_list: {},
-        magic_type: 'carousel',
+        magic_type: '',
         rotating_background: '0',
         ...cloneDeep(magic_config),
     });
