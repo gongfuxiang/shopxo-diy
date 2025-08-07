@@ -24,8 +24,10 @@
     <card-container class="card-container">
         <div class="mb-12">通用样式</div>
         <el-form-item label="是否启用">
-            <el-switch v-model="form.magic_common.is_show" active-value="1" inactive-value="0"></el-switch>
-            <el-tooltip content="启用则覆盖选项卡魔方->样式->通用样式"></el-tooltip>
+            <div class="flex-row gap-10">
+                <el-switch v-model="form.magic_common.is_show" active-value="1" inactive-value="0"></el-switch>
+                <tooltip content="启用则覆盖选项卡魔方->样式->通用样式"></tooltip>
+            </div>
         </el-form-item>
         <template v-if="form.magic_common.is_show == '1'">
             <el-form-item label="内容背景">
