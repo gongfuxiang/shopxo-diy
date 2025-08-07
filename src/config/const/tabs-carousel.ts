@@ -93,6 +93,10 @@ interface defaultTabs {
         more_icon_class: string;
         more_icon_color: string;
         more_icon_size: number;
+        more_button_text_color: string;
+        more_button_text_selected_color: string;
+        more_button_direction: string;
+        more_button_color_list: color_list[];
         data_spacing: number;
         radius: number;
         radius_top_left: number;
@@ -332,6 +336,11 @@ const defaultTabs: defaultTabs = {
         more_icon_class: 'category-more',
         more_icon_color: '#000',
         more_icon_size: 14,
+        // 更多弹出框的样式
+        more_button_text_color: '#666',
+        more_button_text_selected_color: '#666',
+        more_button_direction: '90deg',
+        more_button_color_list: [{ color: '#eee', color_percentage: undefined }],
         // 选项卡与轮播之间的间距
         data_spacing: 0,
         // 图片圆角

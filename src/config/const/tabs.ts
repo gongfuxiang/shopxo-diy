@@ -55,6 +55,10 @@ interface defaultTabs {
         more_icon_class: string;
         more_icon_color: string;
         more_icon_size: number;
+        more_button_text_color: string;
+        more_button_text_selected_color: string;
+        more_button_direction: string;
+        more_button_color_list: color_list[];
         common_style: object;
     };
 }
@@ -126,6 +130,11 @@ const defaultTabs: defaultTabs = {
         more_icon_class: 'category-more',
         more_icon_color: '#000',
         more_icon_size: 14,
+        // 更多弹出框的样式
+        more_button_text_color: '#666',
+        more_button_text_selected_color: '#666',
+        more_button_direction: '90deg',
+        more_button_color_list: [{ color: '#eee', color_percentage: undefined }],
         common_style: {
             ...defaultCommon,
             color_list: [{ color: '#fff', color_percentage: undefined }],
