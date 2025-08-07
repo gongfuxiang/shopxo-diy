@@ -23,7 +23,7 @@ const isLogoutModalShown = ref(true);
 // 用于存储每个请求的CancelToken
 const pendingRequests = new Map();
 // 不需要认证的接口
-const release_url = ['diyapi/attachmentupload'];
+const release_url = ['attachmentapi/attachmentupload'];
 // 创建 axios 实例
 const index = window.location.href.lastIndexOf('?s=');
 const pro_url = window.location.href.substring(0, index);
