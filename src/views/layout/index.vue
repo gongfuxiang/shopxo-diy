@@ -200,8 +200,8 @@ const default_merge = (data: any, key: string) => {
             data.content.home_data = Object.assign({}, magic_config, data.content.home_data);
         }
         if (data.content.tabs_list.length > 0) {
-            data.content.tabs_list.forEach((item: any) => {
-                item = Object.assign({}, magic_config, item);
+            data.content.tabs_list = data.content.tabs_list.map((item: any) => {
+                return Object.assign({}, magic_config, item);
             })
         }
     }
