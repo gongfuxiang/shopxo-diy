@@ -106,6 +106,8 @@
                                         </template>
                                     </div>
                                     <div class="size-12 cr-6 re">请在预览里边查看实际效果</div>
+                                    <div class="size-12 mt-20 col-price-style">选项卡切换到非（第一个）下不支持左侧组件拖入</div>
+                                    <el-button class="mt-10" type="primary" @click="tabs_content_click">切换至选项卡（第一个）</el-button>
                                 </div>
                             </template>
                         </div>
@@ -157,6 +159,12 @@ const tabs_data_name = computed(() => {
     }
     return '';
 });
+// 切换至首页显示
+const tabs_content_click = () => {
+    if (tabs_data.value.length > 0) {
+        tabs_data.value[0].com_data.content.tabs_active_index = 0;
+    }
+}
 // 时间处理
 const new_date_value = computed(() => {
     return (item: any) => {
@@ -643,5 +651,8 @@ const footer_nav_event = () => {
 .tabs-list-content {
     z-index: 2;
     height: 20rem;
+}
+.col-price-style {
+    color: red;
 }
 </style>

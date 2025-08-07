@@ -132,7 +132,7 @@ watchEffect(() => {
     // 根据容器宽度来计算内部大小
     const width = new_width - outer_spacing - internal_spacing - content_spacing - data_spacing - props.outerContainerPadding;
     // 获得对应宽度的比例
-    const scale_number = width / new_width;
+    const scale_number = width / 390;
     scale.value = scale_number > 0 ? scale_number : 0;
 });
 //#endregion
