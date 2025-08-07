@@ -79,6 +79,8 @@ watch(
         // 处理数据
         new_data.content.tabs_list = [home_data, ...new_data.content.tabs_list];
         tabs_list.value = new_data;
+        // 当前选中的内容
+        tabs_active_index.value = new_data.content.tabs_active_index;
     },
     { immediate: true, deep: true }
 );

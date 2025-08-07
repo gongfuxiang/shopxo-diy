@@ -1,7 +1,7 @@
 <template>
     <div :style="style">
         <div :style="style_img_container">
-            <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true" :tabs-sliding-fixed-bg="tabs_sliding_fixed_bg"></tabs-view>
+            <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true" :active-index="tabs_active_index" :tabs-sliding-fixed-bg="tabs_sliding_fixed_bg"></tabs-view>
         </div>
     </div>
 </template>
@@ -20,12 +20,15 @@ const props = defineProps({
 const tabs_list = ref(props.value);
 // 打开滑动固定开关之后，显示的样式
 const tabs_sliding_fixed_bg = ref('');
+const tabs_active_index = ref(0);
 watch(props.value, (val) => {
     let new_data = cloneDeep(val);
     const { home_data } = new_data.content;
     new_data.content.tabs_list = [home_data, ...new_data.content.tabs_list];
     tabs_list.value = new_data;
     tabs_sliding_fixed_bg.value = gradient_computer(props.value.style.common_style);
+    // 当前选中的内容
+    tabs_active_index.value = new_data.content.tabs_active_index;
 }, { immediate: true, deep: true });
 
 const style = computed(() => common_styles_computer(props.value.style.common_style));

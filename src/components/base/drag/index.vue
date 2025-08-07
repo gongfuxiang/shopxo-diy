@@ -1,7 +1,7 @@
 <template>
     <VueDraggable v-model="from" :animation="500" target=".sort-target" handle=".icon-drag" :scroll="true" :on-sort="on_sort">
         <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col gap-x-20">
-            <li v-for="(item, index) in from" :key="index" :class="[`flex-row re gap-16 ${ className }`,  ['nav-group', 'tabs-magic'].includes(props.modelType) && modelIndex === index ? 'model-type-index-select' : '']" @click="on_click(item, index)">
+            <li v-for="(item, index) in from" :key="index" :class="[`flex-row re gap-16 ${ className }`,  ['nav-group', 'tabs-magic', 'tabs'].includes(props.modelType) && modelIndex === index ? 'model-type-index-select' : '']" @click="on_click(item, index)">
                 <div class="flex-1 flex-row gap-16">
                     <icon name="drag" size="16" class="cursor-move" />
                     <slot :row="item" :index="index" />

@@ -24,6 +24,7 @@ interface defaultTabs {
         tabs_adorn_icon: string;
         tabs_adorn_img: uploadList[];
         tabs_top_up: string;
+        tabs_active_index: number;
         home_data: tabs_page;
         tabs_list: tabs_page[];
     };
@@ -69,6 +70,7 @@ const defaultTabs: defaultTabs = {
         tabs_adorn_icon: 'checked-smooth',
         tabs_adorn_img: [],
         tabs_top_up: '0',
+        tabs_active_index: 0,
         home_data: { id: get_math(), tabs_type: '0',  tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '首页', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
         tabs_list: [
             { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '热门推荐', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },

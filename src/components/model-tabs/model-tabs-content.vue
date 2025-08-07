@@ -46,7 +46,7 @@
             <card-container>
                 <div class="mb-12">选项卡设置</div>
                 <div class="flex-col gap-x-20">
-                    <div class="card-background box-shadow-sm ptb-25 flex-row gap-16 re align-c">
+                    <div :class="`card-background box-shadow-sm ptb-25 flex-row gap-16 re align-c ${ form.tabs_active_index == 0 ? 'model-type-index-select' : ''}`" @click="tabs_list_click('home', 0)">
                         <el-icon class="iconfont icon-jinzhi size-16 cursor-move" />
                         <div class="flex-col gap-10 w">
                             <el-form-item label="显示类型" class="w mb-0">
@@ -66,7 +66,7 @@
                             <sliding-fixed v-model="form.home_data.is_sliding_fixed" @sliding_fixed_change="sliding_fixed_change($event, 0, 'home_data')"></sliding-fixed>
                         </div>
                     </div>
-                    <drag :data="form.tabs_list" type="card" :space-col="25" @remove="remove" @on-sort="on_sort">
+                    <drag :data="form.tabs_list" type="card" model-type="tabs" :model-index="form.tabs_active_index - 1" :space-col="25" @click="tabs_list_click" @remove="remove" @on-sort="on_sort">
                         <template #default="{ row, index }">
                             <div class="flex-col align-c jc-s gap-20 flex-1 w">
                                 <el-form-item label="数据类型" class="w mb-0">
@@ -160,10 +160,24 @@ const add = () => {
         micro_page_list: {},
         category_list: {},
     });
+    form.value.tabs_active_index = form.value.tabs_list.length;
 };
 const remove = (index: number) => {
     form.value.tabs_list.splice(index, 1);
+    if (form.value.tabs_list.length > index) {
+        form.value.tabs_active_index = index + 1;
+    } else {
+        form.value.tabs_active_index = index;
+    }
 };
+// 选项卡点击事件
+const tabs_list_click = (item: any, index: number) => { 
+    if (item == 'home') {
+        form.value.tabs_active_index = index;
+    } else {
+        form.value.tabs_active_index = index + 1;
+    }
+}
 // 拖拽更新之后，更新数据
 const on_sort = (new_list: nav_group[]) => {
     form.value.tabs_list = new_list;

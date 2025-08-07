@@ -87,9 +87,27 @@
                         <div class="model-wall-content" :style="`padding-top:${top_padding}px;padding-bottom:${bottom_navigation_show ? footer_nav_counter_store.padding_footer : 0}px;`">
                             <div-content :diy-data="tabs_data" :show-model-border="show_model_border" :is-tabs="true" :main-content-style="main_content_style" :outer-container-padding="outer_container_padding" @on_choose="set_tabs_event(true)" @del="del"></div-content>
                             <div v-if="tabs_data.length > 0" class="seat"></div>
-                            <VueDraggable v-model="diy_data" :animation="500" :touch-start-threshold="2" group="people" class="drag-area re" ghost-class="ghost" :on-sort="on_sort" :on-start="on_start" :on-end="on_end">
-                                <div-content :diy-data="diy_data" :show-model-border="show_model_border" :main-content-style="main_content_style" :outer-container-padding="outer_container_padding" @on_choose="on_choose" @del="del" @copy="copy" @move-up="moveUp" @move-down="moveDown"></div-content>
-                            </VueDraggable>
+                            <template v-if="(tabs_data.length > 0 && tabs_data[0].com_data.content.tabs_active_index == 0) || (tabs_data.length == 0)">
+                                <VueDraggable v-model="diy_data" :animation="500" :touch-start-threshold="2" group="people" class="drag-area re" ghost-class="ghost" :on-sort="on_sort" :on-start="on_start" :on-end="on_end">
+                                    <div-content :diy-data="diy_data" :show-model-border="show_model_border" :main-content-style="main_content_style" :outer-container-padding="outer_container_padding" @on_choose="on_choose" @del="del" @copy="copy" @move-up="moveUp" @move-down="moveDown"></div-content>
+                                </VueDraggable>
+                            </template>
+                            <template v-else>
+                                <div v-if="tabs_data.length > 0" class="tabs-list-content w h flex-col align-c jc-c gap-10">
+                                    <div class="size-16">{{ tabs_data_name.data_type == '0' ? 'DIY页面' : '商品分类' }}
+                                        <template v-if="tabs_data_name.data_type == '0' && !isEmpty(tabs_data_name.micro_page_list)">
+                                            <span class="size-16">({{ tabs_data_name.micro_page_list.name }})</span>
+                                        </template>
+                                        <template v-else-if="tabs_data_name.data_type == '1' && !isEmpty(tabs_data_name.classify)">
+                                            <span class="size-16">({{ tabs_data_name.classify.name }})</span>
+                                        </template>
+                                        <template v-else>
+                                            <span class="size-16 cr-6">(未选择)</span>
+                                        </template>
+                                    </div>
+                                    <div class="size-12 cr-6 re">请在预览里边查看实际效果</div>
+                                </div>
+                            </template>
                         </div>
                     </div>
                     <!-- <div class="seat"></div> -->
@@ -128,6 +146,16 @@ const props = defineProps({
         type: Object,
         default: () => {},
     },
+});
+// 获取tabs数据
+const tabs_data_name = computed(() => {
+    const data = tabs_data.value;
+    if (data.length > 0) {
+        const tabs_active_index = data[0].com_data.content.tabs_active_index;
+        const tabs_list = data[0].com_data.content.tabs_list;
+        return tabs_list[tabs_active_index - 1];
+    }
+    return '';
 });
 // 时间处理
 const new_date_value = computed(() => {
@@ -610,5 +638,10 @@ const footer_nav_event = () => {
     position: absolute;
     top: -1.4rem;
     left: -0.6rem;
+}
+// 列表
+.tabs-list-content {
+    z-index: 2;
+    height: 20rem;
 }
 </style>
