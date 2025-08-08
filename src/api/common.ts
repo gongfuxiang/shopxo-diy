@@ -1,13 +1,22 @@
+import { get_type } from '@/utils/common';
 import request from '@/utils/request';
 import { isEmpty } from 'lodash';
 
 class CommonAPI {
     /**  链接初始化接口 */
     static getInit() {
-        return request({
-            url: `diyapi/init`,
-            method: 'post',
-        });
+        if (get_type() == 'shop') {
+            return request({
+                url: `?s=plugins/index/pluginsname/shop/pluginscontrol/diyapi/pluginsaction/init.html`,
+                method: 'post',
+            });
+        } else {
+            return request({
+                url: `diyapi/init`,
+                method: 'post',
+            });
+        }
+        
     }
     /**  动态接口 */
     static getDynamicApi(url: string, data: any, is_header: boolean = false) {

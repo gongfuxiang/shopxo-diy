@@ -49,7 +49,6 @@ export const get_type = () => {
     if (url.indexOf('type/') != -1) {
         new_type = url.substring(url.indexOf('type/') + 5);
         // 去除字符串的.html
-        // 去除字符串的.html
         const dot_data = new_type.split('.')[0];
         if (dot_data != '') {
             new_type = dot_data.split('/')[0];

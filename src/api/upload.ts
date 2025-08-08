@@ -4,14 +4,14 @@ class UploadAPI {
     /**  分类查询接口*/
     static getTree() {
         return api_request({
-            url: `?s=attachmentapi/attachmentcategory`,
+            url: `?s=attachmentapi/category`,
             method: 'post',
         });
     }
     /** 分类新增，修改接口 */
     static saveTree(data: any) {
         return api_request({
-            url: `?s=attachmentapi/attachmentcategorysave`,
+            url: `?s=attachmentapi/categorysave`,
             method: 'post',
             data,
         });
@@ -19,7 +19,7 @@ class UploadAPI {
     /** 分类删除接口 */
     static delTree(data: any) {
         return api_request({
-            url: `?s=attachmentapi/attachmentcategorydelete`,
+            url: `?s=attachmentapi/categorydelete`,
             method: 'post',
             data,
         });
@@ -27,7 +27,7 @@ class UploadAPI {
     /** 附件移动分类 */
     static moveTree(data: any) {
         return api_request({
-            url: `?s=attachmentapi/attachmentmovecategory`,
+            url: `?s=attachmentapi/movecategory`,
             method: 'post',
             data,
         });
@@ -36,7 +36,7 @@ class UploadAPI {
     // 附件列表
     static getAttachmentList(data: any) {
         return api_request({
-            url: `?s=attachmentapi/attachmentlist`,
+            url: `?s=attachmentapi/list`,
             method: 'post',
             data,
         });
@@ -44,7 +44,7 @@ class UploadAPI {
     // 附件名称修改
     static saveAttachmentName(data: any) {
         return api_request({
-            url: `?s=attachmentapi/attachmentsave`,
+            url: `?s=attachmentapi/save`,
             method: 'post',
             data,
         });
@@ -52,7 +52,7 @@ class UploadAPI {
     // 附件删除
     static delAttachment(data: any) {
         return api_request({
-            url: `?s=attachmentapi/attachmentdelete`,
+            url: `?s=attachmentapi/delete`,
             method: 'post',
             data,
         });
@@ -60,7 +60,7 @@ class UploadAPI {
     // 附件上传
     static uploadAttachment(data: any, progress: any) {
         return api_request({
-            url: `?s=attachmentapi/attachmentupload`,
+            url: `?s=attachmentapi/upload`,
             method: 'post',
             data,
             headers: {
@@ -72,7 +72,7 @@ class UploadAPI {
     // 扫码上传
     static uploadQrcode(data: any) {
         return api_request({
-            url: `?s=attachmentapi/attachmentscanuploaddata`,
+            url: `?s=attachmentapi/scanuploaddata`,
             method: 'post',
             data,
         });
@@ -80,7 +80,7 @@ class UploadAPI {
     // 提取链接 --------附件远程下载
     static getAttachmentCatch(data: any) {
         return api_request({
-            url: `?s=attachmentapi/attachmentcatch`,
+            url: `?s=attachmentapi/catch`,
             method: 'post',
             data,
         });
