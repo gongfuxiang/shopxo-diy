@@ -1,8 +1,10 @@
 import axios, { InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { ElMessage, ElMessageBox, type MessageHandler } from 'element-plus';
 import { get_cookie } from './index';
-import { get_type } from '@/utils/common';
+import { get_type } from './common';
+
 // 提示拦截
+
 let messageInstance: MessageHandler;
 const message_error = (info: string) => {
     if (messageInstance) {
@@ -25,9 +27,11 @@ const pendingRequests = new Map();
 const release_url = ['attachmentapi/upload'];
 // 创建 axios 实例
 const index = window.location.href.lastIndexOf('?s=');
-const pro_url = window.location.href.substring(0, index);
+const new_data = window.location.href.substring(0, index);
+const new_index = new_data.lastIndexOf('/');
+const pro_url = window.location.href.substring(0, new_index);
 const service = axios.create({
-    baseURL: import.meta.env.VITE_APP_BASE_API == '/dev-admin' ? import.meta.env.VITE_APP_BASE_API : pro_url + '?s=',
+    baseURL: import.meta.env.VITE_APP_BASE_API_INDEX_PHP == '/dev-index' ? import.meta.env.VITE_APP_BASE_API_INDEX_PHP : pro_url + '/index.php',
     timeout: 60000,
     headers: { 'Content-Type': 'application/json;charset=utf-8', 'X-Requested-With': 'XMLHttpRequest' },
 });
@@ -35,9 +39,10 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
+        // 如果是本地则使用静态tonken如果是线上则使用cookie的token
         const symbol = config.url?.includes('?') ? '&' : '?';
-        if (import.meta.env.VITE_APP_BASE_API == '/dev-admin') {
-            let temp_data = await import(import.meta.env.VITE_APP_BASE_API == '/dev-admin' ? '../../temp.d' : '../../temp_pro.d');
+        if (import.meta.env.VITE_APP_BASE_API_INDEX_PHP == '/dev-index') {
+            let temp_data = await import(import.meta.env.VITE_APP_BASE_API_INDEX_PHP == '/dev-index' ? '../../temp.d' : '../../temp_pro.d');
             config.url = config.url + symbol + 'token=' + temp_data.default.temp_token;
         } else {
             // 如果是shop认为是多商户插件使用user_info的cookie
@@ -89,7 +94,7 @@ service.interceptors.response.use(
             }
         } else {
             message_error(msg || message || '系统出错');
-            return Promise.reject(msg || message || '系统出错');
+            return Promise.reject('Error');
             // return Promise.reject(new Error(msg || 'Error'));
         }
     },
@@ -102,7 +107,8 @@ service.interceptors.response.use(
         } else {
             message_error(error.message);
         }
-        return Promise.reject(error.msg || error.message);
+
+        return Promise.reject(error.message);
     }
 );
 
