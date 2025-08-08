@@ -2,7 +2,7 @@
     <!-- 商品 -->
     <div class="container">
         <div class="flex-row jc-e gap-20 mb-20 align-c">
-            <el-cascader v-model="category_ids" :options="category_list" :props="cascader_config" placeholder="请选择" :show-all-levels="false" filterable clearable @change="cascader_change" />
+            <el-cascader v-model="category_ids" :options="category_list" :props="cascader_config" placeholder="请选择" :show-all-levels="false" collapse-tags filterable clearable @change="cascader_change" />
             <el-select v-model="brand_ids" class="search-w" placeholder="品牌" filterable clearable @change="handle_search">
                 <el-option v-for="item in brand_list" :key="item.id" :label="item.name" :value="item.id" />
             </el-select>
@@ -80,6 +80,8 @@ const cascader_config = {
     value: 'id',
     label: 'name',
     children: 'items',
+    multiple: true,
+    checkStrictly: true,
 };
 const init = () => {
     template_selection.value = '';
@@ -178,6 +180,19 @@ const handle_select = (selection: any) => {
         .img {
             width: 3.6rem;
         }
+    }
+}
+// 输入框超出隐藏，不换行
+:deep(.el-cascader) {
+    height: 3.2rem;
+    .el-input {
+        height: 3.2rem;
+    }
+    .el-cascader__tags {
+        flex-wrap: nowrap !important;
+    }
+    .el-tag {
+        max-width: 10rem;
     }
 }
 </style>

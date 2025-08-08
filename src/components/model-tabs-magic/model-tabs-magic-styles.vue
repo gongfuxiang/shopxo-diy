@@ -94,12 +94,12 @@
                 <el-form-item label="按钮文字">
                     <div class="flex-col gap-10 w h">
                         <div class="flex-row gap-20">
-                            <span class="size-12 cr-9">未选样式</span>
-                            <color-picker v-model="form.more_button_text_selected_color" default-color="#666"></color-picker>
+                            <span class="size-12 cr-9">未选颜色</span>
+                            <color-picker v-model="form.more_button_text_color" default-color="#666"></color-picker>
                         </div>
                         <div class="flex-row gap-20">
-                            <span class="size-12 cr-9">选中样式</span>
-                            <color-picker v-model="form.more_button_text_color" default-color="#666"></color-picker>
+                            <span class="size-12 cr-9">选中颜色</span>
+                            <color-picker v-model="form.more_button_text_selected_color" default-color="#666"></color-picker>
                         </div>
                         <div class="flex-row gap-20">
                             <span class="size-12 cr-9">选中背景</span>
