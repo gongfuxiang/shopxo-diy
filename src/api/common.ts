@@ -1,12 +1,13 @@
 import { get_type } from '@/utils/common';
 import request from '@/utils/request';
+import api_request from '@/utils/api-request';
 import { isEmpty } from 'lodash';
 
 class CommonAPI {
     /**  链接初始化接口 */
     static getInit() {
         if (get_type() == 'shop') {
-            return request({
+            return api_request({
                 url: `?s=plugins/index/pluginsname/shop/pluginscontrol/diyapi/pluginsaction/init.html`,
                 method: 'post',
             });

@@ -20,7 +20,7 @@ export const font_weight = [
 export const get_id = () => {
     let new_id = '';
     // 去除origin的数据
-    const url = document.location.href.replace(document.location.origin, '');
+    const url = document.location.href;
     if (url.indexOf('id/') != -1) {
         new_id = url.substring(url.indexOf('id/') + 3);
         // 去除字符串的.html
@@ -45,7 +45,7 @@ export const get_id = () => {
 export const get_type = () => {
     let new_type = '';
     // 去除origin的数据
-    const url = document.location.href.replace(document.location.origin, '');
+    const url = document.location.href;
     if (url.indexOf('type/') != -1) {
         new_type = url.substring(url.indexOf('type/') + 5);
         // 去除字符串的.html
