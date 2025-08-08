@@ -97,6 +97,7 @@ interface defaultTabs {
         more_button_text_selected_color: string;
         more_button_direction: string;
         more_button_color_list: color_list[];
+        more_button_radius: radiusStyle;
         data_spacing: number;
         radius: number;
         radius_top_left: number;
@@ -341,6 +342,13 @@ const defaultTabs: defaultTabs = {
         more_button_text_selected_color: '#666',
         more_button_direction: '90deg',
         more_button_color_list: [{ color: '#eee', color_percentage: undefined }],
+        more_button_radius: {
+            radius: 57,
+            radius_top_left: 57,
+            radius_top_right: 57,
+            radius_bottom_left: 57,
+            radius_bottom_right: 57,
+        },
         // 选项卡与轮播之间的间距
         data_spacing: 0,
         // 图片圆角

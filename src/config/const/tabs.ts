@@ -59,6 +59,7 @@ interface defaultTabs {
         more_button_text_selected_color: string;
         more_button_direction: string;
         more_button_color_list: color_list[];
+        more_button_radius: radiusStyle;
         common_style: object;
     };
 }
@@ -135,6 +136,13 @@ const defaultTabs: defaultTabs = {
         more_button_text_selected_color: '#666',
         more_button_direction: '90deg',
         more_button_color_list: [{ color: '#eee', color_percentage: undefined }],
+        more_button_radius: {
+            radius: 57,
+            radius_top_left: 57,
+            radius_top_right: 57,
+            radius_bottom_left: 57,
+            radius_bottom_right: 57,
+        },
         common_style: {
             ...defaultCommon,
             color_list: [{ color: '#fff', color_percentage: undefined }],

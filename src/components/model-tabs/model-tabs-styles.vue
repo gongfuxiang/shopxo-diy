@@ -109,6 +109,12 @@
                                 <mult-color-picker :value="form.more_button_color_list" :type="form.more_button_direction" @update:value="more_button_color_picker_event"></mult-color-picker>
                             </div>
                         </div>
+                        <div class="flex-row gap-20">
+                            <span class="size-12 cr-9">按钮圆角</span>
+                            <div class="flex-1">
+                                <radius :value="form.more_button_radius"></radius>
+                            </div>
+                        </div>
                     </div>
                 </el-form-item>
             </card-container>
