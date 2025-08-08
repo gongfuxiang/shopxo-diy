@@ -19,16 +19,18 @@ export const font_weight = [
 // 截取document.location.search字符串内id/后面的所有字段
 export const get_id = () => {
     let new_id = '';
-    if (document.location.search.indexOf('id/') != -1) {
-        new_id = document.location.search.substring(document.location.search.indexOf('id/') + 3);
+    // 去除origin的数据
+    const url = document.location.href.replace(document.location.origin, '');
+    if (url.indexOf('id/') != -1) {
+        new_id = url.substring(url.indexOf('id/') + 3);
         // 去除字符串的.html
         let html_index = new_id.indexOf('.html');
         if (html_index != -1) {
             new_id = new_id.substring(0, html_index);
         }
         return new_id;
-    } else if (document.location.search.indexOf('shop-diy-saveinfo') != -1) {
-        new_id = document.location.search.substring(document.location.search.indexOf('shop-diy-saveinfo-') + 18);
+    } else if (url.indexOf('shop-diy-saveinfo') != -1) {
+        new_id = url.substring(url.indexOf('shop-diy-saveinfo-') + 18);
         // 去除字符串的.html
         const dot_data = new_id.split('.')[0];
         if (dot_data != '') {
@@ -42,8 +44,10 @@ export const get_id = () => {
 
 export const get_type = () => {
     let new_type = '';
-    if (document.location.search.indexOf('type/') != -1) {
-        new_type = document.location.search.substring(document.location.search.indexOf('type/') + 5);
+    // 去除origin的数据
+    const url = document.location.href.replace(document.location.origin, '');
+    if (url.indexOf('type/') != -1) {
+        new_type = url.substring(url.indexOf('type/') + 5);
         // 去除字符串的.html
         // 去除字符串的.html
         const dot_data = new_type.split('.')[0];
