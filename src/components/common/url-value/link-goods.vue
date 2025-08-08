@@ -82,6 +82,7 @@ const cascader_config = {
     children: 'items',
     multiple: true,
     checkStrictly: true,
+    emitPath: false,
 };
 const init = () => {
     template_selection.value = '';
@@ -121,7 +122,7 @@ const get_list = (new_page: number) => {
         keywords: search_value.value,
         brand_ids: brand_ids.value,
         page_size: page_size.value,
-        category_ids: category_ids.value.length > 0 ? category_ids.value[category_ids.value.length - 1] : '',
+        category_ids: category_ids.value,
     };
     loading.value = true;
     UrlValueAPI.getGoodsList(new_data).then((res: any) => {
