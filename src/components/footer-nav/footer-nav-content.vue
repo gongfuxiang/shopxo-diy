@@ -59,7 +59,9 @@
 <script setup lang="ts">
 import { cloneDeep } from 'lodash';
 import { get_math } from '@/utils';
-import DiyAPI from '@/api/tabbar';
+import CommonAPI from '@/api/common';
+import { commonStore } from '@/store';
+const common_store = commonStore();
 import defaultFooterNav from '@/config/const/footer-nav';
 const app = getCurrentInstance();
 /**
@@ -130,7 +132,7 @@ const sync_sys_event = () => {
         config: clone_form,
     };
     app?.appContext.config.globalProperties.$common.message_box('将数据同步到系统底部菜单，确定继续吗？', 'warning').then(() => {
-        DiyAPI.saveTabbar(new_data).then((res: any) => {
+        CommonAPI.getDynamicApi(common_store.common.app_tabbar_save_url, new_data).then((res: any) => {
             ElMessage.success('同步成功');
         });
     });

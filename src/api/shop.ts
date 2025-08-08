@@ -1,17 +1,16 @@
-import request from '@/utils/request';
 import api_request from '@/utils/api-request';
 class ShopAPI {
     /**  分类品牌查询接口*/
     static getShop() {
-        return request({
-            url: `diyapi/goodsinit`,
+        return api_request({
+            url: `?s=diyapi/goodsinit`,
             method: 'post',
         });
     }
     /** 自动查询商品接口*/
     static getShopLists(data: any) {
-        return request({
-            url: `diyapi/goodsautodata`,
+        return api_request({
+            url: `?s=diyapi/goodsautodata`,
             method: 'post',
             data,
         });

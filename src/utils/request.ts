@@ -1,9 +1,8 @@
 import axios, { InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { ElMessage, ElMessageBox, type MessageHandler } from 'element-plus';
 import { get_cookie } from './index';
-
+import { get_type } from '@/utils/common';
 // 提示拦截
-
 let messageInstance: MessageHandler;
 const message_error = (info: string) => {
     if (messageInstance) {
@@ -28,7 +27,7 @@ const release_url = ['attachmentapi/attachmentupload'];
 const index = window.location.href.lastIndexOf('?s=');
 const pro_url = window.location.href.substring(0, index);
 const service = axios.create({
-    baseURL: import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API : pro_url + '?s=',
+    baseURL: import.meta.env.VITE_APP_BASE_API == '/dev-admin' ? import.meta.env.VITE_APP_BASE_API : pro_url + '?s=',
     timeout: 60000,
     headers: { 'Content-Type': 'application/json;charset=utf-8', 'X-Requested-With': 'XMLHttpRequest' },
 });
@@ -36,13 +35,13 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
-        // 如果是本地则使用静态tonken如果是线上则使用cookie的token
-        const cookie = get_cookie('admin_info') || '';
         const symbol = config.url?.includes('?') ? '&' : '?';
-        if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
-            let temp_data = await import(import.meta.env.VITE_APP_BASE_API == '/dev-api' ? '../../temp.d' : '../../temp_pro.d');
+        if (import.meta.env.VITE_APP_BASE_API == '/dev-admin') {
+            let temp_data = await import(import.meta.env.VITE_APP_BASE_API == '/dev-admin' ? '../../temp.d' : '../../temp_pro.d');
             config.url = config.url + symbol + 'token=' + temp_data.default.temp_token;
         } else {
+            // 如果是shop认为是多商户插件使用user_info的cookie
+            const cookie = get_type() == 'shop' ? get_cookie('user_info') : get_cookie('admin_info');
             if (cookie && cookie !== null && cookie !== 'null') {
                 config.url = config.url + '&token=' + (JSON.parse(cookie) !== 'null' ? JSON.parse(cookie)?.token : '');
             }

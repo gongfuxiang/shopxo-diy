@@ -14,3 +14,44 @@ export const font_weight = [
     { name: '加粗', value: 'bold' },
     { name: '正常', value: '400' },
 ];
+
+
+// 截取document.location.search字符串内id/后面的所有字段
+export const get_id = () => {
+    let new_id = '';
+    if (document.location.search.indexOf('id/') != -1) {
+        new_id = document.location.search.substring(document.location.search.indexOf('id/') + 3);
+        // 去除字符串的.html
+        let html_index = new_id.indexOf('.html');
+        if (html_index != -1) {
+            new_id = new_id.substring(0, html_index);
+        }
+        return new_id;
+    } else if (document.location.search.indexOf('shop-diy-saveinfo') != -1) {
+        new_id = document.location.search.substring(document.location.search.indexOf('shop-diy-saveinfo-') + 18);
+        // 去除字符串的.html
+        const dot_data = new_id.split('.')[0];
+        if (dot_data != '') {
+            new_id = dot_data.split('/')[0];
+        }
+        return new_id;
+    } else {
+        return new_id;
+    }
+};
+
+export const get_type = () => {
+    let new_type = '';
+    if (document.location.search.indexOf('type/') != -1) {
+        new_type = document.location.search.substring(document.location.search.indexOf('type/') + 5);
+        // 去除字符串的.html
+        // 去除字符串的.html
+        const dot_data = new_type.split('.')[0];
+        if (dot_data != '') {
+            new_type = dot_data.split('/')[0];
+        }
+        return new_type;
+    } else {
+        return new_type;
+    }
+}

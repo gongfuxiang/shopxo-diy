@@ -1,35 +1,34 @@
-import request from '@/utils/request';
 import api_request from '@/utils/api-request';
 
 class UrlValueAPI {
     /**  获取商品列表 */
     static getGoodsList(data: any) {
-        return request({
-            url: `diyapi/goodslist`,
+        return api_request({
+            url: `?s=diyapi/goodslist`,
             method: 'post',
             data,
         });
     }
     /** 获取文章列表 */
     static getArticleList(data: any) {
-        return request({
-            url: `diyapi/articlelist`,
+        return api_request({
+            url: `?s=diyapi/articlelist`,
             method: 'post',
             data,
         });
     }
     /** 获取diy列表 */
     static getDiyList(data: any) {
-        return request({
-            url: `diyapi/diylist`,
+        return api_request({
+            url: `?s=diyapi/diylist`,
             method: 'post',
             data,
         });
     }
     /** 获取页面设计列表 */
     static getDesignList(data: any) {
-        return request({
-            url: `diyapi/designlist`,
+        return api_request({
+            url: `?s=diyapi/designlist`,
             method: 'post',
             data,
         });
@@ -37,16 +36,16 @@ class UrlValueAPI {
 
     /** 获取自定义列表 */
     static getCustomList(data: any) {
-        return request({
-            url: `diyapi/customviewlist`,
+        return api_request({
+            url: `?s=diyapi/customviewlist`,
             method: 'post',
             data,
         });
     }
     /** 获取品牌列表 */
     static getBrandList(data: any) {
-        return request({
-            url: `diyapi/brandlist`,
+        return api_request({
+            url: `?s=diyapi/brandlist`,
             method: 'post',
             data,
         });

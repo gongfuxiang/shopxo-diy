@@ -8,6 +8,14 @@ export const commonStore = defineStore('common', () => {
     const is_tabs_0_up = ref(false);
     const header_height = ref(0);
     const common = ref({
+        app_tabbar_data_url: '' as string, //获取tabbar列表
+        app_tabbar_save_url: '' as string, //保存tabbar
+        diy_detail_url: '' as string, //获取diy详情
+        diy_download_url: '' as string, //diy导出
+        diy_install_url: '' as string, //diy导入 -- 安装
+        diy_market_url: '' as string, //diy导入--获取列表
+        diy_save_url: '' as string, //diy导入--保存
+        diy_upload_url: '' as string, //diy导入
         article_category: [] as any[], //---- 文章分类
         blog_category: [] as any[], //---- 文章分类
         attachment_category: [] as any[], //---- 附件分类

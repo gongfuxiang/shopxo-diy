@@ -9,7 +9,7 @@
                 </div>
             </template>
             <template v-else>
-                <no-data height="100vh" img-width="260px" size="16px" text="编辑数据有误"></no-data>
+                <no-data height="100vh" img-width="260px" size="16px" :text="empty_data"></no-data>
             </template>
         </template>
         <preview v-model="preview_dialog" :data-id="diy_id"></preview>
@@ -24,10 +24,11 @@ import defaultSettings from './components/main/index';
 import defaultConfigSetting from '@/config/setting';
 import defaultConfigConst from '@/config/const/index';
 import { clone, cloneDeep, isEmpty, omit } from 'lodash';
-import DiyAPI, { diyData, headerAndFooter, diyConfig } from '@/api/diy';
+import { diyData, headerAndFooter, diyConfig } from '@/api/diy';
 import CommonAPI from '@/api/common';
 import { commonStore } from '@/store';
 import { magic_config } from '@/config/const/tabs-magic';
+import { get_id } from '@/utils/common';
 const common_store = commonStore();
 interface diy_data_item {
     id: string;
@@ -134,9 +135,10 @@ onMounted(() => {
     common_init();
 });
 const is_empty = ref(false);
+const empty_data = ref('编辑数据有误');
 const init = () => {
     if (get_id()) {
-        DiyAPI.getInit({ id: get_id() }).then((res: any) => {
+        CommonAPI.getDynamicApi(common_store.common.diy_detail_url, { id: get_id() }).then((res: any) => {
             const new_data = res.data?.data || undefined;
             if (new_data) {
                 let data = form_data_transfor_diy_data(new_data);
@@ -157,7 +159,12 @@ const init = () => {
                 form.value = data;
             } else {
                 is_empty.value = true;
+                empty_data.value = '编辑数据有误';
             }
+            loading_event();
+        }).catch((err) => {
+            is_empty.value = true;
+            empty_data.value = err;
             loading_event();
         });
     } else {
@@ -451,7 +458,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
     });
     // 数据改造
     const new_data = diy_data_transfor_form_data(clone_form);
-    DiyAPI.save(new_data)
+    CommonAPI.getDynamicApi(common_store.common.diy_save_url, new_data)
         .then((res) => {
             setTimeout(() => {
                 save_disabled.value = false;
@@ -475,7 +482,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                 if (is_export) {
                     const index = window.location.href.lastIndexOf('?s=');
                     const pro_url = window.location.href.substring(0, index);
-                    const new_url = import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API_URL : pro_url;
+                    const new_url = import.meta.env.VITE_APP_BASE_API == '/dev-admin' ? import.meta.env.VITE_APP_BASE_API_URL : pro_url;
                     window.open(new_url + '?s=diyapi/diydownload/id/' + res.data + '.html', '_blank');
                 }
                 if (is_preview) {
@@ -639,22 +646,6 @@ const form_data_transfor_diy_data = (clone_form: diyData) => {
             tabs_data: new_tem_form.tabs_data,
             diy_data: new_tem_form.diy_data,
         };
-    }
-};
-
-// 截取document.location.search字符串内id/后面的所有字段
-const get_id = () => {
-    let new_id = '';
-    if (document.location.search.indexOf('id/') != -1) {
-        new_id = document.location.search.substring(document.location.search.indexOf('id/') + 3);
-        // 去除字符串的.html
-        let html_index = new_id.indexOf('.html');
-        if (html_index != -1) {
-            new_id = new_id.substring(0, html_index);
-        }
-        return new_id;
-    } else {
-        return new_id;
     }
 };
 </script>

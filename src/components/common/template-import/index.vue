@@ -132,8 +132,9 @@
 <script lang="ts" setup>
 import type { UploadFile } from 'element-plus';
 import { annex_size_to_unit } from '@/utils';
-import DiyAPI from '@/api/diy';
+import CommonAPI from '@/api/common';
 import { commonStore } from '@/store';
+import { get_id } from '@/utils/common';
 const common_store = commonStore();
 const app = getCurrentInstance();
 /**
@@ -207,7 +208,7 @@ const get_import_list = (type?: string) => {
         ...form.value,
         is_already_buy: form.value.status ? '1' : '0',
     };
-    DiyAPI.getImportList(new_data)
+    CommonAPI.getDynamicApi(common_store.common.diy_market_url, new_data)
         .then((res: any) => {
             const data = res.data;
             form.value.data_total = data.data_total;
@@ -264,7 +265,7 @@ interface install_data {
 }
 const install = async (item: install_data) => {
     let new_data = item;
-    DiyAPI.install(item)
+    CommonAPI.getDynamicApi(common_store.common.diy_install_url ,item)
         .then((res: any) => {
             switch (item.opt) {
                 case 'url':
@@ -317,7 +318,7 @@ const confirm_event = () => {
         if (file_list.value && file_list.value[0].raw) {
             form_data.append('file', file_list.value[0]?.raw);
         }
-        DiyAPI.import(form_data)
+        CommonAPI.getDynamicApi(common_store.common.diy_upload_url, form_data, true)
             .then((res: any) => {
                 ElMessage.success(res.msg);
                 history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
@@ -328,21 +329,6 @@ const confirm_event = () => {
     }
 };
 
-// 截取document.location.search字符串内id/后面的所有字段
-const get_id = () => {
-    let new_id = '';
-    if (document.location.search.indexOf('id/') != -1) {
-        new_id = document.location.search.substring(document.location.search.indexOf('id/') + 3);
-        // 去除字符串的.html
-        let html_index = new_id.indexOf('.html');
-        if (html_index != -1) {
-            new_id = new_id.substring(0, html_index);
-        }
-        return new_id;
-    } else {
-        return new_id;
-    }
-};
 </script>
 <style lang="scss" scoped>
 .url-value-content {
