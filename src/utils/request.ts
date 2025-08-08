@@ -35,15 +35,16 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
-        const symbol = config.url?.includes('?') ? '&' : '?';
+        const new_url = get_type() == 'shop' && config.url?.includes('diyapi/init') ? '?s=plugins/index/pluginsname/shop/pluginscontrol/diyapi/pluginsaction/init.html' : config.url;
+        const symbol = new_url ?.includes('?') ? '&' : '?';
         if (import.meta.env.VITE_APP_BASE_API == '/dev-admin') {
             let temp_data = await import(import.meta.env.VITE_APP_BASE_API == '/dev-admin' ? '../../temp.d' : '../../temp_pro.d');
-            config.url = config.url + symbol + 'token=' + temp_data.default.temp_token;
+            config.url = new_url + symbol + 'token=' + temp_data.default.temp_token;
         } else {
             // 如果是shop认为是多商户插件使用user_info的cookie
             const cookie = get_type() == 'shop' ? get_cookie('user_info') : get_cookie('admin_info');
             if (cookie && cookie !== null && cookie !== 'null') {
-                config.url = config.url + '&token=' + (JSON.parse(cookie) !== 'null' ? JSON.parse(cookie)?.token : '');
+                config.url = new_url + '&token=' + (JSON.parse(cookie) !== 'null' ? JSON.parse(cookie)?.token : '');
             }
         }
         // 判断是否是包含不需要认证的接口

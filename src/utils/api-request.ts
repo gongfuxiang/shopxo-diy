@@ -39,16 +39,17 @@ const service = axios.create({
 // 请求拦截器
 service.interceptors.request.use(
     async (config: InternalAxiosRequestConfig) => {
+        const new_url = get_type() == 'shop' && config.url?.includes('diyapi/init') ? '?s=plugins/index/pluginsname/shop/pluginscontrol/diyapi/pluginsaction/init.html' : config.url;
         // 如果是本地则使用静态tonken如果是线上则使用cookie的token
-        const symbol = config.url?.includes('?') ? '&' : '?';
+        const symbol = new_url?.includes('?') ? '&' : '?';
         if (import.meta.env.VITE_APP_BASE_API_PHP == '/dev-api') {
             let temp_data = await import(import.meta.env.VITE_APP_BASE_API_PHP == '/dev-api' ? '../../temp.d' : '../../temp_pro.d');
-            config.url = config.url + symbol + 'token=' + temp_data.default.temp_token;
+            config.url = new_url + symbol + 'token=' + temp_data.default.temp_token;
         } else {
             // 如果是shop认为是多商户插件使用user_info的cookie
             const cookie = get_type() == 'shop' ? get_cookie('user_info') : get_cookie('admin_info');
             if (cookie && cookie !== null && cookie !== 'null') {
-                config.url = config.url + '&token=' + (JSON.parse(cookie) !== 'null' ? JSON.parse(cookie)?.token : '');
+                config.url = new_url + '&token=' + (JSON.parse(cookie) !== 'null' ? JSON.parse(cookie)?.token : '');
             }
         }
         // 判断是否是包含不需要认证的接口
