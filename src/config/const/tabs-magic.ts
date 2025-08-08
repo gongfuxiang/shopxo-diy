@@ -34,6 +34,7 @@ interface tabs_page {
     micro_page_list: object;
     category_list: object;
     magic_type: string;
+    magic_common: object;
     rotating_background: string,
     carousel: object;
     video: object;
@@ -141,14 +142,6 @@ const magic_common_config = {
         box_shadow_y: 0,
         box_shadow_blur: 0,
         box_shadow_spread: 0,
-    },
-    // 通用样式
-    magic_common: {
-        is_show: '0',
-        direction: '90deg',
-        color_list: [{ color: '', color_percentage: undefined }],
-        background_img_style: '2',
-        background_img: [],
     },
 }
 // 魔方配置
@@ -301,6 +294,14 @@ const defaultTabs: defaultTabs = {
             category_list: {},
             magic_type: 'carousel',
             rotating_background: '0',
+            // 通用样式
+            magic_common: {
+                is_show: '0',
+                direction: '90deg',
+                color_list: [{ color: '', color_percentage: undefined }],
+                background_img_style: '2',
+                background_img: [],
+            },
             ...cloneDeep(magic_config),
         },
         tabs_list: [
@@ -319,6 +320,13 @@ const defaultTabs: defaultTabs = {
                 category_list: {},
                 magic_type: '',
                 rotating_background: '0',
+                magic_common: {
+                    is_show: '0',
+                    direction: '90deg',
+                    color_list: [{ color: '', color_percentage: undefined }],
+                    background_img_style: '2',
+                    background_img: [],
+                },
                 ...cloneDeep(magic_config),
             },
             { 
@@ -336,6 +344,13 @@ const defaultTabs: defaultTabs = {
                 category_list: {},
                 magic_type: '',
                 rotating_background: '0',
+                magic_common: {
+                    is_show: '0',
+                    direction: '90deg',
+                    color_list: [{ color: '', color_percentage: undefined }],
+                    background_img_style: '2',
+                    background_img: [],
+                },
                 ...cloneDeep(magic_config),
             },
             { 
@@ -353,6 +368,13 @@ const defaultTabs: defaultTabs = {
                 category_list: {},
                 magic_type: '',
                 rotating_background: '0',
+                magic_common: {
+                    is_show: '0',
+                    direction: '90deg',
+                    color_list: [{ color: '', color_percentage: undefined }],
+                    background_img_style: '2',
+                    background_img: [],
+                },
                 ...cloneDeep(magic_config),
             },
         ],

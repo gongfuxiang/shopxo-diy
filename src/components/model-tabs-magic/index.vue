@@ -83,8 +83,8 @@ const tabs_magic_value = computed(() => active_tabs_value.value[tabs_magic_type.
 // 判断是否开启轮播图背景设置
 const is_rotating_background = computed(() => active_tabs_value.value.rotating_background == '1');
 // 选中的公共样式
-const style_active_container = computed(() => !isEmpty(tabs_magic_value.value) ? (tabs_magic_value.value.style.magic_common.is_show == '1' ? gradient_computer(tabs_magic_value.value.style.magic_common) : '') : '');
-const style_active_img_container = computed(() => !isEmpty(tabs_magic_value.value) ? (tabs_magic_value.value.style.magic_common.is_show == '1' ? background_computer(tabs_magic_value.value.style.magic_common) : '') : '');
+const style_active_container = computed(() => !isEmpty(active_tabs_value.value) ? (active_tabs_value.value.magic_common.is_show == '1' ? gradient_computer(active_tabs_value.value.magic_common) : '') : '');
+const style_active_img_container = computed(() => !isEmpty(active_tabs_value.value) ? (active_tabs_value.value.magic_common.is_show == '1' ? background_computer(active_tabs_value.value.magic_common) : '') : '');
 // 选中的内容区域样式
 const magic_container = computed(() => !isEmpty(tabs_magic_value.value) ? (common_styles_computer(tabs_magic_value.value.style.magic_content)) : '');
 const magic_img_container = computed(() => !isEmpty(tabs_magic_value.value) ? (common_img_computer(tabs_magic_value.value.style.magic_content)) : '');

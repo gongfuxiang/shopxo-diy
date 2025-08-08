@@ -57,26 +57,33 @@
                             </el-form-item>
                             <sliding-fixed v-model="form.home_data.is_sliding_fixed" @sliding_fixed_change="sliding_fixed_change($event, 0, 'home_data')"></sliding-fixed>
                             <template v-if="form.tabs_active_index == 0">
-                                <el-form-item label="魔方内容" class="w mb-0">
-                                    <el-select v-model="form.home_data.magic_type" filterable placeholder="请选择魔方内容" size="default" clearable @change="magic_type_change()">
-                                        <el-option v-for="item in magic_option" :key="item.value" :label="item.name" :value="item.value" />
-                                    </el-select>
-                                </el-form-item>
-                                <el-form-item v-if="form.home_data.magic_type == 'carousel'" label="轮播背景" class="w mb-0">
-                                    <el-switch v-model="form.home_data.rotating_background" class="mr-10" active-value="1" inactive-value="0" />
-                                    <tooltip content="1.关闭的时候,如果没有选项卡背景会使用通用背景.<br/>2.打开的时候,如果没有选项卡背景会使用轮播背景,都没有的时候会使用通用背景"></tooltip>
-                                </el-form-item>
-                                <template v-if="!isEmpty(form.home_data.magic_type)">
-                                    <!-- 魔方内容设置 -->
-                                    <el-tabs v-model="tabs_name" class="tabs-magic-content-tabs">
-                                        <el-tab-pane label="内容设置" name="content" class="tabs-magic-content">
-                                            <tabs-magic-content :magic-type="form.home_data.magic_type" :value="form.home_data[form.home_data.magic_type]"></tabs-magic-content>
-                                        </el-tab-pane>
-                                        <el-tab-pane label="样式设置" name="styles" class="tabs-magic-content">
-                                            <tabs-magic-styles :magic-type="form.home_data.magic_type" :value="form.home_data[form.home_data.magic_type]"></tabs-magic-styles>
-                                        </el-tab-pane>
-                                    </el-tabs>
-                                </template>
+                                <el-tabs v-model="tabs_name" class="content-tabs">
+                                    <el-tab-pane label="内容设置" name="content" class="content">
+                                        <el-form-item label="魔方内容" class="w mtb-10">
+                                            <el-select v-model="form.home_data.magic_type" filterable placeholder="请选择魔方内容" size="default" clearable @change="magic_type_change()">
+                                                <el-option v-for="item in magic_option" :key="item.value" :label="item.name" :value="item.value" />
+                                            </el-select>
+                                        </el-form-item>
+                                        <el-form-item v-if="form.home_data.magic_type == 'carousel'" label="轮播背景" class="w mtb-10">
+                                            <el-switch v-model="form.home_data.rotating_background" class="mr-10" active-value="1" inactive-value="0" />
+                                            <tooltip content="1.关闭的时候,如果没有选项卡背景会使用通用背景.<br/>2.打开的时候,如果没有选项卡背景会使用轮播背景,都没有的时候会使用通用背景"></tooltip>
+                                        </el-form-item>
+                                        <template v-if="!isEmpty(form.home_data.magic_type)">
+                                            <!-- 魔方内容设置 -->
+                                            <el-tabs v-model="tabs_magic_name" class="tabs-magic-content-tabs">
+                                                <el-tab-pane label="魔方内容" name="content" class="tabs-magic-content">
+                                                    <tabs-magic-content :magic-type="form.home_data.magic_type" :value="form.home_data[form.home_data.magic_type]"></tabs-magic-content>
+                                                </el-tab-pane>
+                                                <el-tab-pane label="魔方样式" name="styles" class="tabs-magic-content">
+                                                    <tabs-magic-styles :magic-type="form.home_data.magic_type" :value="form.home_data[form.home_data.magic_type]"></tabs-magic-styles>
+                                                </el-tab-pane>
+                                            </el-tabs>
+                                        </template>
+                                    </el-tab-pane>
+                                    <el-tab-pane label="通用样式" name="styles" class="tabs-magic-content">
+                                        <tabs-magic-common-style :value="form.home_data"></tabs-magic-common-style>
+                                    </el-tab-pane>
+                                </el-tabs>
                             </template>
                         </div>
                     </div>
@@ -113,27 +120,34 @@
                                             <url-value v-model="row.classify" :type="['goods-category']"></url-value>
                                         </template>
                                     </el-form-item>
-                                    <!-- 魔方内容显示页面 -->
-                                    <el-form-item label="魔方内容" class="w mb-0">
-                                        <el-select v-model="row.magic_type" filterable placeholder="请选择魔方内容" size="default" clearable @change="magic_type_change()">
-                                            <el-option v-for="item in magic_option" :key="item.value" :label="item.name" :value="item.value" />
-                                        </el-select>
-                                    </el-form-item>
-                                    <el-form-item v-if="row.magic_type == 'carousel'" label="轮播背景" class="w mb-0">
-                                        <el-switch v-model="row.rotating_background" class="mr-10" active-value="1" inactive-value="0" />
-                                        <tooltip content="1.关闭的时候,如果没有选项卡背景会使用通用背景.<br/>2.打开的时候,如果没有选项卡背景会使用轮播背景,都没有的时候会使用通用背景"></tooltip>
-                                    </el-form-item>
-                                    <template v-if="!isEmpty(row.magic_type)">
-                                        <!-- 魔方内容设置 -->
-                                        <el-tabs v-model="tabs_name" class="tabs-magic-content-tabs">
-                                            <el-tab-pane label="内容设置" name="content" class="tabs-magic-content">
-                                                <tabs-magic-content :magic-type="row.magic_type" :value="row[row.magic_type]"></tabs-magic-content>
-                                            </el-tab-pane>
-                                            <el-tab-pane label="样式设置" name="styles" class="tabs-magic-content">
-                                                <tabs-magic-styles :magic-type="row.magic_type" :value="row[row.magic_type]"></tabs-magic-styles>
-                                            </el-tab-pane>
-                                        </el-tabs>
-                                    </template>
+                                    <el-tabs v-model="tabs_name" class="content-tabs w h">
+                                        <el-tab-pane label="内容设置" name="content" class="content">
+                                            <!-- 魔方内容显示页面 -->
+                                            <el-form-item label="魔方内容" class="w mtb-10">
+                                                <el-select v-model="row.magic_type" filterable placeholder="请选择魔方内容" size="default" clearable @change="magic_type_change()">
+                                                    <el-option v-for="item in magic_option" :key="item.value" :label="item.name" :value="item.value" />
+                                                </el-select>
+                                            </el-form-item>
+                                            <el-form-item v-if="row.magic_type == 'carousel'" label="轮播背景" class="w mtb-10">
+                                                <el-switch v-model="row.rotating_background" class="mr-10" active-value="1" inactive-value="0" />
+                                                <tooltip content="1.关闭的时候,如果没有选项卡背景会使用通用背景.<br/>2.打开的时候,如果没有选项卡背景会使用轮播背景,都没有的时候会使用通用背景"></tooltip>
+                                            </el-form-item>
+                                            <template v-if="!isEmpty(row.magic_type)">
+                                                <!-- 魔方内容设置 -->
+                                                <el-tabs v-model="tabs_magic_name" class="tabs-magic-content-tabs">
+                                                    <el-tab-pane label="魔方内容" name="content" class="tabs-magic-content">
+                                                        <tabs-magic-content :magic-type="row.magic_type" :value="row[row.magic_type]"></tabs-magic-content>
+                                                    </el-tab-pane>
+                                                    <el-tab-pane label="魔方样式" name="styles" class="tabs-magic-content">
+                                                        <tabs-magic-styles :magic-type="row.magic_type" :value="row[row.magic_type]"></tabs-magic-styles>
+                                                    </el-tab-pane>
+                                                </el-tabs>
+                                            </template>
+                                        </el-tab-pane>
+                                        <el-tab-pane label="通用样式" name="styles" class="tabs-magic-content">
+                                            <tabs-magic-common-style :value="row"></tabs-magic-common-style>
+                                        </el-tab-pane>
+                                    </el-tabs>
                                 </template>
                             </div>
                         </template>
@@ -257,8 +271,9 @@ const sliding_fixed_change = (val: string | number | boolean, index: number, typ
 }
 //#region 选项卡魔方内容
 const tabs_name = ref('content');
+const tabs_magic_name = ref('content');
 const magic_type_change = () => {
-    tabs_name.value = 'content';
+    tabs_magic_name.value = 'content';
 }
 //#endregion
 // 选项卡是否设置安全距离
