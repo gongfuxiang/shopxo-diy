@@ -258,8 +258,15 @@ export const magic_config = {
             }
         }
     },
+    // 通用样式
+    magic_common: {
+        is_show: '0',
+        direction: '90deg',
+        color_list: [{ color: '', color_percentage: undefined }],
+        background_img_style: '2',
+        background_img: [],
+    },
 }
-
 const defaultTabs: defaultTabs = {
     content: {
         content_top: {
@@ -294,14 +301,6 @@ const defaultTabs: defaultTabs = {
             category_list: {},
             magic_type: 'carousel',
             rotating_background: '0',
-            // 通用样式
-            magic_common: {
-                is_show: '0',
-                direction: '90deg',
-                color_list: [{ color: '', color_percentage: undefined }],
-                background_img_style: '2',
-                background_img: [],
-            },
             ...cloneDeep(magic_config),
         },
         tabs_list: [
@@ -320,13 +319,6 @@ const defaultTabs: defaultTabs = {
                 category_list: {},
                 magic_type: '',
                 rotating_background: '0',
-                magic_common: {
-                    is_show: '0',
-                    direction: '90deg',
-                    color_list: [{ color: '', color_percentage: undefined }],
-                    background_img_style: '2',
-                    background_img: [],
-                },
                 ...cloneDeep(magic_config),
             },
             { 
@@ -344,13 +336,6 @@ const defaultTabs: defaultTabs = {
                 category_list: {},
                 magic_type: '',
                 rotating_background: '0',
-                magic_common: {
-                    is_show: '0',
-                    direction: '90deg',
-                    color_list: [{ color: '', color_percentage: undefined }],
-                    background_img_style: '2',
-                    background_img: [],
-                },
                 ...cloneDeep(magic_config),
             },
             { 
@@ -368,13 +353,6 @@ const defaultTabs: defaultTabs = {
                 category_list: {},
                 magic_type: '',
                 rotating_background: '0',
-                magic_common: {
-                    is_show: '0',
-                    direction: '90deg',
-                    color_list: [{ color: '', color_percentage: undefined }],
-                    background_img_style: '2',
-                    background_img: [],
-                },
                 ...cloneDeep(magic_config),
             },
         ],
