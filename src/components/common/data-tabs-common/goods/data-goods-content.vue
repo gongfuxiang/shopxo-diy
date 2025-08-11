@@ -114,6 +114,8 @@ const change_style = (val: any): void => {
 };
 const url_value_multiple_bool = ref(true);
 const data_list_replace_index = ref(0);
+// 打开弹出框
+const url_value_dialog_visible = ref(false);
 const data_list_replace = (index: number) => {
     data_list_replace_index.value = index;
     url_value_multiple_bool.value = false;
@@ -123,9 +125,6 @@ const product_add = () => {
     url_value_multiple_bool.value = true;
     url_value_dialog_visible.value = true;
 };
-
-// 打开弹出框
-const url_value_dialog_visible = ref(false);
 // 弹出框选择的内容
 const url_value_dialog_call_back = (item: any[]) => {
     if (url_value_multiple_bool.value) {
