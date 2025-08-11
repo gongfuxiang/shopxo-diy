@@ -73,7 +73,7 @@
                             <el-button size="large">导入</el-button>
                         </template>
                     </el-upload> -->
-                    <el-button v-if="common_store_config.diy_market_url !== '' &&  common_store_config.diy_upload_url !== ''" size="large" @click="import_click">导入</el-button>
+                    <el-button v-if="common_store_config.diy_market_url !== '' || common_store_config.diy_upload_url !== ''" size="large" @click="import_click">导入</el-button>
                     <el-button size="large" @click="clear_click">清空</el-button>
                 </div>
                 <!-- 拖拽区 -->

@@ -6,14 +6,15 @@ import { isEmpty } from 'lodash';
 class CommonAPI {
     /**  链接初始化接口 */
     static getInit() {
-        if (get_type() == 'shop') {
-            return index_request({
-                url: `?s=plugins/index/pluginsname/shop/pluginscontrol/diyapi/pluginsaction/init.html`,
+        const new_type = get_type();
+        if (isEmpty(new_type)) {
+            return request({
+                url: `diyapi/init`,
                 method: 'post',
             });
         } else {
-            return request({
-                url: `diyapi/init`,
+            return index_request({
+                url: `?s=plugins/index/pluginsname/${ new_type }/pluginscontrol/diyapi/pluginsaction/init.html`,
                 method: 'post',
             });
         }
