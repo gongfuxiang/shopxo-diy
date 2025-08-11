@@ -32,7 +32,7 @@
                 <el-table-column prop="category_text" width="100" label="分类名称" />
                 <el-table-column prop="brand_name" width="100" label="品牌名称" />
                 <template #empty>
-                    <no-data></no-data>
+                    <no-data :text="empty_text"></no-data>
                 </template>
             </el-table>
             <div class="mt-10 flex-row jc-e">
@@ -44,6 +44,7 @@
 <script lang="ts" setup>
 import commonApi from '@/api/common';
 import { commonStore } from '@/store';
+import { isEmpty } from 'lodash';
 const common_store = commonStore();
 const props = defineProps({
     // 重置
@@ -118,7 +119,8 @@ const page = ref(1);
 const page_size = ref(30);
 // 总数量
 const data_total = ref(0);
-
+// 修改显示
+const empty_text = ref('暂无数据');
 // 查询文件
 const get_list = (new_page: number) => {
     let new_data = {
@@ -131,11 +133,20 @@ const get_list = (new_page: number) => {
     loading.value = true;
     commonApi.getDynamicApi(props.linkUrl, new_data).then((res: any) => {
         tableData.value = res.data.data_list;
+        if (isEmpty(res.data.data_list)) {
+            empty_text.value = '暂无数据';
+        }
         data_total.value = res.data.data_total;
         page.value = res.data.page;
         setTimeout(() => {
             loading.value = false;
         }, 500);
+    }).catch((err: any) => {
+        tableData.value = [];
+        data_total.value = 0;
+        page.value = 1;
+        empty_text.value = err;
+        loading.value = false;
     });
 };
 //#region 分页 -----------------------------------------------end

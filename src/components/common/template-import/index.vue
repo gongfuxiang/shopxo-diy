@@ -3,10 +3,12 @@
     <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body :close-on-click-modal="false" @close="close_event">
         <template #header>
             <div class="title re">
-                <el-radio-group v-model="temp_active" is-button :disabled="is_disabled" @change="temp_change">
-                    <el-radio-button v-if="common_store_config.diy_upload_url !== ''" value="1">本地导入</el-radio-button>
-                    <el-radio-button v-if="common_store_config.diy_market_url !== ''" value="2">模版市场</el-radio-button>
-                </el-radio-group>
+                <template v-if="common_store_config.diy_upload_url !== '' && common_store_config.diy_market_url !== ''">
+                    <el-radio-group v-model="temp_active" is-button :disabled="is_disabled" @change="temp_change">
+                        <el-radio-button value="1">本地导入</el-radio-button>
+                        <el-radio-button value="2">模版市场</el-radio-button>
+                    </el-radio-group>
+                </template>
                 <div class="middle size-16 fw-b">模版导入</div>
             </div>
         </template>
@@ -153,7 +155,15 @@ const props = defineProps({
 const common_store_config = computed(() => common_store.common.config);
 
 const dialogVisible = defineModel({ type: Boolean, default: false });
+// 监听判断是否有当前的导入内容
 const temp_active = ref('1');
+watchEffect(() => {
+    if (common_store_config.value.diy_upload_url === '') {
+        temp_active.value = '2';
+    } else {
+        temp_active.value = '1';
+    }
+});
 const temp_change = (val: any) => {
     temp_active.value = val;
 };

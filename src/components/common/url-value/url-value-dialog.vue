@@ -26,6 +26,10 @@
                 <template v-else-if="link_select == 'goods-search'">
                     <link-goods-search :reset="reset_compontent" :status="component_status" :select-is-url="selectIsUrl" @update:link="goods_category_link" @type="goods_category_type_change"></link-goods-search>
                 </template>
+                <!-- 自定义链接 -->
+                <template v-else-if="link_select == 'custom-url'">
+                    <link-custom :reset="reset_compontent" :select-is-url="selectIsUrl" :status="component_status" @update:link="custom_link"></link-custom>
+                </template>
                 <template v-else-if="!isEmpty(link_url)">
                     <!-- 商品页面 -->
                     <template v-if="link_select == 'goods'">
@@ -46,10 +50,6 @@
                     <!-- 品牌 -->
                     <template v-else-if="link_select == 'brand'">
                         <link-brand v-model="link_value" :select-is-url="selectIsUrl" :link-url="link_url" :multiple="multiple" :reset="reset_compontent"></link-brand>
-                    </template>
-                    <!-- 自定义链接 -->
-                    <template v-else-if="link_select == 'custom-url'">
-                        <link-custom :reset="reset_compontent" :select-is-url="selectIsUrl" :status="component_status" @update:link="custom_link"></link-custom>
                     </template>
                     <!-- 优惠券链接 -->
                     <template v-else-if="link_select == 'coupon'">

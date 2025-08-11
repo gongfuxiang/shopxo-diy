@@ -29,7 +29,7 @@
                 <el-table-column prop="describe" label="描述"></el-table-column>
                 <el-table-column prop="activity_category_name" label="分类"></el-table-column>
                 <template #empty>
-                    <no-data></no-data>
+                    <no-data :text="empty_text"></no-data>
                 </template>
             </el-table>
             <div class="mt-10 flex-row jc-e">
@@ -102,6 +102,7 @@ const page = ref(1);
 const page_size = ref(30);
 // 总数量
 const data_total = ref(0);
+const empty_text = ref('暂无数据');
 // 查询文件
 const get_list = (new_page: number) => {
     let new_data = {
@@ -113,11 +114,20 @@ const get_list = (new_page: number) => {
     loading.value = true;
     commonApi.getDynamicApi(props.linkUrl, new_data).then((res: any) => {
         tableData.value = res.data?.data_list || [];
+        if (tableData.value.length === 0) {
+            empty_text.value = '暂无数据';
+        }
         data_total.value = res.data?.data_total || 1;
         page.value = res.data?.page || new_page;
         setTimeout(() => {
             loading.value = false;
-        }, 500);
+        }, 500);``
+    }).catch((err) => {
+        tableData.value = [];
+        data_total.value = 0;
+        page.value = 1;
+        empty_text.value = err;
+        loading.value = false;
     });
 };
 //#region 分页 -----------------------------------------------end

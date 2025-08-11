@@ -29,7 +29,7 @@
                     </template>
                 </el-table-column>
                 <template #empty>
-                    <no-data></no-data>
+                    <no-data :text="empty_text"></no-data>
                 </template>
             </el-table>
             <div class="mt-10 flex-row jc-e">
@@ -103,6 +103,7 @@ const page = ref(1);
 const page_size = ref(10);
 // 总数量
 const data_total = ref(0);
+const empty_text = ref('暂无数据');
 // 查询文件
 const get_list = (new_page: number) => {
     let new_data = {
@@ -114,11 +115,20 @@ const get_list = (new_page: number) => {
     loading.value = true;
     commonApi.getDynamicApi(props.linkUrl, new_data).then((res: any) => {
         tableData.value = res.data.data_list;
+        if (res.data.data_list.length === 0) {
+            empty_text.value = '暂无数据';
+        }
         data_total.value = res.data.data_total;
         page.value = res.data.page;
         setTimeout(() => {
             loading.value = false;
         }, 500);
+    }).catch((err) => {
+        tableData.value = [];
+        data_total.value = 0;
+        page.value = 1;
+        empty_text.value = err;
+        loading.value = false;
     });
 };
 //#region 分页 -----------------------------------------------end
