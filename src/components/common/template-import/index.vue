@@ -14,8 +14,8 @@
         </template>
         <div class="url-value-content ptb-16 flex-col gap-16">
             <div v-if="temp_active == '1'" class="h flex-row jc-c align-c">
-                <div class="import-content">
-                    <el-upload v-model:file-list="file_list" action="#" :accept="exts_text" :show-file-list="false" :auto-upload="false" :on-change="upload_change">
+                <div class="import-content flex-col align-c jc-c">
+                    <el-upload v-model:file-list="file_list" action="#" class="import-btn-box" :accept="exts_text" drag :show-file-list="false" :auto-upload="false" :on-change="upload_change">
                         <template #trigger>
                             <div class="import-btn">
                                 <icon name="upload-file" color="primary"></icon>
@@ -121,7 +121,7 @@
             <span class="dialog-footer">
                 <div v-if="temp_active == '1'">
                     <el-button class="plr-28 ptb-10" @click="close_event">取消</el-button>
-                    <el-button class="plr-28 ptb-10" type="primary" @click="confirm_event">确定</el-button>
+                    <el-button class="plr-28 ptb-10" :disabled="file_list.length <= 0" type="primary" @click="confirm_event">确定</el-button>
                 </div>
                 <div v-else class="flex-row jc-e">
                     <el-pagination :disabled="is_disabled" :current-page="form.page" background :page-size="form.page_size" :pager-count="5" layout="prev, pager, next" :total="form.data_total" @current-change="current_page_change" />
@@ -352,10 +352,21 @@ const confirm_event = () => {
 }
 .import-content {
     text-align: center;
+    .import-btn-box {
+        width: 14.2rem;
+        height: 14.2rem;
+        :deep(.el-upload-dragger) {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 !important;
+            border: 0;
+        }
+    }
     .import-btn {
+        display: flex;
         width: 14rem;
         height: 14rem;
-        display: flex;
         justify-content: center;
         align-items: center;
         font-size: 7rem;
