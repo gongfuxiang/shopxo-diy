@@ -21,14 +21,14 @@
                                 <icon name="search" size="18"></icon>
                             </template>
                         </el-input>
-                        <icon name="add" size="18" class="c-pointer" @click="add_type"></icon>
+                        <icon v-if="attachment_category_operate.is_add == '1'" name="add" size="18" class="c-pointer" @click="add_type"></icon>
                     </div>
                     <el-scrollbar height="490px">
                         <el-tree ref="treeRef" v-loading="tree_loading" :current-node-key="type_data[0].id" class="filter-tree" :data="type_data" node-key="id" highlight-current :props="defaultProps" empty-text="无数据" default-expand-all :filter-node-method="filter_node" @node-click="tree_node_event">
                             <template #default="{ node, data }">
                                 <div class="custom-tree-node flex-row jc-sb gap-10 align-c w pr-10" :class="data.is_enable == 0 || node.parent.data.is_enable == 0 ? 'disabled bg-red' : ''">
                                     <div class="flex-1 flex-width text-line-1 block">{{ data.name }}</div>
-                                    <div v-if="data.id" class="flex-row gap-10 cr-9 category-operate c-pointer">
+                                    <div v-if="data.id && (attachment_category_operate.is_add == '1' || attachment_category_operate.is_edit == '1' || attachment_category_operate.is_del == '1')" class="flex-row gap-10 cr-9 category-operate c-pointer">
                                         <el-popover placement="bottom" width="70" trigger="hover">
                                             <template #reference>
                                                 <div class="tree-operate-btn">
@@ -36,9 +36,9 @@
                                                 </div>
                                             </template>
                                             <div class="flex-col gap-12 tree-operate">
-                                                <div v-if="data.pid == 0" class="flex-row gap-5 c-pointer w item" @click.stop="append_type_event(data)"><icon class="icon" name="add" size="12"></icon>新增</div>
-                                                <div class="flex-row gap-5 c-pointer w item" @click.stop="edit_type_event(data)"><icon class="icon" name="edit" size="12"></icon>编辑</div>
-                                                <div class="flex-row gap-5 c-pointer w item" @click.stop="remove_type_event(node, data)"><icon class="icon" name="del" size="12"></icon>删除</div>
+                                                <div v-if="data.pid == 0 && attachment_category_operate.is_add == '1'" class="flex-row gap-5 c-pointer w item" @click.stop="append_type_event(data)"><icon class="icon" name="add" size="12"></icon>新增</div>
+                                                <div v-if="attachment_category_operate.is_edit == '1'" class="flex-row gap-5 c-pointer w item" @click.stop="edit_type_event(data)"><icon class="icon" name="edit" size="12"></icon>编辑</div>
+                                                <div v-if="attachment_category_operate.is_del == '1'" class="flex-row gap-5 c-pointer w item" @click.stop="remove_type_event(node, data)"><icon class="icon" name="del" size="12"></icon>删除</div>
                                             </div>
                                         </el-popover>
                                     </div>
@@ -50,10 +50,10 @@
                 <div class="right-content flex-1 flex-width">
                     <div class="flex-row jc-sb align-c mb-15">
                         <div class="right-operate flex-row">
-                            <el-button type="primary" plain @click="upload_model_open">上传{{ upload_type_name }}</el-button>
-                            <el-button @click="mult_del_event">删除{{ upload_type_name }}</el-button>
+                            <el-button v-if="attachment_operate.is_upload == '1'" type="primary" plain @click="upload_model_open">上传{{ upload_type_name }}</el-button>
+                            <el-button v-if="attachment_operate.is_del == '1'" @click="mult_del_event">删除{{ upload_type_name }}</el-button>
                             <!-- <el-cascader :show-all-levels="false" clearable></el-cascader> -->
-                            <div class="right-classify ml-12">
+                            <div v-if="attachment_operate.is_move == '1'" class="right-classify ml-12">
                                 <transform-category :data="type_data_list" :check-img-ids="check_img_ids" :type="upload_type_name" :placeholder="upload_type_name + '移动至'" @call-back="transform_category_event"></transform-category>
                             </div>
                         </div>
@@ -97,13 +97,13 @@
                                             </div>
                                             <div class="operate">
                                                 <div class="operate-content flex-row jc-sa align-c">
-                                                    <div class="flex-1 tc c-pointer" @click.stop="edit_event(item, index)">
+                                                    <div v-if="attachment_operate.is_edit == '1'" class="flex-1 tc c-pointer" @click.stop="edit_event(item, index)">
                                                         <icon name="edit" class="flex-1" size="14" color="f"></icon>
                                                     </div>
                                                     <div v-if="upload_type != 'file'" class="operate-icon flex-1 tc c-pointer" @click.stop="preview_event(item, index)">
                                                         <icon name="eye" size="14" color="f"></icon>
                                                     </div>
-                                                    <div class="flex-1 tc c-pointer" @click.stop="del_event(item)">
+                                                    <div v-if="attachment_operate.is_del == '1'" class="flex-1 tc c-pointer" @click.stop="del_event(item)">
                                                         <icon name="del" size="14" color="f"></icon>
                                                     </div>
                                                 </div>
@@ -295,6 +295,10 @@ const props = defineProps({
 });
 
 const model_value_upload = defineModel({ type: Array as PropType<uploadList[]>, default: [] });
+// 分类权限控制
+const attachment_category_operate = computed(() => common_store.common.config.attachment_category_operate);
+// 附件管理权限
+const attachment_operate = computed(() => common_store.common.config.attachment_operate);
 
 const view_list_value = ref<uploadList[]>([]);
 // 弹窗显示

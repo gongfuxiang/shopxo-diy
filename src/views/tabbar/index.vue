@@ -37,7 +37,7 @@ onMounted(() => {
 });
 const is_empty = ref(false);
 const init = () => {
-    CommonAPI.getDynamicApi(common_store.common.app_tabbar_data_url, { type: get_type() })
+    CommonAPI.getDynamicApi(common_store.common.config.app_tabbar_data_url, { type: get_type() })
         .then((res: any) => {
             if (res.data) {
                 let data = res.data;
@@ -82,7 +82,7 @@ const save_event = () => {
     };
     save_disabled.value = true;
     // 数据改造
-    CommonAPI.getDynamicApi(common_store.common.app_tabbar_save_url, new_data).then((res: any) => {
+    CommonAPI.getDynamicApi(common_store.common.config.app_tabbar_save_url, new_data).then((res: any) => {
         // 如果是导出或预览模式，则不显示保存成功的消息
         ElMessage.success('保存成功');
         setTimeout(() => {

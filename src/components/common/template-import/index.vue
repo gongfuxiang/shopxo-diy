@@ -208,7 +208,7 @@ const get_import_list = (type?: string) => {
         ...form.value,
         is_already_buy: form.value.status ? '1' : '0',
     };
-    CommonAPI.getDynamicApi(common_store.common.diy_market_url, new_data)
+    CommonAPI.getDynamicApi(common_store.common.config.diy_market_url, new_data)
         .then((res: any) => {
             const data = res.data;
             form.value.data_total = data.data_total;
@@ -265,7 +265,7 @@ interface install_data {
 }
 const install = async (item: install_data) => {
     let new_data = item;
-    CommonAPI.getDynamicApi(common_store.common.diy_install_url ,item)
+    CommonAPI.getDynamicApi(common_store.common.config.diy_install_url ,item)
         .then((res: any) => {
             switch (item.opt) {
                 case 'url':
@@ -282,7 +282,9 @@ const install = async (item: install_data) => {
                     break;
                 case 'install':
                     ElMessage.success(res.msg);
-                    history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
+                    if (import.meta.env.VITE_APP_BASE_API == '/dev-admin') {
+                        history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
+                    }
                     Loading_text.value = '';
                     loading.value = false;
                     // 解除禁用效果
@@ -318,10 +320,12 @@ const confirm_event = () => {
         if (file_list.value && file_list.value[0].raw) {
             form_data.append('file', file_list.value[0]?.raw);
         }
-        CommonAPI.getDynamicApi(common_store.common.diy_upload_url, form_data, true)
+        CommonAPI.getDynamicApi(common_store.common.config.diy_upload_url, form_data, true)
             .then((res: any) => {
                 ElMessage.success(res.msg);
-                history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
+                if (import.meta.env.VITE_APP_BASE_API == '/dev-admin') {
+                    history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
+                }
                 close_event();
                 emit('confirm');
             })

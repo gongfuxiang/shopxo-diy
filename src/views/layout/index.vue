@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { is_obj, set_cookie, get_cookie } from '@/utils';
+import { is_obj, set_cookie, get_cookie, get_math } from '@/utils';
 import { Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
 import defaultConfigSetting from '@/config/setting';
@@ -28,7 +28,7 @@ import { diyData, headerAndFooter, diyConfig } from '@/api/diy';
 import CommonAPI from '@/api/common';
 import { commonStore } from '@/store';
 import { magic_config } from '@/config/const/tabs-magic';
-import { get_id } from '@/utils/common';
+import { get_id, get_type } from '@/utils/common';
 const common_store = commonStore();
 interface diy_data_item {
     id: string;
@@ -134,11 +134,12 @@ const clear_data_event = () => {
 onMounted(() => {
     common_init();
 });
+
 const is_empty = ref(false);
 const empty_data = ref('编辑数据有误');
 const init = () => {
     if (get_id()) {
-        CommonAPI.getDynamicApi(common_store.common.diy_detail_url, { id: get_id() }).then((res: any) => {
+        CommonAPI.getDynamicApi(common_store.common.config.diy_detail_url, { id: get_id() }).then((res: any) => {
             const new_data = res.data?.data || undefined;
             if (new_data) {
                 let data = form_data_transfor_diy_data(new_data);
@@ -168,10 +169,16 @@ const init = () => {
             loading_event();
         });
     } else {
-        temp_form.value.header.com_data = defaultSettings.header_nav;
-        temp_form.value.footer.com_data = defaultSettings.footer_nav;
-        form.value = cloneDeep(temp_form.value);
-        loading_event();
+        if (import.meta.env.VITE_APP_BASE_API == '/dev-admin') {
+            temp_form.value.header.com_data = defaultSettings.header_nav;
+            temp_form.value.footer.com_data = defaultSettings.footer_nav;
+            form.value = cloneDeep(temp_form.value);
+            loading_event();
+        } else { 
+            is_empty.value = true;
+            empty_data.value = '没有数据ID';
+            loading_event();
+        }
     }
 };
 // 数据合并
@@ -216,7 +223,8 @@ const default_merge = (data: any, key: string) => {
 };
 
 // 初始化公共数据
-const common_init = () => {
+const token = ref('');
+const common_init = async () => {
     if (get_cookie('attachment_host') || get_cookie('attachment_host') !== 'null' || get_cookie('attachment_host') !== null) {
         CommonAPI.getInit().then((res: any) => {
             common_store.set_common(res.data);
@@ -224,14 +232,24 @@ const common_init = () => {
             init();
         });
     } else {
-        // 将localStorage中的数据读取出
-        // 判断localStorage中是否有数据
+        // 将localStorage中的数据读取出,判断localStorage中是否有数据
         if (localStorage.getItem('diy_init_common')) {
             const data = JSON.parse(localStorage.getItem('diy_init_common') || '');
             common_store.set_common(data);
             // 清除缓存
             localStorage.removeItem('diy_init_common');
             init();
+        }
+    }
+    // 获取用户id
+    if (import.meta.env.VITE_APP_BASE_API == '/dev-admin') {
+        let temp_data = await import(import.meta.env.VITE_APP_BASE_API == '/dev-admin' ? '../../../temp.d.ts' : '../../../temp_pro.d.ts');
+        token.value = '&token=' + temp_data.default.temp_token;
+    } else {
+        // 如果是shop认为是多商户插件使用user_info的cookie
+        const cookie = get_type() == 'shop' ? get_cookie('user_info') : get_cookie('admin_info');
+        if (cookie && cookie !== null && cookie !== 'null') {
+            token.value = '&token=' + JSON.parse(cookie).token;
         }
     }
 };
@@ -458,7 +476,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
     });
     // 数据改造
     const new_data = diy_data_transfor_form_data(clone_form);
-    CommonAPI.getDynamicApi(common_store.common.diy_save_url, new_data)
+    CommonAPI.getDynamicApi(common_store.common.config.diy_save_url, new_data)
         .then((res) => {
             setTimeout(() => {
                 save_disabled.value = false;
@@ -480,17 +498,31 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             } else {
                 // 判断是否需要导出
                 if (is_export) {
-                    const index = window.location.href.lastIndexOf('?s=');
-                    const pro_url = window.location.href.substring(0, index);
-                    const new_url = import.meta.env.VITE_APP_BASE_API == '/dev-admin' ? import.meta.env.VITE_APP_BASE_API_URL : pro_url;
-                    window.open(new_url + '?s=diyapi/diydownload/id/' + res.data + '.html', '_blank');
+                    const download = common_store.common.config.diy_download_url;
+                    if (download == '') {
+                        ElMessage.error('请先配置导出地址');
+                        return;
+                    } else {
+                        let uuid_val = '';
+                        if (get_cookie('uuid_name')) {
+                            uuid_val = get_cookie('uuid_name');
+                        } else {
+                            uuid_val = get_math();
+                            set_cookie('uuid_name', uuid_val);
+                        }   
+                        const symbol = download?.includes('?') ? '&' : '?';
+                        window.open(`${download}${ symbol }id=${ res.data }&token=${ token.value }&uuid=${uuid_val}`);
+                    }
                 }
                 if (is_preview) {
                     preview_dialog.value = true;
                     diy_id.value = String(res.data);
                 }
                 form.value.id = String(res.data);
-                history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
+                // 本地的时候会补id参数
+                if (import.meta.env.VITE_APP_BASE_API == '/dev-admin') {
+                    history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
+                }
             }
         })
         .catch((err) => {

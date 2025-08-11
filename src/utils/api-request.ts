@@ -1,7 +1,7 @@
 import axios, { InternalAxiosRequestConfig, AxiosResponse } from 'axios';
 import { ElMessage, ElMessageBox, type MessageHandler } from 'element-plus';
 import { get_cookie } from './index';
-import { get_type } from './common';
+import { get_id, get_type } from './common';
 
 // 提示拦截
 
@@ -51,6 +51,8 @@ service.interceptors.request.use(
                 config.url = config.url + '&token=' + (JSON.parse(cookie) !== 'null' ? JSON.parse(cookie)?.token : '');
             }
         }
+        // 添加diy_id和diy_type参数
+        config.url = `${config.url}&diy_id=${ get_id() }&diy_type=${ get_type() }`;
         // 判断是否是包含不需要认证的接口
         const release_list = release_url.filter(item => config.url?.includes(item));
         if (release_list.length === 0) {
