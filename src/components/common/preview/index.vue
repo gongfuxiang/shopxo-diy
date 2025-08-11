@@ -14,6 +14,7 @@
 import { get_cookie, set_cookie, get_math } from '@/utils';
 import { commonStore } from '@/store';
 import { get_type } from '@/utils/common';
+import { isEmpty } from 'lodash';
 const common_store = commonStore();
 const props = defineProps({
     dataId: {
@@ -53,10 +54,7 @@ watch(
                 set_cookie('uuid_name', uuid_val);
             }
             let url = common_store.common.config.preview_url;
-            if (url == '') {
-                ElMessage.error('请先配置预览地址');
-                dialog_visible.value = false;
-            } else {
+            if (!isEmpty(url)) {
                 // 判断是否包含? 如果包含？的话就是添加参数，否则就是添加？后添加参数
                 new_link.value = url + (url.includes('?') ? '&id=' : '?id=') + props.dataId + '&system_type=default' + token.value + '&uuid=' + uuid_val;
             }

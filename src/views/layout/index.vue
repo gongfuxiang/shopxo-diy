@@ -268,8 +268,13 @@ const loading_event = () => {
 const preview_dialog = ref(false);
 const diy_id = ref('');
 const preview_event = (bool: boolean) => {
-    save_disabled.value = bool;
-    save_formmat_form_data(form.value, false, false, true);
+    let url = common_store.common.config.preview_url;
+    if (isEmpty(url)) {
+        ElMessage.error('请先配置预览地址');
+    } else {
+        save_disabled.value = bool;
+        save_formmat_form_data(form.value, false, false, true);
+    }
 };
 const save_disabled = ref(false);
 const save_event = (bool: boolean) => {
