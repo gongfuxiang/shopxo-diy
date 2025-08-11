@@ -89,6 +89,7 @@ const save_event = () => {
             save_disabled.value = false;
         }, 500);
     }).catch((err) => {
+        ElMessage.error(err);
         save_disabled.value = false;
     });
 };
