@@ -95,7 +95,7 @@
                                             <div class="check-icon fill flex-row jc-c align-c" :class="view_list_value.findIndex((i) => i.id === item.id) != -1 ? 'active' : ''">
                                                 <icon name="true-o" color="f" size="26"></icon>
                                             </div>
-                                            <div class="operate">
+                                            <div v-if="(upload_type == 'file' && (attachment_operate.is_edit == '1' || attachment_operate.is_del == '1')) || upload_type != 'file'" class="operate">
                                                 <div class="operate-content flex-row jc-sa align-c">
                                                     <div v-if="attachment_operate.is_edit == '1'" class="flex-1 tc c-pointer" @click.stop="edit_event(item, index)">
                                                         <icon name="edit" class="flex-1" size="14" color="f"></icon>
