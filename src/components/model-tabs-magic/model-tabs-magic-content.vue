@@ -108,7 +108,7 @@
                                 <template v-if="form.tabs_active_index - 1 == index">
                                     <el-form-item label="链接类型" class="w mb-0">
                                         <el-radio-group v-model="row.data_type">
-                                            <el-radio value="0">DIY页面</el-radio>
+                                            <el-radio v-if="page_link_diy_show" value="0">DIY页面</el-radio>
                                             <el-radio value="1">商品分类</el-radio>
                                         </el-radio-group>
                                     </el-form-item>
@@ -188,6 +188,9 @@ const props = defineProps({
         default: () => ({}),
     },
 });
+
+// 判断diy页面是否显示
+const page_link_diy_show = computed(() => common_store.common.page_link_list.some(item => item.is_show == '1' && item.type == 'diy' && !isEmpty(item.url)));
 
 const state = reactive({
     form: props.value,

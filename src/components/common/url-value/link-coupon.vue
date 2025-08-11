@@ -79,7 +79,7 @@
 </template>
 <script lang="ts" setup>
 import { is_obj_empty, get_data_list } from '@/utils';
-import UrlValueAPI from '@/api/url-value';
+import commonApi from '@/api/common';
 import { commonStore } from '@/store';
 const common_store = commonStore();
 const props = defineProps({
@@ -91,6 +91,10 @@ const props = defineProps({
     multiple: {
         type: Boolean,
         default: () => false,
+    },
+    linkUrl: {
+        type: String,
+        default: '',
     },
 });
 watch(
@@ -154,7 +158,7 @@ const get_list = (new_page: number) => {
         page_size: page_size.value,
     };
     loading.value = true;
-    UrlValueAPI.getCouponList(new_data).then((res: any) => {
+    commonApi.getDynamicApi(props.linkUrl, new_data).then((res: any) => {
         tableData.value = res.data.data_list;
         data_total.value = res.data.data_total;
         page.value = res.data.page;

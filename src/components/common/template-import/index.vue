@@ -4,8 +4,8 @@
         <template #header>
             <div class="title re">
                 <el-radio-group v-model="temp_active" is-button :disabled="is_disabled" @change="temp_change">
-                    <el-radio-button value="1">本地导入</el-radio-button>
-                    <el-radio-button value="2">模版市场</el-radio-button>
+                    <el-radio-button v-if="common_store_config.diy_upload_url !== ''" value="1">本地导入</el-radio-button>
+                    <el-radio-button v-if="common_store_config.diy_market_url !== ''" value="2">模版市场</el-radio-button>
                 </el-radio-group>
                 <div class="middle size-16 fw-b">模版导入</div>
             </div>
@@ -43,7 +43,7 @@
                             </el-button>
                             <el-checkbox v-model="form.status" class="ml-20" @change="status_change">我已购买</el-checkbox>
                         </div>
-                        <el-link type="primary" :href="more_link" target="_blank" :underline="false">
+                        <el-link v-if="more_link !== ''" type="primary" :href="more_link" target="_blank" :underline="false">
                             <div class="flex-row gap-3 align-c">
                                 <icon name="download-btn"></icon>
                                 <text>更多diy模版下载</text>
@@ -150,13 +150,15 @@ const props = defineProps({
         default: () => [],
     },
 });
+const common_store_config = computed(() => common_store.common.config);
+
 const dialogVisible = defineModel({ type: Boolean, default: false });
 const temp_active = ref('1');
 const temp_change = (val: any) => {
     temp_active.value = val;
 };
 const more_link = computed(() => {
-    return common_store.common.config.store_diy_url || '';
+    return common_store_config.value.store_diy_url || '';
 });
 //导入
 const exts_text = ref('.zip');
@@ -208,7 +210,7 @@ const get_import_list = (type?: string) => {
         ...form.value,
         is_already_buy: form.value.status ? '1' : '0',
     };
-    CommonAPI.getDynamicApi(common_store.common.config.diy_market_url, new_data)
+    CommonAPI.getDynamicApi(common_store_config.value.diy_market_url, new_data)
         .then((res: any) => {
             const data = res.data;
             form.value.data_total = data.data_total;
@@ -265,7 +267,7 @@ interface install_data {
 }
 const install = async (item: install_data) => {
     let new_data = item;
-    CommonAPI.getDynamicApi(common_store.common.config.diy_install_url ,item)
+    CommonAPI.getDynamicApi(common_store_config.value.diy_install_url ,item)
         .then((res: any) => {
             switch (item.opt) {
                 case 'url':
@@ -320,7 +322,7 @@ const confirm_event = () => {
         if (file_list.value && file_list.value[0].raw) {
             form_data.append('file', file_list.value[0]?.raw);
         }
-        CommonAPI.getDynamicApi(common_store.common.config.diy_upload_url, form_data, true)
+        CommonAPI.getDynamicApi(common_store_config.value.diy_upload_url, form_data, true)
             .then((res: any) => {
                 ElMessage.success(res.msg);
                 if (import.meta.env.VITE_APP_BASE_API == '/dev-admin') {

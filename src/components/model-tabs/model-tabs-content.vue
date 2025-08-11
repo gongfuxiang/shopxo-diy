@@ -86,7 +86,7 @@
                                 <sliding-fixed v-model="row.is_sliding_fixed" class="mb-0" @sliding_fixed_change="sliding_fixed_change($event, index, 'tabs_list')"></sliding-fixed>
                                 <el-form-item label="链接类型" class="w mb-0">
                                     <el-radio-group v-model="row.data_type">
-                                        <el-radio value="0">DIY页面</el-radio>
+                                        <el-radio v-if="page_link_diy_show" value="0">DIY页面</el-radio>
                                         <el-radio value="1">商品分类</el-radio>
                                     </el-radio-group>
                                 </el-form-item>
@@ -133,6 +133,8 @@ const state = reactive({
     styles: props.tabStyle,
 });
 const { form, styles } = toRefs(state);
+// 判断diy页面是否显示
+const page_link_diy_show = computed(() => common_store.common.page_link_list.some(item => item.is_show == '1' && item.type == 'diy' && !isEmpty(item.url)));
 
 onBeforeMount(() => {
     if (form.value.tabs_list.length > 1) {

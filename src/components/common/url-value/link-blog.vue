@@ -39,7 +39,7 @@
     </div>
 </template>
 <script lang="ts" setup>
-import UrlValueAPI from '@/api/url-value';
+import commonApi from '@/api/common';
 import { commonStore } from '@/store';
 import { get_data_list } from '@/utils';
 const common_store = commonStore();
@@ -52,6 +52,10 @@ const props = defineProps({
     multiple: {
         type: Boolean,
         default: () => false,
+    },
+    linkUrl: {
+        type: String,
+        default: '',
     },
     // 判断是否返回链接地址
     selectIsUrl: {
@@ -108,7 +112,7 @@ const get_list = (new_page: number) => {
         page_size: page_size.value,
     };
     loading.value = true;
-    UrlValueAPI.getblogList(new_data).then((res: any) => {
+    commonApi.getDynamicApi(props.linkUrl, new_data).then((res: any) => {
         tableData.value = res.data.data_list;
         data_total.value = res.data.data_total;
         page.value = res.data.page;

@@ -37,7 +37,7 @@
     </div>
 </template>
 <script lang="ts" setup>
-import UrlValueAPI from '@/api/url-value';
+import commonApi from '@/api/common';
 const props = defineProps({
     type: {
         type: String,
@@ -51,6 +51,10 @@ const props = defineProps({
     multiple: {
         type: Boolean,
         default: () => false,
+    },
+    linkUrl: {
+        type: String,
+        default: '',
     },
     // 判断是否返回链接地址
     selectIsUrl: {
@@ -98,34 +102,14 @@ const get_list = (new_page: number) => {
         keywords: search_value.value,
     };
     loading.value = true;
-    if (props.type == 'diy') {
-        UrlValueAPI.getDiyList(new_data).then((res: any) => {
-            tableData.value = res.data.data_list;
-            data_total.value = res.data.data_total;
-            page.value = res.data.page;
-            setTimeout(() => {
-                loading.value = false;
-            }, 500);
-        });
-    } else if (props.type == 'design') {
-        UrlValueAPI.getDesignList(new_data).then((res: any) => {
-            tableData.value = res.data.data_list;
-            data_total.value = res.data.data_total;
-            page.value = res.data.page;
-            setTimeout(() => {
-                loading.value = false;
-            }, 500);
-        });
-    } else if (props.type == 'custom-view') {
-        UrlValueAPI.getCustomList(new_data).then((res: any) => {
-            tableData.value = res.data.data_list;
-            data_total.value = res.data.data_total;
-            page.value = res.data.page;
-            setTimeout(() => {
-                loading.value = false;
-            }, 500);
-        });
-    }
+    commonApi.getDynamicApi(props.linkUrl, new_data).then((res: any) => { 
+        tableData.value = res.data.data_list;
+        data_total.value = res.data.data_total;
+        page.value = res.data.page;
+        setTimeout(() => {
+            loading.value = false;
+        }, 500);
+    });
 };
 //#region 分页 -----------------------------------------------end
 // 根据是diy还是design或者custom-view获取link地址

@@ -67,13 +67,13 @@
             <div class="model-content">
                 <div class="acticons">
                     <el-button size="large" @click="page_settings">页面设置</el-button>
-                    <el-button size="large" @click="export_click">导出</el-button>
+                    <el-button v-if="common_store_config.diy_download_url !== ''" size="large" @click="export_click">导出</el-button>
                     <!-- <el-upload action="#" :accept="exts_text" :show-file-list="false" :auto-upload="false" :on-change="upload_change">
                         <template #trigger>
                             <el-button size="large">导入</el-button>
                         </template>
                     </el-upload> -->
-                    <el-button size="large" @click="import_click">导入</el-button>
+                    <el-button v-if="common_store_config.diy_market_url !== '' &&  common_store_config.diy_upload_url !== ''" size="large" @click="import_click">导入</el-button>
                     <el-button size="large" @click="clear_click">清空</el-button>
                 </div>
                 <!-- 拖拽区 -->
@@ -149,6 +149,8 @@ const props = defineProps({
         default: () => {},
     },
 });
+
+const common_store_config = computed(() => common_store.common.config);
 // 获取tabs数据
 const tabs_data_name = computed(() => {
     const data = tabs_data.value;

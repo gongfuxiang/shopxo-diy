@@ -66,11 +66,15 @@ const init = () => {
     search_value.value = '';
     // 过滤common_store.common.page_link_list中的type为shop的data的数据，只保留data数组
     base_data.value = common_store.common.page_link_list.filter((item: any) => {
-        if (item.type == props.type) {
+        if (item.type == props.type && item.is_show == '1') {
             return item.data;
         }
     });
-    new_base_data.value = base_data.value[0].data || [];
+    if (base_data.value.length > 0) {
+        new_base_data.value = base_data.value[0].data || [];
+    } else {
+        new_base_data.value = [];
+    }
 };
 
 const handle_search = () => {
