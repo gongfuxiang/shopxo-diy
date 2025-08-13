@@ -72,10 +72,10 @@
                                             <!-- 魔方内容设置 -->
                                             <el-tabs v-model="tabs_magic_name" class="tabs-magic-content-tabs">
                                                 <el-tab-pane label="魔方内容" name="content" class="tabs-magic-content">
-                                                    <tabs-magic-content :magic-type="form.home_data.magic_type" :value="form.home_data[form.home_data.magic_type]"></tabs-magic-content>
+                                                    <tabs-magic-content :key="form.home_data.magic_type + get_math()" :magic-type="form.home_data.magic_type" :value="form.home_data[form.home_data.magic_type]"></tabs-magic-content>
                                                 </el-tab-pane>
                                                 <el-tab-pane label="魔方样式" name="styles" class="tabs-magic-content">
-                                                    <tabs-magic-styles :magic-type="form.home_data.magic_type" :value="form.home_data[form.home_data.magic_type]"></tabs-magic-styles>
+                                                    <tabs-magic-styles :key="form.home_data.magic_type + get_math()" :magic-type="form.home_data.magic_type" :value="form.home_data[form.home_data.magic_type]"></tabs-magic-styles>
                                                 </el-tab-pane>
                                             </el-tabs>
                                         </template>
@@ -136,10 +136,10 @@
                                                 <!-- 魔方内容设置 -->
                                                 <el-tabs v-model="tabs_magic_name" class="tabs-magic-content-tabs">
                                                     <el-tab-pane label="魔方内容" name="content" class="tabs-magic-content">
-                                                        <tabs-magic-content :magic-type="row.magic_type" :value="row[row.magic_type]"></tabs-magic-content>
+                                                        <tabs-magic-content :key="row.magic_type + get_math()" :magic-type="row.magic_type" :value="row[row.magic_type]"></tabs-magic-content>
                                                     </el-tab-pane>
                                                     <el-tab-pane label="魔方样式" name="styles" class="tabs-magic-content">
-                                                        <tabs-magic-styles :magic-type="row.magic_type" :value="row[row.magic_type]"></tabs-magic-styles>
+                                                        <tabs-magic-styles :key="row.magic_type + get_math()" :magic-type="row.magic_type" :value="row[row.magic_type]"></tabs-magic-styles>
                                                     </el-tab-pane>
                                                 </el-tabs>
                                             </template>
