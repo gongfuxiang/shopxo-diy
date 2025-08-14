@@ -205,4 +205,9 @@ const common_style_update = (value: any) => {
 };
 </script>
 <style lang="scss" scoped>
+:deep(.el-tabs.content-tabs) {
+    .el-tabs__content {
+        padding: 1rem 3rem;
+    }
+}
 </style>

@@ -1,9 +1,9 @@
 <template>
-    <VueDraggable v-model="from" :animation="500" target=".sort-target" handle=".icon-drag" :scroll="true" :on-sort="on_sort">
+    <VueDraggable v-model="from" :animation="500" target=".sort-target" handle=".icon-drag-dot" :scroll="true" :on-sort="on_sort">
         <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col gap-x-20">
             <li v-for="(item, index) in from" :key="index" :class="[`flex-row re gap-16 ${ className }`,  ['nav-group', 'tabs-magic', 'tabs'].includes(props.modelType) && modelIndex === index ? 'model-type-index-select' : '']" @click="on_click(item, index)">
                 <div class="flex-1 flex-row gap-16">
-                    <icon name="drag" size="16" class="cursor-move" />
+                    <icon name="drag-dot" size="16" class="cursor-move" />
                     <slot :row="item" :index="index" />
                 </div>
                 <!-- 底部第一个不显示删除按钮 -->
@@ -16,7 +16,7 @@
                     <div class="abs top-0 right-0">
                         <div class="w h multiple-icon-class">
                             <div class="c-pointer multiple-icon" @click.stop="copy(index)">
-                                <icon v-if="type == 'card'" name="copy" size="18" color="c" />
+                                <icon v-if="type == 'card'" name="copy-square" size="18" color="c" />
                             </div>
                             <div v-if="!(props.modelType === 'footer' && index === 0)" class="c-pointer multiple-icon" @click.stop="remove(index)">
                                 <icon v-if="type == 'card'" name="close-fillup" size="18" color="c" />

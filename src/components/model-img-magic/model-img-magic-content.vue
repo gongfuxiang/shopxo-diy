@@ -118,7 +118,7 @@ const props = defineProps({
         default: false,
     },
 });
-const style_list = ['heng2', 'shu2', 'shu3', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2', 'a-1ge', 'a-4x4'];
+const style_list = ['magic-w-2', 'magic-h-2', 'magic-h-3', 'magic-t2-b1', 'magic-t1-b2', 'magic-l1-r2', 'magic-l2-r1', 'magic-2x2', 'magic-t2-b3', 'magic-l1-rt1-rb2', 'magic-1', 'magic-4x4'];
 // 风格
 const style_show_list = [
     [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, img: [], img_link: {} }, { start: {x: 1, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}], // 风格1

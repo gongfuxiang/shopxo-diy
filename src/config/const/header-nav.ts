@@ -135,7 +135,7 @@ const defaultFooterNav: DefaultFooterNav = {
         // 对齐方式
         indicator_location: 'center',
         // 右侧图标信息
-        icon_setting: [{ id: get_math(), img: [], icon: 'bell', link: { name: '我的消息', page: '/pages/message/message' } }],
+        icon_setting: [{ id: get_math(), img: [], icon: 'smallbell', link: { name: '我的消息', page: '/pages/message/message' } }],
         // 定位左侧图标内容
         is_location_left_icon_show: '1',
         location_left_img: [],

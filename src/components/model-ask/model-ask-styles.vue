@@ -36,7 +36,7 @@
             </card-container>
             <div class="divider-line"></div>
             <el-tabs v-model="tabs_icon_name" class="content-tabs">
-                <el-tab-pane v-for="(tab, index) in tabs" :key="index" :label="tab.label" :name="tab.value">
+                <el-tab-pane v-for="(tab, index) in tabs" :key="index" :label="tab.label" :name="tab.value" class="">
                     <common-button-style :value="form[`${ tab.value }_style`]"></common-button-style>
                 </el-tab-pane>
             </el-tabs>
@@ -107,4 +107,9 @@ const common_style_update = (value: any) => {
 };
 </script>
 <style lang="scss" scoped>
+:deep(.el-tabs.content-tabs) {
+    .el-tabs__content {
+        padding: 1rem 3rem;
+    }
+}
 </style>

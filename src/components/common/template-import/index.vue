@@ -47,7 +47,7 @@
                         </div>
                         <el-link v-if="more_link !== ''" type="primary" :href="more_link" target="_blank" :underline="false">
                             <div class="flex-row gap-3 align-c">
-                                <icon name="download-btn"></icon>
+                                <icon name="download-b-line"></icon>
                                 <text>更多diy模版下载</text>
                             </div>
                         </el-link>

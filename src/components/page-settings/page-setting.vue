@@ -28,7 +28,7 @@ const default_data = {
         logo: [],
         data_alone_row_value: [],
         icon_setting: [
-            { id: get_math(), img: [], icon: 'bell', link: {} },
+            { id: get_math(), img: [], icon: 'smallbell', link: {} },
         ],
         positioning_name_float: '0',
         is_location_left_icon_show: '1',

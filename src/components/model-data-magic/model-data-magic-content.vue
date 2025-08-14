@@ -71,7 +71,7 @@ const props = defineProps({
     },
 });
 // 风格数组
-const style_list = ['heng2', 'shu2', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2', 'a-4x4'];
+const style_list = ['magic-w-2', 'magic-h-2', 'magic-t2-b1', 'magic-t1-b2', 'magic-l1-r2', 'magic-l2-r1', 'magic-2x2', 'magic-t2-b3', 'magic-l1-rt1-rb2', 'magic-4x4'];
 // 每个小模块独立的样式
 const data_style = {
     chunk_padding: {

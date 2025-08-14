@@ -40,7 +40,7 @@
                 <VueDraggable v-model="diy_data" :animation="400" target=".sort-target" :scroll="true" :on-sort="on_sort">
                     <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col">
                         <li v-for="(item, index) in diy_data" :key="index" :class="['flex ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-drag-bg': item.show_tabs == '1' }]" @click="on_choose(index, item.show_tabs)">
-                            <el-icon class="iconfont icon-drag size-16 cr-d" />
+                            <el-icon class="iconfont icon-drag-dot size-16 cr-d" />
                             <el-tooltip effect="dark" :show-after="200" :hide-after="200" :content="`<span>开始时间: ${ !isEmpty(new_date_value(item)) ? new_date_value(item)[0] : '' }</span><br/><span>结束时间: ${ !isEmpty(new_date_value(item)[1]) ? new_date_value(item)[1] : '' }</span>`" raw-content placement="top" :disabled="isEmpty(new_date_value(item))">
                                 <span class="size-12 cr-6 re">
                                     <div class="flex-row gap-5 align-c jc-c">

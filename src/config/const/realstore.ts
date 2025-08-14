@@ -173,7 +173,7 @@ const defaultRealstore: defaultRealstore = {
         is_navigation_show: '1',
         navigation_type: 'img-icon',
         navigation_img: [],
-        navigation_icon: 'send',
+        navigation_icon: 'send-linear',
         navigation_text: '',
         is_phone_show: '0',
         phone_type: 'img-icon',
