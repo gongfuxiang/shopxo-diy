@@ -3,7 +3,8 @@
   "name": "shopxo(整个项目)",
   "font_family": "iconfont",
   "css_prefix_text": "icon-",
-  "description": "1. 小程序仅base64, TIF，（web端也可以使用这个方式）2. web端 Base64, WOFF2, WOFF, TEF, SVG, EOT",
+  "description": "1. 小程序仅base64, TIF，（web端也可以使用这个方式）
+2. web端 Base64, WOFF2, WOFF, TEF, SVG, EOT",
   "glyphs": [
     {
       "icon_id": "45203584",
