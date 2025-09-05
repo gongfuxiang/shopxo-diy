@@ -42,7 +42,7 @@
     </div>
 </template>
 <script lang="ts" setup>
-import commonApi from '@/api/common';
+import UrlValueAPI from '@/api/url-value';
 import { commonStore } from '@/store';
 import { get_data_list } from '@/utils';
 const common_store = commonStore();
@@ -55,10 +55,6 @@ const props = defineProps({
     multiple: {
         type: Boolean,
         default: () => false,
-    },
-    linkUrl: {
-        type: String,
-        default: '',
     },
     // 判断是否返回链接地址
     selectIsUrl: {
@@ -115,7 +111,7 @@ const get_list = (new_page: number) => {
         page_size: page_size.value,
     };
     loading.value = true;
-    commonApi.getDynamicApi(props.linkUrl, new_data).then((res: any) => {
+    UrlValueAPI.getBindingList(new_data).then((res: any) => {
         tableData.value = res.data?.data_list || [];
         if (res.data?.data_list.length === 0) {
             empty_text.value = '暂无数据';

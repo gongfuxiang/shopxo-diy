@@ -30,6 +30,30 @@
                 <template v-else-if="link_select == 'custom-url'">
                     <link-custom :reset="reset_compontent" :select-is-url="selectIsUrl" :status="component_status" @update:link="custom_link"></link-custom>
                 </template>
+                <!-- 优惠券链接-插件 -->
+                <template v-else-if="link_select == 'coupon'">
+                    <link-coupon v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-coupon>
+                </template>
+                <!-- 组合搭配-插件 -->
+                <template v-else-if="link_select == 'binding'">
+                    <link-binding v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-binding>
+                </template>
+                <!-- 多商户-插件 -->
+                <template v-else-if="link_select == 'merchant'">
+                    <link-shop v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-shop>
+                </template>
+                <!-- 多门店-插件 -->
+                <template v-else-if="link_select == 'realstore'">
+                    <link-realstore v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-realstore>
+                </template>
+                <!-- 问答-插件 -->
+                <template v-else-if="link_select == 'ask'">
+                    <link-ask v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-ask>
+                </template>
+                <!-- 活动选择-插件 -->
+                <template v-else-if="link_select == 'activity'">
+                    <link-activity v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-activity>
+                </template>
                 <template v-else-if="!isEmpty(link_url)">
                     <!-- 商品页面 -->
                     <template v-if="link_select == 'goods'">
@@ -50,30 +74,6 @@
                     <!-- 品牌 -->
                     <template v-else-if="link_select == 'brand'">
                         <link-brand v-model="link_value" :select-is-url="selectIsUrl" :link-url="link_url" :multiple="multiple" :reset="reset_compontent"></link-brand>
-                    </template>
-                    <!-- 优惠券链接 -->
-                    <template v-else-if="link_select == 'coupon'">
-                        <link-coupon v-model="link_value" :multiple="multiple" :link-url="link_url" :reset="reset_compontent"></link-coupon>
-                    </template>
-                    <!-- 组合搭配 -->
-                    <template v-else-if="link_select == 'binding'">
-                        <link-binding v-model="link_value" :multiple="multiple" :link-url="link_url" :reset="reset_compontent"></link-binding>
-                    </template>
-                    <!-- 多商户 -->
-                    <template v-else-if="link_select == 'merchant'">
-                        <link-shop v-model="link_value" :multiple="multiple" :link-url="link_url" :reset="reset_compontent"></link-shop>
-                    </template>
-                    <!-- 多门店 -->
-                    <template v-else-if="link_select == 'realstore'">
-                        <link-realstore v-model="link_value" :multiple="multiple" :link-url="link_url" :reset="reset_compontent"></link-realstore>
-                    </template>
-                    <!-- 问答 -->
-                    <template v-else-if="link_select == 'ask'">
-                        <link-ask v-model="link_value" :multiple="multiple" :link-url="link_url" :reset="reset_compontent"></link-ask>
-                    </template>
-                    <!-- 活动选择 -->
-                    <template v-else-if="link_select == 'activity'">
-                        <link-activity v-model="link_value" :multiple="multiple" :link-url="link_url" :reset="reset_compontent"></link-activity>
                     </template>
                 </template>
                 <template v-else>

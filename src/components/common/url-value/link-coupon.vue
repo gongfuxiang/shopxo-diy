@@ -79,7 +79,7 @@
 </template>
 <script lang="ts" setup>
 import { is_obj_empty, get_data_list } from '@/utils';
-import commonApi from '@/api/common';
+import UrlValueAPI from '@/api/url-value';
 import { commonStore } from '@/store';
 const common_store = commonStore();
 const props = defineProps({
@@ -91,11 +91,7 @@ const props = defineProps({
     multiple: {
         type: Boolean,
         default: () => false,
-    },
-    linkUrl: {
-        type: String,
-        default: '',
-    },
+    }
 });
 watch(
     () => props.reset,
@@ -160,7 +156,7 @@ const get_list = (new_page: number) => {
         page_size: page_size.value,
     };
     loading.value = true;
-    commonApi.getDynamicApi(props.linkUrl, new_data).then((res: any) => {
+    UrlValueAPI.getCouponList(new_data).then((res: any) => {
         tableData.value = res.data.data_list;
         if (is_obj_empty(res.data.data_list)) {
             empty_text.value = '暂无数据';

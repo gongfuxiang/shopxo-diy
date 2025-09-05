@@ -39,7 +39,7 @@
     </div>
 </template>
 <script lang="ts" setup>
-import commonApi from '@/api/common';
+import UrlValueAPI from '@/api/url-value';
 import { commonStore } from '@/store';
 import { get_data_list } from '@/utils';
 const common_store = commonStore();
@@ -112,7 +112,7 @@ const get_list = (new_page: number) => {
         page_size: page_size.value,
     };
     loading.value = true;
-    commonApi.getDynamicApi(props.linkUrl, new_data).then((res: any) => {
+    UrlValueAPI.getActivityList(new_data).then((res: any) => {
         tableData.value = res.data?.data_list || [];
         if (tableData.value.length === 0) {
             empty_text.value = '暂无数据';
