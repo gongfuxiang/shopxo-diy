@@ -29,8 +29,8 @@ export const get_id = () => {
             new_id = new_id.substring(0, html_index);
         }
         return new_id;
-    } else if (url.indexOf('shop-diy-saveinfo') != -1) {
-        new_id = url.substring(url.indexOf('shop-diy-saveinfo-') + 18);
+    } else if (url.indexOf('-saveinfo') != -1) {
+        new_id = url.substring(url.indexOf('-saveinfo-') + 10);
         // 去除字符串的.html
         const dot_data = new_id.split('.')[0];
         if (dot_data != '') {
