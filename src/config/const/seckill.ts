@@ -142,7 +142,7 @@ const defaultSeckill: DefaultSeckill = {
         subscript_type: 'text',
         subscript_img_src: [],
         subscript_icon_class: '',
-        subscript_text: '秒杀',
+        subscript_text: '角标',
     },
     style: {
         // 文字颜色

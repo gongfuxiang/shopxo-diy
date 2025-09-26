@@ -68,6 +68,10 @@ interface DefaultFooterNav {
         general_safe_distance_value: string;
         up_slide_logo: uploadList[];
         up_slide_display: string;
+        up_slide_icon_color: string;
+        up_slide_title_color: string,
+        up_slide_location_color : string,
+        up_slide_left_back_btn_color: string,
         up_slide_background_color_list: color_list[];
         up_slide_background_direction: string;
         up_slide_background_img_style: string;
@@ -131,7 +135,7 @@ const defaultFooterNav: DefaultFooterNav = {
         // 对齐方式
         indicator_location: 'center',
         // 右侧图标信息
-        icon_setting: [{ id: get_math(), img: [], icon: 'bell', link: { name: '我的消息', page: '/pages/message/message' } }],
+        icon_setting: [{ id: get_math(), img: [], icon: 'smallbell', link: { name: '我的消息', page: '/pages/message/message' } }],
         // 定位左侧图标内容
         is_location_left_icon_show: '1',
         location_left_img: [],
@@ -190,6 +194,10 @@ const defaultFooterNav: DefaultFooterNav = {
         // 上滑显示处理
         up_slide_logo: [],
         up_slide_display: '1',
+        up_slide_icon_color: '',
+        up_slide_title_color: '',
+        up_slide_location_color : '',
+        up_slide_left_back_btn_color: '',
         up_slide_background_color_list: [{ color: '#fff', color_percentage: undefined }],
         up_slide_background_direction: '180deg',
         up_slide_background_img_style: '2',

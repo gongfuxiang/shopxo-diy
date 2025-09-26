@@ -39,6 +39,8 @@ interface defaultTabs {
         tabs_adorn_icon: string;
         tabs_adorn_img: uploadList[];
         tabs_top_up: string;
+        // 选项卡索引
+        tabs_active_index: number;
         is_tabs_safe_distance: string;
         home_data: tabs_page;
         tabs_list: tabs_page[];
@@ -91,6 +93,11 @@ interface defaultTabs {
         more_icon_class: string;
         more_icon_color: string;
         more_icon_size: number;
+        more_button_text_color: string;
+        more_button_text_selected_color: string;
+        more_button_direction: string;
+        more_button_color_list: color_list[];
+        more_button_radius: radiusStyle;
         data_spacing: number;
         radius: number;
         radius_top_left: number;
@@ -99,6 +106,10 @@ interface defaultTabs {
         radius_bottom_right: number;
         is_show: string;
         image_spacing: number;
+        // 数据左侧间距
+        data_left_spacing: number,
+        // 数据内间距
+        data_padding: paddingStyle,
         indicator_style: string;
         indicator_new_location: string;
         indicator_location: string;
@@ -143,6 +154,8 @@ const defaultTabs: defaultTabs = {
         tabs_top_up: '0',
         // 是否支持安全距离
         is_tabs_safe_distance: '0',
+        // 选项卡索引
+        tabs_active_index: 0,
         // 选项卡数据
         home_data: { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '首页', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
         tabs_list: [
@@ -186,35 +199,7 @@ const defaultTabs: defaultTabs = {
                     background_img: [],
                     is_background_img_blur: '0',
                 }
-            },
-            {
-                carousel_img: [],
-                carousel_video: [],
-                carousel_link: {},
-                video_title: '视频名称',
-                style: {
-                    direction: '90deg',
-                    color_list: [{ color: '', color_percentage: undefined }],
-                    background_img_style: '2',
-                    background_type: 'custom',
-                    background_img: [],
-                    is_background_img_blur: '0',
-                }
-            },
-            {
-                carousel_img: [],
-                carousel_video: [],
-                carousel_link: {},
-                video_title: '视频名称',
-                style: {
-                    direction: '90deg',
-                    color_list: [{ color: '', color_percentage: undefined }],
-                    background_img_style: '2',
-                    background_type: 'custom',
-                    background_img: [],
-                    is_background_img_blur: '0',
-                }
-            },
+            }
         ],
         // 轮播高度
         height: 300,
@@ -352,6 +337,18 @@ const defaultTabs: defaultTabs = {
         more_icon_class: 'category-more',
         more_icon_color: '#000',
         more_icon_size: 14,
+        // 更多弹出框的样式
+        more_button_text_color: '#666',
+        more_button_text_selected_color: '#666',
+        more_button_direction: '90deg',
+        more_button_color_list: [{ color: '#eee', color_percentage: undefined }],
+        more_button_radius: {
+            radius: 57,
+            radius_top_left: 57,
+            radius_top_right: 57,
+            radius_bottom_left: 57,
+            radius_bottom_right: 57,
+        },
         // 选项卡与轮播之间的间距
         data_spacing: 0,
         // 图片圆角
@@ -362,6 +359,16 @@ const defaultTabs: defaultTabs = {
         radius_bottom_right: 0,
         // 图片间距
         image_spacing: 10,
+        // 数据左侧间距
+        data_left_spacing: 0,
+        // 数据内间距
+        data_padding: {
+            padding: 0,
+            padding_top: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+            padding_right: 0,
+        },
         // 指示器设置
         is_show: '1',
         indicator_style: 'dot',

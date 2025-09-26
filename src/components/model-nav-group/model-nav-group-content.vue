@@ -1,9 +1,11 @@
 <template>
     <div class="auxiliary-line common-content-height">
         <el-form :model="form" label-width="70">
-            <common-content-top :value="form.content_top"></common-content-top>
-            <div class="divider-line"></div>
-            <card-container>
+            <template v-if="!isNest">
+                <common-content-top :value="form.content_top"></common-content-top>
+                <div class="divider-line"></div>
+            </template>
+            <card-container class="card-container">
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="导航样式">
                     <el-radio-group v-model="form.nav_style">
@@ -35,14 +37,14 @@
                 </el-form-item>
             </card-container>
             <div class="divider-line"></div>
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12 flex-row align-c jc-sb">内容设置<div class="flex-row gap-10"><span class="classify-style" @click="classify_remove_all">清空</span><span class="classify-style" @click="classify_add">从分类添加</span></div></div>
                 <div class="tips mt-10 mb-20 size-12">最多添加{{ form.nav_content_list.length }}张图片，建议尺寸90*90px</div>
                 <div class="nav-list">
                     <drag :data="form.nav_content_list" type="card" :space-col="27" model-type="nav-group" :model-index="tabs_active_index" @remove="remove" @on-sort="on_sort" @click="tabs_list_click">
                         <template #default="{ row, index}">
-                            <div class="flex-col gap-10">
-                                <div class="flex-row align-c jc-c w h">
+                            <div class="flex-1 flex-col gap-10">
+                                <div class="flex-row align-c jc-c w h is-newline">
                                     <upload v-model="row.img" :limit="1" size="72"></upload>
                                     <div class="flex-col flex-1 jc-c gap-20">
                                         <el-form-item label="标题" class="mb-0" label-width="50">
@@ -104,6 +106,7 @@ import subscriptStyle from '@/config/const/subscript-style';
 
 interface Props {
     value: nav_group_content;
+    isNest?: boolean;
 }
 const props = withDefaults(defineProps<Props>(),{
     value: () => ({
@@ -126,7 +129,7 @@ const props = withDefaults(defineProps<Props>(),{
                         subscript_type: 'text',
                         subscript_img_src: [],
                         subscript_icon_class: '',
-                        subscript_text: '',
+                        subscript_text: '角标',
                     },
                     style: {
                         ...subscriptStyle,
@@ -150,7 +153,7 @@ const props = withDefaults(defineProps<Props>(),{
                         subscript_type: 'text',
                         subscript_img_src: [],
                         subscript_icon_class: '',
-                        subscript_text: '',
+                        subscript_text: '角标',
                     },
                     style: {
                         ...subscriptStyle,
@@ -174,7 +177,7 @@ const props = withDefaults(defineProps<Props>(),{
                         subscript_type: 'text',
                         subscript_img_src: [],
                         subscript_icon_class: '',
-                        subscript_text: '',
+                        subscript_text: '角标',
                     },
                     style: {
                         ...subscriptStyle,
@@ -198,7 +201,7 @@ const props = withDefaults(defineProps<Props>(),{
                         subscript_type: 'text',
                         subscript_img_src: [],
                         subscript_icon_class: '',
-                        subscript_text: '',
+                        subscript_text: '角标',
                     },
                     style: {
                         ...subscriptStyle,
@@ -210,6 +213,7 @@ const props = withDefaults(defineProps<Props>(),{
                 }
             }
         ],
+        isNest: false,
     })
 });
 
@@ -231,7 +235,7 @@ onBeforeMount(() => {
                     subscript_type: 'text',
                     subscript_img_src: [],
                     subscript_icon_class: '',
-                    subscript_text: '',
+                    subscript_text: '角标',
                 },
                 style: {
                     ...subscriptStyle,
@@ -257,7 +261,7 @@ const add = () => {
                 subscript_type: 'text',
                 subscript_img_src: [],
                 subscript_icon_class: '',
-                subscript_text: '',
+                subscript_text: '角标',
             },
             style: {
                 ...subscriptStyle,
@@ -323,7 +327,7 @@ const confirm_event = (list: categoryList[]) => {
                     subscript_type: 'text',
                     subscript_img_src: [],
                     subscript_icon_class: '',
-                    subscript_text: '',
+                    subscript_text: '角标',
                 },
                 style: {
                     ...subscriptStyle,

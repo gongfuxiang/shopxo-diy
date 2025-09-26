@@ -78,6 +78,10 @@ const props = defineProps({
             return {};
         },
     },
+    magicScale: {
+        type: Number,
+        default: 1,
+    },
     isCommonStyle: {
         type: Boolean,
         default: true,
@@ -116,6 +120,7 @@ const scale = ref(1);
 // 计算整体宽度和比例
 watchEffect(() => {
     const { common_style, data_style, data_content_style, column_gap } = new_style.value;
+    const new_width = 390 * props.magicScale;
     // 外层左右间距
     const outer_spacing = common_style.margin_left + common_style.margin_right + common_style.padding_left + common_style.padding_right + border_width(common_style);
     // 内容左右间距
@@ -125,7 +130,7 @@ watchEffect(() => {
     // 数据间距
     const data_spacing = ['vertical', 'horizontal'].includes(form.value.data_source_direction) ? column_gap * (form.value.data_source_carousel_col - 1) : 0;
     // 根据容器宽度来计算内部大小
-    const width = 390 - outer_spacing - internal_spacing - content_spacing - data_spacing - props.outerContainerPadding;
+    const width = new_width - outer_spacing - internal_spacing - content_spacing - data_spacing - props.outerContainerPadding;
     // 获得对应宽度的比例
     const scale_number = width / 390;
     scale.value = scale_number > 0 ? scale_number : 0;

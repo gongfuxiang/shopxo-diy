@@ -236,6 +236,9 @@ const tabs_add = () => {
 let click_index = 0;
 const url_value_multiple_bool = ref(true);
 const data_list_replace_index = ref(0);
+// 打开弹出框
+const url_value_dialog_visible = ref(false);
+
 const data_list_replace = (index: number, row_index: number) => {
     click_index = row_index;
     data_list_replace_index.value = index;
@@ -259,8 +262,6 @@ const ask_add = (index: number) => {
 const tabs_list_click = (item: any, index: number) => {
     form.value.tabs_active_index = index;
 };
-// 打开弹出框
-const url_value_dialog_visible = ref(false);
 // 弹出框选择的内容
 const url_value_dialog_call_back = (item: any[]) => {
     if (url_value_multiple_bool.value) {

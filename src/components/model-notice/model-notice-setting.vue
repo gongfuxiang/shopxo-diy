@@ -1,7 +1,7 @@
 <template>
     <div class="auxiliary-line-setting">
         <template v-if="type == '1'">
-            <model-notice-content :value="value.content"></model-notice-content>
+            <model-notice-content :value="value.content" :notice-style="value.style"></model-notice-content>
         </template>
         <template v-if="type == '2'">
             <model-notice-styles :value="value.style" :content="value.content"></model-notice-styles>

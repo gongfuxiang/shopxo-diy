@@ -18,9 +18,9 @@
                 <template v-else>
                     <div class="cube-selected-text">
                         <template v-if="styleActived !== 10">
-                            建议{{ Math.round((props.cubeWidth / densityNum) * (item.end.x - item.start.x + 1)) }}
+                            建议{{ Math.round((props.countWidth / densityNum) * (item.end.x - item.start.x + 1)) }}
                             x
-                            {{ Math.round((props.cubeHeight / densityNum) * (item.end.y - item.start.y + 1)) }}
+                            {{ Math.round((props.countHeight / densityNum) * (item.end.y - item.start.y + 1)) }}
                             px
                             <template v-if="props.type == 'data'">
                                 <div>{{ data_title(item) }}</div>
@@ -35,6 +35,7 @@
 </template>
 
 <script setup lang="ts">
+import { get_math } from '@/utils';
 import { isEmpty, cloneDeep } from 'lodash';
 // interface content {
 //     data_type: string;
@@ -59,8 +60,10 @@ interface Props {
     flag: boolean;
     list: CubeItem[];
     type?: string;
-    cubeWidth: number;
-    cubeHeight: number;
+    countWidth?: number; // 用于实际计算宽度时的处理
+    countHeight?: number; // 用于实际计算高度时的处理
+    cubeWidth: number; // 用于处理魔方密度显示的魔方宽度
+    cubeHeight: number; // 用于处理魔方密度显示的魔方高度
     styleActived?: number;
     imgFit?: "" | "cover" | "fill" | "contain" | "none" | "scale-down";
     magicCubeDensity?: number;
@@ -71,6 +74,8 @@ const props = withDefaults(defineProps<Props>(), {
     list: () => [],
     flag: false,
     type: 'img',
+    countWidth: 390,
+    countHeight: 390,
     cubeWidth: 390,
     cubeHeight: 390,
     styleActived: 0,
@@ -193,9 +198,12 @@ const onClickCubeItem = (event: any) => {
             end: selectingItem.end,
             data_content: {
                ...cloneDeep(props.defaultContent),
-               width: Math.round((props.cubeWidth / densityNum.value) * (selectingItem.end.x - selectingItem.start.x + 1))
+               width: Math.round((props.countWidth / densityNum.value) * (selectingItem.end.x - selectingItem.start.x + 1))
             },
-            data_style: cloneDeep(props.defaultStyle),
+            data_style: {
+                ...cloneDeep(props.defaultStyle),
+                carouselKey: get_math(),
+            },
         };
     } else {
         selectedItem = {

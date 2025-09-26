@@ -12,7 +12,7 @@
                     <div class="flex-col" :style="`gap: ${new_style.data_alone_row_space}px`">
                         <div class="model-head-content flex-row align-c jc-sb gap-16 re">
                             <div v-if="['1', '2', '3'].includes(form.theme)" class="flex-1">
-                                <div class="flex-1 flex-row align-c jc-c h gap-16" :class="position_class" :style="[{ 'justify-content': form?.indicator_location || 'center' }, text_style]">
+                                <div class="flex-1 flex-row align-c jc-c h gap-16" :class="position_class" :style="[{ 'justify-content': form?.indicator_location || 'center' }, text_style, up_slide_title_style]">
                                     <template v-if="['2', '3'].includes(form.theme) && form.logo.length > 0">
                                         <div class="logo-outer-style re">
                                             <template v-if="new_style.up_slide_logo && new_style.up_slide_logo.length > 0">
@@ -35,7 +35,7 @@
                                 </div>
                             </div>
                             <div v-else-if="['4', '5'].includes(form.theme)" class="flex-1 flex-row align-c h re">
-                                <div v-if="form.positioning_name_float !== '1'" class="model-head-location oh" :style="style_location_container">
+                                <div v-if="form.positioning_name_float !== '1'" class="model-head-location oh" :style="style_location_container + up_slide_location_style">
                                     <div class="flex-row gap-4 align-c oh" :style="style_location_img_container">
                                         <template v-if="form.is_location_left_icon_show == '1'">
                                             <image-empty v-if="form.location_left_img.length > 0" v-model="form.location_left_img[0]" fit="contain" :error-img-style="'width: 12px; height:12px'"></image-empty>
@@ -57,7 +57,7 @@
                             <div v-if="!isEmpty(form.icon_setting) && !is_icon_alone_row" class="flex-row align-c" :class="'gap-' + new_style.img_space">
                                 <div v-for="(item, index) in form.icon_setting" :key="index" :style="{ width: new_style.img_size + 'px', height: new_style.img_size + 'px' }">
                                     <image-empty v-if="item.img.length > 0" v-model="item.img[0]" fit="contain" :error-img-style="'width: ' + Number(new_style.img_size) / 2 + 'px;height:' + Number(new_style.img_size) / 2 + 'px;'"></image-empty>
-                                    <icon v-else :name="item.icon" :size="new_style.img_size + ''" :color="new_style.img_color"></icon>
+                                    <icon v-else :name="item.icon" :size="new_style.img_size + ''" :styles="up_slide_icon_style"></icon>
                                 </div>
                             </div>
                         </div>
@@ -70,7 +70,7 @@
                             <div v-if="!isEmpty(form.icon_setting) && is_icon_alone_row" class="flex-row align-c" :class="'gap-' + new_style.img_space">
                                 <div v-for="(item, index) in form.icon_setting" :key="index" :style="{ width: new_style.img_size + 'px', height: new_style.img_size + 'px' }">
                                     <image-empty v-if="item.img.length > 0" v-model="item.img[0]" fit="contain" :error-img-style="'width: ' + Number(new_style.img_size) / 2 + 'px;height:' + Number(new_style.img_size) / 2 + 'px;'"></image-empty>
-                                    <icon v-else :name="item.icon" :size="new_style.img_size + ''" :color="new_style.img_color"></icon>
+                                    <icon v-else :name="item.icon" :size="new_style.img_size + ''" :styles="up_slide_icon_style"></icon>
                                 </div>
                             </div>
                         </div>
@@ -156,6 +156,44 @@ const up_slide_style = computed(() => {
         // 渐变
         const gradient = { color_list: up_slide_background_color_list, direction: up_slide_background_direction };
         style += gradient_computer(gradient) + up_slide_opacity.value;
+    }
+    return style;
+});
+// 上滑图标更新
+const up_slide_icon_style = computed(() => {
+    let style = ``;
+    const { up_slide_display, img_color = '', up_slide_icon_color = '' } = new_style.value;
+    if (props.scollTop > 20 && up_slide_display == '1') {
+        style += up_slide_icon_color == '' || new_opacity.value <= 0 ? `color: ${ img_color };` : `color: ${ up_slide_icon_color };${ up_slide_opacity.value }`;
+    } else {
+        style += `color: ${ img_color };`;
+    }
+    return style;
+});
+const new_opacity = computed(() => {
+    const opacityValue = (props.scollTop - 20) / 90;
+    const opacity = opacityValue > 1 ? '1' : opacityValue.toFixed(2);
+    return parseFloat(opacity); // 转换为数字
+})
+// 上滑标题更新
+const up_slide_title_style = computed(() => {
+    let style = ``;
+    const { up_slide_display, header_background_title_color = '', up_slide_title_color = '' } = new_style.value;
+    if (props.scollTop > 20 && up_slide_display == '1') {
+        style += up_slide_title_color == '' || new_opacity.value <= 0 ? `color: ${ header_background_title_color };` : `color: ${ up_slide_title_color };${ up_slide_opacity.value }`;
+    } else {
+        style += `color: ${ header_background_title_color };`;
+    }
+    return style;
+});
+// 上滑标题更新
+const up_slide_location_style = computed(() => {
+    let style = ``;
+    const { up_slide_display, location_color = '', up_slide_location_color = '' } = new_style.value;
+    if (props.scollTop > 20 && up_slide_display == '1') {
+        style += up_slide_location_color == '' || new_opacity.value <= 0 ? `color: ${ location_color };` : `color: ${ up_slide_location_color };${ up_slide_opacity.value }`;
+    } else {
+        style += `color: ${ location_color };`;
     }
     return style;
 });

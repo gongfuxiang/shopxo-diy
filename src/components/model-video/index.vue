@@ -2,11 +2,18 @@
     <div :style="style_container">
         <div :style="style_img_container">
             <div class="video re" :style="style">
-                <template v-if="video && !video_img">
-                    <video :src="video" class="w h"></video>
+                <template v-if="isEmpty(video) && isEmpty(video_img)">
+                    <image-empty v-model="video_img" fit="contain" error-img-style="width:60px;height:60px;"></image-empty>
                 </template>
                 <template v-else>
-                    <image-empty v-model="video_img" error-img-style="width:60px;height:60px;"></image-empty>
+                    <template v-if="!isEmpty(video)">
+                        <video :src="video" controls class="w h"></video>
+                    </template>
+                    <template v-if="!isEmpty(video_img)">
+                        <div class="middle w h">
+                            <image-empty v-model="video_img" fit="contain" error-img-style="width:60px;height:60px;"></image-empty>
+                        </div>
+                    </template>
                 </template>
                 <img :src="video_src" class="middle box-shadow-sm round" width="60" height="60" />
             </div>
@@ -16,6 +23,7 @@
 <script setup lang="ts">
 import { common_styles_computer, common_img_computer } from '@/utils';
 import { commonStore } from '@/store';
+import { isEmpty } from 'lodash';
 const common_store = commonStore();
 /**
  * @description: 视频 （渲染）
@@ -26,6 +34,10 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
+    isCommonStyle: {
+        type: Boolean,
+        default: true,
+    }
 });
 const video_src = ref(common_store.common.config.attachment_host + `/static/diy/images/components/model-video/video.png`);
 const style = ref('');
@@ -33,8 +45,7 @@ const style_container = ref('');
 const style_img_container = ref('');
 const video_img = ref('');
 const video = ref('');
-watch(
-    props.value,
+watch(() => props.value,
     (newVal, oldValue) => {
         const new_content = newVal?.content || {};
         const new_style = newVal?.style || {};
@@ -52,8 +63,10 @@ watch(
             video_ratio = `height: 220px;`;
         }
         style.value = video_ratio;
-        style_container.value = common_styles_computer(new_style.common_style);
-        style_img_container.value = common_img_computer(new_style.common_style);
+        if (props.isCommonStyle) {
+            style_container.value = common_styles_computer(new_style.common_style);
+            style_img_container.value = common_img_computer(new_style.common_style);
+        }
     },
     { immediate: true, deep: true }
 );

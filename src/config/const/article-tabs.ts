@@ -167,7 +167,7 @@ const defaultArticleTabs: DefaultArticleTabs = {
         subscript_type: 'text',
         subscript_img_src: [],
         subscript_icon_class: '',
-        subscript_text: '',
+        subscript_text: '角标',
         name_float: '0'
     },
     style: {

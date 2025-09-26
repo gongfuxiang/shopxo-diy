@@ -3,17 +3,19 @@
     <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body :close-on-click-modal="false" @close="close_event">
         <template #header>
             <div class="title re">
-                <el-radio-group v-model="temp_active" is-button :disabled="is_disabled" @change="temp_change">
-                    <el-radio-button value="1">本地导入</el-radio-button>
-                    <el-radio-button value="2">模版市场</el-radio-button>
-                </el-radio-group>
+                <template v-if="common_store_config.diy_upload_url !== '' && common_store_config.diy_market_url !== ''">
+                    <el-radio-group v-model="temp_active" is-button :disabled="is_disabled" @change="temp_change">
+                        <el-radio-button value="1">本地导入</el-radio-button>
+                        <el-radio-button value="2">模版市场</el-radio-button>
+                    </el-radio-group>
+                </template>
                 <div class="middle size-16 fw-b">模版导入</div>
             </div>
         </template>
         <div class="url-value-content ptb-16 flex-col gap-16">
             <div v-if="temp_active == '1'" class="h flex-row jc-c align-c">
-                <div class="import-content">
-                    <el-upload v-model:file-list="file_list" action="#" :accept="exts_text" :show-file-list="false" :auto-upload="false" :on-change="upload_change">
+                <div class="import-content flex-col align-c jc-c">
+                    <el-upload v-model:file-list="file_list" action="#" class="import-btn-box" :accept="exts_text" drag :show-file-list="false" :auto-upload="false" :on-change="upload_change">
                         <template #trigger>
                             <div class="import-btn">
                                 <icon name="upload-file" color="primary"></icon>
@@ -24,9 +26,8 @@
                         <span class="fw-b">{{ upload_file.name }}</span>
                         <span class="cr-9">({{ annex_size_to_unit(upload_file.size) }})</span>
                     </div>
-                    <div class="cr-c size-12 flex-col gap-10 mt-10">
-                        <p>1. 选择已下载的diy设计zip包</p>
-                        <p>2. 导入将自动新增一条数据</p>
+                    <div class="cr-c size-12 flex-col gap-10 mt-10 align-s">
+                        <p>1. 导入将自动新增一条数据</p>
                     </div>
                 </div>
             </div>
@@ -43,9 +44,9 @@
                             </el-button>
                             <el-checkbox v-model="form.status" class="ml-20" @change="status_change">我已购买</el-checkbox>
                         </div>
-                        <el-link type="primary" :href="more_link" target="_blank" :underline="false">
+                        <el-link v-if="more_link !== ''" type="primary" :href="more_link" target="_blank" :underline="false">
                             <div class="flex-row gap-3 align-c">
-                                <icon name="download-btn"></icon>
+                                <icon name="download-b-line"></icon>
                                 <text>更多diy模版下载</text>
                             </div>
                         </el-link>
@@ -119,7 +120,7 @@
             <span class="dialog-footer">
                 <div v-if="temp_active == '1'">
                     <el-button class="plr-28 ptb-10" @click="close_event">取消</el-button>
-                    <el-button class="plr-28 ptb-10" type="primary" @click="confirm_event">确定</el-button>
+                    <el-button class="plr-28 ptb-10" :disabled="file_list.length <= 0" type="primary" @click="confirm_event">确定</el-button>
                 </div>
                 <div v-else class="flex-row jc-e">
                     <el-pagination :disabled="is_disabled" :current-page="form.page" background :page-size="form.page_size" :pager-count="5" layout="prev, pager, next" :total="form.data_total" @current-change="current_page_change" />
@@ -132,8 +133,9 @@
 <script lang="ts" setup>
 import type { UploadFile } from 'element-plus';
 import { annex_size_to_unit } from '@/utils';
-import DiyAPI from '@/api/diy';
+import CommonAPI from '@/api/common';
 import { commonStore } from '@/store';
+import { get_id } from '@/utils/common';
 const common_store = commonStore();
 const app = getCurrentInstance();
 /**
@@ -149,13 +151,23 @@ const props = defineProps({
         default: () => [],
     },
 });
+const common_store_config = computed(() => common_store.common.config);
+
 const dialogVisible = defineModel({ type: Boolean, default: false });
+// 监听判断是否有当前的导入内容
 const temp_active = ref('1');
+watchEffect(() => {
+    if (common_store_config.value.diy_upload_url === '') {
+        temp_active.value = '2';
+    } else {
+        temp_active.value = '1';
+    }
+});
 const temp_change = (val: any) => {
     temp_active.value = val;
 };
 const more_link = computed(() => {
-    return common_store.common.config.store_diy_url || '';
+    return common_store_config.value.store_diy_url || '';
 });
 //导入
 const exts_text = ref('.zip');
@@ -207,7 +219,7 @@ const get_import_list = (type?: string) => {
         ...form.value,
         is_already_buy: form.value.status ? '1' : '0',
     };
-    DiyAPI.getImportList(new_data)
+    CommonAPI.getDynamicApi(common_store_config.value.diy_market_url, new_data)
         .then((res: any) => {
             const data = res.data;
             form.value.data_total = data.data_total;
@@ -264,7 +276,7 @@ interface install_data {
 }
 const install = async (item: install_data) => {
     let new_data = item;
-    DiyAPI.install(item)
+    CommonAPI.getDynamicApi(common_store_config.value.diy_install_url ,item)
         .then((res: any) => {
             switch (item.opt) {
                 case 'url':
@@ -281,7 +293,9 @@ const install = async (item: install_data) => {
                     break;
                 case 'install':
                     ElMessage.success(res.msg);
-                    history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
+                    if (import.meta.env.VITE_APP_BASE_API == '/dev-admin') {
+                        history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
+                    }
                     Loading_text.value = '';
                     loading.value = false;
                     // 解除禁用效果
@@ -317,10 +331,12 @@ const confirm_event = () => {
         if (file_list.value && file_list.value[0].raw) {
             form_data.append('file', file_list.value[0]?.raw);
         }
-        DiyAPI.import(form_data)
+        CommonAPI.getDynamicApi(common_store_config.value.diy_upload_url, form_data, true)
             .then((res: any) => {
                 ElMessage.success(res.msg);
-                history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
+                if (import.meta.env.VITE_APP_BASE_API == '/dev-admin') {
+                    history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
+                }
                 close_event();
                 emit('confirm');
             })
@@ -328,21 +344,6 @@ const confirm_event = () => {
     }
 };
 
-// 截取document.location.search字符串内id/后面的所有字段
-const get_id = () => {
-    let new_id = '';
-    if (document.location.search.indexOf('id/') != -1) {
-        new_id = document.location.search.substring(document.location.search.indexOf('id/') + 3);
-        // 去除字符串的.html
-        let html_index = new_id.indexOf('.html');
-        if (html_index != -1) {
-            new_id = new_id.substring(0, html_index);
-        }
-        return new_id;
-    } else {
-        return new_id;
-    }
-};
 </script>
 <style lang="scss" scoped>
 .url-value-content {
@@ -350,10 +351,21 @@ const get_id = () => {
 }
 .import-content {
     text-align: center;
+    .import-btn-box {
+        width: 14.2rem;
+        height: 14.2rem;
+        :deep(.el-upload-dragger) {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 !important;
+            border: 0;
+        }
+    }
     .import-btn {
+        display: flex;
         width: 14rem;
         height: 14rem;
-        display: flex;
         justify-content: center;
         align-items: center;
         font-size: 7rem;

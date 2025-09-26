@@ -9,7 +9,7 @@
                 </div>
             </template>
             <template v-else>
-                <no-data height="100vh" img-width="260px" size="16px" text="编辑数据有误"></no-data>
+                <no-data height="100vh" img-width="260px" size="16px" :text="empty_data"></no-data>
             </template>
         </template>
         <preview v-model="preview_dialog" :data-id="diy_id"></preview>
@@ -18,16 +18,17 @@
 </template>
 
 <script setup lang="ts">
-import { is_obj, set_cookie, get_cookie } from '@/utils';
+import { is_obj, set_cookie, get_cookie, get_math } from '@/utils';
 import { Settings, AppMain } from './components/index';
 import defaultSettings from './components/main/index';
 import defaultConfigSetting from '@/config/setting';
 import defaultConfigConst from '@/config/const/index';
-import { cloneDeep, isEmpty, omit } from 'lodash';
-import DiyAPI, { diyData, headerAndFooter, diyConfig } from '@/api/diy';
+import { clone, cloneDeep, isEmpty, omit } from 'lodash';
+import { diyData, headerAndFooter, diyConfig } from '@/api/diy';
 import CommonAPI from '@/api/common';
 import { commonStore } from '@/store';
-import { de } from 'element-plus/es/locale';
+import { magic_config } from '@/config/const/tabs-magic';
+import { get_id, get_type } from '@/utils/common';
 const common_store = commonStore();
 interface diy_data_item {
     id: string;
@@ -133,10 +134,12 @@ const clear_data_event = () => {
 onMounted(() => {
     common_init();
 });
+
 const is_empty = ref(false);
+const empty_data = ref('编辑数据有误');
 const init = () => {
     if (get_id()) {
-        DiyAPI.getInit({ id: get_id() }).then((res: any) => {
+        CommonAPI.getDynamicApi(common_store.common.config.diy_detail_url, { id: get_id() }).then((res: any) => {
             const new_data = res.data?.data || undefined;
             if (new_data) {
                 let data = form_data_transfor_diy_data(new_data);
@@ -157,14 +160,25 @@ const init = () => {
                 form.value = data;
             } else {
                 is_empty.value = true;
+                empty_data.value = '编辑数据有误';
             }
+            loading_event();
+        }).catch((err) => {
+            is_empty.value = true;
+            empty_data.value = err;
             loading_event();
         });
     } else {
-        temp_form.value.header.com_data = defaultSettings.header_nav;
-        temp_form.value.footer.com_data = defaultSettings.footer_nav;
-        form.value = cloneDeep(temp_form.value);
-        loading_event();
+        if (import.meta.env.VITE_APP_BASE_API == '/dev-admin') {
+            temp_form.value.header.com_data = defaultSettings.header_nav;
+            temp_form.value.footer.com_data = defaultSettings.footer_nav;
+            form.value = cloneDeep(temp_form.value);
+            loading_event();
+        } else { 
+            is_empty.value = true;
+            empty_data.value = '没有数据ID';
+            loading_event();
+        }
     }
 };
 // 数据合并
@@ -194,11 +208,23 @@ const default_merge = (data: any, key: string) => {
     } else {
         data.content = cloneDeep((defaultSettings as any)[key.replace(/-/g, '_')]).content;
     }
+    // 选项卡魔方数据补全
+    if (key == 'tabs-magic') {
+        if (data.content.home_data) {
+            data.content.home_data = Object.assign({}, magic_config, data.content.home_data);
+        }
+        if (data.content.tabs_list.length > 0) {
+            data.content.tabs_list = data.content.tabs_list.map((item: any) => {
+                return Object.assign({}, magic_config, item);
+            })
+        }
+    }
     return data;
 };
 
 // 初始化公共数据
-const common_init = () => {
+const token = ref('');
+const common_init = async () => {
     if (get_cookie('attachment_host') || get_cookie('attachment_host') !== 'null' || get_cookie('attachment_host') !== null) {
         CommonAPI.getInit().then((res: any) => {
             common_store.set_common(res.data);
@@ -206,14 +232,24 @@ const common_init = () => {
             init();
         });
     } else {
-        // 将localStorage中的数据读取出
-        // 判断localStorage中是否有数据
+        // 将localStorage中的数据读取出,判断localStorage中是否有数据
         if (localStorage.getItem('diy_init_common')) {
             const data = JSON.parse(localStorage.getItem('diy_init_common') || '');
             common_store.set_common(data);
             // 清除缓存
             localStorage.removeItem('diy_init_common');
             init();
+        }
+    }
+    // 获取用户id
+    if (import.meta.env.VITE_APP_BASE_API == '/dev-admin') {
+        let temp_data = await import(import.meta.env.VITE_APP_BASE_API == '/dev-admin' ? '../../../temp.d.ts' : '../../../temp_pro.d.ts');
+        token.value = '&token=' + temp_data.default.temp_token;
+    } else {
+        // 如果是shop认为是多商户插件使用user_info的cookie
+        const cookie = get_type() == 'shop' ? get_cookie('user_info') : get_cookie('admin_info');
+        if (cookie && cookie !== null && cookie !== 'null') {
+            token.value = '&token=' + JSON.parse(cookie).token;
         }
     }
 };
@@ -232,8 +268,13 @@ const loading_event = () => {
 const preview_dialog = ref(false);
 const diy_id = ref('');
 const preview_event = (bool: boolean) => {
-    save_disabled.value = bool;
-    save_formmat_form_data(form.value, false, false, true);
+    let url = common_store.common.config.preview_url;
+    if (isEmpty(url)) {
+        ElMessage.error('请先配置预览地址');
+    } else {
+        save_disabled.value = bool;
+        save_formmat_form_data(form.value, false, false, true);
+    }
 };
 const save_disabled = ref(false);
 const save_event = (bool: boolean) => {
@@ -271,6 +312,41 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
     const new_array_5 = ['custom', 'goods-magic'];
     // 导航组
     const new_array_6 = ['nav-group'];
+    // 选项卡数据更新
+    clone_form.tabs_data = clone_form.tabs_data.map((item: any) => { 
+        if (['tabs-magic'].includes(item.key)) {
+            item.com_data.content.tabs_active_index = 0;
+            // 获取所有组件名称
+            const all_type = ['hot_zone', 'custom', 'img_magic', 'goods_magic', 'goods_list', 'article_list', 'nav_group', 'video', 'carousel'];
+            // 将数据信息合并起来
+            const new_data_list = cloneDeep([item.com_data.content.home_data, ...item.com_data.content.tabs_list]);
+            // 对整个数据进行处理
+            const data_list_handle: any[] = [];
+            new_data_list.forEach((item1: any) => {
+                if (['goods_list', 'article_list'].includes(item1.magic_type)) {
+                    // 处理商品或者文章的数据
+                    goods_or_article_data_processing(item1[item1.magic_type].content, item1.magic_type == new_array_1[0], item1.magic_type);
+                } else if (['custom', 'goods_magic'].includes(item1.magic_type)) {
+                    // 自定义数据处理
+                    custom_data_processing(item1[item1.magic_type].content);
+                }
+                data_list_handle.push(Object.keys(item1)
+                    .filter(key => !(all_type.filter((item2: string) => !isEmpty(item1.magic_type) ? (item2 !== item1.magic_type) : item2).includes(key)))
+                    .reduce((acc: Record<string, any>, key: string) => { 
+                        acc[key] = item1[key];
+                        return acc;
+                    }, {}));
+            });
+            // 处理完成之后拆分开
+            item.com_data.content.home_data = data_list_handle.length > 0 ? data_list_handle[0] : null;
+            item.com_data.content.tabs_list = data_list_handle.slice(1, data_list_handle.length);
+        } 
+        return {
+            ...item,
+            show_tabs: '0',
+        }
+    });
+    // 拖拽区域更新
     clone_form.diy_data = clone_form.diy_data.map((item: any) => {
         if (new_array_1.includes(item.key)) {
             // 商品或文章的数据处理
@@ -405,7 +481,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
     });
     // 数据改造
     const new_data = diy_data_transfor_form_data(clone_form);
-    DiyAPI.save(new_data)
+    CommonAPI.getDynamicApi(common_store.common.config.diy_save_url, new_data)
         .then((res) => {
             setTimeout(() => {
                 save_disabled.value = false;
@@ -427,17 +503,31 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             } else {
                 // 判断是否需要导出
                 if (is_export) {
-                    const index = window.location.href.lastIndexOf('?s=');
-                    const pro_url = window.location.href.substring(0, index);
-                    const new_url = import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API_URL : pro_url;
-                    window.open(new_url + '?s=diyapi/diydownload/id/' + res.data + '.html', '_blank');
+                    const download = common_store.common.config.diy_download_url;
+                    if (download == '') {
+                        ElMessage.error('请先配置导出地址');
+                        return;
+                    } else {
+                        let uuid_val = '';
+                        if (get_cookie('uuid_name')) {
+                            uuid_val = get_cookie('uuid_name');
+                        } else {
+                            uuid_val = get_math();
+                            set_cookie('uuid_name', uuid_val);
+                        }   
+                        const symbol = download?.includes('?') ? '&' : '?';
+                        window.open(`${download}${ symbol }id=${ res.data }&token=${ token.value }&uuid=${uuid_val}`);
+                    }
                 }
                 if (is_preview) {
                     preview_dialog.value = true;
                     diy_id.value = String(res.data);
                 }
                 form.value.id = String(res.data);
-                history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
+                // 本地的时候会补id参数
+                if (import.meta.env.VITE_APP_BASE_API == '/dev-admin') {
+                    history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');
+                }
             }
         })
         .catch((err) => {
@@ -593,22 +683,6 @@ const form_data_transfor_diy_data = (clone_form: diyData) => {
             tabs_data: new_tem_form.tabs_data,
             diy_data: new_tem_form.diy_data,
         };
-    }
-};
-
-// 截取document.location.search字符串内id/后面的所有字段
-const get_id = () => {
-    let new_id = '';
-    if (document.location.search.indexOf('id/') != -1) {
-        new_id = document.location.search.substring(document.location.search.indexOf('id/') + 3);
-        // 去除字符串的.html
-        let html_index = new_id.indexOf('.html');
-        if (html_index != -1) {
-            new_id = new_id.substring(0, html_index);
-        }
-        return new_id;
-    } else {
-        return new_id;
     }
 };
 </script>

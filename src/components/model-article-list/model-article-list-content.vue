@@ -1,9 +1,11 @@
 <template>
     <div class="content">
         <el-form :model="form" label-width="70" class="m-h">
-            <common-content-top :value="form.content_top"></common-content-top>
-            <div class="divider-line"></div>
-            <card-container>
+            <template v-if="!isNest">
+                <common-content-top :value="form.content_top"></common-content-top>
+                <div class="divider-line"></div>
+            </template>
+            <card-container class="card-container">
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选择风格">
                     <el-radio-group v-model="form.theme" @change="theme_change">
@@ -17,13 +19,13 @@
                 </el-form-item>
             </card-container>
             <div class="divider-line"></div>
-            <card-container class="card-container-br">
+            <card-container class="card-container card-container-br">
                 <div class="mb-12">文章设置</div>
                 <!-- 数据筛选组件, 根据数据源类型显示不同的筛选组件 -->
                 <data-filter type="article" :value="form" :list="form.data_list" :base-list="base_list" @add="add" @data_list_replace="data_list_replace" @data_list_remove="data_list_remove" @data_list_sort="data_list_sort"></data-filter>
             </card-container>
             <div class="divider-line"></div>
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12">列表设置</div>
                 <el-form-item label="是否显示">
                     <el-checkbox-group v-model="form.field_show">
@@ -42,7 +44,7 @@
                 </template>
             </card-container>
             <div class="divider-line"></div>
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12">角标设置</div>
                 <!-- 角标设置 -->
                 <subscript-content :value="form"></subscript-content>
@@ -69,6 +71,10 @@ const props = defineProps({
     styles: {
         type: Object,
         default: () => ({}),
+    },
+    isNest: {
+        type: Boolean,
+        default: false,
     },
     defaultConfig: {
         type: Object,
@@ -166,6 +172,8 @@ const data_list_remove = (index: number) => {
 };
 const url_value_multiple_bool = ref(true);
 const data_list_replace_index = ref(0);
+// 开启关闭链接
+const url_value_dialog_visible = ref(false);
 // 替换
 const data_list_replace = (index: number) => {
     data_list_replace_index.value = index;
@@ -181,8 +189,6 @@ const add = () => {
     url_value_multiple_bool.value = true;
     url_value_dialog_visible.value = true;
 };
-// 开启关闭链接
-const url_value_dialog_visible = ref(false);
 const url_value_dialog_call_back = (item: any[]) => {
     if (url_value_multiple_bool.value) {
         item.forEach((child: any) => {

@@ -13,7 +13,7 @@
                     </el-menu-item>
                 </el-menu>
             </div>
-            <div class="right-content flex-1">
+            <div class="right-content flex-1 w h">
                 <!-- 商城链接/插件 -->
                 <template v-if="link_select == 'shop' || link_select == 'plugins'">
                     <link-list :key="link_select" v-model="link_value" :type="link_select" :reset="reset_compontent"></link-list>
@@ -26,53 +26,58 @@
                 <template v-else-if="link_select == 'goods-search'">
                     <link-goods-search :reset="reset_compontent" :status="component_status" :select-is-url="selectIsUrl" @update:link="goods_category_link" @type="goods_category_type_change"></link-goods-search>
                 </template>
-                <!-- 商品页面 -->
-                <template v-else-if="link_select == 'goods'">
-                    <link-goods v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent"></link-goods>
-                </template>
-                <!-- 文章页面 -->
-                <template v-else-if="link_select == 'article'">
-                    <link-articles v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent"></link-articles>
-                </template>
-                <!-- 博客页面 -->
-                <template v-else-if="link_select == 'blog'">
-                    <link-blog v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent"></link-blog>
-                </template>
-                <!-- diy页面/页面设计/自定义页面  -->
-                <template v-else-if="link_select == 'diy' || link_select == 'design' || link_select == 'custom-view'">
-                    <link-table :key="link_select" v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :type="link_select" :reset="reset_compontent"></link-table>
-                </template>
-                <!-- 品牌 -->
-                <template v-else-if="link_select == 'brand'">
-                    <link-brand v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent"></link-brand>
-                </template>
                 <!-- 自定义链接 -->
                 <template v-else-if="link_select == 'custom-url'">
                     <link-custom :reset="reset_compontent" :select-is-url="selectIsUrl" :status="component_status" @update:link="custom_link"></link-custom>
                 </template>
-                <!-- 优惠券链接 -->
+                <!-- 优惠券链接-插件 -->
                 <template v-else-if="link_select == 'coupon'">
                     <link-coupon v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-coupon>
                 </template>
-                <!-- 组合搭配 -->
+                <!-- 组合搭配-插件 -->
                 <template v-else-if="link_select == 'binding'">
                     <link-binding v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-binding>
                 </template>
-                <!-- 多商户 -->
+                <!-- 多商户-插件 -->
                 <template v-else-if="link_select == 'merchant'">
                     <link-shop v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-shop>
                 </template>
-                <!-- 多门店 -->
+                <!-- 多门店-插件 -->
                 <template v-else-if="link_select == 'realstore'">
                     <link-realstore v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-realstore>
                 </template>
-                <!-- 问答 -->
+                <!-- 问答-插件 -->
                 <template v-else-if="link_select == 'ask'">
                     <link-ask v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-ask>
                 </template>
-                <!-- 活动选择 -->
+                <!-- 活动选择-插件 -->
                 <template v-else-if="link_select == 'activity'">
                     <link-activity v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-activity>
+                </template>
+                <template v-else-if="!isEmpty(link_url)">
+                    <!-- 商品页面 -->
+                    <template v-if="link_select == 'goods'">
+                        <link-goods v-model="link_value" :select-is-url="selectIsUrl" :link-url="link_url" :multiple="multiple" :reset="reset_compontent"></link-goods>
+                    </template>
+                    <!-- 文章页面 -->
+                    <template v-else-if="link_select == 'article'">
+                        <link-articles v-model="link_value" :select-is-url="selectIsUrl" :link-url="link_url" :multiple="multiple" :reset="reset_compontent"></link-articles>
+                    </template>
+                    <!-- 博客页面 -->
+                    <template v-else-if="link_select == 'blog'">
+                        <link-blog v-model="link_value" :select-is-url="selectIsUrl" :link-url="link_url" :multiple="multiple" :reset="reset_compontent"></link-blog>
+                    </template>
+                    <!-- diy页面/页面设计/自定义页面  -->
+                    <template v-else-if="link_select == 'diy' || link_select == 'design' || link_select == 'custom-view'">
+                        <link-table :key="link_select" v-model="link_value" :select-is-url="selectIsUrl" :link-url="link_url" :multiple="multiple" :type="link_select" :reset="reset_compontent"></link-table>
+                    </template>
+                    <!-- 品牌 -->
+                    <template v-else-if="link_select == 'brand'">
+                        <link-brand v-model="link_value" :select-is-url="selectIsUrl" :link-url="link_url" :multiple="multiple" :reset="reset_compontent"></link-brand>
+                    </template>
+                </template>
+                <template v-else>
+                    <no-data height="100%" img-width="120px" size="16px" text="URL配置有误"></no-data>
                 </template>
             </div>
         </div>
@@ -88,6 +93,7 @@
 <script lang="ts" setup>
 import { MenuItemClicked } from 'element-plus/es/components/menu/src/types';
 import { PropType } from 'vue';
+import { isEmpty } from 'lodash';
 import { commonStore } from '@/store';
 const common_store = commonStore();
 const app = getCurrentInstance();
@@ -140,10 +146,10 @@ onMounted(() => {
         const interval = setInterval(() => {
             // 获取分类
             if (common_store.common.page_link_list.length > 0) {
-                base_data.value = common_store.common.page_link_list;
-                if (common_store.common.page_link_list.length > 0) {
+                base_data.value = common_store.common.page_link_list.filter((item: any) => item.is_show == '1');
+                if (base_data.value.length > 0) {
                     if (props.type.length == 0) {
-                        link_select.value = common_store.common.page_link_list[0].type || '';
+                        link_select.value = base_data.value[0].type || '';
                     } else {
                         link_select.value = props.type[0];
                     }
@@ -153,6 +159,9 @@ onMounted(() => {
         }, 1000);
     });
 });
+// 请求地址
+const link_url = computed(() => base_data.value.find(item => item.type == link_select.value)?.url || '');
+
 const dialog_title = computed(() => {
     if (props.type.length == 1) {
         let name = '';
@@ -262,6 +271,7 @@ const confirm_event = () => {
 .url-value-content {
     height: 57.3rem;
     gap: 6rem;
+    overflow: hidden;
     .left-content {
         width: 22.5rem;
         .el-menu-item {

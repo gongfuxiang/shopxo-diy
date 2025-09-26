@@ -22,7 +22,7 @@
                 <div class="mb-12 flex-row gap-10 jc-sb">
                     <div>导航内容</div>
                     <div class="flex-row gap-20 align-c">
-                        <div v-if="!config.sync_bool" class="cr-primary c-pointer" @click="sync_sys_event">同步到系统</div>
+                        <div v-if="!config.sync_bool && !isEmpty(app_tabbar_save_url)" class="cr-primary c-pointer" @click="sync_sys_event">同步到系统</div>
                         <div class="cr-primary c-pointer" @click="reset_event">恢复默认</div>
                     </div>
                 </div>
@@ -57,9 +57,11 @@
     </div>
 </template>
 <script setup lang="ts">
-import { cloneDeep } from 'lodash';
+import { cloneDeep, isEmpty } from 'lodash';
 import { get_math } from '@/utils';
-import DiyAPI from '@/api/tabbar';
+import CommonAPI from '@/api/common';
+import { commonStore } from '@/store';
+const common_store = commonStore();
 import defaultFooterNav from '@/config/const/footer-nav';
 const app = getCurrentInstance();
 /**
@@ -118,6 +120,7 @@ const add = () => {
     });
     emit('update:value', form.value);
 };
+const app_tabbar_save_url = computed(() => common_store.common.config.app_tabbar_save_url);
 // 同步到系统
 const sync_sys_event = () => {
     const new_form = {
@@ -130,7 +133,7 @@ const sync_sys_event = () => {
         config: clone_form,
     };
     app?.appContext.config.globalProperties.$common.message_box('将数据同步到系统底部菜单，确定继续吗？', 'warning').then(() => {
-        DiyAPI.saveTabbar(new_data).then((res: any) => {
+        CommonAPI.getDynamicApi(app_tabbar_save_url.value, new_data).then((res: any) => {
             ElMessage.success('同步成功');
         });
     });

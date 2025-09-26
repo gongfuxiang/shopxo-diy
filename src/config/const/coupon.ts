@@ -16,6 +16,7 @@ interface DefaultCoupon {
         order_by_type: number,
         order_by_rule: number,
         is_repeat_receive: string,
+        is_show: string,
         title: string;
         desc: string;
         data_list: object[];
@@ -61,6 +62,7 @@ const defaultCoupoin: DefaultCoupon = {
         order_by_type: 0,
         order_by_rule: 0,
         is_repeat_receive: '0',
+        is_show: '0',
         // 只有主题4用到
         title: '先领券 再购物',
         // 只有主题4用到

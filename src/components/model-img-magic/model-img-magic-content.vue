@@ -1,9 +1,11 @@
 <template>
     <div class="w h">
         <el-form :model="form" label-width="60">
-            <common-content-top :value="form.content_top"></common-content-top>
-            <div class="divider-line"></div>
-            <card-container>
+            <template v-if="!isNest">
+                <common-content-top :value="form.content_top"></common-content-top>
+                <div class="divider-line"></div>
+            </template>
+            <card-container class="card-container">
                 <div class="mb-12">展示风格</div>
                 <el-form-item label="选择风格">
                     <div class="flex align-c flex-wrap gap-10">
@@ -43,7 +45,7 @@
                 </template>
             </card-container>
             <div class="bg-f5 divider-line" />
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12 flex-row jc-sb align-c">
                     展示设置 
                     <template v-if="form.style_actived === 11">
@@ -90,7 +92,7 @@
                 </el-form-item>
             </card-container>
             <div class="bg-f5 divider-line" />
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12">内容设置</div>
                 <template v-if="!isEmpty(form.img_magic_list[selected_active])">
                     <el-form-item label="上传图片">
@@ -111,8 +113,12 @@ const props = defineProps({
         type: Object,
         default: () => {},
     },
+    isNest: {
+        type: Boolean,
+        default: false,
+    },
 });
-const style_list = ['heng2', 'shu2', 'shu3', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2', 'a-1ge', 'a-4x4'];
+const style_list = ['magic-w-2', 'magic-h-2', 'magic-h-3', 'magic-t2-b1', 'magic-t1-b2', 'magic-l1-r2', 'magic-l2-r1', 'magic-2x2', 'magic-t2-b3', 'magic-l1-rt1-rb2', 'magic-1', 'magic-4x4'];
 // 风格
 const style_show_list = [
     [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, img: [], img_link: {} }, { start: {x: 1, y: 3},end: {x: 4, y: 4},img: [], img_link: {}}], // 风格1
@@ -143,14 +149,26 @@ onUnmounted(() => {
 });
 
 const handleResize = () => {
-    const height = form.value.style_actived !== 10 ? form.value.container_height : form.value.limit_size == '1' ? form.value.image_height : 390;
-    if (window.innerWidth <= 1560) {
-        const sales = 330 / 390;
-        cubeWidth.value = 330;
-        cubeHeight.value = height * sales;
+    if (!props.isNest) {
+        const height = form.value.style_actived !== 10 ? form.value.container_height : form.value.limit_size == '1' ? form.value.image_height : 390;
+        if (window.innerWidth <= 1560) {
+            const sales = 330 / 390;
+            cubeWidth.value = 330;
+            cubeHeight.value = height * sales;
+        } else {
+            cubeWidth.value = 390;
+            cubeHeight.value = height;
+        }
     } else {
-        cubeWidth.value = 390;
-        cubeHeight.value = height;
+        const height = form.value.style_actived !== 10 ? form.value.container_height : form.value.limit_size == '1' ? form.value.image_height : 280;
+        if (window.innerWidth <= 1560) {
+            const sales = 220 / 280;
+            cubeWidth.value = 220;
+            cubeHeight.value = height * sales;
+        } else {
+            cubeWidth.value = 280;
+            cubeHeight.value = height;
+        }
     }
 }
 //#endregion

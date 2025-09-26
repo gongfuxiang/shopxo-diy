@@ -138,9 +138,9 @@
                     <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                 </el-radio-group>
             </el-form-item>
-            <el-form-item label="读取商品">
+            <!-- <el-form-item label="读取商品">
                 <el-switch v-model="form.is_goods_list" active-value="1" inactive-value="0" />
-            </el-form-item>
+            </el-form-item> -->
         </template>
         <!-- 问答 -->
         <template v-else-if="['ask'].includes(type)">
@@ -221,8 +221,11 @@
                     <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                 </el-radio-group>
             </el-form-item>
-            <el-form-item label="首页显示">
+            <el-form-item label="重复领取">
                 <el-switch v-model="form.is_repeat_receive" active-value="1" inactive-value="0" />
+            </el-form-item>
+            <el-form-item label="公共显示">
+                <el-switch v-model="form.is_show" active-value="1" inactive-value="0" />
             </el-form-item>
             <template v-if="form.theme === '4'">
                 <el-form-item label="内容标题">

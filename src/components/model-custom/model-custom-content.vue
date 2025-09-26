@@ -104,14 +104,15 @@ const props = defineProps({
     isSubcomponent: {
         type: Boolean,
         default: false,
-    }
+    },
 });
 // 容器宽度
 const center_width = ref(props.magicWidth);
 // 可拖拽区域的宽度
 const custom_width = computed(() => {
     // 如果是横向展示，那么就需要根据每屏显示的数量来计算宽度 data_source_direction != vertical-scroll 不为纵向滑动的都是横向宽度变化
-    if (form.value.is_custom_data == '1' && form.value.data_source_direction != 'vertical-scroll') {
+    // 数据循环的时候才执行才根据父级数据切分
+    if (form.value.is_custom_data == '1' && form.value.data_source_is_loop == '1' && form.value.data_source_direction != 'vertical-scroll') {
         return center_width.value / form.value.data_source_carousel_col;
     } else {
         return center_width.value;
@@ -381,8 +382,6 @@ const processing_data = (key: string) => {
 provide('field_list', computed(() => form.value.field_list));
 //#endregion
 //#region 数据源更新逻辑处理
-// 打开弹出框
-const url_value_dialog_visible = ref(false);
 const default_type_data = ref<any>({})
 const url_value_multiple_bool = ref(true);
 const emits = defineEmits(['data_source_change']);
@@ -434,6 +433,8 @@ const filter_form_change = (val: any) => {
 //#endregion
 //#region 数据源内容多选处理
 const data_list_replace_index = ref(0);
+// 打开弹出框
+const url_value_dialog_visible = ref(false);
 const data_list_replace = (index: number) => {
     // 替换的时候，index为选择的索引
     data_list_replace_index.value = index;

@@ -5,12 +5,12 @@
             <div class="oh z-deep re" :style="tabs_container + (is_rotating_background ? swiper_bg_style : '')">
                 <div v-if="is_rotating_background" class="abs z-i top-0 w h" :style="swiper_bg_img_style"></div>
                 <div class="oh re z-deep" :style="tabs_img_container">
-                    <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true" :active-index="tabs_active_index" :tabs-sliding-fixed-bg="tabs_sliding_fixed_bg"></tabs-view>
+                    <tabs-view ref="tabs" :value="tabs_list" :is-tabs="true" :sliding-fixed-style="is_rotating_background ? sliding_fixed_style : ''" :active-index="tabs_active_index" :tabs-sliding-fixed-bg="tabs_sliding_fixed_bg"></tabs-view>   
                 </div>
             </div>
             <div class="oh" :style="carousel_container">
                 <div class="oh" :style="carousel_img_container">
-                    <model-carousel :value="value" :is-common="false" @slide-change="slideChange"></model-carousel>
+                    <model-carousel :value="value" :is-common-style="false" @slide-change="slideChange"></model-carousel>
                 </div>
             </div>
         </div>
@@ -79,6 +79,8 @@ watch(
         // 处理数据
         new_data.content.tabs_list = [home_data, ...new_data.content.tabs_list];
         tabs_list.value = new_data;
+        // 当前选中的内容
+        tabs_active_index.value = new_data.content.tabs_active_index;
     },
     { immediate: true, deep: true }
 );
@@ -91,6 +93,27 @@ const actived_index = ref(0);
 const slideChange = (index: number) => {
     actived_index.value = index;
 };
+// 滑动固定的背景样式
+const sliding_fixed_style = computed(() => {
+    const style = form.value?.carousel_list?.[actived_index.value]?.style;
+    if (style && !isEmpty(style.color_list)) {
+        const color_list = style.color_list;
+        const list = color_list.filter((item: { color: string }) => !isEmpty(item.color));
+        if (list.length > 0) {
+            try {
+                if (style.background_img.length > 0) {
+                    return `background: linear-gradient(90deg, rgb(255 255 255 / 0%) 0%, rgb(255 255 255 / 0%) 0%)`;
+                } else {
+                    return gradient_computer(style);
+                }
+            } catch (error) {
+                return '';
+            }
+        }
+        return '';
+    }
+    return '';
+});
 
 const swiper_bg_style = computed(() => {
     const style = form.value?.carousel_list?.[actived_index.value]?.style;

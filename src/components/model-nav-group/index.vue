@@ -42,19 +42,16 @@ const props = defineProps({
             return {};
         },
     },
+    isCommonStyle: {
+        type: Boolean,
+        default: true,
+    }
 });
-
-// 用于页面判断显示
-const state = reactive({
-    form: props.value.content,
-    new_style: props.value.style,
-});
-// 如果需要解构，确保使用toRefs
-const { form, new_style } = toRefs(state);
-
+const form = computed(() => props.value.content);
+const new_style = computed(() => props.value.style);
 // 用于样式显示
-const style_container = computed(() => common_styles_computer(new_style.value.common_style));
-const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
+const style_container = computed(() => props.isCommonStyle ? common_styles_computer(new_style.value.common_style) : '');
+const style_img_container = computed(() => props.isCommonStyle ? common_img_computer(new_style.value.common_style) : '');
 // 图片的设置
 const img_style = computed(() => radius_computer(new_style.value));
 // 标题的样式
@@ -153,6 +150,7 @@ const nav_content_list = computed(() => {
 // 内容参数的集合
 watch(() => props.value, (val) => {
     nextTick(() => {
+
         if (!isEmpty(bannerImg.value)) {
             newHeight.value = (bannerImg.value[0]?.clientHeight || 100) + 'px';
         }

@@ -1,33 +1,33 @@
-import request from '@/utils/request';
+import api_request from '@/utils/api-request';
 
 class UploadAPI {
     /**  分类查询接口*/
     static getTree() {
-        return request({
-            url: `diyapi/attachmentcategory`,
+        return api_request({
+            url: `?s=attachmentapi/category`,
             method: 'post',
         });
     }
     /** 分类新增，修改接口 */
     static saveTree(data: any) {
-        return request({
-            url: `diyapi/attachmentcategorysave`,
+        return api_request({
+            url: `?s=attachmentapi/categorysave`,
             method: 'post',
             data,
         });
     }
     /** 分类删除接口 */
     static delTree(data: any) {
-        return request({
-            url: `diyapi/attachmentcategorydelete`,
+        return api_request({
+            url: `?s=attachmentapi/categorydelete`,
             method: 'post',
             data,
         });
     }
     /** 附件移动分类 */
     static moveTree(data: any) {
-        return request({
-            url: `diyapi/attachmentmovecategory`,
+        return api_request({
+            url: `?s=attachmentapi/movecategory`,
             method: 'post',
             data,
         });
@@ -35,32 +35,32 @@ class UploadAPI {
 
     // 附件列表
     static getAttachmentList(data: any) {
-        return request({
-            url: `diyapi/attachmentlist`,
+        return api_request({
+            url: `?s=attachmentapi/list`,
             method: 'post',
             data,
         });
     }
     // 附件名称修改
     static saveAttachmentName(data: any) {
-        return request({
-            url: `diyapi/attachmentsave`,
+        return api_request({
+            url: `?s=attachmentapi/save`,
             method: 'post',
             data,
         });
     }
     // 附件删除
     static delAttachment(data: any) {
-        return request({
-            url: `diyapi/attachmentdelete`,
+        return api_request({
+            url: `?s=attachmentapi/delete`,
             method: 'post',
             data,
         });
     }
     // 附件上传
     static uploadAttachment(data: any, progress: any) {
-        return request({
-            url: `diyapi/attachmentupload`,
+        return api_request({
+            url: `?s=attachmentapi/upload`,
             method: 'post',
             data,
             headers: {
@@ -71,16 +71,16 @@ class UploadAPI {
     }
     // 扫码上传
     static uploadQrcode(data: any) {
-        return request({
-            url: `diyapi/attachmentscanuploaddata`,
+        return api_request({
+            url: `?s=attachmentapi/scanuploaddata`,
             method: 'post',
             data,
         });
     }
     // 提取链接 --------附件远程下载
     static getAttachmentCatch(data: any) {
-        return request({
-            url: `diyapi/attachmentcatch`,
+        return api_request({
+            url: `?s=attachmentapi/catch`,
             method: 'post',
             data,
         });

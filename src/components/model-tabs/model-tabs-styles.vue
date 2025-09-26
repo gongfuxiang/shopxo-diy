@@ -62,7 +62,7 @@
                 <el-form-item label="左右间距">
                     <slider v-model="form.tabs_spacing" :max="100"></slider>
                 </el-form-item>
-                <template v-if="!isCommon">
+                <template v-if="!isCommonStyle">
                     <el-form-item label="选项卡背景">
                         <background-common v-model:color_list="form.tabs_bg_color_list" v-model:direction="form.tabs_bg_direction" v-model:img_style="form.tabs_bg_background_img_style" v-model:img="form.tabs_bg_background_img" @mult_color_picker_event="tabs_bg_mult_color_picker_event" />
                     </el-form-item>
@@ -93,9 +93,33 @@
                 <el-form-item label="图标大小">
                     <slider v-model="form.more_icon_size" :max="100"></slider>
                 </el-form-item>
+                <el-form-item label="按钮文字">
+                    <div class="flex-col gap-10 w h">
+                        <div class="flex-row gap-20">
+                            <span class="size-12 cr-9">未选颜色</span>
+                            <color-picker v-model="form.more_button_text_color" default-color="#666"></color-picker>
+                        </div>
+                        <div class="flex-row gap-20">
+                            <span class="size-12 cr-9">选中颜色</span>
+                            <color-picker v-model="form.more_button_text_selected_color" default-color="#666"></color-picker>
+                        </div>
+                        <div class="flex-row gap-20">
+                            <span class="size-12 cr-9">选中背景</span>
+                            <div class="flex-1">
+                                <mult-color-picker :value="form.more_button_color_list" :type="form.more_button_direction" @update:value="more_button_color_picker_event"></mult-color-picker>
+                            </div>
+                        </div>
+                        <div class="flex-row gap-20">
+                            <span class="size-12 cr-9">按钮圆角</span>
+                            <div class="flex-1">
+                                <radius :value="form.more_button_radius"></radius>
+                            </div>
+                        </div>
+                    </div>
+                </el-form-item>
             </card-container>
         </el-form>
-        <template v-if="isCommon">
+        <template v-if="isCommonStyle">
             <div class="divider-line"></div>
             <common-styles :value="form.common_style" :is-floating-up="false" @update:value="common_styles_update" />
         </template>
@@ -108,7 +132,7 @@ const props = defineProps({
         type: Object,
         default: () => {},
     },
-    isCommon: {
+    isCommonStyle: {
         type: Boolean,
         default: true,
     },
@@ -144,6 +168,11 @@ const tabs_checked_event = (arry: string[], type: number) => {
 const tabs_bg_mult_color_picker_event = (arry: color_list[], type: number) => {
     form.value.tabs_bg_color_list = arry;
     form.value.tabs_bg_direction = type.toString();
+};
+// 更多选中按钮样式
+const more_button_color_picker_event = (arry: color_list[], type: number) => {
+    form.value.more_button_color_list = arry;
+    form.value.more_button_direction = type.toString();
 };
 </script>
 <style lang="scss" scoped></style>

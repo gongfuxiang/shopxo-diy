@@ -26,7 +26,7 @@
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item v-if="['1', '2', '3'].includes(page_content.theme)" label="标题名称">
-                    <color-text-size-group v-model:color="form.header_background_title_color" v-model:typeface="form.header_background_title_typeface" v-model:size="form.header_background_title_size" default-color="#000000"></color-text-size-group>
+                    <color-text-size-group v-model:color="form.header_background_title_color" v-model:typeface="form.header_background_title_typeface" v-model:size="form.header_background_title_size" v-model:up-color="form.up_slide_title_color" :is-up-slide-display="form.up_slide_display == '1'" default-color="#000000"></color-text-size-group>
                 </el-form-item>
                 <el-form-item v-if="form.header_background_type == 'transparent'" label="沉浸样式">
                     <div class="flex-row align-c gap-10">
@@ -52,8 +52,18 @@
                     </el-form-item>
                 </template>
                 <el-form-item label="返回颜色">
-                    <color-picker v-model="form.left_back_btn_color" class="mr-10" default-color="#333"></color-picker>
-                    <tooltip content="打开新页面才会出现返回按钮"></tooltip>
+                    <div class="flex-col gap-10">
+                        <div class="flex-row gap-10">
+                            <span v-if="form.up_slide_display == '1'" class="desc-title">默认</span>
+                            <color-picker v-model="form.left_back_btn_color" default-color="#333"></color-picker>
+                            <tooltip content="打开新页面才会出现返回按钮"></tooltip>
+                        </div>
+                        <div v-if="form.up_slide_display == '1'" class="flex-row gap-10">
+                            <span class="desc-title">上滑</span>
+                            <color-picker v-model="form.up_slide_left_back_btn_color"></color-picker>
+                            <tooltip content="打开新页面才会出现返回按钮"></tooltip>
+                        </div>
+                    </div>
                 </el-form-item>
                 <el-form-item v-if="page_content.data_alone_row_value.length > 0" label="换行间距">
                     <slider v-model="form.data_alone_row_space" :max="100"></slider>
@@ -67,7 +77,10 @@
                         <background-common v-model:color_list="form.location_color_list" v-model:direction="form.location_direction" v-model:img_style="form.location_background_img_style" v-model:img="form.location_background_img" @mult_color_picker_event="location_mult_color_picker_event" />
                     </el-form-item>
                     <el-form-item label="定位颜色">
-                        <color-picker v-model="form.location_color" default-color="#333"></color-picker>
+                        <div class="flex-col gap-10">
+                            <div class="flex-row gap-10"><span v-if="form.up_slide_display == '1' && page_content.positioning_name_float !== '1'" class="desc-title">默认</span><color-picker v-model="form.location_color" default-color="#333"></color-picker></div>
+                            <div v-if="form.up_slide_display == '1' && page_content.positioning_name_float !== '1'" class="flex-row gap-10"><span class="desc-title">上滑</span><color-picker v-model="form.up_slide_location_color"></color-picker></div>
+                        </div>
                     </el-form-item>
                     <template v-if="!isEmpty(page_content.location_left_icon)">
                         <el-form-item label="左侧图标">
@@ -118,7 +131,10 @@
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="图标颜色">
-                    <color-picker v-model="form.img_color" default-color="#666"></color-picker>
+                    <div class="flex-col gap-10">
+                        <div class="flex-row gap-10"><span v-if="form.up_slide_display == '1'" class="desc-title">默认</span><color-picker v-model="form.img_color" default-color="#666"></color-picker></div>
+                        <div v-if="form.up_slide_display == '1'" class="flex-row gap-10"><span class="desc-title">上滑</span><color-picker v-model="form.up_slide_icon_color"></color-picker></div>
+                    </div>
                 </el-form-item>
             </card-container>
         </el-form>
@@ -216,5 +232,9 @@ const general_safe_distance_value_change = (val: string | number | boolean) => {
 <style lang="scss" scoped>
 .styles {
     width: 100%;
+}
+.desc-title {
+    font-size: 1.2rem;
+    color: #999;
 }
 </style>

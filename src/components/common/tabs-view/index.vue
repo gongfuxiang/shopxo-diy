@@ -64,6 +64,10 @@ const props = defineProps({
     tabsSlidingFixedBg: {
         type: String,
         default: '',
+    },
+    slidingFixedStyle: {
+        type: String,
+        default: '',
     }
 });
 // const tabs = ref(props.value);
@@ -91,7 +95,7 @@ const tabs_theme = computed(() => {
 });
 const item_style = computed(() => {
     return (index: number, is_sliding_fixed: string) => {
-        return `padding-left: ${ index == 0 ? '0' : new_style.value.tabs_spacing / 2}px;padding-right:${ index + 1 == form.value.tabs_list.length ? '0' : new_style.value.tabs_spacing / 2 }px;${ is_sliding_fixed == '1' ? props.tabsSlidingFixedBg : ''}`
+        return `padding-left: ${ index == 0 ? '0' : new_style.value.tabs_spacing / 2}px;padding-right:${ index + 1 == form.value.tabs_list.length ? '0' : new_style.value.tabs_spacing / 2 }px;${ is_sliding_fixed == '1' ? (isEmpty(props.slidingFixedStyle) ? props.tabsSlidingFixedBg : props.slidingFixedStyle) : ''}`
     }
 });
 const tabs_bottom_line_theme = computed(() => {

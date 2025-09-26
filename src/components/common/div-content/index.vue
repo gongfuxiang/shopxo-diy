@@ -8,7 +8,7 @@
                 <icon name="del" size="14" color="f" />
             </div>
             <div :class="['plug-in-icon', { 'disabled': props.isTabs }]" @click.stop="copy(index)">
-                <icon name="copy" size="14" color="f" />
+                <icon name="copy-square" size="14" color="f" />
             </div>
             <div :class="['plug-in-icon plug-in-icon-arrow flex', icon_arrow_disable(item.key, index, 'moveUp')]" @click.stop="moveUp(index, arrow_disable_method(item.key, index, 'moveUp'))">
                 <icon name="arrow-top" size="14" color="f" />
@@ -66,9 +66,13 @@
             <template v-else-if="item.key == 'tabs'">
                 <model-tabs :key="item.com_data" :value="item.com_data"></model-tabs>
             </template>
-            <!-- 选项卡 -->
+            <!-- 选项卡轮播 -->
             <template v-else-if="item.key == 'tabs-carousel'">
                 <model-tabs-carousel :key="item.com_data" :value="item.com_data"></model-tabs-carousel>
+            </template>
+            <!-- 选项卡魔方 -->
+            <template v-else-if="item.key == 'tabs-magic'">
+                <model-tabs-magic :key="item.com_data" :value="item.com_data"></model-tabs-magic>
             </template>
             <!-- 商品列表 -->
             <template v-else-if="item.key == 'goods-list'">

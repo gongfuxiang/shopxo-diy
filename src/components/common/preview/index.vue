@@ -12,6 +12,10 @@
 </template>
 <script setup lang="ts">
 import { get_cookie, set_cookie, get_math } from '@/utils';
+import { commonStore } from '@/store';
+import { get_type } from '@/utils/common';
+import { isEmpty } from 'lodash';
+const common_store = commonStore();
 const props = defineProps({
     dataId: {
         type: String,
@@ -22,15 +26,15 @@ const dialog_visible = defineModel({ type: Boolean, default: false });
 const new_link = ref('');
 const index = window.location.href.lastIndexOf('?s=');
 const pro_url = window.location.href.substring(0, index);
-// 如果是本地则使用静态tonken如果是线上则使用cookie的token
-const cookie = get_cookie('admin_info') || '';
 const token = ref('');
 const key = ref(0);
 onMounted(async () => {
-    if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
-        let temp_data = await import(import.meta.env.VITE_APP_BASE_API == '/dev-api' ? '../../../../temp.d.ts' : '../../../../temp_pro.d');
+    if (import.meta.env.VITE_APP_BASE_API == '/dev-admin') {
+        let temp_data = await import(import.meta.env.VITE_APP_BASE_API == '/dev-admin' ? '../../../../temp.d.ts' : '../../../../temp_pro.d');
         token.value = '&token=' + temp_data.default.temp_token;
     } else {
+        // 如果是shop认为是多商户插件使用user_info的cookie
+        const cookie = get_type() == 'shop' ? get_cookie('user_info') : get_cookie('admin_info');
         if (cookie && cookie !== null && cookie !== 'null') {
             token.value = '&token=' + JSON.parse(cookie).token;
         }
@@ -42,14 +46,18 @@ watch(
     (newVal) => {
         key.value = new Date().getTime();
         if (newVal) {
-            let uid_val = '';
-            if (get_cookie('uid_name')) {
-                uid_val = get_cookie('uid_name');
+            let uuid_val = '';
+            if (get_cookie('uuid_name')) {
+                uuid_val = get_cookie('uuid_name');
             } else {
-                uid_val = get_math();
-                set_cookie('uid_name', uid_val);
+                uuid_val = get_math();
+                set_cookie('uuid_name', uuid_val);
             }
-            new_link.value = (import.meta.env.VITE_APP_BASE_API == '/dev-api' ? import.meta.env.VITE_APP_BASE_API_URL : pro_url) + '?s=diy/preview/id/' + props.dataId + '&system_type=default' + token.value + '&uid=' + uid_val;
+            let url = common_store.common.config.preview_url;
+            if (!isEmpty(url)) {
+                // 判断是否包含? 如果包含？的话就是添加参数，否则就是添加？后添加参数
+                new_link.value = url + (url.includes('?') ? '&id=' : '?id=') + props.dataId + '&system_type=default' + token.value + '&uuid=' + uuid_val;
+            }
         }
     }
 );

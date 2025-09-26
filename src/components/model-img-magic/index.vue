@@ -69,14 +69,14 @@ const props = defineProps({
             return {};
         },
     },
+    isCommonStyle: {
+        type: Boolean,
+        default: true,
+    }
 });
 // 用于页面判断显示
-const state = reactive({
-    form: props.value.content,
-    new_style: props.value.style,
-});
-// 如果需要解构，确保使用toRefs
-const { form, new_style } = toRefs(state);
+const form = computed(() => props.value.content);
+const new_style = computed(() => props.value.style);
 
 const new_style_spacing = computed(() => form.value.style_actived === 10 ? 0 : (new_style.value?.image_spacing || 0));
 const outer_spacing = computed(() => new_style_spacing.value + 'px');
@@ -139,8 +139,8 @@ const percentage = (num: number) => {
 const content_img_container = computed(() => common_styles_computer(new_style.value) + margin_computer(new_style.value.margin));
 const content_img_style_container = computed(() => common_img_computer(new_style.value) + padding_computer(new_style.value.padding));
 // 公共样式
-const style_container = computed(() => common_styles_computer(new_style.value.common_style));
-const style_img_container = computed(() => common_img_computer(new_style.value.common_style));
+const style_container = computed(() => props.isCommonStyle ? common_styles_computer(new_style.value.common_style) : '');
+const style_img_container = computed(() => props.isCommonStyle ? common_img_computer(new_style.value.common_style) : '');
 </script>
 <style lang="scss" scoped>
 // 图片魔方是一个正方形，根据宽度计算高度

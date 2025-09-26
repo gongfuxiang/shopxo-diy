@@ -6,8 +6,8 @@
                 <el-collapse-item v-if="com.data.length > 0" :key="i" :title="com.name" :name="com.key">
                     <VueDraggable v-model="com.data" :animation="400" ghost-class="ghost" handle=".is-drag" :group="{ name: 'people', pull: 'clone', put: false }" class="component flex-row flex-wrap" :clone="clone_item_com_data" :sort="false" :force-fallback="true">
                         <template v-for="item in com.data" :key="item.key">
-                            <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="该组件只可以点击添加, 并且只能添加一次" raw-content placement="top" :disabled="!['tabs', 'tabs-carousel'].includes(item.key)">
-                                <div :class="['item', { 'is-drag': !['tabs', 'tabs-carousel'].includes(item.key) }]" @click.stop="draggable_click(item)">
+                            <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="该组件只可以点击添加, 并且只能添加一次" raw-content placement="top" :disabled="!['tabs', 'tabs-carousel', 'tabs-magic'].includes(item.key)">
+                                <div :class="['item', { 'is-drag': !['tabs', 'tabs-carousel', 'tabs-magic'].includes(item.key) }]" @click.stop="draggable_click(item)">
                                     <div class="main-border siderbar-hidden main-show tc">释放鼠标将组件添加到此处</div>
                                     <div class="siderbar-show main-hidden flex-col jc-c align-c gap-4">
                                         <img class="img radius-xs" :src="url_computer(item.key)" />
@@ -40,7 +40,7 @@
                 <VueDraggable v-model="diy_data" :animation="400" target=".sort-target" :scroll="true" :on-sort="on_sort">
                     <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col">
                         <li v-for="(item, index) in diy_data" :key="index" :class="['flex ptb-12 plr-10 gap-y-8 re align-c drawer-drag', { 'drawer-drag-bg': item.show_tabs == '1' }]" @click="on_choose(index, item.show_tabs)">
-                            <el-icon class="iconfont icon-drag size-16 cr-d" />
+                            <el-icon class="iconfont icon-drag-dot size-16 cr-d" />
                             <el-tooltip effect="dark" :show-after="200" :hide-after="200" :content="`<span>开始时间: ${ !isEmpty(new_date_value(item)) ? new_date_value(item)[0] : '' }</span><br/><span>结束时间: ${ !isEmpty(new_date_value(item)[1]) ? new_date_value(item)[1] : '' }</span>`" raw-content placement="top" :disabled="isEmpty(new_date_value(item))">
                                 <span class="size-12 cr-6 re">
                                     <div class="flex-row gap-5 align-c jc-c">
@@ -67,13 +67,13 @@
             <div class="model-content">
                 <div class="acticons">
                     <el-button size="large" @click="page_settings">页面设置</el-button>
-                    <el-button size="large" @click="export_click">导出</el-button>
+                    <el-button v-if="common_store_config.diy_download_url !== ''" size="large" @click="export_click">导出</el-button>
                     <!-- <el-upload action="#" :accept="exts_text" :show-file-list="false" :auto-upload="false" :on-change="upload_change">
                         <template #trigger>
                             <el-button size="large">导入</el-button>
                         </template>
                     </el-upload> -->
-                    <el-button size="large" @click="import_click">导入</el-button>
+                    <el-button v-if="common_store_config.diy_market_url !== '' || common_store_config.diy_upload_url !== ''" size="large" @click="import_click">导入</el-button>
                     <el-button size="large" @click="clear_click">清空</el-button>
                 </div>
                 <!-- 拖拽区 -->
@@ -87,9 +87,29 @@
                         <div class="model-wall-content" :style="`padding-top:${top_padding}px;padding-bottom:${bottom_navigation_show ? footer_nav_counter_store.padding_footer : 0}px;`">
                             <div-content :diy-data="tabs_data" :show-model-border="show_model_border" :is-tabs="true" :main-content-style="main_content_style" :outer-container-padding="outer_container_padding" @on_choose="set_tabs_event(true)" @del="del"></div-content>
                             <div v-if="tabs_data.length > 0" class="seat"></div>
-                            <VueDraggable v-model="diy_data" :animation="500" :touch-start-threshold="2" group="people" class="drag-area re" ghost-class="ghost" :on-sort="on_sort" :on-start="on_start" :on-end="on_end">
-                                <div-content :diy-data="diy_data" :show-model-border="show_model_border" :main-content-style="main_content_style" :outer-container-padding="outer_container_padding" @on_choose="on_choose" @del="del" @copy="copy" @move-up="moveUp" @move-down="moveDown"></div-content>
-                            </VueDraggable>
+                            <template v-if="(tabs_data.length > 0 && tabs_data[0].com_data.content.tabs_active_index == 0) || (tabs_data.length == 0)">
+                                <VueDraggable v-model="diy_data" :animation="500" :touch-start-threshold="2" group="people" class="drag-area re" ghost-class="ghost" :on-sort="on_sort" :on-start="on_start" :on-end="on_end">
+                                    <div-content :diy-data="diy_data" :show-model-border="show_model_border" :main-content-style="main_content_style" :outer-container-padding="outer_container_padding" @on_choose="on_choose" @del="del" @copy="copy" @move-up="moveUp" @move-down="moveDown"></div-content>
+                                </VueDraggable>
+                            </template>
+                            <template v-else>
+                                <div v-if="tabs_data.length > 0" class="tabs-list-content w h flex-col align-c jc-c gap-10">
+                                    <div class="size-16">{{ tabs_data_name.data_type == '0' ? 'DIY页面' : '商品分类' }}
+                                        <template v-if="tabs_data_name.data_type == '0' && !isEmpty(tabs_data_name.micro_page_list)">
+                                            <span class="size-16">({{ tabs_data_name.micro_page_list.name }})</span>
+                                        </template>
+                                        <template v-else-if="tabs_data_name.data_type == '1' && !isEmpty(tabs_data_name.classify)">
+                                            <span class="size-16">({{ tabs_data_name.classify.name }})</span>
+                                        </template>
+                                        <template v-else>
+                                            <span class="size-16 cr-6">(未选择)</span>
+                                        </template>
+                                    </div>
+                                    <div class="size-12 cr-6 re">请在预览里边查看实际效果</div>
+                                    <div class="size-12 mt-20 col-price-style">选项卡切换到非（第一个）下不支持左侧组件拖入</div>
+                                    <el-button class="mt-10" type="primary" @click="tabs_content_click">切换至选项卡（第一个）</el-button>
+                                </div>
+                            </template>
                         </div>
                     </div>
                     <!-- <div class="seat"></div> -->
@@ -129,6 +149,24 @@ const props = defineProps({
         default: () => {},
     },
 });
+
+const common_store_config = computed(() => common_store.common.config);
+// 获取tabs数据
+const tabs_data_name = computed(() => {
+    const data = tabs_data.value;
+    if (data.length > 0) {
+        const tabs_active_index = data[0].com_data.content.tabs_active_index;
+        const tabs_list = data[0].com_data.content.tabs_list;
+        return tabs_list[tabs_active_index - 1];
+    }
+    return '';
+});
+// 切换至首页显示
+const tabs_content_click = () => {
+    if (tabs_data.value.length > 0) {
+        tabs_data.value[0].com_data.content.tabs_active_index = 0;
+    }
+}
 // 时间处理
 const new_date_value = computed(() => {
     return (item: any) => {
@@ -294,7 +332,7 @@ const url_computer = (name: string) => {
 const show_model_border = ref(true);
 // 点击添加tabs组件
 const draggable_click = (item: componentsData) => {
-    const type_data = ['tabs', 'tabs-carousel'];
+    const type_data = ['tabs', 'tabs-carousel', 'tabs-magic'];
     if (type_data.includes(item.key)) {
         // if (common_store.is_immersion_model) {
         //     ElMessage.error('开启沉浸样式下不可以添加该组件');
@@ -318,7 +356,7 @@ const draggable_click = (item: componentsData) => {
             if (tabs_data.value[0].key == item.key) {
                 ElMessage.error('该组件只可以添加一次');
             } else if (tabs_data.value[0].key != item.key) {
-                ElMessage.error('选项卡轮播不能与选项卡同时存在');
+                ElMessage.error('(选项卡, 选项卡轮播, 选项卡魔方)不能同时存在');
             }
         }
     }
@@ -610,5 +648,13 @@ const footer_nav_event = () => {
     position: absolute;
     top: -1.4rem;
     left: -0.6rem;
+}
+// 列表
+.tabs-list-content {
+    z-index: 2;
+    height: 20rem;
+}
+.col-price-style {
+    color: red;
 }
 </style>

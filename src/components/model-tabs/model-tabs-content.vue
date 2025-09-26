@@ -1,7 +1,7 @@
 <template>
     <div class="common-content-height">
         <el-form :model="form" label-width="60">
-            <template v-if="isCommon">
+            <template v-if="!isNest">
                 <common-content-top :value="form.content_top"></common-content-top>
                 <div class="divider-line"></div>
             </template>
@@ -29,9 +29,9 @@
                 </el-form-item>
                 <el-form-item label="滑动置顶">
                     <el-switch v-model="form.tabs_top_up" class="mr-10" active-value="1" inactive-value="0" />
-                    <tooltip :content="`1.滑动置顶仅手机端有效${ !isCommon ? '<br/>2.滑动置顶后通用的圆角不生效' : ''}`"></tooltip>
+                    <tooltip :content="`1.滑动置顶仅手机端有效${ isNest ? '<br/>2.滑动置顶后通用的圆角不生效' : ''}`"></tooltip>
                 </el-form-item>
-                <template v-if="!isCommon">
+                <template v-if="isNest">
                     <el-form-item v-if="is_general_safe_distance" label="安全距离">
                         <el-switch v-model="form.is_tabs_safe_distance" class="mr-10" active-value="1" inactive-value="0" />
                         <tooltip content="选项卡是否支持安全距离"></tooltip>
@@ -46,7 +46,7 @@
             <card-container>
                 <div class="mb-12">选项卡设置</div>
                 <div class="flex-col gap-x-20">
-                    <div class="card-background box-shadow-sm ptb-25 flex gap-y-16 re align-c">
+                    <div :class="`card-background box-shadow-sm ptb-25 flex-row gap-16 re align-c ${ form.tabs_active_index == 0 ? 'model-type-index-select' : ''}`" @click="tabs_list_click('home', 0)">
                         <el-icon class="iconfont icon-jinzhi size-16 cursor-move" />
                         <div class="flex-col gap-10 w">
                             <el-form-item label="显示类型" class="w mb-0">
@@ -66,7 +66,7 @@
                             <sliding-fixed v-model="form.home_data.is_sliding_fixed" @sliding_fixed_change="sliding_fixed_change($event, 0, 'home_data')"></sliding-fixed>
                         </div>
                     </div>
-                    <drag :data="form.tabs_list" type="card" :space-col="25" @remove="remove" @on-sort="on_sort">
+                    <drag :data="form.tabs_list" type="card" model-type="tabs" :model-index="form.tabs_active_index - 1" :space-col="25" @click="tabs_list_click" @remove="remove" @on-sort="on_sort">
                         <template #default="{ row, index }">
                             <div class="flex-col align-c jc-s gap-20 flex-1 w">
                                 <el-form-item label="数据类型" class="w mb-0">
@@ -83,10 +83,10 @@
                                         </template>
                                     </div>
                                 </el-form-item>
-                                <sliding-fixed v-model="row.is_sliding_fixed" @sliding_fixed_change="sliding_fixed_change($event, index, 'tabs_list')"></sliding-fixed>
+                                <sliding-fixed v-model="row.is_sliding_fixed" class="mb-0" @sliding_fixed_change="sliding_fixed_change($event, index, 'tabs_list')"></sliding-fixed>
                                 <el-form-item label="链接类型" class="w mb-0">
                                     <el-radio-group v-model="row.data_type">
-                                        <el-radio value="0">DIY页面</el-radio>
+                                        <el-radio v-if="page_link_diy_show" value="0">DIY页面</el-radio>
                                         <el-radio value="1">商品分类</el-radio>
                                     </el-radio-group>
                                 </el-form-item>
@@ -122,9 +122,9 @@ const props = defineProps({
         type: Object,
         default: () => ({}),
     },
-    isCommon: {
+    isNest: {
         type: Boolean,
-        default: true,
+        default: false,
     },
 });
 
@@ -133,6 +133,8 @@ const state = reactive({
     styles: props.tabStyle,
 });
 const { form, styles } = toRefs(state);
+// 判断diy页面是否显示
+const page_link_diy_show = computed(() => common_store.common.page_link_list.some(item => item.is_show == '1' && item.type == 'diy' && !isEmpty(item.url)));
 
 onBeforeMount(() => {
     if (form.value.tabs_list.length > 1) {
@@ -160,14 +162,24 @@ const add = () => {
         micro_page_list: {},
         category_list: {},
     });
+    form.value.tabs_active_index = form.value.tabs_list.length;
 };
 const remove = (index: number) => {
-    if (form.value.tabs_list.length > 1) {
-        form.value.tabs_list.splice(index, 1);
+    form.value.tabs_list.splice(index, 1);
+    if (form.value.tabs_list.length > index) {
+        form.value.tabs_active_index = index + 1;
     } else {
-        ElMessage.warning('至少保留一个选项卡');
+        form.value.tabs_active_index = index;
     }
 };
+// 选项卡点击事件
+const tabs_list_click = (item: any, index: number) => { 
+    if (item == 'home') {
+        form.value.tabs_active_index = index;
+    } else {
+        form.value.tabs_active_index = index + 1;
+    }
+}
 // 拖拽更新之后，更新数据
 const on_sort = (new_list: nav_group[]) => {
     form.value.tabs_list = new_list;
@@ -208,6 +220,9 @@ watchEffect(() => {
 .cursor-move {
     color: #ddd;
     cursor: move;
+}
+.mb-0 {
+    margin-bottom: 0 !important;
 }
 .card-background {
     background: #fff;

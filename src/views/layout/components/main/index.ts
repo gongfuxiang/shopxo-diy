@@ -34,6 +34,7 @@ import defaultAsk from '@/config/const/ask';
 import defaultAskTabs from '@/config/const/ask-tabs';
 import defaultActivity from '@/config/const/activity';
 import defaultGoodsMagic from '@/config/const/goods-magic';
+import defaultTabsMagic from '@/config/const/tabs-magic';
 
 // 系统设置
 interface DefaultSettings {
@@ -73,6 +74,7 @@ interface DefaultSettings {
     ask_tabs: object;
     activity: object;
     goods_magic: object;
+    tabs_magic: object;
 }
 
 const defaultSettings: DefaultSettings = {
@@ -112,6 +114,7 @@ const defaultSettings: DefaultSettings = {
     ask_tabs: defaultAskTabs,
     activity: defaultActivity,
     goods_magic: defaultGoodsMagic,
+    tabs_magic: defaultTabsMagic,
 };
 
 export default defaultSettings;

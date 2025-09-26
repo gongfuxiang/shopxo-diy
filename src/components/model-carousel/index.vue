@@ -13,7 +13,6 @@
                     :allow-touch-move="false"
                     :speed="500"
                     :slides-per-view="swiper_style.slidesPerView"
-                    :space-between="swiper_style.spaceBetween"
                     :centered-slides="swiper_style.centeredSlides"
                     :pause-on-mouse-enter="true"
                     :modules="modules"
@@ -27,7 +26,7 @@
                     @slide-change="slideChange"
                 >
                     <swiper-slide v-for="(item, index) in form.carousel_list" :key="index">
-                        <div class="item-image flex align-c w h re oh" :style="img_style">
+                        <div class="item-image flex align-c w h re oh" :style="`${ img_style }${ data_spacing }`">
                             <image-empty v-model="item.carousel_img[0]" :style="img_style" :fit="img_fit"></image-empty>
                             <div v-if="new_style.video_is_show == '1' && item.carousel_video.length > 0" :class="{'x-middle': new_style.video_location == 'center', 'right-0': new_style.video_location == 'flex-end' }" class="z-deep abs oh video-class" :style="`bottom: ${new_style.video_bottom}px;`">
                                 <div class="flex-row gap-5 align-c" :style="video_style">
@@ -43,7 +42,7 @@
                         </div>
                     </swiper-slide>
                     <swiper-slide v-for="(item, index1) in seat_list" :key="index1">
-                        <div class="item-image flex align-c w h re oh" :style="img_style">
+                        <div class="item-image flex align-c w h re oh" :style="`${ img_style }${ data_spacing }`">
                             <image-empty v-model="item.carousel_img[0]" :style="img_style" :fit="img_fit"></image-empty>
                             <div v-if="new_style.video_is_show == '1' && item.carousel_video.length > 0" :class="{'x-middle': new_style.video_location == 'center', 'right-0': new_style.video_location == 'flex-end' }" class="z-deep abs oh video-class" :style="`bottom: ${new_style.video_bottom}px;`">
                                 <div class="flex-row gap-5 align-c" :style="video_style">
@@ -78,6 +77,7 @@ import { common_styles_computer, radius_computer, get_math, gradient_computer, p
 import { isEmpty, cloneDeep, throttle } from 'lodash';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay, EffectCoverflow } from 'swiper/modules';
+import { old_padding } from '@/utils/common';
 const modules = [Autoplay, EffectCoverflow];
 
 const props = defineProps({
@@ -87,7 +87,7 @@ const props = defineProps({
             return {};
         },  
     },
-    isCommon: {
+    isCommonStyle: {
         type: Boolean,
         default: true,
     },
@@ -95,8 +95,8 @@ const props = defineProps({
 const form = computed(() => props.value.content);
 const new_style = computed(() => props.value.style);
 // 用于样式显示
-const style_container = computed(() => props.isCommon ? common_styles_computer(new_style.value.common_style) : '');
-const style_img_container = computed(() => props.isCommon ? common_img_computer(new_style.value.common_style) : '');
+const style_container = computed(() => props.isCommonStyle ? common_styles_computer(new_style.value.common_style) : '');
+const style_img_container = computed(() => props.isCommonStyle ? common_img_computer(new_style.value.common_style) : '');
 
 const autoplay = ref<boolean | object>(false)
 // 图片的设置
@@ -175,9 +175,19 @@ const swiper_Width = ref(390);
 
 // const swiper_right_2 = computed(() => (swiper_Width.value - new_style.value.image_spacing) / 2  + 'px');
 // const swiper_right_3 = computed(() => (swiper_Width.value / 2) - 55 - (new_style.value.image_spacing * 2) + 'px');
-
-const swiper_right_2 = computed(() => (swiper_Width.value - new_style.value.image_spacing) / 2 + (55 * 1.5 + new_style.value.image_spacing) + 'px');
-const swiper_right_3 = computed(() => (swiper_Width.value - new_style.value.image_spacing) / 3 + 'px');
+const data_spacing = computed(() => {
+    const { data_padding = old_padding, data_left_spacing = 0, image_spacing = 0} = new_style.value;
+    if (form.value.carousel_type == 'inherit') {
+        return padding_computer(data_padding) + 'box-sizing: border-box;';
+    } else if (form.value.carousel_type !== 'card') {
+        return `padding-left: ${ data_left_spacing }px;padding-right:${image_spacing}px;box-sizing: border-box;`;
+    } else {
+        return '';
+    }
+});
+// 模拟类似于右边固定大小的图片
+const swiper_right_2 = computed(() => (swiper_Width.value - new_style.value.image_spacing) / 2 - (new_style.value?.data_left_spacing || 0) + 'px');
+const swiper_right_3 = computed(() => (swiper_Width.value - new_style.value.image_spacing) / 3 - (new_style.value?.data_left_spacing || 0) + 'px');
 
 const negative_swiper_right_2 = computed(() => '-' + swiper_right_2.value);
 const negative_swiper_right_3 = computed(() => '-' + swiper_right_3.value);
@@ -190,25 +200,20 @@ onMounted(() => {
 const swiper_style = computed(() => {
     let slidesPerView: number | "auto" | undefined = 'auto';
     let centeredSlides = true;
-    let spaceBetween = 0;
     // 轮播图类型 一拖一，二拖一不同状态下的不同风格
     if (form.value.carousel_type == 'oneDragOne') {
         slidesPerView = 2;
         centeredSlides = false;
-        spaceBetween = new_style.value.image_spacing;
     } else if (form.value.carousel_type == 'twoDragOne') {
         slidesPerView = 3;
         centeredSlides = false
-        spaceBetween = new_style.value.image_spacing;
     } else if (form.value.carousel_type == 'inherit') {
         slidesPerView = 1;
         centeredSlides = true;
-        spaceBetween = 0;
     }
     return {
         slidesPerView: slidesPerView,
-        centeredSlides: centeredSlides,
-        spaceBetween: spaceBetween
+        centeredSlides: centeredSlides
     }
 });
 // 视频播放按钮显示逻辑
@@ -266,7 +271,7 @@ watch(() => new_style.value.common_style, () => {
 }, {deep: true});
 
 const swiper_bg_style = computed(() => {
-    if (!props.isCommon) {
+    if (!props.isCommonStyle) {
         return '';
     }
     const style = form.value?.carousel_list?.[actived_index.value]?.style;
@@ -287,7 +292,7 @@ const swiper_bg_style = computed(() => {
 });
 
 const swiper_bg_img_style = computed(() => {
-    if (!props.isCommon) {
+    if (!props.isCommonStyle) {
         return '';
     }
     const { carousel_img, style = {} } = form.value?.carousel_list[actived_index.value] || {};
@@ -316,7 +321,7 @@ const slideChange = (swiper: { realIndex: number }) => {
     } else {
         actived_index.value = swiper.realIndex;
     }
-    if (!props.isCommon) {
+    if (!props.isCommonStyle) {
         emit('slideChange', actived_index.value);
     }
 }

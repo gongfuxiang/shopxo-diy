@@ -32,7 +32,7 @@
                         <TransitionGroup type="transition" tag="ul" name="fade" class="sort-target flex-col h">
                             <template v-if="!isEmpty(diy_data)">
                                 <li v-for="(item, index) in diy_data" :key="index" :class="['flex-row gap-y-8 re align-c drawer-drag', { 'drawer-custom-drag-bg': item.show_tabs == '1' }]" @click="on_choose(index, item.show_tabs)">
-                                    <el-icon class="iconfont icon-drag size-16 cr-d" />
+                                    <el-icon class="iconfont icon-drag-dot size-16 cr-d" />
                                     <div class="text-line-1 flex align-c" style="width: 60%;" @dblclick="double_click(index)">
                                         <template v-if="edit_index == index">
                                             <el-input v-model="item.new_name" placeholder="请输入组件别名" size="small" clearable type="textarea" class="flex-1 do-not-trigger" :rows="1" resize="none" />

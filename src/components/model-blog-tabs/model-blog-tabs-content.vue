@@ -228,9 +228,6 @@ const blog_theme_change = (val: any) => {
     }
 };
 
-// 开启关闭链接
-const url_value_dialog_visible = ref(false);
-
 // 选项卡点击
 const tabs_list_click = (item: any, index: number) => {
     form.tabs_active_index = index;
@@ -287,7 +284,8 @@ const data_list_sort = (item: any, index: number) => {
 
 const url_value_multiple_bool = ref(true);
 const data_list_replace_index = ref(0);
-
+// 开启关闭链接
+const url_value_dialog_visible = ref(false);
 // 替换
 const data_list_replace = (index: number, row_index: number) => {
     blog_index.value = row_index;

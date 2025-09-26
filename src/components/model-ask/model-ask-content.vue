@@ -110,6 +110,8 @@ const data_list_remove = (index: number) => {
 };
 const url_value_multiple_bool = ref(true);
 const data_list_replace_index = ref(0);
+// 开启关闭链接
+const url_value_dialog_visible = ref(false);
 // 替换
 const data_list_replace = (index: number) => {
     data_list_replace_index.value = index;
@@ -125,8 +127,6 @@ const add = () => {
     url_value_multiple_bool.value = true;
     url_value_dialog_visible.value = true;
 };
-// 开启关闭链接
-const url_value_dialog_visible = ref(false);
 const url_value_dialog_call_back = (item: any[]) => {
     if (url_value_multiple_bool.value) {
         item.forEach((child: any) => {

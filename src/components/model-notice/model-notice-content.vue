@@ -6,7 +6,7 @@
             <card-container>
                 <div class="mb-12">展示设置</div>
                 <el-form-item label="选择风格">
-                    <el-radio-group v-model="form.notice_style">
+                    <el-radio-group v-model="form.notice_style" @change="change_style">
                         <el-radio value="inherit">样式一</el-radio>
                         <el-radio value="card">样式二</el-radio>
                     </el-radio-group>
@@ -84,6 +84,10 @@ const props = defineProps({
         type: Object,
         default: () => {},
     },
+    noticeStyle: {
+        type: Object,
+        default: () => {},
+    }
 });
 
 const is_card = computed(() => form.value.notice_style == 'card');
@@ -91,8 +95,29 @@ const is_text = computed(() => form.value.title_type == 'text');
 
 const state = reactive({
     form: props.value,
+    new_style: props.noticeStyle,
 });
-const { form } = toRefs(state);
+const { form, new_style } = toRefs(state);
+
+const change_style = (val: string | number | boolean | undefined) => {
+    if (val === 'inherit') {
+        new_style.value.container_padding = {
+            padding: 0,
+            padding_top: 0,
+            padding_right: 10,
+            padding_bottom: 0,
+            padding_left: 10,
+        }
+    } else {
+        new_style.value.container_padding = {
+            padding: 15,
+            padding_top: 15,
+            padding_right: 15,
+            padding_bottom: 15,
+            padding_left: 15,
+        }
+    }
+};
 const add = () => {
     form.value.notice_list.push({
         id: get_math(),

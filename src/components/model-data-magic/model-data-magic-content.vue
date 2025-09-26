@@ -42,7 +42,7 @@
                         </div>
                     </template>
                     <template v-else>
-                        <magic-cube :key="form.style_actived" :list="form.data_magic_list" :flag="form.style_actived == 9" :magic-cube-density="form.magic_cube_density" :cube-width="cubeWidth" type="data" :cube-height="cubeHeight" :default-content="data_content" :default-style="data_style" @selected_click="selected_click"></magic-cube>
+                        <magic-cube :key="form.style_actived" :list="form.data_magic_list" :flag="form.style_actived == 9" :magic-cube-density="form.magic_cube_density" :cube-width="cubeWidth" :count-height="form.container_height" type="data" :cube-height="cubeHeight" :default-content="data_content" :default-style="data_style" @selected_click="selected_click"></magic-cube>
                     </template>
                 </el-form-item>
             </card-container>
@@ -71,7 +71,7 @@ const props = defineProps({
     },
 });
 // 风格数组
-const style_list = ['heng2', 'shu2', 'shang2xia1', 'shang1xia2', 'zuo1you2', 'zuo2you1', 'tianzige', 'shang2xia3', 'zuo1youshang1youxia2', 'a-4x4'];
+const style_list = ['magic-w-2', 'magic-h-2', 'magic-t2-b1', 'magic-t1-b2', 'magic-l1-r2', 'magic-l2-r1', 'magic-2x2', 'magic-t2-b3', 'magic-l1-rt1-rb2', 'magic-4x4'];
 // 每个小模块独立的样式
 const data_style = {
     chunk_padding: {
@@ -384,8 +384,8 @@ const style_show_list = [
     [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 3, flex: 'row', outerflex: 'col', title_text_gap: 20, width: 195 }, { start: {x: 3, y: 1}, end: {x: 4, y: 4}, num: 3, flex: 'row', outerflex: 'col', title_text_gap: 20, width: 195 }], // 风格2
     [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 1, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'row', outerflex: 'row', title_text_gap: 20, width: 390 }],// 风格3
     [{ start: {x: 1, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'row', outerflex: 'row', title_text_gap: 20, width: 390 }, { start: {x: 1, y: 3}, end: {x: 2, y: 4}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 3, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }],// 风格4
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 3, flex: 'row', outerflex: 'col', title_text_gap: 20, width: 390 }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 3, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }],// 风格5
-    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 1, y: 3}, end: {x: 2, y: 4}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 3, y: 1}, end: {x: 4, y: 4}, num: 3, flex: 'row', outerflex: 'col', title_text_gap: 20, width: 390 }],// 风格6
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 3, flex: 'row', outerflex: 'col', title_text_gap: 20, width: 195 }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 3, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }],// 风格5
+    [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 1, y: 3}, end: {x: 2, y: 4}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 3, y: 1}, end: {x: 4, y: 4}, num: 3, flex: 'row', outerflex: 'col', title_text_gap: 20, width: 195 }],// 风格6
     [{ start: {x: 1, y: 1}, end: {x: 2, y: 2}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 1, y: 3}, end: {x: 2, y: 4}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 3, y: 3}, end: {x: 4, y: 4}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }],// 风格7
     [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 3, y: 3}, end: {x: 3, y: 4}, num: 1, flex: 'col', outerflex: 'col', title_text_gap: 20, width: 130 }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col', outerflex: 'col', title_text_gap: 20, width: 130 }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col', outerflex: 'col', title_text_gap: 20, width: 130 }],// 风格8
     [{ start: {x: 1, y: 1}, end: {x: 2, y: 4}, num: 3, flex: 'row', outerflex: 'col', title_text_gap: 20, width: 195 }, { start: {x: 3, y: 1}, end: {x: 4, y: 2}, num: 2, flex: 'col_price_float', outerflex: 'row', title_text_gap: 10, width: 195 }, { start: {x: 3, y: 3}, end: {x: 3, y: 4}, num: 1, flex: 'col_price_float', outerflex: 'col', title_text_gap: 10, width: 98 }, { start: {x: 4, y: 3}, end: {x: 4, y: 4}, num: 1, flex: 'col_price_float', outerflex: 'col', title_text_gap: 10, width: 98 }],// 风格9

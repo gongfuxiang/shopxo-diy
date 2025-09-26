@@ -34,6 +34,8 @@ interface defaultSearch {
         radius_bottom_right: number;
         is_show: string;
         image_spacing: number,
+        data_left_spacing: number,
+        data_padding: paddingStyle,
         indicator_style: string;
         indicator_new_location: string;
         indicator_location: string;
@@ -100,34 +102,6 @@ const defaultSearch: defaultSearch = {
                     background_img: [],
                     is_background_img_blur: '0',
                 }
-            },
-            {
-                carousel_img: [],
-                carousel_video: [],
-                carousel_link: {},
-                video_title: '视频名称',
-                style: {
-                    direction: '90deg',
-                    color_list: [{ color: '', color_percentage: undefined }],
-                    background_img_style: '2',
-                    background_type: 'custom',
-                    background_img: [],
-                    is_background_img_blur: '0',
-                }
-            },
-            {
-                carousel_img: [],
-                carousel_video: [],
-                carousel_link: {},
-                video_title: '视频名称',
-                style: {
-                    direction: '90deg',
-                    color_list: [{ color: '', color_percentage: undefined }],
-                    background_img_style: '2',
-                    background_type: 'custom',
-                    background_img: [],
-                    is_background_img_blur: '0',
-                }
             }
         ]
     },
@@ -140,6 +114,16 @@ const defaultSearch: defaultSearch = {
         radius_bottom_right: 0,
         // 图片间距
         image_spacing: 10,
+        // 数据左侧间距
+        data_left_spacing: 0,
+        // 数据内间距
+        data_padding: {
+            padding: 0,
+            padding_top: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+            padding_right: 0,
+        },
         // 指示器是否显示
         is_show: '1',
         // 指示器样式

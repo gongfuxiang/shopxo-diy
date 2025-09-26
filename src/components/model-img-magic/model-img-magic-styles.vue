@@ -1,7 +1,7 @@
 <template>
     <div class="w">
         <el-form :model="form" label-width="70">
-            <card-container>
+            <card-container class="card-container">
                 <div class="mb-12">图片魔方</div>
                 <el-form-item v-if="new_content.style_actived !== 10" label="图片间距">
                     <slider v-model="form.image_spacing" :max="100"></slider>
@@ -24,8 +24,10 @@
                 <shadow-config v-model="form"></shadow-config>
             </card-container>
         </el-form>
-        <div class="bg-f5 divider-line" />
-        <common-styles :value="form.common_style" @update:value="common_style_update" />
+        <template v-if="isCommonStyle">
+            <div class="bg-f5 divider-line" />
+            <common-styles :value="form.common_style" @update:value="common_style_update" />
+        </template>
     </div>
 </template>
 <script setup lang="ts">
@@ -37,6 +39,10 @@ const props = defineProps({
     content: {
         type: Object,
         default: () => ({}),
+    },
+    isCommonStyle: {
+        type: Boolean,
+        default: true,
     }
 });
 

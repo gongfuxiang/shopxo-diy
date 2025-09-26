@@ -24,6 +24,7 @@ interface defaultTabs {
         tabs_adorn_icon: string;
         tabs_adorn_img: uploadList[];
         tabs_top_up: string;
+        tabs_active_index: number;
         home_data: tabs_page;
         tabs_list: tabs_page[];
     };
@@ -54,6 +55,11 @@ interface defaultTabs {
         more_icon_class: string;
         more_icon_color: string;
         more_icon_size: number;
+        more_button_text_color: string;
+        more_button_text_selected_color: string;
+        more_button_direction: string;
+        more_button_color_list: color_list[];
+        more_button_radius: radiusStyle;
         common_style: object;
     };
 }
@@ -69,6 +75,7 @@ const defaultTabs: defaultTabs = {
         tabs_adorn_icon: 'checked-smooth',
         tabs_adorn_img: [],
         tabs_top_up: '0',
+        tabs_active_index: 0,
         home_data: { id: get_math(), tabs_type: '0',  tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '首页', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
         tabs_list: [
             { id: get_math(), tabs_type: '0', tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '热门推荐', desc: '简介', data_type: '0', classify: {}, micro_page: '', micro_page_list: {}, category_list: {} },
@@ -124,6 +131,18 @@ const defaultTabs: defaultTabs = {
         more_icon_class: 'category-more',
         more_icon_color: '#000',
         more_icon_size: 14,
+        // 更多弹出框的样式
+        more_button_text_color: '#666',
+        more_button_text_selected_color: '#666',
+        more_button_direction: '90deg',
+        more_button_color_list: [{ color: '#eee', color_percentage: undefined }],
+        more_button_radius: {
+            radius: 57,
+            radius_top_left: 57,
+            radius_top_right: 57,
+            radius_bottom_left: 57,
+            radius_bottom_right: 57,
+        },
         common_style: {
             ...defaultCommon,
             color_list: [{ color: '#fff', color_percentage: undefined }],

@@ -36,7 +36,18 @@ export const commonStore = defineStore('common', () => {
             site_logo_wap: '',
             site_logo: '',
             site_name: '',
+            app_tabbar_data_url: '' as string, //获取tabbar列表
+            app_tabbar_save_url: '' as string, //保存tabbar
+            diy_detail_url: '' as string, //获取diy详情
+            diy_download_url: '' as string, //diy导出
+            diy_install_url: '' as string, //diy导入 -- 安装
+            diy_market_url: '' as string, //diy导入--获取列表
+            diy_save_url: '' as string, //diy导入--保存
+            diy_upload_url: '' as string, //diy导入
+            attachment_category_operate: {} as any, // 附件分类权限
+            attachment_operate: {} as any, // 附件权限
         } as any, // 基础数据配置参数
+        preview_url: '',
     });
     // 存储链接数据
     const set_common = (data: any) => {

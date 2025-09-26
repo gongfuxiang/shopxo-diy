@@ -5,7 +5,7 @@
                 <el-icon class="iconfont icon-del" @click.stop="del(index)" />
             </el-tooltip>
             <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="复制组件" placement="right">
-                <el-icon class="iconfont icon-copy" @click.stop="copy(index)" />
+                <el-icon class="iconfont icon-copy-square" @click.stop="copy(index)" />
             </el-tooltip>
             <el-tooltip effect="dark" :show-after="200" :hide-after="200" content="前置一层" placement="right">
                 <el-icon :class="['iconfont icon-arrow-top', { 'disabled': index === 0 }]" @click.stop="previous_layer(index, index === 0)" />

@@ -50,9 +50,9 @@
                                     </div>
                                 </div>
                                 <div class="right">
-                                    <div class="coupon-btn">
-                                        <text>立即领取</text>
-                                        <icon name="arrow-right-o" class="icon"></icon>
+                                    <div class="coupon-btn flex-row align-c justify-c gap-3">
+                                        <text class="nowrap">领取</text>
+                                        <icon name="arrow-right-o" class="icon" size="14"></icon>
                                     </div>
                                 </div>
                             </div>
@@ -217,7 +217,7 @@ onMounted(() => {
 });
 // 获取优惠券列表
 const get_coupon = () => {
-    const { number, type, keywords, expire_type_ids, use_limit_type_ids, order_by_type, order_by_rule, is_repeat_receive } = form.value;
+    const { number, type, keywords, expire_type_ids, use_limit_type_ids, order_by_type, order_by_rule, is_repeat_receive, is_show } = form.value;
     const params = {
         coupon_number: number,
         coupon_type_ids: type.length > 0 ? type.join(',') : '',
@@ -227,6 +227,7 @@ const get_coupon = () => {
         coupon_order_by_type: order_by_type,
         coupon_order_by_rule: order_by_rule,
         coupon_is_repeat_receive: is_repeat_receive,
+        coupon_is_show: is_show,
     };
     // 获取商品列表
     CouponAPI.getCoupon(params).then((res: any) => {
@@ -240,8 +241,8 @@ const get_coupon = () => {
 };
 // 监听数据类型
 const data_list_computer = computed(() => {
-    const { data_type, type, number, data_list, keywords, expire_type_ids, use_limit_type_ids, order_by_type, order_by_rule, is_repeat_receive } = form.value;
-    return { data_type, type, number, data_list, keywords, expire_type_ids, use_limit_type_ids, order_by_type, order_by_rule, is_repeat_receive };
+    const { data_type, type, number, data_list, keywords, expire_type_ids, use_limit_type_ids, order_by_type, order_by_rule, is_repeat_receive, is_show } = form.value;
+    return { data_type, type, number, data_list, keywords, expire_type_ids, use_limit_type_ids, order_by_type, order_by_rule, is_repeat_receive, is_show };
 });
 // 监听数据类型变化
 watch(

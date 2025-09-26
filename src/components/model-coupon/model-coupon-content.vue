@@ -44,7 +44,6 @@ const props = defineProps({
     },
 });
 const form = ref(props.value);
-const url_value_dialog_visible = ref(false);
 const new_url = ref('');
 const base_list = reactive({
     data_type_list: [
@@ -87,6 +86,7 @@ const data_list_sort = (item: any) => {
 };
 const url_value_multiple_bool = ref(true);
 const data_list_replace_index = ref(0);
+const url_value_dialog_visible = ref(false);
 const data_list_replace = (index: number) => {
     data_list_replace_index.value = index;
     url_value_multiple_bool.value = false;

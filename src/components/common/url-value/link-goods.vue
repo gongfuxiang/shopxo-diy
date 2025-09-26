@@ -2,7 +2,7 @@
     <!-- 商品 -->
     <div class="container">
         <div class="flex-row jc-e gap-20 mb-20 align-c">
-            <el-cascader v-model="category_ids" :options="category_list" :props="cascader_config" placeholder="请选择" :show-all-levels="false" filterable clearable @change="cascader_change" />
+            <el-cascader v-model="category_ids" :options="category_list" :props="cascader_config" placeholder="请选择" :show-all-levels="false" collapse-tags filterable clearable @change="cascader_change" />
             <el-select v-model="brand_ids" class="search-w" placeholder="品牌" filterable clearable @change="handle_search">
                 <el-option v-for="item in brand_list" :key="item.id" :label="item.name" :value="item.id" />
             </el-select>
@@ -32,7 +32,7 @@
                 <el-table-column prop="category_text" width="100" label="分类名称" />
                 <el-table-column prop="brand_name" width="100" label="品牌名称" />
                 <template #empty>
-                    <no-data></no-data>
+                    <no-data :text="empty_text"></no-data>
                 </template>
             </el-table>
             <div class="mt-10 flex-row jc-e">
@@ -42,8 +42,9 @@
     </div>
 </template>
 <script lang="ts" setup>
-import UrlValueAPI from '@/api/url-value';
+import commonApi from '@/api/common';
 import { commonStore } from '@/store';
+import { isEmpty } from 'lodash';
 const common_store = commonStore();
 const props = defineProps({
     // 重置
@@ -54,6 +55,10 @@ const props = defineProps({
     multiple: {
         type: Boolean,
         default: () => false,
+    },
+    linkUrl: {
+        type: String,
+        default: '',
     },
     // 判断是否返回链接地址
     selectIsUrl: {
@@ -80,6 +85,9 @@ const cascader_config = {
     value: 'id',
     label: 'name',
     children: 'items',
+    multiple: true,
+    checkStrictly: true,
+    emitPath: false,
 };
 const init = () => {
     template_selection.value = '';
@@ -111,7 +119,8 @@ const page = ref(1);
 const page_size = ref(30);
 // 总数量
 const data_total = ref(0);
-
+// 修改显示
+const empty_text = ref('暂无数据');
 // 查询文件
 const get_list = (new_page: number) => {
     let new_data = {
@@ -119,16 +128,25 @@ const get_list = (new_page: number) => {
         keywords: search_value.value,
         brand_ids: brand_ids.value,
         page_size: page_size.value,
-        category_ids: category_ids.value.length > 0 ? category_ids.value[category_ids.value.length - 1] : '',
+        category_ids: category_ids.value,
     };
     loading.value = true;
-    UrlValueAPI.getGoodsList(new_data).then((res: any) => {
+    commonApi.getDynamicApi(props.linkUrl, new_data).then((res: any) => {
         tableData.value = res.data.data_list;
+        if (isEmpty(res.data.data_list)) {
+            empty_text.value = '暂无数据';
+        }
         data_total.value = res.data.data_total;
         page.value = res.data.page;
         setTimeout(() => {
             loading.value = false;
         }, 500);
+    }).catch((err: any) => {
+        tableData.value = [];
+        data_total.value = 0;
+        page.value = 1;
+        empty_text.value = err;
+        loading.value = false;
     });
 };
 //#region 分页 -----------------------------------------------end
@@ -178,6 +196,19 @@ const handle_select = (selection: any) => {
         .img {
             width: 3.6rem;
         }
+    }
+}
+// 输入框超出隐藏，不换行
+:deep(.el-cascader) {
+    height: 3.2rem;
+    .el-input {
+        height: 3.2rem;
+    }
+    .el-cascader__tags {
+        flex-wrap: nowrap !important;
+    }
+    .el-tag {
+        max-width: 10rem;
     }
 }
 </style>

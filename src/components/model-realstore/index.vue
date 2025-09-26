@@ -232,7 +232,7 @@ const get_products = () => {
         realstore_order_by_type: order_by_type,
         realstore_order_by_rule: order_by_rule,
         realstore_number: number,
-        realstore_is_goods_list: is_goods_list,
+        // realstore_is_goods_list: is_goods_list,
     };
     // 获取商户列表
     RealstoreAPI.getAutoList(params).then((res: any) => {

@@ -1,30 +1,46 @@
 <template>
     <!-- 优惠券 -->
-    <div class="container">
-        <div class="flex-row jc-e gap-20 mb-20 align-c">
-            <div class="filter-style flex-row gap-12">
-                <div class="title">类型</div>
-                <el-select v-model="type" class="search-w" placeholder="请选择" multiple collapse-tags filterable @change="handle_search">
-                    <el-option v-for="item in coupon_type_list" :key="item.value" :label="item.name" :value="item.value" />
-                </el-select>
+    <div class="w container">
+        <div class="w vertical-filter mb-20">
+            <div class="flex-row jc-e gap-20 align-c">
+                <div class="filter-style flex-row gap-12">
+                    <div class="title flex-1">类型</div>
+                    <el-select v-model="type" class="search-w" placeholder="请选择" multiple collapse-tags filterable @change="handle_search">
+                        <el-option v-for="item in coupon_type_list" :key="item.value" :label="item.name" :value="item.value" />
+                    </el-select>
+                </div>
+                <div class="filter-style flex-row gap-12">
+                    <div class="title flex-1">到期类型</div>
+                    <el-select v-model="expire_type_ids" multiple collapse-tags filterable placeholder="请选择到期类型" @change="handle_search">
+                        <el-option v-for="item in get_data_list(common_store.common.plugins, 'coupon.expire_type_list')" :key="item.value" :label="item.name" :value="item.value" />
+                    </el-select>
+                </div>
+                <div class="filter-style flex-row gap-12">
+                    <div class="title flex-1">使用限制</div>
+                    <el-select v-model="use_limit_type_ids" multiple collapse-tags filterable placeholder="请选择使用限制" @change="handle_search">
+                        <el-option v-for="item in get_data_list(common_store.common.plugins, 'coupon.use_limit_type_list')" :key="item.value" :label="item.name" :value="item.value" />
+                    </el-select>
+                </div>
+                <div class="filter-style flex-row gap-12">
+                    <div class="title flex-1">重复领取</div>
+                    <el-select v-model="is_repeat_receive_text" filterable clearable placeholder="请选择重复领取" @change="handle_search">
+                        <el-option label="否" :value="0" />
+                        <el-option label="是" :value="1" />
+                    </el-select>
+                </div>
+                <div class="filter-style flex-row gap-12">
+                    <div class="title flex-1">公共显示</div>
+                    <el-select v-model="is_show_text" filterable clearable placeholder="请选择公共显示" @change="handle_search">
+                        <el-option label="否" :value="0" />
+                        <el-option label="是" :value="1" />
+                    </el-select>
+                </div>
+                <el-input v-model="search_value" placeholder="请输入搜索内容" class="search-w" @change="handle_search">
+                    <template #suffix>
+                        <icon name="search" size="16" color="9" class="c-pointer" @click="handle_search"></icon>
+                    </template>
+                </el-input>
             </div>
-            <div class="filter-style flex-row gap-12">
-                <div class="title">到期类型</div>
-                <el-select v-model="expire_type_ids" multiple collapse-tags filterable placeholder="请选择到期类型">
-                    <el-option v-for="item in get_data_list(common_store.common.plugins, 'coupon.expire_type_list')" :key="item.value" :label="item.name" :value="item.value" />
-                </el-select>
-            </div>
-            <div class="filter-style flex-row gap-12">
-                <div class="title">使用限制</div>
-                <el-select v-model="use_limit_type_ids" multiple collapse-tags filterable placeholder="请选择使用限制">
-                    <el-option v-for="item in get_data_list(common_store.common.plugins, 'coupon.use_limit_type_list')" :key="item.value" :label="item.name" :value="item.value" />
-                </el-select>
-            </div>
-            <el-input v-model="search_value" placeholder="请输入搜索内容" class="search-w" @change="handle_search">
-                <template #suffix>
-                    <icon name="search" size="16" color="9" class="c-pointer" @click="handle_search"></icon>
-                </template>
-            </el-input>
         </div>
         <div class="content">
             <el-table v-loading="loading" :data="tableData" class="w" :header-cell-style="{ background: '#f7f7f7' }" row-key="id" height="438" fixed @row-click="row_click" @select="handle_select" @select-all="handle_select">
@@ -40,6 +56,8 @@
                 <el-table-column prop="type_name" label="类型"></el-table-column>
                 <el-table-column prop="expire_type_name" label="到期类型"></el-table-column>
                 <el-table-column prop="use_limit_type_name" label="使用限制"></el-table-column>
+                <el-table-column prop="is_repeat_receive_text" label="重复领取"></el-table-column>
+                <el-table-column prop="is_show_text" label="公共显示"></el-table-column>
                 <el-table-column prop="cover" label="优惠信息">
                     <template #default="scope">
                         <div class="flex-row align-c gap-3">
@@ -50,7 +68,7 @@
                     </template>
                 </el-table-column>
                 <template #empty>
-                    <no-data></no-data>
+                    <no-data :text="empty_text"></no-data>
                 </template>
             </el-table>
             <div class="mt-10 flex-row jc-e">
@@ -73,7 +91,7 @@ const props = defineProps({
     multiple: {
         type: Boolean,
         default: () => false,
-    },
+    }
 });
 watch(
     () => props.reset,
@@ -107,6 +125,8 @@ const handle_search = () => {
 const type = ref([]);
 const expire_type_ids = ref([]);
 const use_limit_type_ids = ref([]);
+const is_repeat_receive_text = ref('');
+const is_show_text = ref('');
 interface couponType {
     value: string;
     name: string;
@@ -121,6 +141,8 @@ const page = ref(1);
 const page_size = ref(30);
 // 总数量
 const data_total = ref(0);
+// 修改显示
+const empty_text = ref('暂无数据');
 // 查询文件
 const get_list = (new_page: number) => {
     let new_data = {
@@ -129,16 +151,27 @@ const get_list = (new_page: number) => {
         type_ids: type.value.length > 0 ? type.value.join(',') : '',
         expire_type_ids: expire_type_ids.value.length > 0 ? expire_type_ids.value.join(',') : '',
         use_limit_type_ids: use_limit_type_ids.value.length > 0 ? use_limit_type_ids.value.join(',') : '',
+        is_repeat_receive: is_repeat_receive_text.value,
+        is_show: is_show_text.value,
         page_size: page_size.value,
     };
     loading.value = true;
     UrlValueAPI.getCouponList(new_data).then((res: any) => {
         tableData.value = res.data.data_list;
+        if (is_obj_empty(res.data.data_list)) {
+            empty_text.value = '暂无数据';
+        }
         data_total.value = res.data.data_total;
         page.value = res.data.page;
         setTimeout(() => {
             loading.value = false;
         }, 500);
+    }).catch((err) => {
+        tableData.value = [];
+        data_total.value = 0;
+        page.value = 1;
+        empty_text.value = err;
+        loading.value = false;
     });
 };
 //#region 分页 -----------------------------------------------end
@@ -177,5 +210,15 @@ const handle_select = (selection: any) => {
     text-align: right;
     width: 100%;
     color: #606266;
+    white-space: nowrap;
+}
+.vertical-filter {
+    display: flex;
+    align-items: center;
+    padding-bottom: 0.2rem;
+    overflow-x: auto;
+    :deep(.el-select) {
+        min-width: 20rem;
+    }
 }
 </style>

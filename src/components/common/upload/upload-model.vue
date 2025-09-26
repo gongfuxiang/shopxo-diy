@@ -259,7 +259,7 @@ const category_id_change = (val: any) => {
         is_mask.value = false;
         scan_uuid.value = get_math() + '';
         let new_url = '';
-        if (import.meta.env.VITE_APP_BASE_API == '/dev-api') {
+        if (import.meta.env.VITE_APP_BASE_API == '/dev-admin') {
             new_url = get_before_string(import.meta.env.VITE_APP_BASE_API_URL);
         } else {
             new_url = window.location.origin + '/';
