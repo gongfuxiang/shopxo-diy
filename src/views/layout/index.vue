@@ -28,7 +28,7 @@ import { diyData, headerAndFooter, diyConfig } from '@/api/diy';
 import CommonAPI from '@/api/common';
 import { commonStore } from '@/store';
 import { magic_config } from '@/config/const/tabs-magic';
-import { get_id, get_type } from '@/utils/common';
+import { get_business, get_id, get_type } from '@/utils/common';
 const common_store = commonStore();
 interface diy_data_item {
     id: string;
@@ -644,6 +644,7 @@ const diy_data_transfor_form_data = (clone_form: diy_data_item) => {
         name: clone_form.model.name,
         is_enable: clone_form.model.is_enable,
         describe: clone_form.model.describe,
+        business: get_business(),
         config: JSON.stringify({
             header: clone_form.header,
             footer: clone_form.footer,

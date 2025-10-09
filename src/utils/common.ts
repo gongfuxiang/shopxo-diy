@@ -41,7 +41,7 @@ export const get_id = () => {
         return new_id;
     }
 };
-
+// 获取当前业务类型
 export const get_type = () => {
     let new_type = '';
     // 去除origin的数据
@@ -56,5 +56,22 @@ export const get_type = () => {
         return new_type;
     } else {
         return new_type;
+    }
+}
+// 获取类型
+export const get_business = () => {
+    let new_business = '';
+    // 去除origin的数据
+    const url = document.location.href;
+    if (url.indexOf('business') != -1) {
+        new_business = url.substring(url.indexOf('business/') + 9);
+        // 去除字符串的.html
+        const dot_data = new_business.split('.')[0];
+        if (dot_data != '') {
+            new_business = dot_data.split('/')[0];
+        }
+        return new_business;
+    } else {
+        return new_business;
     }
 }

@@ -24,6 +24,7 @@ import defaultSettings from './components/main/index';
 import { cloneDeep } from 'lodash';
 import CommonAPI from '@/api/common';
 import { commonStore } from '@/store';
+import { get_business } from '@/utils/common';
 const common_store = commonStore();
 const temp_form = ref(defaultSettings.footer_nav);
 const form = ref<any>({});
@@ -79,6 +80,7 @@ const save_event = () => {
     const new_data = {
         type: get_type(),
         config: clone_form,
+        business: get_business(),
     };
     save_disabled.value = true;
     // 数据改造
@@ -93,6 +95,7 @@ const save_event = () => {
         save_disabled.value = false;
     });
 };
+
 const get_type = () => {
     let new_type = 'home';
     if (document.location.search.indexOf('/type/') != -1) {
