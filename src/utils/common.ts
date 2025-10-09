@@ -47,7 +47,7 @@ export const get_type = () => {
 }
 // 获取类型
 export const get_business = () => {
-    return data_handle('business/', 'home');
+    return data_handle('business/', '');
 }
 // 数据处理
 export const data_handle = (val: string, default_val: string): string => {
