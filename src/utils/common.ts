@@ -43,35 +43,30 @@ export const get_id = () => {
 };
 // 获取当前业务类型
 export const get_type = () => {
-    let new_type = '';
-    // 去除origin的数据
-    const url = document.location.href;
-    if (url.indexOf('type/') != -1) {
-        new_type = url.substring(url.indexOf('type/') + 5);
-        // 去除字符串的.html
-        const dot_data = new_type.split('.')[0];
-        if (dot_data != '') {
-            new_type = dot_data.split('/')[0];
-        }
-        return new_type;
-    } else {
-        return new_type;
-    }
+    return data_handle('type/', '');
 }
 // 获取类型
 export const get_business = () => {
-    let new_business = '';
+    return data_handle('business/', '');
+}
+// 数据处理
+export const data_handle = (val: string, default_val: string): string => {
+    let new_data = default_val;
     // 去除origin的数据
     const url = document.location.href;
-    if (url.indexOf('business') != -1) {
-        new_business = url.substring(url.indexOf('business/') + 9);
+    if (url.indexOf(val) != -1) {
+        new_data = url.substring(url.indexOf(val) + val.length);
         // 去除字符串的.html
-        const dot_data = new_business.split('.')[0];
-        if (dot_data != '') {
-            new_business = dot_data.split('/')[0];
+        // 去除并且数据
+        if (new_data.indexOf('&') != -1) {
+            new_data = new_data.split('&')[0];
         }
-        return new_business;
+        const dot_data = new_data.split('.')[0];
+        if (dot_data != '') {
+            new_data = dot_data.split('/')[0];
+        }
+        return new_data;
     } else {
-        return new_business;
+        return new_data;
     }
 }
