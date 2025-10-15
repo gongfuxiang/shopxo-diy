@@ -6,7 +6,7 @@
             <div class="flex-row align-c">
                 <div class="name">
                     <div :class="[{'c-pointer': common_store_config?.diy_config_operate?.is_base_data == 1}, 'flex-row align-c gap-10']" @click="common_store_config?.diy_config_operate?.is_base_data == 1 ? dialog_visible = true : ''">
-                        <image-empty :src="modelValue.logo" class="round img" error-img-style="width: 2.2rem;height: 2.2rem;" />
+                        <image-empty v-if="modelValue.logo" :src="modelValue.logo" class="round img" error-img-style="width: 2.2rem;height: 2.2rem;" />
                         <div>{{ modelValue.name }}</div>
                         <icon v-if="common_store_config?.diy_config_operate?.is_base_data == 1" name="edit" color="#7DBEFF"></icon>
                     </div>
