@@ -22,9 +22,6 @@ export const commonStore = defineStore('common', () => {
         goods_order_by_type_list: [] as any[],  //---- 商品排序
         data_order_by_rule_list: [] as any[],  //---- 数据排序
         brand_order_by_type_list: [] as any[],  //---- 品牌排序
-        diy_config_operate: {
-            is_base_data: 1, //---- 是否需要基础数据
-        } as any, //---- diy配置权限
         config: {
             common_amap_map_ak: '',
             common_amap_map_safety_ak: '',
@@ -49,6 +46,7 @@ export const commonStore = defineStore('common', () => {
             diy_upload_url: '' as string, //diy导入
             attachment_category_operate: {} as any, // 附件分类权限
             attachment_operate: {} as any, // 附件权限
+            diy_config_operate: {} as any, //---- diy配置权限
         } as any, // 基础数据配置参数
         preview_url: '',
     });
