@@ -5,17 +5,17 @@
             <!-- <icon name="arrow-left" color="f">返回</icon> -->
             <div class="flex-row align-c">
                 <div class="name">
-                    <div class="flex-row align-c gap-10 c-pointer" @click="dialog_visible = true">
+                    <div :class="[{'c-pointer': common_store_config?.diy_config_operate?.is_base_data == 1}, 'flex-row align-c gap-10']" @click="common_store_config?.diy_config_operate?.is_base_data == 1 ? dialog_visible = true : ''">
                         <image-empty :src="modelValue.logo" class="round img" error-img-style="width: 2.2rem;height: 2.2rem;" />
                         <div>{{ modelValue.name }}</div>
-                        <icon name="edit" color="#7DBEFF"></icon>
+                        <icon v-if="common_store_config?.diy_config_operate?.is_base_data == 1" name="edit" color="#7DBEFF"></icon>
                     </div>
                 </div>
             </div>
         </div>
         <div class="nav-right">
-            <el-button class="btn-plain" @click="upload_manage">上传管理</el-button>
-            <el-button class="btn-plain" :class="saveDisabled ? 'disabled' : ''" :disabled="saveDisabled" @click="preview_event">预览</el-button>
+            <el-button v-if="common_store_config?.diy_config_operate?.is_upload_admin == 1" class="btn-plain" @click="upload_manage">上传管理</el-button>
+            <el-button v-if="common_store_config.preview_url !== ''" class="btn-plain" :class="saveDisabled ? 'disabled' : ''" :disabled="saveDisabled" @click="preview_event">预览</el-button>
             <el-button class="btn-plain" :class="saveDisabled ? 'disabled' : ''" :disabled="saveDisabled" @click="save_event">仅保存</el-button>
             <el-button class="btn-white" :class="saveDisabled ? 'disabled' : ''" :disabled="saveDisabled" @click="save_close_event">保存关闭</el-button>
         </div>
@@ -53,6 +53,8 @@
 </template>
 <script setup lang="ts">
 import { FormInstance, FormRules } from 'element-plus';
+import { commonStore } from '@/store';
+const common_store = commonStore();
 const props = defineProps({
     saveDisabled: {
         type: Boolean,
@@ -60,6 +62,8 @@ const props = defineProps({
     },
 });
 const modelValue = defineModel({ type: Object, default: {} });
+// 公共配置项
+const common_store_config = computed(() => common_store.common.config);
 // #region 变量 --------------------start
 const is_custom_dialog = ref(false);
 const dialog_visible = ref(false);

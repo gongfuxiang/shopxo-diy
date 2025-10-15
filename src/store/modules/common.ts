@@ -22,6 +22,9 @@ export const commonStore = defineStore('common', () => {
         goods_order_by_type_list: [] as any[],  //---- 商品排序
         data_order_by_rule_list: [] as any[],  //---- 数据排序
         brand_order_by_type_list: [] as any[],  //---- 品牌排序
+        diy_config_operate: {
+            is_base_data: 1, //---- 是否需要基础数据
+        } as any, //---- diy配置权限
         config: {
             common_amap_map_ak: '',
             common_amap_map_safety_ak: '',

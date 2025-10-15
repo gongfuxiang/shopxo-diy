@@ -15,32 +15,63 @@ export const font_weight = [
     { name: '正常', value: '400' },
 ];
 
+/**
+ * 从URL中提取指定前缀后的ID值
+ * @param prefix 前缀字符串
+ * @returns 提取的ID值
+ */
+const extractIdFromUrl = (prefix: string): string => {
+    const url = document.location.href;
+    const startIndex = url.indexOf(prefix);
+    if (startIndex === -1) return '';
+    
+    // 计算起始位置（包含前缀）
+    const start = startIndex + prefix.length;
+    let result = url.substring(start);
+    
+    // 移除.html后缀
+    const dotIndex = result.indexOf('.');
+    if (dotIndex !== -1) {
+        result = result.substring(0, dotIndex);
+    }
+    
+    // 移除查询参数
+    const andIndex = result.indexOf('&');
+    if (andIndex !== -1) {
+        result = result.substring(0, andIndex);
+    }
+    
+    // 移除路径分隔符后的部分
+    const slashIndex = result.indexOf('/');
+    if (slashIndex !== -1) {
+        result = result.substring(0, slashIndex);
+    }
+    
+    return result;
+};
 
 // 截取document.location.search字符串内id/后面的所有字段
 export const get_id = () => {
-    let new_id = '';
-    // 去除origin的数据
+    // 先尝试匹配 id/ 模式
     const url = document.location.href;
-    if (url.indexOf('id/') != -1) {
-        new_id = url.substring(url.indexOf('id/') + 3);
-        // 去除字符串的.html
-        let html_index = new_id.indexOf('.html');
-        if (html_index != -1) {
-            new_id = new_id.substring(0, html_index);
+    const idIndex = url.indexOf('id/');
+    if (idIndex !== -1) {
+        const result = url.substring(idIndex + 3);
+        const htmlIndex = result.indexOf('.html');
+        if (htmlIndex !== -1) {
+            return result.substring(0, htmlIndex);
         }
-        return new_id;
-    } else if (url.indexOf('-saveinfo') != -1) {
-        new_id = url.substring(url.indexOf('-saveinfo-') + 10);
-        // 去除字符串的.html
-        const dot_data = new_id.split('.')[0];
-        if (dot_data != '') {
-            new_id = dot_data.split('/')[0];
-        }
-        return new_id;
-    } else {
-        return new_id;
+        return result.split('.')[0].split('/')[0];
     }
+    
+    // 尝试匹配-saveinfo-模式
+    const saveinfoResult = extractIdFromUrl('-saveinfo-');
+    if (saveinfoResult) return saveinfoResult;
+    
+    // 尝试匹配-forminputinfo-模式
+    return extractIdFromUrl('-diyinfo-');
 };
+
 // 获取当前业务类型
 export const get_type = () => {
     return data_handle('type/', '');
