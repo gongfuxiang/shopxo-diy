@@ -16,8 +16,8 @@
         <div class="nav-right">
             <el-button v-if="common_store_config?.diy_config_operate?.is_upload_admin == 1" class="btn-plain" @click="upload_manage">上传管理</el-button>
             <el-button v-if="common_store_config.preview_url !== ''" class="btn-plain" :class="saveDisabled ? 'disabled' : ''" :disabled="saveDisabled" @click="preview_event">预览</el-button>
-            <el-button class="btn-plain" :class="saveDisabled ? 'disabled' : ''" :disabled="saveDisabled" @click="save_event">仅保存</el-button>
-            <el-button class="btn-white" :class="saveDisabled ? 'disabled' : ''" :disabled="saveDisabled" @click="save_close_event">保存关闭</el-button>
+            <el-button v-if="common_store_config.diy_config_operate.is_save_button == 1" class="btn-plain" :class="saveDisabled ? 'disabled' : ''" :disabled="saveDisabled" @click="save_event">保存</el-button>
+            <el-button v-if="common_store_config.diy_config_operate.is_save_close_button == 1" class="btn-white" :class="saveDisabled ? 'disabled' : ''" :disabled="saveDisabled" @click="save_close_event">保存关闭</el-button>
         </div>
     </div>
     <el-dialog v-model="dialog_visible" class="radius-lg" width="650" draggable :close-on-click-modal="false" append-to-body>
