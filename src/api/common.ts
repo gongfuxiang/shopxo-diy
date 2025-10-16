@@ -1,6 +1,5 @@
 import { get_type } from '@/utils/common';
 import request from '@/utils/request';
-import index_request from '@/utils/index-request';
 import { isEmpty } from 'lodash';
 
 class CommonAPI {
@@ -14,8 +13,8 @@ class CommonAPI {
                 method: 'post',
             });
         } else {
-            return index_request({
-                url: `?s=plugins/index/pluginsname/${ new_type }/pluginscontrol/diyapi/pluginsaction/init.html`,
+            return request({
+                url: `plugins/index/pluginsname/${ new_type }/pluginscontrol/diyapi/pluginsaction/init.html`,
                 method: 'post',
             });
         }
