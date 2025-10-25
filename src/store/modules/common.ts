@@ -46,6 +46,7 @@ export const commonStore = defineStore('common', () => {
             diy_upload_url: '' as string, //diy导入
             attachment_category_operate: {} as any, // 附件分类权限
             attachment_operate: {} as any, // 附件权限
+            diy_config_operate: {} as any, //---- diy配置权限
         } as any, // 基础数据配置参数
         preview_url: '',
     });

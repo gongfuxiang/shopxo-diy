@@ -523,7 +523,9 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
                     preview_dialog.value = true;
                     diy_id.value = String(res.data);
                 }
-                form.value.id = String(res.data);
+                if (res.data != null && res.data != '') {
+                    form.value.id = String(res.data);
+                }
                 // 本地的时候会补id参数
                 if (import.meta.env.VITE_APP_BASE_API == '/dev-admin') {
                     history.pushState({}, '', '?s=diy/saveinfo/id/' + res.data + '.html');

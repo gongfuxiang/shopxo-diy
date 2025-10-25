@@ -24,8 +24,11 @@ const pendingRequests = new Map();
 // 不需要认证的接口
 const release_url = ['attachmentapi/upload'];
 // 创建 axios 实例
-const index = window.location.href.lastIndexOf('?s=');
-const pro_url = window.location.href.substring(0, index);
+const index = window.location.href.lastIndexOf('.php');
+let pro_url = window.location.origin;
+if (index !== -1) {
+    pro_url = window.location.href.substring(0, index) + '.php';
+}
 const service = axios.create({
     baseURL: import.meta.env.VITE_APP_BASE_API == '/dev-admin' ? import.meta.env.VITE_APP_BASE_API : pro_url + '?s=',
     timeout: 60000,

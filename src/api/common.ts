@@ -1,20 +1,20 @@
 import { get_type } from '@/utils/common';
 import request from '@/utils/request';
-import index_request from '@/utils/index-request';
 import { isEmpty } from 'lodash';
 
 class CommonAPI {
     /**  链接初始化接口 */
     static getInit() {
         const new_type = get_type();
-        if (isEmpty(new_type)) {
+        const location_host = document.location.host; 
+        if (isEmpty(new_type) || location_host.indexOf('#/tabbar') !== -1) {
             return request({
                 url: `diyapi/init`,
                 method: 'post',
             });
         } else {
-            return index_request({
-                url: `?s=plugins/index/pluginsname/${ new_type }/pluginscontrol/diyapi/pluginsaction/init.html`,
+            return request({
+                url: `plugins/index/pluginsname/${ new_type }/pluginscontrol/diyapi/pluginsaction/init.html`,
                 method: 'post',
             });
         }
