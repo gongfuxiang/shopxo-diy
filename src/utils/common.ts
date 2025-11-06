@@ -46,39 +46,47 @@ const extractIdFromUrl = (prefix: string): string => {
     if (slashIndex !== -1) {
         result = result.substring(0, slashIndex);
     }
+
+    // 移除路径分隔符后的部分
+    const index = result.indexOf('-');
+    if (index !== -1) {
+        result = result.substring(0, index);
+    }
     
     return result;
 };
 
 // 截取document.location.search字符串内id/后面的所有字段
 export const get_id = () => {
-    // 先尝试匹配 id/ 模式
-    const url = document.location.href;
-    const idIndex = url.indexOf('id/');
-    if (idIndex !== -1) {
-        const result = url.substring(idIndex + 3);
-        const htmlIndex = result.indexOf('.html');
-        if (htmlIndex !== -1) {
-            return result.substring(0, htmlIndex);
-        }
-        return result.split('.')[0].split('/')[0];
-    }
+    const id = get_handle('id', '');
+    if (id != '') return id;
     
     // 尝试匹配-saveinfo-模式
     const saveinfoResult = extractIdFromUrl('-saveinfo-');
     if (saveinfoResult) return saveinfoResult;
     
-    // 尝试匹配-forminputinfo-模式
+    // 尝试匹配-diyinfo-模式
     return extractIdFromUrl('-diyinfo-');
 };
 
-// 获取当前业务类型
+// 获取当前类型
 export const get_type = () => {
-    return data_handle('type/', '');
+    return get_handle('type', '');
 }
-// 获取类型
+// 获取业务类型
 export const get_business = () => {
-    return data_handle('business/', '');
+    return get_handle('business', '');
+}
+
+function get_handle(type: string, default_value: string) {
+    const patterns = [`/${type}/`, `-${type}-`, `&${type}=`, `?${type}=`];
+    
+    for (const pattern of patterns) {
+        const value = data_handle(pattern, default_value);
+        if (value !== default_value) return value;
+    }
+    
+    return default_value;
 }
 // 数据处理
 export const data_handle = (val: string, default_val: string): string => {
