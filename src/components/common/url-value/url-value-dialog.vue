@@ -54,6 +54,10 @@
                 <template v-else-if="link_select == 'activity'">
                     <link-activity v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-activity>
                 </template>
+                <!-- 博客页面-插件 -->
+                <template v-else-if="link_select == 'blog'">
+                    <link-blog v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent"></link-blog>
+                </template>
                 <template v-else-if="!isEmpty(link_url)">
                     <!-- 商品页面 -->
                     <template v-if="link_select == 'goods'">
@@ -62,10 +66,6 @@
                     <!-- 文章页面 -->
                     <template v-else-if="link_select == 'article'">
                         <link-articles v-model="link_value" :select-is-url="selectIsUrl" :link-url="link_url" :multiple="multiple" :reset="reset_compontent"></link-articles>
-                    </template>
-                    <!-- 博客页面 -->
-                    <template v-else-if="link_select == 'blog'">
-                        <link-blog v-model="link_value" :select-is-url="selectIsUrl" :link-url="link_url" :multiple="multiple" :reset="reset_compontent"></link-blog>
                     </template>
                     <!-- diy页面/页面设计/自定义页面  -->
                     <template v-else-if="link_select == 'diy' || link_select == 'design' || link_select == 'custom-view'">
