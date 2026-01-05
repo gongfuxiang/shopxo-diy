@@ -3,14 +3,14 @@ class ShopAPI {
     /**  分类品牌查询接口*/
     static getShop() {
         return api_request({
-            url: `?s=diyapi/goodsinit`,
+            url: `diyapi/goodsinit`,
             method: 'post',
         });
     }
     /** 自动查询商品接口*/
     static getShopLists(data: any) {
         return api_request({
-            url: `?s=diyapi/goodsautodata`,
+            url: `diyapi/goodsautodata`,
             method: 'post',
             data,
         });
@@ -18,7 +18,7 @@ class ShopAPI {
     // 获取多商户的数据
     static getShopList(data: any) {
         return api_request({
-            url: `?s=plugins/index/pluginsname/shop/pluginscontrol/diyshop/pluginsaction/autoshoplist.html`,
+            url: `plugins/index/pluginsname/shop/pluginscontrol/diyshop/pluginsaction/autoshoplist.html`,
             method: 'post',
             data,
         });

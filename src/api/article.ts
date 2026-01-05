@@ -4,14 +4,14 @@ class ArticleAPI {
     /**  链接初始化接口 */
     static getInit() {
         return api_request({
-            url: `?s=diyapi/linkinit`,
+            url: `diyapi/linkinit`,
             method: 'post',
         });
     }
     /** 文章指定数据 */
     static getAppointList(data: any) {
         return api_request({
-            url: `?s=diyapi/articleappointdata`,
+            url: `diyapi/articleappointdata`,
             method: 'post',
             data,
         });
@@ -19,7 +19,7 @@ class ArticleAPI {
     /** 文章自动数据 */
     static getAutoList(data: any) {
         return api_request({
-            url: `?s=diyapi/articleautodata`,
+            url: `diyapi/articleautodata`,
             method: 'post',
             data,
         });

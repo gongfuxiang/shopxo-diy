@@ -4,7 +4,7 @@ class BlogAPI {
     /** 博客自动数据 */
     static getAutoList(data: any) {
         return api_request({
-            url: `?s=plugins/index/pluginsname/salerecords/pluginscontrol/diyapi/pluginsaction/salerecordsdata`,
+            url: `plugins/index/pluginsname/salerecords/pluginscontrol/diyapi/pluginsaction/salerecordsdata`,
             method: 'post',
             data,
         });

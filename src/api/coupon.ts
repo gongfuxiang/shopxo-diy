@@ -4,7 +4,7 @@ class CouponAPI {
     /**  领取优惠券列表 */
     static getCoupon(data: any) {
         return api_request({
-            url: `?s=plugins/index/pluginsname/coupon/pluginscontrol/diycoupon/pluginsaction/autocouponlist.html`,
+            url: `plugins/index/pluginsname/coupon/pluginscontrol/diycoupon/pluginsaction/autocouponlist.html`,
             method: 'post',
             data,
         });

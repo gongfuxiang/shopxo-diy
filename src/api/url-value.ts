@@ -4,7 +4,7 @@ class UrlValueAPI {
     /**  获取商品列表 */
     static getGoodsList(data: any) {
         return api_request({
-            url: `?s=diyapi/goodslist`,
+            url: `diyapi/goodslist`,
             method: 'post',
             data,
         });
@@ -12,7 +12,7 @@ class UrlValueAPI {
     /** 获取文章列表 */
     static getArticleList(data: any) {
         return api_request({
-            url: `?s=diyapi/articlelist`,
+            url: `diyapi/articlelist`,
             method: 'post',
             data,
         });
@@ -20,7 +20,7 @@ class UrlValueAPI {
     /** 获取diy列表 */
     static getDiyList(data: any) {
         return api_request({
-            url: `?s=diyapi/diylist`,
+            url: `diyapi/diylist`,
             method: 'post',
             data,
         });
@@ -28,7 +28,7 @@ class UrlValueAPI {
     /** 获取页面设计列表 */
     static getDesignList(data: any) {
         return api_request({
-            url: `?s=diyapi/designlist`,
+            url: `diyapi/designlist`,
             method: 'post',
             data,
         });
@@ -37,7 +37,7 @@ class UrlValueAPI {
     /** 获取自定义列表 */
     static getCustomList(data: any) {
         return api_request({
-            url: `?s=diyapi/customviewlist`,
+            url: `diyapi/customviewlist`,
             method: 'post',
             data,
         });
@@ -45,7 +45,7 @@ class UrlValueAPI {
     /** 获取品牌列表 */
     static getBrandList(data: any) {
         return api_request({
-            url: `?s=diyapi/brandlist`,
+            url: `diyapi/brandlist`,
             method: 'post',
             data,
         });
@@ -53,7 +53,7 @@ class UrlValueAPI {
     /** 获取优惠券列表 */
     static getCouponList(data: any) {
         return api_request({
-            url: `?s=plugins/index/pluginsname/coupon/pluginscontrol/diycoupon/pluginsaction/index.html`,
+            url: `plugins/index/pluginsname/coupon/pluginscontrol/diycoupon/pluginsaction/index.html`,
             method: 'post',
             data,
         });
@@ -62,7 +62,7 @@ class UrlValueAPI {
     /** 博客指定数据 */
     static getblogList(data: any) {
         return api_request({
-            url: `?s=plugins/index/pluginsname/blog/pluginscontrol/diyblog/pluginsaction/index.html`,
+            url: `plugins/index/pluginsname/blog/pluginscontrol/diyblog/pluginsaction/index.html`,
             method: 'post',
             data,
         });
@@ -70,7 +70,7 @@ class UrlValueAPI {
     /** 组合搭配指定数据 */
     static getBindingList(data: any) {
         return api_request({
-            url: `?s=plugins/index/pluginsname/binding/pluginscontrol/diybinding/pluginsaction/index.html`,
+            url: `plugins/index/pluginsname/binding/pluginscontrol/diybinding/pluginsaction/index.html`,
             method: 'post',
             data,
         });
@@ -78,7 +78,7 @@ class UrlValueAPI {
     /** 多商户指定数据 */
     static getShopList(data: any) {
         return api_request({
-            url: `?s=plugins/index/pluginsname/shop/pluginscontrol/diyshop/pluginsaction/index.html`,
+            url: `plugins/index/pluginsname/shop/pluginscontrol/diyshop/pluginsaction/index.html`,
             method: 'post',
             data,
         });
@@ -86,7 +86,7 @@ class UrlValueAPI {
     /** 多门店指定数据 */
     static getRealstoreList(data: any) {
         return api_request({
-            url: `?s=plugins/index/pluginsname/realstore/pluginscontrol/diyrealstore/pluginsaction/index.html`,
+            url: `plugins/index/pluginsname/realstore/pluginscontrol/diyrealstore/pluginsaction/index.html`,
             method: 'post',
             data,
         });
@@ -95,7 +95,7 @@ class UrlValueAPI {
     /** 多门店指定数据 */
     static getAskList(data: any) {
         return api_request({
-            url: `?s=plugins/index/pluginsname/ask/pluginscontrol/diyask/pluginsaction/index.html`,
+            url: `plugins/index/pluginsname/ask/pluginscontrol/diyask/pluginsaction/index.html`,
             method: 'post',
             data,
         });
@@ -103,7 +103,7 @@ class UrlValueAPI {
     /** 活动指定数据 */
     static getActivityList(data: any) {
         return api_request({
-            url: `?s=plugins/index/pluginsname/activity/pluginscontrol/diyactivity/pluginsaction/index.html`,
+            url: `plugins/index/pluginsname/activity/pluginscontrol/diyactivity/pluginsaction/index.html`,
             method: 'post',
             data,
         });

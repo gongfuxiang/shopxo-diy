@@ -4,7 +4,7 @@ class ShopAPI {
     /** 自动查询商品接口*/
     static getBrandLists(data: any) {
         return api_request({
-            url: `?s=diyapi/brandautodata`,
+            url: `diyapi/brandautodata`,
             method: 'post',
             data,
         });
