@@ -81,7 +81,7 @@
 import { common_styles_computer, padding_computer, radius_computer, get_math, is_obj_empty, common_img_computer, background_computer, gradient_handle, gradient_computer, margin_computer, box_shadow_computer, border_computer } from '@/utils';
 import { old_radius, old_padding, old_margin } from "@/utils/common";
 import { isEmpty, cloneDeep } from 'lodash';
-import pluginsVideoAPI from '@/api/pluginsVideo';
+import pluginsVideoAPI from '@/api/plugins-video';
 import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
 const modules = [Autoplay];
@@ -157,16 +157,16 @@ const new_content = computed(() => props.value?.content || {});
 const new_style = computed(() => props.value?.style || {});
 // 获取自动数据
 const get_auto_data_list = async () => {
-    const { category_ids, number, order_by_type, order_by_rule, is_cover, keywords, is_recommended, is_hot } = new_content.value;
+    const { category_ids, number, order_by_type, order_by_duration_rule, order_by_release_time_rule, keywords, is_recommended, is_hot } = new_content.value;
     const new_data = {
-        plugins_video_keywords: keywords,
-        plugins_video_category_ids: category_ids.join(','),
-        plugins_video_order_by_type: order_by_type,
-        plugins_video_order_by_rule: order_by_rule,
-        plugins_video_number: number,
-        plugins_video_is_cover: is_cover,
-        plugins_video_is_recommended: is_recommended,
-        plugins_video_is_hot: is_hot,
+        video_keywords: keywords,
+        video_category_ids: category_ids.join(','),
+        video_order_by: order_by_type,
+        video_release_time: order_by_release_time_rule,
+        video_duration: order_by_duration_rule,
+        video_number: number,
+        video_is_recommended: is_recommended,
+        video_is_hot: is_hot,
     };
     const res = await pluginsVideoAPI.getAutoList(new_data);
     new_content.value.data_auto_list = [];
@@ -209,8 +209,8 @@ onMounted(() => {
 });
 // 监听new_content指定的数据变化
 const data_list_computer = computed(() => {
-    const { data_type, category_ids, number, order_by_type, order_by_rule, is_cover, data_list, keywords, is_recommended, is_hot } = new_content.value;
-    return { data_type, category_ids, number, order_by_type, order_by_rule, is_cover, data_list, keywords, is_recommended, is_hot };
+    const { data_type, category_ids, number, order_by_type, order_by_release_time_rule, order_by_duration_rule, is_cover, data_list, keywords, is_recommended, is_hot } = new_content.value;
+    return { data_type, category_ids, number, order_by_type, order_by_release_time_rule, order_by_duration_rule, is_cover, data_list, keywords, is_recommended, is_hot };
 });
 // 监听new_content指定的数据的变化，来获取最新数据
 watch(

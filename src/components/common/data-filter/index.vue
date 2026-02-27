@@ -63,7 +63,7 @@
                         <el-radio v-for="item in common_store.common.article_order_by_type_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                     </template>
                     <template v-else-if="type === 'plugins_video'">
-                        <el-radio v-for="item in get_data_list(common_store.common.plugins, 'video.search_order_by_list')" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                        <el-radio v-for="item in get_data_list(common_store.common.plugins, 'video.search_order_by_list')" :key="item.type" :value="item.type">{{ item.name }}</el-radio>
                     </template>
                     <template v-else>
                         <el-radio v-for="item in get_data_list(common_store.common.plugins, 'blog.order_by_type_list')" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
@@ -80,12 +80,12 @@
             <template v-else>
                 <el-form-item label="发布时间">
                     <el-radio-group v-model="form.order_by_release_time_rule">
-                        <el-radio v-for="item in get_data_list(common_store.common.plugins, 'video.search_release_time_list')" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                        <el-radio v-for="item in get_data_list(common_store.common.plugins, 'video.search_release_time_list')" :key="item.type" :value="item.type">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
                 <el-form-item label="视频时长">
                     <el-radio-group v-model="form.order_by_duration_rule">
-                        <el-radio v-for="item in get_data_list(common_store.common.plugins, 'video.search_duration_list')" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                        <el-radio v-for="item in get_data_list(common_store.common.plugins, 'video.search_duration_list')" :key="item.type" :value="item.type">{{ item.name }}</el-radio>
                     </el-radio-group>
                 </el-form-item>
             </template>
@@ -324,6 +324,11 @@
             imgParam: 'cover',
             titleParam: 'title',
         },
+        plugins_video: {
+            optionListKey: 'data_type_list',
+            imgParam: 'cover',
+            titleParam: 'title',
+        },
         article: {
             optionListKey: 'data_type_list',
             imgParam: 'cover',
@@ -365,12 +370,7 @@
             optionListKey: 'brand_data_type_list',
             imgParam: 'logo',
             titleParam: 'title',
-        },
-        plugins_video: {
-            optionListKey: 'brand_data_type_list',
-            imgParam: '',
-            titleParam: 'title',
-        },
+        }
     };
     type config_type = {
         optionListKey: string,
