@@ -35,6 +35,9 @@ import defaultAskTabs from '@/config/const/ask-tabs';
 import defaultActivity from '@/config/const/activity';
 import defaultGoodsMagic from '@/config/const/goods-magic';
 import defaultTabsMagic from '@/config/const/tabs-magic';
+import defaultPluginsVideo from '@/config/const/plugins-video-list';
+import defaultPluginsVideoTabs from '@/config/const/plugins-video-tabs';
+
 
 // 系统设置
 interface DefaultSettings {
@@ -46,6 +49,8 @@ interface DefaultSettings {
     article_tabs: object;
     blog: object;
     blog_tabs: object;
+    plugins_video: object;
+    plugins_video_tabs: object;
     row_line: object;
     auxiliary_blank: object;
     rich_text: object;
@@ -86,6 +91,8 @@ const defaultSettings: DefaultSettings = {
     article_tabs: defaultArticleTabs,
     blog: defaultBlogList,
     blog_tabs: defaultBlogTabs,
+    plugins_video: defaultPluginsVideo,
+    plugins_video_tabs: defaultPluginsVideoTabs,
     row_line: defaultRowLine,
     auxiliary_blank: defaultAuxiliaryBlank,
     rich_text: defaultRichText,

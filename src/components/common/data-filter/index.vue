@@ -40,11 +40,14 @@
             </el-form-item>
         </template>
         <!-- 文章 博客-->
-        <template v-else-if="['blog', 'article'].includes(type)">
-            <el-form-item :label="`${ type === 'article' ? '文章' : '博客' }分类`">
-                <el-select v-model="form.category_ids" multiple collapse-tags filterable :placeholder="`请选择${ type === 'article' ? '文章' : '博客' }分类`">
+        <template v-else-if="['blog', 'article', 'plugins_video'].includes(type)">
+            <el-form-item :label="`${ type === 'article' ? '文章' : type === 'plugins_video' ? '视频' : '博客' }分类`">
+                <el-select v-model="form.category_ids" multiple collapse-tags filterable :placeholder="`请选择${ type === 'article' ? '文章' : type === 'plugins_video' ? '视频' : '博客' }分类`">
                     <template v-if="type === 'article'">
                         <el-option v-for="item in common_store.common.article_category" :key="item.id" :label="item.name" :value="item.id" />
+                    </template>
+                    <template v-else-if="type === 'plugins_video'">
+                        <el-option v-for="item in get_data_list(common_store.common.plugins, 'video.category_list')" :key="item.id" :label="item.name" :value="item.id" />
                     </template>
                     <template v-else>
                         <el-option v-for="item in get_data_list(common_store.common.plugins, 'blog.category_list')" :key="item.id" :label="item.name" :value="item.id" />
@@ -59,20 +62,39 @@
                     <template v-if="type === 'article'">
                         <el-radio v-for="item in common_store.common.article_order_by_type_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                     </template>
+                    <template v-else-if="type === 'plugins_video'">
+                        <el-radio v-for="item in get_data_list(common_store.common.plugins, 'video.search_order_by_list')" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                    </template>
                     <template v-else>
                         <el-radio v-for="item in get_data_list(common_store.common.plugins, 'blog.order_by_type_list')" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                     </template>
                 </el-radio-group>
             </el-form-item>
-            <el-form-item label="排序规则">
-                <el-radio-group v-model="form.order_by_rule">
-                    <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
-                </el-radio-group>
-            </el-form-item>
-            <el-form-item label="封面图片">
-                <el-switch v-model="form.is_cover" active-value="1" inactive-value="0" />
-            </el-form-item>
-            <template v-if="['blog', 'blog-tabs'].includes(type)">
+            <template v-if="['blog', 'blog-tabs', 'article'].includes(type)">
+                <el-form-item label="排序规则">
+                    <el-radio-group v-model="form.order_by_rule">
+                        <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+            </template>
+            <template v-else>
+                <el-form-item label="发布时间">
+                    <el-radio-group v-model="form.order_by_release_time_rule">
+                        <el-radio v-for="item in get_data_list(common_store.common.plugins, 'video.search_release_time_list')" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+                <el-form-item label="视频时长">
+                    <el-radio-group v-model="form.order_by_duration_rule">
+                        <el-radio v-for="item in get_data_list(common_store.common.plugins, 'video.search_duration_list')" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                    </el-radio-group>
+                </el-form-item>
+            </template>
+            <template v-if="['blog', 'blog-tabs', 'article'].includes(type)">
+                <el-form-item label="封面图片">
+                    <el-switch v-model="form.is_cover" active-value="1" inactive-value="0" />
+                </el-form-item>
+            </template>
+            <template v-if="['blog', 'blog-tabs', 'plugins_video'].includes(type)">
                 <el-form-item label="是否推荐">
                     <el-switch v-model="form.is_recommended" active-value="1" inactive-value="0" />
                 </el-form-item>
@@ -278,7 +300,7 @@
             default: () => {},
         },
         type: {
-            type: String as PropType<'goods' | 'blog' | 'article' | 'binding' | 'realstore' | 'merchant' | 'ask' | 'activity' | 'coupon'>,
+            type: String as PropType<'goods' | 'blog' | 'article' | 'binding' | 'realstore' | 'merchant' | 'ask' | 'activity' | 'coupon' | 'plugins_video'>,
             default: 'goods',
         }
     });
@@ -344,6 +366,11 @@
             imgParam: 'logo',
             titleParam: 'title',
         },
+        plugins_video: {
+            optionListKey: 'brand_data_type_list',
+            imgParam: '',
+            titleParam: 'title',
+        },
     };
     type config_type = {
         optionListKey: string,
@@ -362,8 +389,14 @@
         keywords.value = props.value.keywords;
         form.value = props.value;
         // 历史数据转成数字类型
-        form.value.order_by_type = Number(props.value?.order_by_type || 0); 
-        form.value.order_by_rule = Number(props.value?.order_by_rule || 0);
+        if (props.type !== 'plugins_video') {
+            form.value.order_by_type = Number(props.value?.order_by_type || 0); 
+            form.value.order_by_rule = Number(props.value?.order_by_rule || 0);
+        } else {
+            form.value.order_by_type = props.value?.order_by_type || 'default'; 
+            form.value.order_by_release_time_rule = props.value?.order_by_release_time_rule || 'default';
+            form.value.order_by_duration_rule = props.value?.order_by_duration_rule || 'default';   
+        }
         drag_list.value = props.list;
     });
     const keyword_blur = () => {

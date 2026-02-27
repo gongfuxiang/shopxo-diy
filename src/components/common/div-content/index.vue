@@ -150,6 +150,14 @@
             <template v-else-if="item.key == 'activity'">
                 <model-activity :key="item.com_data" :value="item.com_data"></model-activity>
             </template>
+            <!-- 视频列表 -->
+            <template v-else-if="item.key == 'plugins-video'">
+                <model-plugins-video-list :key="item.com_data" :value="item.com_data"></model-plugins-video-list>
+            </template>
+            <!-- 视频选项卡 -->
+            <template v-else-if="item.key == 'plugins-video-tabs'">
+                <model-plugins-video-tabs :key="item.com_data" :value="item.com_data"></model-plugins-video-tabs>
+            </template>
             <!-- 工具组件 -->
             <!-- 辅助线 -->
             <template v-else-if="item.key == 'row-line'">
