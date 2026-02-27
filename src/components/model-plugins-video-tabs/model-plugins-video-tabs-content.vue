@@ -34,7 +34,7 @@
                 <el-form-item v-if="form.tabs_theme == '3'" label="选中图标">
                     <upload v-model="form.tabs_adorn_img" v-model:icon-value="form.tabs_adorn_icon" is-icon :limit="1" size="50"></upload>
                 </el-form-item>
-                <el-form-item label="短视频风格">
+                <el-form-item label="视频风格">
                     <el-radio-group v-model="form.plugins_video_theme" @change="plugins_video_theme_change">
                         <el-radio v-for="item in base_list.plugins_video_theme_list" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
                     </el-radio-group>
@@ -115,7 +115,7 @@ import { get_math, tabs_style } from '@/utils';
 import { commonStore } from '@/store';
 const common_store = commonStore();
 /**
- * @description: 短视频选项卡列表 （内容）
+ * @description: 视频选项卡列表 （内容）
  * @param value{Object} 内容数据
  * @param tabsStyle{Object} tabs样式数据
  * @param defaultConfig{Object} 默认配置
@@ -160,11 +160,11 @@ const base_list = reactive({
         { name: '四列展示', value: '3' },
     ],
     data_type_list: [
-        { name: '选择短视频', value: '0' },
-        { name: '筛选短视频', value: '1' },
+        { name: '选择视频', value: '0' },
+        { name: '筛选视频', value: '1' },
     ],
     field_show_list: [
-        { name: '短视频标题', value: '3' },
+        { name: '视频标题', value: '3' },
         { name: '日期时间', value: '0' },
         { name: '浏览量', value: '1' },
         { name: '描述', value: '2' },
@@ -273,7 +273,7 @@ const tabs_add = () => {
     // emit('update:value', form);
 };
 
-// 指定短视频
+// 指定视频
 const data_list_remove = (index: number, plugins_video_index: number) => {
     form.tabs_list[plugins_video_index].data_list.splice(index, 1);
 };
@@ -295,7 +295,7 @@ const data_list_replace = (index: number, row_index: number) => {
 };
 
 const plugins_video_index = ref(0);
-// 添加短视频
+// 添加视频
 const plugins_video_add = (index: number) => {
     url_value_multiple_bool.value = true;
     url_value_dialog_visible.value = true;
@@ -354,7 +354,7 @@ watchEffect(() => {
         form.is_general_safe_distance = '0';
     }
 });
-// 标题浮起之后短视频标题的颜色和字体更新
+// 标题浮起之后视频标题的颜色和字体更新
 const switch_chage = (val: string | number | boolean) => {
     if (val == '1') {
         styles.name_color = '#fff';

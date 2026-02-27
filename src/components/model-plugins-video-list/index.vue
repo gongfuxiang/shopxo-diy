@@ -20,14 +20,14 @@
                             <div v-if="field_show.includes('0') || field_show.includes('1') || field_show.includes('2') || field_show.includes('3')" class="jc-sb flex-1" :class="plugins_video_theme == '3' ? 'flex-row align-c' : 'flex-col'" :style="plugins_video_theme != '0' ? content_padding : 'width: 0;'">
                                 <div class="flex-col" :class="plugins_video_theme == '3' ? 'flex-1 flex-width' : ''" :style="'gap:' + new_style.name_desc_space + 'px;'">
                                     <div v-if="field_show.includes('3')" class="title" :class="plugins_video_theme == '3' ? 'text-line-1' : 'text-line-2'" :style="plugins_video_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
-                                    <div v-if="field_show.includes('2')" :class="'desc ' + field_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="plugins_video_desc">{{ item.data.describe || '' }}</div>
+                                    <!-- <div v-if="field_show.includes('2')" :class="'desc ' + field_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="plugins_video_desc">{{ item.data.describe || '' }}</div> -->
                                 </div>
                                 <div class="flex-row jc-sb gap-8" :class="plugins_video_theme == '3' ? 'ml-10' : 'align-e mt-10'">
                                     <div :style="plugins_video_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
                                     <div v-show="field_show.includes('1')" class="flex-row align-c gap-3" :style="plugins_video_page_view">
                                         <icon name="eye"></icon>
                                         <div>
-                                            {{ item.data.access_count ? item.data.access_count : '16' }}
+                                            {{ item.data.access_count ? item.data.access_count : '0' }}
                                         </div>
                                     </div>
                                 </div>
@@ -56,7 +56,7 @@
                                     <div v-if="field_show.includes('0') || field_show.includes('1') || field_show.includes('2') || (field_show.includes('3') && new_content.name_float == '0')" class="jc-sb flex-1 flex-col" :style="plugins_video_theme != '0' ? content_padding : ''">
                                         <div class="flex-col" :style="'gap:' + new_style.name_desc_space + 'px;'">
                                             <div v-if="field_show.includes('3') && new_content.name_float == '0'" class="title text-line-2" :style="plugins_video_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
-                                            <div v-if="field_show.includes('2')" :class="'desc ' + field_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="plugins_video_desc">{{ item.data.describe || '' }}</div>
+                                            <!-- <div v-if="field_show.includes('2')" :class="'desc ' + field_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="plugins_video_desc">{{ item.data.describe || '' }}</div> -->
                                         </div>
                                         <div :class="[ 'flex-row jc-sb gap-8 align-e', { 'mt-10': (field_show.includes('3') && new_content.name_float == '0') || field_show.includes('2') }] ">
                                             <div :style="plugins_video_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>

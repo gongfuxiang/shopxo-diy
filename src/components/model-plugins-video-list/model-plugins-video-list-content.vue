@@ -18,7 +18,7 @@
             </card-container>
             <div class="divider-line"></div>
             <card-container class="card-container-br">
-                <div class="mb-12">短视频设置</div>
+                <div class="mb-12">视频设置</div>
                 <!-- 数据筛选组件, 根据数据源类型显示不同的筛选组件 -->
                 <data-filter type="plugins_video" :value="form" :list="form.data_list" :base-list="base_list" @add="add" @data_list_replace="data_list_replace" @data_list_remove="data_list_remove" @data_list_sort="data_list_sort"></data-filter>
             </card-container>
@@ -56,7 +56,7 @@ import { get_math } from '@/utils';
 import { commonStore } from '@/store';
 const common_store = commonStore();
 /**
- * @description 短视频列表（内容）
+ * @description 视频列表（内容）
  * @param value{Object} 传过来的数据，用于数据渲染
  * @param styles{Object} 样式
  * @param defaultConfig{Object} 默认配置
@@ -101,14 +101,14 @@ const base_list = reactive({
         { name: '四列展示', value: '3' },
     ],
     data_type_list: [
-        { name: '选择短视频', value: '0' },
-        { name: '筛选短视频', value: '1' },
+        { name: '选择视频', value: '0' },
+        { name: '筛选视频', value: '1' },
     ],
     field_show_list: [
-        { name: '短视频标题', value: '3' },
+        { name: '视频标题', value: '3' },
         { name: '日期时间', value: '0' },
         { name: '浏览量', value: '1' },
-        { name: '描述', value: '2' },
+        // { name: '描述', value: '2' },
     ],
     field_desc_row: [
         { name: '一行', value: '1' },
@@ -202,7 +202,7 @@ const url_value_dialog_call_back = (item: any[]) => {
         };
     }
 };
-// 标题浮起之后短视频标题的颜色和字体更新
+// 标题浮起之后视频标题的颜色和字体更新
 const switch_chage = (val: string | number | boolean) => {
     if (val == '1') {
         data.value.name_color = '#fff';

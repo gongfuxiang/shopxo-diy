@@ -107,7 +107,15 @@ class UrlValueAPI {
             method: 'post',
             data,
         });
-    }   
+    }
+    /** 博客指定数据 */
+    static getPluginVideoList(data: any) {
+        return api_request({
+            url: `plugins/index/pluginsname/video/pluginscontrol/diyvideo/pluginsaction/index`,
+            method: 'post',
+            data,
+        });
+    }
 }
 
 export default UrlValueAPI;
