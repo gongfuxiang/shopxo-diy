@@ -48,8 +48,6 @@
 </template>
 <script setup lang="ts">
 import { get_math } from '@/utils';
-import { commonStore } from '@/store';
-const common_store = commonStore();
 /**
  * @description 视频列表（内容）
  * @param value{Object} 传过来的数据，用于数据渲染
