@@ -26,7 +26,6 @@ interface DefaultPluginsVideoList {
         order_by_release_time_rule: string;
         order_by_duration_rule: string;
         field_show: string[];
-        field_desc_row: string,
         is_cover: string;
         is_recommended: string;
         is_hot: string;
@@ -50,9 +49,9 @@ interface DefaultPluginsVideoList {
         name_bg_margin: marginStyle,
         name_bg_padding: paddingStyle,
         name_bg_radius: radiusStyle,
-        desc_color: string;
-        desc_size: number;
-        name_desc_space: number;
+        // desc_color: string;
+        // desc_size: number;
+        // name_desc_space: number;
         time_weight: string;
         time_size: number;
         time_color: string;
@@ -103,7 +102,6 @@ const defaultPluginsVideoList: DefaultPluginsVideoList = {
         order_by_release_time_rule: 'default',
         order_by_duration_rule: 'default',
         field_show: ['0', '1', '3'],
-        field_desc_row: '1',
         is_cover: defaultSetting.is_cover,
         is_recommended: '0',
         is_hot: '0',
@@ -146,9 +144,9 @@ const defaultPluginsVideoList: DefaultPluginsVideoList = {
             radius_bottom_left: 4,
             radius_bottom_right: 4,
         },
-        desc_color: '#999',
-        desc_size: 12,
-        name_desc_space: 4,
+        // desc_color: '#999',
+        // desc_size: 12,
+        // name_desc_space: 4,
         time_weight: '400',
         time_size: 12,
         time_color: 'rgba(153, 153, 153, 1)',

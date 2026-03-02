@@ -41,7 +41,7 @@ interface DefaultPluginsVideoTabs {
         tabs_list: pluginsVideoTabsList[];
         tabs_active_index: number;
         field_show: string[];
-        field_desc_row: string;
+        // field_desc_row: string;
         seckill_subscript_show: string;
         subscript_type: string;
         subscript_img_src: uploadList[];
@@ -102,9 +102,9 @@ interface DefaultPluginsVideoTabs {
         name_bg_margin: marginStyle,
         name_bg_padding: paddingStyle,
         name_bg_radius: radiusStyle,
-        desc_color: string;
-        desc_size: number;
-        name_desc_space: number;
+        // desc_color: string; 
+        // desc_size: number;
+        // name_desc_space: number;
         time_weight: string;
         time_size: number;
         time_color: string;
@@ -162,7 +162,7 @@ const defaultPluginsVideoTabs: DefaultPluginsVideoTabs = {
         ],
         tabs_active_index: 0,
         field_show: ['0', '1', '3'],
-        field_desc_row: '1',
+        // field_desc_row: '1',
         // 角标配置
         seckill_subscript_show: '0',
         subscript_type: 'text',
@@ -332,9 +332,9 @@ const defaultPluginsVideoTabs: DefaultPluginsVideoTabs = {
             radius_bottom_left: 4,
             radius_bottom_right: 4,
         },
-        desc_color: '#999',
-        desc_size: 12,
-        name_desc_space: 4,
+        // desc_color: '#999',
+        // desc_size: 12,
+        // name_desc_space: 4,
         time_weight: '400',
         time_size: 12,
         time_color: 'rgba(153, 153, 153, 1)',

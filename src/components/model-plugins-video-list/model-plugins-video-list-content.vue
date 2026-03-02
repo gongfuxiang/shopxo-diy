@@ -30,11 +30,6 @@
                         <el-checkbox v-for="item in base_list.field_show_list" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
                     </el-checkbox-group>
                 </el-form-item>
-                <el-form-item v-if="form.field_show.includes('2')" label="描述行数">
-                    <el-radio-group v-model="form.field_desc_row">
-                        <el-radio v-for="item in base_list.field_desc_row" :key="item.value" :value="item.value">{{ item.name }}</el-radio>
-                    </el-radio-group>
-                </el-form-item>
                 <template v-if="form.theme == '4'">
                     <el-form-item label="标题浮起">
                         <el-switch v-model="form.name_float" active-value="1" inactive-value="0" @change="switch_chage"></el-switch>

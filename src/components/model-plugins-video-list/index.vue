@@ -18,7 +18,7 @@
                                 </div>
                             </template>
                             <div v-if="field_show.includes('0') || field_show.includes('1') || field_show.includes('2') || field_show.includes('3')" class="jc-sb flex-1" :class="plugins_video_theme == '3' ? 'flex-row align-c' : 'flex-col'" :style="plugins_video_theme != '0' ? content_padding : 'width: 0;'">
-                                <div class="flex-col" :class="plugins_video_theme == '3' ? 'flex-1 flex-width' : ''" :style="'gap:' + new_style.name_desc_space + 'px;'">
+                                <div class="flex-col" :class="plugins_video_theme == '3' ? 'flex-1 flex-width' : ''">
                                     <div v-if="field_show.includes('3')" class="title" :class="plugins_video_theme == '3' ? 'text-line-1' : 'text-line-2'" :style="plugins_video_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
                                     <!-- <div v-if="field_show.includes('2')" :class="'desc ' + field_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="plugins_video_desc">{{ item.data.describe || '' }}</div> -->
                                 </div>
@@ -54,7 +54,7 @@
                                         <subscript-index :value="props.value"></subscript-index>
                                     </div>
                                     <div v-if="field_show.includes('0') || field_show.includes('1') || field_show.includes('2') || (field_show.includes('3') && new_content.name_float == '0')" class="jc-sb flex-1 flex-col" :style="plugins_video_theme != '0' ? content_padding : ''">
-                                        <div class="flex-col" :style="'gap:' + new_style.name_desc_space + 'px;'">
+                                        <div class="flex-col">
                                             <div v-if="field_show.includes('3') && new_content.name_float == '0'" class="title text-line-2" :style="plugins_video_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
                                             <!-- <div v-if="field_show.includes('2')" :class="'desc ' + field_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="plugins_video_desc">{{ item.data.describe || '' }}</div> -->
                                         </div>
@@ -86,7 +86,7 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import { Autoplay } from 'swiper/modules';
 const modules = [Autoplay];
 /**
- * @description: 文章列表（渲染）
+ * @description: 视频列表（渲染）
  * @param value{Object} 样式数据
  * @param isCommonStyle{Object} 是否为通用样式
  */
@@ -123,10 +123,8 @@ const data_list = ref<plugins_videoList[]>([]);
 const plugins_video_theme = ref('0');
 // 是否显示
 const field_show = ref(['0', '1']);
-// 文章
+// 视频
 const plugins_video_name = ref('');
-// 文章描述
-const plugins_video_desc = ref('');
 // 日期
 const plugins_video_date = ref('');
 // 浏览量
@@ -139,7 +137,7 @@ const img_radius = ref('');
 const content_padding = ref('');
 // 内容间距
 const content_spacing = ref('');
-// 文章间距
+// 视频间距
 const plugins_video_spacing = ref('');
 const plugins_video_item_height = ref('155');
 
@@ -191,11 +189,11 @@ const get_auto_data_list = async () => {
     }
 };
 onMounted(() => {
-    // 判断数据类型是选择文章且数据不为空
+    // 判断数据类型是选择视频且数据不为空
     if (new_content.value.data_type == '0' && !isEmpty(new_content.value.data_list)) {
         data_list.value = new_content.value.data_list;
     } else if (new_content.value.data_type == '1' && !isEmpty(new_content.value.data_auto_list)) {
-        // 判断数据是筛选文章且数据不为空
+        // 判断数据是筛选视频且数据不为空
         data_list.value = new_content.value.data_auto_list.map((item: any) => ({
             id: get_math(),
             new_title: '',
@@ -232,11 +230,11 @@ watch(
     { deep: true }
 );
 
-// 文章内容高度
+// 视频内容高度
 const plugins_video_name_height_computer = computed(() => {
     return new_style.value.name_size * 2.4 + 'px';
 });
-// 文章行高计算
+// 视频行高计算
 const plugins_video_name_line_height_computer = computed(() => {
     return new_style.value.name_size * 1.2 + 'px';
 });
@@ -285,7 +283,7 @@ const carousel_key = ref('0');
 const autoplay = ref<boolean | object>(false);
 const slides_per_group = ref(1);
 
-// 文章名称浮动样式
+// 视频名称浮动样式
 const float_name_style = computed(() => {
     const { name_bg_color_list = [], name_bg_direction = '180deg', name_bg_radius = old_radius, name_bg_padding = old_padding, name_bg_margin = old_margin } = new_style.value;
     const data = {
@@ -295,7 +293,7 @@ const float_name_style = computed(() => {
     let location = 'position:absolute;bottom:0;left:0;right:0;'
     return gradient_computer(data) + radius_computer(name_bg_radius) + padding_computer(name_bg_padding) + margin_computer(name_bg_margin) + location;
 });
-const field_desc_row = ref('1');
+
 const plugins_video_left_right_width_margin = computed(() => {
     const { margin = old_margin } = new_style.value;
     return margin.margin_left + margin.margin_right;
@@ -310,14 +308,6 @@ watch(
         field_show.value = new_content.field_show;
         // 样式
         plugins_video_name.value = 'font-size:' + new_style.name_size + 'px;' + 'font-weight:' + new_style.name_weight + ';' + 'color:' + new_style.name_color + ';';
-        // 文章描述
-        const desc_size = new_style.desc_size;
-        field_desc_row.value = new_content.field_desc_row;
-        if (new_content.field_desc_row == '2') {
-            plugins_video_desc.value = 'font-size:' + desc_size + 'px;line-height:' + (desc_size > 0 ? desc_size + 3 : 0 ) + 'px;height:'+ (desc_size > 0 ? (desc_size + 3) * 2 : 0) + 'px;color:' + new_style.desc_color + ';';
-        } else {
-            plugins_video_desc.value = 'font-size:' + desc_size + 'px;line-height:' + desc_size + 'px;height:'+ desc_size + 'px;color:' + new_style.desc_color + ';';
-        }
         plugins_video_date.value = 'font-size:' + new_style.time_size + 'px;' + 'font-weight:' + new_style.time_weight + ';' + 'color:' + new_style.time_color + ';';
         plugins_video_page_view.value = 'font-size:' + new_style.page_view_size + 'px;' + 'font-weight:' + new_style.page_view_weight + ';' + 'color:' + new_style.page_view_color + ';';
         content_radius.value = radius_computer(new_style.content_radius);
@@ -326,9 +316,9 @@ watch(
         content_padding.value = padding_computer(new_style.padding);
         // 内容间距
         content_spacing.value = `gap: ${new_style.content_spacing}px;`;
-        // 文章间距
+        // 视频间距
         plugins_video_spacing.value = `gap: ${new_style.plugins_video_spacing}px;`;
-        // 文章样式
+        // 视频样式
         plugins_video_style.value = '';
         plugins_video_img_style.value = '';
         // 背景图的处理
@@ -380,7 +370,7 @@ watch(
     },
     { deep: true, immediate: true }
 );
-// 文章主题class计算
+// 视频主题class计算
 const plugins_video_theme_class = computed(() => {
     switch (plugins_video_theme.value) {
         case '0':
