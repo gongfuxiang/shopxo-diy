@@ -134,6 +134,14 @@
             <template v-else-if="value.key == 'ask-tabs'">
                 <model-ask-tabs-setting :type="radio" :value="value.com_data"></model-ask-tabs-setting>
             </template>
+            <!-- 短视频 -->
+            <template v-else-if="value.key == 'plugins-video'">
+                <model-plugins-video-list-setting :type="radio" :value="value.com_data"></model-plugins-video-list-setting>
+            </template>
+            <!-- 短视频选项卡 -->
+            <template v-else-if="value.key == 'plugins-video-tabs'">
+                <model-plugins-video-tabs-setting :type="radio" :value="value.com_data"></model-plugins-video-tabs-setting>
+            </template>
             <!-- 活动配置 -->
             <template v-else-if="value.key == 'activity'">
                 <model-activity-setting :type="radio" :value="value.com_data"></model-activity-setting>

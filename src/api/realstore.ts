@@ -4,7 +4,7 @@ class BlogAPI {
     /** 博客自动数据 */
     static getAutoList(data: any) {
         return api_request({
-            url: `?s=plugins/index/pluginsname/realstore/pluginscontrol/diyrealstore/pluginsaction/autorealstorelist.html`,
+            url: `plugins/index/pluginsname/realstore/pluginscontrol/diyrealstore/pluginsaction/autorealstorelist.html`,
             method: 'post',
             data,
         });

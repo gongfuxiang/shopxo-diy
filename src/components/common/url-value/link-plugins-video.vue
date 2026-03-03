@@ -2,14 +2,20 @@
     <!-- 商品分类 -->
     <div class="container">
         <div class="flex-row jc-e gap-20 mb-20 align-c">
-            <el-select v-model="category_ids" class="search-w" placeholder="请选择博客分类" filterable clearable @change="handle_search">
-                <el-option v-for="item in article_category_list" :key="item.id" :label="item.name" :value="item.id" />
-            </el-select>
-            <el-input v-model="search_value" placeholder="请输入搜索内容" class="search-w" @change="handle_search">
-                <template #suffix>
-                    <icon name="search" size="16" color="9" class="c-pointer" @click="handle_search"></icon>
-                </template>
-            </el-input>
+            <div class="flex-row align-c gap-12">
+                <div class="title horizontal-title">视频分类</div>
+                <el-select v-model="category_ids" class="search-w" placeholder="请选择视频分类" filterable clearable @change="handle_search">
+                    <el-option v-for="item in get_data_list(common_store.common.plugins, 'video.category_list')" :key="item.id" :label="item.name" :value="item.id" />
+                </el-select>
+            </div>
+            <div class="flex-row align-c gap-12">
+                <div class="title horizontal-title">关键字</div>
+                <el-input v-model="search_value" placeholder="请输入关键字" class="search-w" @change="handle_search">
+                    <template #suffix>
+                        <icon name="search" size="16" color="9" class="c-pointer" @click="handle_search"></icon>
+                    </template>
+                </el-input>
+            </div>
         </div>
         <div class="content">
             <el-table v-loading="loading" :data="tableData" class="w" :header-cell-style="{ background: '#f7f7f7' }" row-key="id" height="438" fixed @row-click="row_click" @select="handle_select" @select-all="handle_select">
@@ -19,15 +25,14 @@
                         <el-radio v-model="template_selection" :label="scope.$index + ''">&nbsp;</el-radio>
                     </template>
                 </el-table-column>
-                <el-table-column prop="id" label="ID" width="80" type="" />
-                <el-table-column prop="cover" label="博客">
+                <el-table-column prop="id" label="ID" width="100" type="" />
+                <el-table-column prop="cover" label="封面" width="120">
                     <template #default="scope">
-                        <div class="flex-row align-c gap-10">
-                            <image-empty v-if="scope.row.cover" v-model="scope.row.cover" class="img"></image-empty>
-                            <div class="flex-1">{{ scope.row.title }}</div>
-                        </div>
+                        <image-empty v-if="scope.row.cover" v-model="scope.row.cover" class="img"></image-empty>
                     </template>
                 </el-table-column>
+                <el-table-column prop="title" label="标题" />
+                <el-table-column prop="category_name" label="分类" />
                 <template #empty>
                     <no-data :text="empty_text"></no-data>
                 </template>
@@ -73,24 +78,19 @@ onMounted(() => {
 const modelValue = defineModel({ type: Object, default: {} });
 const tableData = ref<pageLinkList[]>([]);
 const search_value = ref('');
+
+const category_ids = ref('');
 const loading = ref(false);
 const init = () => {
     template_selection.value = '';
     category_ids.value = '';
     search_value.value = '';
-    article_category_list.value = get_data_list(common_store.common.plugins, 'blog.category_list');
     get_list(1);
 };
 const handle_search = () => {
     get_list(1);
 };
-const category_ids = ref('');
-interface articleCategory {
-    id: string;
-    name: string;
-    url: string;
-}
-const article_category_list = ref<articleCategory[]>([]);
+
 const template_selection = ref('');
 //#region 分页 -----------------------------------------------start
 // 当前页
@@ -109,7 +109,7 @@ const get_list = (new_page: number) => {
         page_size: page_size.value,
     };
     loading.value = true;
-    UrlValueAPI.getblogList(new_data).then((res: any) => {
+    UrlValueAPI.getPluginVideoList(new_data).then((res: any) => {
         tableData.value = res.data.data_list;
         if (res.data.data_list.length === 0) {
             empty_text.value = '暂无数据';
@@ -175,5 +175,14 @@ const handle_select = (selection: any) => {
             width: 3.6rem;
         }
     }
+}
+.horizontal-title {
+    font-size: 1.2rem;
+    line-height: 3.2rem;
+    text-align: right;
+    width: 100%;
+    color: #606266;
+    flex-basis: max-content;
+    white-space: nowrap;
 }
 </style>

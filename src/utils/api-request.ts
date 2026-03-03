@@ -31,7 +31,7 @@ const new_data = window.location.href.substring(0, index);
 const new_index = new_data.lastIndexOf('/');
 const pro_url = window.location.href.substring(0, new_index);
 const service = axios.create({
-    baseURL: import.meta.env.VITE_APP_BASE_API_PHP == '/dev-api' ? import.meta.env.VITE_APP_BASE_API_PHP : pro_url + '/api.php',
+    baseURL: import.meta.env.VITE_APP_BASE_API_PHP == '/dev-api' ? import.meta.env.VITE_APP_BASE_API_PHP : pro_url + '/api.php?s=',
     timeout: 60000,
     headers: { 'Content-Type': 'application/json;charset=utf-8', 'X-Requested-With': 'XMLHttpRequest' },
 });

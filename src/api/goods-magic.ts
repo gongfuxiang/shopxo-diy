@@ -4,7 +4,7 @@ class CustomAPI {
     /**  分类品牌查询接口*/
     static getGoodsmagicinit() {
         return api_request({
-            url: `?s=diyapi/goodsmagicinit`,
+            url: `diyapi/goodsmagicinit`,
             method: 'post',
         });
     }
