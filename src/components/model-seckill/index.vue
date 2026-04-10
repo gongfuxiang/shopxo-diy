@@ -3,8 +3,8 @@
         <div :style="style_img_container">
             <div class="flex-col gap-10">
                 <div v-if="form.head_state == '1'" class="oh" :style="seckill_head_style">
-                    <div class="seckill-head flex-row align-c jc-sb oh" :style="seckill_head_img_style">
-                        <div :class="['flex-row align-c', { 'gap-10': form.theme != '1', 'jc-sb w': form.theme == '2' }]">
+                    <div class="seckill-head flex-row align-c jc-sb oh gap-10" :style="seckill_head_img_style">
+                        <div :class="['flex-1 flex-row align-c', { 'gap-10': form.theme != '1', 'jc-sb w': form.theme == '2' }]">
                             <div class="seckill-title">
                                 <image-empty v-if="form.title_type == 'image'" v-model="form.title_src[0]" error-img-style="width:2.1rem; height: 1rem;"></image-empty>
                                 <span v-else :style="`color: ${new_style.title_color};font-size: ${new_style.title_size}px;line-height:21px;font-weight:600;`">{{ form.title_text }}</span>

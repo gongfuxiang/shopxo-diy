@@ -114,6 +114,10 @@
             <template v-else-if="item.key == 'seckill'">
                 <model-seckill :key="item.com_data" :value="item.com_data"></model-seckill>
             </template>
+            <!-- 预售 -->
+            <template v-else-if="item.key == 'plugins-presale'">
+                <model-presale :key="item.com_data" :value="item.com_data"></model-presale>
+            </template>
             <!-- 文章列表 -->
             <template v-else-if="item.key == 'blog'">
                 <model-blog-list :key="item.com_data" :value="item.com_data"></model-blog-list>

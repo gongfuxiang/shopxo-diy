@@ -102,6 +102,10 @@
             <template v-else-if="value.key == 'seckill'">
                 <model-seckill-setting :type="radio" :value="value.com_data"></model-seckill-setting>
             </template>
+            <!-- 预售 -->
+            <template v-else-if="value.key == 'plugins-presale'">
+                <model-presale-setting :type="radio" :value="value.com_data"></model-presale-setting>
+            </template>
             <!-- 博客列表 -->
             <template v-else-if="value.key == 'blog'">
                 <model-blog-list-setting :type="radio" :value="value.com_data"></model-blog-list-setting>
