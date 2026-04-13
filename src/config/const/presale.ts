@@ -13,7 +13,6 @@ interface DefaultPresale {
         title_type: string;
         title_src: uploadList[];
         title_text: string;
-        theme_4_static_img: uploadList[];
         button_status: string;
         button_text: string;
         shop_style_type: string;
@@ -119,7 +118,6 @@ const defaultPresale: DefaultPresale = {
         theme: '1',
         title_type: 'image',
         title_src: [{ id: 1, url: new_url + 'header-title.png', original: '标题', title: '标题', ext: '.png', type: 'img' }],
-        theme_4_static_img: [{ id: 2, url: new_url + 'time.png', original: '时钟', title: '时钟', ext: '.png', type: 'img' }],
         title_text: '限时预售',
         // 右侧按钮处理
         button_status: '1',
