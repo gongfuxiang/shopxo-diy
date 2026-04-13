@@ -132,6 +132,7 @@ onBeforeMount(async () => {
                 },
                 style: {
                     title_color: '#000',
+                    head_button_color_color: '#000',
                     end_text_color: '#666',
                     header_background_color_list: [{ color: '#F0E0FF', color_percentage: undefined },{ color: '#F9EFFF', color_percentage: 50 }, { color: '#FFFFFF', color_percentage: undefined }],
                     header_background_img: [],

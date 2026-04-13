@@ -4,7 +4,7 @@
             <div class="flex-col gap-10">
                 <div v-if="form.head_state == '1'" class="oh" :style="presale_head_style">
                     <div class="presale-head flex-row align-c jc-sb oh" :style="presale_head_img_style">
-                        <div :class="['flex-1 flex-row align-c', { 'gap-10': form.theme != '1', 'jc-sb w': form.theme == '2' }]">
+                        <div :class="['flex-1 flex-row align-c', { 'gap-10': form.theme != '1' }]">
                             <div class="presale-title">
                                 <image-empty v-if="form.title_type == 'image'" v-model="form.title_src[0]" error-img-style="width:2.1rem; height: 1rem;"></image-empty>
                                 <span v-else :style="`color: ${new_style.title_color};font-size: ${new_style.title_size}px;line-height:21px;font-weight:600;`">{{ form.title_text }}</span>
