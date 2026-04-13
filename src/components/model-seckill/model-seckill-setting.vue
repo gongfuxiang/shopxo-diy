@@ -128,7 +128,7 @@ onBeforeMount(async () => {
                 content: {
                     title_type: 'image',
                     title_src: [{ id: 1, url: new_url.value + 'header-title-2.png', original: '标题2', title: '标题2', ext: '.png', type: 'img' }],
-                    button_status: '0',
+                    button_status: '1',
                 },
                 style: {
                     title_color: '#000',
