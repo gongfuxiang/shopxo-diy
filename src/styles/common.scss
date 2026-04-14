@@ -342,16 +342,3 @@
         transform: rotate(360deg);
     }
 }
-
-.text-line-oh-1 {
-    overflow: hidden;
-    text-overflow: clip; /* 不显示省略号，直接截断 */
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    line-clamp: 1;
-    -webkit-box-orient: vertical;
-    // word-break: break-word;
-    word-break: break-all;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-}
