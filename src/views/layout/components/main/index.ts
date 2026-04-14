@@ -25,7 +25,7 @@ import defaultCustom from '@/config/const/custom';
 import defaultDataMagic from '@/config/const/data-magic';
 import defaultCoupon from '@/config/const/coupon';
 import defaultSeckill from '@/config/const/seckill';
-import defaultPresale from '@/config/const/presale';
+import defaultPluginsPresale from '@/config/const/plugins-presale';
 import defaultTabsCarousel from '@/config/const/tabs-carousel';
 import defaultRealstore from '@/config/const/realstore';
 import defaultShop from '@/config/const/shop';
@@ -124,7 +124,7 @@ const defaultSettings: DefaultSettings = {
     activity: defaultActivity,
     goods_magic: defaultGoodsMagic,
     tabs_magic: defaultTabsMagic,
-    plugins_presale: defaultPresale,
+    plugins_presale: defaultPluginsPresale,
 };
 
 export default defaultSettings;

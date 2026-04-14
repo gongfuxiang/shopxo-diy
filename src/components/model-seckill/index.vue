@@ -73,7 +73,7 @@
                                                 </div> -->
                                             </div>
                                             <div class="flex-row align-e gap-10 jc-sb">
-                                                <div class="flex-col gap-5">
+                                                <div class="flex-1 flex-col gap-5">
                                                     <div v-if="is_show('price') && (!isEmpty(item.min_price) || typeof item.min_price == 'number')" class="num" :style="`color: ${new_style.shop_price_color}`">
                                                         <span v-if="form.shop_style_type == '1'" class="size-10 pr-4">{{ form.seckill_pirce_title }}</span>
                                                         <span :style="trends_config('price_symbol')">{{ item.show_price_symbol }}</span
@@ -139,7 +139,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="flex-row align-e gap-10 jc-sb">
-                                                    <div class="flex-col gap-5">
+                                                    <div class="flex-1 flex-col gap-5">
                                                         <div v-if="is_show('price') && (!isEmpty(item.min_price) || typeof item.min_price == 'number')" class="num" :style="trends_config('original_price')">
                                                             <span v-if="form.shop_style_type == '1'" class="size-10 pr-4">{{ form.seckill_pirce_title }}</span>
                                                             <span :style="trends_config('price_symbol')">{{ item.show_price_symbol }}</span

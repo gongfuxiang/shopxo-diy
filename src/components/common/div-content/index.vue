@@ -116,7 +116,7 @@
             </template>
             <!-- 预售 -->
             <template v-else-if="item.key == 'plugins-presale'">
-                <model-presale :key="item.com_data" :value="item.com_data"></model-presale>
+                <model-plugins-presale :key="item.com_data" :value="item.com_data"></model-plugins-presale>
             </template>
             <!-- 文章列表 -->
             <template v-else-if="item.key == 'blog'">

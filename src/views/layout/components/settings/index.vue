@@ -104,7 +104,7 @@
             </template>
             <!-- 预售 -->
             <template v-else-if="value.key == 'plugins-presale'">
-                <model-presale-setting :type="radio" :value="value.com_data"></model-presale-setting>
+                <model-plugins-presale-setting :type="radio" :value="value.com_data"></model-plugins-presale-setting>
             </template>
             <!-- 博客列表 -->
             <template v-else-if="value.key == 'blog'">
