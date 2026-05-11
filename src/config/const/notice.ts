@@ -16,6 +16,13 @@ interface defaultSearch {
         title: string;
         direction: string;
         img_src: uploadList[];
+        /** 样式三：单条公告文案（替代 notice_list） */
+        marquee_content: string;
+        /** 样式三：是否开启横向滚动（1/0） */
+        marquee_scroll: string;
+        /** 兼容旧数据，样式三已不再使用 */
+        notice_left_img: uploadList[];
+        notice_right_img: uploadList[];
         icon_class: string;
         right_title: string;
         more_link: object;
@@ -38,6 +45,9 @@ interface defaultSearch {
         container_height: number;
         icon_size: number;
         icon_color: string;
+        /** 兼容旧数据 */
+        marquee_slot_width: number;
+        marquee_slot_height: number;
         container_color_list: color_list[],
         container_direction: string,
         container_background_img_style: string,
@@ -58,6 +68,10 @@ const defaultSearch: defaultSearch = {
         title_type: 'img-icon',
         title: '测试标题',
         img_src: [],
+        marquee_content: '',
+        marquee_scroll: '1',
+        notice_left_img: [],
+        notice_right_img: [],
         // 滚动方式
         direction: 'vertical',
         interval_time: 3,
@@ -100,6 +114,8 @@ const defaultSearch: defaultSearch = {
         title_height: 24, 
         icon_size: 12,
         icon_color: '#999',
+        marquee_slot_width: 24,
+        marquee_slot_height: 24,
         right_button_color: '#999',
         right_button_size: 12,
         // 容器高度

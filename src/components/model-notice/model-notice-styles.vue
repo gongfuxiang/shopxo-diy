@@ -11,7 +11,7 @@
                         <flex-gradients-create :color-list="form.title_color_list"></flex-gradients-create>
                     </el-form-item>
                 </template>
-                <template v-else>
+                <template v-else-if="is_img">
                     <template v-if="!isEmpty(substance.icon_class)">
                         <el-form-item label="左侧图标">
                             <div class="flex-col w gap-10">
@@ -54,7 +54,7 @@
             <div class="bg-f5 divider-line" />
             <card-container>
                 <div class="mb-12">容器设置</div>
-                <template v-if="substance.notice_style === 'inherit'">
+                <template v-if="substance.notice_style === 'inherit' || substance.notice_style === 'marquee'">
                     <el-form-item label="高度">
                         <slider v-model="form.container_height" :max="1000"></slider>
                     </el-form-item>
@@ -91,11 +91,10 @@ const state = reactive({
     form: props.value,
     substance: props.content,
 });
-// 如果需要解构，确保使用toRefs
 const { form, substance } = toRefs(state);
 
 const is_img = computed(() => substance.value.title_type == 'img-icon');
-// 通用样式处理
+
 const common_styles_update = (val: Object) => {
     form.value.common_style = val;
 };
