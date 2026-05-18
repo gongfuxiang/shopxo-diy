@@ -20,6 +20,8 @@ interface defaultSearch {
         marquee_content: string;
         /** 样式三：是否开启横向滚动（1/0） */
         marquee_scroll: string;
+        /** 样式三：是否全部显示（1/0） */
+        is_full_display: string;
         /** 兼容旧数据，样式三已不再使用 */
         notice_left_img: uploadList[];
         notice_right_img: uploadList[];
@@ -43,6 +45,15 @@ interface defaultSearch {
         title_width: number;
         title_height: number;
         container_height: number;
+        /** 样式三全部显示：左侧图标垂直对齐 */
+        left_icon_position: string;
+        left_icon_margin: paddingStyle;
+        /** 样式三全部显示：右侧更多图标垂直对齐 */
+        right_icon_position: string;
+        right_icon_margin: paddingStyle;
+        /** 兼容旧数据 */
+        icon_position: string;
+        icon_margin: paddingStyle;
         icon_size: number;
         icon_color: string;
         /** 兼容旧数据 */
@@ -70,6 +81,7 @@ const defaultSearch: defaultSearch = {
         img_src: [],
         marquee_content: '',
         marquee_scroll: '1',
+        is_full_display: '1',
         notice_left_img: [],
         notice_right_img: [],
         // 滚动方式
@@ -120,6 +132,30 @@ const defaultSearch: defaultSearch = {
         right_button_size: 12,
         // 容器高度
         container_height: 44,
+        left_icon_position: 'center',
+        left_icon_margin: {
+            padding: 0,
+            padding_top: 0,
+            padding_right: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+        },
+        right_icon_position: 'center',
+        right_icon_margin: {
+            padding: 0,
+            padding_top: 0,
+            padding_right: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+        },
+        icon_position: 'center',
+        icon_margin: {
+            padding: 0,
+            padding_top: 0,
+            padding_right: 0,
+            padding_bottom: 0,
+            padding_left: 0,
+        },
         // 容器信息
         container_color_list: [{ color: '#fff', color_percentage: undefined }],
         container_direction: '180deg',

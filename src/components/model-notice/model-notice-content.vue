@@ -30,12 +30,17 @@
                 </el-form-item>
                 <template v-if="!is_card">
                     <template v-if="is_marquee">
-                        <el-form-item label="开启滚动">
-                            <el-switch v-model="form.marquee_scroll" active-value="1" inactive-value="0"></el-switch>
+                        <el-form-item label="全部显示">
+                            <el-switch v-model="form.is_full_display" active-value="1" inactive-value="0"></el-switch>
                         </el-form-item>
-                        <el-form-item v-if="form.marquee_scroll === '1'" label="间隔时间">
-                            <slider v-model="form.interval_time" :min="1" :max="100"></slider>
-                        </el-form-item>
+                        <template v-if="form.is_full_display !== '1'">
+                            <el-form-item label="开启滚动">
+                                <el-switch v-model="form.marquee_scroll" active-value="1" inactive-value="0"></el-switch>
+                            </el-form-item>
+                            <el-form-item v-if="form.marquee_scroll === '1'" label="间隔时间">
+                                <slider v-model="form.interval_time" :min="1" :max="100"></slider>
+                            </el-form-item>
+                        </template>
                     </template>
                     <template v-else>
                         <el-form-item label="滚动方式">
@@ -75,8 +80,6 @@
                             type="textarea"
                             :rows="3"
                             placeholder="请输入公告文字"
-                            maxlength="500"
-                            show-word-limit
                             clearable
                         ></el-input>
                     </el-form-item>
@@ -132,6 +135,25 @@ if (form.value.marquee_content == null || form.value.marquee_content === undefin
 if (form.value.marquee_scroll == null || form.value.marquee_scroll === undefined) {
     form.value.marquee_scroll = '1';
 }
+if (form.value.is_full_display == null || form.value.is_full_display === undefined) {
+    form.value.is_full_display = '1';
+}
+
+const INHERIT_PADDING = {
+    padding: 0,
+    padding_top: 0,
+    padding_right: 10,
+    padding_bottom: 0,
+    padding_left: 10,
+};
+
+const CARD_PADDING = {
+    padding: 15,
+    padding_top: 15,
+    padding_right: 15,
+    padding_bottom: 15,
+    padding_left: 15,
+};
 
 const sync_marquee_from_list = () => {
     const t = String(form.value.marquee_content ?? '').trim();
@@ -142,30 +164,49 @@ const sync_marquee_from_list = () => {
     }
 };
 
-const change_style = (val: string | number | boolean | undefined) => {
-    if (val === 'inherit' || val === 'marquee') {
-        new_style.value.container_padding = {
-            padding: 0,
-            padding_top: 0,
-            padding_right: 10,
-            padding_bottom: 0,
-            padding_left: 10,
-        };
-    } else {
-        new_style.value.container_padding = {
-            padding: 15,
-            padding_top: 15,
-            padding_right: 15,
-            padding_bottom: 15,
-            padding_left: 15,
-        };
+/** 原地更新内边距，避免替换对象导致 padding 组件持有旧引用 */
+const apply_container_padding = (patch: Record<string, number>) => {
+    if (!new_style.value.container_padding) {
+        new_style.value.container_padding = { ...patch };
+        return;
     }
+    Object.assign(new_style.value.container_padding, patch);
+};
+
+/** 样式三：全部显示时上下 14，关闭时上下 0；左右保持 10 */
+const sync_marquee_padding = () => {
+    const tb = form.value.is_full_display === '1' ? 14 : 0;
+    const cp = new_style.value.container_padding || {};
+    apply_container_padding({
+        padding: 0,
+        padding_top: tb,
+        padding_right: cp.padding_right ?? 10,
+        padding_bottom: tb,
+        padding_left: cp.padding_left ?? 10,
+    });
+};
+
+const change_style = (val: string | number | boolean | undefined) => {
     if (val === 'marquee') {
+        sync_marquee_padding();
         sync_marquee_from_list();
         // 仅切换到样式三时统一左侧图标为喇叭，样式一/二不改动
         form.value.icon_class = 'speaker';
+    } else if (val === 'inherit') {
+        apply_container_padding(INHERIT_PADDING);
+    } else {
+        apply_container_padding(CARD_PADDING);
     }
 };
+
+watch(
+    () => form.value.is_full_display,
+    () => {
+        if (is_marquee.value) {
+            sync_marquee_padding();
+        }
+    }
+);
 const add = () => {
     form.value.notice_list.push({
         id: get_math(),
@@ -185,6 +226,7 @@ const on_sort = (new_list: nav_group[]) => {
 onMounted(() => {
     if (is_marquee.value) {
         sync_marquee_from_list();
+        sync_marquee_padding();
     }
 });
 </script>
