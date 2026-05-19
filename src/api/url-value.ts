@@ -116,6 +116,14 @@ class UrlValueAPI {
             data,
         });
     }
+    /** 直播指定数据 */
+    static getPluginLiveList(data: any) {
+        return api_request({
+            url: `plugins/index/pluginsname/live/pluginscontrol/diylive/pluginsaction/index`,
+            method: 'post',
+            data,
+        });
+    }
 }
 
 export default UrlValueAPI;

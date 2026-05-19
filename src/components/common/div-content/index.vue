@@ -158,6 +158,12 @@
             <template v-else-if="item.key == 'plugins-video'">
                 <model-plugins-video-list :key="item.com_data" :value="item.com_data"></model-plugins-video-list>
             </template>
+            <template v-else-if="item.key == 'plugins-live'">
+                <model-plugins-live-list :key="item.com_data" :value="item.com_data"></model-plugins-live-list>
+            </template>
+            <template v-else-if="item.key == 'plugins-live-tabs'">
+                <model-plugins-live-tabs :key="item.com_data" :value="item.com_data"></model-plugins-live-tabs>
+            </template>
             <!-- 视频选项卡 -->
             <template v-else-if="item.key == 'plugins-video-tabs'">
                 <model-plugins-video-tabs :key="item.com_data" :value="item.com_data"></model-plugins-video-tabs>

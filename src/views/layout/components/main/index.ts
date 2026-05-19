@@ -38,7 +38,8 @@ import defaultGoodsMagic from '@/config/const/goods-magic';
 import defaultTabsMagic from '@/config/const/tabs-magic';
 import defaultPluginsVideo from '@/config/const/plugins-video-list';
 import defaultPluginsVideoTabs from '@/config/const/plugins-video-tabs';
-
+import defaultPluginsLive from '@/config/const/plugins-live-list';
+import defaultPluginsLiveTabs from '@/config/const/plugins-live-tabs';
 
 // 系统设置
 interface DefaultSettings {
@@ -52,6 +53,8 @@ interface DefaultSettings {
     blog_tabs: object;
     plugins_video: object;
     plugins_video_tabs: object;
+    plugins_live: object;
+    plugins_live_tabs: object;
     row_line: object;
     auxiliary_blank: object;
     rich_text: object;
@@ -95,6 +98,8 @@ const defaultSettings: DefaultSettings = {
     blog_tabs: defaultBlogTabs,
     plugins_video: defaultPluginsVideo,
     plugins_video_tabs: defaultPluginsVideoTabs,
+    plugins_live: defaultPluginsLive,
+    plugins_live_tabs: defaultPluginsLiveTabs,
     row_line: defaultRowLine,
     auxiliary_blank: defaultAuxiliaryBlank,
     rich_text: defaultRichText,

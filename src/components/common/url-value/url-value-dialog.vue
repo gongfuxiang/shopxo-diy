@@ -62,6 +62,9 @@
                 <template v-else-if="link_select == 'plugins_video'">
                     <link-plugins-video v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent"></link-plugins-video>
                 </template>
+                <template v-else-if="link_select == 'plugins_live'">
+                    <link-plugins-live v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent"></link-plugins-live>
+                </template>
                 <template v-else-if="!isEmpty(link_url)">
                     <!-- 商品页面 -->
                     <template v-if="link_select == 'goods'">

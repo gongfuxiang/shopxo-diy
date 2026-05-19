@@ -301,9 +301,9 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
 
     clone_form.footer.show_tabs = '0';
     // 字段比coupon多
-    const new_array_1 = ['goods-list', 'article-list', 'blog', 'shop', 'realstore', 'binding', 'ask', 'activity', 'plugins-video'];
+    const new_array_1 = ['goods-list', 'article-list', 'blog', 'shop', 'realstore', 'binding', 'ask', 'activity', 'plugins-video', 'plugins-live'];
     // 数据比正常list多一级
-    const new_array_2 = ['goods-tabs', 'article-tabs', 'blog-tabs', 'ask-tabs', 'plugins-video-tabs'];
+    const new_array_2 = ['goods-tabs', 'article-tabs', 'blog-tabs', 'ask-tabs', 'plugins-video-tabs', 'plugins-live-tabs'];
     // 数据格式简单
     const new_array_3 = ['coupon'];
     // 层级更深
@@ -574,6 +574,12 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             new_com_data_content.order_by_type = 'default';
             new_com_data_content.order_by_release_time_rule = 'default';
             new_com_data_content.order_by_duration_rule = 'default';
+        } else if (['plugins-live', 'plugins-live-tabs'].includes(type)) {
+            // 直播列表/选项卡：筛选字段与 autolivelist 一致
+            new_com_data_content.order_by_type = defaultConfigSetting.order_by_type;
+            new_com_data_content.order_by_rule = defaultConfigSetting.order_by_rule;
+            new_com_data_content.live_status = [];
+            new_com_data_content.is_recommended = ''; // 空=不按推荐筛选
         } else {
             new_com_data_content.order_by_type = defaultConfigSetting.order_by_type;
             new_com_data_content.order_by_rule = defaultConfigSetting.order_by_rule;
@@ -584,7 +590,7 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             new_com_data_content.brand_ids = defaultConfigSetting.brand_ids;
         } else {
             // 文章博客的显示
-            if (['article-list', 'article-tabs', 'blog', 'blog-tabs', 'plugins-video', 'plugins-video-tabs'].includes(type)) {
+            if (['article-list', 'article-tabs', 'blog', 'blog-tabs', 'plugins-video', 'plugins-video-tabs', 'plugins-live', 'plugins-live-tabs'].includes(type)) {
                 new_com_data_content.is_cover = defaultConfigSetting.is_cover;
                 if (['blog', 'blog-tabs', 'plugins-video', 'plugins-video-tabs'].includes(type)) {
                     new_com_data_content.is_recommended = '0';
