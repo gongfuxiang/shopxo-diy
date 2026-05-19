@@ -54,8 +54,16 @@
                     :class="{ 'news-box-marquee--full': is_marquee_full_display }"
                     :style="container_background_style"
                 >
-                    <div class="news-marquee-row flex-row gap-y-8" :style="container_background_img_style">
-                        <div class="flex-shrink-0 flex-row" :style="left_icon_container_style">
+                    <div
+                        class="news-marquee-row flex-row gap-y-8"
+                        :class="{ 'news-marquee-row--full': is_marquee_full_display }"
+                        :style="container_background_img_style"
+                    >
+                        <div
+                            class="flex-shrink-0 flex-row"
+                            :class="{ 'align-c': !is_marquee_full_display }"
+                            :style="left_icon_container_style"
+                        >
                             <template v-if="form.title_type == 'img-icon'">
                                 <div v-if="!isEmpty(form.img_src)">
                                     <image-empty v-model="form.img_src[0]" :style="img_style"></image-empty>
@@ -106,7 +114,8 @@
                         <div
                             v-if="form.is_right_button == '1'"
                             class="flex-shrink-0 flex-row"
-                            :style="`${right_icon_container_style} color: ${new_style.right_button_color}; font-size: ${new_style.right_button_size}px`"
+                            :class="{ 'align-c': !is_marquee_full_display }"
+                            :style="right_button_style"
                         >
                             {{ form.right_title }}<icon name="arrow-right" :color="new_style.right_button_color || '#999'"></icon>
                         </div>
@@ -147,10 +156,11 @@ const style_img_container = computed(() => common_img_computer(new_style.value.c
 const is_marquee_full_display = computed(
     () => form.value.notice_style === 'marquee' && form.value.is_full_display === '1'
 );
-// 容器高度
+// 容器高度：全部显示关闭时使用配置的固定高度
 const container_height = computed(() => {
     if (is_marquee_full_display.value) return 'auto';
-    return new_style.value.container_height + 'px';
+    const h = Number(new_style.value.container_height);
+    return `${h > 0 ? h : 44}px`;
 });
 // 容器背景
 const container_background_style = computed(() => {
@@ -239,8 +249,9 @@ const build_icon_container_style = (position?: string, margin?: paddingStyle) =>
     return `align-items: ${align}; margin-top: ${mt}px; margin-right: ${mr}px; margin-bottom: ${mb}px; margin-left: ${ml}px;`;
 };
 
-/** 左侧图标容器样式 */
+/** 左侧图标容器样式（仅全部显示时生效） */
 const left_icon_container_style = computed(() => {
+    if (!is_marquee_full_display.value) return '';
     const legacy_position = new_style.value.icon_position;
     const legacy_margin = new_style.value.icon_margin;
     const position = new_style.value.left_icon_position || legacy_position || 'center';
@@ -248,13 +259,21 @@ const left_icon_container_style = computed(() => {
     return build_icon_container_style(position, margin);
 });
 
-/** 右侧更多按钮图标容器样式 */
+/** 右侧更多按钮图标容器样式（仅全部显示时生效） */
 const right_icon_container_style = computed(() => {
+    if (!is_marquee_full_display.value) return '';
     const legacy_position = new_style.value.icon_position;
     const legacy_margin = new_style.value.icon_margin;
     const position = new_style.value.right_icon_position || legacy_position || 'center';
     const margin = new_style.value.right_icon_margin || legacy_margin || default_icon_margin;
     return build_icon_container_style(position, margin);
+});
+
+/** 右侧更多按钮样式 */
+const right_button_style = computed(() => {
+    const colorStyle = `color: ${new_style.value.right_button_color}; font-size: ${new_style.value.right_button_size}px`;
+    if (!is_marquee_full_display.value) return colorStyle;
+    return `${right_icon_container_style.value} ${colorStyle}`;
 });
 
 const marquee_scroll_enabled = computed(() => form.value.marquee_scroll != '0');
@@ -371,6 +390,9 @@ watchEffect(() => {
 
 .news-marquee-row {
     width: 100%;
+    align-items: center;
+}
+.news-marquee-row--full {
     align-items: stretch;
 }
 .news-marquee-viewport {
