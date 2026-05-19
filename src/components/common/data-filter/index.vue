@@ -53,12 +53,6 @@
             <el-form-item label="关键字">
                 <el-input v-model="keywords" placeholder="请输入关键字" clearable @blur="keyword_blur"></el-input>
             </el-form-item>
-            <!-- is_recommended → live_is_recommended（number）；清空不传 -->
-            <el-form-item label="是否推荐">
-                <el-select v-model="form.is_recommended" filterable clearable placeholder="是否推荐" class="w">
-                    <el-option v-for="item in live_is_recommended_list" :key="item.type" :label="item.name" :value="Number(item.type)" />
-                </el-select>
-            </el-form-item>
             <el-form-item label="显示数量">
                 <el-input-number v-model="form.number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
             </el-form-item>
@@ -73,6 +67,9 @@
                 <el-radio-group v-model="form.order_by_rule">
                     <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                 </el-radio-group>
+            </el-form-item>
+            <el-form-item label="是否推荐">
+                <el-switch v-model="form.is_recommended" active-value="1" inactive-value="0" />
             </el-form-item>
         </template>
         <!-- 文章 博客 视频-->
@@ -320,12 +317,10 @@
 <script lang="ts" setup>
     import { commonStore } from '@/store';
     import { get_data_list } from '@/utils';
-    import { get_live_is_recommended_list, get_live_status_filter_list } from '@/config/const/plugins-live-status';
+    import { get_live_status_filter_list } from '@/config/const/plugins-live-status';
     const common_store = commonStore();
     /** 直播状态筛选项（plugins.live.status_list） */
     const live_status_filter_list = computed(() => get_live_status_filter_list(common_store.common.plugins));
-    /** 是否推荐筛选项（plugins.live.is_recommended_list） */
-    const live_is_recommended_list = computed(() => get_live_is_recommended_list(common_store.common.plugins));
     // 定义组件的属性和事件
     const props = defineProps({
         value: {
@@ -445,11 +440,9 @@
             form.value.order_by_type = Number(props.value?.order_by_type ?? 0);
             form.value.order_by_rule = Number(props.value?.order_by_rule ?? 0);
             form.value.live_status = Array.isArray(props.value?.live_status) ? props.value.live_status : [];
-            // 是否推荐：空表示不筛选，下拉值为 number
             const recommended = props.value?.is_recommended;
-            form.value.is_recommended = recommended === '' || recommended === null || recommended === undefined
-                ? ''
-                : Number(recommended);
+            form.value.is_recommended =
+                recommended === '' || recommended === null || recommended === undefined ? '0' : String(recommended);
         } else {
             form.value.order_by_type = Number(props.value?.order_by_type || 0);
             form.value.order_by_rule = Number(props.value?.order_by_rule || 0);

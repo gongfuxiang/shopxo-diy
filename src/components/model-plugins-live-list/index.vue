@@ -117,7 +117,6 @@ import { isEmpty, cloneDeep } from 'lodash';
 import PluginsLiveAPI from '@/api/plugins-live';
 // 直播状态展示与 autolivelist 参数转换（见 plugins-live-status.ts）
 import {
-    format_live_is_recommended,
     get_live_room_status,
     get_live_room_status_name,
     get_live_online_count,
@@ -162,8 +161,16 @@ interface plugins_liveList {
 const data_list = ref<plugins_liveList[]>([]);
 // 风格
 const plugins_live_theme = ref('0');
+const LIVE_FIELD_SHOW_DEFAULT = ['0', '1', '2', '3'];
+/** 解析 field_show，保证为字符串数组且含默认项 */
+const resolve_field_show = (raw: unknown): string[] => {
+    if (!Array.isArray(raw) || raw.length === 0) {
+        return [...LIVE_FIELD_SHOW_DEFAULT];
+    }
+    return raw.map((v) => String(v));
+};
 // 是否显示
-const field_show = ref(['0', '1', '2', '3']);
+const field_show = ref<string[]>([...LIVE_FIELD_SHOW_DEFAULT]);
 // 视频
 const plugins_live_name = ref('');
 // 卖家名称样式（复用 time_* 样式配置项）
@@ -225,18 +232,14 @@ const format_live_status = (status: string[] | string | undefined) => {
 /** 筛选模式：请求 autolivelist 并刷新列表 */
 const get_auto_data_list = async () => {
     const { number, order_by_type, order_by_rule, keywords, live_status, is_recommended } = new_content.value;
-    const live_is_recommended = format_live_is_recommended(is_recommended);
     const new_data: Parameters<typeof PluginsLiveAPI.getAutoList>[0] = {
         live_keywords: keywords || '',
         live_status: format_live_status(live_status),
         live_order_by_type: order_by_type ?? 0,
         live_order_by_rule: order_by_rule ?? 0,
         live_number: number,
+        live_is_recommended: Number(is_recommended ?? 0),
     };
-    // 未选择「是否推荐」时不传 live_is_recommended
-    if (live_is_recommended !== undefined) {
-        new_data.live_is_recommended = live_is_recommended;
-    }
     const res = await PluginsLiveAPI.getAutoList(new_data);
     new_content.value.data_auto_list = [];
     if (!isEmpty(res.data)) {
@@ -260,6 +263,7 @@ const get_auto_data_list = async () => {
     }
 };
 onMounted(() => {
+    field_show.value = resolve_field_show(new_content.value.field_show);
     // 判断数据类型是选择直播且数据不为空
     if (new_content.value.data_type == '0' && !isEmpty(new_content.value.data_list)) {
         data_list.value = new_content.value.data_list;
@@ -376,7 +380,7 @@ watch(
         const new_content = newVal?.content;
         const new_style = newVal?.style;
         plugins_live_theme.value = new_content.theme;
-        field_show.value = new_content.field_show;
+        field_show.value = resolve_field_show(new_content.field_show);
         // 样式
         plugins_live_name.value = 'font-size:' + new_style.name_size + 'px;' + 'font-weight:' + new_style.name_weight + ';' + 'color:' + new_style.name_color + ';';
         plugins_live_seller_name.value = 'font-size:' + new_style.time_size + 'px;' + 'font-weight:' + new_style.time_weight + ';' + 'color:' + new_style.time_color + ';';

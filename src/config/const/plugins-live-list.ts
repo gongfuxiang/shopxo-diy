@@ -17,8 +17,8 @@ interface DefaultPluginsLiveList {
         keywords: string;
         /** 直播状态，多选，请求时转为逗号分隔 */
         live_status: string[];
-        /** 是否推荐，0否 1是，未选为空 */
-        is_recommended: number | '';
+        /** 是否推荐，0否 1是（与短视频开关一致） */
+        is_recommended: string;
         data_list: pluginsLiveList[];
         data_ids: string;
         data_auto_list: pluginsLiveList[];
@@ -88,7 +88,7 @@ const defaultPluginsLiveList: DefaultPluginsLiveList = {
         data_type: '0',
         keywords: '',
         live_status: [],
-        is_recommended: '',
+        is_recommended: '0',
         data_list: [],
         data_ids: '',
         data_auto_list: [],
