@@ -36,12 +36,6 @@
                     </el-form-item>
                 </template>
             </card-container>
-            <div class="divider-line"></div>
-            <card-container>
-                <div class="mb-12">角标设置</div>
-                <!-- 角标设置 -->
-                <subscript-content :value="form"></subscript-content>
-            </card-container>
         </el-form>
         <url-value-dialog v-model:dialog-visible="url_value_dialog_visible" :type="['plugins_live']" :multiple="url_value_multiple_bool" @update:model-value="url_value_dialog_call_back"></url-value-dialog>
     </div>
@@ -98,11 +92,10 @@ const base_list = reactive({
         { name: '筛选直播', value: '1' },
     ],
     field_show_list: [
-        { name: '直播标题', value: '3' },
-        { name: '卖家名称', value: '0' },
-        { name: '观看人数', value: '5' }, // 对应 online_count
-        { name: '直播状态', value: '4' }, // 封面角标，对齐 UniApp status_name
-        // { name: '描述', value: '2' },
+        { name: '直播标题', value: '0' },
+        { name: '卖家名称', value: '1' },
+        { name: '观看人数', value: '2' },
+        { name: '直播状态', value: '3' },
     ],
     field_desc_row: [
         { name: '一行', value: '1' },
@@ -124,11 +117,7 @@ onMounted(() => {
 });
 // 主题改变
 const theme_change = (val: any) => {
-    if (val == '3' || val == '4') {
-        form.value.field_show = ['1', '3'];
-    } else {
-        form.value.field_show = ['0', '1', '3'];
-    }
+    form.value.field_show = ['0', '1', '2', '3'];
     if (val == '0') {
         if (data.value.img_radius.radius == props.defaultConfig.img_radius_0 || (data.value.img_radius.radius_bottom_left == props.defaultConfig.img_radius_1 && data.value.img_radius.radius_bottom_right == props.defaultConfig.img_radius_1 && data.value.img_radius.radius_top_left == props.defaultConfig.img_radius_1 && data.value.img_radius.radius_top_right == props.defaultConfig.img_radius_1)) {
             data.value.img_radius.radius = props.defaultConfig.img_radius_0;

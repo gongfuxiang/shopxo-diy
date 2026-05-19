@@ -92,11 +92,6 @@
                     </el-form-item>
                 </card-container>
             </template>
-            <!-- 角标 -->
-            <template v-if="data.seckill_subscript_show == '1'">
-                <div class="divider-line data-tabs-line"></div>
-                <subscript-styles :value="form.subscript_style" :data="data"></subscript-styles>
-            </template>
         </el-form>
         <template v-if="isCommonStyle">
             <div class="divider-line data-tabs-line"></div>

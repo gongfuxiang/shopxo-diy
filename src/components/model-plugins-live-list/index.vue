@@ -13,11 +13,9 @@
                                     <template v-else>
                                         <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
                                     </template>
-                                    <!-- 角标设置 -->
-                                    <subscript-index :value="props.value"></subscript-index>
-                                    <!-- 直播状态角标 field_show=4，样式对齐 UniApp live-status-tag -->
+                                    <!-- 直播状态角标 field_show=3，样式对齐 UniApp live-status-tag -->
                                     <div
-                                        v-if="field_show.includes('4') && should_show_live_status(item.data)"
+                                        v-if="field_show.includes('3') && should_show_live_status(item.data)"
                                         class="live-status-tag"
                                         :class="'status-' + get_live_room_status(item.data)"
                                     >
@@ -30,13 +28,30 @@
                                     </div>
                                 </div>
                             </template>
-                            <div v-if="field_show.includes('0') || field_show.includes('1') || field_show.includes('2') || field_show.includes('3') || field_show.includes('5')" class="jc-sb flex-1" :class="plugins_live_theme == '3' ? 'flex-row align-c' : 'flex-col'" :style="plugins_live_theme != '0' ? content_padding : 'width: 0;'">
-                                <div class="flex-col" :class="plugins_live_theme == '3' ? 'flex-1 flex-width' : ''">
-                                    <div v-if="field_show.includes('3')" class="title" :class="plugins_live_theme == '3' ? 'text-line-1' : 'text-line-2'" :style="plugins_live_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                            <div v-if="field_show.includes('0') || field_show.includes('1') || field_show.includes('2') || field_show.includes('3')" class="jc-sb flex-1" :class="plugins_live_theme == '3' ? 'flex-row align-c' : 'flex-col'" :style="plugins_live_theme != '0' ? content_padding : 'width: 0;'">
+                                <template v-if="plugins_live_theme == '3'">
+                                    <div class="live-noimg-row flex-row align-c flex-1 flex-width">
+                                        <div v-if="field_show.includes('0')" class="title text-line-1 live-noimg-title" :style="plugins_live_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                                        <div
+                                            v-if="field_show.includes('3') && should_show_live_status(item.data)"
+                                            class="live-status-tag live-status-tag--inline"
+                                            :class="'status-' + get_live_room_status(item.data)"
+                                        >
+                                            <div v-if="get_live_room_status(item.data) === 1" class="live-status-dots">
+                                                <span class="dot"></span>
+                                                <span class="dot"></span>
+                                                <span class="dot"></span>
+                                            </div>
+                                            {{ get_live_room_status_name(item.data) }}
+                                        </div>
+                                    </div>
+                                </template>
+                                <div v-else class="flex-col">
+                                    <div v-if="field_show.includes('0')" class="title text-line-2" :style="plugins_live_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
                                 </div>
                                 <div class="flex-row jc-sb gap-8" :class="plugins_live_theme == '3' ? 'ml-10' : 'align-e mt-10'">
-                                    <div :style="plugins_live_seller_name">{{ field_show.includes('0') ? live_seller_name(item) : '' }}</div>
-                                    <div v-show="field_show.includes('5')" class="flex-row align-c gap-3" :style="plugins_live_page_view">
+                                    <div :style="plugins_live_seller_name">{{ field_show.includes('1') ? live_seller_name(item) : '' }}</div>
+                                    <div v-show="field_show.includes('2')" class="flex-row align-c gap-3" :style="plugins_live_page_view">
                                         <icon name="eye"></icon>
                                         <div>{{ live_viewer_count(item) }}</div>
                                     </div>
@@ -57,14 +72,12 @@
                                         <template v-else>
                                             <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
                                         </template>
-                                        <template v-if="field_show.includes('3') && new_content.name_float == '1'">
+                                        <template v-if="field_show.includes('0') && new_content.name_float == '1'">
                                             <div class="text-line-1" :style="plugins_live_name + float_name_style">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
                                         </template>
-                                        <!-- 角标设置 -->
-                                        <subscript-index :value="props.value"></subscript-index>
                                         <!-- 轮播模式下的直播状态角标 -->
                                         <div
-                                            v-if="field_show.includes('4') && should_show_live_status(item.data)"
+                                            v-if="field_show.includes('3') && should_show_live_status(item.data)"
                                             class="live-status-tag"
                                             :class="'status-' + get_live_room_status(item.data)"
                                         >
@@ -76,17 +89,15 @@
                                             {{ get_live_room_status_name(item.data) }}
                                         </div>
                                     </div>
-                                    <div v-if="field_show.includes('0') || field_show.includes('1') || field_show.includes('2') || (field_show.includes('3') && new_content.name_float == '0')" class="jc-sb flex-1 flex-col" :style="plugins_live_theme != '0' ? content_padding : ''">
+                                    <div v-if="field_show.includes('1') || field_show.includes('2') || (field_show.includes('0') && new_content.name_float == '0')" class="jc-sb flex-1 flex-col" :style="plugins_live_theme != '0' ? content_padding : ''">
                                         <div class="flex-col">
-                                            <div v-if="field_show.includes('3') && new_content.name_float == '0'" class="title text-line-2" :style="plugins_live_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                                            <div v-if="field_show.includes('0') && new_content.name_float == '0'" class="title text-line-2" :style="plugins_live_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
                                         </div>
-                                        <div :class="[ 'flex-row jc-sb gap-8 align-e', { 'mt-10': (field_show.includes('3') && new_content.name_float == '0') || field_show.includes('2') }] ">
-                                            <div :style="plugins_live_seller_name">{{ field_show.includes('0') ? live_seller_name(item) : '' }}</div>
-                                            <div v-show="field_show.includes('1')" class="flex-row align-c gap-3" :style="plugins_live_page_view">
+                                        <div :class="[ 'flex-row jc-sb gap-8 align-e', { 'mt-10': field_show.includes('0') && new_content.name_float == '0' }] ">
+                                            <div :style="plugins_live_seller_name">{{ field_show.includes('1') ? live_seller_name(item) : '' }}</div>
+                                            <div v-show="field_show.includes('2')" class="flex-row align-c gap-3" :style="plugins_live_page_view">
                                                 <icon name="eye"></icon>
-                                                <div>
-                                                    {{ item.data.access_count ? item.data.access_count : '16' }}
-                                                </div>
+                                                <div>{{ live_viewer_count(item) }}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -152,7 +163,7 @@ const data_list = ref<plugins_liveList[]>([]);
 // 风格
 const plugins_live_theme = ref('0');
 // 是否显示
-const field_show = ref(['0', '1']);
+const field_show = ref(['0', '1', '2', '3']);
 // 视频
 const plugins_live_name = ref('');
 // 卖家名称样式（复用 time_* 样式配置项）
@@ -477,7 +488,7 @@ const plugins_live_theme_class = computed(() => {
         }
     }
 }
-/* 直播状态标签（与 UniApp pages/plugins/live 一致） */
+/* 直播状态标签（与 UniApp pages/plugins/live 一致，有封面时绝对定位） */
 .live-status-tag {
     position: absolute;
     top: 0.5rem;
@@ -492,6 +503,27 @@ const plugins_live_theme_class = computed(() => {
     color: #fff;
     background-color: #999;
     border-radius: 0.2rem;
+}
+/* 无图模式：标题左对齐，状态在标题右侧 */
+.live-noimg-row {
+    gap: 10px;
+    min-width: 0;
+}
+.live-status-tag.live-status-tag--inline {
+    position: static;
+    top: auto;
+    left: auto;
+    z-index: auto;
+    flex-shrink: 0;
+    align-self: center;
+}
+.style4 .live-noimg-row .live-noimg-title {
+    flex: 0 1 auto;
+    min-width: 0;
+    text-align: left;
+}
+.style4 .live-noimg-row .live-status-tag--inline {
+    flex-shrink: 0;
 }
 /* status-1 直播中 / status-2 离开 / status-3 封禁，默认灰为离线 */
 .live-status-tag.status-1 {

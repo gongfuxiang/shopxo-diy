@@ -1,7 +1,6 @@
 import defaultCommon from './index';
 import commonTop from './common-top';
 import defaultSetting from '../setting/index';
-import subscriptStyle from './subscript-style';
 interface pluginsLiveList {
     id: number | string;
     data: object;
@@ -46,11 +45,6 @@ interface DefaultPluginsLiveTabs {
         tabs_active_index: number;
         field_show: string[];
         // field_desc_row: string;
-        seckill_subscript_show: string;
-        subscript_type: string;
-        subscript_img_src: uploadList[];
-        subscript_icon_class: string;
-        subscript_text: string;
         name_float: string;
         justification: string;
     };
@@ -137,7 +131,6 @@ interface DefaultPluginsLiveTabs {
         interval_time: number; //滚动时间
         is_roll: number;
         rolling_fashion: string;
-        subscript_style: object;
         common_style: object;
     };
 }
@@ -165,14 +158,8 @@ const defaultPluginsLiveTabs: DefaultPluginsLiveTabs = {
             { id: '6', tabs_type: '0', tabs_img: [], tabs_icon: '', is_sliding_fixed: '0', title: '测试五', desc: '简介', data_type: '0', keywords: '', live_status: [], is_recommended: '', data_ids: '', number: defaultSetting.page_size, order_by_type: defaultSetting.order_by_type, order_by_rule: defaultSetting.order_by_rule, is_cover: defaultSetting.is_cover, data_list: [], data_auto_list: [] },
         ],
         tabs_active_index: 0,
-        field_show: ['0', '3', '4', '5'],
+        field_show: ['0', '1', '2', '3'],
         // field_desc_row: '1',
-        // 角标配置
-        seckill_subscript_show: '0',
-        subscript_type: 'text',
-        subscript_img_src: [],
-        subscript_icon_class: '',
-        subscript_text: '角标',
         name_float: '0'
     },
     style: {
@@ -401,7 +388,6 @@ const defaultPluginsLiveTabs: DefaultPluginsLiveTabs = {
         interval_time: 3, //滚动时间
         is_roll: 1, // 是否轮播
         rolling_fashion: 'translation', // 滚动方式  translation 平移 cut-screen 切屏
-        subscript_style: subscriptStyle,
         common_style: defaultCommon,
     },
 };
