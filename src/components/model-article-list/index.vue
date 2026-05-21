@@ -355,7 +355,7 @@ watch(
             article_style.value += content_radius.value + all_style;
             article_img_style.value = background_computer(article_data);
         } else if (article_theme.value == '3') {
-            style.value = `padding: 0 ${new_style.content_spacing}px;background:#fff;` + content_radius.value;
+            style.value = `background:#fff;` + content_radius.value;
         } else if (article_theme.value == '4') {
             // 更新轮播图的key，确保更换时能重新更新轮播图
             carousel_col.value = new_content.carousel_col || '1';
