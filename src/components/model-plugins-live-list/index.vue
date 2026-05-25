@@ -72,7 +72,7 @@
                                         <template v-else>
                                             <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
                                         </template>
-                                        <template v-if="field_show.includes('0') && new_content.name_float == '1'">
+                                        <template v-if="field_show.includes('0') && is_name_float">
                                             <div class="text-line-1" :style="plugins_live_name + float_name_style">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
                                         </template>
                                         <!-- 轮播模式下的直播状态角标 -->
@@ -89,11 +89,11 @@
                                             {{ get_live_room_status_name(item.data) }}
                                         </div>
                                     </div>
-                                    <div v-if="field_show.includes('1') || field_show.includes('2') || (field_show.includes('0') && new_content.name_float == '0')" class="jc-sb flex-1 flex-col" :style="plugins_live_theme != '0' ? content_padding : ''">
+                                    <div v-if="field_show.includes('1') || field_show.includes('2') || (field_show.includes('0') && !is_name_float)" class="jc-sb flex-1 flex-col" :style="plugins_live_theme != '0' ? content_padding : ''">
                                         <div class="flex-col">
-                                            <div v-if="field_show.includes('0') && new_content.name_float == '0'" class="title text-line-2" :style="plugins_live_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                                            <div v-if="field_show.includes('0') && !is_name_float" class="title text-line-2" :style="plugins_live_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
                                         </div>
-                                        <div :class="[ 'flex-row jc-sb gap-8 align-e', { 'mt-10': field_show.includes('0') && new_content.name_float == '0' }] ">
+                                        <div :class="[ 'flex-row jc-sb gap-8 align-e', { 'mt-10': field_show.includes('0') && !is_name_float }] ">
                                             <div :style="plugins_live_seller_name">{{ field_show.includes('1') ? live_seller_name(item) : '' }}</div>
                                             <div v-show="field_show.includes('2')" class="flex-row align-c gap-3" :style="plugins_live_page_view">
                                                 <icon name="eye"></icon>
@@ -221,6 +221,8 @@ const live_seller_name = (item: plugins_liveList) => {
 const new_content = computed(() => props.value?.content || {});
 // 样式
 const new_style = computed(() => props.value?.style || {});
+/** 标题浮起：仅左右滑动（theme=4）生效 */
+const is_name_float = computed(() => plugins_live_theme.value === '4' && new_content.value.name_float == '1');
 /** 直播状态多选 → autolivelist.live_status（逗号分隔字符串） */
 const format_live_status = (status: string[] | string | undefined) => {
     if (Array.isArray(status)) {

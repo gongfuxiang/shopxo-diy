@@ -53,6 +53,7 @@
 </template>
 <script setup lang="ts">
 import { get_math } from '@/utils';
+import { clear_name_float_when_leave_carousel } from '@/utils/common';
 import { commonStore } from '@/store';
 const common_store = commonStore();
 /**
@@ -118,6 +119,7 @@ const base_list = reactive({
 
 const emits = defineEmits(['theme_change']);
 onMounted(() => {
+    clear_name_float_when_leave_carousel(form.value.theme, form.value, data.value);
     // 如果历史数据没有操作，则修改默认值
     const { content_img_width = '', content_img_height = '' } = data.value;
     // 宽度和高度为空的时候，并且不是无图模式和左右滑动模式的时候，修改默认值
@@ -130,6 +132,7 @@ onMounted(() => {
 });
 // 主题改变
 const theme_change = (val: any) => {
+    clear_name_float_when_leave_carousel(val, form.value, data.value);
     if (val == '3' || val == '4') {
         form.value.field_show = ['1', '3'];
     } else {
@@ -204,6 +207,9 @@ const url_value_dialog_call_back = (item: any[]) => {
 };
 // 标题浮起之后博客标题的颜色和字体更新
 const switch_chage = (val: string | number | boolean) => {
+    if (form.value.theme != '4') {
+        return;
+    }
     if (val == '1') {
         data.value.name_color = '#fff';
         data.value.name_weight = '400';
