@@ -40,6 +40,8 @@ import defaultPluginsVideo from '@/config/const/plugins-video-list';
 import defaultPluginsVideoTabs from '@/config/const/plugins-video-tabs';
 import defaultPluginsLive from '@/config/const/plugins-live-list';
 import defaultPluginsLiveTabs from '@/config/const/plugins-live-tabs';
+import defaultPluginsGroupbuy from '@/config/const/plugins-groupbuy-list';
+import defaultPluginsGroupbuyTabs from '@/config/const/plugins-groupbuy-tabs';
 
 // 系统设置
 interface DefaultSettings {
@@ -55,6 +57,8 @@ interface DefaultSettings {
     plugins_video_tabs: object;
     plugins_live: object;
     plugins_live_tabs: object;
+    plugins_groupbuy: object;
+    plugins_groupbuy_tabs: object;
     row_line: object;
     auxiliary_blank: object;
     rich_text: object;
@@ -100,6 +104,8 @@ const defaultSettings: DefaultSettings = {
     plugins_video_tabs: defaultPluginsVideoTabs,
     plugins_live: defaultPluginsLive,
     plugins_live_tabs: defaultPluginsLiveTabs,
+    plugins_groupbuy: defaultPluginsGroupbuy,
+    plugins_groupbuy_tabs: defaultPluginsGroupbuyTabs,
     row_line: defaultRowLine,
     auxiliary_blank: defaultAuxiliaryBlank,
     rich_text: defaultRichText,

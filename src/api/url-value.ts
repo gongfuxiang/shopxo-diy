@@ -124,6 +124,20 @@ class UrlValueAPI {
             data,
         });
     }
+    /** 拼团列表（手动选择） */
+    static getPluginGroupbuyList(data: {
+        page: number | string;
+        page_size: number | string;
+        keywords?: string;
+        status?: string;
+        is_recommended?: string;
+    }) {
+        return api_request({
+            url: `plugins/index/pluginsname/groupbuy/pluginscontrol/diygroupbuy/pluginsaction/index`,
+            method: 'post',
+            data,
+        });
+    }
 }
 
 export default UrlValueAPI;

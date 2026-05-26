@@ -148,6 +148,12 @@
             <template v-else-if="value.key == 'plugins-live-tabs'">
                 <model-plugins-live-tabs-setting :type="radio" :value="value.com_data"></model-plugins-live-tabs-setting>
             </template>
+            <template v-else-if="value.key == 'plugins-groupbuy'">
+                <model-plugins-groupbuy-list-setting :type="radio" :value="value.com_data"></model-plugins-groupbuy-list-setting>
+            </template>
+            <template v-else-if="value.key == 'plugins-groupbuy-tabs'">
+                <model-plugins-groupbuy-tabs-setting :type="radio" :value="value.com_data"></model-plugins-groupbuy-tabs-setting>
+            </template>
             <!-- 短视频选项卡 -->
             <template v-else-if="value.key == 'plugins-video-tabs'">
                 <model-plugins-video-tabs-setting :type="radio" :value="value.com_data"></model-plugins-video-tabs-setting>

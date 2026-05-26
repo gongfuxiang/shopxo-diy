@@ -301,9 +301,9 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
 
     clone_form.footer.show_tabs = '0';
     // 字段比coupon多
-    const new_array_1 = ['goods-list', 'article-list', 'blog', 'shop', 'realstore', 'binding', 'ask', 'activity', 'plugins-video', 'plugins-live'];
+    const new_array_1 = ['goods-list', 'article-list', 'blog', 'shop', 'realstore', 'binding', 'ask', 'activity', 'plugins-video', 'plugins-live', 'plugins-groupbuy'];
     // 数据比正常list多一级
-    const new_array_2 = ['goods-tabs', 'article-tabs', 'blog-tabs', 'ask-tabs', 'plugins-video-tabs', 'plugins-live-tabs'];
+    const new_array_2 = ['goods-tabs', 'article-tabs', 'blog-tabs', 'ask-tabs', 'plugins-video-tabs', 'plugins-live-tabs', 'plugins-groupbuy-tabs'];
     // 数据格式简单
     const new_array_3 = ['coupon'];
     // 层级更深
@@ -350,12 +350,12 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
     clone_form.diy_data = clone_form.diy_data.map((item: any) => {
         if (new_array_1.includes(item.key)) {
             // 商品或文章的数据处理
-            goods_or_article_data_processing(item.com_data.content, item.key == new_array_1[0], item.key);
+            goods_or_article_data_processing(item.com_data.content, ['goods-list', 'plugins-groupbuy'].includes(item.key), item.key);
         } else if (new_array_2.includes(item.key)) {
             item.com_data.content.tabs_active_index = 0;
             item.com_data.content.tabs_list.forEach((item0: any) => {
                 // 商品或文章的数据处理
-                goods_or_article_data_processing(item0, item.key == new_array_1[0], item.key);
+                goods_or_article_data_processing(item0, item.key === 'goods-tabs', item.key);
             });
         } else if (new_array_3.includes(item.key)) {
             // 提取数据ID列表，用于后续的数据查询或处理

@@ -18,8 +18,8 @@ export const font_weight = [
 /** 离开左右滑动时关闭标题浮起并恢复标题样式 */
 export const clear_name_float_when_leave_carousel = (
     theme: string,
-    content: { name_float: string },
-    styles: { name_color: string; name_weight: string },
+    content: Record<string, any>,
+    styles: Record<string, any>,
 ) => {
     if (theme !== '4' && content.name_float === '1') {
         content.name_float = '0';
