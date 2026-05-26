@@ -164,6 +164,14 @@
             <template v-else-if="item.key == 'plugins-live-tabs'">
                 <model-plugins-live-tabs :key="item.com_data" :value="item.com_data"></model-plugins-live-tabs>
             </template>
+            <!-- 拼团列表 -->
+            <template v-else-if="item.key == 'plugins-groupbuy'">
+                <model-plugins-groupbuy-list :key="item.com_data" :value="item.com_data"></model-plugins-groupbuy-list>
+            </template>
+            <!-- 拼团选项卡 -->
+            <template v-else-if="item.key == 'plugins-groupbuy-tabs'">
+                <model-plugins-groupbuy-tabs :key="item.com_data" :value="item.com_data"></model-plugins-groupbuy-tabs>
+            </template>
             <!-- 视频选项卡 -->
             <template v-else-if="item.key == 'plugins-video-tabs'">
                 <model-plugins-video-tabs :key="item.com_data" :value="item.com_data"></model-plugins-video-tabs>

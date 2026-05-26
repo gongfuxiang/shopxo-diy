@@ -36,7 +36,7 @@
                 </template>
             </el-table>
             <div class="mt-10 flex-row jc-e">
-                <el-pagination :current-page="page" background :page-size="page_size" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="get_list" />
+                <el-pagination :current-page="page" background :page-size="page_size" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="onPageChange" />
             </div>
         </div>
     </div>
@@ -45,6 +45,8 @@
 import commonApi from '@/api/common';
 import { commonStore } from '@/store';
 import { isEmpty } from 'lodash';
+import { useLinkPickerLoad } from '@/hooks/use-link-picker-load';
+import { toRef } from 'vue';
 const common_store = commonStore();
 const props = defineProps({
     // 重置
@@ -52,6 +54,11 @@ const props = defineProps({
         type: Boolean,
         default: () => false,
     },
+    loadStamp: {
+        type: Number,
+        default: 0,
+    },
+
     multiple: {
         type: Boolean,
         default: () => false,
@@ -66,17 +73,6 @@ const props = defineProps({
         default: false,
     },
 });
-watch(
-    () => props.reset,
-    (val) => {
-        if (val) {
-            init();
-        }
-    }
-);
-onMounted(() => {
-    init();
-});
 const modelValue = defineModel({ type: Object, default: {} });
 const tableData = ref<pageLinkList[]>([]);
 const search_value = ref('');
@@ -89,22 +85,13 @@ const cascader_config = {
     checkStrictly: true,
     emitPath: false,
 };
-const init = () => {
+const resetFields = () => {
     template_selection.value = '';
     category_ids.value = [];
     brand_ids.value = '';
     search_value.value = '';
     category_list.value = common_store.common.goods_category;
     brand_list.value = common_store.common.brand_list;
-    get_list(1);
-};
-const handle_search = () => {
-    get_list(1);
-};
-const cascader_change = (val: any) => {
-    // 根据获取的val从data中获取label
-    category_ids.value = val ? val : [];
-    get_list(1);
 };
 const category_ids = ref([]);
 const brand_ids = ref('');
@@ -149,6 +136,21 @@ const get_list = (new_page: number) => {
         loading.value = false;
     });
 };
+
+const { onPageChange, runFilterFetch } = useLinkPickerLoad({
+    loadStamp: toRef(props, 'loadStamp'),
+    resetFlag: toRef(props, 'reset'),
+    resetFields,
+    fetchList: get_list,
+});
+const handle_search = () => {
+    runFilterFetch(() => get_list(1));
+};
+const cascader_change = (val: any) => {
+    category_ids.value = val ? val : [];
+    runFilterFetch(() => get_list(1));
+};
+
 //#region 分页 -----------------------------------------------end
 const row_click = (row: any) => {
     if (!props.multiple) {

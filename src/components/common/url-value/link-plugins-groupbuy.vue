@@ -36,12 +36,14 @@
                 </template>
             </el-table>
             <div class="mt-10 flex-row jc-e">
-                <el-pagination :current-page="page" background :page-size="page_size" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="get_list" />
+                <el-pagination :current-page="page" background :page-size="page_size" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="onPageChange" />
             </div>
         </div>
     </div>
 </template>
 <script lang="ts" setup>
+import { useLinkPickerLoad } from '@/hooks/use-link-picker-load';
+import { toRef } from 'vue';
 /**
  * 手动选择拼团弹窗
  * 列表接口 diygroupbuy/index：page、page_size、keywords、status、is_recommended
@@ -53,6 +55,11 @@ const props = defineProps({
         type: Boolean,
         default: () => false,
     },
+    loadStamp: {
+        type: Number,
+        default: 0,
+    },
+
     multiple: {
         type: Boolean,
         default: () => false,
@@ -67,30 +74,15 @@ const is_recommended_list = [
     { name: '是', value: '1' },
     { name: '否', value: '0' },
 ];
-watch(
-    () => props.reset,
-    (val) => {
-        if (val) {
-            init();
-        }
-    }
-);
-onMounted(() => {
-    init();
-});
 const modelValue = defineModel({ type: Object, default: {} });
 const tableData = ref<pageLinkList[]>([]);
 const search_value = ref('');
 const is_recommended = ref('');
 const loading = ref(false);
-const init = () => {
+const resetFields = () => {
     template_selection.value = '';
     search_value.value = '';
     is_recommended.value = '';
-    get_list(1);
-};
-const handle_search = () => {
-    get_list(1);
 };
 
 const template_selection = ref('');
@@ -129,6 +121,17 @@ const get_list = (new_page: number) => {
             loading.value = false;
         });
 };
+
+const { onPageChange, runFilterFetch } = useLinkPickerLoad({
+    loadStamp: toRef(props, 'loadStamp'),
+    resetFlag: toRef(props, 'reset'),
+    resetFields,
+    fetchList: get_list,
+});
+const handle_search = () => {
+    runFilterFetch(() => get_list(1));
+};
+
 const row_click = (row: any) => {
     if (!props.multiple) {
         const new_table_data = JSON.parse(JSON.stringify(tableData.value));

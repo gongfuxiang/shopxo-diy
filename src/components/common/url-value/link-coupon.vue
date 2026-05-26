@@ -72,7 +72,7 @@
                 </template>
             </el-table>
             <div class="mt-10 flex-row jc-e">
-                <el-pagination :current-page="page" background :page-size="page_size" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="get_list" />
+                <el-pagination :current-page="page" background :page-size="page_size" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="onPageChange" />
             </div>
         </div>
     </div>
@@ -81,6 +81,8 @@
 import { is_obj_empty, get_data_list } from '@/utils';
 import UrlValueAPI from '@/api/url-value';
 import { commonStore } from '@/store';
+import { useLinkPickerLoad } from '@/hooks/use-link-picker-load';
+import { toRef } from 'vue';
 const common_store = commonStore();
 const props = defineProps({
     // 重置
@@ -88,27 +90,21 @@ const props = defineProps({
         type: Boolean,
         default: () => false,
     },
+    loadStamp: {
+        type: Number,
+        default: 0,
+    },
+
     multiple: {
         type: Boolean,
         default: () => false,
     }
 });
-watch(
-    () => props.reset,
-    (val) => {
-        if (val) {
-            init();
-        }
-    }
-);
-onMounted(() => {
-    init();
-});
 const modelValue = defineModel({ type: Object, default: {} });
 const tableData = ref<pageLinkList[]>([]);
 const search_value = ref('');
 const loading = ref(false);
-const init = () => {
+const resetFields = () => {
     template_selection.value = '';
     type.value = [];
     expire_type_ids.value = [];
@@ -117,10 +113,6 @@ const init = () => {
     if (!is_obj_empty(common_store.common.plugins) && !is_obj_empty(common_store.common.plugins.coupon) && common_store.common.plugins.coupon.type_list.length > 0) {
         coupon_type_list.value = common_store.common.plugins.coupon.type_list;
     }
-    get_list(1);
-};
-const handle_search = () => {
-    get_list(1);
 };
 const type = ref([]);
 const expire_type_ids = ref([]);
@@ -174,6 +166,17 @@ const get_list = (new_page: number) => {
         loading.value = false;
     });
 };
+
+const { onPageChange, runFilterFetch } = useLinkPickerLoad({
+    loadStamp: toRef(props, 'loadStamp'),
+    resetFlag: toRef(props, 'reset'),
+    resetFields,
+    fetchList: get_list,
+});
+const handle_search = () => {
+    runFilterFetch(() => get_list(1));
+};
+
 //#region 分页 -----------------------------------------------end
 const row_click = (row: any) => {
     if (!props.multiple) {

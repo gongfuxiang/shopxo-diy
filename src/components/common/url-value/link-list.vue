@@ -32,6 +32,8 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { useLinkPickerLoad } from '@/hooks/use-link-picker-load';
+import { toRef } from 'vue';
 import { commonStore } from '@/store';
 const common_store = commonStore();
 const props = defineProps({
@@ -45,23 +47,31 @@ const props = defineProps({
         type: Boolean,
         default: () => false,
     },
+    loadStamp: {
+        type: Number,
+        default: 0,
+    },
+
 });
 watch(
+    () => props.loadStamp,
+    (val, oldVal) => {
+        if (!val || val === oldVal) return;
+        resetFields();
+    },
+    { immediate: true },
+);
+watch(
     () => props.reset,
-    (val) => {
-        if (val) {
-            init();
-        }
-    }
+    () => {
+        resetFields();
+    },
 );
 const modelValue = defineModel({ type: Array, default: [] });
 const search_value = ref('');
 const base_data = ref<pageLinkList[]>([]);
 const new_base_data = ref<pageLinkList[]>([]);
-onMounted(() => {
-    init();
-});
-const init = () => {
+const resetFields = () => {
     menu_active.value = '';
     search_value.value = '';
     // 过滤common_store.common.page_link_list中的type为shop的data的数据，只保留data数组

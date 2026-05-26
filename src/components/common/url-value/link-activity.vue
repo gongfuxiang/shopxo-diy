@@ -33,7 +33,7 @@
                 </template>
             </el-table>
             <div class="mt-10 flex-row jc-e">
-                <el-pagination :current-page="page" background :page-size="page_size" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="get_list" />
+                <el-pagination :current-page="page" background :page-size="page_size" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="onPageChange" />
             </div>
         </div>
     </div>
@@ -42,6 +42,8 @@
 import UrlValueAPI from '@/api/url-value';
 import { commonStore } from '@/store';
 import { get_data_list } from '@/utils';
+import { useLinkPickerLoad } from '@/hooks/use-link-picker-load';
+import { toRef } from 'vue';
 const common_store = commonStore();
 const props = defineProps({
     // 重置
@@ -49,6 +51,11 @@ const props = defineProps({
         type: Boolean,
         default: () => false,
     },
+    loadStamp: {
+        type: Number,
+        default: 0,
+    },
+
     multiple: {
         type: Boolean,
         default: () => false,
@@ -63,30 +70,15 @@ const props = defineProps({
         default: false,
     },
 });
-watch(
-    () => props.reset,
-    (val) => {
-        if (val) {
-            init();
-        }
-    }
-);
-onMounted(() => {
-    init();
-});
 const modelValue = defineModel({ type: Object, default: {} });
 const tableData = ref<pageLinkList[]>([]);
 const search_value = ref('');
 const loading = ref(false);
-const init = () => {
+const resetFields = () => {
     template_selection.value = '';
     category_ids.value = '';
     search_value.value = '';
     article_category_list.value = get_data_list(common_store.common.plugins, 'activity.category_list');
-    get_list(1);
-};
-const handle_search = () => {
-    get_list(1);
 };
 const category_ids = ref('');
 interface articleCategory {
@@ -130,6 +122,17 @@ const get_list = (new_page: number) => {
         loading.value = false;
     });
 };
+
+const { onPageChange, runFilterFetch } = useLinkPickerLoad({
+    loadStamp: toRef(props, 'loadStamp'),
+    resetFlag: toRef(props, 'reset'),
+    resetFields,
+    fetchList: get_list,
+});
+const handle_search = () => {
+    runFilterFetch(() => get_list(1));
+};
+
 //#region 分页 -----------------------------------------------end
 const row_click = (row: any) => {
     if (!props.multiple) {

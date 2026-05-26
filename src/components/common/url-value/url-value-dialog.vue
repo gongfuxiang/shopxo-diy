@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body :close-on-click-modal="false" :top="dialogPositionTop ? dialogPositionTop + 'px' : ''" @close="close_event">
+    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body destroy-on-close :close-on-click-modal="false" :top="dialogPositionTop ? dialogPositionTop + 'px' : ''" @close="close_event">
         <template #header>
             <div class="title center re">
                 <div class="tc size-16 fw-b">{{ dialog_title }}</div>
@@ -16,71 +16,74 @@
             <div class="right-content flex-1 w h">
                 <!-- 商城链接/插件 -->
                 <template v-if="link_select == 'shop' || link_select == 'plugins'">
-                    <link-list :key="link_select" v-model="link_value" :type="link_select" :reset="reset_compontent"></link-list>
+                    <link-list :key="`${link_select}-${load_stamp}`" v-model="link_value" :type="link_select" :reset="reset_compontent" :load-stamp="load_stamp"></link-list>
                 </template>
                 <!-- 商品分类 -->
                 <template v-else-if="link_select == 'goods-category'">
-                    <link-goods-category v-model="link_value" :select-is-url="selectIsUrl" :reset="reset_compontent"></link-goods-category>
+                    <link-goods-category v-model="link_value" :select-is-url="selectIsUrl" :reset="reset_compontent" :load-stamp="load_stamp"></link-goods-category>
                 </template>
                 <!-- 商品搜索 -->
                 <template v-else-if="link_select == 'goods-search'">
-                    <link-goods-search :reset="reset_compontent" :status="component_status" :select-is-url="selectIsUrl" @update:link="goods_category_link" @type="goods_category_type_change"></link-goods-search>
+                    <link-goods-search :reset="reset_compontent" :load-stamp="load_stamp" :status="component_status" :select-is-url="selectIsUrl" @update:link="goods_category_link" @type="goods_category_type_change"></link-goods-search>
                 </template>
                 <!-- 自定义链接 -->
                 <template v-else-if="link_select == 'custom-url'">
-                    <link-custom :reset="reset_compontent" :select-is-url="selectIsUrl" :status="component_status" @update:link="custom_link"></link-custom>
+                    <link-custom :reset="reset_compontent" :load-stamp="load_stamp" :select-is-url="selectIsUrl" :status="component_status" @update:link="custom_link"></link-custom>
                 </template>
                 <!-- 优惠券链接-插件 -->
                 <template v-else-if="link_select == 'coupon'">
-                    <link-coupon v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-coupon>
+                    <link-coupon v-model="link_value" :multiple="multiple" :reset="reset_compontent" :load-stamp="load_stamp"></link-coupon>
                 </template>
                 <!-- 组合搭配-插件 -->
                 <template v-else-if="link_select == 'binding'">
-                    <link-binding v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-binding>
+                    <link-binding v-model="link_value" :multiple="multiple" :reset="reset_compontent" :load-stamp="load_stamp"></link-binding>
                 </template>
                 <!-- 多商户-插件 -->
                 <template v-else-if="link_select == 'merchant'">
-                    <link-shop v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-shop>
+                    <link-shop v-model="link_value" :multiple="multiple" :reset="reset_compontent" :load-stamp="load_stamp"></link-shop>
                 </template>
                 <!-- 多门店-插件 -->
                 <template v-else-if="link_select == 'realstore'">
-                    <link-realstore v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-realstore>
+                    <link-realstore v-model="link_value" :multiple="multiple" :reset="reset_compontent" :load-stamp="load_stamp"></link-realstore>
                 </template>
                 <!-- 问答-插件 -->
                 <template v-else-if="link_select == 'ask'">
-                    <link-ask v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-ask>
+                    <link-ask v-model="link_value" :multiple="multiple" :reset="reset_compontent" :load-stamp="load_stamp"></link-ask>
                 </template>
                 <!-- 活动选择-插件 -->
                 <template v-else-if="link_select == 'activity'">
-                    <link-activity v-model="link_value" :multiple="multiple" :reset="reset_compontent"></link-activity>
+                    <link-activity v-model="link_value" :multiple="multiple" :reset="reset_compontent" :load-stamp="load_stamp"></link-activity>
                 </template>
                 <!-- 博客页面-插件 -->
                 <template v-else-if="link_select == 'blog'">
-                    <link-blog v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent"></link-blog>
+                    <link-blog v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent" :load-stamp="load_stamp"></link-blog>
                 </template>
                 <!-- 博客页面-插件 -->
                 <template v-else-if="link_select == 'plugins_video'">
-                    <link-plugins-video v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent"></link-plugins-video>
+                    <link-plugins-video v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent" :load-stamp="load_stamp"></link-plugins-video>
                 </template>
                 <template v-else-if="link_select == 'plugins_live'">
-                    <link-plugins-live v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent"></link-plugins-live>
+                    <link-plugins-live v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent" :load-stamp="load_stamp"></link-plugins-live>
+                </template>
+                <template v-else-if="link_select == 'plugins_groupbuy'">
+                    <link-plugins-groupbuy v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent" :load-stamp="load_stamp"></link-plugins-groupbuy>
                 </template>
                 <template v-else-if="!isEmpty(link_url)">
                     <!-- 商品页面 -->
                     <template v-if="link_select == 'goods'">
-                        <link-goods v-model="link_value" :select-is-url="selectIsUrl" :link-url="link_url" :multiple="multiple" :reset="reset_compontent"></link-goods>
+                        <link-goods v-model="link_value" :select-is-url="selectIsUrl" :link-url="link_url" :multiple="multiple" :reset="reset_compontent" :load-stamp="load_stamp"></link-goods>
                     </template>
                     <!-- 文章页面 -->
                     <template v-else-if="link_select == 'article'">
-                        <link-articles v-model="link_value" :select-is-url="selectIsUrl" :link-url="link_url" :multiple="multiple" :reset="reset_compontent"></link-articles>
+                        <link-articles v-model="link_value" :select-is-url="selectIsUrl" :link-url="link_url" :multiple="multiple" :reset="reset_compontent" :load-stamp="load_stamp"></link-articles>
                     </template>
                     <!-- diy页面/页面设计/自定义页面  -->
                     <template v-else-if="link_select == 'diy' || link_select == 'design' || link_select == 'custom-view'">
-                        <link-table :key="link_select" v-model="link_value" :select-is-url="selectIsUrl" :link-url="link_url" :multiple="multiple" :type="link_select" :reset="reset_compontent"></link-table>
+                        <link-table :key="`${link_select}-${load_stamp}`" v-model="link_value" :select-is-url="selectIsUrl" :link-url="link_url" :multiple="multiple" :type="link_select" :reset="reset_compontent" :load-stamp="load_stamp"></link-table>
                     </template>
                     <!-- 品牌 -->
                     <template v-else-if="link_select == 'brand'">
-                        <link-brand v-model="link_value" :select-is-url="selectIsUrl" :link-url="link_url" :multiple="multiple" :reset="reset_compontent"></link-brand>
+                        <link-brand v-model="link_value" :select-is-url="selectIsUrl" :link-url="link_url" :multiple="multiple" :reset="reset_compontent" :load-stamp="load_stamp"></link-brand>
                     </template>
                 </template>
                 <template v-else>
@@ -135,6 +138,13 @@ const modelValue = defineModel({ type: Array, default: [] });
 const dialogVisible = defineModel('dialogVisible', { type: Boolean, default: false });
 const link_value = ref<any[]>([]);
 const reset_compontent = ref(false);
+/** 弹窗每次打开递增，子组件据此拉取列表（仅一次） */
+const load_stamp = ref(0);
+watch(dialogVisible, (visible) => {
+    if (visible) {
+        load_stamp.value += 1;
+    }
+});
 const custom_link_type = ref(props.type);
 const base_data = ref<any[]>([]);
 watch(
@@ -208,6 +218,8 @@ const dialog_title = computed(() => {
             name = '问答';
         } else if (props.type[0] == 'activity') {
             name = '活动';
+        } else if (props.type[0] == 'plugins_groupbuy') {
+            name = '拼团';
         }
         return name + '选择';
     } else {

@@ -1,5 +1,5 @@
 <template>
-    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body :close-on-click-modal="false" :top="dialogPositionTop ? dialogPositionTop + 'px' : ''" @close="close_event">
+    <el-dialog v-model="dialogVisible" class="radius-lg" width="1168" draggable append-to-body destroy-on-close :close-on-click-modal="false" :top="dialogPositionTop ? dialogPositionTop + 'px' : ''" @close="close_event">
         <template #header>
             <div class="title center re">
                 <div class="tc size-16 fw-b">{{ config?.popup_title || '数据选择' }}</div>
@@ -122,26 +122,41 @@ const pagination_data = ref({
     page_size: 10,
     data_total: 0,
 });
-// 初始化数据显示
-watchEffect(() => {
-    if (!isEmpty(props.config) && dialogVisible.value) {
-        // 处理数据
-        pagination_data.value = {
-            page: 1,
-            page_size: props?.config?.page_size || undefined,
-            data_total: 0,
-        }
-        // 将数据赋值给默认数据
-        const staging_data = interface_field_processing(props?.config?.search_filter_form_config || [], 'new', {});
-        // 循环完之后赋值，避免多次赋值，传递给子组件出现多次调用和回调问题
-        default_data.value = staging_data;
+/** 打开弹窗后首次拉取完成前，忽略 filter-form 初始化触发的 form-change */
+const filterFetchEnabled = ref(false);
+
+const init_dialog_data = () => {
+    pagination_data.value = {
+        page: 1,
+        page_size: props?.config?.page_size || 10,
+        data_total: 0,
+    };
+    default_data.value = interface_field_processing(props?.config?.search_filter_form_config || [], 'new', {});
+};
+
+watch(dialogVisible, (visible) => {
+    if (!visible || isEmpty(props.config)) {
+        filterFetchEnabled.value = false;
+        return;
     }
+    filterFetchEnabled.value = false;
+    init_dialog_data();
+    nextTick(() => {
+        get_table_list(default_data.value);
+        window.setTimeout(() => {
+            filterFetchEnabled.value = true;
+        }, 100);
+    });
 });
+
 // 子组件数据变更传递过来的数据
 const filter_form_change = (val: any) => {
+    if (!filterFetchEnabled.value) {
+        return;
+    }
     default_data.value = val;
-    // 更换数据之后，需要从第一页开始请求
     pagination_data.value.page = 1;
+    get_table_list(val);
 };
 //#endregion
 //region 表格数据更新操作
@@ -189,9 +204,6 @@ const get_table_list = (val: any) => {
         })
     }
 }
-watch(() => default_data.value, (val) => {
-    get_table_list(val);
-}, { deep: true })
 //#endregion
 </script>
 
