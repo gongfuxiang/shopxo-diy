@@ -31,6 +31,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="title" label="标题" />
+                <el-table-column prop="is_recommend_name" label="是否推荐" width="100" />
                 <template #empty>
                     <no-data :text="empty_text"></no-data>
                 </template>

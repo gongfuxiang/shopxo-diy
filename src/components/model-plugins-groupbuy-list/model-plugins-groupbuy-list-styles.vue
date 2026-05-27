@@ -7,8 +7,22 @@
                     <background-common v-model:color_list="form.shop_color_list" v-model:direction="form.shop_direction" v-model:img_style="form.shop_background_img_style" v-model:img="form.shop_background_img" @mult_color_picker_event="mult_color_picker_event" />
                 </el-form-item>
                 <template v-if="data.is_show.includes('title')">
-                    <el-form-item label="商品名称">
+                    <el-form-item label="商品标题">
                         <color-text-size-group v-model:color="form.shop_title_color" v-model:typeface="form.shop_title_typeface" v-model:size="form.shop_title_size" default-color="#000000"></color-text-size-group>
+                    </el-form-item>
+                </template>
+                <template v-if="data.is_show.includes('groupbuy_people_num')">
+                    <el-form-item label="团购标志">
+                        <color-text-size-group v-model:color="form.shop_groupbuy_people_color" v-model:size="form.shop_groupbuy_people_size" default-color="#EA3323" :type-list="['color', 'size']">
+                            <el-form-item label="边框" label-width="40" class="mb-0 w form-item-child-label">
+                                <color-picker v-model="form.shop_groupbuy_people_border_color" default-color="#EA3323"></color-picker>
+                            </el-form-item>
+                        </color-text-size-group>
+                    </el-form-item>
+                </template>
+                <template v-if="data.is_show.includes('groupbuy_hot')">
+                    <el-form-item label="拼团提示">
+                        <color-text-size-group v-model:color="form.shop_groupbuy_hot_color" v-model:size="form.shop_groupbuy_hot_size" default-color="#999999" :type-list="['color', 'size']"></color-text-size-group>
                     </el-form-item>
                 </template>
                 <template v-if="data.is_show.includes('simple_desc') && ['0', '1', '2', '3', '5'].includes(theme)">

@@ -136,6 +136,11 @@ interface DefaultProductList {
         shop_price_unit_size: number;
         shop_original_price_color: string;
         shop_original_price_size: number;
+        shop_groupbuy_people_color: string;
+        shop_groupbuy_people_border_color: string;
+        shop_groupbuy_people_size: number;
+        shop_groupbuy_hot_color: string;
+        shop_groupbuy_hot_size: number;
         shop_sold_number_typeface: string;
         shop_sold_number_size: number;
         shop_sold_number_color: string;
@@ -181,7 +186,7 @@ const defaultProductList: DefaultProductList = {
         tabs_active_index: 0,
         static_img: [{ id: 2, url: new_url + 'price.png', original: '角标', title: '角标', ext: '.png', type: 'img' }],
         // 显示内容
-        is_show: ['title', 'plugins_view_icon', 'price', 'original_price'],
+        is_show: ['title', 'groupbuy_people_num', 'groupbuy_hot', 'price', 'original_price'],
         // 显示简介行数
         simple_desc_row: '1',
         // 是否显示购买按钮
@@ -190,7 +195,7 @@ const defaultProductList: DefaultProductList = {
         is_price_solo: '1',
         // 购买按钮类型
         shop_type: 'text',
-        shop_button_text: '购买',
+        shop_button_text: '开团中',
         shop_button_icon_class: 'cart',
         // 点击购买按钮的操作处理
         shop_button_effect: '0',
@@ -423,6 +428,11 @@ const defaultProductList: DefaultProductList = {
         shop_price_unit_size: 9,
         shop_original_price_color: '#999',
         shop_original_price_size: 12,
+        shop_groupbuy_people_color: '#EA3323',
+        shop_groupbuy_people_border_color: '#EA3323',
+        shop_groupbuy_people_size: 9,
+        shop_groupbuy_hot_color: '#999999',
+        shop_groupbuy_hot_size: 10,
         shop_sold_number_typeface: '400',
         shop_sold_number_size: 10,
         shop_sold_number_color: '#999999',

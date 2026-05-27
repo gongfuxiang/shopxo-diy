@@ -7,8 +7,14 @@
                         <div :class="['oh w h', ['0', '4'].includes(theme) ? 'flex-row' : 'flex-col' ]" :style="layout_img_style">
                             <template v-if="theme == '6'">
                                 <div :class="['flex-row align-c jc-sb ptb-15 mlr-10 gap-20', { 'br-b-e': index != list.length - 1 }]">
-                                    <div v-if="is_show('title')" :class="text_line" :style="trends_config('title', 'title')">{{ item.title }}</div>
-                                    <div v-if="is_show('price') && !isEmpty(item.min_price)" class="num nowrap" :style="`color: ${new_style.shop_price_color}`">
+                                    <div class="groupbuy-noimg-row flex-row align-c flex-1 oh">
+                                        <div v-if="is_show('title')" :class="[text_line, 'groupbuy-noimg-title']" :style="trends_config('title', 'title')">{{ item.title }}</div>
+                                        <div v-if="show_groupbuy_tags" class="flex-row align-c groupbuy-tags-row flex-shrink">
+                                            <div v-if="is_show('groupbuy_people_num') && !isEmpty(groupbuy_people_text(item))" class="radius-sm pl-3 pr-3 groupbuy-people-tag" :style="groupbuy_people_tag_style">{{ groupbuy_people_text(item) }}</div>
+                                            <span v-if="is_show('groupbuy_hot') && !isEmpty(groupbuy_success_text(item))" class="groupbuy-hot-text" :style="groupbuy_hot_text_style">{{ groupbuy_success_text(item) }}</span>
+                                        </div>
+                                    </div>
+                                    <div v-if="is_show('price') && !isEmpty(item.min_price)" class="num nowrap flex-shrink" :style="`color: ${new_style.shop_price_color}`">
                                         <span class="identifying">{{ item.show_price_symbol }}</span
                                         ><span :style="trends_config('price')">{{ item.min_price }}</span>
                                         <span v-if="is_show('price_unit')" class="identifying">{{ item.show_price_unit }}</span>
@@ -28,14 +34,15 @@
                                         <subscript-index :value="props.value"></subscript-index>
                                     </div>
                                 </template>
-                                <div v-if="is_show('title') || is_show('simple_desc') || is_show('price') || is_show('original_price') || is_show('plugins_view_icon') || form.is_shop_show == '1'" class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
+                                <div v-if="is_show('title') || is_show('simple_desc') || is_show('price') || is_show('original_price') || show_groupbuy_tags || form.is_shop_show == '1'" class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
                                     <div class="flex-col gap-10 top-title">
                                         <div v-if="is_show('title') || (['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc'))" class="flex-col" :style="`gap: ${ new_style.title_simple_desc_spacing }px;`">
                                             <div v-if="is_show('title')" :class="text_line" :style="trends_config('title', 'title')">{{ item.title }}</div>
                                             <div v-if="['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc')" :class="form.simple_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('simple_desc', 'desc')">{{ item.simple_desc }}</div>
                                         </div>
-                                        <div v-if="show_content && is_show('plugins_view_icon') && !isEmpty(item.plugins_view_icon_data)" class="flex-row gap-5 align-c">
-                                            <div v-for="(icon_data, icon_index) in item.plugins_view_icon_data" :key="icon_index" class="radius-sm size-9 pl-3 pr-3" :style="icon_style(icon_data)">{{ icon_data.name }}</div>
+                                        <div v-if="show_groupbuy_tags" class="flex-row align-c groupbuy-tags-row">
+                                            <div v-if="is_show('groupbuy_people_num') && !isEmpty(groupbuy_people_text(item))" class="radius-sm pl-3 pr-3 groupbuy-people-tag" :style="groupbuy_people_tag_style">{{ groupbuy_people_text(item) }}</div>
+                                            <span v-if="is_show('groupbuy_hot') && !isEmpty(groupbuy_success_text(item))" class="groupbuy-hot-text" :style="groupbuy_hot_text_style">{{ groupbuy_success_text(item) }}</span>
                                         </div>
                                     </div>
                                     <div class="flex-row align-c jc-sb gap-8 oh">
@@ -84,14 +91,15 @@
                                             <subscript-index :value="props.value"></subscript-index>
                                         </div>
                                     </template>
-                                    <div v-if="is_show('title') || is_show('simple_desc') || is_show('price') || form.is_shop_show == '1'" class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
+                                    <div v-if="is_show('title') || is_show('simple_desc') || is_show('price') || show_groupbuy_tags || form.is_shop_show == '1'" class="flex-col flex-1 jc-sb content gap-10" :style="content_style">
                                         <div class="flex-col gap-10 top-title">
                                             <div v-if="is_show('title') || (['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc'))" class="flex-col" :style="`gap: ${ new_style.title_simple_desc_spacing }px;`">
                                                 <div v-if="is_show('title')" :class="text_line" :style="trends_config('title', 'title')">{{ item.title }}</div>
                                                 <div v-if="['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc')" :class="form.simple_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('simple_desc', 'desc')">{{ item.simple_desc }}</div>
                                             </div>
-                                            <div v-if="show_content && is_show('plugins_view_icon') && !isEmpty(item.plugins_view_icon_data)" class="flex-row gap-5 align-c">
-                                                <div v-for="(icon_data, icon_index) in item.plugins_view_icon_data" :key="icon_index" class="radius-sm size-9 pl-3 pr-3" :style="icon_style(icon_data)">{{ icon_data.name }}</div>
+                                            <div v-if="show_groupbuy_tags" class="flex-row align-c groupbuy-tags-row">
+                                                <div v-if="is_show('groupbuy_people_num') && !isEmpty(groupbuy_people_text(item))" class="radius-sm pl-3 pr-3 groupbuy-people-tag" :style="groupbuy_people_tag_style">{{ groupbuy_people_text(item) }}</div>
+                                                <span v-if="is_show('groupbuy_hot') && !isEmpty(groupbuy_success_text(item))" class="groupbuy-hot-text" :style="groupbuy_hot_text_style">{{ groupbuy_success_text(item) }}</span>
                                             </div>
                                         </div>
                                         <div class="flex-row align-c jc-sb gap-8">
@@ -163,13 +171,6 @@ const props = defineProps({
 const form = computed(() => props.value?.content || {});
 const new_style = computed(() => props.value?.style || {});
 
-type plugins_icon_data = {
-    name: string;
-    bg_color: string;
-    br_color: string;
-    color: string;
-    url: string;
-}
 type data_list = {
     title: string;
     cover: string;
@@ -184,10 +185,12 @@ type data_list = {
     show_price_unit: string;
     sales_count: string;
     is_error: number;
-    plugins_view_icon_data: plugins_icon_data[];
+    buy_number?: string | number;
+    group_number?: string | number;
+    groupbuy_success_text?: string;
 }
 const default_list = {
-    title: '测试商品标题',
+    title: '测试拼团商品标题',
     min_original_price: '41.2',
     show_original_price_symbol: '￥',
     show_original_price_unit: '/ 台',
@@ -198,29 +201,27 @@ const default_list = {
     cover: '',
     new_cover: [],
     is_error: 0,
-    plugins_view_icon_data: [
-        {
-            name: '满减活动',
-            bg_color: '#EA3323',
-            br_color: '',
-            color: '#fff',
-            url: '',
-        },
-        {
-            name: '包邮',
-            bg_color: '',
-            br_color: '#EA3323',
-            color: '#EA3323',
-            url: '',
-        },
-        {
-            name: '领劵',
-            bg_color: '',
-            br_color: '#EA9223',
-            color: '#EA9223',
-            url: '',
-        },
-    ],
+    buy_number: 3,
+    groupbuy_success_text: '火热拼团中',
+};
+const groupbuy_success_text = (item: data_list) => item.groupbuy_success_text || '';
+const groupbuy_people_tag_style = computed(() => {
+    const color = new_style.value.shop_groupbuy_people_color || '#EA3323';
+    const border = new_style.value.shop_groupbuy_people_border_color || color;
+    const size = new_style.value.shop_groupbuy_people_size || 9;
+    return `background: transparent; color: ${color}; border: 1px solid ${border}; font-size: ${size}px; line-height: ${size + 4}px;`;
+});
+const groupbuy_hot_text_style = computed(() => {
+    const color = new_style.value.shop_groupbuy_hot_color || '#999999';
+    const size = new_style.value.shop_groupbuy_hot_size || 10;
+    return `color: ${color}; font-size: ${size}px; line-height: ${size}px;`;
+});
+const groupbuy_people_text = (item: data_list) => {
+    const num = item.buy_number ?? item.group_number;
+    if (num !== undefined && num !== null && num !== '') {
+        return `${num}人团`;
+    }
+    return '';
 };
 //#region 列表数据
 const list = ref<data_list[]>([]);
@@ -403,6 +404,7 @@ const text_line = computed(() => {
 const is_show = (index: string) => {
     return form.value.is_show.includes(index);
 };
+const show_groupbuy_tags = computed(() => is_show('groupbuy_people_num') || is_show('groupbuy_hot'));
 // 根据传递的参数，从对象中取值
 const trends_config = (key: string, type?: string) => {
     return style_config(new_style.value[`shop_${key}_typeface`], new_style.value[`shop_${key}_size`], new_style.value[`shop_${key}_color`], type);
@@ -432,16 +434,6 @@ const style_config = (typeface: string, size: number, color: string | object, ty
 // 按钮渐变色处理
 const button_gradient = () => {
     return gradient_handle(new_style.value.shop_button_color, '180deg');
-};
-// icon标志显示样式
-const icon_style = (item: { bg_color: string; color: string; br_color: string }) => {
-    let style = `background: ${item.bg_color};color: ${item.color};`;
-    if (!isEmpty(item.br_color)) {
-        style += `border: 1px solid ${item.br_color};`;
-    } else {
-        style += `border: 1px solid ${item.bg_color};`;
-    }
-    return style;
 };
 // 公共样式
 const style_container = computed(() => props.isCommonStyle ? common_styles_computer(new_style.value.common_style) : '');
@@ -523,6 +515,27 @@ watchEffect(() => {
 
 .identifying {
     font-size: 0.9rem;
+}
+/* 无图模式：标题左对齐，团购标志/拼团提示在标题右侧 */
+.groupbuy-noimg-row {
+    gap: 10px;
+    min-width: 0;
+}
+.groupbuy-noimg-title {
+    flex: 0 1 auto;
+    min-width: 0;
+    text-align: left;
+}
+.groupbuy-tags-row {
+    flex-wrap: nowrap;
+    gap: 10px;
+}
+.groupbuy-people-tag {
+    flex-shrink: 0;
+}
+.groupbuy-hot-text {
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 // .original-price-left {
 //     width: 1rem;

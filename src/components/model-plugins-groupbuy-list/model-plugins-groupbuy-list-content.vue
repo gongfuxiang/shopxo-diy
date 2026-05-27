@@ -29,7 +29,7 @@
             </card-container>
             <div class="divider-line"></div>
             <!-- 商品显示的配置信息 -->
-            <product-show-config :value="form" hide-sales-count hide-button-effect hide-price-solo @change_shop_type="change_shop_type"></product-show-config>
+            <product-show-config :value="form" module-type="groupbuy" hide-sales-count hide-button-effect hide-price-solo @change_shop_type="change_shop_type"></product-show-config>
             <div class="divider-line"></div>
             <card-container class="card-container">
                 <div class="mb-12">角标设置</div>
