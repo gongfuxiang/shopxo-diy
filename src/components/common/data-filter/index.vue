@@ -56,6 +56,9 @@
                     <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                 </el-radio-group>
             </el-form-item>
+            <el-form-item label="是否推荐">
+                <el-switch v-model="is_recommend_model" :active-value="1" :inactive-value="0" />
+            </el-form-item>
         </template>
         <!-- 砍价自动筛选：字段与 autobargainlist 接口一致 -->
         <template v-else-if="type === 'plugins_bargain'">
@@ -71,6 +74,9 @@
                 <el-radio-group v-model="form.order_by_rule">
                     <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
                 </el-radio-group>
+            </el-form-item>
+            <el-form-item label="是否推荐">
+                <el-switch v-model="is_recommend_model" :active-value="1" :inactive-value="0" />
             </el-form-item>
         </template>
         <!-- 直播自动筛选：字段与 autolivelist 接口一致 -->
@@ -374,6 +380,18 @@
     });
     const keywords = ref(props.value.keywords);
     const form = ref(props.value);
+    /** 拼团/砍价是否推荐：直接读写 props.value，保证预览列表 watch 能感知变更 */
+    const is_recommend_model = computed({
+        get() {
+            return Number(props.value?.is_recommend ?? 0);
+        },
+        set(val: number) {
+            if (!props.value) {
+                return;
+            }
+            props.value.is_recommend = Number(val);
+        },
+    });
     const drag_list = ref(props.list);
     type option = {
         name: string,
@@ -485,6 +503,12 @@
             const recommended = props.value?.is_recommended;
             form.value.is_recommended =
                 recommended === '' || recommended === null || recommended === undefined ? '0' : String(recommended);
+        } else if (['plugins_groupbuy', 'plugins_bargain'].includes(props.type)) {
+            form.value.order_by_type = Number(props.value?.order_by_type ?? 0);
+            form.value.order_by_rule = Number(props.value?.order_by_rule ?? 0);
+            if (props.value?.is_recommend === undefined) {
+                form.value.is_recommend = 0;
+            }
         } else {
             form.value.order_by_type = Number(props.value?.order_by_type || 0);
             form.value.order_by_rule = Number(props.value?.order_by_rule || 0);

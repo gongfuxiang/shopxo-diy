@@ -247,12 +247,13 @@ onMounted(() => {
 });
 
 const get_products = () => {
-    const { number, order_by_type, order_by_rule, keywords } = form.value;
+    const { number, order_by_type, order_by_rule, keywords, is_recommend } = form.value;
     const params = {
         groupby_keywords: keywords,
         groupby_order_by_type: order_by_type,
         groupby_order_by_rule: order_by_rule,
         groupby_number: number,
+        groupbuy_is_recommend: Number(is_recommend ?? 0),
     };
     PluginsGroupbuyAPI.getAutoList(params).then((res: any) => {
         if (!isEmpty(res.data)) {
@@ -267,13 +268,14 @@ watchEffect(() => {
         list.value = props.newList;
     }
 });
-// 取出监听的数据
+// 取出监听的数据（显式读取 is_recommend，确保嵌套 content 变更能触发 watch）
 const watch_data = computed(() => {
     const { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, data_list, keywords } = form.value;
-    return { category_ids: category_ids, brand_ids: brand_ids, number: number, order_by_type: order_by_type, order_by_rule: order_by_rule, data_type: data_type, data_list: data_list, keyword: keywords };
-})
+    const is_recommend = Number(form.value.is_recommend ?? 0);
+    return { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, data_list, keyword: keywords, is_recommend };
+});
 // 初始化的时候不执行, 监听数据变化
-watch(() => watch_data.value, (val, oldVal) => {
+watch(watch_data, (val, oldVal) => {
     // 如果使用内部数据，直接调用接口处理，否则的话就使用外部传递过来的数据
     if (props.isUseAuto) {
         // 使用JSON.stringify()进行判断 新值和旧值是否一样 不一样就重新获取数据

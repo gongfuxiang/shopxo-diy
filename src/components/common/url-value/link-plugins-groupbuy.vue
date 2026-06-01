@@ -3,8 +3,8 @@
         <div class="flex-row jc-e gap-20 mb-20 align-c">
             <div class="flex-row align-c gap-12">
                 <div class="title horizontal-title">是否推荐</div>
-                <el-select v-model="is_recommended" class="search-w" placeholder="请选择" clearable @change="handle_search">
-                    <el-option v-for="item in is_recommended_list" :key="item.value" :label="item.name" :value="item.value" />
+                <el-select v-model="is_recommend" class="search-w" placeholder="请选择" clearable @change="handle_search">
+                    <el-option v-for="item in is_recommend_list" :key="item.value" :label="item.name" :value="item.value" />
                 </el-select>
             </div>
             <div class="flex-row align-c gap-12">
@@ -47,7 +47,7 @@ import { useLinkPickerLoad } from '@/hooks/use-link-picker-load';
 import { toRef } from 'vue';
 /**
  * 手动选择拼团弹窗
- * 列表接口 diygroupbuy/index：page、page_size、keywords、status、is_recommended
+ * 列表接口 diygroupbuy/index：page、page_size、keywords、status、is_recommend
  */
 import UrlValueAPI from '@/api/url-value';
 
@@ -70,20 +70,19 @@ const props = defineProps({
         default: false,
     },
 });
-const is_recommended_list = [
-    { name: '全部', value: '' },
-    { name: '是', value: '1' },
-    { name: '否', value: '0' },
+const is_recommend_list = [
+    { name: '是', value: 1 },
+    { name: '否', value: 0 },
 ];
 const modelValue = defineModel({ type: Object, default: {} });
 const tableData = ref<pageLinkList[]>([]);
 const search_value = ref('');
-const is_recommended = ref('');
+const is_recommend = ref<number | undefined>(undefined);
 const loading = ref(false);
 const resetFields = () => {
     template_selection.value = '';
     search_value.value = '';
-    is_recommended.value = '';
+    is_recommend.value = undefined;
 };
 
 const template_selection = ref('');
@@ -92,15 +91,13 @@ const page_size = ref(10);
 const data_total = ref(0);
 const empty_text = ref('暂无数据');
 const get_list = (new_page: number) => {
-    const new_data: Record<string, string | number> = {
+    const new_data: Parameters<typeof UrlValueAPI.getPluginGroupbuyList>[0] = {
         page: new_page,
         page_size: page_size.value,
         keywords: search_value.value,
         status: '',
+        ...(is_recommend.value !== undefined && is_recommend.value !== null ? { is_recommend: is_recommend.value } : {}),
     };
-    if (is_recommended.value !== '') {
-        new_data.is_recommended = is_recommended.value;
-    }
     loading.value = true;
     UrlValueAPI.getPluginGroupbuyList(new_data)
         .then((res: any) => {

@@ -8,12 +8,14 @@ class PluginsBargainAPI {
      * @param bargain_order_by_type 排序类型
      * @param bargain_order_by_rule 排序规则
      * @param bargain_number 显示数量
+     * @param bargain_is_recommend 是否推荐 0/1
      */
     static getAutoList(data: {
         bargain_keywords?: string;
         bargain_order_by_type?: string | number;
         bargain_order_by_rule?: string | number;
         bargain_number?: number | string;
+        bargain_is_recommend?: number;
     }) {
         return api_request({
             url: `plugins/index/pluginsname/bargain/pluginscontrol/diybargain/pluginsaction/autobargainlist`,

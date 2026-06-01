@@ -7,11 +7,11 @@
                         <div :class="['oh w h', ['0', '4'].includes(theme) ? 'flex-row' : 'flex-col' ]" :style="layout_img_style">
                             <template v-if="theme == '6'">
                                 <div :class="['flex-row align-c jc-sb ptb-15 mlr-10 gap-20', { 'br-b-e': index != list.length - 1 }]">
-                                    <div class="cutprice-noimg-row flex-row align-c flex-1 oh">
-                                        <div v-if="is_show('title')" :class="[text_line, 'cutprice-noimg-title']" :style="trends_config('title', 'title')">{{ item.title }}</div>
-                                        <div v-if="show_bargain_tags" class="flex-row align-c cutprice-tags-row flex-shrink">
-                                            <div v-if="is_show('bargain_success_tag_text') && !isEmpty(get_bargain_success_tag_text(item))" class="radius-sm pl-3 pr-3 cutprice-people-tag" :style="bargain_success_tag_style">{{ get_bargain_success_tag_text(item) }}</div>
-                                            <span v-if="is_show('bargain_success_text') && !isEmpty(get_bargain_success_text(item))" class="cutprice-hot-text" :style="bargain_success_text_style">{{ get_bargain_success_text(item) }}</span>
+                                    <div class="bargain-noimg-row flex-row align-c flex-1 oh">
+                                        <div v-if="is_show('title')" :class="[text_line, 'bargain-noimg-title']" :style="trends_config('title', 'title')">{{ item.title }}</div>
+                                        <div v-if="show_bargain_tags" class="flex-row align-c bargain-tags-row flex-shrink">
+                                            <div v-if="is_show('bargain_success_tag_text') && !isEmpty(get_bargain_success_tag_text(item))" class="radius-sm pl-3 pr-3 bargain-people-tag" :style="bargain_success_tag_style">{{ get_bargain_success_tag_text(item) }}</div>
+                                            <span v-if="is_show('bargain_success_text') && !isEmpty(get_bargain_success_text(item))" class="bargain-hot-text" :style="bargain_success_text_style">{{ get_bargain_success_text(item) }}</span>
                                         </div>
                                     </div>
                                     <div v-if="is_show('price') && !isEmpty(item.min_price)" class="num nowrap flex-shrink" :style="`color: ${new_style.shop_price_color}`">
@@ -40,9 +40,9 @@
                                             <div v-if="is_show('title')" :class="text_line" :style="trends_config('title', 'title')">{{ item.title }}</div>
                                             <div v-if="['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc')" :class="form.simple_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('simple_desc', 'desc')">{{ item.simple_desc }}</div>
                                         </div>
-                                        <div v-if="show_bargain_tags" class="flex-row align-c cutprice-tags-row">
-                                            <div v-if="is_show('bargain_success_tag_text') && !isEmpty(get_bargain_success_tag_text(item))" class="radius-sm pl-3 pr-3 cutprice-people-tag" :style="bargain_success_tag_style">{{ get_bargain_success_tag_text(item) }}</div>
-                                            <span v-if="is_show('bargain_success_text') && !isEmpty(get_bargain_success_text(item))" class="cutprice-hot-text" :style="bargain_success_text_style">{{ get_bargain_success_text(item) }}</span>
+                                        <div v-if="show_bargain_tags" class="flex-row align-c bargain-tags-row">
+                                            <div v-if="is_show('bargain_success_tag_text') && !isEmpty(get_bargain_success_tag_text(item))" class="radius-sm pl-3 pr-3 bargain-people-tag" :style="bargain_success_tag_style">{{ get_bargain_success_tag_text(item) }}</div>
+                                            <span v-if="is_show('bargain_success_text') && !isEmpty(get_bargain_success_text(item))" class="bargain-hot-text" :style="bargain_success_text_style">{{ get_bargain_success_text(item) }}</span>
                                         </div>
                                     </div>
                                     <div class="flex-row align-c jc-sb gap-8 oh">
@@ -97,9 +97,9 @@
                                                 <div v-if="is_show('title')" :class="text_line" :style="trends_config('title', 'title')">{{ item.title }}</div>
                                                 <div v-if="['0', '1', '2', '3', '5'].includes(theme) && is_show('simple_desc')" :class="form.simple_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="trends_config('simple_desc', 'desc')">{{ item.simple_desc }}</div>
                                             </div>
-                                            <div v-if="show_bargain_tags" class="flex-row align-c cutprice-tags-row">
-                                                <div v-if="is_show('bargain_success_tag_text') && !isEmpty(get_bargain_success_tag_text(item))" class="radius-sm pl-3 pr-3 cutprice-people-tag" :style="bargain_success_tag_style">{{ get_bargain_success_tag_text(item) }}</div>
-                                                <span v-if="is_show('bargain_success_text') && !isEmpty(get_bargain_success_text(item))" class="cutprice-hot-text" :style="bargain_success_text_style">{{ get_bargain_success_text(item) }}</span>
+                                            <div v-if="show_bargain_tags" class="flex-row align-c bargain-tags-row">
+                                                <div v-if="is_show('bargain_success_tag_text') && !isEmpty(get_bargain_success_tag_text(item))" class="radius-sm pl-3 pr-3 bargain-people-tag" :style="bargain_success_tag_style">{{ get_bargain_success_tag_text(item) }}</div>
+                                                <span v-if="is_show('bargain_success_text') && !isEmpty(get_bargain_success_text(item))" class="bargain-hot-text" :style="bargain_success_text_style">{{ get_bargain_success_text(item) }}</span>
                                             </div>
                                         </div>
                                         <div class="flex-row align-c jc-sb gap-8">
@@ -206,29 +206,20 @@ const default_list = {
 const get_bargain_success_tag_text = (item: data_list) => item.bargain_success_tag_text || '';
 const get_bargain_success_text = (item: data_list) => item.bargain_success_text || '';
 const bargain_success_tag_style = computed(() => {
-    const color = new_style.value.shop_bargain_success_tag_color || new_style.value.shop_cutprice_people_color || '#EA3323';
-    const border = new_style.value.shop_bargain_success_tag_border_color || new_style.value.shop_cutprice_people_border_color || color;
-    const size = new_style.value.shop_bargain_success_tag_size || new_style.value.shop_cutprice_people_size || 9;
+    const color = new_style.value.shop_bargain_success_tag_color || '#EA3323';
+    const border = new_style.value.shop_bargain_success_tag_border_color || color;
+    const size = new_style.value.shop_bargain_success_tag_size || 9;
     return `background: transparent; color: ${color}; border: 1px solid ${border}; font-size: ${size}px; line-height: ${size + 4}px;`;
 });
 const bargain_success_text_style = computed(() => {
-    const color = new_style.value.shop_bargain_success_text_color || new_style.value.shop_cutprice_hot_color || '#999999';
-    const size = new_style.value.shop_bargain_success_text_size || new_style.value.shop_cutprice_hot_size || 10;
+    const color = new_style.value.shop_bargain_success_text_color || '#999999';
+    const size = new_style.value.shop_bargain_success_text_size || 10;
     return `color: ${color}; font-size: ${size}px; line-height: ${size}px;`;
 });
-/** 兼容历史 is_show 配置 */
-const migrate_bargain_is_show = () => {
-    const map: Record<string, string> = {
-        cutprice_people_num: 'bargain_success_tag_text',
-        cutprice_hot: 'bargain_success_text',
-    };
-    form.value.is_show = [...new Set(form.value.is_show.map((key: string) => map[key] || key))];
-};
 //#region 列表数据
 const list = ref<data_list[]>([]);
 // 初始化的时候执行
 onMounted(() => {
-    migrate_bargain_is_show();
     if (props.isUseAuto) {
         // 指定商品并且指定商品数组不为空
         if (!isEmpty(form.value.data_list) && form.value.data_type == '0') {
@@ -249,12 +240,13 @@ onMounted(() => {
 });
 
 const get_products = () => {
-    const { number, order_by_type, order_by_rule, keywords } = form.value;
+    const { number, order_by_type, order_by_rule, keywords, is_recommend } = form.value;
     const params = {
         bargain_keywords: keywords,
         bargain_order_by_type: order_by_type,
         bargain_order_by_rule: order_by_rule,
         bargain_number: number,
+        bargain_is_recommend: Number(is_recommend ?? 0),
     };
     PluginsBargainAPI.getAutoList(params).then((res: any) => {
         if (!isEmpty(res.data)) {
@@ -269,13 +261,14 @@ watchEffect(() => {
         list.value = props.newList;
     }
 });
-// 取出监听的数据
+// 取出监听的数据（显式读取 is_recommend，确保嵌套 content 变更能触发 watch）
 const watch_data = computed(() => {
     const { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, data_list, keywords } = form.value;
-    return { category_ids: category_ids, brand_ids: brand_ids, number: number, order_by_type: order_by_type, order_by_rule: order_by_rule, data_type: data_type, data_list: data_list, keyword: keywords };
-})
+    const is_recommend = Number(form.value.is_recommend ?? 0);
+    return { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, data_list, keyword: keywords, is_recommend };
+});
 // 初始化的时候不执行, 监听数据变化
-watch(() => watch_data.value, (val, oldVal) => {
+watch(watch_data, (val, oldVal) => {
     // 如果使用内部数据，直接调用接口处理，否则的话就使用外部传递过来的数据
     if (props.isUseAuto) {
         // 使用JSON.stringify()进行判断 新值和旧值是否一样 不一样就重新获取数据
@@ -519,23 +512,23 @@ watchEffect(() => {
     font-size: 0.9rem;
 }
 /* 无图模式：标题左对齐，砍价标志/砍价提示在标题右侧 */
-.cutprice-noimg-row {
+.bargain-noimg-row {
     gap: 10px;
     min-width: 0;
 }
-.cutprice-noimg-title {
+.bargain-noimg-title {
     flex: 0 1 auto;
     min-width: 0;
     text-align: left;
 }
-.cutprice-tags-row {
+.bargain-tags-row {
     flex-wrap: nowrap;
     gap: 10px;
 }
-.cutprice-people-tag {
+.bargain-people-tag {
     flex-shrink: 0;
 }
-.cutprice-hot-text {
+.bargain-hot-text {
     flex-shrink: 0;
     white-space: nowrap;
 }

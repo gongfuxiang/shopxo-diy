@@ -8,12 +8,14 @@ class PluginsGroupbuyAPI {
      * @param groupby_order_by_type 排序类型
      * @param groupby_order_by_rule 排序规则
      * @param groupby_number 显示数量
+     * @param groupbuy_is_recommend 是否推荐 0/1
      */
     static getAutoList(data: {
         groupby_keywords?: string;
         groupby_order_by_type?: string | number;
         groupby_order_by_rule?: string | number;
         groupby_number?: number | string;
+        groupbuy_is_recommend?: number;
     }) {
         return api_request({
             url: `plugins/index/pluginsname/groupbuy/pluginscontrol/diygroupbuy/pluginsaction/autogroupbuylist`,

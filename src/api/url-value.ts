@@ -130,7 +130,7 @@ class UrlValueAPI {
         page_size: number | string;
         keywords?: string;
         status?: string;
-        is_recommended?: string;
+        is_recommend?: number;
     }) {
         return api_request({
             url: `plugins/index/pluginsname/groupbuy/pluginscontrol/diygroupbuy/pluginsaction/index`,
@@ -144,7 +144,7 @@ class UrlValueAPI {
         page_size: number | string;
         keywords?: string;
         status?: string;
-        is_recommended?: string;
+        is_recommend?: number;
     }) {
         return api_request({
             url: `plugins/index/pluginsname/bargain/pluginscontrol/diybargain/pluginsaction/index`,
