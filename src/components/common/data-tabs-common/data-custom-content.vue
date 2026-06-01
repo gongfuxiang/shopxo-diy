@@ -459,6 +459,7 @@ const data_list_remove = (index: number) => {
 };
 // 弹出框选择的内容
 const url_value_dialog_call_back = (item: any[]) => {
+    
     // 如果是单选，当时data_list_replace_index 为-1，说明是添加，否则是替换
     if (url_value_multiple_bool.value || data_list_replace_index.value == -1) {
         item.forEach((item: any) => {

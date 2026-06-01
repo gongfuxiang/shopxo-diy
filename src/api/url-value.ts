@@ -138,6 +138,20 @@ class UrlValueAPI {
             data,
         });
     }
+    /** 砍价列表（手动选择） */
+    static getPluginBargainList(data: {
+        page: number | string;
+        page_size: number | string;
+        keywords?: string;
+        status?: string;
+        is_recommended?: string;
+    }) {
+        return api_request({
+            url: `plugins/index/pluginsname/bargain/pluginscontrol/diybargain/pluginsaction/index`,
+            method: 'post',
+            data,
+        });
+    }
 }
 
 export default UrlValueAPI;

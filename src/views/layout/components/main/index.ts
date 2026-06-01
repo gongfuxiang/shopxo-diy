@@ -42,6 +42,8 @@ import defaultPluginsLive from '@/config/const/plugins-live-list';
 import defaultPluginsLiveTabs from '@/config/const/plugins-live-tabs';
 import defaultPluginsGroupbuy from '@/config/const/plugins-groupbuy-list';
 import defaultPluginsGroupbuyTabs from '@/config/const/plugins-groupbuy-tabs';
+import defaultPluginsBargain from '@/config/const/plugins-bargain-list';
+import defaultPluginsBargainTabs from '@/config/const/plugins-bargain-tabs';
 
 // 系统设置
 interface DefaultSettings {
@@ -59,6 +61,8 @@ interface DefaultSettings {
     plugins_live_tabs: object;
     plugins_groupbuy: object;
     plugins_groupbuy_tabs: object;
+    plugins_bargain: object;
+    plugins_bargain_tabs: object;
     row_line: object;
     auxiliary_blank: object;
     rich_text: object;
@@ -106,6 +110,8 @@ const defaultSettings: DefaultSettings = {
     plugins_live_tabs: defaultPluginsLiveTabs,
     plugins_groupbuy: defaultPluginsGroupbuy,
     plugins_groupbuy_tabs: defaultPluginsGroupbuyTabs,
+    plugins_bargain: defaultPluginsBargain,
+    plugins_bargain_tabs: defaultPluginsBargainTabs,
     row_line: defaultRowLine,
     auxiliary_blank: defaultAuxiliaryBlank,
     rich_text: defaultRichText,

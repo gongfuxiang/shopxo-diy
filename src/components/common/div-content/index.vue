@@ -172,6 +172,14 @@
             <template v-else-if="item.key == 'plugins-groupbuy-tabs'">
                 <model-plugins-groupbuy-tabs :key="item.com_data" :value="item.com_data"></model-plugins-groupbuy-tabs>
             </template>
+            <!-- 砍价列表 -->
+            <template v-else-if="item.key == 'plugins-bargain'">
+                <model-plugins-bargain-list :key="item.com_data" :value="item.com_data"></model-plugins-bargain-list>
+            </template>
+            <!-- 砍价选项卡 -->
+            <template v-else-if="item.key == 'plugins-bargain-tabs'">
+                <model-plugins-bargain-tabs :key="item.com_data" :value="item.com_data"></model-plugins-bargain-tabs>
+            </template>
             <!-- 视频选项卡 -->
             <template v-else-if="item.key == 'plugins-video-tabs'">
                 <model-plugins-video-tabs :key="item.com_data" :value="item.com_data"></model-plugins-video-tabs>

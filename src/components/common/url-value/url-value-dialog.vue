@@ -68,6 +68,9 @@
                 <template v-else-if="link_select == 'plugins_groupbuy'">
                     <link-plugins-groupbuy v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent" :load-stamp="load_stamp"></link-plugins-groupbuy>
                 </template>
+                <template v-else-if="link_select == 'plugins_bargain'">
+                    <link-plugins-bargain v-model="link_value" :select-is-url="selectIsUrl" :multiple="multiple" :reset="reset_compontent" :load-stamp="load_stamp"></link-plugins-bargain>
+                </template>
                 <template v-else-if="!isEmpty(link_url)">
                     <!-- 商品页面 -->
                     <template v-if="link_select == 'goods'">
@@ -220,6 +223,8 @@ const dialog_title = computed(() => {
             name = '活动';
         } else if (props.type[0] == 'plugins_groupbuy') {
             name = '拼团';
+        } else if (props.type[0] == 'plugins_bargain') {
+            name = '砍价';
         }
         return name + '选择';
     } else {

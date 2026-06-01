@@ -57,6 +57,22 @@
                 </el-radio-group>
             </el-form-item>
         </template>
+        <!-- 砍价自动筛选：字段与 autobargainlist 接口一致 -->
+        <template v-else-if="type === 'plugins_bargain'">
+            <el-form-item label="显示数量">
+                <el-input-number v-model="form.number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
+            </el-form-item>
+            <el-form-item label="排序类型">
+                <el-radio-group v-model="form.order_by_type">
+                    <el-radio v-for="item in common_store.common.goods_order_by_type_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="排序规则">
+                <el-radio-group v-model="form.order_by_rule">
+                    <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                </el-radio-group>
+            </el-form-item>
+        </template>
         <!-- 直播自动筛选：字段与 autolivelist 接口一致 -->
         <template v-else-if="type === 'plugins_live'">
             <!-- live_status → 请求参数 live_status（逗号分隔） -->
@@ -352,7 +368,7 @@
             default: () => {},
         },
         type: {
-            type: String as PropType<'goods' | 'blog' | 'article' | 'binding' | 'realstore' | 'merchant' | 'ask' | 'activity' | 'coupon' | 'plugins_video' | 'plugins_live' | 'plugins_groupbuy'>,
+            type: String as PropType<'goods' | 'blog' | 'article' | 'binding' | 'realstore' | 'merchant' | 'ask' | 'activity' | 'coupon' | 'plugins_video' | 'plugins_live' | 'plugins_groupbuy' | 'plugins_bargain'>,
             default: 'goods',
         }
     });
@@ -388,6 +404,11 @@
             titleParam: 'title',
         },
         plugins_groupbuy: {
+            optionListKey: 'product_list',
+            imgParam: 'cover',
+            titleParam: 'title',
+        },
+        plugins_bargain: {
             optionListKey: 'product_list',
             imgParam: 'cover',
             titleParam: 'title',

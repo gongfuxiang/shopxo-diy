@@ -1,6 +1,6 @@
 <template>
     <card-container class="card-container">
-        <div class="mb-12">{{ moduleType === 'groupbuy' ? '拼团显示内容' : '商品显示内容' }}</div>
+        <div class="mb-12">{{ moduleType === 'groupbuy' ? '拼团显示内容' : moduleType === 'bargain' ? '砍价显示内容' : '商品显示内容' }}</div>
         <el-form-item label="是否显示">
             <el-checkbox-group v-model="form.is_show">
                 <el-checkbox v-for="item in list_show_list.filter(item => item.type.includes(form.theme))" :key="item.value" :value="item.value">{{ item.name }}</el-checkbox>
@@ -50,7 +50,7 @@ const props = defineProps({
     },
     /** goods 默认；groupbuy 拼团专用文案与 is_show 项 */
     moduleType: {
-        type: String as PropType<'goods' | 'groupbuy'>,
+        type: String as PropType<'goods' | 'groupbuy' | 'bargain'>,
         default: 'goods',
     },
     hideSalesCount: {
@@ -98,6 +98,17 @@ const goods_list_show_list = [
     { name: '原价单位', value: 'original_price_unit', type: ['0', '1', '2'] },
 ];
 
+
+const bargain_list_show_list = [
+    { name: '商品标题', value: 'title', type: ['0', '1', '2', '3', '4', '5', '6'] },
+    { name: '砍价标志', value: 'bargain_success_tag_text', type: ['0', '1', '2', '3', '4', '5', '6'] },
+    { name: '砍价提示', value: 'bargain_success_text', type: ['0', '1', '2', '3', '4', '5', '6'] },
+    { name: '商品售价', value: 'price', type: ['0', '1', '2', '3', '4', '5', '6'] },
+    { name: '商品原价', value: 'original_price', type: ['0', '1', '2'] },
+    { name: '售价单位', value: 'price_unit', type: ['0', '1', '2', '3', '4', '5', '6'] },
+    { name: '原价单位', value: 'original_price_unit', type: ['0', '1', '2'] },
+];
+
 const groupbuy_list_show_list = [
     { name: '商品标题', value: 'title', type: ['0', '1', '2', '3', '4', '5', '6'] },
     { name: '团购标志', value: 'groupbuy_people_num', type: ['0', '1', '2', '3', '4', '5', '6'] },
@@ -109,7 +120,7 @@ const groupbuy_list_show_list = [
 ];
 
 const list_show_list = computed(() => {
-    let list = props.moduleType === 'groupbuy' ? groupbuy_list_show_list : goods_list_show_list;
+    let list = props.moduleType === 'groupbuy' ? groupbuy_list_show_list : props.moduleType === 'bargain' ? bargain_list_show_list : goods_list_show_list;
     if (props.hideSalesCount) {
         list = list.filter((item) => item.value !== 'sales_count');
     }
