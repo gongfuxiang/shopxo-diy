@@ -6,6 +6,13 @@
   "description": "1. diy, form, 小程序仅base64, TIF，（web端也可以使用这个方式）；2. web端 Base64, WOFF2, WOFF, TEF, SVG, EOT",
   "glyphs": [
     {
+      "icon_id": "11654833",
+      "name": "砍价",
+      "font_class": "bargain",
+      "unicode": "e690",
+      "unicode_decimal": 59024
+    },
+    {
       "icon_id": "44113025",
       "name": "推特",
       "font_class": "twitter",
@@ -35,7 +42,7 @@
     },
     {
       "icon_id": "5229623",
-      "name": "qq空间 hover",
+      "name": "qq空间",
       "font_class": "qzone",
       "unicode": "e62c",
       "unicode_decimal": 58924
@@ -91,7 +98,7 @@
     },
     {
       "icon_id": "40047917",
-      "name": "进销存更多",
+      "name": "更多",
       "font_class": "more",
       "unicode": "e76f",
       "unicode_decimal": 59247
@@ -3640,8 +3647,8 @@
     },
     {
       "icon_id": "36639787",
-      "name": "更多3",
-      "font_class": "more3",
+      "name": "更多-空心-圆点",
+      "font_class": "more-o-point",
       "unicode": "e68e",
       "unicode_decimal": 59022
     },

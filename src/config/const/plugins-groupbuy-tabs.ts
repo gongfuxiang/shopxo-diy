@@ -197,7 +197,7 @@ const defaultProductList: DefaultProductList = {
         // 购买按钮类型
         shop_type: 'text',
         shop_button_text: '开团中',
-        shop_button_icon_class: 'cart',
+        shop_button_icon_class: 'user-group',
         // 点击购买按钮的操作处理
         shop_button_effect: '0',
         // 角标配置
