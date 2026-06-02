@@ -74,6 +74,11 @@ const props = defineProps({
         type: Boolean,
         default: () => false,
     },
+    loadStamp: {
+        type: Number,
+        default: 0,
+    },
+
     // 判断是否返回链接地址
     selectIsUrl: {
         type: Boolean,
@@ -87,18 +92,22 @@ watch(
     }
 );
 watch(
+    () => props.loadStamp,
+    (val, oldVal) => {
+        if (!val || val === oldVal) return;
+        init();
+    },
+    { immediate: true },
+);
+watch(
     () => props.reset,
-    (val) => {
-        if (val) {
-            init();
-        }
-    }
+    () => {
+        reset_data();
+        custom_type_active.value = 0;
+    },
 );
 const emit = defineEmits(['update:link', 'type']);
 
-onMounted(() => {
-    init();
-});
 const reset_data = () => {
     one_item_index.value = 0;
     one_item_text.value = '';

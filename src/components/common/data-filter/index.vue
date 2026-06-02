@@ -9,7 +9,9 @@
         <el-button class="mt-20 w" @click="add">+添加</el-button>
     </div>
     <div v-show="form.data_type === '1'" class="w h">
-        <el-form-item label="关键字">
+        <!-- 直播筛选关键字在下方独立表单项中配置 -->
+        <!-- 直播筛选关键字在下方独立表单项，避免顺序与视频/博客不一致 -->
+        <el-form-item v-if="type !== 'plugins_live'" label="关键字">
             <el-input v-model="keywords" placeholder="请输入关键字" clearable @blur="keyword_blur"></el-input>
         </el-form-item>
         <!-- 商品 -->
@@ -39,7 +41,76 @@
                 </el-radio-group>
             </el-form-item>
         </template>
-        <!-- 文章 博客-->
+        <!-- 拼团自动筛选：字段与 autogroupbuylist 接口一致 -->
+        <template v-else-if="type === 'plugins_groupbuy'">
+            <el-form-item label="显示数量">
+                <el-input-number v-model="form.number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
+            </el-form-item>
+            <el-form-item label="排序类型">
+                <el-radio-group v-model="form.order_by_type">
+                    <el-radio v-for="item in common_store.common.goods_order_by_type_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="排序规则">
+                <el-radio-group v-model="form.order_by_rule">
+                    <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="是否推荐">
+                <el-switch v-model="is_recommended_model" :active-value="1" :inactive-value="0" />
+            </el-form-item>
+        </template>
+        <!-- 砍价自动筛选：字段与 autobargainlist 接口一致 -->
+        <template v-else-if="type === 'plugins_bargain'">
+            <el-form-item label="显示数量">
+                <el-input-number v-model="form.number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
+            </el-form-item>
+            <el-form-item label="排序类型">
+                <el-radio-group v-model="form.order_by_type">
+                    <el-radio v-for="item in common_store.common.goods_order_by_type_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="排序规则">
+                <el-radio-group v-model="form.order_by_rule">
+                    <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="是否推荐">
+                <el-switch v-model="is_recommended_model" :active-value="1" :inactive-value="0" />
+            </el-form-item>
+        </template>
+        <!-- 直播自动筛选：字段与 autolivelist 接口一致 -->
+        <template v-else-if="type === 'plugins_live'">
+            <!-- live_status → 请求参数 live_status（逗号分隔） -->
+            <el-form-item label="直播状态">
+                <el-select v-model="form.live_status" multiple collapse-tags filterable clearable placeholder="请选择直播状态">
+                    <el-option v-for="item in live_status_filter_list" :key="item.type" :label="item.name" :value="item.type" />
+                </el-select>
+            </el-form-item>
+            <!-- keywords → live_keywords -->
+            <el-form-item label="关键字">
+                <el-input v-model="keywords" placeholder="请输入关键字" clearable @blur="keyword_blur"></el-input>
+            </el-form-item>
+            <el-form-item label="显示数量">
+                <el-input-number v-model="form.number" :min="1" :max="50" type="number" placeholder="请输入显示数量" value-on-clear="min" class="w number-show" controls-position="right"></el-input-number>
+            </el-form-item>
+            <!-- order_by_type → live_order_by_type，数据源 plugins.live.order_by_type_list -->
+            <el-form-item label="排序类型">
+                <el-radio-group v-model="form.order_by_type">
+                    <el-radio v-for="item in get_data_list(common_store.common.plugins, 'live.order_by_type_list')" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <!-- order_by_rule → live_order_by_rule，数据源 common.data_order_by_rule_list -->
+            <el-form-item label="排序规则">
+                <el-radio-group v-model="form.order_by_rule">
+                    <el-radio v-for="item in common_store.common.data_order_by_rule_list" :key="item.index" :value="item.index">{{ item.name }}</el-radio>
+                </el-radio-group>
+            </el-form-item>
+            <el-form-item label="是否推荐">
+                <el-switch v-model="form.is_recommended" active-value="1" inactive-value="0" />
+            </el-form-item>
+        </template>
+        <!-- 文章 博客 视频-->
         <template v-else-if="['blog', 'article', 'plugins_video'].includes(type)">
             <el-form-item :label="`${ type === 'article' ? '文章' : type === 'plugins_video' ? '视频' : '博客' }分类`">
                 <el-select v-model="form.category_ids" multiple collapse-tags filterable :placeholder="`请选择${ type === 'article' ? '文章' : type === 'plugins_video' ? '视频' : '博客' }分类`">
@@ -284,7 +355,10 @@
 <script lang="ts" setup>
     import { commonStore } from '@/store';
     import { get_data_list } from '@/utils';
+    import { get_live_status_filter_list } from '@/config/const/plugins-live-status';
     const common_store = commonStore();
+    /** 直播状态筛选项（plugins.live.status_list） */
+    const live_status_filter_list = computed(() => get_live_status_filter_list(common_store.common.plugins));
     // 定义组件的属性和事件
     const props = defineProps({
         value: {
@@ -300,12 +374,24 @@
             default: () => {},
         },
         type: {
-            type: String as PropType<'goods' | 'blog' | 'article' | 'binding' | 'realstore' | 'merchant' | 'ask' | 'activity' | 'coupon' | 'plugins_video'>,
+            type: String as PropType<'goods' | 'blog' | 'article' | 'binding' | 'realstore' | 'merchant' | 'ask' | 'activity' | 'coupon' | 'plugins_video' | 'plugins_live' | 'plugins_groupbuy' | 'plugins_bargain'>,
             default: 'goods',
         }
     });
     const keywords = ref(props.value.keywords);
     const form = ref(props.value);
+    /** 拼团/砍价是否推荐：直接读写 props.value，保证预览列表 watch 能感知变更 */
+    const is_recommended_model = computed({
+        get() {
+            return Number(props.value?.is_recommended ?? 0);
+        },
+        set(val: number) {
+            if (!props.value) {
+                return;
+            }
+            props.value.is_recommended = Number(val);
+        },
+    });
     const drag_list = ref(props.list);
     type option = {
         name: string,
@@ -326,6 +412,22 @@
         },
         plugins_video: {
             optionListKey: 'data_type_list',
+            imgParam: 'cover',
+            titleParam: 'title',
+        },
+        // 直播列表/选项卡：读取方式、筛选字段配置
+        plugins_live: {
+            optionListKey: 'data_type_list',
+            imgParam: 'cover',
+            titleParam: 'title',
+        },
+        plugins_groupbuy: {
+            optionListKey: 'product_list',
+            imgParam: 'cover',
+            titleParam: 'title',
+        },
+        plugins_bargain: {
+            optionListKey: 'product_list',
             imgParam: 'cover',
             titleParam: 'title',
         },
@@ -389,13 +491,27 @@
         keywords.value = props.value.keywords;
         form.value = props.value;
         // 历史数据转成数字类型
-        if (props.type !== 'plugins_video') {
-            form.value.order_by_type = Number(props.value?.order_by_type || 0); 
-            form.value.order_by_rule = Number(props.value?.order_by_rule || 0);
-        } else {
-            form.value.order_by_type = props.value?.order_by_type || 'default'; 
+        if (props.type === 'plugins_video') {
+            form.value.order_by_type = props.value?.order_by_type || 'default';
             form.value.order_by_release_time_rule = props.value?.order_by_release_time_rule || 'default';
-            form.value.order_by_duration_rule = props.value?.order_by_duration_rule || 'default';   
+            form.value.order_by_duration_rule = props.value?.order_by_duration_rule || 'default';
+        } else if (props.type === 'plugins_live') {
+            // 排序类型/规则为 number，与 order_by_type_list、data_order_by_rule_list 的 index 对应
+            form.value.order_by_type = Number(props.value?.order_by_type ?? 0);
+            form.value.order_by_rule = Number(props.value?.order_by_rule ?? 0);
+            form.value.live_status = Array.isArray(props.value?.live_status) ? props.value.live_status : [];
+            const recommended = props.value?.is_recommended;
+            form.value.is_recommended =
+                recommended === '' || recommended === null || recommended === undefined ? '0' : String(recommended);
+        } else if (['plugins_groupbuy', 'plugins_bargain'].includes(props.type)) {
+            form.value.order_by_type = Number(props.value?.order_by_type ?? 0);
+            form.value.order_by_rule = Number(props.value?.order_by_rule ?? 0);
+            if (props.value?.is_recommended === undefined) {
+                form.value.is_recommended = 0;
+            }
+        } else {
+            form.value.order_by_type = Number(props.value?.order_by_type || 0);
+            form.value.order_by_rule = Number(props.value?.order_by_rule || 0);
         }
         drag_list.value = props.list;
     });

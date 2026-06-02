@@ -301,9 +301,9 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
 
     clone_form.footer.show_tabs = '0';
     // 字段比coupon多
-    const new_array_1 = ['goods-list', 'article-list', 'blog', 'shop', 'realstore', 'binding', 'ask', 'activity', 'plugins-video'];
+    const new_array_1 = ['goods-list', 'article-list', 'blog', 'shop', 'realstore', 'binding', 'ask', 'activity', 'plugins-video', 'plugins-live', 'plugins-groupbuy', 'plugins-bargain'];
     // 数据比正常list多一级
-    const new_array_2 = ['goods-tabs', 'article-tabs', 'blog-tabs', 'ask-tabs', 'plugins-video-tabs'];
+    const new_array_2 = ['goods-tabs', 'article-tabs', 'blog-tabs', 'ask-tabs', 'plugins-video-tabs', 'plugins-live-tabs', 'plugins-groupbuy-tabs', 'plugins-bargain-tabs'];
     // 数据格式简单
     const new_array_3 = ['coupon'];
     // 层级更深
@@ -350,12 +350,12 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
     clone_form.diy_data = clone_form.diy_data.map((item: any) => {
         if (new_array_1.includes(item.key)) {
             // 商品或文章的数据处理
-            goods_or_article_data_processing(item.com_data.content, item.key == new_array_1[0], item.key);
+            goods_or_article_data_processing(item.com_data.content, ['goods-list', 'plugins-groupbuy', 'plugins-bargain'].includes(item.key), item.key);
         } else if (new_array_2.includes(item.key)) {
             item.com_data.content.tabs_active_index = 0;
             item.com_data.content.tabs_list.forEach((item0: any) => {
                 // 商品或文章的数据处理
-                goods_or_article_data_processing(item0, item.key == new_array_1[0], item.key);
+                goods_or_article_data_processing(item0, item.key === 'goods-tabs', item.key);
             });
         } else if (new_array_3.includes(item.key)) {
             // 提取数据ID列表，用于后续的数据查询或处理
@@ -574,6 +574,12 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
             new_com_data_content.order_by_type = 'default';
             new_com_data_content.order_by_release_time_rule = 'default';
             new_com_data_content.order_by_duration_rule = 'default';
+        } else if (['plugins-live', 'plugins-live-tabs'].includes(type)) {
+            // 直播列表/选项卡：筛选字段与 autolivelist 一致
+            new_com_data_content.order_by_type = defaultConfigSetting.order_by_type;
+            new_com_data_content.order_by_rule = defaultConfigSetting.order_by_rule;
+            new_com_data_content.live_status = [];
+            new_com_data_content.is_recommended = ''; // 空=不按推荐筛选
         } else {
             new_com_data_content.order_by_type = defaultConfigSetting.order_by_type;
             new_com_data_content.order_by_rule = defaultConfigSetting.order_by_rule;
@@ -582,9 +588,14 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
         // 根据是否为商品，决定是否设置品牌ID或封面标志
         if (is_goods) {
             new_com_data_content.brand_ids = defaultConfigSetting.brand_ids;
+            if (['plugins-groupbuy', 'plugins-bargain'].includes(type)) {
+                new_com_data_content.is_recommended = 0;
+            }
         } else {
             // 文章博客的显示
-            if (['article-list', 'article-tabs', 'blog', 'blog-tabs', 'plugins-video', 'plugins-video-tabs'].includes(type)) {
+            if (['plugins-groupbuy-tabs', 'plugins-bargain-tabs'].includes(type)) {
+                new_com_data_content.is_recommended = 0;
+            } else if (['article-list', 'article-tabs', 'blog', 'blog-tabs', 'plugins-video', 'plugins-video-tabs', 'plugins-live', 'plugins-live-tabs'].includes(type)) {
                 new_com_data_content.is_cover = defaultConfigSetting.is_cover;
                 if (['blog', 'blog-tabs', 'plugins-video', 'plugins-video-tabs'].includes(type)) {
                     new_com_data_content.is_recommended = '0';

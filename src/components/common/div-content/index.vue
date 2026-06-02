@@ -114,6 +114,10 @@
             <template v-else-if="item.key == 'seckill'">
                 <model-seckill :key="item.com_data" :value="item.com_data"></model-seckill>
             </template>
+            <!-- 预售 -->
+            <template v-else-if="item.key == 'plugins-presale'">
+                <model-plugins-presale :key="item.com_data" :value="item.com_data"></model-plugins-presale>
+            </template>
             <!-- 文章列表 -->
             <template v-else-if="item.key == 'blog'">
                 <model-blog-list :key="item.com_data" :value="item.com_data"></model-blog-list>
@@ -153,6 +157,28 @@
             <!-- 视频列表 -->
             <template v-else-if="item.key == 'plugins-video'">
                 <model-plugins-video-list :key="item.com_data" :value="item.com_data"></model-plugins-video-list>
+            </template>
+            <template v-else-if="item.key == 'plugins-live'">
+                <model-plugins-live-list :key="item.com_data" :value="item.com_data"></model-plugins-live-list>
+            </template>
+            <template v-else-if="item.key == 'plugins-live-tabs'">
+                <model-plugins-live-tabs :key="item.com_data" :value="item.com_data"></model-plugins-live-tabs>
+            </template>
+            <!-- 拼团列表 -->
+            <template v-else-if="item.key == 'plugins-groupbuy'">
+                <model-plugins-groupbuy-list :key="item.com_data" :value="item.com_data"></model-plugins-groupbuy-list>
+            </template>
+            <!-- 拼团选项卡 -->
+            <template v-else-if="item.key == 'plugins-groupbuy-tabs'">
+                <model-plugins-groupbuy-tabs :key="item.com_data" :value="item.com_data"></model-plugins-groupbuy-tabs>
+            </template>
+            <!-- 砍价列表 -->
+            <template v-else-if="item.key == 'plugins-bargain'">
+                <model-plugins-bargain-list :key="item.com_data" :value="item.com_data"></model-plugins-bargain-list>
+            </template>
+            <!-- 砍价选项卡 -->
+            <template v-else-if="item.key == 'plugins-bargain-tabs'">
+                <model-plugins-bargain-tabs :key="item.com_data" :value="item.com_data"></model-plugins-bargain-tabs>
             </template>
             <!-- 视频选项卡 -->
             <template v-else-if="item.key == 'plugins-video-tabs'">

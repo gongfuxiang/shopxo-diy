@@ -30,6 +30,8 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { useLinkPickerLoad } from '@/hooks/use-link-picker-load';
+import { toRef } from 'vue';
 import { commonStore } from '@/store';
 const common_store = commonStore();
 const props = defineProps({
@@ -38,6 +40,11 @@ const props = defineProps({
         type: Boolean,
         default: () => false,
     },
+    loadStamp: {
+        type: Number,
+        default: 0,
+    },
+
     // 判断是否返回链接地址
     selectIsUrl: {
         type: Boolean,
@@ -45,20 +52,25 @@ const props = defineProps({
     },
 });
 watch(
+    () => props.loadStamp,
+    (val, oldVal) => {
+        if (!val || val === oldVal) return;
+        resetFields();
+    },
+    { immediate: true },
+);
+watch(
     () => props.reset,
     () => {
-        template_selection.value = '';
-        init();
-    }
+        resetFields();
+    },
 );
 const modelValue = defineModel({ type: Object, default: {} });
 const table_data = ref<pageLinkList[]>([]);
 const new_table_data = ref<pageLinkList[]>([]);
 const search_value = ref('');
-onMounted(() => {
-    init();
-});
-const init = () => {
+const resetFields = () => {
+    template_selection.value = '';
     search_value.value = '';
     table_data.value = common_store.common.goods_category;
     new_table_data.value = common_store.common.goods_category;

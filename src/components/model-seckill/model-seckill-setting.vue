@@ -128,11 +128,12 @@ onBeforeMount(async () => {
                 content: {
                     title_type: 'image',
                     title_src: [{ id: 1, url: new_url.value + 'header-title-2.png', original: '标题2', title: '标题2', ext: '.png', type: 'img' }],
-                    button_status: '0',
+                    button_status: '1',
                 },
                 style: {
                     title_color: '#000',
                     end_text_color: '#666',
+                    head_button_color: '#000',
                     header_background_color_list: [{ color: '#FFE0E0', color_percentage: undefined },{ color: '#FFEFEF', color_percentage: 50 }, { color: '#FFFFFF', color_percentage: undefined }],
                     header_background_img: [],
                     countdown_bg_color_list: [{ color: '#FF4909', color_percentage: undefined }, { color: '#FF8E4D', color_percentage: undefined }],

@@ -28,14 +28,12 @@
                             <el-input v-model="form.title_text" placeholder="请输入标题文字" clearable></el-input>
                         </el-form-item>
                     </template>
-                    <template v-if="form.theme != '2'">
-                        <el-form-item label="按钮状态">
-                            <el-switch v-model="form.button_status" active-value="1" inactive-value="0"></el-switch>
-                        </el-form-item>
-                        <el-form-item v-if="form.button_status == '1'" label="按钮文字">
-                            <el-input v-model="form.button_text" placeholder="请输入按钮文字" clearable></el-input>
-                        </el-form-item>
-                    </template>
+                    <el-form-item label="按钮状态">
+                        <el-switch v-model="form.button_status" active-value="1" inactive-value="0"></el-switch>
+                    </el-form-item>
+                    <el-form-item v-if="form.button_status == '1'" label="按钮文字">
+                        <el-input v-model="form.button_text" placeholder="请输入按钮文字" clearable></el-input>
+                    </el-form-item>
                 </template>
             </card-container>
             <div class="divider-line"></div>

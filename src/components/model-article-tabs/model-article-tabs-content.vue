@@ -112,6 +112,7 @@
 <script setup lang="ts">
 import { isEmpty } from 'lodash';
 import { get_math, tabs_style } from '@/utils';
+import { clear_name_float_when_leave_carousel } from '@/utils/common';
 import { commonStore } from '@/store';
 const common_store = commonStore();
 /**
@@ -176,6 +177,7 @@ const base_list = reactive({
 });
 const emits = defineEmits(['theme_change']);
 onMounted(() => {
+    clear_name_float_when_leave_carousel(form.article_theme, form, styles);
     // 如果历史数据没有操作，则修改默认值
     const { content_img_width = '', content_img_height = '' } = styles;
     // 宽度和高度为空的时候，并且不是无图模式和左右滑动模式的时候，修改默认值
@@ -197,6 +199,7 @@ onMounted(() => {
 
 // 监听tabs_theme_list的变化
 const article_theme_change = (val: any) => {
+    clear_name_float_when_leave_carousel(val, form, styles);
     if (val == '3' || val == '4') {
         form.field_show = ['1', '3'];
     } else {
@@ -356,6 +359,9 @@ watchEffect(() => {
 });
 // 标题浮起之后文章标题的颜色和字体更新
 const switch_chage = (val: string | number | boolean) => {
+    if (form.article_theme != '4') {
+        return;
+    }
     if (val == '1') {
         styles.name_color = '#fff';
         styles.name_weight = '400';

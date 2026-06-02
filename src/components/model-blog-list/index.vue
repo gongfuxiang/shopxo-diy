@@ -47,18 +47,18 @@
                                         <template v-else>
                                             <image-empty v-model="item.data.cover" class="img" :style="img_radius" :error-img-style="error_img"></image-empty>
                                         </template>
-                                        <template v-if="field_show.includes('3') && new_content.name_float == '1'">
+                                        <template v-if="field_show.includes('3') && is_name_float">
                                             <div class="text-line-1" :style="blog_name + float_name_style">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
                                         </template>
                                         <!-- 角标设置 -->
                                         <subscript-index :value="props.value"></subscript-index>
                                     </div>
-                                    <div v-if="field_show.includes('0') || field_show.includes('1') || field_show.includes('2') || (field_show.includes('3') && new_content.name_float == '0')" class="jc-sb flex-1 flex-col" :style="blog_theme != '0' ? content_padding : ''">
+                                    <div v-if="field_show.includes('0') || field_show.includes('1') || field_show.includes('2') || (field_show.includes('3') && !is_name_float)" class="jc-sb flex-1 flex-col" :style="blog_theme != '0' ? content_padding : ''">
                                         <div class="flex-col" :style="'gap:' + new_style.name_desc_space + 'px;'">
-                                            <div v-if="field_show.includes('3') && new_content.name_float == '0'" class="title text-line-2" :style="blog_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
+                                            <div v-if="field_show.includes('3') && !is_name_float" class="title text-line-2" :style="blog_name">{{ !isEmpty(item.new_title) ? item.new_title : item.data.title }}</div>
                                             <div v-if="field_show.includes('2')" :class="'desc ' + field_desc_row == '2' ? 'text-line-2' : 'text-line-1'" :style="blog_desc">{{ item.data.describe || '' }}</div>
                                         </div>
-                                        <div :class="[ 'flex-row jc-sb gap-8 align-e', { 'mt-10': (field_show.includes('3') && new_content.name_float == '0') || field_show.includes('2') }] ">
+                                        <div :class="[ 'flex-row jc-sb gap-8 align-e', { 'mt-10': (field_show.includes('3') && !is_name_float) || field_show.includes('2') }] ">
                                             <div :style="blog_date">{{ field_show.includes('0') ? (!is_obj_empty(item.data) ? item.data.add_time : '2020-06-05 15:20') : '' }}</div>
                                             <div v-show="field_show.includes('1')" class="flex-row align-c gap-3" :style="blog_page_view">
                                                 <icon name="eye"></icon>
@@ -155,6 +155,7 @@ const default_data_list: blogList = {
 const new_content = computed(() => props.value?.content || {});
 // 样式
 const new_style = computed(() => props.value?.style || {});
+const is_name_float = computed(() => blog_theme.value === '4' && new_content.value.name_float == '1');
 // 获取自动数据
 const get_auto_data_list = async () => {
     const { category_ids, number, order_by_type, order_by_rule, is_cover, keywords, is_recommended, is_hot } = new_content.value;

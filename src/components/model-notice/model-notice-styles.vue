@@ -11,7 +11,7 @@
                         <flex-gradients-create :color-list="form.title_color_list"></flex-gradients-create>
                     </el-form-item>
                 </template>
-                <template v-else>
+                <template v-else-if="is_img">
                     <template v-if="!isEmpty(substance.icon_class)">
                         <el-form-item label="左侧图标">
                             <div class="flex-col w gap-10">
@@ -37,6 +37,19 @@
                         </el-form-item>
                     </template>
                 </template>
+                <!-- 样式三全部显示：左侧图标位置与外边距 -->
+                <template v-if="is_marquee_full_display">
+                    <el-form-item label="图标位置">
+                        <el-radio-group v-model="form.left_icon_position">
+                            <el-radio value="top">居上</el-radio>
+                            <el-radio value="center">居中</el-radio>
+                            <el-radio value="bottom">居下</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item label="图标外边距">
+                        <padding v-model:value="form.left_icon_margin"></padding>
+                    </el-form-item>
+                </template>
                 <el-form-item label="内容标题">
                     <color-text-size-group v-model:color="form.news_color" v-model:typeface="form.news_typeface" v-model:size="form.news_size" default-color="#000000"></color-text-size-group>
                 </el-form-item>
@@ -50,20 +63,37 @@
                 <el-form-item label="按钮文字">
                     <slider v-model="form.right_button_size" :max="100"></slider>
                 </el-form-item>
+                <!-- 样式三全部显示：右侧更多按钮图标位置与外边距 -->
+                <template v-if="is_marquee_full_display">
+                    <el-form-item label="图标位置">
+                        <el-radio-group v-model="form.right_icon_position">
+                            <el-radio value="top">居上</el-radio>
+                            <el-radio value="center">居中</el-radio>
+                            <el-radio value="bottom">居下</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                    <el-form-item label="图标外边距">
+                        <padding v-model:value="form.right_icon_margin"></padding>
+                    </el-form-item>
+                </template>
             </card-container>
             <div class="bg-f5 divider-line" />
             <card-container>
                 <div class="mb-12">容器设置</div>
-                <template v-if="substance.notice_style === 'inherit'">
+                <!-- 样式三开启全部显示时不配置固定高度，由内容撑开 -->
+                <template v-if="show_container_height">
                     <el-form-item label="高度">
-                        <slider v-model="form.container_height" :max="1000"></slider>
+                        <slider v-model="form.container_height" :min="1" :max="1000"></slider>
                     </el-form-item>
                 </template>
                 <el-form-item label="背景">
                     <background-common v-model:color_list="form.container_color_list" v-model:direction="form.container_direction" v-model:img_style="form.container_background_img_style" v-model:img="form.container_background_img" @mult_color_picker_event="mult_color_picker_event" />
                 </el-form-item>
                 <el-form-item label="内边距">
-                    <padding :value="form.container_padding"></padding>
+                    <padding
+                        :key="`notice-container-padding-${substance.notice_style}-${substance.is_full_display}`"
+                        v-model:value="form.container_padding"
+                    ></padding>
                 </el-form-item>
                 <el-form-item label="圆角">
                     <radius :value="form.container_radius"></radius>
@@ -91,11 +121,20 @@ const state = reactive({
     form: props.value,
     substance: props.content,
 });
-// 如果需要解构，确保使用toRefs
 const { form, substance } = toRefs(state);
 
 const is_img = computed(() => substance.value.title_type == 'img-icon');
-// 通用样式处理
+/** 样式三且开启全部显示 */
+const is_marquee_full_display = computed(
+    () => substance.value.notice_style == 'marquee' && substance.value.is_full_display === '1'
+);
+/** 样式一固定高度；样式三未开启全部显示时固定高度 */
+const show_container_height = computed(() => {
+    if (substance.value.notice_style === 'inherit') return true;
+    if (substance.value.notice_style === 'marquee' && substance.value.is_full_display !== '1') return true;
+    return false;
+});
+
 const common_styles_update = (val: Object) => {
     form.value.common_style = val;
 };

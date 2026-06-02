@@ -25,6 +25,7 @@ import defaultCustom from '@/config/const/custom';
 import defaultDataMagic from '@/config/const/data-magic';
 import defaultCoupon from '@/config/const/coupon';
 import defaultSeckill from '@/config/const/seckill';
+import defaultPluginsPresale from '@/config/const/plugins-presale';
 import defaultTabsCarousel from '@/config/const/tabs-carousel';
 import defaultRealstore from '@/config/const/realstore';
 import defaultShop from '@/config/const/shop';
@@ -37,7 +38,12 @@ import defaultGoodsMagic from '@/config/const/goods-magic';
 import defaultTabsMagic from '@/config/const/tabs-magic';
 import defaultPluginsVideo from '@/config/const/plugins-video-list';
 import defaultPluginsVideoTabs from '@/config/const/plugins-video-tabs';
-
+import defaultPluginsLive from '@/config/const/plugins-live-list';
+import defaultPluginsLiveTabs from '@/config/const/plugins-live-tabs';
+import defaultPluginsGroupbuy from '@/config/const/plugins-groupbuy-list';
+import defaultPluginsGroupbuyTabs from '@/config/const/plugins-groupbuy-tabs';
+import defaultPluginsBargain from '@/config/const/plugins-bargain-list';
+import defaultPluginsBargainTabs from '@/config/const/plugins-bargain-tabs';
 
 // 系统设置
 interface DefaultSettings {
@@ -51,6 +57,12 @@ interface DefaultSettings {
     blog_tabs: object;
     plugins_video: object;
     plugins_video_tabs: object;
+    plugins_live: object;
+    plugins_live_tabs: object;
+    plugins_groupbuy: object;
+    plugins_groupbuy_tabs: object;
+    plugins_bargain: object;
+    plugins_bargain_tabs: object;
     row_line: object;
     auxiliary_blank: object;
     rich_text: object;
@@ -80,6 +92,7 @@ interface DefaultSettings {
     activity: object;
     goods_magic: object;
     tabs_magic: object;
+    plugins_presale: object;
 }
 
 const defaultSettings: DefaultSettings = {
@@ -93,6 +106,12 @@ const defaultSettings: DefaultSettings = {
     blog_tabs: defaultBlogTabs,
     plugins_video: defaultPluginsVideo,
     plugins_video_tabs: defaultPluginsVideoTabs,
+    plugins_live: defaultPluginsLive,
+    plugins_live_tabs: defaultPluginsLiveTabs,
+    plugins_groupbuy: defaultPluginsGroupbuy,
+    plugins_groupbuy_tabs: defaultPluginsGroupbuyTabs,
+    plugins_bargain: defaultPluginsBargain,
+    plugins_bargain_tabs: defaultPluginsBargainTabs,
     row_line: defaultRowLine,
     auxiliary_blank: defaultAuxiliaryBlank,
     rich_text: defaultRichText,
@@ -122,6 +141,7 @@ const defaultSettings: DefaultSettings = {
     activity: defaultActivity,
     goods_magic: defaultGoodsMagic,
     tabs_magic: defaultTabsMagic,
+    plugins_presale: defaultPluginsPresale,
 };
 
 export default defaultSettings;

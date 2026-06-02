@@ -31,13 +31,15 @@
                 </template>
             </el-table>
             <div class="mt-10 flex-row jc-e">
-                <el-pagination :current-page="page" background :page-size="page_size" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="get_list" />
+                <el-pagination :current-page="page" background :page-size="page_size" :pager-count="5" layout="prev, pager, next" :total="data_total" @current-change="onPageChange" />
             </div>
         </div>
     </div>
 </template>
 <script lang="ts" setup>
 import commonApi from '@/api/common';
+import { useLinkPickerLoad } from '@/hooks/use-link-picker-load';
+import { toRef } from 'vue';
 const props = defineProps({
     type: {
         type: String,
@@ -48,6 +50,11 @@ const props = defineProps({
         type: Boolean,
         default: () => false,
     },
+    loadStamp: {
+        type: Number,
+        default: 0,
+    },
+
     multiple: {
         type: Boolean,
         default: () => false,
@@ -62,28 +69,13 @@ const props = defineProps({
         default: false,
     },
 });
-watch(
-    () => props.reset,
-    (val) => {
-        if (val) {
-            init();
-        }
-    }
-);
-onMounted(() => {
-    init();
-});
 const modelValue = defineModel({ type: Object, default: {} });
 const tableData = ref<pageLinkList[]>([]);
 const search_value = ref('');
 const loading = ref(false);
-const init = () => {
+const resetFields = () => {
     template_selection.value = '';
     search_value.value = '';
-    get_list(1);
-};
-const handle_search = () => {
-    get_list(1);
 };
 const emit = defineEmits(['update:link']);
 const template_selection = ref('');
@@ -121,6 +113,17 @@ const get_list = (new_page: number) => {
         loading.value = false;
     });
 };
+
+const { onPageChange, runFilterFetch } = useLinkPickerLoad({
+    loadStamp: toRef(props, 'loadStamp'),
+    resetFlag: toRef(props, 'reset'),
+    resetFields,
+    fetchList: get_list,
+});
+const handle_search = () => {
+    runFilterFetch(() => get_list(1));
+};
+
 //#region 分页 -----------------------------------------------end
 // 根据是diy还是design或者custom-view获取link地址
 const computer_link = computed(() => {

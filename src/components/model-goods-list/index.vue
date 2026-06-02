@@ -55,7 +55,7 @@
                                             </div>
                                         </div>
                                         <div class="flex-row jc-sb align-e">
-                                            <div>
+                                            <div class="flex-1">
                                                 <div v-if="show_content" class="flex-row align-c size-10">
                                                     <div v-if="is_show('sales_count')" class="pr-5" :style="trends_config('sold_number')">已售{{ item.sales_count }}件</div>
                                                     <!-- <div v-if="is_show('sales_count')" :class="['pr-5', {'br-r-e': is_show('sales_count') && is_show('4')}]" :style="trends_config('sold_number')">已售{{ item.sales_count }}件</div> -->

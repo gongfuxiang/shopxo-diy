@@ -102,6 +102,10 @@
             <template v-else-if="value.key == 'seckill'">
                 <model-seckill-setting :type="radio" :value="value.com_data"></model-seckill-setting>
             </template>
+            <!-- 预售 -->
+            <template v-else-if="value.key == 'plugins-presale'">
+                <model-plugins-presale-setting :type="radio" :value="value.com_data"></model-plugins-presale-setting>
+            </template>
             <!-- 博客列表 -->
             <template v-else-if="value.key == 'blog'">
                 <model-blog-list-setting :type="radio" :value="value.com_data"></model-blog-list-setting>
@@ -137,6 +141,24 @@
             <!-- 短视频 -->
             <template v-else-if="value.key == 'plugins-video'">
                 <model-plugins-video-list-setting :type="radio" :value="value.com_data"></model-plugins-video-list-setting>
+            </template>
+            <template v-else-if="value.key == 'plugins-live'">
+                <model-plugins-live-list-setting :type="radio" :value="value.com_data"></model-plugins-live-list-setting>
+            </template>
+            <template v-else-if="value.key == 'plugins-live-tabs'">
+                <model-plugins-live-tabs-setting :type="radio" :value="value.com_data"></model-plugins-live-tabs-setting>
+            </template>
+            <template v-else-if="value.key == 'plugins-groupbuy'">
+                <model-plugins-groupbuy-list-setting :type="radio" :value="value.com_data"></model-plugins-groupbuy-list-setting>
+            </template>
+            <template v-else-if="value.key == 'plugins-groupbuy-tabs'">
+                <model-plugins-groupbuy-tabs-setting :type="radio" :value="value.com_data"></model-plugins-groupbuy-tabs-setting>
+            </template>
+            <template v-else-if="value.key == 'plugins-bargain'">
+                <model-plugins-bargain-list-setting :type="radio" :value="value.com_data"></model-plugins-bargain-list-setting>
+            </template>
+            <template v-else-if="value.key == 'plugins-bargain-tabs'">
+                <model-plugins-bargain-tabs-setting :type="radio" :value="value.com_data"></model-plugins-bargain-tabs-setting>
             </template>
             <!-- 短视频选项卡 -->
             <template v-else-if="value.key == 'plugins-video-tabs'">

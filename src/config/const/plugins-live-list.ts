@@ -1,0 +1,202 @@
+import defaultCommon from './index';
+import commonTop from './common-top';
+import defaultSetting from '../setting/index';
+interface pluginsLiveList {
+    id: number | string;
+    data: object;
+    new_title: string;
+    new_cover: uploadList[];
+}
+interface DefaultPluginsLiveList {
+    content: {
+        content_top: object;
+        // 风格
+        theme: string;
+        carousel_col: string;
+        data_type: string;
+        keywords: string;
+        /** 直播状态，多选，请求时转为逗号分隔 */
+        live_status: string[];
+        /** 是否推荐，0否 1是（与短视频开关一致） */
+        is_recommended: string;
+        data_list: pluginsLiveList[];
+        data_ids: string;
+        data_auto_list: pluginsLiveList[];
+        number: number;
+        /** 排序类型 → live_order_by_type，对应 plugins.live.order_by_type_list.index */
+        order_by_type: number;
+        /** 排序规则 → live_order_by_rule，对应 common.data_order_by_rule_list.index */
+        order_by_rule: number;
+        field_show: string[];
+        is_cover: string;
+        name_float: string;
+    };
+    style: {
+        plugins_live_direction: string,
+        plugins_live_color_list: color_list[],
+        plugins_live_background_img_style: string,
+        plugins_live_background_img: uploadList[],
+        name_weight: string;
+        name_size: number;
+        name_color: string;
+        name_bg_color_list: color_list[];
+        name_bg_direction: string,
+        name_bg_margin: marginStyle,
+        name_bg_padding: paddingStyle,
+        name_bg_radius: radiusStyle,
+        // desc_color: string;
+        // desc_size: number;
+        // name_desc_space: number;
+        time_weight: string;
+        time_size: number;
+        time_color: string;
+        page_view_weight: string;
+        page_view_size: number;
+        page_view_color: string;
+        content_radius: radiusStyle;
+        img_radius: radiusStyle;
+        margin: marginStyle;    
+        padding: paddingStyle;
+        border_is_show: string;
+        border_color: string;
+        border_style: string;
+        border_size: paddingStyle;
+        // 阴影
+        box_shadow_color: string;
+        box_shadow_x: number;
+        box_shadow_y: number;
+        box_shadow_blur: number;
+        box_shadow_spread: number;
+        plugins_live_spacing: number;
+        content_spacing: number;
+        plugins_live_height: number;
+        content_img_width: number;
+        content_img_height: number;
+        interval_time: number; //滚动时间
+        is_roll: number;
+        rolling_fashion: string;
+        common_style: object;
+    };
+}
+const defaultPluginsLiveList: DefaultPluginsLiveList = {
+    content: {
+        content_top: {
+            ...commonTop
+        },
+        theme: '0',
+        carousel_col: '2',
+        data_type: '0',
+        keywords: '',
+        live_status: [],
+        is_recommended: '0',
+        data_list: [],
+        data_ids: '',
+        data_auto_list: [],
+        number: defaultSetting.page_size,
+        order_by_type: defaultSetting.order_by_type,
+        order_by_rule: defaultSetting.order_by_rule,
+        field_show: ['0', '1', '2', '3'],
+        is_cover: defaultSetting.is_cover,
+        name_float: '0'
+    },
+    style: {
+        plugins_live_direction: '90deg',
+        plugins_live_color_list: [{ color: '#fff', color_percentage: undefined }],
+        plugins_live_background_img_style: '0',
+        plugins_live_background_img: [],
+        name_weight: 'bold',
+        name_size: 14,
+        name_color: '#333',
+        name_bg_color_list: [{ color: 'rgba(0, 0, 0, 0.7)', color_percentage: undefined }],
+        name_bg_direction: '180deg',
+        name_bg_margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
+        },
+        name_bg_padding: {
+            padding: 0,
+            padding_top: 0,
+            padding_bottom: 0,
+            padding_left: 10,
+            padding_right: 10,
+        },
+        name_bg_radius: {
+            radius: 0,
+            radius_top_left: 0,
+            radius_top_right: 0,
+            radius_bottom_left: 4,
+            radius_bottom_right: 4,
+        },
+        // desc_color: '#999',
+        // desc_size: 12,
+        // name_desc_space: 4,
+        time_weight: '400',
+        time_size: 12,
+        time_color: 'rgba(153, 153, 153, 1)',
+        page_view_weight: '400',
+        page_view_size: 12,
+        page_view_color: 'rgba(153, 153, 153, 1)',
+        // 内容圆角
+        content_radius: {
+            radius: 8,
+            radius_top_left: 8,
+            radius_top_right: 8,
+            radius_bottom_left: 8,
+            radius_bottom_right: 8,
+        },
+        // 图片圆角 ---- 除了风格一圆角是4，其他都是0
+        img_radius: {
+            radius: 4,
+            radius_top_left: 4,
+            radius_top_right: 4,
+            radius_bottom_left: 4,
+            radius_bottom_right: 4,
+        },
+        margin: {
+            margin: 0,
+            margin_top: 0,
+            margin_bottom: 0,
+            margin_left: 0,
+            margin_right: 0,
+        },
+        // 内间距
+        padding: {
+            padding: 10,
+            padding_top: 10,
+            padding_bottom: 10,
+            padding_left: 10,
+            padding_right: 10,
+        },
+        // 边框样式
+        border_is_show: '0',
+        border_color: '#FF3F3F',
+        border_style: 'solid',
+        border_size: {
+            padding: 1,
+            padding_top: 1,
+            padding_right: 1,
+            padding_bottom: 1,
+            padding_left: 1,
+        },
+        // 阴影
+        box_shadow_color: '',
+        box_shadow_x: 0,
+        box_shadow_y: 0,
+        box_shadow_blur: 0,
+        box_shadow_spread: 0,
+        content_spacing: 10, // 内容间距
+        plugins_live_spacing: 10, // 博客间距
+        plugins_live_height: 155, // 博客高度
+        content_img_width: 110,
+        content_img_height: 83,
+        interval_time: 3, //滚动时间
+        is_roll: 1, // 是否轮播
+        rolling_fashion: 'translation', // 滚动方式  translation 平移 cut-screen 切屏
+        common_style: { ...defaultCommon, padding: 10, padding_top: 10, padding_bottom: 10, padding_left: 10, padding_right: 10 },
+    },
+};
+
+export default defaultPluginsLiveList;

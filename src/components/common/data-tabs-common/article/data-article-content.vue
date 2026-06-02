@@ -45,6 +45,7 @@
 
 <script lang="ts" setup>
 import { get_math } from '@/utils';
+import { clear_name_float_when_leave_carousel } from '@/utils/common';
 
 const props = defineProps({
     value: {
@@ -102,8 +103,12 @@ const state = reactive({
 });
 // 如果需要解构，确保使用toRefs
 const { form, data } = toRefs(state);
+onMounted(() => {
+    clear_name_float_when_leave_carousel(form.value.theme, form.value, data.value);
+});
 // 主题改变
 const theme_change = (val: any) => {
+    clear_name_float_when_leave_carousel(val, form.value, data.value);
     if (val == '3' || val == '4') {
         form.value.field_show = ['1', '3'];
     } else {
@@ -177,6 +182,9 @@ const url_value_dialog_call_back = (item: any[]) => {
 };
 // 标题浮起之后文章标题的颜色和字体更新
 const switch_chage = (val: string | number | boolean) => {
+    if (form.value.theme != '4') {
+        return;
+    }
     if (val == '1') {
         data.value.name_color = '#fff';
         data.value.name_weight = '400';
