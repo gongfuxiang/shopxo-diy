@@ -240,13 +240,13 @@ onMounted(() => {
 });
 
 const get_products = () => {
-    const { number, order_by_type, order_by_rule, keywords, is_recommend } = form.value;
+    const { number, order_by_type, order_by_rule, keywords, is_recommended } = form.value;
     const params = {
         bargain_keywords: keywords,
         bargain_order_by_type: order_by_type,
         bargain_order_by_rule: order_by_rule,
         bargain_number: number,
-        bargain_is_recommend: Number(is_recommend ?? 0),
+        bargain_is_recommended: Number(is_recommended ?? 0),
     };
     PluginsBargainAPI.getAutoList(params).then((res: any) => {
         if (!isEmpty(res.data)) {
@@ -261,11 +261,11 @@ watchEffect(() => {
         list.value = props.newList;
     }
 });
-// 取出监听的数据（显式读取 is_recommend，确保嵌套 content 变更能触发 watch）
+// 取出监听的数据（显式读取 is_recommended，确保嵌套 content 变更能触发 watch）
 const watch_data = computed(() => {
     const { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, data_list, keywords } = form.value;
-    const is_recommend = Number(form.value.is_recommend ?? 0);
-    return { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, data_list, keyword: keywords, is_recommend };
+    const is_recommended = Number(form.value.is_recommended ?? 0);
+    return { category_ids, brand_ids, number, order_by_type, order_by_rule, data_type, data_list, keyword: keywords, is_recommended };
 });
 // 初始化的时候不执行, 监听数据变化
 watch(watch_data, (val, oldVal) => {

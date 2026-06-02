@@ -10,7 +10,7 @@ interface DefaultPluginsGroupbuyList {
         theme: string;
         data_type: string;
         keywords: string;
-        is_recommend: number;
+        is_recommended: number;
         carousel_col: number;
         category_ids: string[];
         brand_ids: string[];
@@ -112,7 +112,7 @@ const defaultPluginsGroupbuyList: DefaultPluginsGroupbuyList = {
         // 商品关键字
         keywords: '',
         // 是否推荐（筛选拼团）
-        is_recommend: 0,
+        is_recommended: 0,
         // 轮播列数
         carousel_col: 3,
         // 商品列表

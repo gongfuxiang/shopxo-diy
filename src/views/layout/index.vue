@@ -589,12 +589,12 @@ const save_formmat_form_data = (data: diy_data_item, close: boolean = false, is_
         if (is_goods) {
             new_com_data_content.brand_ids = defaultConfigSetting.brand_ids;
             if (['plugins-groupbuy', 'plugins-bargain'].includes(type)) {
-                new_com_data_content.is_recommend = 0;
+                new_com_data_content.is_recommended = 0;
             }
         } else {
             // 文章博客的显示
             if (['plugins-groupbuy-tabs', 'plugins-bargain-tabs'].includes(type)) {
-                new_com_data_content.is_recommend = 0;
+                new_com_data_content.is_recommended = 0;
             } else if (['article-list', 'article-tabs', 'blog', 'blog-tabs', 'plugins-video', 'plugins-video-tabs', 'plugins-live', 'plugins-live-tabs'].includes(type)) {
                 new_com_data_content.is_cover = defaultConfigSetting.is_cover;
                 if (['blog', 'blog-tabs', 'plugins-video', 'plugins-video-tabs'].includes(type)) {

@@ -3,8 +3,8 @@
         <div class="flex-row jc-e gap-20 mb-20 align-c">
             <div class="flex-row align-c gap-12">
                 <div class="title horizontal-title">是否推荐</div>
-                <el-select v-model="is_recommend" class="search-w" placeholder="请选择" clearable @change="handle_search">
-                    <el-option v-for="item in is_recommend_list" :key="item.value" :label="item.name" :value="item.value" />
+                <el-select v-model="is_recommended" class="search-w" placeholder="请选择" clearable @change="handle_search">
+                    <el-option v-for="item in is_recommended_list" :key="item.value" :label="item.name" :value="item.value" />
                 </el-select>
             </div>
             <div class="flex-row align-c gap-12">
@@ -31,7 +31,7 @@
                     </template>
                 </el-table-column>
                 <el-table-column prop="title" label="标题" />
-                <el-table-column prop="is_recommend_name" label="是否推荐" width="100" />
+                <el-table-column prop="is_recommended_name" label="是否推荐" width="100" />
                 <template #empty>
                     <no-data :text="empty_text"></no-data>
                 </template>
@@ -47,7 +47,7 @@ import { useLinkPickerLoad } from '@/hooks/use-link-picker-load';
 import { toRef } from 'vue';
 /**
  * 手动选择拼团弹窗
- * 列表接口 diygroupbuy/index：page、page_size、keywords、status、is_recommend
+ * 列表接口 diygroupbuy/index：page、page_size、keywords、status、is_recommended
  */
 import UrlValueAPI from '@/api/url-value';
 
@@ -70,19 +70,19 @@ const props = defineProps({
         default: false,
     },
 });
-const is_recommend_list = [
+const is_recommended_list = [
     { name: '是', value: 1 },
     { name: '否', value: 0 },
 ];
 const modelValue = defineModel({ type: Object, default: {} });
 const tableData = ref<pageLinkList[]>([]);
 const search_value = ref('');
-const is_recommend = ref<number | undefined>(undefined);
+const is_recommended = ref<number | undefined>(undefined);
 const loading = ref(false);
 const resetFields = () => {
     template_selection.value = '';
     search_value.value = '';
-    is_recommend.value = undefined;
+    is_recommended.value = undefined;
 };
 
 const template_selection = ref('');
@@ -96,7 +96,7 @@ const get_list = (new_page: number) => {
         page_size: page_size.value,
         keywords: search_value.value,
         status: '',
-        ...(is_recommend.value !== undefined && is_recommend.value !== null ? { is_recommend: is_recommend.value } : {}),
+        ...(is_recommended.value !== undefined && is_recommended.value !== null ? { is_recommended: is_recommended.value } : {}),
     };
     loading.value = true;
     UrlValueAPI.getPluginGroupbuyList(new_data)

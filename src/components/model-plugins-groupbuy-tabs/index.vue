@@ -74,7 +74,7 @@ watch(
         new_data.content.order_by_type = new_data.content.tabs_list[tabs_active_index.value].order_by_type;
         new_data.content.order_by_rule = new_data.content.tabs_list[tabs_active_index.value].order_by_rule;
         const tab = new_data.content.tabs_list[tabs_active_index.value];
-        new_data.content.is_recommend = Number(tab.is_recommend ?? 0);
+        new_data.content.is_recommended = Number(tab.is_recommended ?? 0);
         new_data.content.data_list = new_data.content.tabs_list[tabs_active_index.value].data_list;
         new_data.content.data_auto_list = new_data.content.tabs_list[tabs_active_index.value].data_auto_list;
 

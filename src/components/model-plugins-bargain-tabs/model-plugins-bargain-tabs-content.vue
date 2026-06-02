@@ -206,7 +206,7 @@ const tabs_add = () => {
         data_type: '0',
         category: [],
         data_ids: [],
-        is_recommend: 0,
+        is_recommended: 0,
         number: 4,
         order_by_type: '0',
         order_by_rule: '0',

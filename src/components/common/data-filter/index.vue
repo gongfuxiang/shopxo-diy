@@ -57,7 +57,7 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="是否推荐">
-                <el-switch v-model="is_recommend_model" :active-value="1" :inactive-value="0" />
+                <el-switch v-model="is_recommended_model" :active-value="1" :inactive-value="0" />
             </el-form-item>
         </template>
         <!-- 砍价自动筛选：字段与 autobargainlist 接口一致 -->
@@ -76,7 +76,7 @@
                 </el-radio-group>
             </el-form-item>
             <el-form-item label="是否推荐">
-                <el-switch v-model="is_recommend_model" :active-value="1" :inactive-value="0" />
+                <el-switch v-model="is_recommended_model" :active-value="1" :inactive-value="0" />
             </el-form-item>
         </template>
         <!-- 直播自动筛选：字段与 autolivelist 接口一致 -->
@@ -381,15 +381,15 @@
     const keywords = ref(props.value.keywords);
     const form = ref(props.value);
     /** 拼团/砍价是否推荐：直接读写 props.value，保证预览列表 watch 能感知变更 */
-    const is_recommend_model = computed({
+    const is_recommended_model = computed({
         get() {
-            return Number(props.value?.is_recommend ?? 0);
+            return Number(props.value?.is_recommended ?? 0);
         },
         set(val: number) {
             if (!props.value) {
                 return;
             }
-            props.value.is_recommend = Number(val);
+            props.value.is_recommended = Number(val);
         },
     });
     const drag_list = ref(props.list);
@@ -506,8 +506,8 @@
         } else if (['plugins_groupbuy', 'plugins_bargain'].includes(props.type)) {
             form.value.order_by_type = Number(props.value?.order_by_type ?? 0);
             form.value.order_by_rule = Number(props.value?.order_by_rule ?? 0);
-            if (props.value?.is_recommend === undefined) {
-                form.value.is_recommend = 0;
+            if (props.value?.is_recommended === undefined) {
+                form.value.is_recommended = 0;
             }
         } else {
             form.value.order_by_type = Number(props.value?.order_by_type || 0);
